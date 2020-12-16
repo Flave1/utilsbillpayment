@@ -1,0 +1,71 @@
+﻿@model VerifyAccountVerificationCodeMOdel
+@{
+    ViewBag.Title = "Account Verification";
+    Layout = "~/Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml";
+}
+<div id="cl-wrapper" class="login-container">
+    <div class="middle-login">
+        <div class="block-flat">
+            <div class="header">
+                <h3 class="text-center"><a href="/"><img class="logo-img" src="~/Content/images/logo.png" alt="logo" /></a></h3>
+            </div>
+            <br />
+            <div>
+                @if (Model.UserId != null && Model.UserId > 0)
+                {
+                    if (ViewBag.Message == "verified")
+                    {
+                <h3 class="text-center" style="color:forestgreen"><b>OTP has been verified Successfully</b></h3>
+                        <br />
+                        <br />
+                        <h5  align="center"><a href="/" class="btn btn-success text-center">Login Here</a></h5>
+                        <br />
+                        <br />
+                    }
+                    else if (ViewBag.Message == "AlreadyVerified")
+                    {
+                        <h3 class="text-center" style="color:forestgreen"><b>OTP already  Verified</b></h3>
+                        <br />
+                        <br />
+                        <h5 align="center"><a href="/" class="btn btn-success text-center">Login Here</a></h5>
+                        <br />
+                        <br />
+                    }
+                    else
+                    {
+                        <form action="/Admin/Home/OTPVerification" method="post" style="margin-bottom: 0 !important;" class="form-horizontal" id="loginForm">
+                            <div class="content">
+                                <h4 class="title">Account Verification</h4>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @placeholder = "Enter Your OTP", @required = true,@type="number" })
+                                            @Html.HiddenFor(model => model.UserId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="foot">
+                                <button class="btn btn-primary" id="signInBtn" type="submit">Verify Now</button>
+                            </div>
+                        </form>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">Invalid Request.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@if (ViewBag.Message == "failed")
+{
+    <script>
+       alert("Incorrect OTP, Please Enter Valid OTP.");
+    </script>
+}

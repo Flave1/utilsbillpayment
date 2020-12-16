@@ -1,0 +1,28 @@
+﻿using VendTech.BLL.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using VendTech.DAL;
+
+namespace VendTech.BLL.Interfaces
+{
+    public interface IMeterManager
+    {
+        ActionOutput SaveMeter(MeterModel model);
+        ActionOutput DeleteMeter(long meterId,long userId);
+        PagingResult<MeterAPIListingModel> GetMeters(long userID, int pageNo, int pageSize);
+        ActionOutput RechargeMeter(RechargeMeterModel model);
+        PagingResult<MeterRechargeApiListingModel> GetUserMeterRecharges(long userID, int pageNo, int pageSize);
+        RechargeDetailPDFData GetRechargePDFData(long rechargeId);
+        ActionOutput<MeterRechargeApiListingModel> GetRechargeDetail(long rechargeId);
+        MeterModel GetMeterDetail(long meterId);
+        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesReport(ReportSearchModel model,bool callFromAdmin=false);
+        List<SelectListItem> GetMetersDropDown(long userID);
+        PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin);
+        ReceiptModel RechargeMeterReturn(RechargeMeterModel model);
+    }
+    
+}

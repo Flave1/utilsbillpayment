@@ -1,0 +1,138 @@
+﻿@model List<DepositExcelReportModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Deposit Reports</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Deposit Reports</h3>
+                    </div>
+                    <div class="content">
+                        <div class="row" id="hideid">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6 ">
+                                <button class="btn btn-primary pull-right " onclick="printPageArea()" id="Printid">Print</button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-danger pull-right " onclick="goBack()" id="gobackbtnid">Go Back</button>
+                            </div>
+
+                        </div>
+                     
+                        <div id="printiddive">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3><b>DEPOSIT REPORTS</b></h3>
+                                    <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
+                                    <h5><label>TO DATE: @ViewBag.Todate</label></h5>
+                                    <br />
+                                    <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
+                                    <br />
+                                </div>
+                            </div>
+                            <table class="table table-bordered" id="datatable-icons">
+
+                                <tr>
+                                    <th>
+                                        DATE/TIME
+                                    </th>
+                                    <th>
+                                        POS ID
+                                    </th>
+                                    <th>USER NAME</th>
+                                    <th>AMOUNT</th>
+                                    <th>
+                                        %
+                                    </th>
+                                    <th>DEPOSIT TYPE</th>
+                                    <th>
+                                        BANK
+                                    </th>
+                                    <th>DEPOSIT REF #</th>
+                                    <th>NEW BALANCE</th>
+                                </tr>
+
+                                @foreach (var items in Model)
+                                {
+                                    <tr>
+                                        <td style="text-align:right">@items.DATE_TIME</td>
+                                        <td style="text-align:right">@items.POSID</td>
+                                        <td>@items.USERNAME</td>
+                                        <td style="text-align:right">@items.AMOUNT</td>
+                                        <td style="text-align:right">@items.PERCENT</td>
+                                        <td style="text-align:right">@items.DEPOSIT_TYPE</td>
+                                        <td style="text-align:right">@items.BANK</td>
+                                        <td style="text-align:right;">@items.DEPOSIT_REF_NO</td>
+                                        <td style="text-align:right">@items.NEW_BALANCE</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    @@media print {
+        #Header, #Footer {
+            display: none !important;
+        }
+    }
+</style>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            debugger;
+            //$('#hideid').hide();
+            //$("#Printid").click();
+
+            // printPageArea();
+
+            var i = 0;
+            setTimeout(function () {
+                if (i == 0) {
+                    printPageArea();
+                    i++;
+                }
+
+            }, 1000);
+
+        });
+
+
+
+        function printPageArea() {
+
+            var printContents = document.getElementById("printiddive").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        }
+
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+}

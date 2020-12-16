@@ -1,0 +1,74 @@
+﻿@model PagingResult<UserListingModel>
+@{
+    ViewBag.Title = "Manage App Users";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage App Users </h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3> <a href="@Url.Action("AddUser", "AppUser", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting" data-sortby="Name">FIRST NAME</th>
+                                            <th class="sorting" data-sortby="SurName">LAST NAME</th>
+                                            <th class="sorting" data-sortby="FKVendorId">VENDOR NAME</th>
+                                            <th class="sorting" data-sortby="Status">STATUS</th>
+
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("Partials/_appUserListing", Model)
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        @Html.Partial("_Paging")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["FIRST NAME", "LAST NAME","VENDOR NAME", "STATUS"];
+
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/appUsers.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+            Users.ManageUsers(totalCount);
+        });
+    </script>
+}
+

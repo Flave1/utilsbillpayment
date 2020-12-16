@@ -1,0 +1,99 @@
+﻿@model LoginAPIModel
+@{
+    ViewBag.Title = "User Login";
+    Layout = "~/Views/Shared/_beforeLoginUserLayout.cshtml";
+}
+<link href="/Content/sweetalert.css" rel="stylesheet" />
+
+
+<div class="container-fluid" >
+    <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12" >
+                <div class="row" style="height:230px;"></div>
+                <section class="flave-content">
+                    <h1>VENDTECH</h1>
+                    <p><h1>WE MAKE THE LIGHT COME ON...</h1></p>
+                    <p class="sub-title"><strong>Do you want to be a vendtech agent,</strong> <br /> and also earn commissions ?</p>
+                    <p class="flave_forcec_center"><a class="button"  href="/Home/Register">click here to join us</a></p>
+              
+
+                </section>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-md-5"></div>
+                <div class="col-md-7">
+                    @* cl-wrapper *@
+                    <div class="row" style="height:30%;"></div>
+                    <div id="" class="login-container">
+
+                        <div class="middle-login" style="margin-top: 130px; height:500px;">
+                            <div class="block-flat" style="height:470px; margin:20px; opacity:0.9;">
+                                <br /><br />
+                                <div class="header">
+                                    <h3 class="text-center"><a href="/"><img class="logo-img" src="@Url.Content("~/Content/images/logo1.jpg")" alt="logo" /></a></h3>
+                                </div>
+                                <div>
+                                    <form style="margin-bottom: 0 !important; " class="form-horizontal" id="loginForm">
+                                        <div class="content" style="height:80%;">
+                                            <h4 class="title">Login Access to User Panel</h4>
+                                            @Html.Partial("_FunctionCallMessage")
+
+                                            <div class="form-group">
+											    <div class="col-sm-12">
+												    <div class="input-group">
+													    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+													    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username*" }) 
+												    </div>
+												    <div id="email-error">@Html.ValidationMessageFor(m => m.Email)</div>
+											    </div>
+										    </div>
+                                            <br />
+										    <div class="form-group">
+											    <div class="col-sm-12">
+												    <div class="input-group">
+													    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+													    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*" })
+												    </div>
+												    <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+											    </div>
+										    </div>
+
+                                        </div>
+                                        <div class="foot">
+                                            <br />
+                                            <button class="btn btn-primary" id="signInBtn" data-dismiss="modal" type="button">Log me in</button>
+                                            <a class="btn btn-warning" href="/Home/ForgotPassword">Forgot Password</a>
+                                            <p>New User? <a href="/Home/Register">Register</a> for an account</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            @*<div class="row " style="height:40px; opacity:0.7; background: white; margin:0; border-bottom:6px; border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+                                <center>OR</center>
+                                <center> <p><a href="Register" class="text-primary">REGISTER TO BE AN AGENT AND EARN COMMISSION >></a></p></center>
+                            </div>*@
+                        </div>
+                    
+                    </div>
+
+                </div>
+             </div>
+    </div>
+    <div class="row" style="padding-top:80px;">
+        <div class="text-left " ><a href="#" style="color:aliceblue;">&copy; Copyright @DateTime.Now.Year Vendtech, Inc. All Rights Reserved</a></div>
+    </div>
+ </div>
+ 
+
+@section scripts{
+    <script src="~/Scripts/UserScripts/login.js"></script>
+    <script>
+        $(function () {
+            $("#platformChangeDrp").change(function () {
+                window.location.href = this.value;
+            });
+        })
+    </script>
+}

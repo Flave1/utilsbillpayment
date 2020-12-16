@@ -1,0 +1,130 @@
+﻿@model DepositModel
+@{
+    ViewBag.Title = "Add Deposit Request";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="UserForm">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.UserId, new SelectList(ViewBag.AppUsers, "value", "text"), null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.UserId)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">AMOUNT<em>*</em></label>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @onkeyup = "getAmountWithPercentage()" })
+                                            @Html.ValidationMessageFor(x => x.Amount)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">%</label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control", @onchange = "getAmountWithPercentage()" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">Total Amount</label>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(x => x.TotalAmountWithPercentage, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">DEPOSIT TYPE<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.DepositType, new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.DepositType)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CHEQUE OR SLIP NO<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.ChkOrSlipNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ChkOrSlipNo)
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                              
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">COMMENTS</label>
+                                        <div class="col-md-8">
+                                            @Html.TextAreaFor(x => x.Comments, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Comments)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <input type="button" class="btn btn-primary addDepositBtn" id="addDepositBtn" value="Submit" />
+                                            <a href="@Url.Action("ManageDeposits", "Deposit", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Scripts/AdminScripts/deposit.js"></script>
+    <script type="text/javascript">
+        function getAmountWithPercentage() {
+            var val = $("#Amount").val();
+            if (!val && !isNaN(val)) {
+                var drpValue = $("#Percentage").val();
+                if (drpValue != "") {
+                    var percentageAmt = (drpValue / 100) * val;
+                    $("#TotalAmountWithPercentage").val(val + percentageAmt);
+                }
+                else {
+                    $("#TotalAmountWithPercentage").val(val);
+                }
+            }
+            else {
+                $("#TotalAmountWithPercentage").val('');
+            }
+        }
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+}

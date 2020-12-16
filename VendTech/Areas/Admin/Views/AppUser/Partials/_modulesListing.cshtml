@@ -1,0 +1,78 @@
+﻿@model List<Checkbox>
+<style>
+    span.more-optionspan {
+        padding-left: 20px;
+        display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+
+    .more-option:checked ~ span.more-optionspan {
+        visibility: visible;
+    }
+
+    .more-userOption {
+        vertical-align: top;
+    }
+
+    span.more-userOptionspan {
+        padding-left: 20px;
+        display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+
+    .more-userOption:checked ~ span.more-userOptionspan {
+        visibility: visible;
+    }
+
+    .more-userOption {
+        vertical-align: top;
+    }
+</style>
+<div id="divResult">
+    <table class="table table-bordered" id="datatable-icons">
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Permission</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chkbox in (Model.Where(p=>p.SubMenuOf==null)))
+            {
+                <tr class="odd gradeX">
+                    <td><label> @chkbox.ModuleName</label></td>
+                    <td>
+                        <input class="@(chkbox.ModuleName == "Reports" ? "more-option" : chkbox.ModuleName == "Users" ? "more-userOption" : "")" type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+                        @if (chkbox.ModuleName == "Users")
+                        {
+                            <span class="more-userOptionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID)))
+                                {
+                                <p><input type="checkbox" name="SelectedModules" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+
+                                }
+                                @*<p><input type="checkbox" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") /> CMS User</p>
+                                <p><input type="checkbox" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") /> SALES REPORT</p>*@
+                            </span>
+                        }
+                        @if (chkbox.ModuleName == "Reports")
+                        {
+                            <span class="more-optionspan">
+                                <p><input type="checkbox" /> DEPOSITS REPORT</p>
+                                <p><input type="checkbox" /> SALES REPORT</p>
+                                <p><input type="checkbox" /> SYSTEM HEALTH REPORT</p>
+                            </span>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

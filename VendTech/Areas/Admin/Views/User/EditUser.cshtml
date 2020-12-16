@@ -1,0 +1,211 @@
+﻿@model AddUserModel
+
+@{
+    ViewBag.Title = "Edit CMS User Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+    var appUserVal = VendTech.BLL.Common.Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+}
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="UserForm" enctype="multipart/form-data">
+                            @Html.HiddenFor(x => x.UserId)
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">FIRST NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.FirstName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">LAST NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.LastName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">EMAIL<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Password)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CONFIRM PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
+                                            </reset>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @if (Model.UserType != appUserVal)
+                                {
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">ROLE<em>*</em></label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.UserTypes, "value", "text"), null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.UserType)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CELLPHONE<em>*</em></label>
+                                        <div class="col-md-1">
+                                            <select name="CountryCode" class="form-control">
+                                                <option value="+232">+232</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Phone)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
+                                {
+                                    @*<div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
+                                            <div class="col-md-8">
+                                                <input type="file" name="ImagefromWeb">
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                                    @*<div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">Profile Pic</label>
+                                            <div class="col-md-2">
+                                                <img src="@Model.ProfilePicUrl" style="width:100px;height:100px;" />
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                }
+
+                                @if (Model.UserType == appUserVal)
+                                {
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">PLATFORMS</label>
+
+                                            <div class=" col-md-8">
+                                                @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">PERMISSIONS</label>
+
+                                            <div class=" col-md-8">
+                                                @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <input type="button" class="btn btn-primary" id="editUserBtn" value="Submit" />
+                                            @if (Model.UserType != appUserVal)
+                                            {
+                                                <a href="@Url.Action("ManageUsers", "user", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/users.js"></script>
+    <script type="text/javascript">
+        var value ='@(Model.UserType==appUserVal)'
+       var appUserEdit = value == "True";
+        $(document).ready(function () {
+            App.init();
+            if ('@Model.UserId' != '0') {
+                $("#Password").val('@Model.Password');
+                $("#ConfirmPassword").val('@Model.Password');
+            }
+
+            var val = $("#UserType").val();
+            //if (val == "2") {
+            //    $("input[name='SelectedModules']").prop("checked", true);
+            //    $("input[name='SelectedModules1']").prop("checked", true);
+            //}
+        });
+        function chanegUserRole() {
+            var val = $("#UserType").val();
+            if (val == "2") {
+                $("input[name='SelectedModules']").prop("checked", true);
+                $("input[name='SelectedModules1']").prop("checked", true);
+            }
+            else {
+                $("input[name='SelectedModules']").prop("checked", false);
+                $("input[name='SelectedModules1']").prop("checked",false);
+            }
+
+        }
+    </script>
+}

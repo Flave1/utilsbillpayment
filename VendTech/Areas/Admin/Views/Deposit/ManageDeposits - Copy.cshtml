@@ -1,0 +1,74 @@
+﻿@model PagingResult<DepositListingModel>
+@{
+    ViewBag.Title = "Manage Deposits";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Deposits</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3>
+                            <a href="@Url.Action("AddDeposit","Deposit",new { area = "Admin" } )"  class="btn btn-primary pull-right" title="Add Deposit Request"><i class="fa fa-money "></i><super><i class="fa fa-plus"></i></super></a>
+                        </h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>VENDOR NAME</th>
+                                            <th>USER NAME</th>
+                                            <th>DATE</th>
+                                            <th>PAYMENT TYPE</th>
+                                            <th>CHEQUE # OR REG ID</th>
+                                            <th>AMOUNT</th>
+                                            <th>STATUS</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("Partials/_depositListing", Model)
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        @Html.Partial("_Paging")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+<script src="~/Scripts/AdminScripts/deposit.js"></script>
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["VENDOR NAME", "USER NAME", "CHEQUE # OR REG ID", "AMOUNT"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+            Deposits.ManageDeposits(totalCount);
+        });
+    </script>
+}
+

@@ -1,0 +1,26 @@
+﻿@model PagingResult<TemplateViewModel>
+
+        @if (Model.List != null && Model.List.Count() > 0)
+        {
+            foreach (var item in Model.List)
+            {
+                <tr class="odd gradeX">
+                    <td>@item.TemplateType</td>
+                    <td> @item.TemplateName</td>
+
+
+                    <td style="text-align:right;">@item.CreatedOn.ToShortDateString()</td>
+                    <td>
+                        @item.TemplateStatus
+                    </td>
+                    <td class="center"> <a class="btn btn-primary btn-xs" href="@Url.Action("EditTemplate", "emailtemplate", new { templateId = item.TemplateId, area = "Admin" })" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="odd gradeX">
+                <td colspan="5">No Record Found</td>
+            </tr>
+        }
+

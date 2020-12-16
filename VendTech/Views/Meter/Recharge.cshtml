@@ -1,0 +1,319 @@
+﻿@model  RechargeMeterModel
+@{ ViewBag.Title = "Recharge";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+<div class="dashright ">
+    <div class="page-head">
+        <h2>Recharge</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+                    {
+        <div class="dashtop">
+            <label>Wallet Balance - </label>
+            <span id="balanceSpan">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+        </div>
+                        <div class="contarea meterpage">
+                            <div class="tabcont-row current">
+                                <form id="rechargeForm">
+                                    <div class="editpro-row">
+                                        <div class="editpro-row50 meterrec">
+                                            <label>SELECT POS ID</label>
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @id = "posDrp" })
+                                        </div>
+                                        <div style="width:100%; height:10px;float:left;"></div>
+                                        <div class="editpro-row50 meterrec">
+                                            <label>METER NUMBER</label>
+                                            @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
+                                            @Html.ValidationMessageFor(x => x.MeterNumber)
+                                        </div>
+                                        <label class="optionor">OR</label>
+                                        <div class="editpro-row50 meterrec">
+                                            <label>SELECT SAVED METER</label>
+                                            @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @id = "meterDrp", @onchange = "onSelectMeter()" })
+                                        </div>
+                                        <div style="width:100%; height:10px;float:left;"></div>
+                                        <div class="editpro-row50 meterrec">
+                                            <label>AMOUNT</label>
+                                            <input id="AmountDisplay" type="text" onkeypress="javascript:return isNumber(event)" onkeyup="amountFormatter()" class="form-control" />
+                                            @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Amount)
+
+
+                                        </div>
+                                        <div class="editpro-row50" style="width:100% !important;">
+                                            <label>Save Meter <input style="margin-right:12px;" id="saveMeterChk" type="checkbox" class="form-control" /></label>
+
+                                        </div>
+                                        <div class="editpro-row submt" style="padding-left:25px !important;">
+                                            <input type="button" class="savebttn addDepositBtn" value="Pay Now">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> }
+                    else
+                    {
+        <div class="contarea">
+            <p>
+                Service not assigned<br />
+                Please contact VENDTECH on +23279990990
+            </p>
+        </div>}
+                    <button class="btn btn-space btn-primary" data-toggle="modal" data-target="#form-bp1" type="button">Bootstrap Modal</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored" style="background-color: #e4c200">
+                <h3 class="modal-title">Please Confirm your purchase</h3>
+                <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+
+                    <div class="row" style=" margin-top: 55px;margin-bottom: 25px">
+                        <div class="col-md-6 col-item">
+                            <span class="adv-company-name">Meter No:</span>
+                        </div>
+                        <div class="col-md-6 col-item">
+                            <span id="meterno" class="adv-company-name">Peter Bamidele</span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-item adv-company-name">
+                            <span class="adv-company-name">Amount</span>
+                        </div>
+                        <div class="col-md-6 col-item">
+                            <span class="amount-currency">SSL</span>
+                            <span id="pamount" class="adv-amount-figure">100.00</span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary md-close" id="rechargeBtn" type="button" data-dismiss="modal">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalCart">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Your cart</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div id="gen-invoice">
+                    <div class="content-box-lg">
+                        <div class="container">
+                            <div class="row">
+                                <div id="invoice heading">
+                                    <div class="col-md-9">
+                                        <h2>ELECTRICITY PURCHASE</h2>
+                                    </div>
+                                </div>
+                                <div id="date">
+                                    <div class="col-md-3">
+                                        <h5>DATE: </h5>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="customer-details">
+                    <ul>
+                        <li class="customer">CUSTOMER:</li>
+                        <li class="account">ACCOUNT:</li>
+                        <li class="address">ADDRESS:</li>
+                        <li class="meter">METER:</li>
+                    </ul>
+                    <hr>
+                </div>
+
+                <div id="customer-details">
+                    <ul>
+                        <li class="customer">TENDERED AMOUNT:</li>
+                        <li class="account">GST:</li>
+                        <li class="address">EDSA SERVICE CHARGE:</li>
+                        <li class="meter">DEBT RECOVERY:</li>
+                    </ul>
+                    <hr>
+                </div>
+
+                <div id="customer-details">
+                    <ul>
+                        <li class="customer">TARIFF:</li>
+                        <li class="account">COST OF UNITS:</li>
+                        <li class="address">UNITS:</li>
+
+                    </ul>
+                    <hr>
+                </div>
+
+                <div id="center-no">
+                    <div class="content-box-lg">
+                        <div class="container">
+                            <div class="row">
+                                <div id="no-samples">
+                                    <div class="col-md-2">
+                                        <p>2056</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>5487</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>2659</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>3100</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p>1258</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="serial-details">
+                    <p>SERIAL:</p>
+                    <p>TERMINAL ID:</p>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary waves-effect waves-light" >SMS</button>
+                <button class="btn btn-primary waves-effect waves-light">PRINT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserScripts/meter.js"></script>
+    <link href="~/Content/transdetails.css" rel="stylesheet" />
+    <link href="~/Content/pos_receipt.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            $(".savebttn").click(function () {
+                if (!$("#Amount").val() || $("#Amount").val() == "0") {
+                    $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
+                    return;
+                } else if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
+                    $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
+                    return;
+                } else {
+                    let meterno = ""
+                    if ($("#MeterNumber").val() == "") {
+                        meterno = $("#meterDrp option:selected").text()
+                    } else {
+                        meterno = $("#MeterNumber").val()
+                    }
+
+                    $("#meterno").html(meterno)
+                    $("#pamount").html($("#Amount").val())
+                    $("#form-bp1").modal("show")
+                }
+            })
+        })
+        $(function () {
+            $("#posDrp").on("change", function () {
+                $.ajax({
+                    url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
+                    success: function (res) {
+                        $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                    }
+                })
+            }
+            )
+        })
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+
+            return true;
+        }
+        function onSelectMeter() {
+            if ($("#meterDrp").val()) {
+                $("#MeterNumber").attr("disabled", "disabled");
+                $("#saveMeterChk").attr("disabled", "disabled");
+                $("#saveMeterChk").removeAttr("checked");
+            }
+            else {
+                $("#MeterNumber").removeAttr("disabled");
+                $("#saveMeterChk").removeAttr("disabled");
+
+            }
+        }
+        function onChangeMeterNumber() {
+            var val = $("#MeterNumber").val();
+            if (val && val.length > 0) {
+                $("#meterDrp").attr("disabled", "disabled");
+            }
+            else {
+                $("#meterDrp").removeAttr("disabled");
+            }
+        }
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+        function amountFormatter() {
+            var displayVal = $("#AmountDisplay").val();
+            var val = "";
+            if (displayVal) {
+                var cc = displayVal.replace(/\,/g, "");
+                $("#Amount").val(cc);
+                val = $("#Amount").val();
+                $("#AmountDisplay").val(thousands_separators(val));
+            }
+        }
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+
+            return true;
+        }
+    </script>
+}
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>

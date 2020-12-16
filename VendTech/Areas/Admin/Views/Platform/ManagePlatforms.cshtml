@@ -1,0 +1,138 @@
+﻿@model List<PlatformModel>
+@{
+    ViewBag.Title = "Manage Platforms";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Products</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3>
+                            <a href="javascript:void(0)" onclick="addPlatform()" class="btn btn-primary pull-right" title="Add Platform"><i class="fa fa-plus"></i></a>
+                        </h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @*@Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })*@
+
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            @*<th>Service Status</th>*@
+                                            <th>CODE</th>
+                                            <th>TITLE</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                        <tr class="odd gradeX">
+                                            @*@if (item.Enabled) {
+        <td>
+            <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+
+        </td>
+        }
+
+        else
+        {
+        <td>
+            <a data-id="@item.PlatformId" class="btn btn-primary btn-xs enablePlatform" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+        </td>
+
+        }*@
+                                            <td>@item.ShortName</td>
+                                            <td>@item.Title</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+
+                                                @if (item.Enabled)
+                                                {
+                                                    <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+
+                                                }
+
+                                                else
+                                                {
+                                                    <a data-id="@item.PlatformId" class="btn btn-primary btn-xs enablePlatform" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+
+                                                }
+                                            </td>
+                                        </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td colspan="4">No Record Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="platformModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="platformModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hdnPlatformId" class="form-control" />
+
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label">SHORTNAME<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" name="short_name" id="short_name" class="form-control" />
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label">TITLE<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" name="title" id="title" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+             
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="savePlatform()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript"></script>
+    <script src="~/Scripts/AdminScripts/platform.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+        });
+    </script>
+}
+

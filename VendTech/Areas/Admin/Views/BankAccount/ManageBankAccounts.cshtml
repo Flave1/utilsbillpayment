@@ -1,0 +1,85 @@
+﻿@model List<BankAccountModel>
+@{
+    ViewBag.Title = "Manage Platforms";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Bank Accounts</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3> <a href="@Url.Action("AddBankAccount", "BankAccount", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Account"><i class="fa fa-plus"></i></a></h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @*@Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })*@
+
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>BANK NAME</th>
+                                            <th>ACCOUNT NAME</th>
+                                            <th>ACCOUNT#</th>
+                                            <th>BBAN</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="odd gradeX">
+                                                    <td>@item.BankName</td>
+                                                    <td>@item.AccountName</td>
+                                                    <td style="text-align:right;">@item.AccountNumber</td>
+                                                    <td>@item.BBAN</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Action("EditBankAccount", "BankAccount", new { area = "Admin", id = @item.BankAccountId })" data-original-title="Edit" data-toggle="tooltip">Edit</a> 
+                                                        <a data-accountId="@item.BankAccountId" class="btn btn-danger btn-xs delete" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td colspan="4">No Record Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/AdminScripts/platform.js"></script>
+<script src="~/Scripts/AdminScripts/bankAccount.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+        });
+    </script>
+}
+

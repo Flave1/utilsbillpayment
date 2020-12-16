@@ -1,0 +1,87 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Content/Images/favicon.ico">
+    <title>Administration Panel</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <![endif]-->
+    @Styles.Render("~/Content/adminLayoutCSS")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div id="cl-wrapper" class="fixed-menu">
+        @Html.Partial("_SideBaar")
+
+        @RenderBody()
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/extendedjs")
+    @Scripts.Render("~/bundles/themeSpecific")
+    @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/custom")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(function () {
+            setInterval(function () {
+                $.ajax({
+                    url: '/Admin/Home/AutoLogout',
+                    success: function (data) {
+                        debugger;
+                        if (data.Status != 1) {
+                            window.location.href = '/Admin/Home/Index';
+                        }
+                    }
+                })
+            }, 60000);
+        })
+        $(".navbar-default .navbar-brand").live("click", function () {
+                window.location.href='/Admin/Home/Dashboard';
+            });
+        function showTimeSetModal() {
+            var value = '@ViewBag.Minutes';
+            $("#timeTxt").val(value);
+            $("#timeSetModal").modal('show');
+        }
+        function saveLogoutTime() {
+            if (!$("#timeTxt").val()) {
+                $.ShowMessage($('div.messageAlert'), "Time is required", MessageType.Error);
+                return 
+            }
+            $.ajax({
+                url: '/Admin/Home/SaveLogoutTime',
+                type:'POST',
+                data: { Time: $("#timeTxt").val() },
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $("#timeSetModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            })
+        }
+
+        
+       
+    </script>
+</body>
+</html>

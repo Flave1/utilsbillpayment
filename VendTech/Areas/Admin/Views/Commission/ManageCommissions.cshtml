@@ -1,0 +1,109 @@
+﻿@model List<CommissionModel>
+@{
+    ViewBag.Title = "Manage Commissions";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Commissions</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3>
+                            <a href="javascript:void(0)" onclick="addCommission()" class="btn btn-primary pull-right" title="Add Commission"><i class="fa fa-plus"></i></a>
+                        </h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @*@Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })*@
+
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>TITLE</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="odd gradeX">
+                                                    <td style="text-align:right;">@item.Value</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-xs" onclick="editCommission('@item.Value','@item.CommissionId')" data-title="@item.Value" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.CommissionId" class="btn btn-danger btn-xs deleteCommission" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td colspan="4">No Record Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="commissionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="commissionModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hdnCommissionId" class="form-control" />
+
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="inputEmail3" class="col-md-4 control-label">Commission<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" id="value" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveCommission()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/AdminScripts/commission.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+        });
+    </script>
+}
+

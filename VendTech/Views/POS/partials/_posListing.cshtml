@@ -1,0 +1,29 @@
+﻿@model PagingResult<POSListingModel>
+
+
+    @if (Model.List != null && Model.List.Count() > 0)
+    {
+        foreach (var item in Model.List)
+        {
+            <tr class="odd gradeX">
+                <td style="text-align:right;">@item.SerialNumber</td>
+                <td> @item.VendorName</td>
+                <td style="text-align:right;">   @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</td>
+                <td style="text-align:right;">
+                    @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
+                </td>
+
+                <td>@item.VendorType</td>
+                <td>@item.Enabled</td>
+
+            </tr>
+        }
+    }
+    else
+    {
+        <tr class="odd gradeX">
+            <td colspan="7">No Record Found</td>
+        </tr>
+    }
+
+

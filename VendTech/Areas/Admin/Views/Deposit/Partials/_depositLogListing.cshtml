@@ -1,0 +1,34 @@
+﻿@model PagingResult<DepositLogListingModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td> @item.CreatedAt</td>
+            <td>@item.UserName</td>
+            <td>@item.DepositerName</td>
+            <td style="text-align:right;">
+                @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))
+
+            </td>
+            <td style="text-align:right;">
+                @(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))
+
+            </td>
+            <td>@item.TransactionId</td>
+            <td>@item.VendorName</td>
+            <td>@item.NewStatus</td>
+            
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="6">No Record Found</td>
+    </tr>
+}
+
+

@@ -1,0 +1,84 @@
+﻿using VendTech.BLL.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace VendTech.BLL.Interfaces
+{
+    public interface IUserManager
+    {
+        /// <summary>
+        /// Dummy Method for testing purpose:  Get Welcome Message
+        /// </summary>
+        /// <returns></returns>
+        string GetWelcomeMessage();
+        UserModel ValidateUserSession(string token);
+        bool UpdateUserLastAppUsedTime(long userId);
+        ActionOutput<ApiResponseUserDetail> GetUserDetailsForApi(long userId);
+        ActionOutput UpdateUserProfile(long userId, UpdateProfileModel model);
+        ActionOutput UpdateAdminprofile(long userId, UpdateProfileModel model);
+
+        PagingResult<NotificationApiListingModel> GetUserNotifications(int pageNo, int pageSize, long userId);
+        ActionOutput<string> SaveReferralCode(long userId);
+        IList<PlatformCheckbox> GetAllPlatforms(long userId);
+        List<SelectListItem> GetAppUsersSelectList();
+        List<SelectListItem> GetUserRolesSelectList();
+        ActionOutput AddAppUserDetails(AddUserModel userDetails);
+        ActionOutput AddAppUserDetails(RegisterAPIModel userDetails);
+        UpdateProfileModel GetAppUserProfile(long userId);
+        /// <summary>
+        /// This will be used to get user listing model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ActionOutput UpdateProfilePic(long userId, HttpPostedFile image);
+        /// 
+        PagingResult<UserListingModel> GetUserPagedList(PagingModel model,bool onlyAppUser=false);
+        IList<Checkbox> GetAllModules(long userId);
+
+        /// <summary>
+        /// Update User Details from Admin Panel
+        /// </summary>
+        /// <param name="userDetails"></param>
+        /// <returns></returns>
+        ActionOutput UpdateUserDetails(AddUserModel userDetails);
+        ActionOutput UpdateAppUserDetails(AddUserModel userDetails);
+
+        /// <summary>
+        /// Add User Details from Admin Panel
+        /// </summary>
+        /// <param name="userDetails"></param>
+        /// <returns></returns>
+        ActionOutput AddUserDetails(AddUserModel userDetails);
+
+        /// <summary>
+        /// Get User Details by User Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        UserModel GetUserDetailsByUserId(long userId);
+        AddUserModel GetAppUserDetailsByUserId(long userId);
+
+        /// <summary>
+        /// Delete User By User Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        ActionOutput DeleteUser(long userId);
+        ActionOutput DeclineUser(long userId);
+        ActionOutput ChangeUserStatus(long userId,UserStatusEnum status);
+        ActionOutput<UserDetails> AdminLogin(LoginModal model);
+        ActionOutput<UserDetails> AgentLogin(LoginModal model);
+        ActionOutput<UserDetails> VendorLogin(LoginModal model);
+        IList<ModulesModel> GetAllModulesAtAuthentication(long userId);
+        decimal GetUserWalletBalance(long userId);
+        int GetUnreadNotifications(long userId);
+        List<SelectListItem> GetAssignedReportModules(long UserId,bool isAdmin);
+
+    }
+    
+}

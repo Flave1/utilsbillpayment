@@ -1,0 +1,125 @@
+﻿@model SaveVendorModel
+@{
+    ViewBag.Title = Model.VendorId > 0 ? "Edit Vendor Details" : "Add Vendor Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="UserForm">
+                            @Html.HiddenFor(x => x.VendorId)
+                            @Html.HiddenFor(x => x.AgencyId)
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Vendor, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Vendor)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Name)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR SURNAME</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.SurName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR EMAIL</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Password)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">RETYPE PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CELL PHONE</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                                            <a href="@Url.Action("ManageAgentVendors", "Vendor", new { area = "Agent" })" class="btn btn-default">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AgentScripts/vendor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            App.init();
+            if ('@Model.VendorId' !='0') {
+                $("#Password").val('@Model.Password');
+                $("#ConfirmPassword").val('@Model.Password');
+            }
+        });
+    </script>
+}

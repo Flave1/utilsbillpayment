@@ -1,0 +1,347 @@
+﻿@model DepositModel
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Manage Wallet";
+                Layout = "~/Views/Shared/_LayOut.cshtml";
+                //var list = Model.List;
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Wallet</h2>
+    </div>
+    <style>
+        label{
+            text-transform:uppercase;
+        }
+    </style>
+    <div class="" >
+        <div class="row" >
+            <div class="container" style="background : #ffffff;">
+                @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+                {
+                    //front
+                    <div class="">
+                        <div class="dashtop" style="padding:0; margin:0; width:50%">
+                            <div style="float:left; border-right:3px solid white;">
+                                <label><span style="font-weight:lighter; margin-right:2px;"> CURRENT </span> WALLET BALLANCE - </label>
+                            </div>
+                            <div style="float:left"> 
+                                <span style="color:#00a2e8;">SSL : @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>
+                            </div>
+                        </div>
+                        <div class="tabmain"> 
+                            <div class="tabcont-row current" id="tab-1">
+                                <form style="padding-left:11px;">
+
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label>Select POS ID</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "Select POS ID", new { @class = "form-control col-md-6", @id = "posDrp" })
+                                                @Html.ValidationMessageFor(Model => Model.PosId)
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label>CHX/CASH</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                                            </div>
+                                            <div class="col-md-3 chkBankDiv" style="display: none">
+                                                <label>ISSUING BANK</label>
+                                                @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "form-control", })
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="">
+                                                    <label>CHX # or SLIP ID</label>
+                                                    <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 chkBankDiv" style="display:none">
+                                                <label>NAME ON CHEQUE</label>
+                                                <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label>VENDTECH BANK DETAILS</label>
+                                                @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control", @id = "bankAccountDrp" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label>Deposit Amount</label>
+                                                <input type="text" style="font-size: 24px; border-radius:10px; border:1px solid #808080; font-weight:bold; color: #000000; !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
+                                                <input type="hidden" id="amount" name="Amount">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>% Commision</label>
+                                                <input class="form-control" type="text" id="percentageAmount" style="font-size: 50px; height:80px; border-radius:10px; border:1px solid #808080; font-weight:bolder; background:#ffffff; color: #ff0000 !important;" readonly />
+                                                <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="editpro-row submt " style="padding-right : 20px;"> 
+                                            <input type="button" class="savebttn addDepositBtn pull-left" value="ADD BALANCE">
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="row"> 
+                                        @*<div class="form-group">
+                                            <div class="col-md-6">
+                                                <label>Select POS ID</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "Select POS ID", new { @class = "form-control col-md-6", @id = "posDrp" })
+                                                @Html.ValidationMessageFor(Model => Model.PosId)
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label>VENDTECH BANK DETAILS</label>
+                                                @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control", @id = "bankAccountDrp" })
+                                            </div>
+
+                                        </div>
+                                       
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label>CHX/CASH</label>
+                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                                        </div>
+                                        <div class="col-md-6 chkBankDiv" style="display: none">
+                                            <label>ISSUING BANK</label>
+                                            @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "form-control", })
+                                        </div>
+                                    </div>*@
+
+                                    @*<div class="form-group">
+                                        <div class="col-md-6 chkBankDiv" style="display:none">
+                                            <label>NAME ON CHEQUE</label>
+                                            <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control">
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>CHX # or SLIP ID</label>
+                                            <input type="number" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control">
+                                        </div>
+                                    </div>*@
+                                    @*<div class="form-group">
+                                        <div class="col-md-6">
+                                            <label>Deposit Amount</label>
+                                            <input type="text" style="font-size: 24px; color: #00a2e8 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
+                                            <input type="hidden" id="amount" name="Amount">
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
+                                            <input class="form-control" type="text" id="percentageAmount" style="font-size: 24px; color: #00a2e8 !important;" readonly />
+                                            <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
+                                        </div>
+                                    </div>*@ 
+                                   
+                                    @*<div class="editpro-row submt " style="padding-right : 20px;">
+                                        <br />
+                                        <br />
+                                        <input type="button" class="savebttn addDepositBtn pull-right" value="ADD BALANCE">
+                                    </div>*@
+                                    </div>
+                                </form>
+                            </div>
+                           
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="contarea">
+                        <p>
+                            Service not assigned<br />
+                            Please contact VENDTECH on +23279990990
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    @*<script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+        </script>*@
+
+
+
+    <script type="text/javascript">
+            function thousands_separators(num) {
+                var num_parts = num.toString().split(".");
+                num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                return num_parts.join(".");
+            }
+            function onPaymentTypeChange() {
+                if ($("#paymentType").val() == "2")
+
+                    $(".chkBankDiv").show();
+                else {
+                    $(".chkBankDiv").hide();
+                    $("#ChkBankName").val('');
+                    $("#NameOnCheque").val('');
+                }
+            }
+            function getAmountWithPercentage() {
+                var displayVal = $("#amountDisplay").val();
+                var val = "";
+                if (displayVal) {
+                    var cc = displayVal.replace(/\,/g, "");
+                    $("#amount").val(cc);
+                    val = $("#amount").val();
+                    $("#amountDisplay").val(thousands_separators(val));
+                }
+                if (val && !isNaN(val)) {
+                    val = parseInt(val);
+                    var drpValue = '@ViewBag.percentage';
+                    if (drpValue != "") {
+
+                        var percentageAmt = (drpValue / 100) * val;
+                        var percentValue = parseInt(val + percentageAmt);
+                        $("#percentageAmountHdn").val(percentValue);
+                        $("#percentageAmount").val(thousands_separators(percentValue));
+                    }
+                    else {
+                        $("#percentageAmountHdn").val(val);
+                        $("#percentageAmount").val(thousands_separators(val));
+                    }
+                }
+                else {
+                    $("#percentageAmountHdn").val('');
+                    $("#percentageAmount").val('');
+                    $("#amount").val('');
+                }
+            }
+            function isNumber(evt) {
+                var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                    return false;
+
+                return true;
+            }
+            $(document).ready(function(){
+                $('.tabnav ul li').click(function(){
+                    var tab_id = $(this).attr('data-tab');
+
+                    $('.tabnav ul li').removeClass('current');
+                    $('.tabcont-row').removeClass('current');
+
+                    $(this).addClass('current');
+                    $("#"+tab_id).addClass('current');
+                });
+
+                $("#posDrp").on("change", function () {
+                    if ($("#posDrp").val())
+                        window.location.href = '/Deposit/Index?posId=' + $("#posDrp").val();
+                    else
+                        window.location.href = '/Deposit/Index';
+                })
+            });
+            $(document).ready(function () {
+              
+                //initialize the javascript
+                if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
+                    $("#posDrp").val('@ViewBag.posId');
+                }
+                App.init();
+                $('.addDepositBtn').live("click", function () {
+                    return AddDeposit($(this));
+                });
+                onBankAccountChange();
+                //Templates.ManageTemplates(totalCount);
+            });
+            function onBankAccountChange() {
+                var id = $("#bankAccountDrp").val();
+                $.ajax({
+                    url: '/Deposit/GetBankAccountDetail?bankAccountId=' + id,
+                    success: function (data) {
+
+                        if (data != null) {
+
+                            var trailingCharsIntactCount = 4;
+                            data.bankAccount.AccountNumber = new Array(data.bankAccount.AccountNumber.length - trailingCharsIntactCount + 1).join('x')
+                                   + data.bankAccount.AccountNumber.slice(-trailingCharsIntactCount);
+
+                            $("#bankName").text("(" + data.bankAccount.BankName + " - " + data.bankAccount.AccountNumber+" )");
+                            //$("#holderName").text(data.bankAccount.AccountName);
+                            //$("#accNo").text(data.bankAccount.AccountNumber);
+                            //$("#bban").text(data.bankAccount.BBAN);
+
+                        }
+                    }
+                })
+        }
+
+        function AddDeposit(sender) {
+            if (!$("#amount").val() || $("#amount").val() == "0")
+            {
+                    $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
+                    return;
+                }
+                else if (!$("#ChkOrSlipNo").val())
+                {
+                    $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
+                    return;
+                }
+
+                //else if (!$("#chkbankname").val())
+                //{
+                //    $.showmessage($('div.messagealert'), "Cheque bank name is required.", MessageType.Error);
+
+                //    //if ($('#paymentType').val() == "2")
+                //    //{
+                //    //    debugger;
+                //    //    $.showmessage($('div.messagealert'), "check bank name is required.",MessageType.Error);
+                //    //    return;
+                //    //}
+                //return;
+                //}
+                else {
+                    $.ajaxExt({
+                        url: baseUrl + '/Deposit/AddDeposit',
+                        type: 'POST',
+                        validate: true,
+                        showErrorMessage: true,
+                        messageControl: $('div.messageAlert'),
+                        formToValidate: $(sender).parents("form:first"),
+                        formToPost: $(sender).parents("form:first"),
+                        isAjaxForm: true,
+                        showThrobber: true,
+                        button: $(sender),
+                        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                        success: function (results, message) {
+                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1500);
+
+                        }
+                    });
+                }
+
+            }
+    </script>
+}
+

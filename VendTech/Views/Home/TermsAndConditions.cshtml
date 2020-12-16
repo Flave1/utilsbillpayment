@@ -1,0 +1,21 @@
+﻿@model CMSPageViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="dashright">
+	<div class="page-head">
+        <h2> @Model.PageTitle</h2>
+    </div>
+    <div class="cl-mcont">
+    	<div class="row">
+    		<div class="col-md-12">
+    			<div class="block-flat front">
+    				<p>@Html.Raw(Model.PageContent)</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

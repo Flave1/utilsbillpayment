@@ -1,0 +1,49 @@
+﻿@model PagingResult<MeterAPIListingModel>
+
+    @{
+        ViewBag.Title = "Manage Meters";
+        Layout = "~/Views/Shared/_LayOut.cshtml";
+    }
+
+    <div class="container-fluid" id="pcont">
+        <div class="page-head">
+            <h2>Manage Meters</h2>
+
+        </div>
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat front">
+                        <a class="addmeter" href="/Meter/AddEditMeter"><i class="fa fa-plus-circle"></i> <label>Add Meter</label></a>
+                        <br /><br /><br />
+                        <div class="contarea meterpage">
+                            @Html.Partial("Partials/_meterListing", Model)
+                        </div>
+                        @Html.Partial("_Paging")
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+        <script type="text/javascript">
+            var totalCount = "@Model.TotalCount";
+            </script>
+        <script src="~/Scripts/UserScripts/meter.js"></script>
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                //initialize the javascript
+                App.init();
+                            Users.ManageUsers(totalCount);
+
+            });
+        </script>
+    }

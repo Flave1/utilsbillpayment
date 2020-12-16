@@ -1,0 +1,25 @@
+﻿@model PagingResult<CMSPageViewModel>
+
+        @if (Model.List != null && Model.List.Count() > 0)
+        {
+            foreach (var item in Model.List)
+            {
+                <tr class="odd gradeX">
+                    <td>@item.PageName</td>
+                    <td> @item.PageTitle</td>
+
+
+                    <td class="center">@item.CreatedOn.ToShortDateString()</td>
+
+                    <td class="center"> <a class="btn btn-primary btn-xs" href="@Url.Action("EditPageContent", "cms", new { pageId = item.PageId, area = "Admin" })" data data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="odd gradeX">
+                <td colspan="4">No Record Found</td>
+            </tr>
+        }
+
+

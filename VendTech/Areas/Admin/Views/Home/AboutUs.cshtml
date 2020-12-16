@@ -1,0 +1,12 @@
+﻿@model CMSPageViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = null;
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div style="max-width: 100%; padding: 0 15px; width: 1170px; margin: 0 auto; word-wrap: break-word; box-sizing: border-box; text-align: justify;">
+    <h2> @Model.PageTitle</h2>
+
+    <p>@Html.Raw(Model.PageContent)</p>
+</div>

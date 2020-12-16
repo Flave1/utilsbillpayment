@@ -1,0 +1,98 @@
+﻿@model AddEditEmailTemplateModel
+@{
+    ViewBag.Title = Model.TemplateId > 0 ? "Edit Email Template" : "Add Email Template";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="TemplateForm">
+                            @Html.HiddenFor(x => x.TemplateId)
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">TEMPLATE TYPE<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.TemplateType, Model.TemplateTypeList, "Select Template Type", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x=>x.TemplateType)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">TEMPLATE NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.TemplateName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.TemplateName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">EMAIL SUBJECT<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.EmailSubject, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.EmailSubject)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">TEMPLATE CONTENT<em>*</em></label>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(x => x.TemplateContent)
+                                            @Html.ValidationMessageFor(m => m.TemplateContent)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">TEMPLATESTATUS</label>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(x => x.TemplateStatus)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <input type="button" class="btn btn-primary" id="addTemplateBtn" value="Submit" />
+                                            <a href="@Url.Action("ManageTemplates", "emailtemplate", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/themes/ckeditor.new/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            App.init();
+            CKEDITOR.env.isCompatible = true;
+            CKEDITOR.replace('TemplateContent');
+
+        });
+    </script>
+<script src="~/Scripts/AdminScripts/templates.js"></script>
+}

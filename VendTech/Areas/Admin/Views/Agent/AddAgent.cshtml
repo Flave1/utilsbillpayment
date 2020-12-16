@@ -1,0 +1,155 @@
+﻿@model AddAgentModel
+@{
+    ViewBag.Title = Model.AgentId > 0 ? "Edit Agent Details" : "Add Agent Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="UserForm">
+                            @Html.HiddenFor(x => x.AgentId)
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">AGENCY NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.AgencyName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.AgencyName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @*<div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">REP FIRST NAME</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.FirstName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">REP LAST NAME</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.LastName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">REP EMAIL</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
+                                    </div>
+
+                                </div>*@
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">COMPANY</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Company, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Company)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @*<div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Password)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">RETYPE PASSWORD</label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                        </div>
+                                    </div>
+
+                                </div>*@
+                                @*<div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CELL PHONE<em>*</em></label>
+                                        <div class="col-md-1">
+                                            <select name="CountryCode" class="form-control">
+                                                <option value="+232">+232</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                    @*<div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">AGENT TYPE</label>
+                                            <div class="col-md-3">
+                                                @Html.DropDownListFor(x => x.AgentType, new SelectList(ViewBag.AgentTypes, "value", "text"), null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.AgentType)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">%</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                    <div class="row">
+                                        <div class=" col-md-6">
+                                            <div class="col-sm-offset-4 col-sm-8">
+                                                <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                                                <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/agency.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            App.init();
+            if ('@Model.AgentId' != '0') {
+                $("#Password").val('@Model.Password');
+                $("#ConfirmPassword").val('@Model.Password');
+            }
+        });
+    </script>
+}

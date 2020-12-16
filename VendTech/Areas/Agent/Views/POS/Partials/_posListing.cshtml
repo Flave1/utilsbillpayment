@@ -1,0 +1,29 @@
+﻿@model PagingResult<POSListingModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td>@item.SerialNumber</td>
+            <td> @item.VendorName</td>
+            <td>
+                @item.Phone
+            </td>
+
+            <td class="center">@item.VendorType</td>
+            <td class="center">@item.Enabled</td>
+            <td><a class="btn btn-primary btn-xs" href="@Url.Action("AddEditPos", "POS", new { area = "Agent", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a></td>
+
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="4">No Record Found</td>
+    </tr>
+}
+
+

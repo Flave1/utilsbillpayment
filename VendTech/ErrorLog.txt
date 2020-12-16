@@ -1,0 +1,2111 @@
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+Exception of type 'System.Exception' was thrown.
+http://jsonformat.com/
+
+
+
+c:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\a9761a11\7577a8d3\App_Web_index.cshtml.7befced2.x8otybls.0.cs(29): error CS0234: The type or namespace name 'Models' does not exist in the namespace 'VendTech' (are you missing an assembly reference?)
+http://jsonformat.com/
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layout.cshtml": "pageStyles".
+http://jsonformat.com/
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layout.cshtml": "pageStyles".
+http://jsonformat.com/
+
+
+
+d:\GIT-ALL-PROJECTS\VendTech-net\VendTech\VendTech\Areas\Admin\Views\Home\Partials\_userListing.cshtml(19): error CS1061: 'VendTech.BLL.Models.UserListingModel' does not contain a definition for 'LasttName' and no extension method 'LasttName' accepting a first argument of type 'VendTech.BLL.Models.UserListingModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+No property or field 'Desc' exists in type 'User'
+http://jsonformat.com/
+
+
+
+No property or field 'Desc' exists in type 'User'
+http://jsonformat.com/
+
+
+
+No property or field 'Desc' exists in type 'User'
+http://jsonformat.com/
+
+
+
+No property or field 'Desc' exists in type 'User'
+http://jsonformat.com/
+
+
+
+No property or field 'FirstName' exists in type 'User'
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult ResetPassword(Int64, System.String)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositLogListingModel]'.
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\Home\TermsAndConditions.cshtml(11): error CS1061: 'VendTech.BLL.Models.CMSPageViewModel' does not contain a definition for 'PageContent' and no extension method 'PageContent' accepting a first argument of type 'VendTech.BLL.Models.CMSPageViewModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Sequence contains no elements
+http://jsonformat.com/
+System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   at System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   at System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   at System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   at System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   at VendTech.BLL.Managers.AuthenticateManager.VendTech.BLL.Interfaces.IAuthenticateManager.ResetPassword(ResetPasswordModel model) in d:\Projects\VendTech\VendTech.BLL\Managers\AuthenticateManager.cs:line 50
+   at VendTech.Areas.Api.Controllers.UserController.ChangePassword(ResetPasswordModel model) in d:\Projects\VendTech\VendTech\Areas\Api\Controllers\UserController.cs:line 107
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+The process cannot access the file 'C:\Users\Vishal Gondi\Desktop\test.pdf' because it is being used by another process.
+http://jsonformat.com/
+System.IO.IOException: The process cannot access the file 'C:\Users\Vishal Gondi\Desktop\test.pdf' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.File.InternalWriteAllBytes(String path, Byte[] bytes, Boolean checkHost)
+   at System.IO.File.WriteAllBytes(String path, Byte[] bytes)
+   at VendTech.Areas.Api.Controllers.MeterController.GetMeterRechargePdf(Int64 rechargeId) in d:\Projects\VendTech\VendTech\Areas\Api\Controllers\MeterController.cs:line 176
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+
+
+The partial view 'Partials/_depositListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/ReleaseDeposit/Partials/_depositListing.aspx
+~/Areas/Admin/Views/ReleaseDeposit/Partials/_depositListing.ascx
+~/Areas/Admin/Views/Shared/Partials/_depositListing.aspx
+~/Areas/Admin/Views/Shared/Partials/_depositListing.ascx
+~/Views/ReleaseDeposit/Partials/_depositListing.aspx
+~/Views/ReleaseDeposit/Partials/_depositListing.ascx
+~/Views/Shared/Partials/_depositListing.aspx
+~/Views/Shared/Partials/_depositListing.ascx
+~/Areas/Admin/Views/ReleaseDeposit/Partials/_depositListing.cshtml
+~/Areas/Admin/Views/ReleaseDeposit/Partials/_depositListing.vbhtml
+~/Areas/Admin/Views/Shared/Partials/_depositListing.cshtml
+~/Areas/Admin/Views/Shared/Partials/_depositListing.vbhtml
+~/Views/ReleaseDeposit/Partials/_depositListing.cshtml
+~/Views/ReleaseDeposit/Partials/_depositListing.vbhtml
+~/Views/Shared/Partials/_depositListing.cshtml
+~/Views/Shared/Partials/_depositListing.vbhtml
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The view 'Index' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Agent/Views/vendor/Index.aspx
+~/Areas/Agent/Views/vendor/Index.ascx
+~/Areas/Agent/Views/Shared/Index.aspx
+~/Areas/Agent/Views/Shared/Index.ascx
+~/Views/vendor/Index.aspx
+~/Views/vendor/Index.ascx
+~/Views/Shared/Index.aspx
+~/Views/Shared/Index.ascx
+~/Areas/Agent/Views/vendor/Index.cshtml
+~/Areas/Agent/Views/vendor/Index.vbhtml
+~/Areas/Agent/Views/Shared/Index.cshtml
+~/Areas/Agent/Views/Shared/Index.vbhtml
+~/Views/vendor/Index.cshtml
+~/Views/vendor/Index.vbhtml
+~/Views/Shared/Index.cshtml
+~/Views/Shared/Index.vbhtml
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.SaveAgentModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.AddAgentModel'.
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(3): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'AgentId' and no extension method 'AgentId' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(3): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'AgentId' and no extension method 'AgentId' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(3): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'AgentId' and no extension method 'AgentId' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(3): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'AgentId' and no extension method 'AgentId' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Encountered end tag "li" with no matching start tag.  Are your start/end tags properly balanced?
+
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.BankAccountModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.BankAccountModel'.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.UserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\Deposit\ManageDeposits.cshtml(18): error CS0839: Argument missing
+http://jsonformat.com/
+
+
+
+Unexpected "if" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "if" with "@".
+
+http://jsonformat.com/
+
+
+
+LINQ to Entities does not recognize the method 'Int32 GetUserRoleIntValue(System.String)' method, and this method cannot be translated into a store expression.
+http://jsonformat.com/
+
+
+
+LINQ to Entities does not recognize the method 'Int32 GetUserRoleIntValue(System.String)' method, and this method cannot be translated into a store expression.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The view 'ManageDeposits' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/ManageDeposits.aspx
+~/Views/Deposit/ManageDeposits.ascx
+~/Views/Shared/ManageDeposits.aspx
+~/Views/Shared/ManageDeposits.ascx
+~/Views/Deposit/ManageDeposits.cshtml
+~/Views/Deposit/ManageDeposits.vbhtml
+~/Views/Shared/ManageDeposits.cshtml
+~/Views/Shared/ManageDeposits.vbhtml
+http://jsonformat.com/
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+http://jsonformat.com/
+
+
+
+The view 'ManageDeposits' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/ManageDeposits.aspx
+~/Views/Deposit/ManageDeposits.ascx
+~/Views/Shared/ManageDeposits.aspx
+~/Views/Shared/ManageDeposits.ascx
+~/Views/Deposit/ManageDeposits.cshtml
+~/Views/Deposit/ManageDeposits.vbhtml
+~/Views/Shared/ManageDeposits.cshtml
+~/Views/Shared/ManageDeposits.vbhtml
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Invalid value for 'encryptedTicket' parameter.
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(113): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'AgentType' and no extension method 'AgentType' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Areas\Admin\Views\AppUser\AddUser.cshtml(56): error CS1061: 'System.Web.Mvc.HtmlHelper<VendTech.BLL.Models.AddUserModel>' does not contain a definition for 'CheckboxFor' and no extension method 'CheckboxFor' accepting a first argument of type 'System.Web.Mvc.HtmlHelper<VendTech.BLL.Models.AddUserModel>' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Invalid value for 'encryptedTicket' parameter.
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'posId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.JsonResult DeletePos(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Invalid value for 'encryptedTicket' parameter.
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.cnuc3-gu.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.a8d08dba.a_ewx-7m.0.cs(31): error CS0246: The type or namespace name 'LoginModal' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.LoginAPIModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.LoginModal'.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+The view 'ChangePassword' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Home/ChangePassword.aspx
+~/Views/Home/ChangePassword.ascx
+~/Views/Shared/ChangePassword.aspx
+~/Views/Shared/ChangePassword.ascx
+~/Views/Home/ChangePassword.cshtml
+~/Views/Home/ChangePassword.vbhtml
+~/Views/Shared/ChangePassword.cshtml
+~/Views/Shared/ChangePassword.vbhtml
+http://jsonformat.com/
+
+
+
+The layout page "~/Views/Shared/_AdminLayOut.cshtml" could not be found at the following path: "~/Views/Shared/_AdminLayOut.cshtml".
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.k8fm9h15.0.cs(32): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.nxjfsf1u.0.cs(32): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.x8buhywk.0.cs(33): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.phphvdy4.0.cs(33): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.ki_r4ewr.0.cs(33): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.m0iayml5.0.cs(33): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_index.cshtml.6357abda.2azcgtj2.0.cs(33): error CS0246: The type or namespace name 'MeterApiListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Index.cshtml(3): error CS1061: 'VendTech.BLL.Models.MeterAPIListingModel' does not contain a definition for 'PageTitle' and no extension method 'PageTitle' accepting a first argument of type 'VendTech.BLL.Models.MeterAPIListingModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Index.cshtml(3): error CS1061: 'VendTech.BLL.Models.MeterAPIListingModel' does not contain a definition for 'PageTitle' and no extension method 'PageTitle' accepting a first argument of type 'VendTech.BLL.Models.MeterAPIListingModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Index.cshtml(3): error CS1061: 'VendTech.BLL.Models.PagingResult<VendTech.BLL.Models.MeterAPIListingModel>' does not contain a definition for 'PageTitle' and no extension method 'PageTitle' accepting a first argument of type 'VendTech.BLL.Models.PagingResult<VendTech.BLL.Models.MeterAPIListingModel>' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\User\EditProfile.cshtml(53): error CS1061: 'VendTech.BLL.Models.UpdateProfileModel' does not contain a definition for 'CountryId' and no extension method 'CountryId' accepting a first argument of type 'VendTech.BLL.Models.UpdateProfileModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\User\EditProfile.cshtml(53): error CS1061: 'VendTech.BLL.Models.UpdateProfileModel' does not contain a definition for 'CountryId' and no extension method 'CountryId' accepting a first argument of type 'VendTech.BLL.Models.UpdateProfileModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'meterId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult Recharge(Int64)' in 'VendTech.Controllers.MeterController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Deposit\Index.cshtml(5): error CS1061: 'VendTech.BLL.Models.MeterAndDepositListingModel' does not contain a definition for 'List' and no extension method 'List' accepting a first argument of type 'VendTech.BLL.Models.MeterAndDepositListingModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Deposit\Index.cshtml(5): error CS1061: 'VendTech.BLL.Models.MeterAndDepositListingModel' does not contain a definition for 'List' and no extension method 'List' accepting a first argument of type 'VendTech.BLL.Models.MeterAndDepositListingModel' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+http://jsonformat.com/
+
+
+
+Invalid value for 'encryptedTicket' parameter.
+http://jsonformat.com/
+
+
+
+Invalid value for 'encryptedTicket' parameter.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.qdgua1ob.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.qdgua1ob.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.qdgua1ob.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.iezymmg8.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Sequence contains more than one element
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.lflv4na-.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.lflv4na-.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.lflv4na-.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.vivkf_47.0.cs(33): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The layout page "~/Areas/Admin/Views/Shared/_LayOut.cshtml" could not be found at the following path: "~/Areas/Admin/Views/Shared/_LayOut.cshtml".
+http://jsonformat.com/
+
+
+
+The layout page "~/Areas/Admin/Views/Shared/_LayOut.cshtml" could not be found at the following path: "~/Areas/Admin/Views/Shared/_LayOut.cshtml".
+http://jsonformat.com/
+
+
+
+Failure sending mail.
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: s
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web__poslisting.cshtml.cf5431d0.ad_bf7by.0.cs(32): error CS0246: The type or namespace name 'PosListingModel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'meterId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult Recharge(Int64)' in 'VendTech.Controllers.MeterController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'meterId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult Recharge(Int64)' in 'VendTech.Controllers.MeterController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Recharge.cshtml(39): error CS1660: Cannot convert lambda expression to type 'string' because it is not a delegate type
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Recharge.cshtml(39): error CS1660: Cannot convert lambda expression to type 'string' because it is not a delegate type
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Recharge.cshtml(39): error CS1660: Cannot convert lambda expression to type 'string' because it is not a delegate type
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Recharge.cshtml(39): error CS1660: Cannot convert lambda expression to type 'string' because it is not a delegate type
+http://jsonformat.com/
+
+
+
+d:\Projects\VendTech\VendTech\Views\Meter\Recharge.cshtml(39): error CS1660: Cannot convert lambda expression to type 'string' because it is not a delegate type
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Unable to create a constant value of type 'VendTech.DAL.User'. Only primitive types or enumeration types are supported in this context.
+http://jsonformat.com/
+
+
+
+Unable to create a constant value of type 'VendTech.DAL.User'. Only primitive types or enumeration types are supported in this context.
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.ztreacyj.0.cs(32): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+c:\Users\Vishal Gondi\AppData\Local\Temp\Temporary ASP.NET Files\root\a66ef6ed\da165aae\App_Web_dashboard.cshtml.a8d08dba.ztreacyj.0.cs(32): error CS0246: The type or namespace name 'platformmodel' could not be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+The view 'EditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Meter/EditMeter.aspx
+~/Views/Meter/EditMeter.ascx
+~/Views/Shared/EditMeter.aspx
+~/Views/Shared/EditMeter.ascx
+~/Views/Meter/EditMeter.cshtml
+~/Views/Meter/EditMeter.vbhtml
+~/Views/Shared/EditMeter.cshtml
+~/Views/Shared/EditMeter.vbhtml
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Value cannot be null.
+Parameter name: items
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetVendorPosSelectList(Int64)' in 'VendTech.Areas.Admin.Controllers.ReportController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+http://jsonformat.com/
+
+
+
+Count must have a non-negative value.
+Parameter name: count
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+http://jsonformat.com/
+
+
+
+The document has no pages.
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.DepositExcelReportModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositExcelReportModel]'.
+http://jsonformat.com/
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.DepositExcelReportModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositExcelReportModel]'.
+http://jsonformat.com/
+
+
+
+e:\Xicom\Vedtech\vendtech\VendTech\Areas\Admin\Views\Report\PrintSalesReport.cshtml(38): error CS1061: 'System.Collections.Generic.List<VendTech.BLL.Models.DepositExcelReportModel>' does not contain a definition for 'List' and no extension method 'List' accepting a first argument of type 'System.Collections.Generic.List<VendTech.BLL.Models.DepositExcelReportModel>' could be found (are you missing a using directive or an assembly reference?)
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'NameOnCheque'.
+http://jsonformat.com/
+
+
+
+There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'ChkBankName'.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'ID' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'ID' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+The parameters dictionary contains a null entry for parameter 'ID' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult OTPVerification(Int64)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+e:\Xicom\Vedtech\vendtech\VendTech\Views\Deposit\Index.cshtml(163): error CS1519: Invalid token 'else' in class, struct, or interface member declaration
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+Error occurred during a cryptographic operation.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Expression expected
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+The time zone ID 'Russia TZ 5 Standard Time' was not found on the local computer.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+e:\Xicom\Vedtech\vendtech\VendTech\Views\Deposit\Index.cshtml(78): error CS0121: The call is ambiguous between the following methods or properties: 'System.Web.Mvc.Html.SelectExtensions.DropDownList(System.Web.Mvc.HtmlHelper, string, string)' and 'System.Web.Mvc.Html.SelectExtensions.DropDownList(System.Web.Mvc.HtmlHelper, string, System.Collections.Generic.IEnumerable<System.Web.Mvc.SelectListItem>)'
+http://jsonformat.com/
+
+
+
+test.xlsx
+http://jsonformat.com/
+
+
+
+Access to the path 'C:\Program Files (x86)\IIS Express\FilledFile.xlsx' is denied.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Object reference not set to an instance of an object.
+http://jsonformat.com/
+
+
+
+Cannot access 'vdfgdfg.xlsx'.
+http://jsonformat.com/
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\Ahmed\Downloads\vendtech\VendTech\Areas\Admin\Views\Platform\ManagePlatforms.cshtml(55): error CS1061: 'VendTech.BLL.Models.PlatformModel' does not contain a definition for 'ShortName' and no extension method 'ShortName' accepting a first argument of type 'VendTech.BLL.Models.PlatformModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\Ahmed\Downloads\vendtech\VendTech\Areas\Admin\Views\Platform\ManagePlatforms.cshtml(55): error CS1061: 'VendTech.BLL.Models.PlatformModel' does not contain a definition for 'ShortName' and no extension method 'ShortName' accepting a first argument of type 'VendTech.BLL.Models.PlatformModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\Ahmed\Downloads\vendtech\VendTech\Areas\Admin\Views\Platform\ManagePlatforms.cshtml(55): error CS1061: 'VendTech.BLL.Models.PlatformModel' does not contain a definition for 'ShortName' and no extension method 'ShortName' accepting a first argument of type 'VendTech.BLL.Models.PlatformModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Views\Home\Register.cshtml(61): error CS1061: 'VendTech.BLL.Models.RegisterAPIModel' does not contain a definition for 'FullName' and no extension method 'FullName' accepting a first argument of type 'VendTech.BLL.Models.RegisterAPIModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Views\Home\Register.cshtml(61): error CS1061: 'VendTech.BLL.Models.RegisterAPIModel' does not contain a definition for 'FullName' and no extension method 'FullName' accepting a first argument of type 'VendTech.BLL.Models.RegisterAPIModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Views\Home\Register.cshtml(61): error CS1061: 'VendTech.BLL.Models.RegisterAPIModel' does not contain a definition for 'FullName' and no extension method 'FullName' accepting a first argument of type 'VendTech.BLL.Models.RegisterAPIModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Views\Home\Register.cshtml(61): error CS1061: 'VendTech.BLL.Models.RegisterAPIModel' does not contain a definition for 'FullName' and no extension method 'FullName' accepting a first argument of type 'VendTech.BLL.Models.RegisterAPIModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The request was aborted: The request was canceled.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+The request was aborted: The request was canceled.
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(23): error CS0103: The name 'readonly' does not exist in the current context
+
+
+
+c:\Users\GODP\Desktop\Vend Tech\Vendtech\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(23): error CS0103: The name 'readonly' does not exist in the current context
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+c:\Users\Ahmed\Documents\projects\vendtech\VendTech\Views\Home\Dashboard.cshtml(74): error CS1061: 'System.Collections.Generic.List<VendTech.BLL.Models.PlatformModel>' does not contain a definition for 'totalSales' and no extension method 'totalSales' accepting a first argument of type 'System.Collections.Generic.List<VendTech.BLL.Models.PlatformModel>' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\Ahmed\Documents\projects\vendtech\VendTech\Views\Home\Dashboard.cshtml(74): error CS1061: 'System.Collections.Generic.List<VendTech.BLL.Models.PlatformModel>' does not contain a definition for 'totalSales' and no extension method 'totalSales' accepting a first argument of type 'System.Collections.Generic.List<VendTech.BLL.Models.PlatformModel>' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.DashboardViewModel'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+
+
+The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+

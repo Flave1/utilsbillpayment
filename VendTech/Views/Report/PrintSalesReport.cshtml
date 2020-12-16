@@ -1,0 +1,140 @@
+﻿@model List<SalesReportExcelModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Sales Reports</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Sales Reports</h3>
+                    </div>
+                    <div class="content" id="printid">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6 ">
+                                <button class="btn btn-primary pull-right " onclick="printPageArea()" id="Printid">Print</button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-danger pull-right " onclick="goBack()" id="gobackbtnid">Go Back</button>
+                            </div>
+
+                        </div>
+                       
+                        <div id="printiddive">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3><b>SALES REPORTS</b></h3>
+                                    <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
+                                    <h5><label>TO DATE: @ViewBag.Todate</label></h5>
+                                    <br />
+                                    <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
+                                    <br />
+                                </div>
+                            </div>
+                            <table class="table table-bordered" id="datatable-icons">
+
+                                <tr>
+                                    <th>
+                                        DATE/TIME
+                                    </th>
+                                    <th>
+                                        PRODUCT
+                                    </th>
+                                    <th>AMOUNT</th>
+                                    <th>TRANSACTION ID</th>
+                                    <th>
+                                        METER #
+                                    </th>
+                                    <th>VENDOR NAME</th>
+                                    <th>
+                                        POS ID
+                                    </th>
+
+                                </tr>
+
+                                @foreach (var items in Model)
+                                {
+                                    <tr>
+                                        <td style="text-align:right">@items.Date_TIME</td>
+                                        <td style="text-align:right">@items.PRODUCT_TYPE</td>
+                                        <td style="text-align:right">@items.AMOUNT</td>
+                                        <td style="text-align:right">@items.TRANSACTIONID</td>
+                                        <td style="text-align:right">@items.METER_NO</td>
+                                        <td>@items.VENDORNAME</td>
+                                        <td style="text-align:right">@items.POSID</td>
+
+                                    </tr>
+                                }
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    @@media print {
+        #Header, #Footer {
+            display: none !important;
+        }
+    }
+</style>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var i = 0;
+            setTimeout(function () {
+                if (i == 0) {
+                    printPageArea();
+                    i++;
+                }
+
+            }, 1000);
+
+        });
+
+        //function printPageArea() {
+        //    //var printContent = document.getElementById("printid");
+        //    //var WinPrint = window.open('', '', 'width=900,height=650');
+        //    //WinPrint.document.write(printContent.innerHTML);
+        //    //WinPrint.document.close();
+        //    //WinPrint.focus();
+        //    //WinPrint.print();
+        //    //WinPrint.close();
+        //    window.print();
+        //}
+
+        function printPageArea() {
+
+            var printContents = document.getElementById("printiddive").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        }
+
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+}

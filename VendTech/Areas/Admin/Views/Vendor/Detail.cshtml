@@ -1,0 +1,165 @@
+﻿@model SaveVendorModel
+@{
+    ViewBag.Title = "Vendor Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="cl-mcont">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="content people-form-cs">
+                        <form class="form-horizontal" role="form" id="UserForm">
+                            @Html.HiddenFor(x => x.VendorId)
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Vendor, new { @class = "form-control",@readonly="readonly" })
+                                            @Html.ValidationMessageFor(x => x.Vendor)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">REP FIRST NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(x => x.Name)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">REP LAST NAME<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(x => x.SurName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR EMAIL</label>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">AGENCY NAME</label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.AgencyId, new SelectList(ViewBag.Agents, "value", "text"), null, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(x => x.AgencyId)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                @*<div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Password)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">RETYPE PASSWORD<em>*</em></label>
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                        </div>
+                                    </div>
+
+                                </div>*@
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">CELL PHONE<em>*</em></label>
+                                        <div class="col-md-1">
+                                            <select name="CountryCode" class="form-control" disabled>
+                                                <option value="+232">+232</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(x => x.Phone)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @*<div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">VENDOR TYPE</label>
+                                            <div class="col-md-3">
+                                                @Html.DropDownListFor(x => x.VendorType, new SelectList(ViewBag.AgentTypes, "value", "text"), null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.VendorType)
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">%</label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @*<div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">POS</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.POSId, new SelectList(ViewBag.POS, "value", "text"), "Select POS", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.POSId)
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <a class="btn btn-warning btn-xs" href="@Url.Action("Pos", "Vendor", new { area = "Admin", id = ViewBag.VendorId })" data-original-title="POS" data-toggle="tooltip">View POS</a>
+                                            <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditVendor", "Vendor", new { area = "Admin", id =ViewBag.VendorId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                                            <a data-userid="@Model.VendorId" class="btn btn-danger btn-xs deleteUser1" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                                            <a href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/vendor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+}

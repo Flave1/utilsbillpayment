@@ -1,0 +1,78 @@
+﻿.col-item {
+    /*border: 1px solid #E1E1E1;
+    border-radius: 5px;*/
+    background: #FFF;
+}
+
+
+
+    .col-item .separator {
+        border-top: 1px solid #E1E1E1;
+    }
+
+
+
+        .col-item .separator p {
+            line-height: 20px;
+            margin-bottom: 0;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+    .col-item p {
+        color: #404040;
+    }
+
+.amount-figure {
+    font-size: 42px;
+    line-height: 50px;
+    letter-spacing: -.6px;
+    color: #2e384d;
+    margin: 0 15px 0 0;
+}
+
+.amount-currency {
+    font-size: 28px;
+    line-height: 33px;
+    color: #2e384d;
+    margin-right: 5px;
+}
+
+.adv-header img {
+    height: 70px;
+    margin: 0 auto
+}
+
+.adv-company-name {
+    height: 50px;
+    margin: 10px auto;
+    font-size: 24px;
+    line-height: 15px;
+    letter-spacing: 1.21333px;
+    text-transform: uppercase;
+    color: #2e384d;
+}
+
+.adv-amount-figure {
+    font-weight: 300;
+    font-size: 2.5rem;
+    line-height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Rubik,Oxygen,Helvetica Neue,sans-serif;
+    letter-spacing: -.6px;
+    color: #2e384d;
+    margin-top: 25px;
+    min-height: 59px;
+}
+
+.schedule-status-label {
+    line-height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Rubik,Oxygen,Helvetica Neue,sans-serif;
+    letter-spacing: -.6px;
+    color: #2e384d;
+    margin-top: 25px;
+    min-height: 59px;
+}

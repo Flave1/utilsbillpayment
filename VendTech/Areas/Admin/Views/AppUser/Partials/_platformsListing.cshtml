@@ -1,0 +1,41 @@
+﻿@model List<PlatformCheckbox>
+<style>
+    span.more-optionspan {
+        padding-left: 20px;
+       display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+    .more-option:checked ~ span.more-optionspan {
+        visibility: visible;
+    }
+    .more-option {
+        vertical-align: top;
+    }
+
+</style>
+<div id="divResult">
+    <table class="table table-bordered" id="datatable-icons">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Assign</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chkbox in Model)
+            {
+                <tr class="odd gradeX">
+                    <td><label> @chkbox.Title</label></td>
+                    <td>
+                        <input type="checkbox" id="@chkbox.Id" name="SelectedPlatforms" value="@chkbox.Id" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

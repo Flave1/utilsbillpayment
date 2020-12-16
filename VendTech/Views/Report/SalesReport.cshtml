@@ -1,0 +1,237 @@
+﻿@model PagingResult<MeterRechargeApiListingModel>
+@{ ViewBag.Title = "Manage Reports";
+                Layout = "~/Views/Shared/_LayOut.cshtml"; }
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h3><b>Manage Sales Report</b></h3>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="content">
+                        <div class="table-responsive">
+                            <div id="divResult">
+                                <div class="topsec">
+                                    <h2>REPORTS</h2>
+                                    <label>Sales Report</label>
+                                    <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
+                                    <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                                    <label>
+                                        Export:
+                                        <select name="PrintType" id="PrintType">
+                                            <option value="Excel">Excel</option>
+                                            <option value="PDF">PDF</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        <button type="button" id="btnExport">Export</button>
+
+                                    </label>
+                                    <label>
+                                        <button type="button" id="btnprint">Print</button>
+                                    </label>
+
+                                </div>
+                                <div class="blwsec">
+                                    <div class="blwsec-left">
+                                        <form action="Report/ExportSalesReportTo" method="post" id="salesform">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+
+
+                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                            <div class="blwsec-left-row">
+                                                <label>POS:</label>
+                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @id = "pos" })
+
+                                            </div>
+                                            <div class="blwsec-left-row big firt">
+                                                <label>TRANSACTION PERIOD</label>
+                                                <label>FROM:</label>
+                                                <input type="text" value="" id="FromDate" name="FromDate">
+                                                <label>TO:</label>
+                                                <input type="text" value="" id="ToDate" name="ToDate">
+                                            </div>
+
+
+                                            <div class="blwsec-left-row big lst">
+                                                <label>REPORT</label>
+                                                <select id="rpt" onchange="changeReport()">
+                                                    <option value="2" selected="selected">SALES REPORT</option>
+                                                    <option value="1">DEPOSIT REPORT</option>
+                                                </select>
+                                            </div>
+                                            <div class="blwsec-left-row">
+                                                <label>Meter #:</label>
+                                                <input type="text" id="meterNo" name="Meter">
+                                            </div>
+
+                                            <div class="blwsec-left-row">
+                                                <label>VT Trans ID:</label>
+                                                <input type="text" id="tranId" name="TransactionId">
+                                            </div>
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                        </form>
+                                    </div>
+
+
+
+                                    <div class="blwsec-right">
+                                        <div class="exportdata">
+                                            <table class="table table-bordered" id="datatable-icons">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th>PRODUCT</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
+                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
+                                                        <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("Partials/_salesListing", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @Html.Partial("_Paging")
+
+
+                                    </div>
+                                    <input type="hidden" value="CreatedAt" id="SortBy" />
+                                    <input type="hidden" value="Desc" id="SortOrder" />
+                                    <div style="clear:both"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/UserScripts/salesReport.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+    <script type="text/javascript">
+            var totalCount = "@Model.TotalCount";
+
+            $(document).ready(function () {
+                //initialize the javascript
+                App.init();
+
+                $("#FromDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+                $("#ToDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+
+                function downloadURI(imgData, name) {
+                    var link = document.createElement("a");
+
+
+                    var pdf = new jsPDF();
+
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+
+                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
+                    pdf.save(name);
+                    //link.download = name;
+                    //link.href = uri;
+                    //document.body.appendChild(link);
+                    //link.click();
+                }
+
+                //$("#btnExport").click(function (e) {
+                //    var element = $(".exportdata")[0];
+                //    html2canvas(element).then(function (canvas) {
+
+                //        var myImage = canvas.toDataURL();
+
+                //        downloadURI(myImage, "Report.pdf");
+                //    });
+                //    //window.open('data:application/vnd.ms-excel,' + $('.exportdata').html());
+                //    e.preventDefault();
+                //})
+                Deposits.ManageDeposits(totalCount);
+
+            });
+            debugger
+
+            function changeReport() {
+                var val = $("#rpt").val();
+                if (val == 1)
+                    window.location.href = '/Report/DepositReport';
+                else
+                    window.location.href = '/Report/SalesReport';
+            }
+
+            $('#PrintType').on("change", function () {
+                $('#ExportType').val($(this).val());
+            });
+
+
+
+        $("#btnExport").click(function (e) {
+
+            debugger;
+                var frm = $("#FromDate").val();
+                var to = $("#ToDate").val();
+                if (frm) {
+                    var dtVal = frm.split("/");
+                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                }
+                else {
+                    $("#frmDt").val('');
+
+                }
+                if (to) {
+                    var dtVal = to.split("/");
+                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                }
+                else {
+                    $("#toDt").val('');
+                }
+                $('#salesform').attr('action', '/Report/ExportSalesReportTo');
+                $("#salesform").attr("method", "Post");
+                $("#salesform").submit();
+            })
+
+        $('#btnprint').click(function (e) {
+
+                $('#salesform').attr('action', '/Report/PrintSalesReport');
+                $("#salesform").attr("method", "get");
+                $("#salesform").submit();
+            });
+
+    </script>
+}
+

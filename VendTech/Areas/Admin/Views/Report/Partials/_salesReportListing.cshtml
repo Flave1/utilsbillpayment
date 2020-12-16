@@ -1,0 +1,29 @@
+﻿@model PagingResult<MeterRechargeApiListingModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td style="text-align:right;"> @item.CreatedAt</td>
+            <td style="text-align:center;"> @item.ProductShortName</td>
+            <td style="text-align:right;"> @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</td>
+            <td style="text-align:right;"> @item.TransactionId</td>
+            <td style="text-align:right;"> @item.MeterNumber</td>
+            <td> @item.VendorName</td>
+
+            <td style="text-align:right;"> @item.POSId</td>
+          
+
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="7">No Record Found</td>
+    </tr>
+}
+
+
