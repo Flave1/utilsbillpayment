@@ -59,7 +59,7 @@ p {
 
 #top .logo {
     height: 60px;
-    width: 60px;
+    width: 160px;
     background: url(images/logo1.jpg) no-repeat;
     background-size: 60px 60px;
 }
@@ -155,6 +155,11 @@ td {
     list-style: none;
     color: #f4c613;
     font-size: 18px;
+}
+#tarrif, #tender, #r_address {
+    margin-bottom: 5px;
+    color: #f4c613;
+    font-size: 14px;
 }
 
 .customer-details hr {

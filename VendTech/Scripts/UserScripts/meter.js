@@ -128,9 +128,9 @@ var Users = {
                 console.log(data)
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code == 200) {
-                    $("#r_address").html("Customer: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.CustomerName + "<br> Address: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Address + "<br> Meter No:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.DeviceNumber)
+                    $("#r_address").html("CUSTOMER: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.CustomerName + "<br> ADDRESS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Address + "<br> METER NO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.DeviceNumber)
                     $("#tender").html("TENDER AMOUNT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Amount + "<br> GTS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00" + "<br> EDSA DEBIT CHARGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Charges +"<br> DEPT RECOVERY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00")
-
+                    $("#tarrif").html("TARIFF: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;560 <br>" +" COST OF UNIT Le: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1,720,869.57 <br> Units: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1246");
                     $("#tendered").html(data.Data.Amount)
                     /*$("#charges").html("0.00")
                     $("#dept").html("0.00")*/
