@@ -176,6 +176,7 @@ namespace VendTech.BLL.Models
         public string Meter { get; set; }
         public string RefNumber { get; set; }
         public string TransactionId { get; set; }
+        public string RechargeToken { get; set; }
         public int? Bank { get; set; }
         public int? DepositType { get; set; }
         public int PageNo { get; set; }

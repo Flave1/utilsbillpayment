@@ -267,7 +267,7 @@ namespace VendTech.Controllers
 
             if (ExportType == "Excel")
             {
-                string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
+                string filename = "DepositReport_" + PrintedDateServer + ".xls";
                 Response.ClearContent();
                 Response.Buffer = true;
                 Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
