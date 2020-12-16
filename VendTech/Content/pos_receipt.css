@@ -1,5 +1,5 @@
-﻿#invoice-POS {
-    /*box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+﻿ /*#invoice-POS {
+   box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
     padding: 2mm;
     margin: 0 auto;
     width: 44mm;
@@ -131,7 +131,7 @@ td {
 
 #gen-invoice h2 {
     color: #f4c613;
-    font-size: 40px;
+    font-size: 26px;
     font-weight: 700;
 }
 
@@ -142,25 +142,31 @@ td {
 #date {
     margin: 20px 0 0 20px;
 }
-
-li {
-    margin-bottom: 20px;
+.customer-details ul{
+    margin:0;
+    padding:0;
+}
+#token {
+    font-size: 26px;
+    font-weight: 700;
+}
+.customer-details ul li {
+    margin-bottom: 5px;
     list-style: none;
     color: #f4c613;
-    font-size: 25px;
+    font-size: 18px;
 }
 
-#customer-details hr {
-    width: 1200px;
+.customer-details hr {
+   
     height: 2px;
     background-color: #f4c613;
-    margin-left: 40px;
     border: none;
 }
 
 #center-no {
     background-color: rgb(51, 65, 185);
-    width: 1200px;
+   
     height: 200px;
     border-radius: 8px;
     margin: 100px auto;
@@ -172,19 +178,18 @@ li {
     top: 30px;
     right: 10px;
     bottom: 20px;
-    left: 110px;
     font-size: 80px;
-    font-weight: 700px;
+    font-weight: 500px;
 }
 
-p {
+#gen-invoice  p {
     color: white;
     font-size: 50px;
 }
 
 #serial-details p {
     font-size: 20px;
-    margin-left: 40px;
+    //margin-left: 40px;
     color: #f4c613;
 }
 
