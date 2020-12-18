@@ -65,65 +65,65 @@
                 </div>
             </div>
         </div>
-        @*<div class="row">
-                <div class="col-md-12">
-                    <div class="widget widget-fullwidth be-loading">
-                        <div class="widget-head">
-                            <div class="tools">
-                                <div class="dropdown">
-                                    <span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
-                                    <ul role="menu" class="dropdown-menu">
-                                        <li><a href="#">Week</a></li>
-                                        <li><a href="#">Month</a></li>
-                                        <li><a href="#">Year</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Today</a></li>
-                                    </ul>
-                                </div><span class="icon mdi mdi-chevron-down"></span><span class="icon toggle-loading mdi mdi-refresh-sync"></span><span class="icon mdi mdi-close"></span>
-                            </div>
-                            <div class="button-toolbar hidden-xs">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default">Week</button>
-                                    <button type="button" class="btn btn-default active">Month</button>
-                                    <button type="button" class="btn btn-default">Year</button>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default">Today</button>
-                                </div>
-                            </div><span class="title">Recent Movement</span>
-                        </div>
-                        <div class="widget-chart-container">
-                            <div class="widget-chart-info">
-                                <ul class="chart-legend-horizontal">
-                                    <li><span data-color="main-chart-color1"></span> Purchases</li>
-                                    <li><span data-color="main-chart-color2"></span> Plans</li>
-                                    <li><span data-color="main-chart-color3"></span> Services</li>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget widget-fullwidth be-loading">
+                    <div class="widget-head">
+                        <div class="tools">
+                            <div class="dropdown">
+                                <span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a href="#">Week</a></li>
+                                    <li><a href="#">Month</a></li>
+                                    <li><a href="#">Year</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Today</a></li>
                                 </ul>
-                            </div>
-                            <div class="widget-counter-group widget-counter-group-right">
-                                <div class="counter counter-big">
-                                    <div class="value">25%</div>
-                                    <div class="desc">Purchase</div>
-                                </div>
-                                <div class="counter counter-big">
-                                    <div class="value">5%</div>
-                                    <div class="desc">Plans</div>
-                                </div>
-                                <div class="counter counter-big">
-                                    <div class="value">5%</div>
-                                    <div class="desc">Services</div>
-                                </div>
-                            </div>
-                            <div id="main-chart" style="height: 260px;"></div>
+                            </div><span class="icon mdi mdi-chevron-down"></span><span class="icon toggle-loading mdi mdi-refresh-sync"></span><span class="icon mdi mdi-close"></span>
                         </div>
-                        <div class="be-spinner">
-                            <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                                <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
-                            </svg>
+                        <div class="button-toolbar hidden-xs">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Week</button>
+                                <button type="button" class="btn btn-default active">Month</button>
+                                <button type="button" class="btn btn-default">Year</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Today</button>
+                            </div>
+                        </div><span class="title">Recent Movement</span>
+                    </div>
+                    <div class="widget-chart-container">
+                        <div class="widget-chart-info">
+                            <ul class="chart-legend-horizontal">
+                                <li><span data-color="main-chart-color1"></span> Purchases</li>
+                                <li><span data-color="main-chart-color2"></span> Plans</li>
+                                <li><span data-color="main-chart-color3"></span> Services</li>
+                            </ul>
                         </div>
+                        <div class="widget-counter-group widget-counter-group-right">
+                            <div class="counter counter-big">
+                                <div class="value">25%</div>
+                                <div class="desc">Purchase</div>
+                            </div>
+                            <div class="counter counter-big">
+                                <div class="value">5%</div>
+                                <div class="desc">Plans</div>
+                            </div>
+                            <div class="counter counter-big">
+                                <div class="value">5%</div>
+                                <div class="desc">Services</div>
+                            </div>
+                        </div>
+                        <div id="main-chart" style="height: 260px;"></div>
+                    </div>
+                    <div class="be-spinner">
+                        <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                            <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                        </svg>
                     </div>
                 </div>
-            </div>*@
+            </div>
+        </div>
     </div>
 </div>
 @section scripts{
@@ -135,6 +135,43 @@
             //initialize the javascript
             App.init();
             App.dashBoard();
+        });
+    </script>
+    <script>
+    var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            console.log(surveyLastDaysChartData);
+            Morris.Area({
+                element: 'hero-area',
+                data: surveyLastDaysChartData /*[
+                        { y: '2006', a: 90, b: 76 },
+                        { y: '2007', a: 75, b: 65 },
+                        { y: '2008', a: 50, b: 40 },
+                        { y: '2009', a: 75, b: 65 },
+                        { y: '2010', a: 50, b: 40 },
+                        { y: '2011', a: 75, b: 65 },
+                        { y: '2012', a: 25, b: 20 }
+                    ]*/,
+                xkey: 'mdate',
+                ykeys: ['deposit', 'billpayment'],
+                labels: ['Deposit', 'Bill Payment'],
+                pointSize: 4,
+                hideHover: 'auto',
+                fillOpacity: 0.03,
+                lineColors: ['#768294', '#0084ff'],
+                xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
+                    var month = months[x.getMonth()];
+                    return month;
+                },
+                dateFormat: function (x) {
+                    var month = months[new Date(x).getMonth()];
+                    return month;
+                },
+            });
         });
     </script>
 }

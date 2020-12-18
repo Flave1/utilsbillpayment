@@ -211,7 +211,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -224,7 +224,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -237,7 +237,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -251,7 +251,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -263,7 +263,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -275,7 +275,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "SALES REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -293,11 +293,12 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "AMOUNT"; //AMOUNT
-                gv.HeaderRow.Cells[3].Text = "TRANSACTION ID"; //TRANSACTIONID
-                gv.HeaderRow.Cells[4].Text = "METER #"; //METER_NO
-                gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[6].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[2].Text = "TOKEN"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
+                gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
+                gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
+                gv.HeaderRow.Cells[6].Text = "POS ID"; //POSID
+                gv.HeaderRow.Cells[7].Text = "VENDOR NAME"; //VENDORNAME
 
                 // R&D on Alignment section
                 foreach (GridViewRow row in gv.Rows)
@@ -318,13 +319,13 @@ namespace VendTech.Areas.Admin.Controllers
             if (ExportType == "Excel")
             {
                 
-                string filename = "SalesReport_" + PrintedDateServer + ".xlsx";
+                string filename = "SalesReport_" + PrintedDateServer + ".xls";
                 Response.ClearContent();
                 Response.Buffer = true;
-                //Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
-                //Response.ContentType = "application/ms-excel";
-                Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                //Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
 
                 Response.Charset = "";
                 StringWriter objStringWriter = new StringWriter();
@@ -600,13 +601,13 @@ namespace VendTech.Areas.Admin.Controllers
             if (ExportType == "Excel")
             {
                // string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
-                string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
+                string filename = "DepositReport_" + PrintedDateServer + ".xls";
                 Response.ClearContent();
                 Response.Buffer = true;
-                //Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
-                //Response.ContentType = "application/ms-excel";
-                Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                //Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
 
                 Response.Charset = "";
                 StringWriter objStringWriter = new StringWriter();

@@ -27,6 +27,7 @@ namespace VendTech.BLL.Models
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public string Meter { get; set; }
+        public string RechargeToken { get; set; }
         public string refNumber { get; set; }
         public string TransactionId { get; set; }
         public int? BANK { get; set; }

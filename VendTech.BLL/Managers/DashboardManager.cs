@@ -51,7 +51,24 @@ namespace VendTech.BLL.Managers
 
                     if(acquirerTerminals != null && ids2.Count() >0)
                     {
-                        var data = Context.MeterRecharges.Where(t => ids2.Any(a=>a==t.POSId))
+                        var data = Context.Deposits.Where(d => d.UserId == AcquirerId).Join(Context.MeterRecharges, d =>d.UserId, m=>m.UserId,(d,m)=> new { 
+                            UserId = d.UserId,DepositAmount = d.Amount, DepositPOSId= d.POSId,RechargeAmount = m.Amount,RechargePOSId = m.POSId,RechargeCreatedAt= m.CreatedAt
+                        }).Where(t => ids2.Any(a => a == t.RechargePOSId))
+                        .Where(m => m.RechargeCreatedAt != null).Where(m => m.RechargeCreatedAt.Year == DateTime.Now.Year).GroupBy(x => new { mdate = x.RechargeCreatedAt.Month })
+                        .Select(x => new TransactionChartData
+                        {
+                            mdate = x.Key.mdate.ToString(),
+                            deposit = x.Sum(y => y.DepositAmount).ToString(),
+                            billpayment = x.Sum(y => y.RechargeAmount).ToString(),
+
+                        }).DefaultIfEmpty();
+                        if (data != null)
+                        {
+                            return transactionChartData = data.Where(q => q.mdate != "").ToList();
+                        }
+                    
+
+                    /*var data = Context.MeterRecharges.Where(t => ids2.Any(a=>a==t.POSId))
                         .Where(m => m.CreatedAt != null).Where(m => m.CreatedAt.Year == DateTime.Now.Year).GroupBy(x => new { mdate = x.CreatedAt.Month })
                         .Select(x => new TransactionChartData
                         {
@@ -63,7 +80,7 @@ namespace VendTech.BLL.Managers
                         if (data != null)
                         {
                             return transactionChartData = data.Where(q => q.mdate != "").ToList();
-                        }
+                        }*/
                     }
                     
 
@@ -81,7 +98,7 @@ namespace VendTech.BLL.Managers
         public DashboardViewModel getDashboardData(long userId)
         {
             var user = Context.Users.Find(userId);
-            var data = (from u in Context.Users join d in Context.Deposits on u.UserId equals d.UserId
+            var data = (from u in Context.Users join d in Context.Deposits  on u.UserId equals d.UserId
                         join s in Context.MeterRecharges on d.UserId equals s.UserId  where u.UserId == userId  select new 
                         { 
                             totalSales = s.Amount,
@@ -90,7 +107,7 @@ namespace VendTech.BLL.Managers
                         } ).DefaultIfEmpty();
 
             List<TransactionChartData> tDatas = new List<TransactionChartData>();
-            tDatas = getChartDataByAcquirer("", userId);
+            tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a=>a.mdate).ToList();
             if (tDatas != null)
             {
                 for (int x = 0; x < tDatas.Count; x++)
@@ -98,7 +115,7 @@ namespace VendTech.BLL.Managers
                     tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
                 }
             }
-            if(data.Any())
+            if(data.FirstOrDefault() != null)
             {
                 return new DashboardViewModel
                 {

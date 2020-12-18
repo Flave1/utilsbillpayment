@@ -258,6 +258,7 @@ namespace VendTech.BLL.Managers
             {
                 Amount = x.Amount,
                 ProductShortName = x.Platform.ShortName ==null ? "" : x.Platform.ShortName,
+                RechargePin =x.MeterToken,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,

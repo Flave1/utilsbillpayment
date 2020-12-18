@@ -62,7 +62,7 @@
                 Please contact VENDTECH on +23279990990
             </p>
         </div>}
-                  
+
 
                 </div>
             </div>
@@ -123,22 +123,24 @@
                 </button>
             </div>
             <!--Body-->
-            <div class="modal-body">
+            <div class="modal-body" id="printSection">
                 <center id="top">
                     <div class="logo"></div>
                     @*<div class="info">
-                        <h2>VENDTECH SL LTD.</h2>
-                    </div>*@<!--End Info-->
+                            <h2>VENDTECH SL LTD.</h2>
+                        </div>*@<!--End Info-->
                 </center>
                 <div id="gen-invoice">
                     <div class="row">
-                        <div id="invoice heading">
-                            <div class="col-md-9">
+                        
+                        <div class="col-md-9 col-lg-9 col-sm-9">
+                            <div id="invoice heading">
                                 <h2>ELECTRICITY PURCHASE</h2>
                             </div>
                         </div>
-                        <div id="date">
-                            <div class="col-md-3">
+                        
+                        <div class="col-md-3 col-lg-3 col-sm-3">
+                            <div id="date">
                                 <h5>DATE: @DateTime.Now </h5>
                             </div>
                         </div>
@@ -148,11 +150,11 @@
                 </div>
                 <div class="customer-details">
                     @*<ul>
-            <li class="customer">CUSTOMER:</li>
-            <li class="account">ACCOUNT:</li>
-            <li class="address">ADDRESS:</li>
-            <li class="meter">METER:</li>
-        </ul>*@
+                            <li class="customer">CUSTOMER:</li>
+                            <li class="account">ACCOUNT:</li>
+                            <li class="address">ADDRESS:</li>
+                            <li class="meter">METER:</li>
+                        </ul>*@
                     <div id="r_address">
                         Address : &nbsp; street city, state 0000</br>
                         Email   : JohnDoe@gmail.com</br>
@@ -163,37 +165,37 @@
 
                 <div class="customer-details">
                     @*<ul>
-            <li class="customer">TENDERED AMOUNT:</li>
-            <li class="account">GST:</li>
-            <li class="address">EDSA SERVICE CHARGE:</li>
-            <li class="meter">DEBT RECOVERY:</li>
-        </ul>*@
+                            <li class="customer">TENDERED AMOUNT:</li>
+                            <li class="account">GST:</li>
+                            <li class="address">EDSA SERVICE CHARGE:</li>
+                            <li class="meter">DEBT RECOVERY:</li>
+                        </ul>*@
                     <div id="tender"></div>
-                        <hr>
-                    </div>
-
-                    <div class="customer-details">
-                        
-                        <div id="tarrif">
-
-                        </div>
-                        <hr>
-                    </div>
-
-                    <div class="info">
-                        <div id="token">Contact Info</div>
-                    </div>
-
-
-                    <div id="serial-details">
-                        <p>SERIAL:</p>
-                        <p>TERMINAL ID:</p>
-                    </div>
+                    <hr>
                 </div>
+
+                <div class="customer-details">
+
+                    <div id="tarrif">
+
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="info">
+                    <div id="token">Contact Info</div>
+                </div>
+
+
+                <div id="serial-details">
+                    <p>SERIAL:</p>
+                    <p>TERMINAL ID:</p>
+                </div>
+            </div>
             <!--Footer-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary waves-effect waves-light" >SMS</button>
-                <button class="btn btn-primary waves-effect waves-light">PRINT</button>
+                <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
             </div>
         </div>
     </div>

@@ -423,6 +423,7 @@ namespace VendTech.Controllers
                 RecordsPerPage = 500000,
                 PosId = model.POS,
                 Meter = model.Meter,
+                RechargeToken = model.RechargeToken,
                 DepositType = model.DepositType,
                 Bank = model.BANK,
                 From = model.FromDate,

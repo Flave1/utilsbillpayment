@@ -1,4 +1,4 @@
-﻿ /*#invoice-POS {
+﻿/*#invoice-POS {
    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
     padding: 2mm;
     margin: 0 auto;
@@ -39,12 +39,13 @@ p {
 */
 #top, #mid, #bot { /* Targets all id with 'col-' */
     border-bottom: 1px solid #EEE;
-    padding-bottom:20px;
+    padding-bottom: 20px;
 }
 
 .top, .mid, .bot { /* Targets all id with 'col-' */
     border-bottom: 1px solid #EEE;
 }
+
 #top {
     min-height: 100px;
 }
@@ -60,8 +61,8 @@ p {
 #top .logo {
     height: 60px;
     width: 160px;
-    background: url(images/logo1.jpg) no-repeat;
-    background-size: 60px 60px;
+    background: url(http://vendtechsl.com/Content/images/logo1.jpg) no-repeat;
+    background-size: 160px 60px;
 }
 
 .clientlogo {
@@ -79,9 +80,9 @@ p {
     margin-left: 0;
 }
 
-#token{
-    margin-top:50px;
-    margin-bottom:50px;
+#token {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .title {
@@ -123,6 +124,7 @@ td {
 #legalcopy {
     margin-top: 5mm;
 }
+
 }
 
 
@@ -142,20 +144,24 @@ td {
 #date {
     margin: 20px 0 0 20px;
 }
-.customer-details ul{
-    margin:0;
-    padding:0;
+
+.customer-details ul {
+    margin: 0;
+    padding: 0;
 }
+
 #token {
     font-size: 26px;
     font-weight: 700;
 }
+
 .customer-details ul li {
     margin-bottom: 5px;
     list-style: none;
     color: #f4c613;
     font-size: 18px;
 }
+
 #tarrif, #tender, #r_address {
     margin-bottom: 5px;
     color: #f4c613;
@@ -163,7 +169,6 @@ td {
 }
 
 .customer-details hr {
-   
     height: 2px;
     background-color: #f4c613;
     border: none;
@@ -171,7 +176,6 @@ td {
 
 #center-no {
     background-color: rgb(51, 65, 185);
-   
     height: 200px;
     border-radius: 8px;
     margin: 100px auto;
@@ -187,7 +191,7 @@ td {
     font-weight: 500px;
 }
 
-#gen-invoice  p {
+#gen-invoice p {
     color: white;
     font-size: 50px;
 }
@@ -204,7 +208,21 @@ td {
 }
 
 
+@media print {
+    /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
+    body.modal-open {
+        visibility: hidden;
+    }
 
+        body.modal-open .modal .modal-header,
+        body.modal-open .modal .modal-body {
+            visibility: visible; /* make visible modal body and header */
+        }
 
-
-
+    #top .logo {
+        height: 60px;
+        width: 160px;
+        background: url(http://vendtechsl.com/Content/images/logo1.jpg) no-repeat;
+        background-size: 160px 60px;
+    }
+}
