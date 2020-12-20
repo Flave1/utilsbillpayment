@@ -196,7 +196,7 @@ namespace VendTech.BLL.Managers
                     };
                 }
             }
-            else if (user.UserRole.Role == UserRoles.AppUser)
+            else if (user.UserRole.Role == UserRoles.Vendor || user.UserRole.Role == UserRoles.AppUser)
             {
                 tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a.mdate).ToList();
                 if (tDatas != null)
