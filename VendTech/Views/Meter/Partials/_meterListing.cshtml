@@ -1,42 +1,42 @@
 ﻿@model PagingResult<MeterAPIListingModel>
 @*<ul id="meterList">
-   @foreach (var item in Model.List)
-{
-    <li>
-        <a title="Delete" class="deletethis" data-id="@item.MeterId" href="javascript:void(0)"></a>
-        <a title="Edit" class="editthis" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a>
-        <a title="Recharge" class="recharge" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter")'><i class="fa fa-money"></i></a>
-        <br />
-        
-        <ul>
-            <li>
-                <i class="fa fa-user"></i>
-                <label>@item.Name</label>
-            </li>
-            <li>
-                <i class="fa fa-tachometer"></i>
-                <label>@item.Number</label>
-            </li>
-            <li>
-                <i class="fa fa-map-marker"></i>
-                <label>@item.Address</label>
-            </li>
-            <li>
-                <i class="fa fa-building-o"></i>
-                <label>@item.MeterMake</label>
-            </li>
-            <li>
-                <i class="fa fa-calendar"></i>
-                <label>@item.CreatedAt.ToString("dd MMMM yyyy")</label>
-            </li>
-        </ul>
-    </li>
-  }
-</ul>*@
+       @foreach (var item in Model.List)
+    {
+        <li>
+            <a title="Delete" class="deletethis" data-id="@item.MeterId" href="javascript:void(0)"></a>
+            <a title="Edit" class="editthis" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a>
+            <a title="Recharge" class="recharge" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter")'><i class="fa fa-money"></i></a>
+            <br />
+
+            <ul>
+                <li>
+                    <i class="fa fa-user"></i>
+                    <label>@item.Name</label>
+                </li>
+                <li>
+                    <i class="fa fa-tachometer"></i>
+                    <label>@item.Number</label>
+                </li>
+                <li>
+                    <i class="fa fa-map-marker"></i>
+                    <label>@item.Address</label>
+                </li>
+                <li>
+                    <i class="fa fa-building-o"></i>
+                    <label>@item.MeterMake</label>
+                </li>
+                <li>
+                    <i class="fa fa-calendar"></i>
+                    <label>@item.CreatedAt.ToString("dd MMMM yyyy")</label>
+                </li>
+            </ul>
+        </li>
+      }
+    </ul>*@
 
 <div class="table-responsive">
 
-    <table class="table table-bordered" >
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -47,7 +47,9 @@
                 <th scope="col">METER MAKE</th>
                 <th scope="col">DATE SAVED</th>
                 <th scope="col">VERIFIED</th>
-                <th sope="col">delete/edit/recharge</th>
+                <th sope="col">DELETE</th>
+                <th sope="col">EDIT</th>
+                <th sope="col">RECHARGE</th>
             </tr>
         </thead>
         <tbody>
@@ -55,21 +57,23 @@
             @foreach (var item in Model.List)
             {
                 i += 1;
-            <tr id="meterList">
-                <th scope="row">@i</th>
-                <td>  <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>   </td>
-                <td>@item.Name</td>
-                <td>@item.Address</td>
-                <td>@item.UserName</td>
-                <td>@item.MeterMake</td>
-                <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
-                <td>YES</td>
-                <td class="row">
-                    <a title="Delete" class="deletethis col-md-4" data-id="@item.MeterId" href="javascript:void(0)"><i class="fa fa-trash-o text-danger"></i></a>
-                    <a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a>
-                    <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a>
-                </td>
-            </tr>
+                <tr id="meterList">
+                    <th scope="row">@i</th>
+                    <td>  <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>   </td>
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.Allias</td>
+                    <td>@item.MeterMake</td>
+                    <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+                    <td>@item.isVerified</td>
+                    <td>
+                        <a title="Delete" class="deletethis col-md-4" data-id="@item.MeterId" href="javascript:void(0)"><i class="fa fa-trash-o text-danger"></i></a>
+
+
+                    </td>
+                    <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a></td>
+                    <td><a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a></td>
+                </tr>
             }
 
         </tbody>
