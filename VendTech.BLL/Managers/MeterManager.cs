@@ -34,6 +34,8 @@ namespace VendTech.BLL.Managers
             dbMeter.Number = model.Number;
             dbMeter.MeterMake = model.MeterMake;
             dbMeter.Address = model.Address;
+            dbMeter.Allias = model.Allias;
+            dbMeter.IsVerified = model.MeterId > 0 ? model.isVerified : false;
             if (model.MeterId == 0)
             {
                 dbMeter.UserId = model.UserId;

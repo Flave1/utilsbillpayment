@@ -1,6 +1,8 @@
 ﻿@model PagingResult<MeterRechargeApiListingModel>
-@{ ViewBag.Title = "Manage Reports";
-                Layout = "~/Views/Shared/_LayOut.cshtml"; }
+@{
+    ViewBag.Title = "Manage Reports";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
@@ -54,10 +56,26 @@
                                             </div>
                                             <div class="blwsec-left-row big firt">
                                                 <label>TRANSACTION PERIOD</label>
-                                                <label>FROM:</label>
-                                                <input type="text" value="" id="FromDate" name="FromDate">
-                                                <label>TO:</label>
-                                                <input type="text" value="" id="ToDate" name="ToDate">
+
+                                                @*<label>FROM:</label>
+                                                    <input type="text" value="" id="FromDate" name="FromDate">
+                                                    <label>TO:</label>
+                                                    <input type="text" value="" id="ToDate" name="ToDate">*@
+
+                                                <div class="row" style="margin-bottom:0; padding-bottom:0;">
+                                                    <label style="width:50%;" class="col-md-5">FROM:</label>
+                                                    <label style="width:50%;" class="col-md-5">TO:</label>
+                                                </div>
+                                                <div class="row" style=" padding-top:0; margin:2px !important;">
+                                                    <div class="col-md-6" style="margin:0;padding:0;">
+                                                        <input type="text" value="" id="FromDate" name="FromDate">
+                                                    </div>
+                                                    <div class="col-md-6" style="margin:0; padding:0;">
+                                                        <input type="text" value="" id="ToDate" name="ToDate">
+                                                    </div>
+                                                </div>
+
+
                                             </div>
 
 
@@ -89,8 +107,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th>PRODUCT</th>
-                                                        <th>PIN</th>
+                                                        <th>PRODUCT TYPE</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
                                                         <th class="sorting" data-sortby="MeterNumber">METER #</th>
@@ -132,8 +149,6 @@
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
-
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
     <script type="text/javascript">
@@ -142,15 +157,27 @@
             $(document).ready(function () {
                 //initialize the javascript
                 App.init();
+                var dat = new Date()
+                var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+                $("#FromDate,#ToDate").kendoDatePicker();
 
-                $("#FromDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date()
-                });
-                $("#ToDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date()
-                });
+                var datepicker = $("#FromDate").data("kendoDatePicker");
+                datepicker.value(todayDate);
+                var datepicker2 = $("#ToDate").data("kendoDatePicker");
+                datepicker2.value(todayDate);
+                datepicker2.trigger("change");
+
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
+                datepicker.value(formattedDate);
+                datepicker.trigger("change");
+                datepicker2.value(formattedDate);
+                datepicker2.trigger("change");
 
                 function downloadURI(imgData, name) {
                     var link = document.createElement("a");
@@ -183,7 +210,23 @@
                 //    e.preventDefault();
                 //})
                 Deposits.ManageDeposits(totalCount);
-
+                var d = new Date();
+                $("#FromDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+              });
+                var datePicker1 = $("#FromDate").data("kendoDatePicker");
+                $("#FromDate").click(function () {
+                datePicker1.open();
+            })
+                $("#ToDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+                });
+                var datePicker2 = $("#ToDate").data("kendoDatePicker");
+                $("#ToDate").click(function () {
+                    datePicker2.open();
+                })
             });
             debugger
 
@@ -226,7 +269,7 @@
                 $("#salesform").submit();
             })
 
-        $('#btnprint').click(function (e) {
+            $('#btnprint').click(function (e) {
 
                 $('#salesform').attr('action', '/Report/PrintSalesReport');
                 $("#salesform").attr("method", "get");

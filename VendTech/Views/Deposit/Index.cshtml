@@ -1,12 +1,12 @@
 ﻿@model DepositModel
 @{
-                /**/
+    /**/
 
-                /**/
+    /**/
 
-                ViewBag.Title = "Manage Wallet";
-                Layout = "~/Views/Shared/_LayOut.cshtml";
-                //var list = Model.List;
+    ViewBag.Title = "Manage Wallet";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+    //var list = Model.List;
 }
 
 <div class="container-fluid" id="pcont">
@@ -14,12 +14,12 @@
         <h2>Manage Wallet</h2>
     </div>
     <style>
-        label{
-            text-transform:uppercase;
+        label {
+            text-transform: uppercase;
         }
     </style>
-    <div class="" >
-        <div class="row" >
+    <div class="">
+        <div class="row" style="  margin:30px;">
             <div class="container" style="background : #ffffff;">
                 @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
                 {
@@ -29,11 +29,11 @@
                             <div style="float:left; border-right:3px solid white;">
                                 <label><span style="font-weight:lighter; margin-right:2px;"> CURRENT </span> WALLET BALLANCE - </label>
                             </div>
-                            <div style="float:left"> 
+                            <div style="float:left">
                                 <span style="color:#00a2e8;">SSL : @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>
                             </div>
                         </div>
-                        <div class="tabmain"> 
+                        <div class="tabmain">
                             <div class="tabcont-row current" id="tab-1">
                                 <form style="padding-left:11px;">
 
@@ -60,10 +60,8 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-md-3">
-                                                <div class="">
-                                                    <label>CHX # or SLIP ID</label>
-                                                    <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control">
-                                                </div>
+                                                <label>CHX # or SLIP ID</label>
+                                                <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control " style="width:100% !important;">
                                             </div>
 
                                             <div class="col-md-3 chkBankDiv" style="display:none">
@@ -87,13 +85,13 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>% Commision</label>
-                                                <input class="form-control" type="text" id="percentageAmount" style="font-size: 50px; height:80px; border-radius:10px; border:1px solid #808080; font-weight:bolder; background:#ffffff; color: #ff0000 !important;" readonly />
+                                                <input class="form-control" type="text" id="percentageAmount" style="font-size: 50px; height:80px; border-radius:10px; border: none; font-weight:bolder; background:#ffffff; color: #ff0000 !important;" readonly />
                                                 <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                             </div>
 
                                         </div>
 
-                                        <div class="editpro-row submt " style="padding-right : 20px;"> 
+                                        <div class="editpro-row submt " style="padding-right : 20px;">
                                             <input type="button" class="savebttn addDepositBtn pull-left" value="ADD BALANCE">
                                         </div>
                                     </div>
@@ -102,66 +100,66 @@
 
 
 
-                                    <div class="row"> 
+                                    <div class="row">
                                         @*<div class="form-group">
-                                            <div class="col-md-6">
-                                                <label>Select POS ID</label>
-                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "Select POS ID", new { @class = "form-control col-md-6", @id = "posDrp" })
-                                                @Html.ValidationMessageFor(Model => Model.PosId)
-                                            </div>
+                                                    <div class="col-md-6">
+                                                        <label>Select POS ID</label>
+                                                        @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "Select POS ID", new { @class = "form-control col-md-6", @id = "posDrp" })
+                                                        @Html.ValidationMessageFor(Model => Model.PosId)
+                                                    </div>
 
-                                            <div class="col-md-6">
-                                                <label>VENDTECH BANK DETAILS</label>
-                                                @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control", @id = "bankAccountDrp" })
-                                            </div>
+                                                    <div class="col-md-6">
+                                                        <label>VENDTECH BANK DETAILS</label>
+                                                        @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control", @id = "bankAccountDrp" })
+                                                    </div>
 
-                                        </div>
-                                       
-                                    <div class="form-group">
-                                        <div class="col-md-6">
-                                            <label>CHX/CASH</label>
-                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
-                                        </div>
-                                        <div class="col-md-6 chkBankDiv" style="display: none">
-                                            <label>ISSUING BANK</label>
-                                            @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "form-control", })
-                                        </div>
-                                    </div>*@
+                                                </div>
 
-                                    @*<div class="form-group">
-                                        <div class="col-md-6 chkBankDiv" style="display:none">
-                                            <label>NAME ON CHEQUE</label>
-                                            <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control">
+                                            <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <label>CHX/CASH</label>
+                                                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                                                </div>
+                                                <div class="col-md-6 chkBankDiv" style="display: none">
+                                                    <label>ISSUING BANK</label>
+                                                    @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "form-control", })
+                                                </div>
+                                            </div>*@
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>CHX # or SLIP ID</label>
-                                            <input type="number" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control">
-                                        </div>
-                                    </div>*@
-                                    @*<div class="form-group">
-                                        <div class="col-md-6">
-                                            <label>Deposit Amount</label>
-                                            <input type="text" style="font-size: 24px; color: #00a2e8 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
-                                            <input type="hidden" id="amount" name="Amount">
+                                        @*<div class="form-group">
+                                                <div class="col-md-6 chkBankDiv" style="display:none">
+                                                    <label>NAME ON CHEQUE</label>
+                                                    <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control">
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
-                                            <input class="form-control" type="text" id="percentageAmount" style="font-size: 24px; color: #00a2e8 !important;" readonly />
-                                            <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
-                                        </div>
-                                    </div>*@ 
-                                   
-                                    @*<div class="editpro-row submt " style="padding-right : 20px;">
-                                        <br />
-                                        <br />
-                                        <input type="button" class="savebttn addDepositBtn pull-right" value="ADD BALANCE">
-                                    </div>*@
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>CHX # or SLIP ID</label>
+                                                    <input type="number" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control">
+                                                </div>
+                                            </div>*@
+                                        @*<div class="form-group">
+                                                <div class="col-md-6">
+                                                    <label>Deposit Amount</label>
+                                                    <input type="text" style="font-size: 24px; color: #00a2e8 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
+                                                    <input type="hidden" id="amount" name="Amount">
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
+                                                    <input class="form-control" type="text" id="percentageAmount" style="font-size: 24px; color: #00a2e8 !important;" readonly />
+                                                    <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
+                                                </div>
+                                            </div>*@
+
+                                        @*<div class="editpro-row submt " style="padding-right : 20px;">
+                                                <br />
+                                                <br />
+                                                <input type="button" class="savebttn addDepositBtn pull-right" value="ADD BALANCE">
+                                            </div>*@
                                     </div>
                                 </form>
                             </div>
-                           
+
                         </div>
                     </div>
                 }
@@ -260,7 +258,7 @@
                 })
             });
             $(document).ready(function () {
-              
+
                 //initialize the javascript
                 if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
                     $("#posDrp").val('@ViewBag.posId');
@@ -315,7 +313,7 @@
                 //    //    debugger;
                 //    //    $.showmessage($('div.messagealert'), "check bank name is required.",MessageType.Error);
                 //    //    return;
-                //    //}
+                //    //}   
                 //return;
                 //}
                 else {
