@@ -24,6 +24,8 @@ namespace VendTech.BLL.Models
     {
         public string UserName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string Allias { get; set; }
+        public bool isVerified { get; set; }
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
