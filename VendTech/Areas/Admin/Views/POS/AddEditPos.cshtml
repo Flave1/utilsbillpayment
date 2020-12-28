@@ -3,19 +3,26 @@
     ViewBag.Title = Model.POSId > 0 ? "Edit POS Details" : "Add POS Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
-
+    <style>
+       th {
+            text-align: left !important;
+        }
+    </style>
 
     <div class="container-fluid">
         @Html.Partial("_FunctionCallMessage")
         <div class="row " style="width:80%; margin:auto; margin-top : 100px;">
-            <form class="form-horizontal" role="form" id="UserForm">
+            <div class="header"> <h2>MANAGE POS</h2></div>
+           
+            <form class="form-horizontal" role="form" id="UserForm" style=" background:#ffffff; margin:5px;">
                 @Html.HiddenFor(x => x.POSId)
 
-                <div class="row">
+                <div class="row" >
                     <div class="col-md-6 ">
                         <div style="border:1px solid #c0bbcb; padding:4px;">
-                            <h5><p style="text-align:center; font-weight:bold;">POS Settings</p></h5>
+                            <h5><p style="text-align:left; font-weight:bold;">POS Settings</p></h5>
                             <hr />
+
                             <div class="form-group">
                                 <div class="col-md-8">
                                     <label for="inputEmail3" class="col-md-3 control-label">POS ID<em>*</em></label>
@@ -79,16 +86,16 @@
                         @Html.Partial("Partials/_platformsListing", Model.PlatformList)
 
                         <br />
-
+                        
                         <div>
-                            <table class="table" style=" border-top:1px solid #c0bbcb;">
+                            <table class="table" style=" border-top: 1px solid #c0bbcb;">
 
                                 <thead>
-                                    <tr><th colspan="4"><p style="font-weight:bold;">Notification Settings</p></th></tr>
+                                    <tr><th colspan="4"><p style="font-weight:bold; text-align:left;">Notification Settings</p></th></tr>
                                     <tr>
                                         <th scope="col">PLATFORM</th>
                                         <th scope="col">SALES</th>
-                                        <th scope="col">DEPSITS</th>
+                                        <th scope="col">DEPOSITS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +141,7 @@
                 </div>
 
             </form>
-            
+
         </div>
       
     </div>

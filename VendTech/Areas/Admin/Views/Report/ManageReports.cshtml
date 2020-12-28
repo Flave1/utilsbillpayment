@@ -49,69 +49,100 @@
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportDepositReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
                                     {
-                                        <div class="blwsec-left">
-                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                                            @*<div class="blwsec-left-row">
-                                                    <label>Agent:</label>
-                                                    @Html.DropDownList("DepositType", new SelectList(ViewBag.Agencies, "value", "text"), "Select Agent", new { })
-                                                </div>*@
-                                            <div class="blwsec-left-row">
-                                                <label>Vendor:</label>
-                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @id = "vendor" })
+                                    <div class="blwsec-left">
+                                        <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                        <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                        @*<div class="blwsec-left-row">
+            <label>Agent:</label>
+            @Html.DropDownList("DepositType", new SelectList(ViewBag.Agencies, "value", "text"), "Select Agent", new { })
+        </div>*@
+                                        <div class="blwsec-left-row">
+                                            <label>Vendor:</label>
+                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @id = "vendor" })
+                                        </div>
+
+                                        <div class="blwsec-left-row">
+                                            <label>POS:</label>
+                                            @*<select name="PosId" id="pos">
+                <option value="">Select POS</option>
+            </select>*@
+
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @id = "pos" })
+                                        </div>
+
+
+
+                                        <div class="blwsec-left-row big firt">
+                                            <label>TRANSACTION PERIOD</label>
+
+                                                            @*<label>FROM:</label>
+                                                    <input type="text" value="" id="FromDate" name="FromDate">
+                                                    <label>TO:</label>
+                                                    <input type="text" value="" id="ToDate" name="ToDate">*@
+
+                                            <div class="row" style="margin-bottom:0; padding-bottom:0;">
+                                                <label style="width:50%;" class="col-md-5">FROM:</label>
+                                                <label style="width:50%;" class="col-md-5">TO:</label>
                                             </div>
+                                            <div class="row" style=" padding-top:0; margin:2px !important;">
+                                                <div class="col-md-6" style="margin:0;padding:0;">
+                                                    @*<input type="text" value="" id="FromDate" name="FromDate">*@
 
-                                            <div class="blwsec-left-row">
-                                                <label>POS:</label>
-                                                @*<select name="PosId" id="pos">
-                                                        <option value="">Select POS</option>
-                                                    </select>*@
+                                                    <input type="hidden" id="frmDt" />
+                                                    <input type="hidden" id="toDt" />
+                                                    <input type="text" name="FromDate" id="FromDate">
+                                                </div>
+                                                <div class="col-md-6" style="margin:0; padding:0;">
+                                                    @*<input type="text" value="" id="ToDate" name="ToDate">*@
 
-                                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @id = "pos" })
-                                            </div>
-
-
-
-                                            <div class="blwsec-left-row big firt">
-                                                <label>Transaction Period</label>
-                                                <label>From:</label>
-
-                                                <input type="hidden" id="frmDt" />
-                                                <input type="hidden" id="toDt" />
-
-                                                <input type="text" name="FromDate" id="FromDate">
-
-                                                <label>To:</label>
-                                                <input type="text" id="ToDate" name="ToDate">
-                                            </div>
-
-                                            <div class="blwsec-left-row big lst">
-                                                <label>Report</label>
-                                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType" })
-                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
-                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                            </div>
-                                            <div class="blwsec-left-row">
-                                                <label>BANK:</label>
-                                                @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @id = "bank" })
-
-                                            </div>
-                                            <div class="blwsec-left-row">
-                                                <label>DEPOSIT TYPE:</label>
-                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "depositType" })
-
-                                            </div>
-                                            <div class="blwsec-left-row">
-                                                <label>DEPOSIT REF NUMBER</label>
-                                                <input name="RefNumber" type="text" id="refNumber">
-                                            </div>
-                                            <div>
-                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-                                                @*<input type="reset" class="btn btn-danger" value="Reset" id="ResetButton" />*@
+                                                    <input type="text" id="ToDate" name="ToDate">
+                                                </div>
                                             </div>
 
 
                                         </div>
+
+
+                                        @*<div class="blwsec-left-row big firt">
+                                            <label>Transaction Period</label>
+                                            <label>From:</label>
+
+                                            <input type="hidden" id="frmDt" />
+                                            <input type="hidden" id="toDt" />
+
+                                            <input type="text" name="FromDate" id="FromDate">
+
+                                            <label>To:</label>
+                                            <input type="text" id="ToDate" name="ToDate">
+                                        </div>*@
+
+                                        <div class="blwsec-left-row big lst">
+                                            <label>Report</label>
+                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType" })
+                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                        </div>
+                                        <div class="blwsec-left-row">
+                                            <label>BANK:</label>
+                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @id = "bank" })
+
+                                        </div>
+                                        <div class="blwsec-left-row">
+                                            <label>DEPOSIT TYPE:</label>
+                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "depositType" })
+
+                                        </div>
+                                        <div class="blwsec-left-row">
+                                            <label>DEPOSIT REF NUMBER</label>
+                                            <input name="RefNumber" type="text" id="refNumber">
+                                        </div>
+                                        <div>
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                            @*<input type="reset" class="btn btn-danger" value="Reset" id="ResetButton" />*@
+                                        </div>
+
+
+                                    </div>
                                     }
                                     <div class="blwsec-right">
                                         <div class="exportdata">
