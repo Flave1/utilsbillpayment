@@ -196,6 +196,24 @@
 
             });
 
+        var d = new Date();
+        $("#FromDate").kendoDatePicker({
+            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+            format: "dd/MM/yyyy"
+        });
+        var datePicker1 = $("#FromDate").data("kendoDatePicker");
+        $("#FromDate").click(function () {
+            datePicker1.open();
+        })
+        $("#ToDate").kendoDatePicker({
+            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+            format: "dd/MM/yyyy"
+        });
+        var datePicker2 = $("#ToDate").data("kendoDatePicker");
+        $("#ToDate").click(function () {
+            datePicker2.open();
+        })
+           
        
        
             debugger
