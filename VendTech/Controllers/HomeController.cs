@@ -117,8 +117,11 @@ namespace VendTech.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             DashboardViewModel dashBoard = new DashboardViewModel();
+            dashBoard.currentUser = new UserModel();
             dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
             dashBoard.platFormModels = model;
+
+            dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
             return View(dashBoard);
         }
         /// <summary>

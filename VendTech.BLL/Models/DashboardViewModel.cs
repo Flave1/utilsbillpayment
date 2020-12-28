@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace VendTech.BLL.Models
 {
     public class DashboardViewModel
@@ -15,6 +16,7 @@ namespace VendTech.BLL.Models
         public decimal walletBalance { get; set; }
         public List<PlatformModel> platFormModels { get; set; }
         public List<TransactionChartData> transactionChartData { get; set; }
+        public UserModel currentUser { get; set; }
 
     }
 }

@@ -409,6 +409,19 @@ namespace VendTech.BLL.Managers
                     Context.UserAssignedPlatforms.AddRange(newPlatforms);
                     Context.SaveChanges();
                 }
+                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+                if (userDetails.SelectedWidgets != null)
+                {
+                    userDetails.SelectedWidgets.ToList().ForEach(c =>
+                     newwidgets.Add(new UserAssignedWidget()
+                     {
+                         UserId = userDetails.UserId,
+                         WidgetId = c,
+                         CreatedAt = DateTime.UtcNow,
+                     }));
+                    Context.UserAssignedWidgets.AddRange(newwidgets);
+                    Context.SaveChanges();
+                }
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -620,6 +633,36 @@ namespace VendTech.BLL.Managers
              }
              return chekboxListOfModules;
          }
+
+
+        IList<WidgetCheckbox> IUserManager.GetAllWidgets(long userId)
+        {
+            IList<WidgetCheckbox> chekboxListOfModules = null;
+            IList<Widget> modules = Context.Widgets.Where(p => !p.IsDeleted && p.Enabled).ToList();
+            if (modules.Count() > 0)
+            {
+                chekboxListOfModules = modules.Select(x =>
+                {
+                    return new WidgetCheckbox()
+                    {
+                        Id = x.WidgetId,
+                        Title = x.Title,
+                        Checked = false
+                    };
+                }).ToList();
+
+                if (userId > 0)
+                {
+                    var existingPermissons = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
+                    if (existingPermissons.Count > 0)
+                    {
+                        chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.WidgetId == x.Id).Any());
+                    }
+                }
+            }
+            return chekboxListOfModules;
+        }
+
         ActionOutput IUserManager.AddUserDetails(AddUserModel userDetails)
         {
             string myfile = string.Empty;

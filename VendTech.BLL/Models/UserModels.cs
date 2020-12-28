@@ -32,7 +32,7 @@ namespace VendTech.BLL.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public DateTime CreatedOn { get; set; }
-        public UserStatusEnum   Status { get; set; }
+        public UserStatusEnum Status { get; set; }
         public string UserType { get; set; }
         public string Permissions { get; set; }
         public string Platforms { get; set; }
@@ -52,7 +52,7 @@ namespace VendTech.BLL.Models
             this.CreatedOn = userObj.CreatedAt;
             this.Status = (UserStatusEnum)userObj.Status;
             this.Platforms = string.Join(" , ", userObj.UserAssignedPlatforms.ToList().Select(x => x.Platform.Title).ToList());
-            this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p=>p.Module.Modules1.Count()==0).ToList().Select(x => x.Module.ModuleName).ToList());
+            this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).ToList().Select(x => x.Module.ModuleName).ToList());
             this.Vendor = userObj.FKVendorId > 0 ? userObj.User1.Vendor : "";
         }
 
@@ -83,7 +83,10 @@ namespace VendTech.BLL.Models
         public string AccountStatus { get; set; }
         public IList<Checkbox> ModuleList { get; set; }
         public IList<PlatformCheckbox> PlatformList { get; set; }
+        public IList<WidgetCheckbox> WidgetList { get; set; }
+        public List<int> SelectedWidgets { get; set; }
         public List<int> SelectedModules { get; set; }
+        
         public List<int> SelectedPlatforms { get; set; }
         public long? AgentId { get; set; }
         public long? VendorId { get; set; }
@@ -113,7 +116,7 @@ namespace VendTech.BLL.Models
             this.AgentId = userObj.AgentId;
             var userAssignedPos = new POS();
             if (userObj.UserRole.Role == UserRoles.Vendor)
-                userAssignedPos = userObj.POS.FirstOrDefault(p=>p.Enabled!=false && !p.IsDeleted);
+                userAssignedPos = userObj.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
             else if (userObj.UserRole.Role == UserRoles.AppUser && userObj.User1 != null)
                 userAssignedPos = userObj.User1.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
             if (userAssignedPos != null && userAssignedPos.POSId > 0)
@@ -174,9 +177,9 @@ namespace VendTech.BLL.Models
             ProfilePic = string.IsNullOrEmpty(obj.ProfilePic) ? "" : Utilities.DomainUrl + obj.ProfilePic;
             UserId = obj.UserId;
             CompanyName = obj.CompanyName;
-           
+
             DOB = obj.DOB == null ? "" : obj.DOB.Value.ToString("MM/dd/yyyy");
-            City =obj.City!=null? obj.City.Name:"";
+            City = obj.City != null ? obj.City.Name : "";
             Country = obj.Country != null ? obj.Country.Name : "";
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
@@ -190,132 +193,138 @@ namespace VendTech.BLL.Models
 
         [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
         public string ConfirmPassword { get; set; }
-            
-    
-            public AddUserModel()
-            {
 
-            }
+
+        public AddUserModel()
+        {
 
         }
-        public class SignUpModel
-        {
-            public long UserId { get; set; }
-            [Required(ErrorMessage = "Required")]
-            public string FirstName { get; set; }
-            [Required(ErrorMessage = "Required")]
-            [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
-            public string Email { get; set; }
-            public string Phone { get; set; }
-            public string UserName { get; set; }
-            public string Password { get; set; }
-            public string LastName { get; set; }
-            public string CompanyName { get; set; }
-            public int? City { get; set; }
-            public int?  Country { get; set; }
-            public string Address { get; set; }
-            public string DeviceToken { get; set; }
-            public string ReferralCode { get; set; }
-            public AppTypeEnum AppType { get; set; }
-            public AppUserTypeEnum AppUserType { get; set; }
-        }
-        public class VerifyAccountVerificationCodeMOdel
-        {
-            public string Code { get; set; }
-            public long UserId { get; set; }
-        }
-        public class ResetPasswordModel
-        {
-            public long UserId { get; set; }
-            [Required(ErrorMessage = "Required")]
-            public string Password { get; set; }
-            [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
-            public string ConfirmPassword { get; set; }
-            public string OldPassword { get; set; }
-            public string Otp { get; set; }
+
     }
-        public class ChangePasswordModel
-        {
-            public long UserId { get; set; }
-            [Required(ErrorMessage = "Required")]
-            public string Password { get; set; }
-            [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
-            public string ConfirmPassword { get; set; }
-            [Required(ErrorMessage = "Required")]
-            public string OldPassword { get; set; }
-        }
-        public class UpdateProfileModel
-        {
-            [Required(ErrorMessage = "Required")]
-            public string Name { get; set; }
-            [Required(ErrorMessage = "Required")]
-            public string SurName { get; set; }
-            public DateTime DOB { get; set; }
-            public int? City { get; set; }
-            public int? Country { get; set; }
-            [Required(ErrorMessage = "Required")]
-            [MaxLength(8)]
-            public string Phone { get; set; }
-            public string Address { get; set; }
-            public HttpPostedFile Image { get; set; }
-            public HttpPostedFileBase ImagefromWeb { get; set; }
+    public class SignUpModel
+    {
+        public long UserId { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+        public int? City { get; set; }
+        public int? Country { get; set; }
+        public string Address { get; set; }
+        public string DeviceToken { get; set; }
+        public string ReferralCode { get; set; }
+        public AppTypeEnum AppType { get; set; }
+        public AppUserTypeEnum AppUserType { get; set; }
+    }
+    public class VerifyAccountVerificationCodeMOdel
+    {
+        public string Code { get; set; }
+        public long UserId { get; set; }
+    }
+    public class ResetPasswordModel
+    {
+        public long UserId { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string Password { get; set; }
+        [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
+        public string ConfirmPassword { get; set; }
+        public string OldPassword { get; set; }
+        public string Otp { get; set; }
+    }
+    public class ChangePasswordModel
+    {
+        public long UserId { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string Password { get; set; }
+        [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
+        public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string OldPassword { get; set; }
+    }
+    public class UpdateProfileModel
+    {
+        [Required(ErrorMessage = "Required")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string SurName { get; set; }
+        public DateTime DOB { get; set; }
+        public int? City { get; set; }
+        public int? Country { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [MaxLength(8)]
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public HttpPostedFile Image { get; set; }
+        public HttpPostedFileBase ImagefromWeb { get; set; }
 
-            public string ProfilePicUrl { get; set; }
-        }
+        public string ProfilePicUrl { get; set; }
+    }
 
-        public class CountryModel
-        {
-            public int CountryId { get; set; }
-            public string Name { get; set; }
-        }
-        public class CityModel
-        {
-            public int CityId { get; set; }
-            public int CountryId { get; set; }
-            public string Name { get; set; }
-            public string CountryName { get; set; }
-        }
-        public class Checkbox
-        {
-            public int ID { get; set; }
-            public string ModuleName { get; set; }
-            public string Description { get; set; }
-            public int? SubMenuOf { get; set; }
-            public bool Checked { get; set; }
-        }
-        public class PlatformCheckbox
-        {
-            public int Id { get; set; }
-            public string Title { get; set; }
-            public bool Checked { get; set; }
-        }
-        public class PermissonAndDetailModel
-        {
-            public UserDetails UserDetails { get; set; }
-            public IList<ModulesModel> ModulesModelList { get; set; }
-        }
+    public class CountryModel
+    {
+        public int CountryId { get; set; }
+        public string Name { get; set; }
+    }
+    public class CityModel
+    {
+        public int CityId { get; set; }
+        public int CountryId { get; set; }
+        public string Name { get; set; }
+        public string CountryName { get; set; }
+    }
+    public class Checkbox
+    {
+        public int ID { get; set; }
+        public string ModuleName { get; set; }
+        public string Description { get; set; }
+        public int? SubMenuOf { get; set; }
+        public bool Checked { get; set; }
+    }
+    public class PlatformCheckbox
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool Checked { get; set; }
+    }
+    public class WidgetCheckbox
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool Checked { get; set; }
+    }
+    public class PermissonAndDetailModel
+    {
+        public UserDetails UserDetails { get; set; }
+        public IList<ModulesModel> ModulesModelList { get; set; }
+    }
 
-        public class ModulesModel
+    public class ModulesModel
+    {
+        //public int ModuleId { get; set; }
+        //public string ModuleName { get; set; }
+        public string ControllerName { get; set; }
+        //public string Description { get; set; }
+        //public bool? IsAdmin { get; set; }
+        public ModulesModel() { }
+        public ModulesModel(Module model)
         {
-            //public int ModuleId { get; set; }
-            //public string ModuleName { get; set; }
-            public string ControllerName { get; set; }
-            //public string Description { get; set; }
-            //public bool? IsAdmin { get; set; }
-            public ModulesModel() { }
-            public ModulesModel(Module model)
-            {
-                //this.ModuleId = model.ModuleId;
-                //  this.ModuleName = model.ModuleName;
-                this.ControllerName = model.ControllerName;
-                //this.Description = model.Description;
-                //this.IsAdmin = model.IsAdmin;
-            }
+            //this.ModuleId = model.ModuleId;
+            //  this.ModuleName = model.ModuleName;
+            this.ControllerName = model.ControllerName;
+            //this.Description = model.Description;
+            //this.IsAdmin = model.IsAdmin;
         }
+    }
 
-        public class SaveLogoutTimeModel
-        {
-            public int Time { get; set; }
-        }
+    public class SaveLogoutTimeModel
+    {
+        public int Time { get; set; }
+    }
 
 }

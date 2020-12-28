@@ -1,155 +1,167 @@
 ﻿@model PagingResult<DepositListingModel>
-    @{
-        ViewBag.Title = "Manage Reports";
-        Layout = "~/Views/Shared/_LayOut.cshtml";
-    }
-    <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
-    <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
-    <div class="container-fluid" id="pcont">
-        <div class="page-head">
-            <h3 ><b>Manage Deposit Report</b></h3>
+@{
+    ViewBag.Title = "Manage Reports";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h3><b>Manage Deposit Report</b></h3>
 
-        </div>
-        <div class="cl-mcont">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block-flat">
-                        @*<div class="header">
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    @*<div class="header">
                             <h3>DEPOSIT REPORTS</h3>
                         </div>*@
-                        <div class="content">
-                            <div class="table-responsive">
-                                <div id="divResult">
-                                    <div class="topsec">
-                                        <h2>REPORTS</h2>
-                                        <label>Deposit Report</label>
-                                        <label>From: <span id="fromSpan">_</span> &nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
-                                        <label>Printed on: <span id="printedDate"> @ViewBag.Pritdatetime</span></label>
-                                        <label>
-                                            Export:
-                                            <select name="PrintType" id="PrintType">
-                                                <option value="Excel">Excel</option>
-                                                <option value="PDF">PDF</option>
-                                            </select>
-                                        </label>
+                    <div class="content">
+                        <div class="table-responsive">
+                            <div id="divResult">
+                                <div class="topsec">
+                                    <h2>REPORTS</h2>
+                                    <label>Deposit Report</label>
+                                    <label>From: <span id="fromSpan">_</span> &nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
+                                    <label>Printed on: <span id="printedDate"> @ViewBag.Pritdatetime</span></label>
+                                    <label>
+                                        Export:
+                                        <select name="PrintType" id="PrintType">
+                                            <option value="Excel">Excel</option>
+                                            <option value="PDF">PDF</option>
+                                        </select>
+                                    </label>
 
-                                        <label>
-                                            <button type="button" id="btnExport">Export</button>
-                                           
-                                        </label>
-                                        <label>
-                                            <button type="button" id="btnprint">Print</button>
-                                        </label>
-                                       
-                                    </div>
-                                    <div class="blwsec">
-                                        <div class="blwsec-left">
-                                            <form action="/Report/ExportDepositReportTo" method="post" id="depositsForm">
-                                                <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                                                <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                    <label>
+                                        <button type="button" id="btnExport">Export</button>
 
-                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
-                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                                <div class="blwsec-left-row">
-                                                    <label>POS:</label>
-                                                    @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "Select POS", new { @id = "pos" })
+                                    </label>
+                                    <label>
+                                        <button type="button" id="btnprint">Print</button>
+                                    </label>
 
-                                                </div>
-                                                <div class="blwsec-left-row big firt">
-                                                    <label>TRANSACTION PERIOD</label>
-                                                    <label>FROM:</label>
-                                                    <input type="text" value="" id="FromDate" name="FromDate">
-                                                    <label>TO:</label>
-                                                    <input type="text" value="" id="ToDate" name="ToDate">
-                                                </div>
+                                </div>
+                                <div class="blwsec">
+                                    <div class="blwsec-left">
+                                        <form action="/Report/ExportDepositReportTo" method="post" id="depositsForm">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
 
-                                                <div class="blwsec-left-row big lst">
-                                                    <label>REPORT</label>
-                                                    <select id="rpt" onchange="changeReport()">
-                                                        <option value="2">SALES REPORT</option>
-                                                        <option value="1" selected="selected">DEPOSIT REPORT</option>
+                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                            <div class="blwsec-left-row">
+                                                <label>POS:</label>
+                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @id = "pos" })
 
-                                                    </select>
-                                                </div>
-
-                                                <div class="blwsec-left-row">
-                                                    <label>BANK:</label>
-                                                    @Html.DropDownList("BANK", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @id = "bank" })
-
-                                                </div>
-                                                <div class="blwsec-left-row">
-                                                    <label>DEPOSIT TYPE:</label>
-                                                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "depositType" })
-
-                                                </div>
-                                                <div class="blwsec-left-row">
-                                                    <label>DEPOSIT REF NUMBER</label>
-                                                    <input type="text" id="refNumber" name="refNumber">
-                                                </div>
-                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-                                            </form>
-
-                                        </div>
-                                        <div class="blwsec-right">
-                                            <div class="exportdata">
-                                                <table class="table table-bordered" id="datatable-icons">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                            <th class="sorting" data-sortby="POS">POS ID</th>
-                                                            <th class="sorting" data-sortby="UserName">USER NAME</th>
-                                                            <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                            <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                            <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
-                                                            <th class="sorting" data-sortby="BANK">BANK</th>
-                                                            <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
-                                                            <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @Html.Partial("Partials/_depositListing", Model)
-                                                    </tbody>
-                                                </table>
                                             </div>
-                                            @Html.Partial("_Paging")
+                                            <div class="blwsec-left-row big firt">
+                                                <label>TRANSACTION PERIOD</label>
+                                                <label>FROM:</label>
+                                                <input type="text" value="" id="FromDate" name="FromDate">
+                                                <label>TO:</label>
+                                                <input type="text" value="" id="ToDate" name="ToDate">
+                                            </div>
 
+                                            <div class="blwsec-left-row big lst">
+                                                <label>REPORT</label>
+                                                <select id="rpt" onchange="changeReport()">
+                                                    <option value="2">SALES REPORT</option>
+                                                    <option value="1" selected="selected">DEPOSIT REPORT</option>
 
-                                        </div>
-                                        <input type="hidden" value="CreatedAt" id="SortBy" />
-                                        <input type="hidden" value="Desc" id="SortOrder" />
-                                        <div style="clear:both"></div>
+                                                </select>
+                                            </div>
+
+                                            <div class="blwsec-left-row">
+                                                <label>BANK:</label>
+                                                @Html.DropDownList("BANK", new SelectList(ViewBag.Banks, "value", "text"), "SELECT BANK", new { @id = "bank" })
+
+                                            </div>
+                                            <div class="blwsec-left-row">
+                                                <label>DEPOSIT TYPE:</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @id = "depositType" })
+
+                                            </div>
+                                            <div class="blwsec-left-row">
+                                                <label>DEPOSIT REF NUMBER</label>
+                                                <input type="text" id="refNumber" name="refNumber">
+                                            </div>
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                        </form>
+
                                     </div>
+                                    <div class="blwsec-right">
+                                        <div class="exportdata">
+                                            <table class="table table-bordered" id="datatable-icons">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
+                                                        <th class="sorting" data-sortby="UserName">USER NAME</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="PercentageAmount">%</th>
+                                                        <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
+                                                        <th class="sorting" data-sortby="BANK">BANK</th>
+                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
+                                                        <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("Partials/_depositListing", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @Html.Partial("_Paging")
 
+
+                                    </div>
+                                    <input type="hidden" value="CreatedAt" id="SortBy" />
+                                    <input type="hidden" value="Desc" id="SortOrder" />
+                                    <div style="clear:both"></div>
                                 </div>
 
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    @section scripts{
-        <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-        <script type="text/javascript">
-        </script>
-        <script src="~/Scripts/UserScripts/depositReport.js"></script>
-        <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
-        <script src="~/Scripts/jspdf.min.js"></script>
-        <script src="~/Scripts/html2canvas.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
-        <script type="text/javascript">
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/UserScripts/depositReport.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+    <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
 
             $(document).ready(function () {
                 //initialize the javascript
                 App.init();
-
-
+                $("#FromDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date(),
+                    change: function () { $("#fromSpan").html($("#FromDate").val()) }
+                });
+                $("#ToDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date(),
+                    change: function () { $("#toSpan").html($("#ToDate").val()) }
+                });
+                $("#fromSpan").html($("#ToDate").val())
+                $("#toSpan").html($("#ToDate").val())
                 const date = new Date();
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -249,6 +261,6 @@
                 $("#depositsForm").submit();
             });
 
-        </script>
-    }
+    </script>
+}
 

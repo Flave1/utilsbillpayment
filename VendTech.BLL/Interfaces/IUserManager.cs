@@ -78,7 +78,7 @@ namespace VendTech.BLL.Interfaces
         decimal GetUserWalletBalance(long userId);
         int GetUnreadNotifications(long userId);
         List<SelectListItem> GetAssignedReportModules(long UserId,bool isAdmin);
-
+        IList<WidgetCheckbox> GetAllWidgets(long userId);
     }
     
 }

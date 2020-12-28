@@ -145,9 +145,12 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.Find(userId);
             List<TransactionChartData> tDatas = new List<TransactionChartData>();
 
-            var data = (from u in Context.Users join d in Context.Deposits  on u.UserId equals d.UserId
-                        join s in Context.MeterRecharges on d.UserId equals s.UserId  where u.UserId == userId  select new 
+            var data = (from u in Context.Users
+                        join pos in Context.POS.Where(p => !p.IsDeleted) on u.UserId equals pos.User.UserId
+                        join d in Context.Deposits  on pos.POSId equals d.POSId
+                        join s in Context.MeterRecharges on pos.POSId equals s.POSId  where u.UserId == userId  select new 
                         { 
+                           
                             totalSales = s.Amount,
                             totalDeposit = d.Amount,
                            
@@ -155,8 +158,8 @@ namespace VendTech.BLL.Managers
 
             if (user.UserRole.Role == UserRoles.Admin)
             {
-                data = (from d in Context.Deposits
-                                   join s in Context.MeterRecharges on d.UserId equals s.UserId
+                data = (from d in Context.Deposits join pos in Context.POS.Where(p=>!p.IsDeleted) on d.UserId equals pos.User.UserId  
+                        join s in Context.MeterRecharges on d.UserId equals s.UserId
                                    select new
                                    {
                                        totalSales = s.Amount,
@@ -178,7 +181,7 @@ namespace VendTech.BLL.Managers
                         totalSales = data.Sum(d => d.totalSales),
                         totalDeposit = data.Sum(d => d.totalDeposit),
                         userCount = Context.Users.Count(),
-                        posCount = Context.POS.Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };
@@ -190,7 +193,7 @@ namespace VendTech.BLL.Managers
                         totalSales = 0,
                         totalDeposit = 0,
                         userCount = Context.Users.Count(),
-                        posCount = Context.POS.Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };
@@ -213,7 +216,7 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = data.Sum(d => d.totalSales),
                         totalDeposit = data.Sum(d => d.totalDeposit),
-                        posCount = user.POS.Count,
+                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };
@@ -224,7 +227,7 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = 0,
                         totalDeposit = 0,
-                        posCount = user.POS.Count,
+                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };
@@ -237,7 +240,7 @@ namespace VendTech.BLL.Managers
                 {
                     totalSales = 0,
                     totalDeposit = 0,
-                    posCount = user.POS.Count,
+                    posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
                     walletBalance = _userManager.GetUserWalletBalance(userId),
                     transactionChartData = tDatas
                 };

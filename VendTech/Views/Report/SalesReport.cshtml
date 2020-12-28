@@ -145,13 +145,23 @@
 
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
-                    value: new Date()
+                    value: new Date(),
+                    change: function () { $("#fromSpan").html($("#FromDate").val()) }
                 });
                 $("#ToDate").kendoDatePicker({
                     culture: "en-GB",
-                    value: new Date()
+                    value: new Date(),
+                    change: function () { $("#toSpan").html($("#ToDate").val()) }
                 });
-
+                $("#fromSpan").html($("#ToDate").val())
+                $("#toSpan").html($("#ToDate").val())
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
                 function downloadURI(imgData, name) {
                     var link = document.createElement("a");
 
@@ -185,6 +195,9 @@
                 Deposits.ManageDeposits(totalCount);
 
             });
+
+       
+       
             debugger
 
             function changeReport() {
