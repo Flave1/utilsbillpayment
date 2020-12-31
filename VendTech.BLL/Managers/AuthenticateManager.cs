@@ -194,9 +194,9 @@ namespace VendTech.BLL.Managers
         {
             int second = 3;
             var db = new VendTechEntities();
-            int record = 0;// db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
-            if (record != 0)
-                second = 0;// Convert.ToInt32(record.Value);
+            var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
+            if (record != null)
+                second = Convert.ToInt32(record.Value);
             return second;
         }
         ActionOutput IAuthenticateManager.SaveLogoutTime(SaveLogoutTimeModel model)

@@ -846,7 +846,7 @@ namespace VendTech.BLL.Managers
                 //    Message = "User Added Successfully, Verification link has been sent on user email account"
                 //};
 
-                return ReturnSuccess($"Registration Successful !! Confirnmation email sent to  {userDetails.Email}");
+                return ReturnSuccess( dbUser.UserId, $"Registration Successful !! Confirnmation email sent to  {userDetails.Email}");
             }
         }
 
