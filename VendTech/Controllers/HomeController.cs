@@ -225,6 +225,10 @@ namespace VendTech.Controllers
         [AjaxOnly, Public, HttpPost]
         public JsonResult Submit_new_user_details(RegisterAPIModel request)
         {
+            if (string.IsNullOrEmpty(request.FirstName) && string.IsNullOrEmpty(request.CompanyName))
+            {
+                return Json(new ActionOutput { Status = ActionStatus.Error,  Message = "Name must not be empty" });
+            }
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
             { 

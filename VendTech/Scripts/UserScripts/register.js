@@ -11,7 +11,14 @@
     $("button#forgotBtn").live("click", function () {
         return Admin.ForgotPassword($(this));
     });
-   
+
+    //$("#isCompany").change(function () {
+    //    alert("Handler for .change() called.");
+    //});
+
+    $("#isCompany").change(function () {
+        alert("ok");
+    });
 
 });
 

@@ -840,7 +840,7 @@ namespace VendTech.BLL.Managers
         ActionOutput IUserManager.AddAppUserDetails(RegisterAPIModel userDetails)
         {
 
-            var existing_user_by_number = Context.Users.FirstOrDefault(z => z.Phone.Trim().ToLower() == userDetails.Phone.Trim().ToLower()) ?? null;
+            var existing_user_by_number = Context.Users.FirstOrDefault(z => z.Phone.Trim().ToLower() == userDetails.Mobile.Trim().ToLower()) ?? null;
 
             if (existing_user_by_number != null)
             {
@@ -863,17 +863,20 @@ namespace VendTech.BLL.Managers
             else
             {
                 var dbUser = new User();
-                dbUser.Name = userDetails.FirstName;
+                dbUser.Name = string.IsNullOrEmpty(userDetails.CompanyName)? userDetails.FirstName: userDetails.CompanyName;
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword("vendtech8");
                 dbUser.CreatedAt = DateTime.UtcNow;
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
+                dbUser.Address = userDetails.Address;
+                dbUser.CountryCode = userDetails.Country;
+                //dbUser.CityId = userDetails.City;
                 
                 dbUser.Status = (int)UserStatusEnum.Pending;
 
-                dbUser.Phone = userDetails.Phone;
+                dbUser.Phone = userDetails.Mobile;
 
                 try
                 {
