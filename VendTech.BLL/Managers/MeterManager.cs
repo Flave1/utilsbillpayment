@@ -145,6 +145,7 @@ namespace VendTech.BLL.Managers
             {
                 Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 PRODUCT_TYPE = x.Platform.ShortName,
+                PIN = x.MeterToken,
                 AMOUNT = string.Format("{0:N0}", x.Amount),
                 TRANSACTIONID = x.TransactionId,
                 METER_NO = x.Meter == null ? x.MeterNumber : x.Meter.Number,
@@ -314,6 +315,7 @@ namespace VendTech.BLL.Managers
                 TransactionId = x.TransactionId,
                 MeterRechargeId = x.MeterRechargeId,
                 ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName,
+                RechargePin = x.MeterToken,
                 RechargeId = x.MeterRechargeId
             }).ToList();
             result.List = list;
@@ -461,6 +463,7 @@ namespace VendTech.BLL.Managers
             data.RechargeId = recharge.MeterRechargeId;
             data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
             data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
+            data.RechargePin = recharge.MeterToken;
             data.TransactionId = recharge.TransactionId;
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 

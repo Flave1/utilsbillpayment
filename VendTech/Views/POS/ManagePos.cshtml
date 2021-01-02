@@ -1,72 +1,84 @@
 ﻿@model PagingResult<POSListingModel>
 
-    @{
-        ViewBag.Title = "Manage POS";
-        Layout = "~/Views/Shared/_LayOut.cshtml";
-    }
+@{ ViewBag.Title = "Manage POS";
+                Layout = "~/Views/Shared/_LayOut.cshtml"; }
 
-    <div class="container-fluid" id="pcont">
-        <div class="page-head">
-            <h2>@ViewBag.Title</h2>
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
 
-        </div>
-        <div class="cl-mcont">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block-flat front">
-                        <div class="content">
-                            <div class="table-responsive">
-                                @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front">
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
 
-                                <div id="divResult">
-                                    <table class="table table-bordered" id="datatable-icons">
-                                        <thead>
-                                            <tr>
-                                                <th>POS ID</th>
-                                                <th>VENDOR NAME</th>
-                                                <th>BALANCE</th>
-                                                <th>CELL#</th>
-                                                <th>POS TYPE</th>
-                                                <th>ENABLED</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @Html.Partial("partials/_posListing", Model)
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>POS ID</th>
+                                            <th>VENDOR NAME</th>
+                                            <th>BALANCE</th>
+                                            <th>CELL#</th>
+                                            <th>POS TYPE</th>
+                                            <th>ENABLED</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("partials/_posListing", Model)
+                                    </tbody>
+                                </table>
                             </div>
-                            @Html.Partial("_Paging")
+
                         </div>
+                        @Html.Partial("_Paging")
+                        <div class="row"><div class="col-md-8 col-lg-8 col-sm-8 k-align-right" style="text-align:right" id="wtext">Wallet Total:</div><div class="col-md-4 col-lg-4 col-sm-4 pull-right"><div id="wallet_total" ></div></div></div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    @section scripts{
-        <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-        <script type="text/javascript">
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <link href="~/Content/transdetails.css" rel="stylesheet" />
+    <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
-        </script>
-        <script src="~/Scripts/UserScripts/pos.js"></script>
+    </script>
+    <script src="~/Scripts/UserScripts/pos.js"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
+    <script type="text/javascript">
 
-        <script type="text/javascript">
+        $(document).ready(function () {
+            $("#searchField").show();
+            var searchFields = ["POS ID", "VENDOR NAME", "CELL #", "POS TYPE", "ENABLED"];
+            for (var i = 0; i < searchFields.length; i++) {
+                $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+            }
+            //initialize the javascript
+            App.init();
+            Users.ManageUsers(totalCount);
+            computeWalletTotal();
+            function computeWalletTotal() {
+                var wsummary = 0;
 
-            $(document).ready(function () {
-                $("#searchField").show();
-                var searchFields = ["POS ID", "VENDOR NAME", "CELL #", "POS TYPE", "ENABLED"];
-                for (var i = 0; i < searchFields.length; i++) {
-                    $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
-                }
-                //initialize the javascript
-                App.init();
-                Users.ManageUsers(totalCount);
-
-            });
-        </script>
-    }
+                $("td.wbalance").each(function () {
+                    wsummary += parseFloat(numeral($(this).text()).value());
+                })
+                console.log(wsummary)
+                $("#wallet_total").html(numeral(wsummary).format('(0,0.00)'))
+                $("#wallet_total").addClass("amount-figure")
+                $("#wtext").addClass("adv-company-name")
+            }
+        });
+    </script>
+}

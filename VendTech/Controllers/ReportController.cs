@@ -452,7 +452,7 @@ namespace VendTech.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -466,7 +466,7 @@ namespace VendTech.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -479,7 +479,7 @@ namespace VendTech.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -491,7 +491,7 @@ namespace VendTech.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -503,7 +503,7 @@ namespace VendTech.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -520,7 +520,7 @@ namespace VendTech.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "SALES REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -535,21 +535,22 @@ namespace VendTech.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "AMOUNT"; //AMOUNT
-                gv.HeaderRow.Cells[3].Text = "TRANSACTION ID"; //TRANSACTIONID
-                gv.HeaderRow.Cells[4].Text = "METER #"; //METER_NO
-                gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[6].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[2].Text = "PIN"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
+                gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
+                gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
+                gv.HeaderRow.Cells[6].Text = "POS ID"; //POSID
+                gv.HeaderRow.Cells[7].Text = "VENDOR NAME"; //VENDORNAME
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }

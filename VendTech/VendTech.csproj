@@ -5388,6 +5388,7 @@
     <Content Include="Content\themes\skycons\skycons.js" />
     <Content Include="Content\themes\typeahead\bootstrap-typeahead.js" />
     <Content Include="Content\transdetails.css" />
+    <Content Include="Content\userStyle.css" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -6557,6 +6558,7 @@
     <Content Include="Content\beagle\lib\summernote\font\summernote.eot" />
     <Content Include="Content\beagle\lib\summernote\font\summernote.ttf" />
     <Content Include="Content\beagle\lib\summernote\font\summernote.woff" />
+    <Content Include="Areas\Admin\Views\User\Partials\_widgetsListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -6661,6 +6663,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Meter\Utility.cshtml" />
+    <Content Include="Views\Shared\_footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

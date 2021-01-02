@@ -356,6 +356,15 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="PlatformId" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserAssignedWidgets">
+          <Key>
+            <PropertyRef Name="AssignWidgetId" />
+          </Key>
+          <Property Name="AssignWidgetId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="WidgetId" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserRoles">
           <Key>
             <PropertyRef Name="RoleId" />
@@ -411,6 +420,16 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="AgentType" Type="int" />
           <Property Name="CommissionPercentage" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Widgets">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="StanTable">
@@ -756,6 +775,30 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAssignedWidgets_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidgets">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedWidgets_Widget">
+          <End Role="Widgets" Type="Self.Widgets" Multiplicity="1" />
+          <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widgets">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidgets">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Agency">
           <End Role="Agency" Type="Self.Agency" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -875,9 +918,11 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedModules" EntityType="Self.UserAssignedModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedPlatforms" EntityType="Self.UserAssignedPlatforms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendors" EntityType="Self.Vendors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="vt_admin" store:Type="Tables" />
           <EntitySet Name="Nations" EntityType="Self.Nations" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -998,6 +1043,14 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <AssociationSet Name="FK_UserAssignedPlatforms_Users" Association="Self.FK_UserAssignedPlatforms_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserAssignedPlatforms" EntitySet="UserAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_User" Association="Self.FK_UserAssignedWidgets_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_Widget" Association="Self.FK_UserAssignedWidgets_Widget">
+            <End Role="Widgets" EntitySet="Widgets" />
+            <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Agency" Association="Self.FK_Users_Agency">
             <End Role="Agency" EntitySet="Agency" />
@@ -1205,6 +1258,16 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <AssociationSet Name="FK_MeterRecharge_Platforms" Association="VendTechModel.FK_MeterRecharge_Platforms">
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="MeterRecharge" EntitySet="MeterRecharges" />
+          </AssociationSet>
+          <EntitySet Name="UserAssignedWidgets" EntityType="VendTechModel.UserAssignedWidget" />
+          <EntitySet Name="Widgets" EntityType="VendTechModel.Widget" />
+          <AssociationSet Name="FK_UserAssignedWidgets_User" Association="VendTechModel.FK_UserAssignedWidgets_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserAssignedWidget" EntitySet="UserAssignedWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_Widget" Association="VendTechModel.FK_UserAssignedWidgets_Widget">
+            <End Role="Widget" EntitySet="Widgets" />
+            <End Role="UserAssignedWidget" EntitySet="UserAssignedWidgets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountVerificationOTP">
@@ -1653,6 +1716,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="UserRole" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="User" ToRole="UserRole" />
           <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
+          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_User" FromRole="User" ToRole="UserAssignedWidget" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -2110,6 +2174,52 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserAssignedWidget">
+          <Key>
+            <PropertyRef Name="AssignWidgetId" />
+          </Key>
+          <Property Name="AssignWidgetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="WidgetId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedWidgets_User" FromRole="UserAssignedWidget" ToRole="User" />
+          <NavigationProperty Name="Widget" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="UserAssignedWidget" ToRole="Widget" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="Widget" ToRole="UserAssignedWidget" />
+        </EntityType>
+        <Association Name="FK_UserAssignedWidgets_User">
+          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
+          <End Type="VendTechModel.UserAssignedWidget" Role="UserAssignedWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidget">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedWidgets_Widget">
+          <End Type="VendTechModel.Widget" Role="Widget" Multiplicity="1" />
+          <End Type="VendTechModel.UserAssignedWidget" Role="UserAssignedWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidget">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2556,6 +2666,27 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAssignedWidgets">
+            <EntityTypeMapping TypeName="VendTechModel.UserAssignedWidget">
+              <MappingFragment StoreEntitySet="UserAssignedWidgets">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Widgets">
+            <EntityTypeMapping TypeName="VendTechModel.Widget">
+              <MappingFragment StoreEntitySet="Widgets">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

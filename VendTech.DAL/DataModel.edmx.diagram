@@ -73,6 +73,10 @@
         <AssociationConnector Association="VendTechModel.FK_Users_Users1" />
         <EntityTypeShape EntityType="VendTechModel.StanTable" Width="1.5" PointX="0.75" PointY="7.75" />
         <AssociationConnector Association="VendTechModel.FK_MeterRecharge_Platforms" />
+        <EntityTypeShape EntityType="VendTechModel.UserAssignedWidget" Width="1.5" PointX="12.5" PointY="24.125" />
+        <EntityTypeShape EntityType="VendTechModel.Widget" Width="1.5" PointX="10.25" PointY="18.125" />
+        <AssociationConnector Association="VendTechModel.FK_UserAssignedWidgets_User" />
+        <AssociationConnector Association="VendTechModel.FK_UserAssignedWidgets_Widget" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

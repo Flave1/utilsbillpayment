@@ -16,17 +16,35 @@
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
+<link href="~/Content/userStyle.css" rel="stylesheet" />
 
 </head>
 <body>
-    @Html.Partial("_Header")
-    <div id="cl-wrapper" class="fixed-menu">
+    <header>
+        @Html.Partial("_Header")
+    </header>
+
+    <section id="cl-wrapper" class="fixed-menu content">
         @Html.Partial("_SideBaar")
 
         @RenderBody()
 
-    </div>
 
+    </section>
+    
+    <footer >
+        <div class="copyright">
+            <p>&copy 2020 - VendTech SL. Ltd.</p>
+        </div>
+        <div class="social">
+            <a href="@Url.Action("TermsAndConditions", "Home")" style="margin-right:20px">  @*<i class="fa fa-exclamation-triangle"></i>*@Terms And Conditions</a>
+            <a>|</a> <a href="@Url.Action("PrivacyPolicy", "Home")" style="margin-left:20px">@*<i class="fa fa-book"></i>*@   Privacy Policy</a>
+            @*<a href="#" class="support">Contact Us</a>
+            <a href="#" class="face">f</a>
+            <a href="#" class="tweet">t</a>
+            <a href="#" class="linked">in</a>*@
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/extendedjs")
@@ -43,13 +61,13 @@
                     url: '/Home/AutoLogout',
                     success: function (data) {
                         if (data.Status != 1) {
-                            window.location.href = '/Home/Index';
+                            //window.location.href = '/Home/Index';
                         }
                     }
                 })
             }, 60000);
         })
-        </script>
+    </script>
 
 </body>
 </html>

@@ -58,5 +58,7 @@ namespace VendTech.DAL
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
         public virtual DbSet<StanTable> StanTables { get; set; }
+        public virtual DbSet<UserAssignedWidget> UserAssignedWidgets { get; set; }
+        public virtual DbSet<Widget> Widgets { get; set; }
     }
 }

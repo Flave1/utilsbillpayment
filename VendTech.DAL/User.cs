@@ -31,6 +31,7 @@ namespace VendTech.DAL
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.Users1 = new HashSet<User>();
+            this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
         }
     
         public long UserId { get; set; }
@@ -83,5 +84,6 @@ namespace VendTech.DAL
         public virtual UserRole UserRole { get; set; }
         public virtual ICollection<User> Users1 { get; set; }
         public virtual User User1 { get; set; }
+        public virtual ICollection<UserAssignedWidget> UserAssignedWidgets { get; set; }
     }
 }

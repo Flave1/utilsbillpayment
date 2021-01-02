@@ -88,6 +88,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel = _userManager.GetAppUserDetailsByUserId(userId);
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
+            userModel.WidgetList = _userManager.GetAllWidgets(userId);
             return View(userModel);
         }
 
