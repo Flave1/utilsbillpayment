@@ -193,7 +193,7 @@ namespace VendTech.BLL.Common
             }
             return result.ToString();
         }
-        public static bool SendEmail(string to, string sub, string body)
+        public static bool SendEmailOld(string to, string sub, string body)
         {
             try
             {
@@ -209,6 +209,30 @@ namespace VendTech.BLL.Common
                 SmtpServer.UseDefaultCredentials = true;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
                 SmtpServer.EnableSsl = true;
+                mail.IsBodyHtml = true;
+                SmtpServer.Send(mail);
+                return true;
+            }
+            catch (Exception x)
+            { return true;    }
+            
+        }
+        public static bool SendEmail(string to, string sub, string body)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient();
+
+                mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
+                mail.To.Add(to);
+                mail.Subject = sub;
+                mail.Body = body;
+                //SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
+                //SmtpServer.Port = 587;
+                //SmtpServer.UseDefaultCredentials = false;
+                //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                //SmtpServer.EnableSsl = true;
                 mail.IsBodyHtml = true;
                 SmtpServer.Send(mail);
                 return true;
