@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using VendTech.DAL;
 using MimeKit;
+using System.Net.Mail;
 
 namespace VendTech.BLL.Common
 {
@@ -207,7 +208,7 @@ namespace VendTech.BLL.Common
                     Text = body
                 }; 
 
-                using (var client = new SmtpClient())
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
@@ -243,7 +244,7 @@ namespace VendTech.BLL.Common
             try
             {
                 MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient();
+                System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
                 mail.To.Add(to);
