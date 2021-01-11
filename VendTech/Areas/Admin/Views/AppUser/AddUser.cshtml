@@ -50,15 +50,15 @@
 
                                 </div>
                                 @*<div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">User Type</label>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.Roles, "value", "text"), "Select Type", new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(x => x.UserType)
-                                            </div>
-                                        </div>
+            <div class=" col-md-12">
+                <label for="inputEmail3" class="col-md-2 control-label">User Type</label>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.Roles, "value", "text"), "Select Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.UserType)
+                </div>
+            </div>
 
-                                    </div>*@
+        </div>*@
                                 <div class="row">
                                     <div class=" col-md-12">
                                         <label for="inputEmail3" class="col-md-2 control-label">
@@ -112,34 +112,44 @@
 
                                 </div>
                                 @*<div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
-                                            <div class="col-md-8">
-                                                <input type="file" name="ImagefromWeb">
-                                            </div>
-                                        </div>
+            <div class=" col-md-12">
+                <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
+                <div class="col-md-8">
+                    <input type="file" name="ImagefromWeb">
+                </div>
+            </div>
 
-                                    </div>*@
+        </div>*@
                                 @*<div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">POS</label>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(x => x.POSId, new SelectList(ViewBag.POS, "value", "text"), "Select POS", new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(x => x.POSId)
-                                            </div>
-                                        </div>
+            <div class=" col-md-12">
+                <label for="inputEmail3" class="col-md-2 control-label">POS</label>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(x => x.POSId, new SelectList(ViewBag.POS, "value", "text"), "Select POS", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.POSId)
+                </div>
+            </div>
 
-                                    </div>*@
+        </div>*@
                                 @*<div class="row">
-                                      <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">PRODUCTS<em>*</em></label>
+          <div class=" col-md-12">
+            <label for="inputEmail3" class="col-md-2 control-label">PRODUCTS<em>*</em></label>
+
+            <div class=" col-md-8">
+                @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+
+            </div>
+          </div>
+        </div>*@
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">WIDGETS</label>
 
                                         <div class=" col-md-8">
-                                            @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+                                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
 
                                         </div>
-                                      </div>
-                                    </div>*@
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class=" col-md-6">
                                         <div class="col-sm-offset-4 col-sm-8">

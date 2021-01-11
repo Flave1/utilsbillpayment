@@ -53,6 +53,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var model = new AddUserModel();
             model.ModuleList = _userManager.GetAllModules(0);
+            model.WidgetList = _userManager.GetAllWidgets(0);
             return View(model);
         }
 

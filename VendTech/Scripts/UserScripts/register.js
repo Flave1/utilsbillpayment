@@ -11,7 +11,7 @@
     $("button#forgotBtn").live("click", function () {
         return Admin.ForgotPassword($(this));
     });
-   
+
 
 });
 

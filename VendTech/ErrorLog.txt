@@ -2197,11 +2197,7 @@ The underlying provider failed on Open.
 
 
 
-An error occurred while executing the command definition. See the inner exception for details.
-
-
-
-Object reference not set to an instance of an object.
+The underlying provider failed on Open.
 
 
 
@@ -2209,29 +2205,24 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
-Object reference not set to an instance of an object.
+The underlying provider failed on Open.
 
 
 
-Object reference not set to an instance of an object.
+The underlying provider failed on Open.
 
 
 
-An error occurred while executing the command definition. See the inner exception for details.
+The underlying provider failed on Open.
 
 
 
-Object reference not set to an instance of an object.
+The underlying provider failed on Open.
 
 
 
-Value cannot be null.
-Parameter name: source
-
-
-
-Value cannot be null.
-Parameter name: source
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.UserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
 
 
 
@@ -2242,6 +2233,10 @@ Parameter name: source
 
 Value cannot be null.
 Parameter name: source
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
 
 
 

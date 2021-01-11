@@ -65,6 +65,7 @@ namespace VendTech.Areas.Admin.Controllers
             var model = new AddUserModel();
             model.PlatformList = _userManager.GetAllPlatforms(0);
             model.ResetUserPassword = true;
+            model.WidgetList = _userManager.GetAllWidgets(0);
             return View(model);
         }
 
@@ -133,6 +134,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel = _userManager.GetAppUserDetailsByUserId(userId);
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
+            userModel.WidgetList = _userManager.GetAllWidgets(userId);
             return View(userModel);
         }
 

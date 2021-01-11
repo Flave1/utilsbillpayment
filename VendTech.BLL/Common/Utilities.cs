@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using VendTech.DAL;
+using MimeKit;
 
 namespace VendTech.BLL.Common
 {
@@ -197,24 +198,44 @@ namespace VendTech.BLL.Common
         {
             try
             {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString());
-
-                mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                mail.To.Add(to);
+                MimeMessage mail = new MimeMessage();
+                mail.From.Add(new MailboxAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString()));
+                mail.To.Add(new MailboxAddress(to, to));
                 mail.Subject = sub;
-                mail.Body = body;
-                //SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                SmtpServer.Port = 587;
-                SmtpServer.UseDefaultCredentials = true;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true;
-                SmtpServer.Send(mail);
+                mail.Body = new TextPart("html")
+                {
+                    Text = body
+                }; 
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+                    client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
+                    client.AuthenticationMechanisms.Remove("XOAUTH2"); 
+                    client.Authenticate("favouremmanuel433@gmail.com", "85236580Go"); 
+                    client.Send(mail); 
+                    client.Disconnect(true);
+                }
+
+                
+                //MailMessage mail = new MailMessage();
+                //SmtpClient SmtpServer = new SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString());
+
+                //mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
+                //mail.To.Add(to);
+                //mail.Subject = sub;
+                //mail.Body = body;
+                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
+                //SmtpServer.Port = 587;
+                //SmtpServer.UseDefaultCredentials = true;
+                //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                //SmtpServer.EnableSsl = true;
+                //mail.IsBodyHtml = true;
+                //SmtpServer.Send(mail);
                 return true;
             }
             catch (Exception x)
-            { return true;    }
+            { throw x;    }
             
         }
         public static bool SendEmail(string to, string sub, string body)

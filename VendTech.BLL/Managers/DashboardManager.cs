@@ -46,7 +46,7 @@ namespace VendTech.BLL.Managers
                // using (_db = new Context)
                 {
                     var acquirerTerminals = Context.Users.Where(a => a.UserId == AcquirerId).FirstOrDefault();
-                    IEnumerable<long> ids2 =(IEnumerable<long>) acquirerTerminals.POS.Select(x => x.POSId).Distinct();
+                    IEnumerable<long> ids2 =(IEnumerable<long>) acquirerTerminals.POS.Select(x => x.POSId).Distinct().ToList();
                    // var ids = acquirerTerminals.Terminals; // Select(x => x.TerminalRef).Distinct();
 
                     if(acquirerTerminals != null && ids2.Count() >0)
@@ -61,8 +61,8 @@ namespace VendTech.BLL.Managers
                             deposit = x.Sum(y => y.DepositAmount).ToString(),
                             billpayment = x.Sum(y => y.RechargeAmount).ToString(),
 
-                        }).DefaultIfEmpty();
-                        if (data != null)
+                        }).DefaultIfEmpty().ToList();
+                           if (data.Any() && data[0] != null)
                         {
                             return transactionChartData = data.Where(q => q.mdate != "").ToList();
                         }
@@ -123,8 +123,8 @@ namespace VendTech.BLL.Managers
                             deposit = x.Sum(y => y.DepositAmount).ToString(),
                             billpayment = x.Sum(y => y.RechargeAmount).ToString(),
 
-                        }).DefaultIfEmpty();
-                        if (data != null)
+                        }).DefaultIfEmpty().ToList();
+                        if (data.Any() && data[0] != null)
                         {
                             return transactionChartData = data.Where(q => q.mdate != "").ToList();
                         }
@@ -166,8 +166,8 @@ namespace VendTech.BLL.Managers
                                        totalDeposit = d.Amount,
 
                                    }).DefaultIfEmpty();
-                tDatas = getChartDataByAdmin("").OrderByDescending(a => a.mdate).ToList();
-                if (tDatas != null)
+                tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
+                if (tDatas.Any())
                 {
                     for (int x = 0; x < tDatas.Count; x++)
                     {
@@ -201,8 +201,8 @@ namespace VendTech.BLL.Managers
             }
             else if (user.UserRole.Role == UserRoles.Vendor || user.UserRole.Role == UserRoles.AppUser)
             {
-                tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a.mdate).ToList();
-                if (tDatas != null)
+                tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
+                if (tDatas.Any())
                 {
                     for (int x = 0; x < tDatas.Count; x++)
                     {

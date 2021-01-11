@@ -225,6 +225,10 @@ namespace VendTech.Controllers
         [AjaxOnly, Public, HttpPost]
         public JsonResult Submit_new_user_details(RegisterAPIModel request)
         {
+            if (string.IsNullOrEmpty(request.FirstName) && string.IsNullOrEmpty(request.CompanyName))
+            {
+                return Json(new ActionOutput { Status = ActionStatus.Error,  Message = "Name must not be empty" });
+            }
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
             { 
@@ -253,7 +257,16 @@ namespace VendTech.Controllers
                     link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
                 }
                 body = body.Replace("%passwordrestlink%", link);
-                Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
+                try
+                {
+                    Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
+                }
+                catch (Exception e)
+                {
+
+                     return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+                }
+                
 
                 //password sent 
                 //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);

@@ -103,20 +103,30 @@
 
                                 </div>
                                 @*<div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
-                                        <div class="col-md-8">
-                                            <input type="file" name="ImagefromWeb">
-                                        </div>
-                                    </div>
+            <div class=" col-md-12">
+                <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
+                <div class="col-md-8">
+                    <input type="file" name="ImagefromWeb">
+                </div>
+            </div>
 
-                                </div>*@
+        </div>*@
                                 <div class="row">
                                     <div class=" col-md-12">
                                         <label for="inputEmail3" class="col-md-2 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-8">
                                             @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">WIDGETS</label>
+
+                                        <div class=" col-md-8">
+                                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
 
                                         </div>
                                     </div>
@@ -129,6 +139,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </form>
 

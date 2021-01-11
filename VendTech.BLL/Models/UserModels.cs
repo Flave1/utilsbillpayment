@@ -132,16 +132,25 @@ namespace VendTech.BLL.Models
 
     }
 
+    public enum Individual_or_company
+    {
+        Individual = 1,
+        Company = 2
+    }
+
     public class RegisterAPIModel
     {
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Phone { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email required")]
+        public string Email { get; set; } 
+        public int Individual_or_company { get; set; }
+        [Required(ErrorMessage = "Phone number required")]
+        public string Mobile { get; set; } 
         public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+        public string LastName { get; set; } 
+        public string Address { get; set; } 
+        public string Country { get; set; } 
+        public string City { get; set; }
     }
     public class LoginAPIModel
     {
