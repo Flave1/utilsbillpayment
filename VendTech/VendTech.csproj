@@ -6559,10 +6559,14 @@
     <Content Include="Content\beagle\lib\summernote\font\summernote.ttf" />
     <Content Include="Content\beagle\lib\summernote\font\summernote.woff" />
     <Content Include="Areas\Admin\Views\User\Partials\_widgetsListing.cshtml" />
+    <Content Include="Areas\Admin\Views\AppUser\Partials\_widgetsListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

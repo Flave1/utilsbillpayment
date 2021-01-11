@@ -2221,3 +2221,22 @@ The underlying provider failed on Open.
 
 
 
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.UserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+

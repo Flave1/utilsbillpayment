@@ -206,6 +206,7 @@ namespace VendTech.BLL.Common
                 {
                     Text = body
                 }; 
+
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
@@ -234,7 +235,7 @@ namespace VendTech.BLL.Common
                 return true;
             }
             catch (Exception x)
-            { return true;    }
+            { throw x;    }
             
         }
         public static string Base64Decode(string base64EncodedData)

@@ -381,6 +381,15 @@ namespace VendTech.BLL.Managers
                     Context.UserAssignedPlatforms.RemoveRange(existingPlatforms);
                     Context.SaveChanges();
                 }
+
+                //Deleting Exisiting Widgets
+                var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userDetails.UserId).ToList();
+                if (existing_widgets.Count > 0)
+                {
+                    Context.UserAssignedWidgets.RemoveRange(existing_widgets);
+                    Context.SaveChanges();
+                }
+
                 //Adding New Permissons
                 List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
                 if (userDetails.SelectedModules != null)
@@ -553,6 +562,30 @@ namespace VendTech.BLL.Managers
                     Context.UserAssignedPlatforms.AddRange(newPlatforms);
                     Context.SaveChanges();
                 }
+
+                //Deleting Exisiting Widgets
+                var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userDetails.UserId).ToList();
+                if (existing_widgets.Count > 0)
+                {
+                    Context.UserAssignedWidgets.RemoveRange(existing_widgets);
+                    Context.SaveChanges();
+                }
+
+                //Adding new Widgets
+                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+                if (userDetails.SelectedWidgets != null)
+                {
+                    userDetails.SelectedWidgets.ToList().ForEach(c =>
+                     newwidgets.Add(new UserAssignedWidget()
+                     {
+                         UserId = userDetails.UserId,
+                         WidgetId = c,
+                         CreatedAt = DateTime.UtcNow,
+                     }));
+                    Context.UserAssignedWidgets.AddRange(newwidgets);
+                    Context.SaveChanges();
+                }
+
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -665,8 +698,20 @@ namespace VendTech.BLL.Managers
 
         ActionOutput IUserManager.AddUserDetails(AddUserModel userDetails)
         {
+
+            var existing_user_by_number = Context.Users.FirstOrDefault(z => z.Phone.Trim().ToLower() == userDetails.Phone.Trim().ToLower()) ?? null;
+
+            if (existing_user_by_number != null)
+            {
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "User with this phone number already exist"
+                };
+            }
+
             string myfile = string.Empty;
-            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
+            //var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
             if (false)
             {
                 //return new ActionOutput
@@ -726,6 +771,21 @@ namespace VendTech.BLL.Managers
                     Context.UserAssignedModules.AddRange(newpermissos);
                     Context.SaveChanges();
                 }
+
+                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+                if (userDetails.SelectedWidgets != null)
+                {
+                    userDetails.SelectedWidgets.ToList().ForEach(c =>
+                     newwidgets.Add(new UserAssignedWidget()
+                     {
+                         UserId = dbUser.UserId,
+                         WidgetId = c,
+                         CreatedAt = DateTime.UtcNow,
+                     }));
+                    Context.UserAssignedWidgets.AddRange(newwidgets);
+                    Context.SaveChanges();
+                }
+
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -827,7 +887,21 @@ namespace VendTech.BLL.Managers
                     Context.UserAssignedPlatforms.AddRange(newPlatforms);
                     Context.SaveChanges();
                 }
-                
+
+                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+                if (userDetails.SelectedWidgets != null)
+                {
+                    userDetails.SelectedWidgets.ToList().ForEach(c =>
+                     newwidgets.Add(new UserAssignedWidget()
+                     {
+                         UserId = dbUser.UserId,
+                         WidgetId = c,
+                         CreatedAt = DateTime.UtcNow,
+                     }));
+                    Context.UserAssignedWidgets.AddRange(newwidgets);
+                    Context.SaveChanges();
+                }
+
                 return new ActionOutput
                 {
                     ID= dbUser.UserId,
@@ -902,7 +976,12 @@ namespace VendTech.BLL.Managers
             if (user == null)
                 return null;
             else
-                return new UserModel(user);
+            {
+                var current_user_data = new UserModel(user);
+                current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
+                return current_user_data;
+            }
+                
         }
 
         ActionOutput IUserManager.ChangeUserStatus(long userId,UserStatusEnum status)
