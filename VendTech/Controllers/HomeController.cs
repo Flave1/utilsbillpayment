@@ -22,14 +22,14 @@ namespace VendTech.Controllers
     /// Home Controller 
     /// Created On: 10/04/2015
     /// </summary>
-    public class HomeController : BaseController
+    public class HomeController : AppUserBaseController
     {
         #region Variable Declaration
-        private readonly IUserManager _userManager;
+        //private readonly IUserManager _userManager;
         private readonly IAuthenticateManager _authenticateManager;
         private readonly ICMSManager _cmsManager;
         private readonly IEmailTemplateManager _templateManager;
-        private readonly IPlatformManager _platformManager;
+      //  private readonly IPlatformManager _platformManager;
         private readonly IVendorManager _vendorManager;
         private readonly IDashboardManager _dashboardManager;
 
@@ -92,8 +92,12 @@ namespace VendTech.Controllers
             }
             if (data!=null && data.Object!=null)
             {
-           
-                CreateCustomAuthorisationCookie(model.Email, false, new JavaScriptSerializer().Serialize(data.Object));
+                var PermissonAndDetailModel = new PermissonAndDetailModel();
+                PermissonAndDetailModel.UserDetails = data.Object;
+                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
+                CreateCustomAuthorisationCookie(model.Email, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
+
+                //CreateCustomAuthorisationCookie(model.Email, false, new JavaScriptSerializer().Serialize(data.Object));
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -111,8 +115,12 @@ namespace VendTech.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
+            if (LOGGEDIN_USER.UserID == 0)
+            { 
+                SignOut(); 
+            }
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
-            ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
+            ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID??0)?.POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 

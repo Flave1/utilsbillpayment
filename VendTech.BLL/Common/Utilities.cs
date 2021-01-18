@@ -263,7 +263,7 @@ namespace VendTech.BLL.Common
             var getNumbers = (from t in guidstring
                               where char.IsDigit(t)
                               select t).ToArray();
-            return string.Join("", getNumbers);// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
+            return string.Join("", getNumbers.Take(20));// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
         } 
     }
 }

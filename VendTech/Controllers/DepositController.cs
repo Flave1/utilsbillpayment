@@ -21,7 +21,7 @@ namespace VendTech.Controllers
     /// Home Controller 
     /// Created On: 10/04/2015
     /// </summary>
-    public class DepositController : BaseController
+    public class DepositController : AppUserBaseController
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

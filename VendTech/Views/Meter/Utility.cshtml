@@ -28,9 +28,31 @@
                                     <ul>
                                         @foreach (var item in Model)
                                         {
+                                            //<div class="@(item.Title.Contains("GAS") ? "gasicons" : item.Title.Contains("WATER") ? "watericons" : "icons")"></div>
                                             <li class="productBox" style="cursor:pointer;">
                                                 <a href="javascript:void(0)">
-                                                    <div class="@(item.Title.Contains("GAS") ? "gasicons" : item.Title.Contains("WATER") ? "watericons" : "icons")"></div>
+                                                    @{ 
+                                                        string icon = string.Empty; 
+                                                        if (item.Title.Contains("AFRIGAS"))
+                                                        {
+                                                            icon = "gasicons"; 
+                                                        }else if (item.Title.Contains("WATER"))
+                                                        {
+                                                            icon = "watericons";
+                                                        }else if (item.Title.Contains("GUMA"))
+                                                        {
+                                                            icon = "watericons"; 
+                                                        }
+                                                        else if (item.Title.Contains("DSTV"))
+                                                        {
+                                                            icon = "dstvicons"; 
+                                                        }
+                                                        else
+                                                        {
+                                                            icon = "icons"; 
+                                                        }
+                                                    }
+                                                    <div class="@icon"></div>
                                                     <label>@item.Title</label>
                                                 </a>
                                             </li>

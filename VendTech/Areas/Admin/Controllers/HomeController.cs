@@ -97,6 +97,10 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
+            if (LOGGEDIN_USER.UserID == 0)
+            {
+                SignOut(); 
+            }
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
             

@@ -10,6 +10,7 @@ using VendTech.DAL;
 using VendTech.BLL.Common;
 using System.Data.Entity;
 using System.Web.Mvc;
+using System.Data.Entity.Validation;
 
 namespace VendTech.BLL.Managers
 {
@@ -371,8 +372,7 @@ namespace VendTech.BLL.Managers
         }
 
         ReceiptModel IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
-        {
-
+        { 
             var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
             if (user == null)
                 return null; // ReturnError<RechargeMeterModel>("User not exist.");
@@ -413,7 +413,15 @@ namespace VendTech.BLL.Managers
 
             pos.Balance = pos.Balance.Value - model.Amount;
             Context.MeterRecharges.Add(dbMeterRecharge);
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            { 
+                throw e;
+            }
+            
             var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
             var obj = new PushNotificationModel();
             obj.UserId = model.UserId;

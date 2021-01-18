@@ -142,30 +142,48 @@ namespace VendTech.BLL.Managers
 
         public DashboardViewModel getDashboardData(long userId)
         {
+            if (userId == 0) return new DashboardViewModel();
             var user = Context.Users.Find(userId);
             List<TransactionChartData> tDatas = new List<TransactionChartData>();
+            var total_deposits = new decimal();
+            var total_sales = new decimal();
 
-            var data = (from u in Context.Users
-                        join pos in Context.POS.Where(p => !p.IsDeleted) on u.UserId equals pos.User.UserId
-                        join d in Context.Deposits  on pos.POSId equals d.POSId
-                        join s in Context.MeterRecharges on pos.POSId equals s.POSId  where u.UserId == userId  select new 
-                        { 
-                           
-                            totalSales = s.Amount,
-                            totalDeposit = d.Amount,
-                           
-                        } ).DefaultIfEmpty();
+            var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
+
+            total_deposits = Context.Deposits.Where(e => current_user_pos_ids.Contains(e.POSId)).ToList().Sum(s=>s.Amount);
+            total_sales = Context.MeterRecharges.Where(e => current_user_pos_ids.Contains(e.POSId??0)).ToList().Sum(s => s.Amount);
+             
+            //var data = (from u in Context.Users
+            //            join pos in Context.POS.Where(p => !p.IsDeleted) on u.UserId equals pos.User.UserId
+            //            join d in Context.Deposits on pos.POSId equals d.POSId
+            //            join s in Context.MeterRecharges on pos.POSId equals s.POSId
+            //            where u.UserId == userId
+            //            select new
+            //            {
+
+            //                totalSales = s.Amount,
+            //                totalDeposit = d.Amount,
+
+            //            }).DefaultIfEmpty();
 
             if (user.UserRole.Role == UserRoles.Admin)
             {
-                data = (from d in Context.Deposits join pos in Context.POS.Where(p=>!p.IsDeleted) on d.UserId equals pos.User.UserId  
-                        join s in Context.MeterRecharges on d.UserId equals s.UserId
-                                   select new
-                                   {
-                                       totalSales = s.Amount,
-                                       totalDeposit = d.Amount,
+                total_deposits = new decimal();
+                total_sales = new decimal();
 
-                                   }).DefaultIfEmpty();
+                total_deposits = Context.Deposits.Sum(s => s.Amount);
+                total_sales = Context.MeterRecharges.Sum(s => s.Amount);
+                //data = (from d in Context.Deposits 
+                //        join pos in Context.POS.Where(p=>!p.IsDeleted) on d.UserId equals pos.User.UserId  
+                //        join s in Context.MeterRecharges on d.UserId equals s.UserId
+                //                   select new
+                //                   {
+                //                       totalSales = s.Amount,
+                //                       totalDeposit = d.Amount,
+
+                //                   }).DefaultIfEmpty();
+
+
                 tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
                 if (tDatas.Any())
                 {
@@ -174,30 +192,39 @@ namespace VendTech.BLL.Managers
                         tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
                     }
                 }
-                if (data.FirstOrDefault() != null)
+                return new DashboardViewModel
                 {
-                    return new DashboardViewModel
-                    {
-                        totalSales = data.Sum(d => d.totalSales),
-                        totalDeposit = data.Sum(d => d.totalDeposit),
-                        userCount = Context.Users.Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
-                        transactionChartData = tDatas
-                    };
-                }
-                else 
-                {
-                    return new DashboardViewModel
-                    {
-                        totalSales = 0,
-                        totalDeposit = 0,
-                        userCount = Context.Users.Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
-                        transactionChartData = tDatas
-                    };
-                }
+                    totalSales = total_sales,
+                    totalDeposit = total_deposits,
+                    userCount = Context.Users.Count(),
+                    posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
+                    walletBalance = _userManager.GetUserWalletBalance(userId),
+                    transactionChartData = tDatas
+                };
+                //if (data.FirstOrDefault() != null)
+                //{
+                //    return new DashboardViewModel
+                //    {
+                //        totalSales = data.Sum(d => d.totalSales),
+                //        totalDeposit = data.Sum(d => d.totalDeposit),
+                //        userCount = Context.Users.Count(),
+                //        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
+                //        walletBalance = _userManager.GetUserWalletBalance(userId),
+                //        transactionChartData = tDatas
+                //    };
+                //}
+                //else 
+                //{
+                //    return new DashboardViewModel
+                //    {
+                //        totalSales = 0,
+                //        totalDeposit = 0,
+                //        userCount = Context.Users.Count(),
+                //        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
+                //        walletBalance = _userManager.GetUserWalletBalance(userId),
+                //        transactionChartData = tDatas
+                //    };
+                //}
             }
             else if (user.UserRole.Role == UserRoles.Vendor || user.UserRole.Role == UserRoles.AppUser)
             {
@@ -210,36 +237,45 @@ namespace VendTech.BLL.Managers
                     }
                 }
 
-                if (data.FirstOrDefault() != null)
+                return new DashboardViewModel
                 {
-                    return new DashboardViewModel
-                    {
-                        totalSales = data.Sum(d => d.totalSales),
-                        totalDeposit = data.Sum(d => d.totalDeposit),
-                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
-                        transactionChartData = tDatas
-                    };
-                }
-                else
-                {
-                    return new DashboardViewModel
-                    {
-                        totalSales = 0,
-                        totalDeposit = 0,
-                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
-                        transactionChartData = tDatas
-                    };
-                }
+                    totalSales = total_sales,
+                    totalDeposit = total_deposits,
+                    posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                    walletBalance = _userManager.GetUserWalletBalance(userId),
+                    transactionChartData = tDatas
+                };
+
+                //if (data.FirstOrDefault() != null)
+                //{
+                //    return new DashboardViewModel
+                //    {
+                //        totalSales = data.Sum(d => d.totalSales),
+                //        totalDeposit = data.Sum(d => d.totalDeposit),
+                //        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                //        walletBalance = _userManager.GetUserWalletBalance(userId),
+                //        transactionChartData = tDatas
+                //    };
+                //}
+                //else
+                //{
+                //    return new DashboardViewModel
+                //    {
+                //        totalSales = 0,
+                //        totalDeposit = 0,
+                //        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                //        walletBalance = _userManager.GetUserWalletBalance(userId),
+                //        transactionChartData = tDatas
+                //    };
+                //}
             }
             else
             {
 
                 return new DashboardViewModel
                 {
-                    totalSales = 0,
-                    totalDeposit = 0,
+                    totalSales = total_sales,
+                    totalDeposit = total_deposits,
                     posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
                     walletBalance = _userManager.GetUserWalletBalance(userId),
                     transactionChartData = tDatas

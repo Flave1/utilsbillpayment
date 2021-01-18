@@ -28,6 +28,7 @@ namespace VendTech.BLL.Managers
         }
         List<PlatformModel> IPlatformManager.GetUserAssignedPlatforms(long userId)
         {
+            if (userId == 0) return new List<PlatformModel>();
             var user = Context.Users.SingleOrDefault(p => p.UserId == userId);
             var userAssignedPos = new POS();
             //if (user.UserRole.Role == UserRoles.Vendor)

@@ -2240,3 +2240,191 @@ An error occurred while updating the entries. See the inner exception for detail
 
 
 
+The underlying provider failed on Open.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+
+
+
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Expected a "{" but found a "`".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+
+
+
+Expected a "{" but found a "`".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+
+
+
+Expected a "{" but found a "`".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+
+
+
+Expected a "{" but found a "`".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+
+
+
+Expected a "{" but found a "`".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+

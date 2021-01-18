@@ -1592,6 +1592,7 @@ th{text-align:center !important;}
 .contarea li a .icons{width:60px;height:75px;display:inline-block;background:url(images/bulb.png) no-repeat;background-size:100%;}
 .contarea li a .gasicons{width:60px;height:75px;display:inline-block;background:url(images/gas.png) no-repeat;background-size:100%;}
 .contarea li a .watericons{width:60px;height:75px;display:inline-block;background:url(images/water.png) no-repeat;background-size:100%;}
+.contarea li a .dstvicons{width:60px;height:75px;display:inline-block;background:url(images/dstv.jpg) no-repeat;background-size:100%;}
 .contarea li a label{float:left;width:100%;text-align:center;color:#555;font-size:16px;margin-bottom:0;text-transform:uppercase;padding-top:10px;}
 
 /* Change Pass */

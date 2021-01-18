@@ -111,6 +111,16 @@
                                     </div>
 
                                 </div>
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <label for="inputEmail3" class="col-md-2 control-label">PERMISSIONS<em>*</em></label>
+
+                                        <div class=" col-md-8">
+                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+
+                                        </div>
+                                    </div>
+                                </div>
                                 @*<div class="row">
             <div class=" col-md-12">
                 <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
@@ -142,7 +152,7 @@
         </div>*@
                                 <div class="row">
                                     <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">WIDGETS</label>
+                                        <label for="inputEmail3" class="col-md-2 control-label">DASHBOARD WIDGETS</label>
 
                                         <div class=" col-md-8">
                                             @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
@@ -153,8 +163,8 @@
                                 <div class="row">
                                     <div class=" col-md-6">
                                         <div class="col-sm-offset-4 col-sm-8">
-                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
                                             <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
                                         </div>
                                     </div>
                                 </div>

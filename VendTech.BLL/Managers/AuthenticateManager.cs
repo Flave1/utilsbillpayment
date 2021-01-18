@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
 using VendTech.BLL.Common;
+using System.Data.Entity.Validation;
 
 namespace VendTech.BLL.Managers
 {
@@ -153,7 +154,25 @@ namespace VendTech.BLL.Managers
             request.UserId = user.UserId;
             request.OTP = otp;
             Context.ForgotPasswordRequests.Add(request);
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                return ReturnError(ex?.Message);
+            }
+            
             return ReturnSuccess(user.UserId, "Token generate successfully.");
         }
         ActionOutput IAuthenticateManager.AddTokenDevice(LoginAPIModel model)
