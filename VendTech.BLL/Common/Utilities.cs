@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using VendTech.DAL;
 using MimeKit;
+using System.Net.Mail;
 
 namespace VendTech.BLL.Common
 {
@@ -194,7 +195,7 @@ namespace VendTech.BLL.Common
             }
             return result.ToString();
         }
-        public static bool SendEmail(string to, string sub, string body)
+        public static bool SendEmailOld(string to, string sub, string body)
         {
             try
             {
@@ -207,7 +208,7 @@ namespace VendTech.BLL.Common
                     Text = body
                 }; 
 
-                using (var client = new SmtpClient())
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
@@ -236,6 +237,30 @@ namespace VendTech.BLL.Common
             }
             catch (Exception x)
             { throw x;    }
+            
+        }
+        public static bool SendEmail(string to, string sub, string body)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient();
+
+                mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
+                mail.To.Add(to);
+                mail.Subject = sub;
+                mail.Body = body;
+                //SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
+                //SmtpServer.Port = 587;
+                //SmtpServer.UseDefaultCredentials = false;
+                //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                //SmtpServer.EnableSsl = true;
+                mail.IsBodyHtml = true;
+                SmtpServer.Send(mail);
+                return true;
+            }
+            catch (Exception x)
+            { return true;    }
             
         }
         public static string Base64Decode(string base64EncodedData)
