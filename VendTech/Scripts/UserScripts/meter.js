@@ -109,6 +109,8 @@ var Users = {
             $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
             return;
         }
+
+
         if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
             $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
             return;
@@ -160,7 +162,7 @@ var Users = {
             data: $("form#rechargeForm").serialize(),
             type: "POST",
             success: function (data) {
-                console.log(data)
+                console.log(data);
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code == 200) {
                     $("#r_address").html("CUSTOMER: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.CustomerName + "<br> ADDRESS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Address + "<br> METER NO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.DeviceNumber)
@@ -182,9 +184,40 @@ var Users = {
                 } else {
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
                 }
-                
+
             }
         });
+
+        //$.ajax({
+        //    url: baseUrl + '/Meter/RechargeReturn',
+        //    data: $("form#rechargeForm").serialize(),
+        //    type: "POST",
+        //    success: function (data) {
+        //        console.log(data)
+        //        //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
+        //        if (data.Code == 200) {
+        //            $("#r_address").html("CUSTOMER: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.CustomerName + "<br> ADDRESS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Address + "<br> METER NO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.DeviceNumber)
+        //            $("#tender").html("TENDER AMOUNT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Amount + "<br> GTS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00" + "<br> EDSA DEBIT CHARGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Charges + "<br> DEPT RECOVERY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00")
+        //            $("#tarrif").html("TARIFF: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;560 <br>" + " COST OF UNIT Le: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1,720,869.57 <br> Units: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1246");
+        //            $("#tendered").html(data.Data.Amount)
+        //            /*$("#charges").html("0.00")
+        //            $("#dept").html("0.00")*/
+        //            $("#token").html(data.Data.RechargeToken)
+        //            $("#modalCart").modal("show")
+        //            /*setTimeout(function () {
+        //                if (redirectToAddMeter) {
+        //                    window.location.href = baseUrl + '/Meter/AddEditMeter?number=' + $("#MeterNumber").val();
+        //                    return;
+        //                }
+    
+        //                //window.location.href = baseUrl + '/Home/Index';
+        //            }, 100500);*/
+        //        } else {
+        //            $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
+        //        }
+                
+        //    }
+        //});
 
         /**
         $.ajaxExt({

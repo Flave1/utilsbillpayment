@@ -450,7 +450,7 @@ namespace VendTech.BLL.Managers
                 Unit = 56,
                 UnitCost = 100,
                 TerminalID = "0000000000007",
-                SerialNo = dbMeterRecharge.MeterRechargeId.ToString()
+                SerialNo = dbMeterRecharge.MeterRechargeId.ToString(),  
             };
             return receipt;
             //return ReturnSuccess(model, "Deposit detail fetched successfully.");

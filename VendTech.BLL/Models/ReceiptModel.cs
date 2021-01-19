@@ -23,5 +23,6 @@ namespace VendTech.BLL.Models
         public double Tarrif { get; set; }
         public string TerminalID { get; set; }
         public string SerialNo { get; set; }
+        public string VendorId { get; set; }
     }
 }

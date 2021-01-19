@@ -78,7 +78,8 @@
                                     Service not assigned<br />
                                     Please contact VENDTECH on +23279990990
                                 </p>
-                            </div>}
+                            </div>
+                        }
 
 
                     </div>
@@ -128,118 +129,117 @@
 </div>
 
 
-<div class="modal fade" id="modalCart"> 
-    <div class="modal-dialog">
-        <div class="modal-content"> 
-            <div class="modal-body" id="printSection" >
-                <div class="row padded" style="text-align:center;" id="gen-invoice">
-                    <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
-                    <h3>ELECTRICITY PURCHASE</h3>
-                </div>
-                <hr class="bg-dark" style="border: 1px solid grey; background: grey;">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
-                        <span class="cust_bold">Date</span>
-                        <p class="cust_bold">12/12/12 45:24:35.2424</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                        <span class="text-light">Vendor ID</span>
-                        <p class="cust_bold">Office Coporate</p>
-                    </div>
-                </div> 
-                <br />
-                <div class="row">
-                    <div class="col-md-10 padded">
-                        <div class="row"><span class="cust_bold">Customer :</span>Emmanuel Favour</div>
-                        <div class="row"><span class="cust_bold">Account # :</span>234567890</div>
-                        <div class="row"><span class="cust_bold">Address :</span>52 Oshola str. Ogba Ikeja, Lagos Nigeria</div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-10 padded">
-                        <div class="cust_bold row">Meter #: 1345678909876</div>
-                        <div class="cust_bold row">Tariff: 569</div>
-                        <div class="row">Amount Tendered:<span class="cust_bold">le:1000,000</span></div>
-                    </div>
-                </div>
-                <div class="row" style="margin: 10px;">
-                    <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
-                    <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  Deductions </span>
-                    <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">GST:</div>
-                                <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 150,000</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">Service charge:</div>
-                                <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 10,500</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">Debit recovery:</div>
-                                <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 350,000</div>
-                            </div> 
+    <div class="modal fade" id="modalCart"> 
+            <div class="modal-dialog">
+                <div class="modal-content"> 
+                    <div class="modal-body" id="printSection" >
+                        <div class="row padded" style="text-align:center;" id="gen-invoice">
+                            <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
+                            <h3>ELECTRICITY PURCHASE</h3>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin: 10px;">
-                    <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
-                    <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  TOTAL </span>
-                    <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-10">
-
-                        <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">Cost of units:</div>
-                                <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 489,500</div>
+                        <hr class="bg-dark" style="border: 1px solid grey; background: grey;">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                                <span class="cust_bold">Date</span>
+                                <p class="cust_bold">@DateTime.UtcNow</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">Units:</div>
-                                <div class="cust_bold col-md-5 col-sm-5 col-xs-5">1245.4</div>
-                            </div> 
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                <span class="text-light">Vendor ID</span>
+                                <p class="cust_bold">Office Coporate</p>
+                            </div>
                         </div> 
+                        <br />
+                        <div class="row">
+                            <div class="col-md-10 padded">
+                                <div class="row"><span class="cust_bold">Customer :</span><span id="customer_name">Emmanuel Favour</span></div>
+                                <div class="row"><span class="cust_bold">Account # :</span><span id="customer_account_number">234567890</span></div>
+                                <div class="row"><span class="cust_bold">Address :</span><span id="customer_address">52 Oshola str. Ogba Ikeja, Lagos Nigeria</span></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-10 padded">
+                                <div class="cust_bold row">Meter #: <span id="meter_number">1345678909876</span> </div>
+                                <div class="cust_bold row">Tariff: <span id="tarrif">569</span> </div>
+                                <div class="row">Amount Tendered:<span class="cust_bold">le: <span id="amount_tender">1000,000</span></span></div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
+                            <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  Deductions </span>
+                            <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">GST:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="gst">150,000</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Service charge:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="service_charge">10,500</span></div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Debit recovery:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="debit_recovery">350,000</span></div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin: 10px;">
+                            <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
+                            <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  TOTAL </span>
+                            <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10">
+
+                                <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Cost of units:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 489,500</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Units:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">1245.4</div>
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div><br>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-md-12" style="text-align: center; ">
+                                <p class="dashed_border" style="border-right: none; border-left: none; font-weight: bold; font-size: 35px; margin :10px; padding: 5px;">12135456897707654</p>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-10 col-xs-10" style="max-width: 50%;">
+                                <em>
+                                    EDSA Serial #:123467
+                                    <p>VENDTECH Serial #:1234356 </p>
+                                    www.vendtechsl.com
+                                    <p>Call +232 76 990 990</p>
+                                </em>
+
+                            </div>
+                            <div class="col-md-5 col-sm-2 col-xs-2"></div>
+                        </div>
+                    </div> 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
+                        <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
                     </div>
-                </div><br>
-                <div class="row" style="text-align: center;">
-                    <div class="col-md-12" style="text-align: center; ">
-                        <p class="dashed_border" style="border-right: none; border-left: none; font-weight: bold; font-size: 30px; padding: 5px;">12135456897707654</p>
-                    </div>
+
                 </div>
-                <br>
 
-                <div class="row">
-                    <div class="col-md-5 col-sm-5 col-xs-5" style="max-width: 50%;">
-                        <em>
-                            EDSA Serial #:123467
-                            <p>VENDTECH Serial #:1234356 </p>
-                            www.vendtechsl.com
-                            <p>Call +232 76 990 990</p>
-                        </em>
-
-                    </div>
-                    <div class="col-md-5 col-sm-5 col-xs-5"></div>
-                </div>
             </div>
-            <!--Footer-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
             </div>
-
-        </div>
-
-    </div>
-    </div>
 
 
     @*<div class="modal fade" id="modalCart">
