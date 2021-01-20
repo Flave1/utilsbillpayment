@@ -32,11 +32,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
+        private readonly IEmailTemplateManager _templateManager;
 
-    
+
         #endregion
 
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IDepositManager depositManager,IMeterManager meterManager,IVendorManager vendorManager,IBankAccountManager bankAccountManager,IPOSManager posManager)
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IDepositManager depositManager,IMeterManager meterManager,IVendorManager vendorManager,IBankAccountManager bankAccountManager,IPOSManager posManager, IEmailTemplateManager templateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -47,6 +48,7 @@ namespace VendTech.Controllers
             _vendorManager = vendorManager;
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
+            _templateManager = templateManager;
         }
 
         /// <summary>
@@ -92,8 +94,41 @@ namespace VendTech.Controllers
         public JsonResult AddDeposit(DepositModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
+            var otp = Utilities.GenerateRandomNo();
+            
+            var result = _depositManager.SaveDepositRequest(model);
+            if(result != null)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                string body = emailTemplate.TemplateContent;
+                var user = _userManager.GetUserDetailsByUserId(model.UserId);
+                /*body = body.Replace("%otp%", request.FirstName);
+                body = body.Replace("%lastname%", request.LastName);
+                body = body.Replace("%code%", code.ToString());
+                
+                // new code apllied here 
+                body = body.Replace("%USER%", request.FirstName);
+                body = body.Replace("%UserName%", user.Email);
+                
+                var link = "";
+                var otp = Utilities.GenerateRandomNo();
+                var result_ = _authenticateManager.ForgotPassword(request.Email, otp.ToString());
+                if (result_.Status == ActionStatus.Successfull)
+                {
+                    link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
+                }*/
+                //body = body.Replace("%passwordrestlink%", link);
+                
+                body = body.Replace("%otp%", otp.ToString());
+                try
+                {
+                    Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                }catch(Exception e)
+                {
 
-            return JsonResult(_depositManager.SaveDepositRequest(model));
+                }
+            }
+            return JsonResult(result);
         }
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)
