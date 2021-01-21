@@ -2432,3 +2432,86 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Deposit\Index.cshtml(18): error CS1061: 'VendTech.BLL.Models.DepositModel' does not contain a definition for 'MeterId' and no extension method 'MeterId' accepting a first argument of type 'VendTech.BLL.Models.DepositModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+

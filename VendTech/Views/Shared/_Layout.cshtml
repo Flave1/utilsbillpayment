@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="~/Content/Images/favicon.ico">
+    <link rel="shortcut icon" href="~/Content/images/vt_logo.PNG"> 
     <title>User Panel</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
@@ -16,7 +16,7 @@
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
-<link href="~/Content/userStyle.css" rel="stylesheet" />
+    <link href="~/Content/userStyle.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -32,18 +32,17 @@
 
     </section>
     
-    <footer >
-        <div class="copyright">
-            <p>&copy 2020 - VendTech SL. Ltd.</p>
-        </div>
+    <footer>
+
         <div class="social">
             <a href="@Url.Action("TermsAndConditions", "Home")" style="margin-right:20px">  @*<i class="fa fa-exclamation-triangle"></i>*@Terms And Conditions</a>
-            <a>|</a> <a href="@Url.Action("PrivacyPolicy", "Home")" style="margin-left:20px">@*<i class="fa fa-book"></i>*@   Privacy Policy</a>
+
+            <a>|</a> <a href="@Url.Action("PrivacyPolicy", "Home")" style="margin-left:20px">@*<i class="fa fa-book"></i>*@     Privacy Policy </a> <span style="color:white; margin-left:20px; margin-right:25px" > |  VENDTECH SL. LTD &copy @DateTime.UtcNow.Year</span>
             @*<a href="#" class="support">Contact Us</a>
-            <a href="#" class="face">f</a>
-            <a href="#" class="tweet">t</a>
-            <a href="#" class="linked">in</a>*@
-        </div>
+        <a href="#" class="face">f</a>
+        <a href="#" class="tweet">t</a>
+        <a href="#" class="linked">in</a>*@
+        </div> 
     </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

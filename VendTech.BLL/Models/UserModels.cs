@@ -292,6 +292,7 @@ namespace VendTech.BLL.Models
         public int ID { get; set; }
         public string ModuleName { get; set; }
         public string Description { get; set; }
+        public bool? IsAdmin { get; set; }
         public int? SubMenuOf { get; set; }
         public bool Checked { get; set; }
     }

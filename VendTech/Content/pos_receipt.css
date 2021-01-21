@@ -1,4 +1,6 @@
-﻿/*#invoice-POS {
+﻿@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
+
+/*#invoice-POS {
    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
     padding: 2mm;
     margin: 0 auto;
@@ -225,4 +227,46 @@ td {
         background: url(http://vendtechsl.com/Content/images/logo1.jpg) no-repeat;
         background-size: 160px 60px;
     }
+}
+
+
+
+
+
+
+
+
+
+.cust_bold {
+    font-weight: bold
+}
+
+.cust_line {
+    height: 2px;
+    background: #ccc;
+    margin-top: 9px;
+}
+
+.dashed_border {
+    border-style: dashed;
+}
+
+.padded {
+    margin: 20px;
+}
+
+.padded_up {
+    padding-top: 50px;
+}
+
+#barcode {
+    font-family: 'Libre Barcode 39 Text', cursive;
+    font-size: 32px;
+}
+
+#generated_token {
+    font-weight: bold;
+    font-size: 25px;
+    margin: 5px;
+    padding: 0;
 }

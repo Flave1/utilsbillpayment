@@ -421,38 +421,46 @@ namespace VendTech.BLL.Managers
             { 
                 throw e;
             }
-            
-            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
-            var obj = new PushNotificationModel();
-            obj.UserId = model.UserId;
-            obj.Id = dbMeterRecharge.MeterRechargeId;
-            obj.Title = "Meter recharged successfully";
-            obj.Message = "Your meter has successfully recharged with SLL " + string.Format("{0:N0}", model.Amount) + " PIN: " + dbMeterRecharge.MeterToken;
-            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
-            foreach (var item in deviceTokens)
+            try
             {
-                obj.DeviceToken = item.DeviceToken;
-                obj.DeviceType = item.AppType.Value;
-                PushNotification.SendNotification(obj);
+                var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+                var obj = new PushNotificationModel();
+                obj.UserId = model.UserId;
+                obj.Id = dbMeterRecharge.MeterRechargeId;
+                obj.Title = "Meter recharged successfully";
+                obj.Message = "Your meter has successfully recharged with SLL " + string.Format("{0:N0}", model.Amount) + " PIN: " + dbMeterRecharge.MeterToken;
+                obj.NotificationType = NotificationTypeEnum.MeterRecharge;
+                foreach (var item in deviceTokens)
+                {
+                    obj.DeviceToken = item.DeviceToken;
+                    obj.DeviceType = item.AppType.Value;
+                    PushNotification.SendNotification(obj);
+                }
+                model.MeterToken = dbMeterRecharge.MeterToken;
+                var receipt = new ReceiptModel
+                {
+                    AccountNo = user.UserId.ToString(),
+                    CustomerName = user.SurName + " " + user.Name,
+                    ReceiptNo = dbMeterRecharge.TransactionId,
+                    Address = user.Address,
+                    DeviceNumber = dbMeterRecharge.MeterNumber,
+                    RechargeToken = dbMeterRecharge.MeterToken.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ").Insert(24, " "),
+                    Amount = Convert.ToDouble(dbMeterRecharge.Amount),
+                    Charges = 0,
+                    Commission = 0,
+                    Unit = 56,
+                    UnitCost = 100,
+                    TerminalID = "0000000000007",
+                    SerialNo = dbMeterRecharge.MeterRechargeId.ToString(),
+                };
+                return receipt;
             }
-            model.MeterToken = dbMeterRecharge.MeterToken;
-            var receipt = new ReceiptModel
+            catch (IndexOutOfRangeException e)
             {
-                AccountNo = user.UserId.ToString(),
-                CustomerName = user.SurName + " " + user.Name,
-                ReceiptNo = dbMeterRecharge.TransactionId,
-                Address = user.Address,
-                DeviceNumber = dbMeterRecharge.MeterNumber,
-                RechargeToken = dbMeterRecharge.MeterToken,
-                Amount = Convert.ToDouble(dbMeterRecharge.Amount),
-                Charges = 0,
-                Commission = 0,
-                Unit = 56,
-                UnitCost = 100,
-                TerminalID = "0000000000007",
-                SerialNo = dbMeterRecharge.MeterRechargeId.ToString(),  
-            };
-            return receipt;
+
+                throw e;
+            }
+           
             //return ReturnSuccess(model, "Deposit detail fetched successfully.");
         }
 

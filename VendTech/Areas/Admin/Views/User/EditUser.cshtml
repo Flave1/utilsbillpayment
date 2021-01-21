@@ -17,159 +17,135 @@
                     </div>
                     <div class="content people-form-cs">
                         <form class="form-horizontal" role="form" id="UserForm" enctype="multipart/form-data">
-                            @Html.HiddenFor(x => x.UserId)
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">FIRST NAME<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.FirstName)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">FIRST NAME<em>*</em></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.FirstName)
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">LAST NAME<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.LastName)
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-2 control-label">LAST NAME<em>*</em></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.LastName)
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">EMAIL<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Email)
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-2 control-label">EMAIL<em>*</em></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Email)
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD</label>
-                                        <div class="col-md-8">
-                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Password)
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
+                                            <div class="col-md-12">
+                                                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Password)
+                                            </div>
                                         </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">CONFIRM PASSWORD</label>
-                                        <div class="col-md-8">
-                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                                                @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
-                                            </reset>
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+                                            <div class="col-md-12">
+                                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                                <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                    @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
+                                                </reset>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                @if (Model.UserType != appUserVal)
-                                {
-                    <div class="row">
-                        <div class=" col-md-12">
-                            <label for="inputEmail3" class="col-md-2 control-label">ROLE<em>*</em></label>
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.UserTypes, "value", "text"), null, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.UserType)
-                            </div>
-                        </div>
-
-                    </div>}
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">CELLPHONE<em>*</em></label>
-                                        <div class="col-md-1">
-                                            <select name="CountryCode" class="form-control">
-                                                <option value="+232">+232</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Phone)
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                                @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
-                                {@*<div class="row">
-                                            <div class=" col-md-12">
-                                                <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
-                                                <div class="col-md-8">
-                                                    <input type="file" name="ImagefromWeb">
+                                        @Html.HiddenFor(x => x.UserId)
+                                        @if (Model.UserType != appUserVal)
+                                        {
+                                            <div class="form-group">
+                                                <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">ROLE<em>*</em></label>
+                                                <div class="col-md-12">
+                                                    @Html.DropDownListFor(x => x.UserType, new SelectList(ViewBag.UserTypes, "value", "text"), null, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.UserType)
                                                 </div>
                                             </div>
-                                        </div>*@ @*<div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">Profile Pic</label>
+                                        }
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
                                             <div class="col-md-2">
-                                                <img src="@Model.ProfilePicUrl" style="width:100px;height:100px;" />
+                                                <select name="CountryCode" class="form-control">
+                                                    <option value="+232">+232</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Phone)
                                             </div>
                                         </div>
 
-                                    </div>*@}
+                                        @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
+                                        {
 
-                                @if (Model.UserType == appUserVal)
-                                {
-                    <div class="row">
-                        <div class=" col-md-12">
-                            <label for="inputEmail3" class="col-md-2 control-label">PLATFORMS</label>
 
-                            <div class=" col-md-8">
-                                @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+                                        }
 
-                            </div>
-                        </div>
-                    </div> }
-                else
-                {
-                    <div class="row">
-                        <div class=" col-md-12">
-                            <label for="inputEmail3" class="col-md-2 control-label">PERMISSIONS</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @*@if (Model.UserType == appUserVal)
+            {
+                <div class="form-group">
+                    <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PLATFORMS</label>
 
-                            <div class=" col-md-8">
-                                @Html.Partial("Partials/_modulesListing", Model.ModuleList)
-
-                            </div>
-                        </div>
+                    <div class=" col-md-12">
+                        @Html.Partial("Partials/_platformsListing", Model.PlatformList)
                     </div>
-                    <div class="row">
-                        <div class=" col-md-12">
-                            <label for="inputEmail3" class="col-md-2 control-label">DASHBOARD WIDGETS</label>
+                </div>
+            }
+            else
+            {*@
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS</label>
 
-                            <div class=" col-md-8">
-                                @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
+                                            <div class=" col-md-12">
+                                                @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+                                            </div>
+                                        </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    
-                    }
-                                <div class="row">
-                                    <div class=" col-md-6">
-                                        <div class="col-sm-offset-4 col-sm-8">
+
+
+                                        @* } *@
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">DASHBOARD WIDGETS</label></p>
+
+                                            <div class=" col-md-12">
+                                                @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="text-align:right;">
                                             @if (Model.UserType != appUserVal)
                                             {
-                                                <a href="@Url.Action("ManageUsers", "user", new { area = "Admin" })" class="btn btn-default">Cancel</a> }
+                                                <a href="@Url.Action("ManageUsers", "user", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            }
                                             else
                                             {
-                                                <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })" class="btn btn-default">Cancel</a>}
+                                                <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            }
 
                                             <input type="button" class="btn btn-primary" id="editUserBtn" value="Submit" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </form>
                     </div>
                 </div>

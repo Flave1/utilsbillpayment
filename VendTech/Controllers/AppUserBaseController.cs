@@ -215,8 +215,8 @@ namespace VendTech.Controllers
         public override ActionResult SignOut()
         {
             HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-            auth_cookie.Expires = DateTime.Now.AddDays(-30);
-            Response.Cookies.Add(auth_cookie);
+            if(auth_cookie != null) auth_cookie.Expires = DateTime.Now.AddDays(-30);
+            if (auth_cookie != null) Response.Cookies.Add(auth_cookie);
             return Redirect(Url.Action("Index", "Home"));//, new { area = "Admin" }));
         }
 

@@ -65,6 +65,7 @@
 
 
 
+
     function printElement(elem) {
         var domClone = elem.cloneNode(true);
 
@@ -165,14 +166,31 @@ var Users = {
                 console.log(data);
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code == 200) {
-                    $("#r_address").html("CUSTOMER: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.CustomerName + "<br> ADDRESS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Address + "<br> METER NO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.DeviceNumber)
-                    $("#tender").html("TENDER AMOUNT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Amount + "<br> GTS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00" + "<br> EDSA DEBIT CHARGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Charges + "<br> DEPT RECOVERY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00")
-                    $("#tarrif").html("TARIFF: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;560 <br>" + " COST OF UNIT Le: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1,720,869.57 <br> Units: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1246");
-                    $("#tendered").html(data.Data.Amount)
+                    console.log(data);
+                    debugger;
+                    $("#customer_name").html(data.Data.CustomerName);
+                    $("#customer_account_number").html(data.Data.AccountNo);
+                    $("#customer_address").html(data.Data.Address);
+                    $("#meter_number").html(data.Data.DeviceNumber);
+                    $("#current_tarrif").html(data.Data.Tarrif);
+                    $("#amount_tender").html(data.Data.Amount);
+                    $("#gst").html("0.00");
+                    $("#service_charge").html(data.Data.Charges);
+                    $("#debit_recovery").html("0.00");
+                    $("#cost_of_units").html(data.Data.UnitCost); 
+                    $("#units").html(data.Data.Unit);
+                    $("#generated_token").html(data.Data.RechargeToken);
+                    $("#edsa_serial").html(data.Data.SerialNo);
+                    $("#barcode").html(data.Data.SerialNo);
+                    $("#vendtech_serial_code").html(data.Data.ReceiptNo);
+
+                    //$("#tender").html("TENDER AMOUNT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Amount + "<br> GTS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00" + "<br> EDSA DEBIT CHARGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Charges + "<br> DEPT RECOVERY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00")
+                    //$("#tarrif").html("TARIFF: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;560 <br>" + " COST OF UNIT Le: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1,720,869.57 <br> Units: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1246");
+                    //$("#tendered").html(data.Data.Amount)
                     /*$("#charges").html("0.00")
                     $("#dept").html("0.00")*/
-                    $("#token").html(data.Data.RechargeToken)
-                    $("#modalCart").modal("show")
+                    //$("#token").html(data.Data.RechargeToken)
+                    $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {
                             window.location.href = baseUrl + '/Meter/AddEditMeter?number=' + $("#MeterNumber").val();

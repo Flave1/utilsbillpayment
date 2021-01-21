@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var chkbox in Model)
+            @foreach (var chkbox in Model.Where(e => e.Id != 5 & e.Id != 8))
             {
 <tr class="odd gradeX">
     <td><label> @chkbox.Title</label></td>

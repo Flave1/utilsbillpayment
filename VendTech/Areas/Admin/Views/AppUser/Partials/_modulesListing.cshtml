@@ -43,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var chkbox in (Model.Where(p=>p.SubMenuOf==null)))
+            @foreach (var chkbox in (Model.Where(p=>p.SubMenuOf==null && (bool)!p.IsAdmin)))
             {
                 <tr class="odd gradeX">
                     <td><label> @chkbox.ModuleName</label></td>

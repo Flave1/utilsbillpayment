@@ -490,7 +490,8 @@ namespace VendTech.BLL.Managers
                         ModuleName = x.ModuleName,
                         Description = x.Description,
                         Checked = false,
-                        SubMenuOf=x.SubMenuOf
+                        SubMenuOf=x.SubMenuOf,
+                        IsAdmin = x.IsAdmin
                     };
                 }).ToList();
 
