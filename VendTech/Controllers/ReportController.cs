@@ -29,7 +29,7 @@ namespace VendTech.Controllers
     /// Home Controller 
     /// Created On: 10/04/2015
     /// </summary>
-    public class ReportController : BaseController
+    public class ReportController : AppUserBaseController
     {
         #region Variable Declaration
         //   private readonly IUserManager _userManager;

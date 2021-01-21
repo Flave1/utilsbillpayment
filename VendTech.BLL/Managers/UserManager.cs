@@ -11,6 +11,7 @@ using VendTech.BLL.Common;
 using System.Web;
 using System.IO;
 using System.Web.Mvc;
+using System.Data.Entity.Validation;
 
 namespace VendTech.BLL.Managers
 {
@@ -289,7 +290,7 @@ namespace VendTech.BLL.Managers
         {
             var moduleListModel = new List<ModulesModel>();
             var modulesPermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList().Select(x => x.ModuleId);
-            var modules = Context.Modules.ToList().Where(c => modulesPermissons.Contains(c.ModuleId));
+            var modules = Context.Modules.Where(c => modulesPermissons.Contains(c.ModuleId)).ToList();
             if (modules.Count() > 0)
             {
                 moduleListModel = modules.Select(x => new ModulesModel(x)).ToList();
@@ -366,71 +367,13 @@ namespace VendTech.BLL.Managers
                     //var result = obj.RegisterUser(model);
                 }
                 Context.SaveChanges();
-                //Deleteing Existing Permissons
-                var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingpermissons.Count > 0)
-                {
-                    Context.UserAssignedModules.RemoveRange(existingpermissons);
-                    Context.SaveChanges();
-                }
 
-                //Deleting Exisiting Platforms
-                var existingPlatforms = Context.UserAssignedPlatforms.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingPlatforms.Count > 0)
-                {
-                    Context.UserAssignedPlatforms.RemoveRange(existingPlatforms);
-                    Context.SaveChanges();
-                }
+                RemoveORAddUserPermissions(user.UserId, userDetails);
 
-                //Deleting Exisiting Widgets
-                var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existing_widgets.Count > 0)
-                {
-                    Context.UserAssignedWidgets.RemoveRange(existing_widgets);
-                    Context.SaveChanges();
-                }
+                RemoveOrAddUserPlatforms(user.UserId, userDetails);
 
-                //Adding New Permissons
-                List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
-                if (userDetails.SelectedModules != null)
-                {
-                    userDetails.SelectedModules.ToList().ForEach(c =>
-                     newpermissos.Add(new UserAssignedModule()
-                     {
-                         UserId = userDetails.UserId,
-                         ModuleId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedModules.AddRange(newpermissos);
-                    Context.SaveChanges();
-                }
-                List<UserAssignedPlatform> newPlatforms = new List<UserAssignedPlatform>();
+                RemoveOrAddUserWidgets(user.UserId, userDetails);
 
-                if (userDetails.SelectedPlatforms != null)
-                {
-                    userDetails.SelectedPlatforms.ToList().ForEach(c =>
-                     newPlatforms.Add(new UserAssignedPlatform()
-                     {
-                         UserId = userDetails.UserId,
-                         PlatformId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedPlatforms.AddRange(newPlatforms);
-                    Context.SaveChanges();
-                }
-                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
-                if (userDetails.SelectedWidgets != null)
-                {
-                    userDetails.SelectedWidgets.ToList().ForEach(c =>
-                     newwidgets.Add(new UserAssignedWidget()
-                     {
-                         UserId = userDetails.UserId,
-                         WidgetId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedWidgets.AddRange(newwidgets);
-                    Context.SaveChanges();
-                }
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -519,72 +462,12 @@ namespace VendTech.BLL.Managers
                     //var result = obj.RegisterUser(model);
                 }
                 Context.SaveChanges();
-                //Deleteing Existing Permissons
-                var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingpermissons.Count > 0)
-                {
-                    Context.UserAssignedModules.RemoveRange(existingpermissons);
-                    Context.SaveChanges();
-                }
 
-                //Deleting Exisiting Platforms
-                var existingPlatforms = Context.UserAssignedPlatforms.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingPlatforms.Count > 0)
-                {
-                    Context.UserAssignedPlatforms.RemoveRange(existingPlatforms);
-                    Context.SaveChanges();
-                }
-                //Adding New Permissons
-                List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
-                if (userDetails.SelectedModules != null)
-                {
-                    userDetails.SelectedModules.ToList().ForEach(c =>
-                     newpermissos.Add(new UserAssignedModule()
-                     {
-                         UserId = userDetails.UserId,
-                         ModuleId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedModules.AddRange(newpermissos);
-                    Context.SaveChanges();
-                }
-                List<UserAssignedPlatform> newPlatforms = new List<UserAssignedPlatform>();
+                RemoveORAddUserPermissions(user.UserId, userDetails);
 
-                if (userDetails.SelectedPlatforms != null)
-                {
-                    userDetails.SelectedPlatforms.ToList().ForEach(c =>
-                     newPlatforms.Add(new UserAssignedPlatform()
-                     {
-                         UserId = userDetails.UserId,
-                         PlatformId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedPlatforms.AddRange(newPlatforms);
-                    Context.SaveChanges();
-                }
+                RemoveOrAddUserPlatforms(user.UserId, userDetails);
 
-                //Deleting Exisiting Widgets
-                var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existing_widgets.Count > 0)
-                {
-                    Context.UserAssignedWidgets.RemoveRange(existing_widgets);
-                    Context.SaveChanges();
-                }
-
-                //Adding new Widgets
-                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
-                if (userDetails.SelectedWidgets != null)
-                {
-                    userDetails.SelectedWidgets.ToList().ForEach(c =>
-                     newwidgets.Add(new UserAssignedWidget()
-                     {
-                         UserId = userDetails.UserId,
-                         WidgetId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedWidgets.AddRange(newwidgets);
-                    Context.SaveChanges();
-                }
+                RemoveOrAddUserWidgets(user.UserId, userDetails);
 
                 return new ActionOutput
                 {
@@ -750,41 +633,13 @@ namespace VendTech.BLL.Managers
                 }
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
-                //Deleteing Existing Permissons
-                var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingpermissons.Count > 0)
-                {
-                    Context.UserAssignedModules.RemoveRange(existingpermissons);
-                    Context.SaveChanges();
-                }
-                //Adding New Permissons
-                List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
-                if (userDetails.SelectedModules != null)
-                {
-                    userDetails.SelectedModules.ToList().ForEach(c =>
-                     newpermissos.Add(new UserAssignedModule()
-                     {
-                         UserId = dbUser.UserId,
-                         ModuleId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedModules.AddRange(newpermissos);
-                    Context.SaveChanges();
-                }
 
-                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
-                if (userDetails.SelectedWidgets != null)
-                {
-                    userDetails.SelectedWidgets.ToList().ForEach(c =>
-                     newwidgets.Add(new UserAssignedWidget()
-                     {
-                         UserId = dbUser.UserId,
-                         WidgetId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedWidgets.AddRange(newwidgets);
-                    Context.SaveChanges();
-                }
+
+                RemoveORAddUserPermissions(dbUser.UserId, userDetails);
+
+                RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
+
+                RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
 
                 return new ActionOutput
                 {
@@ -865,42 +720,13 @@ namespace VendTech.BLL.Managers
                         Message = ex?.Message ?? ex?.InnerException?.Message
                     };
                 }
-          
-                //Deleteing Existing Permissons
-                var existingpermissons = Context.UserAssignedPlatforms.Where(x => x.UserId == userDetails.UserId).ToList();
-                if (existingpermissons.Count > 0)
-                {
-                    Context.UserAssignedPlatforms.RemoveRange(existingpermissons);
-                    Context.SaveChanges();
-                }
-                List<UserAssignedPlatform> newPlatforms = new List<UserAssignedPlatform>();
 
-                if (userDetails.SelectedPlatforms != null)
-                {
-                    userDetails.SelectedPlatforms.ToList().ForEach(c =>
-                     newPlatforms.Add(new UserAssignedPlatform()
-                     {
-                         UserId = dbUser.UserId,
-                         PlatformId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedPlatforms.AddRange(newPlatforms);
-                    Context.SaveChanges();
-                }
 
-                List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
-                if (userDetails.SelectedWidgets != null)
-                {
-                    userDetails.SelectedWidgets.ToList().ForEach(c =>
-                     newwidgets.Add(new UserAssignedWidget()
-                     {
-                         UserId = dbUser.UserId,
-                         WidgetId = c,
-                         CreatedAt = DateTime.UtcNow,
-                     }));
-                    Context.UserAssignedWidgets.AddRange(newwidgets);
-                    Context.SaveChanges();
-                }
+                RemoveORAddUserPermissions(dbUser.UserId, userDetails);
+
+                RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
+
+                RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
 
                 return new ActionOutput
                 {
@@ -938,16 +764,16 @@ namespace VendTech.BLL.Managers
             {
                 var dbUser = new User();
                 dbUser.Name = string.IsNullOrEmpty(userDetails.CompanyName)? userDetails.FirstName: userDetails.CompanyName;
+                dbUser.CompanyName = userDetails.CompanyName;
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword("vendtech8");
                 dbUser.CreatedAt = DateTime.UtcNow;
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
-                dbUser.Address = userDetails.Address;
-                dbUser.CountryCode = userDetails.Country;
-                //dbUser.CityId = userDetails.City;
-                
+                dbUser.Address = $"{userDetails.Address}....{userDetails.Country}";
+                dbUser.CountryCode = userDetails.Country.Substring(0,9);
+                //dbUser.CityId = userDetails.City; 
                 dbUser.Status = (int)UserStatusEnum.Pending;
 
                 dbUser.Phone = userDetails.Mobile;
@@ -957,7 +783,10 @@ namespace VendTech.BLL.Managers
                     Context.Users.Add(dbUser);
                     Context.SaveChanges();
                 }
-                catch (Exception) { }
+                catch (DbEntityValidationException ex) 
+                {
+                    return ReturnError(ex?.EntityValidationErrors.FirstOrDefault().ValidationErrors.FirstOrDefault().ErrorMessage);
+                }
 
                 //return new ActionOutput
                 //{
@@ -972,6 +801,7 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.GetUserDetailsByUserId(long userId)
         {
+            if (userId == 0) return new UserModel();
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user == null)
                 return null;
@@ -1075,7 +905,82 @@ namespace VendTech.BLL.Managers
             
         }
 
- 
+        bool RemoveORAddUserPermissions(long userId, AddUserModel model)
+        { 
+            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
+            if (existingpermissons.Count > 0)
+            {
+                Context.UserAssignedModules.RemoveRange(existingpermissons);
+                Context.SaveChanges();
+            } 
+            List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
+            if (model.SelectedModules != null)
+            {
+                model.SelectedModules.ToList().ForEach(c =>
+                 newpermissos.Add(new UserAssignedModule()
+                 {
+                     UserId = userId,
+                     ModuleId = c,
+                     CreatedAt = DateTime.UtcNow,
+                 }));
+                Context.UserAssignedModules.AddRange(newpermissos);
+                Context.SaveChanges();
+            }
+            return true;
+        }
+        bool RemoveOrAddUserPlatforms(long userId, AddUserModel model)
+        { 
+            var existingPlatforms = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
+            if (existingPlatforms.Count > 0)
+            {
+                Context.UserAssignedPlatforms.RemoveRange(existingPlatforms);
+                Context.SaveChanges();
+            }
+
+            List<UserAssignedPlatform> newPlatforms = new List<UserAssignedPlatform>();
+
+            if (model.SelectedPlatforms != null)
+            {
+                model.SelectedPlatforms.ToList().ForEach(c =>
+                 newPlatforms.Add(new UserAssignedPlatform()
+                 {
+                     UserId = userId,
+                     PlatformId = c,
+                     CreatedAt = DateTime.UtcNow,
+                 }));
+                Context.UserAssignedPlatforms.AddRange(newPlatforms);
+                Context.SaveChanges();
+            }
+            return true;
+        }
+
+        bool RemoveOrAddUserWidgets(long userId, AddUserModel model)
+        {
+            //Deleting Exisiting Widgets
+            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
+            if (existing_widgets.Count > 0)
+            {
+                Context.UserAssignedWidgets.RemoveRange(existing_widgets);
+                Context.SaveChanges();
+            }
+
+            List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+            if (model.SelectedWidgets != null)
+            {
+                model.SelectedWidgets.ToList().ForEach(c =>
+                 newwidgets.Add(new UserAssignedWidget()
+                 {
+                     UserId = userId,
+                     WidgetId = c,
+                     CreatedAt = DateTime.UtcNow,
+                 }));
+                Context.UserAssignedWidgets.AddRange(newwidgets);
+                Context.SaveChanges();
+            }
+            return true;
+        }
+
+
     }
 
 

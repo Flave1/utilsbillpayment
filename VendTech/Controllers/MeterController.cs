@@ -20,7 +20,7 @@ namespace VendTech.Controllers
     /// Home Controller 
     /// Created On: 10/04/2015
     /// </summary>
-    public class MeterController : BaseController
+    public class MeterController : AppUserBaseController
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

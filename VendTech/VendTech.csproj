@@ -252,6 +252,7 @@
     <Compile Include="Areas\Vendor\Controllers\HomeController.cs" />
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
+    <Compile Include="Controllers\AppUserBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\POSController.cs" />
     <Compile Include="Controllers\ReportController.cs" />

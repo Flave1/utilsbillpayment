@@ -1,7 +1,7 @@
 ﻿@using VendTech.BLL.Models
 @{
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
-    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+   var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
 }
 <div class="cl-sidebar" data-position="right" data-step="1" data-intro="">
 
@@ -12,24 +12,39 @@
                 <ul class="cl-vnavigation">
 
                     @*<li><a href="@Url.Action("Dashboard", "Home")"><i class="fa fa-columns"></i><span>Dashboard</span></a></li>*@
-                    <li><a href="@Url.Action("Utility", "Meter")"><i class="fa fa-shopping-cart"></i><span>Bill Payment</span></a></li>
-                    <li><a href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a></li>
-                    <li><a href="@Url.Action("ManagePos", "POS")"><i class="fa fa-user"></i><span>Manage POS</span></a></li>
-                    <li><a href="@Url.Action("Index", "Deposit")"><i class="fa fa-money"></i><span>Wallet</span></a></li>
-                    <li><a href="@Url.Action("SalesReport", "Report")"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
-                    <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "")">
-                        <a href="#"><i class="fa fa-user"></i><span>Manage Profile</span></a>
-                        <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
-                            <li><a href="@Url.Action("EditProfile", "User")">Edit Profile</a></li>
-                            <li><a href="@Url.Action("ChangePassword", "Home")">Change Password</a></li>
-                        </ul>
-                    </li>
+                    @if (assignerModules.Where(X => X.ControllerName == "Meter").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
+                    {
+                        <li><a href="@Url.Action("Utility", "Meter")"><i class="fa fa-shopping-cart"></i><span>Bill Payment</span></a></li>
+                        <li><a href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a></li>
+                    }
+                    @if (assignerModules.Where(X => X.ControllerName == "POS").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
+                    {
+                        <li><a href="@Url.Action("ManagePos", "POS")"><i class="fa fa-user"></i><span>Manage POS</span></a></li>
+                    }
+                    @if (assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
+                    {
+                        <li><a href="@Url.Action("Index", "Deposit")"><i class="fa fa-money"></i><span>Wallet</span></a></li>
+                    }
+                    @if (assignerModules.Where(X => X.ControllerName == "Reports").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
+                    {
+                        <li><a href="@Url.Action("SalesReport", "Report")"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
+                    }
+                    @if (user.UserType != UserRoles.Admin)
+                    {
+                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "")">
+                            <a href="#"><i class="fa fa-user"></i><span>Manage Profile</span></a>
+                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
+                                <li><a href="@Url.Action("EditProfile", "User")">Edit Profile</a></li>
+                                <li><a href="@Url.Action("ChangePassword", "Home")">Change Password</a></li>
+                            </ul>
+                        </li>
+                    }
 
-                    @*<li><a href="@Url.Action("ChangePassword", "Home")"><i class="fa fa-lock"></i><span>Change Password</span></a></li>
-        <li><a href="@Url.Action("TermsAndConditions", "Home")"><i class="fa fa-exclamation-triangle"></i><span>Terms And Conditions</span></a></li>
-        <li><a href="@Url.Action("PrivacyPolicy", "Home")"><i class="fa fa-book"></i><span>Privacy Policy</span></a></li>*@
+                        @*<li><a href="@Url.Action("ChangePassword", "Home")"><i class="fa fa-lock"></i><span>Change Password</span></a></li>
+            <li><a href="@Url.Action("TermsAndConditions", "Home")"><i class="fa fa-exclamation-triangle"></i><span>Terms And Conditions</span></a></li>
+            <li><a href="@Url.Action("PrivacyPolicy", "Home")"><i class="fa fa-book"></i><span>Privacy Policy</span></a></li>*@
 
-                </ul>
+                    </ul>
             </div>
         </div>
         @*<div class="text-right collapse-button" style="padding:7px 9px;">

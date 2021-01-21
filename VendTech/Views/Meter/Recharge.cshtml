@@ -1,80 +1,98 @@
 ﻿@model  RechargeMeterModel
 @{ ViewBag.Title = "Recharge";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
-<div class="dashright ">
-    <div class="page-head">
-        <h2>Recharge</h2>
-    </div>
-    <div class="cl-mcont">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat">
-                    @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
-                    {
-        <div class="dashtop">
-            <label>Wallet Balance - </label>
-            <span id="balanceSpan">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+    <div class="dashright ">
+        <style type="text/css">
+            .cust_bold {
+                font-weight: bold
+            }
+
+            .cust_line {
+                height: 2px;
+                background: #ccc;
+                margin-top: 9px;
+            }
+
+            .dashed_border {
+                border-style: dashed;
+            }
+            .padded{margin-left:20px;}
+        </style>
+        <div class="page-head">
+            <h2>Recharge</h2>
         </div>
-                        <div class="contarea meterpage">
-                            <div class="tabcont-row current">
-                                <form id="rechargeForm">
-                                    <div class="editpro-row">
-                                        <div class="editpro-row50 meterrec">
-                                            <label>SELECT POS ID</label>
-                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @id = "posDrp" })
-                                        </div>
-                                        <div style="width:100%; height:10px;float:left;"></div>
-                                        <div class="editpro-row50 meterrec">
-                                            <label>METER NUMBER</label>
-                                            @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
-                                            @Html.ValidationMessageFor(x => x.MeterNumber)
-                                        </div>
-                                        <label class="optionor">OR</label>
-                                        <div class="editpro-row50 meterrec">
-                                            <label>SELECT SAVED METER</label>
-                                            @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @id = "meterDrp", @onchange = "onSelectMeter()" })
-                                        </div>
-                                        <div style="width:100%; height:10px;float:left;"></div>
-                                        <div class="editpro-row50 meterrec">
-                                            <label>AMOUNT</label>
-                                            <input id="AmountDisplay" type="text" onkeypress="javascript:return isNumber(event)" onkeyup="amountFormatter()" class="form-control" />
-                                            @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Amount)
-
-
-                                        </div>
-                                        <div class="editpro-row50" style="width:100% !important;">
-                                            <label>Save Meter <input style="margin-right:12px;" id="saveMeterChk" type="checkbox" class="form-control" /></label>
-
-                                        </div>
-                                        <div class="editpro-row submt" style="padding-left:25px !important;">
-                                            <input type="button" class="savebttn addDepositBtn" value="Pay Now">
-                                        </div>
-                                    </div>
-                                </form>
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+                        {
+                            <div class="dashtop">
+                                <label>Wallet Balance - </label>
+                                <span id="balanceSpan">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
                             </div>
-                        </div> }
-                    else
-                    {
-        <div class="contarea">
-            <p>
-                Service not assigned<br />
-                Please contact VENDTECH on +23279990990
-            </p>
-        </div>}
+                            <div class="contarea meterpage">
+                                <div class="tabcont-row current">
+                                    <form id="rechargeForm">
+                                        <div class="editpro-row">
+                                            <div class="editpro-row50 meterrec" style="font-weight:bold;">
+                                                <label>SELECT POS ID</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @id = "posDrp" })
+                                            </div>
+                                            <div style="width:100%; height:10px;float:left;"></div>
+                                            <div class="editpro-row50 meterrec" style="font-weight:bold;">
+                                                <label>METER NUMBER</label>
+                                                @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
+                                                @Html.ValidationMessageFor(x => x.MeterNumber)
+                                            </div>
+                                            <label class="optionor">OR</label>
+                                            <div class="editpro-row50 meterrec" style="font-weight:bold;">
+                                                <label>SELECT SAVED METER</label>
+                                                @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @id = "meterDrp", @onchange = "onSelectMeter()" })
+                                            </div>
+                                            <div style="width:100%; height:10px;float:left; font-weight:bold; color:red;"></div>
+                                            <div class="editpro-row50 meterrec">
+                                                <label>AMOUNT</label>
+                                                <span style="display:none; text-align:center; color:#db6d16;" id="displayErroMsg">Error messgae here</span>
+                                                <input id="AmountDisplay" type="text" onkeypress="javascript:return isNumber(event)" onkeyup="amountFormatter()" class="form-control" />
+                                                @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Amount)
 
 
+                                            </div>
+                                            <div class="editpro-row50" style="width:100% !important;">
+                                                <label>Save Meter <input style="margin-right:12px;" id="saveMeterChk" type="checkbox" class="form-control" /></label>
+
+                                            </div>
+                                            <div class="editpro-row submt" style="padding-left:25px !important;">
+                                                <input type="button" disabled class="savebttn addDepositBtn" id="pay_Now_Btn" value="Pay Now">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> }
+                        else
+                        {
+                            <div class="contarea">
+                                <p>
+                                    Service not assigned<br />
+                                    Please contact VENDTECH on +23279990990
+                                </p>
+                            </div>
+                        }
+
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-colored" style="background-color: #e4c200">
-                <h3 class="modal-title">Please Confirm your purchase</h3>
+                <h3 class="modal-title" style="color:black; font-weight:bold; text-transform:capitalize;">Please Confirm your purchase</h3>
                 <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
             </div>
             <div class="modal-body">
@@ -85,17 +103,17 @@
                             <span class="adv-company-name">Meter No:</span>
                         </div>
                         <div class="col-md-6 col-item">
-                            <span id="meterno" class="adv-company-name">Peter Bamidele</span>
+                            <span id="meterno" class="adv-company-name" style="font-weight:bold; font-size:30px;">Peter Bamidele</span>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-item adv-company-name">
-                            <span class="adv-company-name">Amount</span>
+                            <span class="adv-company-name">Amount:</span>
                         </div>
                         <div class="col-md-6 col-item">
                             <span class="amount-currency">SSL</span>
-                            <span id="pamount" class="adv-amount-figure">100.00</span>
+                            <span id="pamount" class="adv-amount-figure" style="font-weight:bold; font-size:30px;">100.00</span>
 
                         </div>
                     </div>
@@ -111,102 +129,196 @@
 </div>
 
 
-
-<div class="modal fade" id="modalCart">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--Header-->
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Receipt</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <!--Body-->
-            <div class="modal-body" id="printSection">
-                <center id="top">
-                    <div class="logo"></div>
-                    @*<div class="info">
-                            <h2>VENDTECH SL LTD.</h2>
-                        </div>*@<!--End Info-->
-                </center>
-                <div id="gen-invoice">
-                    <div class="row">
-                        
-                        <div class="col-md-9 col-lg-9 col-sm-9">
-                            <div id="invoice heading">
-                                <h2>ELECTRICITY PURCHASE</h2>
+    <div class="modal fade" id="modalCart"> 
+            <div class="modal-dialog">
+                <div class="modal-content"> 
+                    <div class="modal-body" id="printSection" >
+                        <div class="row padded" style="text-align:center;" id="gen-invoice">
+                            <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
+                            <h3>ELECTRICITY PURCHASE</h3>
+                        </div>
+                        <hr class="bg-dark" style="border: 1px solid grey; background: grey;">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                                <span class="cust_bold">Date</span>
+                                <p class="cust_bold">@DateTime.UtcNow</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                <span class="text-light">Vendor ID</span>
+                                <p class="cust_bold">Office Coporate</p>
+                            </div>
+                        </div> 
+                        <br />
+                        <div class="row">
+                            <div class="col-md-10 padded">
+                                <div class="row"><span class="cust_bold">Customer :</span><span id="customer_name">Emmanuel Favour</span></div>
+                                <div class="row"><span class="cust_bold">Account # :</span><span id="customer_account_number">234567890</span></div>
+                                <div class="row"><span class="cust_bold">Address :</span><span id="customer_address">52 Oshola str. Ogba Ikeja, Lagos Nigeria</span></div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3 col-lg-3 col-sm-3">
-                            <div id="date">
-                                <h5>DATE: @DateTime.Now </h5>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-10 padded">
+                                <div class="cust_bold row">Meter #: <span id="meter_number">1345678909876</span> </div>
+                                <div class="cust_bold row">Tariff: <span id="tarrif">569</span> </div>
+                                <div class="row">Amount Tendered:<span class="cust_bold">le: <span id="amount_tender">1000,000</span></span></div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
+                            <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  Deductions </span>
+                            <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">GST:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="gst">150,000</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Service charge:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="service_charge">10,500</span></div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Debit recovery:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: <span id="debit_recovery">350,000</span></div>
+                                    </div> 
+                                </div>
                             </div>
                         </div>
 
+                        <div class="row" style="margin: 10px;">
+                            <span class="col-md-1 col-sm-1 col-xs-1 cust_bold"><div class="cust_line"></div></span>
+                            <span class="col-md-3 col-sm-3 col-xs-3 cust_bold">  TOTAL </span>
+                            <span class="col-md-7 col-sm-7 col-xs-7 cust_bold"><div class="cust_line"></div></span>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-md-10">
+
+                                <div style="border:none;" class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Cost of units:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">le: 489,500</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-5">Units:</div>
+                                        <div class="cust_bold col-md-5 col-sm-5 col-xs-5">1245.4</div>
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div><br>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-md-12" style="text-align: center; ">
+                                <p class="dashed_border" style="border-right: none; border-left: none; font-weight: bold; font-size: 35px; margin :10px; padding: 5px;">12135456897707654</p>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-10 col-xs-10" style="max-width: 50%;">
+                                <em>
+                                    EDSA Serial #:123467
+                                    <p>VENDTECH Serial #:1234356 </p>
+                                    www.vendtechsl.com
+                                    <p>Call +232 76 990 990</p>
+                                </em>
+
+                            </div>
+                            <div class="col-md-5 col-sm-2 col-xs-2"></div>
+                        </div>
+                    </div> 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
+                        <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
                     </div>
+
                 </div>
-                <div class="customer-details">
-                    @*<ul>
-                            <li class="customer">CUSTOMER:</li>
-                            <li class="account">ACCOUNT:</li>
-                            <li class="address">ADDRESS:</li>
-                            <li class="meter">METER:</li>
-                        </ul>*@
-                    <div id="r_address">
-                        Address : &nbsp; street city, state 0000</br>
-                        Email   : JohnDoe@gmail.com</br>
-                        Phone   : 555-555-5555</br>
+
+            </div>
+            </div>
+
+
+    @*<div class="modal fade" id="modalCart">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Receipt</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
                     </div>
-                    <hr>
-                </div>
+                    <div class="modal-body" id="printSection">
+                        <center id="top">
+                            <div class="logo"></div>
+                        </center>
+                        <div id="gen-invoice">
+                            <div class="row">
 
-                <div class="customer-details">
-                    @*<ul>
-                            <li class="customer">TENDERED AMOUNT:</li>
-                            <li class="account">GST:</li>
-                            <li class="address">EDSA SERVICE CHARGE:</li>
-                            <li class="meter">DEBT RECOVERY:</li>
-                        </ul>*@
-                    <div id="tender"></div>
-                    <hr>
-                </div>
+                                <div class="col-md-9 col-lg-9 col-sm-9">
+                                    <div id="invoice heading">
+                                        <h2>ELECTRICITY PURCHASE</h2>
+                                    </div>
+                                </div>
 
-                <div class="customer-details">
+                                <div class="col-md-3 col-lg-3 col-sm-3">
+                                    <div id="date">
+                                        <h5>DATE: @DateTime.Now </h5>
+                                    </div>
+                                </div>
 
-                    <div id="tarrif">
 
+                            </div>
+                        </div>
+                        <div class="customer-details">
+                            <div id="r_address">
+                                Address : &nbsp; street city, state 0000</br>
+                                Email   : JohnDoe@gmail.com</br>
+                                Phone   : 555-555-5555</br>
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="customer-details">
+                            <div id="tender"></div>
+                            <hr>
+                        </div>
+
+                        <div class="customer-details">
+
+                            <div id="tarrif">
+
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="info">
+                            <div id="token">Contact Info</div>
+                        </div>
+
+
+                        <div id="serial-details">
+                            <p>SERIAL:</p>
+                            <p>TERMINAL ID:</p>
+                        </div>
                     </div>
-                    <hr>
-                </div>
-
-                <div class="info">
-                    <div id="token">Contact Info</div>
-                </div>
-
-
-                <div id="serial-details">
-                    <p>SERIAL:</p>
-                    <p>TERMINAL ID:</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
+                        <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
+                    </div>
                 </div>
             </div>
-            <!--Footer-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary waves-effect waves-light">SMS</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="js:window.print()">PRINT</button>
-            </div>
-        </div>
-    </div>
-</div>
+        </div>*@
 
 
-@section scripts{
-    <script src="~/Scripts/UserScripts/meter.js"></script>
-    <link href="~/Content/transdetails.css" rel="stylesheet" />
-    <link href="~/Content/pos_receipt.css" rel="stylesheet" />
-    <script>
+    @section scripts{
+        <script src="~/Scripts/UserScripts/meter.js"></script>
+        <link href="~/Content/transdetails.css" rel="stylesheet" />
+        <link href="~/Content/pos_receipt.css" rel="stylesheet" />
+        <script>
         $(document).ready(function () {
             $(".savebttn").click(function () {
                 if (!$("#Amount").val() || $("#Amount").val() == "0") {
@@ -220,11 +332,11 @@
                     if ($("#MeterNumber").val() == "") {
                         meterno = $("#meterDrp option:selected").text()
                     } else {
-                        meterno = $("#MeterNumber").val()
+                        meterno = $("#MeterNumber").val();
                     }
 
                     $("#meterno").html(meterno)
-                    $("#pamount").html($("#Amount").val())
+                    $("#pamount").html(thousands_separators($("#Amount").val()))
                     $("#form-bp1").modal("show")
                 }
             })
@@ -274,13 +386,26 @@
             return num_parts.join(".");
         }
         function amountFormatter() {
+            $("#displayErroMsg").hide();
+            $("#pay_Now_Btn").prop('disabled', false);
+
             var displayVal = $("#AmountDisplay").val();
             var val = "";
             if (displayVal) {
                 var cc = displayVal.replace(/\,/g, "");
                 $("#Amount").val(cc);
                 val = $("#Amount").val();
-                $("#AmountDisplay").val(thousands_separators(val));
+
+                var amt_to_display = thousands_separators(val);
+                var wallet_balance = '@(string.Format("{0:N0}", ViewBag.walletBalance))';
+
+                if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
+                    $("#displayErroMsg").show();
+                    $("#pay_Now_Btn").prop('disabled', true);
+                    $("#displayErroMsg").html("Walllet balance is insufficient to make purchase");
+                    return false;
+                }
+                $("#AmountDisplay").val();
             }
         }
         function isNumber(evt) {
@@ -290,14 +415,14 @@
 
             return true;
         }
-    </script>
-}
-<style type="text/css">
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
+        </script>
     }
-</style>
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+    </style>
