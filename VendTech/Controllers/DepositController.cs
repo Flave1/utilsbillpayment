@@ -32,11 +32,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
+        private readonly IEmailTemplateManager _templateManager;
 
-    
+
         #endregion
 
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IDepositManager depositManager,IMeterManager meterManager,IVendorManager vendorManager,IBankAccountManager bankAccountManager,IPOSManager posManager)
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IDepositManager depositManager,IMeterManager meterManager,IVendorManager vendorManager,IBankAccountManager bankAccountManager,IPOSManager posManager, IEmailTemplateManager templateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -47,6 +48,7 @@ namespace VendTech.Controllers
             _vendorManager = vendorManager;
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
+            _templateManager = templateManager;
         }
 
         /// <summary>
@@ -93,7 +95,9 @@ namespace VendTech.Controllers
         {
             model.UserId = LOGGEDIN_USER.UserID;
 
-            return JsonResult(_depositManager.SaveDepositRequest(model));
+            var result = _depositManager.SaveDepositRequest(model);
+            
+            return JsonResult(result);
         }
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)
