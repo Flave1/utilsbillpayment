@@ -271,8 +271,8 @@ namespace VendTech.Controllers
                 }
                 catch (Exception e)
                 {
-
-                     return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+                    throw e;
+                     //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
                 }
                 
 

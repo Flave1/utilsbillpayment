@@ -103,7 +103,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:43:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>01/17/2021 03:51:17</publishTime>
+      <publishTime>01/24/2021 05:41:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
       <publishTime>12/20/2020 05:43:59</publishTime>
@@ -154,13 +154,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:43:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/DepositReleaseReport.cshtml">
-      <publishTime>12/20/2020 05:43:59</publishTime>
+      <publishTime>01/24/2021 04:52:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
-      <publishTime>12/21/2020 14:18:19</publishTime>
+      <publishTime>01/24/2021 04:55:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageSalesReports.cshtml">
-      <publishTime>12/20/2020 05:43:59</publishTime>
+      <publishTime>01/24/2021 05:03:12</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Partials/_depositReleaseListing.cshtml">
       <publishTime>12/20/2020 05:43:59</publishTime>
@@ -169,7 +169,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:43:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Partials/_salesReportListing.cshtml">
-      <publishTime>12/20/2020 05:43:59</publishTime>
+      <publishTime>01/24/2021 05:02:56</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/PrintDepositReleaseReport.cshtml">
       <publishTime>12/20/2020 05:43:59</publishTime>
@@ -184,7 +184,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:43:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
-      <publishTime>12/20/2020 05:43:59</publishTime>
+      <publishTime>01/22/2021 03:49:25</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml">
       <publishTime>12/20/2020 05:43:59</publishTime>
@@ -205,10 +205,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/17/2021 08:08:26</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/AddUser.cshtml">
-      <publishTime>01/21/2021 10:02:53</publishTime>
+      <publishTime>01/24/2021 05:31:15</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/EditUser.cshtml">
-      <publishTime>01/21/2021 09:56:34</publishTime>
+      <publishTime>01/24/2021 05:32:42</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/ManageUsers.cshtml">
       <publishTime>12/20/2020 05:43:59</publishTime>
@@ -475,13 +475,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/21/2020 06:51:41</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>01/21/2021 10:43:06</publishTime>
+      <publishTime>01/24/2021 06:11:46</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>12/20/2020 05:43:59</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>01/21/2021 10:43:06</publishTime>
+      <publishTime>01/24/2021 06:11:46</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
       <publishTime>01/21/2021 10:43:04</publishTime>
@@ -493,16 +493,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/21/2021 10:43:04</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>01/21/2021 10:43:14</publishTime>
+      <publishTime>01/24/2021 06:11:58</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>01/21/2021 10:43:08</publishTime>
+      <publishTime>01/24/2021 06:11:46</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>01/21/2021 10:43:08</publishTime>
+      <publishTime>01/24/2021 06:11:46</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>01/21/2021 10:43:14</publishTime>
+      <publishTime>01/24/2021 06:11:58</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
@@ -19009,7 +19009,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2020 12:53:15</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>01/21/2021 10:17:59</publishTime>
+      <publishTime>01/24/2021 05:32:09</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19102,7 +19102,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/report.js">
-      <publishTime>12/20/2020 05:44:24</publishTime>
+      <publishTime>01/24/2021 04:36:35</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/role.js">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19288,7 +19288,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2020 12:53:15</publishTime>
     </File>
     <File Include="Views/Report/DepositReport.cshtml">
-      <publishTime>12/31/2020 12:53:15</publishTime>
+      <publishTime>01/23/2021 17:05:09</publishTime>
     </File>
     <File Include="Views/Report/partials/_depositListing.cshtml">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19303,7 +19303,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Views/Report/SalesReport.cshtml">
-      <publishTime>12/31/2020 12:53:15</publishTime>
+      <publishTime>01/23/2021 15:56:21</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19330,7 +19330,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
-      <publishTime>01/17/2021 17:49:59</publishTime>
+      <publishTime>01/24/2021 06:00:40</publishTime>
     </File>
     <File Include="Views/User/EditProfile.cshtml">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19342,7 +19342,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/18/2021 07:24:58</publishTime>
+      <publishTime>01/22/2021 06:11:15</publishTime>
     </File>
   </ItemGroup>
 </Project>

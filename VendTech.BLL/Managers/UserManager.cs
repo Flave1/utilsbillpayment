@@ -604,7 +604,6 @@ namespace VendTech.BLL.Managers
                 //    Message = "This email-id already exists for another user."
                 //};
             }
-               
             else
             {
                 var dbUser = new User();
@@ -632,16 +631,26 @@ namespace VendTech.BLL.Managers
                     //var obj = new QuickbloxServices();
                     //var result = obj.RegisterUser(model);
                 }
-                Context.Users.Add(dbUser);
-                Context.SaveChanges();
 
+                using(var _trans = Context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Context.Users.Add(dbUser);
+                        Context.SaveChanges();
 
-                RemoveORAddUserPermissions(dbUser.UserId, userDetails);
-
-                RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
-
-                RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
-
+                        RemoveORAddUserPermissions(dbUser.UserId, userDetails); 
+                        RemoveOrAddUserPlatforms(dbUser.UserId, userDetails); 
+                        RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
+                        _trans.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        _trans.Rollback();
+                        throw e;
+                    }
+                    finally { _trans.Dispose(); }
+                }
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -773,21 +782,25 @@ namespace VendTech.BLL.Managers
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = $"{userDetails.Address}....{userDetails.Country}";
-                dbUser.CountryCode = userDetails.Country.Substring(0,9);
+                //dbUser.CountryCode = userDetails.Country.Substring(0,9);
                 //dbUser.CityId = userDetails.City; 
                 dbUser.Status = (int)UserStatusEnum.Pending;
-
                 dbUser.Phone = userDetails.Mobile;
-
-                try
+                using(var _trans = Context.Database.BeginTransaction())
                 {
-                    Context.Users.Add(dbUser);
-                    Context.SaveChanges();
+                    try
+                    {
+                        Context.Users.Add(dbUser);
+                        Context.SaveChanges();
+                        _trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        _trans.Rollback(); 
+                    }
+                    finally { _trans.Dispose(); }
                 }
-                catch (DbEntityValidationException ex) 
-                {
-                    return ReturnError(ex?.EntityValidationErrors.FirstOrDefault().ValidationErrors.FirstOrDefault().ErrorMessage);
-                }
+               
 
                 //return new ActionOutput
                 //{

@@ -70,7 +70,9 @@ namespace VendTech.Areas.Admin.Controllers
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%otp%", result.Object);
-                Utilities.SendEmail(WebConfigurationManager.AppSettings["AdminEmail"].ToString(), emailTemplate.EmailSubject, body);
+                var currentUser = LOGGEDIN_USER.UserID;
+                
+                Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
             }
             return JsonResult(new ActionOutput { Message=result.Message,Status=result.Status});
         }

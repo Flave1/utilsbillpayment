@@ -64,7 +64,7 @@ namespace VendTech.Areas.Admin.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 PageNo = 1,
-                RecordsPerPage = 10
+                RecordsPerPage = 50
             };
 
             var deposits = new PagingResult<DepositListingModel>();

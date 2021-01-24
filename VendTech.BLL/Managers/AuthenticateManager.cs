@@ -213,6 +213,7 @@ namespace VendTech.BLL.Managers
         {
             int second = 3;
             var db = new VendTechEntities();
+            
             var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
             if (record != null)
                 second = Convert.ToInt32(record.Value);

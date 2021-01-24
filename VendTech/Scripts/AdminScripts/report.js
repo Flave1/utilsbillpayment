@@ -72,8 +72,7 @@ var Deposits = {
 
     SearchDeposits: function (sender) {
         paging.startIndex = 1;
-        Paging(sender);
-
+        Paging(sender); 
     },
 
     ShowRecords: function (sender) {
@@ -195,7 +194,7 @@ var Deposits = {
 };
 
 function Paging(sender) {
-    debugger
+    debugger;
 
     var obj = new Object();
     obj.Search = $('#Search').val();
@@ -251,25 +250,31 @@ function Paging(sender) {
     }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
 
 
+    try {
 
-    // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-    $("#printedDate").text(formattedDate);
-    $("#PrintedDateServer").val(formattedDate);
-    $.ajaxExt({
-        type: "POST",
-        validate: false,
-        parentControl: $(sender).parents("form:first"),
-        data: $.postifyData(obj),
-        messageControl: null,
-        showThrobber: false,
-        throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
-        url: baseUrl + '/Admin/Report/GetReportsPagingList',
-        success: function (results, message) {
-            $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
-          
-        }
-    });
+        // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+        $("#printedDate").text(formattedDate);
+        $("#PrintedDateServer").val(formattedDate);
+        $.ajaxExt({
+            type: "POST",
+            validate: false,
+            parentControl: $(sender).parents("form:first"),
+            data: $.postifyData(obj),
+            messageControl: null,
+            showThrobber: false,
+            throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
+            url: baseUrl + '/Admin/Report/GetReportsPagingList',
+            success: function (results, message) {
+                $('#divResult table:first tbody').html(results[0]);
+                PageNumbering(results[1]);
+
+            }
+        });
+
+    } catch (err) {
+        $.ShowMessage($('div.messageAlert'), err, MessageType.Error);
+    }
+   
 }
 
 function getMonthName(number) {

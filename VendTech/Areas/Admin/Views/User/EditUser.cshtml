@@ -111,7 +111,7 @@
                                             <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS</label>
 
                                             <div class=" col-md-12">
-                                                @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+                                                @Html.Partial("Partials/_modulesListing", Model.ModuleList.Where(e => e.ModuleName != "Saved Meters" && e.ModuleName != "Manage Wallet" && e.ModuleName != "Bill Payment").ToList())
                                             </div>
                                         </div>
 

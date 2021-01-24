@@ -8,6 +8,11 @@
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<style>
+    .input {
+        text-transform: uppercase;
+    }
+</style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h4><b>Manage Deposit Report</b></h4>
@@ -20,6 +25,7 @@
                     @*<div class="header text-center">
                             <h4 align="center"><b>ADMIN - MANAGE RESPORTS</b></h4>
                         </div>*@
+
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
@@ -39,12 +45,10 @@
 
                                     <label>
                                         <button type="button" id="btnExport">Export</button>
-                                        @*<a href="javascript:void(0)" class="btn btn-primary" id="btnExport">Export</a>*@
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
-                                    @*<label><a href="javascript:void(0)" class="btn btn-primary" id="btnprint">Print</a></label>*@
                                 </div>
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportDepositReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
@@ -52,87 +56,62 @@
                                     <div class="blwsec-left">
                                         <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                         <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                                        @*<div class="blwsec-left-row">
-            <label>Agent:</label>
-            @Html.DropDownList("DepositType", new SelectList(ViewBag.Agencies, "value", "text"), "Select Agent", new { })
-        </div>*@
-                                        <div class="blwsec-left-row">
+                                        <div class="blwsec-left-row" style="margin-top:-20px;">
                                             <label>Vendor:</label>
-                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @id = "vendor" })
+                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
                                         </div>
 
                                         <div class="blwsec-left-row">
                                             <label>POS:</label>
-                                            @*<select name="PosId" id="pos">
-                <option value="">Select POS</option>
-            </select>*@
-
-                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @id = "pos" })
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
                                         </div>
 
+                                        @*<div class="blwsec-left-row big firt col-md-12 row" style="padding-top:15px; margin-top: -20px;">
+            <label>TRANSACTION PERIOD</label>
+            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                <label>FROM:</label>
+                <input type="hidden" id="frmDt" />
+                <input type="text" name="FromDate" id="FromDate">
+            </div>
 
+            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                <label>TO:</label>
+                <input type="hidden" id="toDt" />
+                <input type="text" id="ToDate" name="ToDate">
+            </div>
+        </div>*@
 
-                                        <div class="blwsec-left-row big firt">
-                                            <label>TRANSACTION PERIOD</label>
-
-                                                            @*<label>FROM:</label>
-                                                    <input type="text" value="" id="FromDate" name="FromDate">
-                                                    <label>TO:</label>
-                                                    <input type="text" value="" id="ToDate" name="ToDate">*@
-
-                                            <div class="row" style="margin-bottom:0; padding-bottom:0;">
-                                                <label style="width:50%;" class="col-md-5">FROM:</label>
-                                                <label style="width:50%;" class="col-md-5">TO:</label>
-                                            </div>
-                                            <div class="row" style=" padding-top:0; margin:2px !important;">
-                                                <div class="col-md-6" style="margin:0;padding:0;">
-                                                    @*<input type="text" value="" id="FromDate" name="FromDate">*@
-
-                                                    <input type="hidden" id="frmDt" />
-                                                    <input type="hidden" id="toDt" />
-                                                    <input type="text" name="FromDate" id="FromDate">
-                                                </div>
-                                                <div class="col-md-6" style="margin:0; padding:0;">
-                                                    @*<input type="text" value="" id="ToDate" name="ToDate">*@
-
-                                                    <input type="text" id="ToDate" name="ToDate">
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-
-                                        @*<div class="blwsec-left-row big firt">
+                                        <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
                                             <label>Transaction Period</label>
-                                            <label>From:</label>
+                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                <label>From:</label>
+                                                <input type="text" name="FromDate" id="FromDate">
+                                                <input type="hidden" id="frmDt" />
+                                            </div>
 
-                                            <input type="hidden" id="frmDt" />
-                                            <input type="hidden" id="toDt" />
+                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
+                                                <label>To:</label>
+                                                <input type="text" name="ToDate" id="ToDate">
+                                                <input type="hidden" id="toDt" />
+                                            </div>
+                                        </div>
 
-                                            <input type="text" name="FromDate" id="FromDate">
-
-                                            <label>To:</label>
-                                            <input type="text" id="ToDate" name="ToDate">
-                                        </div>*@
-
-                                        <div class="blwsec-left-row big lst">
+                                        <div class="blwsec-left-row big lst" style="margin-top:-20px;">
                                             <label>Report</label>
-                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType" })
+                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "input", @id = "reportType" })
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
                                         </div>
-                                        <div class="blwsec-left-row">
+                                        <div class="blwsec-left-row" style="margin-top:-20px;">
                                             <label>BANK:</label>
-                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @id = "bank" })
-
+                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "input", @id = "bank" })
                                         </div>
-                                        <div class="blwsec-left-row">
+                                        <div class="blwsec-left-row" style="margin-top:-10px;">
                                             <label>DEPOSIT TYPE:</label>
-                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "depositType" })
+                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "input", @id = "depositType" })
 
                                         </div>
-                                        <div class="blwsec-left-row">
+                                        <div class="blwsec-left-row" style="margin-top:-10px;">
                                             <label>DEPOSIT REF NUMBER</label>
                                             <input name="RefNumber" type="text" id="refNumber">
                                         </div>
@@ -185,7 +164,7 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Scripts/AdminScripts/report.js"></script> 
+    <script src="~/Scripts/AdminScripts/report.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -208,25 +187,37 @@
             var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
             var results = regex.exec(location.search);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }; 
+        };
         $(document).ready(function () {
 
-             debugger
+             $("#FromDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date()
+            });
+            $("#ToDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date()
+            });
+            debugger;
+             var type = getUrlParameter("type"); 
+            if(type)
+            $("#reportType").val(type);
+            App.init();
             //initialize the javascript
              console.log("soon will show details");
             var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
             var to = $.datepicker.formatDate("dd-mm-yy", new Date());
 
-            
-            $("#frmDt").val(frm);
-            $("#ToDate").val(to);
+
+            //$("#FromDate").val(frm);
+            //$("#ToDate").val(to);
             var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
             $("#FromDate").data("kendoDatePicker").value(todayDate);
             $("#ToDate").data("kendoDatePicker").value(todayDate);
 
 
-            alert(frm);
-            alert(to);
+            //alert(frm);
+            //alert(to);
 
         $("#vendor").on("change", function () {
             var vendorId = $("#vendor").val();
@@ -248,12 +239,9 @@
                 $("#pos").append("<option value=''> SELECT POS</option>")
             }
         });
-            var type = getUrlParameter("type");
-            if(type)
-            $("#reportType").val(type);
-            App.init();
-             
-            console.log("soon will show details"); 
+           
+
+            console.log("soon will show details");
             var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
             var to = $.datepicker.formatDate("dd-mm-yy", new Date());
 

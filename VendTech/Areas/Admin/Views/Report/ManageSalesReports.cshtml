@@ -37,7 +37,7 @@
                                         <button type="button" id="btnExport">Export</button>
 
                                     </label>
-                                    <label>
+                                    <label>                                                                                                                                                                     
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
                                 </div>
@@ -48,63 +48,42 @@
                         <div class="blwsec-left">
                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                            <div class="blwsec-left-row">
+                            <div class="blwsec-left-row" style="margin-top:-20px;">
                                 <label>Vendor:</label>
                                 @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "SELECT VENDOR", new { @id = "vendor" })
                             </div>
 
                             <div class="blwsec-left-row">
-                                <label>POS:</label>
-                                @*<select name="PosId" id="pos">
-                                        <option value="">Select POS</option>
-                                    </select>*@
-
+                                <label>POS:</label> 
                                 @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @id = "pos" })
                             </div>
 
 
-                            <div class="blwsec-left-row big firt">
+                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
                                 <label>Transaction Period</label>
-                                <label>From:</label>
-                                <input type="text" name="FromDate" id="FromDate">
-
-                                <input type="hidden" id="frmDt" />
-                                <input type="hidden" id="toDt" />
-
-                                <label>To:</label>
-                                <input type="text" name="ToDate" id="ToDate">
-                            </div>
-                            @*<div class="blwsec-left-row">
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
                                     <label>From:</label>
-                                    <input type="text" value="" id="FromDate">
-
+                                    <input type="text" name="FromDate" id="FromDate">
+                                    <input type="hidden" id="frmDt" />
                                 </div>
-                                <div class="blwsec-left-row">
+                            
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
                                     <label>To:</label>
-                                    <input type="text" value="" id="ToDate">
-                                </div>*@
-                            @*<div class="blwsec-left-row big firt">
-                                    <label>Transaction Period</label>
-
+                                    <input type="text" name="ToDate" id="ToDate">
+                                    <input type="hidden" id="toDt" />
                                 </div>
-                                <div class="blwsec-left-row">
-                                    <input type="text" value="" id="ToDate">
-                                    </div>*@
-                            <div class="blwsec-left-row big lst">
+                            </div> 
+                            <div class="blwsec-left-row big lst" style="margin-top:-20px;">
                                 <label>Report</label>
                                 @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType" })
                                 <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                 <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
                             </div>
-                            <div class="blwsec-left-row">
+                            <div class="blwsec-left-row" style="margin-top:-20px;">
                                 <label>Meter #:</label>
                                 <input name="Meter" type="text" id="meterNo">
-                            </div>
-                            @*<div class="blwsec-left-row">
-                                    <label>EDSA Trans ID:</label>
-                                    <input type="text" >
-                                </div>*@
-                            <div class="blwsec-left-row">
+                            </div> 
+                            <div class="blwsec-left-row" style="margin-top:-10px;">
                                 <label>VT Trans ID:</label>
                                 <input name="TransactionId" type="text" id="tranId">
                             </div>
@@ -116,7 +95,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th>PRODUCT</th>
+                                                        <th >PRODUCT </th>
                                                         <th>PIN</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>

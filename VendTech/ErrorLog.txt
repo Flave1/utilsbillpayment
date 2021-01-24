@@ -2515,3 +2515,57 @@ The underlying provider failed on Open.
 
 
 
+Index and length must refer to a location within the string.
+Parameter name: length
+
+
+
+Index and length must refer to a location within the string.
+Parameter name: length
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The operation has timed out.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.Checkbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\User\EditUser.cshtml(127): error CS1061: 'VendTech.BLL.Models.WidgetCheckbox' does not contain a definition for 'ModuleName' and no extension method 'ModuleName' accepting a first argument of type 'VendTech.BLL.Models.WidgetCheckbox' could be found (are you missing a using directive or an assembly reference?)
+
+
+

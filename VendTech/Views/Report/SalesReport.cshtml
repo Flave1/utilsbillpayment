@@ -52,23 +52,28 @@
                                                 @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @id = "pos" })
 
                                             </div>
-                                            <div class="blwsec-left-row big firt">
+                                            <div class="blwsec-left-row big firt row" style="margin: 0; margin-top : -20px;">
                                                 <label>TRANSACTION PERIOD</label>
-                                                <label>FROM:</label>
-                                                <input type="text" value="" id="FromDate" name="FromDate">
-                                                <label>TO:</label>
-                                                <input type="text" value="" id="ToDate" name="ToDate">
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                    <label>FROM:</label>
+                                                    <input type="text" value="" id="FromDate" name="FromDate">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                    <label>TO:</label>
+                                                    <input type="text" value="" id="ToDate" name="ToDate">
+                                                </div>
+                                              
                                             </div>
 
 
-                                            <div class="blwsec-left-row big lst">
+                                            <div class="blwsec-left-row big lst" >
                                                 <label>REPORT</label>
                                                 <select id="rpt" onchange="changeReport()">
                                                     <option value="2" selected="selected">SALES REPORT</option>
                                                     <option value="1">DEPOSIT REPORT</option>
                                                 </select>
                                             </div>
-                                            <div class="blwsec-left-row">
+                                            <div class="blwsec-left-row" style=" margin-top : -20px;">
                                                 <label>Meter #:</label>
                                                 <input type="text" id="meterNo" name="Meter">
                                             </div>

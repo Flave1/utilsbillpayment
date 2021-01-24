@@ -12,6 +12,7 @@ using System.Web.Configuration;
 using VendTech.DAL;
 using MimeKit;
 using System.Net.Mail;
+using System.Net;
 
 namespace VendTech.BLL.Common
 {
@@ -213,7 +214,7 @@ namespace VendTech.BLL.Common
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
                     client.AuthenticationMechanisms.Remove("XOAUTH2"); 
-                    client.Authenticate("favouremmanuel433@gmail.com", "85236580Go"); 
+                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go"); 
                     client.Send(mail); 
                     client.Disconnect(true);
                 }
@@ -250,14 +251,17 @@ namespace VendTech.BLL.Common
                 mail.To.Add(to);
                 mail.Subject = sub;
                 mail.Body = body;
-                //SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                //SmtpServer.Port = 587;
-                //SmtpServer.UseDefaultCredentials = false;
-                //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                //SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true;
+
+                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
+                ////SmtpServer.Port = 587;
+                ////SmtpServer.UseDefaultCredentials = false;
+                ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                ////SmtpServer.EnableSsl = true;
+                mail.IsBodyHtml = true; 
+
                 SmtpServer.Send(mail);
-                return true;
+                 
+                return true;  
             }
             catch (Exception x)
             { return true;    }

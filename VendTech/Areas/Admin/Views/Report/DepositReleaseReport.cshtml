@@ -42,7 +42,7 @@
                             {
                                 <div class="blwsec-left">
                                     <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                                    <div class="blwsec-left-row">
+                                    <div class="blwsec-left-row" style="margin-top:-20px;">
                                         <label>Vendor:</label>
                                         @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @id = "vendor" })
                                     </div>
@@ -54,14 +54,20 @@
 
                                         @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @id = "pos" })
                                     </div>
-                                    <div class="blwsec-left-row big firt">
+                                    <div class="blwsec-left-row big firt row">
                                         <label>Transaction Period</label>
-                                        <label>From:</label>
-                                        <input type="hidden" name="From" id="frmDt" />
-                                        <input type="hidden" name="To" id="toDt" />
-                                        <input type="text" value="" id="FromDate">
-                                        <label>To:</label>
-                                        <input type="text" value="" id="ToDate">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                            <label>From:</label>
+                                            <input type="hidden" name="From" id="frmDt" />
+                                            <input type="text" value="" id="FromDate">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                            <input type="hidden" name="To" id="toDt" />
+                                            <label>To:</label>
+                                            <input type="text" value="" id="ToDate">
+                                        </div>
+                                    
                                     </div>
 
 
