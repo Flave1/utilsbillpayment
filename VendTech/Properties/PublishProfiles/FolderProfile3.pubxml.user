@@ -493,7 +493,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/21/2021 10:43:04</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>01/24/2021 06:11:58</publishTime>
+      <publishTime>01/24/2021 06:23:36</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
       <publishTime>01/24/2021 06:11:46</publishTime>
@@ -502,7 +502,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/24/2021 06:11:46</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>01/24/2021 06:11:58</publishTime>
+      <publishTime>01/24/2021 06:23:36</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
