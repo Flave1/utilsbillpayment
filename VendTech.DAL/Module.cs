@@ -14,6 +14,7 @@ namespace VendTech.DAL
     
     public partial class Module
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Module()
         {
             this.Modules1 = new HashSet<Module>();
@@ -27,8 +28,10 @@ namespace VendTech.DAL
         public Nullable<bool> IsAdmin { get; set; }
         public Nullable<int> SubMenuOf { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Module> Modules1 { get; set; }
         public virtual Module Module1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedModule> UserAssignedModules { get; set; }
     }
 }

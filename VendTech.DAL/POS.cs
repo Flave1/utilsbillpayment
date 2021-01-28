@@ -14,11 +14,12 @@ namespace VendTech.DAL
     
     public partial class POS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public POS()
         {
-            this.Deposits = new HashSet<Deposit>();
             this.MeterRecharges = new HashSet<MeterRecharge>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
+            this.Deposits = new HashSet<Deposit>();
         }
     
         public long POSId { get; set; }
@@ -38,9 +39,12 @@ namespace VendTech.DAL
         public Nullable<bool> SMSNotificationDeposit { get; set; }
     
         public virtual Commission Commission { get; set; }
-        public virtual ICollection<Deposit> Deposits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Deposit> Deposits { get; set; }
     }
 }

@@ -71,6 +71,7 @@ var Deposits = {
     },
 
     SearchDeposits: function (sender) {
+        debugger;
         paging.startIndex = 1;
         Paging(sender); 
     },
@@ -159,7 +160,7 @@ var Deposits = {
         });
     },
     AddDeposit: function (sender) {
-        if (!$("#amount").val() || $("#amount").val() == "0") {
+        if (!$("#amount").val() || $("#amount").val() === "0") {
             $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
             return;
         }
@@ -194,8 +195,6 @@ var Deposits = {
 };
 
 function Paging(sender) {
-    debugger;
-
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
@@ -206,13 +205,17 @@ function Paging(sender) {
     obj.PosId = $('#pos').val();
     obj.VendorId = $('#vendor').val();
     obj.From = $('#FromDate').val();
+    obj.Amount = $("#Amount").val();
+    obj.IssuingBank = $("#IssuingBank").val();
+    obj.Payer = $("#Payer").val();
+
     if (obj.From) {
         var val = obj.From.split("/");
         obj.From = val[1] + "/" + val[0] + "/" + val[2];
     }
     obj.To = $('#ToDate').val();
     if (obj.To) {
-        var val = obj.To.split("/");
+        val = obj.To.split("/");
         obj.To = val[1] + "/" + val[0] + "/" + val[2];
     }
     obj.ReportType = $("#reportType").val();
@@ -224,7 +227,7 @@ function Paging(sender) {
     if (obj.From) {
         var dt = new Date(obj.From);
         //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
+        val = dt.toLocaleDateString('en-GB', {
             day: '2-digit', month: '2-digit', year: 'numeric'
         }).replace(/ /g, '-');
 
@@ -234,16 +237,15 @@ function Paging(sender) {
         $("#fromSpan").text("_");
 
     if (obj.To) {
-        var dt = new Date(obj.To);
+        dt = new Date(obj.To);
         //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
+        val = dt.toLocaleDateString('en-GB', {
             day: '2-digit', month: '2-digit', year: 'numeric'
         }).replace(/ /g, '-');
         $("#toSpan").text(val);
     }
     else
         $("#toSpan").text("_");
-    debugger;
     const date = new Date();
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'

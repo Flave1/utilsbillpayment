@@ -21,7 +21,7 @@ namespace VendTech.DAL
         public int NewStatus { get; set; }
         public System.DateTime CreatedAt { get; set; }
     
-        public virtual Deposit Deposit { get; set; }
         public virtual User User { get; set; }
+        public virtual Deposit Deposit { get; set; }
     }
 }

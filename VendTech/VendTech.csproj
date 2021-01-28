@@ -6562,6 +6562,9 @@
     <Content Include="Content\beagle\lib\summernote\font\summernote.woff" />
     <Content Include="Areas\Admin\Views\User\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\Partials\_widgetsListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ManageDepositAuditReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_depositAuditListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\PrintDepositAuditReport.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace VendTech.BLL.Models
 {
@@ -53,7 +51,7 @@ namespace VendTech.BLL.Models
         public string SearchField { get; set; }
         public string VendorId { get; set; }
 
-        public static PagingModel DefaultModel(string sortBy="CreatedOn",string sortOder="Asc")
+        public static PagingModel DefaultModel(string sortBy = "CreatedOn", string sortOder = "Asc")
         {
             return new PagingModel { PageNo = 1, RecordsPerPage = AppDefaults.PageSize, SortBy = sortBy, SortOrder = sortOder };
         }

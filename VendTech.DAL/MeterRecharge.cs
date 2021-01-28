@@ -28,8 +28,8 @@ namespace VendTech.DAL
         public string MeterToken { get; set; }
     
         public virtual Meter Meter { get; set; }
+        public virtual Platform Platform { get; set; }
         public virtual POS POS { get; set; }
         public virtual User User { get; set; }
-        public virtual Platform Platform { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         #endregion
-     
+
         public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IVendorManager vendorManager, IAgencyManager agencyManager, IDepositManager depositManager, IMeterManager meterManager, IBankAccountManager bankManager, IPOSManager posManager)
             : base(errorLogManager)
         {
@@ -68,6 +68,7 @@ namespace VendTech.Areas.Admin.Controllers
             };
 
             var deposits = new PagingResult<DepositListingModel>();
+            var depositAudit = new PagingResult<DepositAuditModel>();
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
             ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
@@ -81,15 +82,23 @@ namespace VendTech.Areas.Admin.Controllers
                     val = type.ToString();
                     val = type.ToString();
                 }
+                /// This Is Used For Fetching DEPOSITS REPORT
                 if (val == "1012")
                 {
                     deposits = _depositManager.GetReportsPagedList(model, true);
                     return View(deposits);
                 }
+                /// This Is Used For Fetching SALES REPORT
                 if (val == "1011")
                 {
                     var recharges = _meterManager.GetUserMeterRechargesReport(model, true);
                     return View("ManageSalesReports", recharges);
+                }
+                /// This Is Used For Fetching DEPOSIT AUDIT REPORT
+                if (val == "1016")
+                {
+                    depositAudit = _depositManager.GetDepositAuditReports(model, true);
+                    return View("ManageDepositAuditReport", depositAudit);
                 }
                 if (val == "2011")
                 {
@@ -133,19 +142,34 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             model.RecordsPerPage = 10;
             var modal = new PagingResult<DepositListingModel>();
+            var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "1012")
             {
                 modal = _depositManager.GetReportsPagedList(model, true);
             }
+            if (model.ReportType == "1016")
+            {
+                depositAuditModel = _depositManager.GetAuditReportsPagedList(model, true);
+            }
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_reportListing", modal));
             //resultString.Add(modal.TotalCount.ToString());
-
-            var resultString = new List<string> {
+            if (model.ReportType == "1012")
+            {
+                var resultString = new List<string> {
                RenderRazorViewToString("Partials/_reportListing", modal),
                modal.TotalCount.ToString()
-           };
-            return JsonResult(resultString);
+            };
+                return JsonResult(resultString);
+            }
+            if (model.ReportType == "1016")
+            {
+                var resultString = new List<string> {
+               RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
+               modal.TotalCount.ToString()};
+                return JsonResult(resultString);
+            }
+            return JsonResult(new List<string>() { });
         }
         [AjaxOnly, HttpPost]
         public JsonResult GetSalesReportsPagingList(ReportSearchModel model)
@@ -279,15 +303,15 @@ namespace VendTech.Areas.Admin.Controllers
                     Text = "SALES REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
-                    BorderWidth= Unit.Pixel(20),
+                    BorderWidth = Unit.Pixel(20),
                 };
 
                 row1.Controls.Add(tec1);
                 row1.BorderStyle = BorderStyle.None;
-                row1.Style.Add(HtmlTextWriterStyle.FontSize,"large") ;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
 
-            
+
 
 
 
@@ -318,7 +342,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (ExportType == "Excel")
             {
-                
+
                 string filename = "SalesReport_" + PrintedDateServer + ".xls";
                 Response.ClearContent();
                 Response.Buffer = true;
@@ -486,7 +510,7 @@ namespace VendTech.Areas.Admin.Controllers
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
-                  
+
                 };
                 forbr.BorderStyle = BorderStyle.None;
                 forbr.BorderWidth = Unit.Pixel(0);
@@ -502,7 +526,7 @@ namespace VendTech.Areas.Admin.Controllers
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
-                   
+
                 };
                 row3.BorderWidth = Unit.Pixel(0);
                 row3.BorderStyle = BorderStyle.None;
@@ -600,7 +624,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (ExportType == "Excel")
             {
-               // string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
+                // string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
                 string filename = "DepositReport_" + PrintedDateServer + ".xls";
                 Response.ClearContent();
                 Response.Buffer = true;
@@ -663,6 +687,202 @@ namespace VendTech.Areas.Admin.Controllers
             else if (ExportType == "PDF")
             {
                 string filename = "DepositReport_" + PrintedDateServer + ".pdf";
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                gv.RenderControl(hw);
+                gv.HeaderRow.Style.Add("width", "15%");
+                gv.HeaderRow.Style.Add("font-size", "10px");
+                gv.EditRowStyle.HorizontalAlign = HorizontalAlign.Right;
+                gv.Style.Add("text-decoration", "none");
+                gv.Style.Add("font-family", "Arial, Helvetica, sans-serif;");
+                gv.Style.Add("font-size", "8px");
+                gv.Style.Add("text-align", "right");
+
+                StringReader sr = new StringReader(sw.ToString());
+                // Document pdfDoc = new Document(PageSize.A4_LANDSCAPE, 10f, 10f, 10f, 0f);
+                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
+
+
+                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                pdfDoc.Open();
+                htmlparser.Parse(sr);
+                pdfDoc.Close();
+                Response.Write(pdfDoc);
+                Response.End();
+                gv.AllowPaging = true;
+            }
+        }
+        public void ExportDepositAuditReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            string fromdate = "";
+            string Todate = "";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                fromdate = model.From.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                Todate = model.To.Value.ToString("dd/MM/yyyy");
+            }
+
+            var list = _depositManager.GetAuditReportExcelData(model).List;
+
+            var gv = new GridView
+            {
+                DataSource = list
+            };
+            gv.DataBind();
+            if (list.Count > 0)
+            {
+
+                GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbr = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+
+                };
+                forbr.BorderStyle = BorderStyle.None;
+                forbr.BorderWidth = Unit.Pixel(0);
+                forbr.Controls.Add(tecbr);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
+
+
+                GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec3 = new TableHeaderCell();
+                var tec3 = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "PRINT DATE:  " + PrintedDateServer,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+
+                };
+                row3.BorderWidth = Unit.Pixel(0);
+                row3.BorderStyle = BorderStyle.None;
+                row3.Controls.Add(tec3);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row3);
+
+
+                GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbrafterdate = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbrafterdate.BorderWidth = Unit.Pixel(0);
+                forbrafterdate.BorderStyle = BorderStyle.None;
+                forbrafterdate.Controls.Add(tecbrafterdate);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
+
+
+                GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec2 = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "TO DATE:  " + Todate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row2.BorderWidth = Unit.Pixel(0);
+                row2.BorderStyle = BorderStyle.None;
+                row2.Controls.Add(tec2);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row2);
+
+                GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec22 = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "FROM DATE:  " + fromdate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row22.BorderWidth = Unit.Pixel(0);
+                row22.BorderStyle = BorderStyle.None;
+                row22.Controls.Add(tec22);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row22);
+
+
+
+
+
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec1 = new TableHeaderCell();
+                var tec1 = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "DEPOSIT AUDIT REPORTS",
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+
+                row1.Controls.Add(tec1);
+                row1.BorderWidth = Unit.Pixel(0);
+                row1.BorderStyle = BorderStyle.None;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+
+
+                gv.HeaderRow.Cells[0].Text = "DATE/TIME";
+                gv.HeaderRow.Cells[1].Text = "POS ID";
+                gv.HeaderRow.Cells[2].Text = "GT BANK";
+                gv.HeaderRow.Cells[3].Text = "DEPOSIT BY";
+                gv.HeaderRow.Cells[4].Text = "DEPOSIT TYPE";
+                gv.HeaderRow.Cells[5].Text = "PAYER BANK";
+                gv.HeaderRow.Cells[6].Text = "PAYER";
+                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF#";
+                gv.HeaderRow.Cells[8].Text = "AMOUNT";
+                gv.HeaderRow.Cells[9].Text = "STATUS";
+
+
+                foreach (GridViewRow row in gv.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                    }
+                }
+            }
+            if (ExportType == "Excel")
+            {
+                // string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
+                string filename = "DepositAuditReport_" + PrintedDateServer + ".xls";
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                //Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+                //string style = @"<style> .textmode { mso-number-format:\@; } </style>";
+                //Response.Write(style);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+            }
+            else if (ExportType == "PDF")
+            {
+                string filename = "DepositAuditReport_" + PrintedDateServer + ".pdf";
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -810,6 +1030,29 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _depositManager.GetReportExcelData(model).List;
             return View(list);
         }
+
+        [HttpGet]
+        public ActionResult PrintDepositAuditReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            ViewBag.Pritdatetime = PrintedDateServer; //BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+            }
+
+            ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");
+            ViewBag.Todate = model.To == null ? "" : model.To.Value.ToString("dd/MM/yyyy");
+            var list = _depositManager.GetAuditReportExcelData(model).List;
+            return View(list);
+        }
+
+
         [HttpGet]
         public ActionResult PrintDepositReleaseReport(ReportSearchModel model)
         {
@@ -821,6 +1064,11 @@ namespace VendTech.Areas.Admin.Controllers
         }
         #endregion
 
+        [AjaxOnly, HttpPost]
+        public JsonResult SaveDepositAudit(DepositAuditModel depositAuditModel)
+        {
+            return JsonResult(_depositManager.SaveDepositAuditRequest(depositAuditModel));
+        }
         public System.Data.DataTable ExportToExcel()
         {
             System.Data.DataTable table = new System.Data.DataTable();

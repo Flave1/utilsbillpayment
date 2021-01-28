@@ -14,6 +14,7 @@ namespace VendTech.DAL
     
     public partial class Agency
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Agency()
         {
             this.Users = new HashSet<User>();
@@ -36,7 +37,9 @@ namespace VendTech.DAL
         public System.DateTime CreatedAt { get; set; }
     
         public virtual Commission Commission { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendor> Vendors { get; set; }
     }
 }
