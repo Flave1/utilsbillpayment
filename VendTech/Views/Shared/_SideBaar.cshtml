@@ -28,7 +28,7 @@
                         {
                             <li><a href="@Url.Action("Index", "Deposit")"><i class="fa fa-money"></i><span>Wallet</span></a></li>
                         }
-                        @if (assignerModules.Where(X => X.ControllerName == "Reports").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
+                        @if (assignerModules.Where(X => X.ControllerName == "Report").ToList().Count() > 0 && user.UserType != UserRoles.Admin)
                         {
                             <li><a href="@Url.Action("SalesReport", "Report")"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
                         }

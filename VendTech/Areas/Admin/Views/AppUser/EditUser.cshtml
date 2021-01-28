@@ -119,7 +119,7 @@
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-12">
-                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList)
+                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList.Where(r => (bool)!r.IsAdmin).ToList()))
 
                                         </div>
                                     </div>

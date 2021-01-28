@@ -2569,3 +2569,23 @@ c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\V
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.Checkbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
