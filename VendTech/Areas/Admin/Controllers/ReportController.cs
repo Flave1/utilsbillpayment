@@ -57,6 +57,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.PosId = _vendorManager.GetPosSelectList();
             ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+
             ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             var model = new ReportSearchModel
@@ -69,11 +70,12 @@ namespace VendTech.Areas.Admin.Controllers
 
             var deposits = new PagingResult<DepositListingModel>();
             var depositAudit = new PagingResult<DepositAuditModel>();
+
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
             ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
 
-            if (assignedReportModule.Count > 0)
+            if (assignedReportModule.Count > 0 && (type > 0 ? assignedReportModule.Any(x => x.Value == type.ToString()) : true))
             {
                 var val = assignedReportModule[0].Value;
                 var rec = assignedReportModule.FirstOrDefault(p => p.Value == type.ToString());
@@ -108,8 +110,8 @@ namespace VendTech.Areas.Admin.Controllers
                 }
             }
             return View(deposits);
-
         }
+
         [HttpGet]
         public ActionResult GetVendorPosSelectList(long userId)
         {
@@ -166,7 +168,7 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 var resultString = new List<string> {
                RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
-               modal.TotalCount.ToString()};
+               depositAuditModel.TotalCount.ToString()};
                 return JsonResult(resultString);
             }
             return JsonResult(new List<string>() { });

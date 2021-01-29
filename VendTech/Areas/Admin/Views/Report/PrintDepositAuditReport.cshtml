@@ -1,0 +1,119 @@
+﻿@model List<DepositAuditExcelReportModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Deposit Audit Reports</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Deposit Audit Reports</h3>
+                    </div>
+                    <div class="content">
+                        <div class="row" id="hideid">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6 ">
+                                <button class="btn btn-primary pull-right " onclick="printPageArea()" id="Printid">Print</button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-danger pull-right " onclick="goBack()" id="gobackbtnid">Go Back</button>
+                            </div>
+
+                        </div>
+
+                        <div id="printiddive">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3><b>DEPOSIT AUDIT REPORTS</b></h3>
+                                    <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
+                                    <h5><label>TO DATE: @ViewBag.Todate</label></h5>
+                                    <br />
+                                    <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
+                                    <br />
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered" id="datatable-icons">
+
+                                <tr>
+                                    <th>DATE/TIME</th>
+                                    <th>POS ID</th>
+                                    <th>DEPOSIT BY</th>
+                                    <th>PAYER</th>
+                                    <th>ISSUINGBANK</th>
+                                    <th>DEPOSIT REF #</th>
+                                    <th>GTBANK #</th>
+                                    <th>AMOUNT</th>
+                                    <th>STATUS</th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="text-align:right"> @item.DATE_TIME</td>
+                                        <td style="text-align:right"> @item.POSID</td>
+                                        <td style="text-align:left">@item.DEPOSIT_BY</td>
+                                        <td style="text-align:left">@item.PAYER</td>
+                                        <td style="text-align:left">@item.ISSUINGBANK</td>
+                                        <td style="text-align:left">@item.DEPOSIT_REF_NO</td>
+                                        <td style="text-align:left">@item.GTBANK</td>
+                                        <td style="text-align:right">@(item.AMOUNT == null ? "0" : string.Format("{0:N0}", item.AMOUNT))</td>
+                                        <td>@item.STATUS</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    @@media print {
+        #Header, #Footer {
+            display: none !important;
+        }
+    }
+</style>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var i = 0;
+            setTimeout(function () {
+                if (i == 0) {
+                    printPageArea();
+                    i++;
+                }
+
+            }, 1000);
+        });
+
+        function printPageArea() {
+            var printContents = document.getElementById("printiddive").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+}

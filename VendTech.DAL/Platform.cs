@@ -17,9 +17,9 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Platform()
         {
-            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
+            this.MeterRecharges = new HashSet<MeterRecharge>();
         }
     
         public int PlatformId { get; set; }
@@ -30,10 +30,10 @@ namespace VendTech.DAL
         public string ShortName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
     }
 }

@@ -318,7 +318,7 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.IssuingBank))
             {
-                query = query.Where(p => p.Deposit.ChequeBankName.ToLower().Contains(model.IssuingBank.ToLower().Substring(0, model.IssuingBank.ToLower().LastIndexOf("-"))));
+                query = query.Where(p => p.Deposit.ChequeBankName.ToLower().Contains(model.IssuingBank.ToLower()));
             }
             if (!string.IsNullOrEmpty(model.Payer))
             {
@@ -326,7 +326,7 @@ namespace VendTech.BLL.Managers
             }
 
             var totalrecoed = query.ToList().Count();
-            if (model.SortBy != "DEPOSITBY" && model.SortBy != "POS" && model.SortBy != "AMOUNT" && model.SortBy != "GTBANK" && model.SortBy != "DEPOSITREF" && model.SortBy != "ISSUINGBANK" && model.SortBy != "AMOUNT")
+            if (model.SortBy != "DEPOSITBY" && model.SortBy != "AMOUNT" || model.SortBy != "POS" && model.SortBy != "GTBANK" && model.SortBy != "DEPOSITREF" && model.SortBy != "PAYER" && model.SortBy != "ISSUINGBANK")
             {
                 // query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                 if (model.SortBy == "CreatedAt")
@@ -340,126 +340,49 @@ namespace VendTech.BLL.Managers
                         query = query.OrderBy(p => p.Deposit.CreatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                     }
                 }
-                else if (model.SortBy == "PAYER")
-                {
-                    if (model.SortOrder == "Desc")
-                    {
-                        query = query.OrderByDescending(p => p.Deposit.NameOnCheque).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(p => p.Deposit.NameOnCheque).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                }
-                else if (model.SortBy == "ISSUINGBANK")
-                {
-                    if (model.SortOrder == "Desc")
-                    {
-                        query = query.OrderByDescending(p => p.Deposit.ChequeBankName).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(p => p.Deposit.ChequeBankName).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                }
-                else if (model.SortBy == "AMOUNT")
-                {
-                    if (model.SortOrder == "Desc")
-                    {
-                        query = query.OrderByDescending(p => p.Deposit.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(p => p.Deposit.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                }
-                else if (model.SortBy == "POSID")
-                {
-                    if (model.SortOrder == "Desc")
-                    {
-                        query = query.OrderByDescending(p => p.Deposit.POS.SerialNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(p => p.Deposit.POS.SerialNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                }
-                else if (model.SortBy == "DEPOSITREF")
-                {
-                    if (model.SortOrder == "Desc")
-                    {
-                        query = query.OrderByDescending(p => p.Deposit.CheckNumberOrSlipId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(p => p.Deposit.CheckNumberOrSlipId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                    }
-                }
-                else
-                {
-                    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
-                }
             }
             var list = query
            .ToList().Select(x => new DepositAuditModel(x.Deposit)).ToList();
 
-            if (model.SortBy == "CreatedAt" || model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "GTBank" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
+            if (model.SortBy == "CREATEDAT" || model.SortBy == "DEPOSITBY" || model.SortBy == "AMOUNT" || model.SortBy == "POS" || model.SortBy == "GTBANK" || model.SortBy == "DEPOSITREF" || model.SortBy == "PAYER" || model.SortBy == "ISSUINGBANK")
             {
-                if (model.SortBy == "UserName")
+                if (model.SortBy == "CREATEDAT")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.DepositBy).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.DepositBy).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.CreatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                    list.OrderByDescending(p => p.CreatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "PaymentType")
+                else if (model.SortBy == "DEPOSITBY")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.Type).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.Type).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.DepositBy).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                        list.OrderByDescending(p => p.DepositBy).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "GTBank")
+                else if (model.SortBy == "GTBANK")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.GTBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.GTBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.GTBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                    list.OrderByDescending(p => p.GTBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "CheckNumberOrSlipId")
+                else if (model.SortBy == "DEPOSITREF")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.DepositRef).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.DepositRef).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.DepositRef).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                    list.OrderByDescending(p => p.DepositRef).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "Status")
+                else if (model.SortBy == "AMOUNT")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.Status).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.Status).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                    list.OrderByDescending(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "Amount")
+                else if (model.SortBy == "POS")
                 {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    list = model.SortOrder == "Asc" ? list.OrderBy(p => p.PosId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
+                    list.OrderByDescending(p => p.PosId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
-                if (model.SortBy == "POS")
-                {
-                    if (model.SortOrder == "Asc")
-                        list = list.OrderBy(p => p.PosId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                    else
-                        list = list.OrderByDescending(p => p.PosId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                }
-                if (model.SortBy == "Payer")
+                else if (model.SortBy == "PAYER")
                 {
                     list = (model.SortOrder == "Asc" ? list.OrderBy(p => p.Payer).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
                         list.OrderByDescending(p => p.Payer).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList());
                 }
-                if (model.SortBy == "IssuingBank")
+                else if (model.SortBy == "ISSUINGBANK")
                 {
                     list = (model.SortOrder == "Asc" ? list.OrderBy(p => p.IssuingBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList() :
                         list.OrderByDescending(p => p.IssuingBank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList());

@@ -20,9 +20,9 @@ namespace VendTech.DAL
             this.AccountVerificationOTPs = new HashSet<AccountVerificationOTP>();
             this.ContactUs = new HashSet<ContactU>();
             this.DepositLogs = new HashSet<DepositLog>();
+            this.Deposits = new HashSet<Deposit>();
             this.EmailConfirmationRequests = new HashSet<EmailConfirmationRequest>();
             this.ForgotPasswordRequests = new HashSet<ForgotPasswordRequest>();
-            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.Meters = new HashSet<Meter>();
             this.Notifications = new HashSet<Notification>();
             this.POS = new HashSet<POS>();
@@ -30,9 +30,9 @@ namespace VendTech.DAL
             this.TokensManagers = new HashSet<TokensManager>();
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
-            this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
             this.Users1 = new HashSet<User>();
-            this.Deposits = new HashSet<Deposit>();
+            this.MeterRecharges = new HashSet<MeterRecharge>();
+            this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
         }
     
         public long UserId { get; set; }
@@ -75,11 +75,11 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepositLog> DepositLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Deposit> Deposits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmailConfirmationRequest> EmailConfirmationRequests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ForgotPasswordRequest> ForgotPasswordRequests { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Meter> Meters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -94,13 +94,13 @@ namespace VendTech.DAL
         public virtual ICollection<UserAssignedModule> UserAssignedModules { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserAssignedWidget> UserAssignedWidgets { get; set; }
         public virtual UserRole UserRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
         public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Deposit> Deposits { get; set; }
+        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAssignedWidget> UserAssignedWidgets { get; set; }
     }
 }

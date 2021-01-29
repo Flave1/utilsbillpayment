@@ -1,0 +1,41 @@
+﻿@model PagingResult<DepositAuditModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td style="text-align:right"> @item.CreatedAt</td>
+            <td style="text-align:right"> @item.PosId</td>
+            <td style="text-align:left">@item.DepositBy</td>
+            <td style="text-align:left">@item.Payer</td>
+            <td style="text-align:left">@item.IssuingBank</td>
+            <td style="text-align:right">@item.DepositRef</td>
+            <td style="text-align:left">@item.GTBank</td>
+            <td style="text-align:right;font-weight: 1000;">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</td>
+            <td>
+                @if (!item.isAudit)
+                {
+                    <a class="btn-warning btn-xs" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@item.Amount','@item.isAudit','@item.UserId')" data-original-short_name="Open" data-original-title="Open" data-toggle="tooltip">Open</a>
+                }
+                else
+                {
+                    <a class="btn-success btn-xs" data-original-short_name="Cleared" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@item.Amount','@item.isAudit','@item.UserId')" data-original-title="Cleared" data-toggle="tooltip">Cleared</a>
+                }
+            </td>
+
+
+
+
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="9">No Record Found</td>
+    </tr>
+}
+
+

@@ -53,75 +53,75 @@
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportDepositReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
                                     {
-                                    <div class="blwsec-left">
-                                        <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                                        <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                                        <div class="blwsec-left-row" style="margin-top:-20px;">
-                                            <label>Vendor:</label>
-                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
-                                        </div>
-
-                                        <div class="blwsec-left-row">
-                                            <label>POS:</label>
-                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
-                                        </div>
-
-                                        @*<div class="blwsec-left-row big firt col-md-12 row" style="padding-top:15px; margin-top: -20px;">
-            <label>TRANSACTION PERIOD</label>
-            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                <label>FROM:</label>
-                <input type="hidden" id="frmDt" />
-                <input type="text" name="FromDate" id="FromDate">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                <label>TO:</label>
-                <input type="hidden" id="toDt" />
-                <input type="text" id="ToDate" name="ToDate">
-            </div>
-        </div>*@
-
-                                        <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
-                                            <label>Transaction Period</label>
-                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                                                <label>From:</label>
-                                                <input type="text" name="FromDate" id="FromDate">
-                                                <input type="hidden" id="frmDt" />
+                                        <div class="blwsec-left">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                            <div class="blwsec-left-row" style="margin-top:-20px;">
+                                                <label>Vendor:</label>
+                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
-                                                <label>To:</label>
-                                                <input type="text" name="ToDate" id="ToDate">
-                                                <input type="hidden" id="toDt" />
+                                            <div class="blwsec-left-row">
+                                                <label>POS:</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
                                             </div>
-                                        </div>
 
-                                        <div class="blwsec-left-row big lst" style="margin-top:-20px;">
-                                            <label>Report</label>
-                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "input", @id = "reportType" })
-                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
-                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                        </div>
-                                        <div class="blwsec-left-row" style="margin-top:-20px;">
-                                            <label>BANK:</label>
-                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "input", @id = "bank" })
-                                        </div>
-                                        <div class="blwsec-left-row" style="margin-top:-10px;">
-                                            <label>DEPOSIT TYPE:</label>
-                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "input", @id = "depositType" })
+                                            @*<div class="blwsec-left-row big firt col-md-12 row" style="padding-top:15px; margin-top: -20px;">
+                                                    <label>TRANSACTION PERIOD</label>
+                                                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                        <label>FROM:</label>
+                                                        <input type="hidden" id="frmDt" />
+                                                        <input type="text" name="FromDate" id="FromDate">
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                        <label>TO:</label>
+                                                        <input type="hidden" id="toDt" />
+                                                        <input type="text" id="ToDate" name="ToDate">
+                                                    </div>
+                                                </div>*@
+
+                                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
+                                                <label>Transaction Period</label>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                    <label>From:</label>
+                                                    <input type="text" name="FromDate" id="FromDate">
+                                                    <input type="hidden" id="frmDt" />
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
+                                                    <label>To:</label>
+                                                    <input type="text" name="ToDate" id="ToDate">
+                                                    <input type="hidden" id="toDt" />
+                                                </div>
+                                            </div>
+
+                                            <div class="blwsec-left-row big lst" style="margin-top:-20px;">
+                                                <label>Report</label>
+                                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "input", @id = "reportType" })
+                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                            </div>
+                                            <div class="blwsec-left-row" style="margin-top:-20px;">
+                                                <label>BANK:</label>
+                                                @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "input", @id = "bank" })
+                                            </div>
+                                            <div class="blwsec-left-row" style="margin-top:-10px;">
+                                                <label>DEPOSIT TYPE:</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "input", @id = "depositType" })
+
+                                            </div>
+                                            <div class="blwsec-left-row" style="margin-top:-10px;">
+                                                <label>DEPOSIT REF NUMBER</label>
+                                                <input name="RefNumber" type="text" id="refNumber">
+                                            </div>
+                                            <div>
+                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                                @*<input type="reset" class="btn btn-danger" value="Reset" id="ResetButton" />*@
+                                            </div>
+
 
                                         </div>
-                                        <div class="blwsec-left-row" style="margin-top:-10px;">
-                                            <label>DEPOSIT REF NUMBER</label>
-                                            <input name="RefNumber" type="text" id="refNumber">
-                                        </div>
-                                        <div>
-                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-                                            @*<input type="reset" class="btn btn-danger" value="Reset" id="ResetButton" />*@
-                                        </div>
-
-
-                                    </div>
                                     }
                                     <div class="blwsec-right">
                                         <div class="exportdata">
@@ -189,155 +189,159 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
         $(document).ready(function () {
-
-             $("#FromDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date()
-            });
-            $("#ToDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date()
-            });
-            debugger;
-             var type = getUrlParameter("type"); 
-            if(type)
-            $("#reportType").val(type);
-            App.init();
-            //initialize the javascript
-             console.log("soon will show details");
-            var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-            var to = $.datepicker.formatDate("dd-mm-yy", new Date());
-
-
-            //$("#FromDate").val(frm);
-            //$("#ToDate").val(to);
-            var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
-            $("#FromDate").data("kendoDatePicker").value(todayDate);
-            $("#ToDate").data("kendoDatePicker").value(todayDate);
-
-
-            //alert(frm);
-            //alert(to);
-
-        $("#vendor").on("change", function () {
-            var vendorId = $("#vendor").val();
-            $("#pos").empty();
-            if (vendorId) {
-                $.ajax({
-                    url: '/Admin/Report/GetVendorPosSelectList?userId='+vendorId,
-                    success: function (res) {
-                        $("#pos").append("<option value=''> Select POS </option>")
-                        if (res.posList != null) {
-                            for (var i = 0; i < res.posList.length; i++) {
-                                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
-                            }
-                        }
-                    }
-                })
+            if (@Html.Raw(Json.Encode(Model.List)) == null) {
+                swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
             }
             else {
-                $("#pos").append("<option value=''> SELECT POS</option>")
+                $("#FromDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+                $("#ToDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+                debugger;
+                var type = getUrlParameter("type");
+                if (type)
+                    $("#reportType").val(type);
+                App.init();
+                //initialize the javascript
+                console.log("soon will show details");
+                var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
+                var to = $.datepicker.formatDate("dd-mm-yy", new Date());
+
+
+                //$("#FromDate").val(frm);
+                //$("#ToDate").val(to);
+                var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+                $("#FromDate").data("kendoDatePicker").value(todayDate);
+                $("#ToDate").data("kendoDatePicker").value(todayDate);
+
+
+                //alert(frm);
+                //alert(to);
+
+                $("#vendor").on("change", function () {
+                    var vendorId = $("#vendor").val();
+                    $("#pos").empty();
+                    if (vendorId) {
+                        $.ajax({
+                            url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                            success: function (res) {
+                                $("#pos").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) {
+                                    for (var i = 0; i < res.posList.length; i++) {
+                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        $("#pos").append("<option value=''> SELECT POS</option>")
+                    }
+                });
+
+
+                console.log("soon will show details");
+                var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
+                var to = $.datepicker.formatDate("dd-mm-yy", new Date());
+
+                $("#frmDt").val(frm);
+                $("#ToDate").val(to);
+
+                console.log(frm + " to " + to);
+
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
+
+                function downloadURI(imgData, name) {
+                    var link = document.createElement("a");
+
+
+                    var pdf = new jsPDF();
+
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+
+                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
+                    pdf.save(name);
+                    //link.download = name;
+                    //link.href = uri;
+                    //document.body.appendChild(link);
+                    //link.click();
+
+                }
+
+
+
+                $('#PrintType').on("change", function () {
+                    $('#ExportType').val($(this).val());
+                });
+
+                $("#btnExport").click(function (e) {
+
+                    debugger;
+                    var frm = $("#FromDate").val();
+                    var to = $("#ToDate").val();
+                    if (frm) {
+                        var dtVal = frm.split("/");
+                        $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#frmDt").val('');
+
+                    }
+                    if (to) {
+                        var dtVal = to.split("/");
+                        $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#toDt").val('');
+                    }
+
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportDepositReportTo');
+                    $("#depositsForm").attr("method", "Post");
+                    $("#depositsForm").submit();
+                })
+
+                $('#btnprint').click(function (e) {
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintDepositReport');
+                    $("#depositsForm").attr("method", "get");
+                    $("#depositsForm").submit();
+                });
+
+
+                Deposits.ManageDeposits(totalCount);
+                var d = new Date();
+                $("#FromDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+                });
+
+                var datePicker1 = $("#FromDate").data("kendoDatePicker");
+                $("#FromDate").click(function () {
+                    datePicker1.open();
+                })
+                $("#ToDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+                });
+                var datePicker2 = $("#ToDate").data("kendoDatePicker");
+                $("#ToDate").click(function () {
+                    datePicker2.open();
+                })
+                var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
+                $("#ToDate").data("kendoDatePicker").value(todayDate);
             }
-        });
-           
-
-            console.log("soon will show details");
-            var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-            var to = $.datepicker.formatDate("dd-mm-yy", new Date());
-
-            $("#frmDt").val(frm);
-            $("#ToDate").val(to);
-
-            console.log(frm + " to " + to);
-
-        const date = new Date();
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-        // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-        $("#printedDate").text(formattedDate);
-        $("#PrintedDateServer").val(formattedDate);
-
-        function downloadURI(imgData, name) {
-                var link = document.createElement("a");
-
-
-                var pdf = new jsPDF();
-
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth-20, pdfHeight-20);
-
-                //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-                pdf.save(name);
-                //link.download = name;
-                //link.href = uri;
-                //document.body.appendChild(link);
-                //link.click();
-
-        }
-
-
-
-        $('#PrintType').on("change", function () {
-            $('#ExportType').val($(this).val());
-        });
-
-        $("#btnExport").click(function (e) {
-
-            debugger;
-                var frm = $("#FromDate").val();
-                var to = $("#ToDate").val();
-                if (frm) {
-                    var dtVal = frm.split("/");
-                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#frmDt").val('');
-
-                }
-                if (to) {
-                    var dtVal = to.split("/");
-                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#toDt").val('');
-            }
-
-                $('#depositsForm').attr('action', '/Admin/Report/ExportDepositReportTo');
-                $("#depositsForm").attr("method", "Post");
-                $("#depositsForm").submit();
-        })
-
-        $('#btnprint').click(function (e) {
-            $('#depositsForm').attr('action', '/Admin/Report/PrintDepositReport');
-            $("#depositsForm").attr("method", "get");
-            $("#depositsForm").submit();
-        });
-
-
-            Deposits.ManageDeposits(totalCount);
-            var d = new Date();
-            $("#FromDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-
-        var datePicker1 = $("#FromDate").data("kendoDatePicker");
-            $("#FromDate").click(function () {
-                datePicker1.open();
-            })
-            $("#ToDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker2 = $("#ToDate").data("kendoDatePicker");
-            $("#ToDate").click(function () {
-                datePicker2.open();
-            })
-            var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
-            $("#ToDate").data("kendoDatePicker").value(todayDate);
         });
     </script>
 }
