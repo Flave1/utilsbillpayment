@@ -81,7 +81,8 @@ namespace VendTech.Controllers
                     ProfilePicPath = userDetails.ProfilePicUrl,
                     IsAuthenticated = true,
                     UserID = userId,
-                    LastActivityTime = DateTime.UtcNow
+                    LastActivityTime = DateTime.UtcNow,
+                    UserType = UserRoles.AppUser
                 };
             }
             else

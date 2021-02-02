@@ -50,7 +50,7 @@ namespace VendTech.BLL.Models
         public const string AppUser = "AppUser";
         public const string Vendor = "Vendor";
         public const string Agent = "Vendor";
-
+        public const string GENERAL_MANAGER = "GENERAL MANAGER"; //just added this
     }
     public static class AppDefaults
     {

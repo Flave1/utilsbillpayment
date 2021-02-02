@@ -152,37 +152,15 @@ namespace VendTech.BLL.Managers
 
             total_deposits = Context.Deposits.Where(e => current_user_pos_ids.Contains(e.POSId)).ToList().Sum(s=>s.Amount);
             total_sales = Context.MeterRecharges.Where(e => current_user_pos_ids.Contains(e.POSId??0)).ToList().Sum(s => s.Amount);
-             
-            //var data = (from u in Context.Users
-            //            join pos in Context.POS.Where(p => !p.IsDeleted) on u.UserId equals pos.User.UserId
-            //            join d in Context.Deposits on pos.POSId equals d.POSId
-            //            join s in Context.MeterRecharges on pos.POSId equals s.POSId
-            //            where u.UserId == userId
-            //            select new
-            //            {
+              
 
-            //                totalSales = s.Amount,
-            //                totalDeposit = d.Amount,
-
-            //            }).DefaultIfEmpty();
-
-            if (user.UserRole.Role == UserRoles.Admin)
+            if (user.UserRole.Role != UserRoles.AppUser)
             {
                 total_deposits = new decimal();
                 total_sales = new decimal();
 
                 total_deposits = Context.Deposits.Sum(s => s.Amount);
-                total_sales = Context.MeterRecharges.Sum(s => s.Amount);
-                //data = (from d in Context.Deposits 
-                //        join pos in Context.POS.Where(p=>!p.IsDeleted) on d.UserId equals pos.User.UserId  
-                //        join s in Context.MeterRecharges on d.UserId equals s.UserId
-                //                   select new
-                //                   {
-                //                       totalSales = s.Amount,
-                //                       totalDeposit = d.Amount,
-
-                //                   }).DefaultIfEmpty();
-
+                total_sales = Context.MeterRecharges.Sum(s => s.Amount); 
 
                 tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
                 if (tDatas.Any())
@@ -200,34 +178,10 @@ namespace VendTech.BLL.Managers
                     posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
                     walletBalance = _userManager.GetUserWalletBalance(userId),
                     transactionChartData = tDatas
-                };
-                //if (data.FirstOrDefault() != null)
-                //{
-                //    return new DashboardViewModel
-                //    {
-                //        totalSales = data.Sum(d => d.totalSales),
-                //        totalDeposit = data.Sum(d => d.totalDeposit),
-                //        userCount = Context.Users.Count(),
-                //        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
-                //        walletBalance = _userManager.GetUserWalletBalance(userId),
-                //        transactionChartData = tDatas
-                //    };
-                //}
-                //else 
-                //{
-                //    return new DashboardViewModel
-                //    {
-                //        totalSales = 0,
-                //        totalDeposit = 0,
-                //        userCount = Context.Users.Count(),
-                //        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
-                //        walletBalance = _userManager.GetUserWalletBalance(userId),
-                //        transactionChartData = tDatas
-                //    };
-                //}
+                }; 
             }
-            else if (user.UserRole.Role == UserRoles.Vendor || user.UserRole.Role == UserRoles.AppUser)
-            {
+            else if (user.UserRole.Role == UserRoles.AppUser) //user.UserRole.Role == UserRoles.Vendor ||
+            { 
                 tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
                 if (tDatas.Any())
                 {
@@ -245,29 +199,7 @@ namespace VendTech.BLL.Managers
                     walletBalance = _userManager.GetUserWalletBalance(userId),
                     transactionChartData = tDatas
                 };
-
-                //if (data.FirstOrDefault() != null)
-                //{
-                //    return new DashboardViewModel
-                //    {
-                //        totalSales = data.Sum(d => d.totalSales),
-                //        totalDeposit = data.Sum(d => d.totalDeposit),
-                //        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                //        walletBalance = _userManager.GetUserWalletBalance(userId),
-                //        transactionChartData = tDatas
-                //    };
-                //}
-                //else
-                //{
-                //    return new DashboardViewModel
-                //    {
-                //        totalSales = 0,
-                //        totalDeposit = 0,
-                //        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                //        walletBalance = _userManager.GetUserWalletBalance(userId),
-                //        transactionChartData = tDatas
-                //    };
-                //}
+                 
             }
             else
             {

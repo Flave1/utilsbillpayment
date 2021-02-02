@@ -632,25 +632,19 @@ namespace VendTech.BLL.Managers
                     //var result = obj.RegisterUser(model);
                 }
 
-                using(var _trans = Context.Database.BeginTransaction())
+                try
                 {
-                    try
-                    {
-                        Context.Users.Add(dbUser);
-                        Context.SaveChanges();
+                    Context.Users.Add(dbUser);
+                    Context.SaveChanges();
 
-                        RemoveORAddUserPermissions(dbUser.UserId, userDetails); 
-                        RemoveOrAddUserPlatforms(dbUser.UserId, userDetails); 
-                        RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
-                        _trans.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        _trans.Rollback();
-                        throw e;
-                    }
-                    finally { _trans.Dispose(); }
+                    RemoveORAddUserPermissions(dbUser.UserId, userDetails);
+                    RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
+                    RemoveOrAddUserWidgets(dbUser.UserId, userDetails); 
                 }
+                catch (Exception e)
+                { 
+                    throw e;
+                } 
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -902,12 +896,12 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
             if (user == null)
                 return 0;
-            if (user.UserRole.Role == UserRoles.Vendor || user.UserRole.Role == UserRoles.AppUser)
+            if (user.UserRole.Role == UserRoles.AppUser) //user.UserRole.Role == UserRoles.Vendor ||
             {
-            var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
                 return posTotalBalance.Value;
             }
-            else if (user.UserRole.Role == UserRoles.Admin)
+            else if (user.UserRole.Role != UserRoles.AppUser)
             {
                 var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
                 return posTotalBalance.Value;
