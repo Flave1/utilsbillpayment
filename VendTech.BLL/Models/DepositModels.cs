@@ -122,7 +122,7 @@ namespace VendTech.BLL.Models
             DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
             AMOUNT = string.Format("{0:N0}", obj.Amount);
             PAYER = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
-            ISSUINGBANK = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
             GTBANK = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
         }
@@ -230,6 +230,8 @@ namespace VendTech.BLL.Models
         public string Payer { get; set; }
         public string IssuingBank { get; set; }
         public string Amount { get; set; }
+        public bool IsAudit { get; set; }
+        public string Status { get; set; }
     }
 
     public class DepositAuditModel
@@ -263,21 +265,7 @@ namespace VendTech.BLL.Models
             DepositRef = obj.CheckNumberOrSlipId;
             Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString(); GTBank = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
-            IssuingBank = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf("-") == -1 ? "GTBANK" :
-                obj.ChequeBankName.Substring(0, obj.ChequeBankName.LastIndexOf("-")) : "";
-            if (!changeStatusForApi)
-                Status = ((DepositPaymentStatusEnum)obj.Status).ToString();
-            else
-            {
-                if (obj.Status == (int)DepositPaymentStatusEnum.Pending)
-                    Status = "Pending";
-                else if (obj.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant || obj.Status == (int)DepositPaymentStatusEnum.Rejected)
-                    Status = "Rejected";
-                else if (obj.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
-                    Status = "Processing";
-                else if (obj.Status == (int)DepositPaymentStatusEnum.Released)
-                    Status = "Approved";
-            }
+            IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;

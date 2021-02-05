@@ -99,6 +99,7 @@ namespace VendTech.Areas.Admin.Controllers
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "1016")
                 {
+                    ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
                     return View("ManageDepositAuditReport", depositAudit);
                 }
@@ -722,16 +723,16 @@ namespace VendTech.Areas.Admin.Controllers
         {
             string fromdate = "";
             string Todate = "";
-            CultureInfo provider = CultureInfo.InvariantCulture;
+            CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                model.From = Convert.ToDateTime(FromDate, provider);
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                model.To = Convert.ToDateTime(ToDate, provider);
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
@@ -748,7 +749,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -764,7 +765,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -779,7 +780,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -793,7 +794,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -806,7 +807,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -824,7 +825,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = "DEPOSIT AUDIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -891,8 +892,6 @@ namespace VendTech.Areas.Admin.Controllers
                 StringWriter sw = new StringWriter();
                 HtmlTextWriter hw = new HtmlTextWriter(sw);
                 gv.RenderControl(hw);
-                gv.HeaderRow.Style.Add("width", "15%");
-                gv.HeaderRow.Style.Add("font-size", "10px");
                 gv.EditRowStyle.HorizontalAlign = HorizontalAlign.Right;
                 gv.Style.Add("text-decoration", "none");
                 gv.Style.Add("font-family", "Arial, Helvetica, sans-serif;");
@@ -1037,15 +1036,15 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult PrintDepositAuditReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
         {
             ViewBag.Pritdatetime = PrintedDateServer; //BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
-            CultureInfo provider = CultureInfo.InvariantCulture;
+            CultureInfo provider = new CultureInfo("en-Us");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                model.From = Convert.ToDateTime(FromDate, provider);
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                model.To = Convert.ToDateTime(ToDate, provider);
             }
 
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");

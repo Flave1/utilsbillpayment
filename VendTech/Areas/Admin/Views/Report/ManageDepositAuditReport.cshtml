@@ -83,6 +83,20 @@
     .margin {
         margin-top: 2px;
     }
+
+    .btn-clear, .btn-clear:focus {
+        background-color: #3cdc3c;
+        border-color: #3cdc3c;
+    }
+
+        .btn-clear:hover, .btn-clear:active, .btn-clear.active, .open .dropdown-toggle.btn-clear {
+            background-color: #3cdc3c;
+            border-color: #3cdc3c;
+        }
+
+    .btn-clear {
+        color: #fff;
+    }
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -91,7 +105,7 @@
     </div>
     <div class="cl-mcont">
         <div class="row">
-            <div class="col-md-12" style="width:144%">
+            <div class="col-md-12">
                 <div class="block-flat">
                     <div class="content">
                         <div class="table-responsive">
@@ -122,6 +136,7 @@
                                         <div class="blwsec-left">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                            <input type="hidden" name="Status" id="hdnStatus" />
                                             <div class="blwsec-left-row" style="margin-top:-20px;">
                                                 <label>Vendor:</label>
                                                 @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
@@ -131,7 +146,7 @@
                                                 <label>POS:</label>
                                                 @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
                                             </div>
-                                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
+                                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top: -20px; padding-top: -10px;">
                                                 <label>Transaction Period</label>
                                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
                                                     <label>From:</label>
@@ -139,7 +154,7 @@
                                                     <input type="hidden" id="frmDt" />
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin: 0;">
                                                     <label>To:</label>
                                                     <input type="text" name="ToDate" id="ToDate">
                                                     <input type="hidden" id="toDt" />
@@ -166,16 +181,25 @@
                                                 <input name="Payer" type="text" id="Payer">
                                             </div>
                                             <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>DEPOSIT REF NUMBER</label>
+                                                <label>DEPOSIT REF#</label>
                                                 <input name="RefNumber" type="text" id="refNumber">
                                             </div>
                                             <div class="blwsec-left-row" style="margin-top:-10px;">
                                                 <label>PAYER BANK</label>
-                                                <input name="IssuingBank" type="text" id="IssuingBank">
+                                                @Html.DropDownList("IssuingBank", null, "SELECT BANK")
                                             </div>
                                             <div class="blwsec-left-row" style="margin-top:-10px;">
                                                 <label>AMOUNT</label>
-                                                <input name="Amount" type="text" id="amount">
+                                                <input name="Amount" type="text" id="amount" style="text-align:right;font-weight:1000">
+                                            </div>
+                                            <div class="blwsec-left-row" style="margin-top:-10px;">
+                                                <label>STATUS</label>
+                                                <input type="hidden" name="IsAudit" id="IsAudit" />
+                                                <select class="input" id="status" name="IsAudit">
+                                                    <option value="">SELECT STATUS</option>
+                                                    <option value="1">OPEN</option>
+                                                    <option value="2">CLEARED</option>
+                                                </select>
                                             </div>
                                             <div>
                                                 <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
@@ -189,14 +213,15 @@
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
-                                                        <th class="sorting" data-sortby="CREATEDAT" style="width:auto">DATE/TIME</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="POS">POS ID</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="DEPOSITBY">DEPOSIT BY</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="PAYER">PAYER</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="ISSUINGBANK">PAYER BANK</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="DEPOSITREF">DEPOSIT REF #</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="GTBANK">GTBANK #</th>
-                                                        <th class="sorting" style="width:auto" data-sortby="AMOUNT">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
+                                                        <th class="sorting" data-sortby="DEPOSITBY">DEPOSIT BY</th>
+                                                        <th class="sorting" data-sortby="DEPOSITTYPE">DEPOSIT TYPE</th>
+                                                        <th class="sorting" data-sortby="PAYER">PAYER</th>
+                                                        <th class="sorting" data-sortby="ISSUINGBANK">PAYER BANK</th>
+                                                        <th class="sorting" data-sortby="DEPOSITREF">DEPOSIT REF #</th>
+                                                        <th class="sorting" data-sortby="GTBANK">GTBANK #</th>
+                                                        <th class="sorting" data-sortby="AMOUNT">AMOUNT</th>
                                                         <th style="width:auto">STATUS</th>
                                                     </tr>
                                                 </thead>
@@ -234,9 +259,9 @@
                 <input type="hidden" id="hdnUserId" class="form-control" />
                 <div class="row">
                     <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin">GTBANK #<em>*</em></label>
+                        <label for="short_name" class="col-md-4 control-label margin">DATE/TIME<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
+                            <input type="datetime" readonly name="CreatedAt" id="modal_created" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -265,7 +290,8 @@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">PAYER BANK<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" name="issuingbank" id="issuingbank" class="form-control margin" />
+                            @Html.DropDownList("IssuingBank", null, "SELECT BANK", new { @id = "issuingbank", @class = "form-control margin" })
+                            @*<input type="text" name="issuingbank" id="issuingbank" class="form-control margin" />*@
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -277,25 +303,21 @@
                 </div>
                 <div class="row">
                     <div class=" col-md-12">
-                        <label for="title" class="col-md-4 control-label margin">AMOUNT<em>*</em></label>
+                        <label for="short_name" class="col-md-4 control-label margin">GTBANK #<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" name="amount" id="amount" class="form-control margin" />
+                            <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin">IsAudit<em>*</em></label>
+                        <label for="title" class="col-md-4 control-label margin">AMOUNT<em>*</em></label>
                         <div class="col-md-8">
-                            <label class="container_">
-                                <input type="checkbox" class="col-md-8" checked="checked" name="isAudit" id="isAudit" />
-                                <span class="checkmark margin"></span>
-                            </label>
+                            <input type="text" name="amount" id="modal_amount" class="form-control margin text-right" style="font-weight: 1000;font-size: large;" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="Save()">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)">
             </div>
         </div>
 
@@ -308,6 +330,7 @@
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
     <script type="text/javascript">
@@ -325,216 +348,207 @@ $(document).ready(function () {
         swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
     }
     else {
-        $("#FromDate").kendoDatePicker({
-            culture: "en-GB",
-            value: new Date()
-        });
-        $("#ToDate").kendoDatePicker({
-            culture: "en-GB",
-            value: new Date()
-        });
-        var type = getUrlParameter("type");
-        if (type)
-            $("#reportType").val(type);
+        $("#status").find("option[value='1']").attr("selected","selected");
+                $("#FromDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+                $("#ToDate").kendoDatePicker({
+                    culture: "en-GB",
+                    value: new Date()
+                });
+                debugger;
+                var type = getUrlParameter("type");
+                if (type)
+                    $("#reportType").val(type);
         App.init();
-        //initialize the javascript
-        console.log("soon will show details");
-        var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-        var to = $.datepicker.formatDate("dd-mm-yy", new Date());
 
-
-        //$("#FromDate").val(frm);
-        //$("#ToDate").val(to);
-        var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
-        $("#FromDate").data("kendoDatePicker").value(todayDate);
-        $("#ToDate").data("kendoDatePicker").value(todayDate);
-
-
-        //alert(frm);
-        //alert(to);
-
-        $("#vendor").on("change", function () {
-            var vendorId = $("#vendor").val();
-            $("#pos").empty();
-            if (vendorId) {
-                $.ajax({
-                    url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-                    success: function (res) {
-                        $("#pos").append("<option value=''> Select POS </option>")
-                        if (res.posList != null) {
-                            for (var i = 0; i < res.posList.length; i++) {
-                                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                $("#vendor").on("change", function () {
+                    var vendorId = $("#vendor").val();
+                    $("#pos").empty();
+                    if (vendorId) {
+                        $.ajax({
+                            url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                            success: function (res) {
+                                $("#pos").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) {
+                                    for (var i = 0; i < res.posList.length; i++) {
+                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                    }
+                                }
                             }
-                        }
+                        })
                     }
+                    else {
+                        $("#pos").append("<option value=''> SELECT POS</option>")
+                    }
+                });
+
+                function downloadURI(imgData, name) {
+                    var link = document.createElement("a");
+
+
+                    var pdf = new jsPDF();
+
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+
+                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
+                    pdf.save(name);
+                    //link.download = name;
+                    //link.href = uri;
+                    //document.body.appendChild(link);
+                    //link.click();
+
+                }
+
+
+
+                $('#PrintType').on("change", function () {
+                    $('#ExportType').val($(this).val());
+                });
+
+                $("#btnExport").click(function (e) {
+
+                    debugger;
+                    var frm = $("#FromDate").val();
+                    var to = $("#ToDate").val();
+                    if (frm) {
+                        var dtVal = frm.split("/");
+                        $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#frmDt").val('');
+
+                    }
+                    if (to) {
+                        var dtVal = to.split("/");
+                        $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#toDt").val('');
+                    }
+                    if ($("#status").val() === "1")
+                        $('#IsAudit').val(false);
+                    else if ($("#status").val() === "2")
+                    $('#IsAudit').val(true);
+                    else
+                    {
+                         $('#hdnStatus').val("Status");
+                         $('#IsAudit').val(false);
+                    }
+                    
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportDepositAuditReportTo');
+                    $("#depositsForm").attr("method", "Post");
+                    $("#depositsForm").submit();
                 })
-            }
-            else {
-                $("#pos").append("<option value=''> SELECT POS</option>")
+
+                $('#btnprint').click(function (e) {
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintDepositAuditReport');
+                    $("#depositsForm").attr("method", "get");
+                    $("#depositsForm").submit();
+                });
+
+
+                Deposits.ManageDeposits(totalCount);
+                var d = new Date();
+                $("#FromDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+                });
+
+                var datePicker1 = $("#FromDate").data("kendoDatePicker");
+                $("#FromDate").click(function () {
+                    datePicker1.open();
+                })
+                $("#ToDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy"
+                });
+                var datePicker2 = $("#ToDate").data("kendoDatePicker");
+                $("#ToDate").click(function () {
+                    datePicker2.open();
+                })
+                //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
+                //$("#ToDate").data("kendoDatePicker").value(todayDate);
             }
         });
 
-
-        console.log("soon will show details");
-        var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-        var to = $.datepicker.formatDate("dd-mm-yy", new Date());
-
-        $("#frmDt").val(frm);
-        $("#ToDate").val(to);
-
-        console.log(frm + " to " + to);
-
-        const date = new Date();
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-        // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-        $("#printedDate").text(formattedDate);
-        $("#PrintedDateServer").val(formattedDate);
-
-        function downloadURI(imgData, name) {
-            var link = document.createElement("a");
-
-
-            var pdf = new jsPDF();
-
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-
-            //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-            pdf.save(name);
-            //link.download = name;
-            //link.href = uri;
-            //document.body.appendChild(link);
-            //link.click();
-
-        }
-
-
-
-        $('#PrintType').on("change", function () {
-            $('#ExportType').val($(this).val());
-        });
-
-        $("#btnExport").click(function (e) {
-
-            debugger;
-            var frm = $("#FromDate").val();
-            var to = $("#ToDate").val();
-            if (frm) {
-                var dtVal = frm.split("/");
-                $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-            }
-            else {
-                $("#frmDt").val('');
-
-            }
-            if (to) {
-                var dtVal = to.split("/");
-                $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-            }
-            else {
-                $("#toDt").val('');
-            }
-
-            $('#depositsForm').attr('action', '/Admin/Report/ExportDepositAuditReportTo');
-            $("#depositsForm").attr("method", "Post");
-            $("#depositsForm").submit();
-        })
-
-        $('#btnprint').click(function (e) {
-            $('#depositsForm').attr('action', '/Admin/Report/PrintDepositAuditReport');
-            $("#depositsForm").attr("method", "get");
-            $("#depositsForm").submit();
-        });
-
-
-        Deposits.ManageDeposits(totalCount);
-        var d = new Date();
-        $("#FromDate").kendoDatePicker({
-            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-            format: "dd/MM/yyyy"
-        });
-
-        var datePicker1 = $("#FromDate").data("kendoDatePicker");
-        $("#FromDate").click(function () {
-            datePicker1.open();
-        })
-        $("#ToDate").kendoDatePicker({
-            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-            format: "dd/MM/yyyy"
-        });
-        var datePicker2 = $("#ToDate").data("kendoDatePicker");
-        $("#ToDate").click(function () {
-            datePicker2.open();
-        })
-        var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
-        $("#ToDate").data("kendoDatePicker").value(todayDate);
-    }
-        });
-
-function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount, isAudit,userId)
+function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
 {
+    debugger;
     $("#depositModalTitle").text("Edit Deposit Audit");
     $("#hdnDepositId").val(id);
-     $("#hdnUserId").val(userId);
+    $("#hdnUserId").val(userId);
     $("#posid").val(posid);
     $("#depositby").val(depositby);
     $("#payer").val(payer);
-    $("#issuingbank").val(issuingbank);
+    $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
     $("#depositref").val(depositref);
     $("#gtbank").val(gtbank);
-    $("#amount").val(amount);
-    if (isAudit === "") {
-        $("#isAudit").prop('checked', false);
-    }
-    else {
-        $("#isAudit").prop('checked', true);
-    }
-
+    $("#modal_amount").val(amount);
+    if (isAudit == "")
+        $("#modal_btn").val("Clear");
+    else
+        $("#modal_btn").val("Open");
+    $("#modal_created").val(date)
     $("#depositModal").modal('show');
             }
-        function Save()
-        {
+        function Save(th) {
             debugger;
-                //if (!$("#bank").text() || !$("#payer").val() || !$("#issuingbank").val() || !$("#amount").val() || !$("#depositref").val() || !$("#gtbank").val())
-                //{
-                //    $.ShowMessage($('div.messageAlert'), "Some Field Is Empty", MessageType.Error);
-                //    return;
-                //}
+            //if (!$("#bank").text() || !$("#payer").val() || !$("#issuingbank").val() || !$("#amount").val() || !$("#depositref").val() || !$("#gtbank").val())
+            //{
+            //    $.ShowMessage($('div.messageAlert'), "Some Field Is Empty", MessageType.Error);
+            //    return;
+            //}
             var inputParam = new Object();
-                inputParam.Amount = $("#amount").val();
-                inputParam.PosId = $("#posid").val();
-                inputParam.IssuingBank = $("#issuingbank").val();
-                inputParam.Payer = $("#payer").val();
-                inputParam.GTBank = $("#gtbank").val();
+            inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
+            inputParam.PosId = $("#posid").val();
+            inputParam.IssuingBank = $("#issuingbank").val();
+            inputParam.Payer = $("#payer").val();
+            inputParam.GTBank = $("#gtbank").val();
             inputParam.DepositRef = $("#depositref").val();
             inputParam.DepositId = $("#hdnDepositId").val();
             inputParam.UserId = $("#hdnUserId").val();
-                if ($("#isAudit").is(":checked"))
-                $("#isAudit").val(true);
-                else
-                    $("#isAudit").val(false);
-                inputParam.isAudit = $("#isAudit").val();
+            if ($(th).val() == "Open") {
+                inputParam.isAudit = false;
+            }
+            else {
+                inputParam.isAudit = true;
+            }
             $.ajax({
                 url: '/Admin/Report/SaveDepositAudit',
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-            if (data.Status) {
-                $("#depositModal").modal('hide');
-                $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
-            }
-            else
-                $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                    if (data.Status) {
+                        $("#depositModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            });
         }
-    })
-}
+
+        $('#amount').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40) return;
+
+  // format number
+  $(this).val(function(index, value) {
+    return value
+    .replace(/\D/g, "")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    ;
+  });
+});
     </script>
 }
 

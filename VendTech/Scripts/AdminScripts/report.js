@@ -159,7 +159,7 @@ var Deposits = {
         });
     },
     AddDeposit: function (sender) {
-        if (!$("#amount").val() || $("#amount").val() == "0") {
+        if (!$("#amount").val() || $("#amount").val() === "0") {
             $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
             return;
         }
@@ -209,8 +209,17 @@ function Paging(sender) {
     obj.Amount = $("#amount").val();
     obj.IssuingBank = $("#IssuingBank").val();
     obj.Payer = $("#Payer").val();
+    if ($("#status").val() === "1")
+        obj.IsAudit = false;
+    else if ($("#status").val() === "2")
+        obj.IsAudit = true;
+    else {
+        obj.Status = "Status";
+        obj.IsAudit = false;
+    }
+
     if (obj.From) {
-       var val = obj.From.split("/");
+        var val = obj.From.split("/");
         obj.From = val[1] + "/" + val[0] + "/" + val[2];
     }
     obj.To = $('#ToDate').val();
