@@ -241,7 +241,6 @@ function Paging(sender) {
         }).replace(/ /g, '-');
 
         $("#fromSpan").text(val);
-        obj.From = val;
     }
     else
         $("#fromSpan").text("_");
@@ -253,7 +252,6 @@ function Paging(sender) {
             day: '2-digit', month: '2-digit', year: 'numeric'
         }).replace(/ /g, '-');
         $("#toSpan").text(val);
-        obj.To = val;
     }
     else
         $("#toSpan").text("_");
@@ -262,7 +260,6 @@ function Paging(sender) {
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'
     }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-
 
     try {
 

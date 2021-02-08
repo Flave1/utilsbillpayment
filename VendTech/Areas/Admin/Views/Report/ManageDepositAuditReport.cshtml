@@ -97,6 +97,10 @@
     .btn-clear {
         color: #fff;
     }
+
+    .block-flat .btn {
+        padding: 3px 6px;
+    }
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -154,7 +158,9 @@
                                                     <input type="hidden" id="frmDt" />
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin: 0;">
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0;
+        margin: 0;
+">
                                                     <label>To:</label>
                                                     <input type="text" name="ToDate" id="ToDate">
                                                     <input type="hidden" id="toDt" />
@@ -361,7 +367,23 @@ $(document).ready(function () {
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);
-        App.init();
+                App.init();
+
+                        //initialize the javascript
+                //console.log("soon will show details");
+                //var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
+                //var to = $.datepicker.formatDate("dd-mm-yy", new Date());
+
+
+                ////$("#FromDate").val(frm);
+                ////$("#ToDate").val(to);
+                //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+                //$("#FromDate").data("kendoDatePicker").value(todayDate);
+                //$("#ToDate").data("kendoDatePicker").value(todayDate);
+
+
+                //alert(frm);
+                //alert(to);
 
                 $("#vendor").on("change", function () {
                     var vendorId = $("#vendor").val();
@@ -439,7 +461,7 @@ $(document).ready(function () {
                          $('#hdnStatus').val("Status");
                          $('#IsAudit').val(false);
                     }
-                    
+
                     $('#depositsForm').attr('action', '/Admin/Report/ExportDepositAuditReportTo');
                     $("#depositsForm").attr("method", "Post");
                     $("#depositsForm").submit();
@@ -498,11 +520,6 @@ function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtban
             }
         function Save(th) {
             debugger;
-            //if (!$("#bank").text() || !$("#payer").val() || !$("#issuingbank").val() || !$("#amount").val() || !$("#depositref").val() || !$("#gtbank").val())
-            //{
-            //    $.ShowMessage($('div.messageAlert'), "Some Field Is Empty", MessageType.Error);
-            //    return;
-            //}
             var inputParam = new Object();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
             inputParam.PosId = $("#posid").val();
@@ -518,17 +535,68 @@ function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtban
             else {
                 inputParam.isAudit = true;
             }
+            //inputParam.FromDate = $("#FromDate").val();
+            //inputParam.ToDate = $("#ToDate").val();
+            //inputParam.Status = $("#status").val();
             $.ajax({
                 url: '/Admin/Report/SaveDepositAudit',
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    if (data.Status) {
+                    if (data!=null) {
                         $("#depositModal").modal('hide');
-                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 2000);
+                        $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
+                        $('tr').each(function(index, value) {
+                            if ($(this).find("#hdnId").val()==data.DepositId) {
+                        $(this).find("#_date").text(data.DateTime);
+                        $(this).find("#_pos").text(data.PosId);
+                        $(this).find("#_usr").text(data.DepositBy);
+                        $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_pay").text(data.Payer);
+                                if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
+                                    $(this).find("#_bnk").text(data.IssuingBank);
+                                }
+                                else {
+                                    $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
+                                }
+                        $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("td").find("#_gt").text(data.GTBank);
+                                if (data.Price == "0") {
+                                    $(this).find("#_amt").text(data.Price);
+                                }
+                                else {
+                                    data.Price = data.Price.replace(/\D/g, "")
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                    $(this).find("#_amt")
+                                        .text(data.Price.replace(/\D/g, "")
+                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                }
+                                if (data.isAudit) {
+                                    $(this).find("#_sts").removeClass("btn-success");
+                                    $(this).find("#_sts").addClass("btn-clear");
+                                    $(this).find("#_sts").text("Cleared");
+                                    $(this).find("#_sts").prop("onclick", null);
+                                    $(this).find("#_sts").click(function () {
+                                        editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                            data.Payer, data.IssuingBank, data.DepositRef,
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime);
+                                    });
+                                }
+                                else {
+                                    $(this).find("#_sts").addClass("btn-success");
+                                    $(this).find("#_sts").removeClass("btn-clear");
+                                    $(this).find("#_sts").text("Open");
+                                    $(this).find("#_sts").prop("onclick", null);
+                                    $(this).find("#_sts").click(function () {
+                                        editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                            data.Payer, data.IssuingBank, data.DepositRef,
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime);
+                                    });
+                                }
+                            }
+});
+
+
                     }
                     else
                         $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);

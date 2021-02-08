@@ -1685,24 +1685,30 @@ border-right: 2px solid #efefef;
 padding-right: 2%;margin-right: 0%;}
 .blwsec-left-row{float: left; width: 100%; margin-bottom: 20px;}
 .blwsec-left-row label{float: left;width: 45%;text-transform: uppercase;font-size: 14px;font-weight: 600;margin-top: 6px;margin-bottom: 0;}
-.blwsec-left-row select{float: left;
-width: 50%;
-border: 1px solid #ccc;
-font-size: 13px;
-line-height: 35px;
-height: 32px;
-background: #efefef;
-font-weight: 600;
-color: #666;}
+	.blwsec-left-row select {
+		float: left;
+		width: 50%;
+		border: 1px solid #ccc;
+		font-size: 12px;
+		height: 30px;
+		line-height: 35px;
+		background: #efefef;
+		font-weight: 600;
+		color: #666;
+	}
 .blwsec-left-row input{float: left;
 width: 50%;
 border: 1px solid #ccc;
-font-size: 13px;
-line-height: 35px;
-height: 35px; color: #666;
+font-size: 12px;
+line-height: 30px;
+height: 30px; 
+color: #666;
 background: #efefef;
 font-weight: 600;
-padding: 12px;}
+padding: 8px;}
+.block-flat .blwsec-left .btn {
+	padding: 10px;
+}
 .blwsec-left-row.big.lst label, .blwsec-left-row.big.firt label{float: left; width: 100%; margin-bottom: 10px;}
 .blwsec-left-row.big.lst select, .blwsec-left-row.big.firt input{width: 100%;}
 .blwsec-left-row.big.firt{padding-top: 24px;border-top: 2px solid #efefef;margin-top: 12px;}

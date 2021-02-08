@@ -253,6 +253,7 @@ namespace VendTech.BLL.Models
         public long Id { get; set; }
         public bool isAudit { get; set; }
         public long UserId { get; set; }
+        public string Price { get; set; }
         public DepositAuditModel() { }
         public DepositAuditModel(Deposit obj, bool changeStatusForApi = false)
         {

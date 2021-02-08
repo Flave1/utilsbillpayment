@@ -157,16 +157,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2021 12:06:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
-      <publishTime>02/03/2021 21:05:45</publishTime>
+      <publishTime>02/05/2021 18:00:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
       <publishTime>01/29/2021 20:00:06</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageSalesReports.cshtml">
-      <publishTime>01/29/2021 20:00:31</publishTime>
+      <publishTime>02/04/2021 21:03:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Partials/_depositAuditListing.cshtml">
-      <publishTime>02/03/2021 18:33:39</publishTime>
+      <publishTime>02/05/2021 18:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Partials/_depositReleaseListing.cshtml">
       <publishTime>01/15/2021 20:02:12</publishTime>
@@ -343,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2021 20:02:31</publishTime>
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
-      <publishTime>01/15/2021 20:02:39</publishTime>
+      <publishTime>12/17/2020 21:32:28</publishTime>
     </File>
     <File Include="bin/Castle.Core.dll">
       <publishTime>01/15/2021 20:02:31</publishTime>
@@ -484,34 +484,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2021 20:02:38</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>02/03/2021 21:43:10</publishTime>
+      <publishTime>02/05/2021 18:52:54</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/25/2021 12:07:15</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>02/03/2021 21:43:10</publishTime>
+      <publishTime>02/05/2021 18:52:54</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>02/01/2021 13:06:12</publishTime>
+      <publishTime>02/05/2021 18:52:49</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
       <publishTime>01/29/2021 16:44:39</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
-      <publishTime>02/01/2021 13:06:12</publishTime>
+      <publishTime>02/05/2021 18:52:49</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>02/03/2021 21:43:17</publishTime>
+      <publishTime>02/05/2021 18:53:10</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>02/03/2021 21:43:11</publishTime>
+      <publishTime>02/05/2021 18:52:56</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>02/03/2021 21:43:11</publishTime>
+      <publishTime>02/05/2021 18:52:56</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>02/03/2021 21:43:17</publishTime>
+      <publishTime>02/05/2021 18:53:10</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>01/15/2021 20:02:42</publishTime>
@@ -520,7 +520,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2021 20:02:42</publishTime>
     </File>
     <File Include="Content/adminStyle.css">
-      <publishTime>01/18/2021 15:52:30</publishTime>
+      <publishTime>02/05/2021 18:08:04</publishTime>
     </File>
     <File Include="Content/assets/css/includes/bootstrap-variables.less">
       <publishTime>11/20/2020 19:50:30</publishTime>
@@ -19018,7 +19018,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2020 12:53:16</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>02/03/2021 21:34:42</publishTime>
+      <publishTime>02/05/2021 12:31:49</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/15/2021 20:02:31</publishTime>
@@ -19111,7 +19111,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2021 20:02:31</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/report.js">
-      <publishTime>02/03/2021 21:15:38</publishTime>
+      <publishTime>02/04/2021 22:57:14</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/role.js">
       <publishTime>01/15/2021 20:02:31</publishTime>
@@ -19351,7 +19351,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2021 20:02:31</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/01/2021 13:09:27</publishTime>
+      <publishTime>02/05/2021 18:53:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

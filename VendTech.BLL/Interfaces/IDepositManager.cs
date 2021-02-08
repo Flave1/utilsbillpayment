@@ -1,9 +1,4 @@
 ﻿using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -20,22 +15,22 @@ namespace VendTech.BLL.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        PagingResult<DepositListingModel> GetDepositPagedList(PagingModel model, bool getForRelease = false,long vendorId=0);
+        PagingResult<DepositListingModel> GetDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0);
         PagingResult<DepositLogListingModel> GetDepositLogsPagedList(PagingModel model);
         decimal GetPendingDepositTotal();
-        ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status,long currentUserId);
+        ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId);
         ActionOutput<string> SendOTP();
         ActionOutput SaveDepositRequest(DepositModel model);
-        ActionOutput ChangeMultipleDepositStatus(ReleaseDepositModel model,long userId);
-        PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize,long userId);
+        ActionOutput ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
+        PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
-        PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin=false);
+        PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetAuditReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
-        ActionOutput SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
+        DepositAuditModel SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
         PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);
     }
-    
+
 }
