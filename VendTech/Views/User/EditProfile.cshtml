@@ -16,15 +16,13 @@
                     <div class="editpro">
                         <form id="profileForm" enctype="multipart/form-data">
                             <div class="editpro-left">
-                                <div class="editpro-left">
-                                    @*<div class="dummyimg" style="background:url(@(Model.ProfilePicUrl==null?"http://vendtech.xicom.info/Content/images/dummyimg.jpg":Model.ProfilePicUrl)) no-repeat;">
-
-                                        </div>*@
+                                @*editpro-left*@
+                                <div class="" >
                                     <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.xicom.info/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
                                     <br />
                                     <br />
                                     <br />
-                                    <input type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb" >
+                                    <input type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
                                 </div>
                             </div>
                             <div class="editpro-right">
@@ -40,10 +38,7 @@
                                         <label>Last Name</label>
                                         @Html.TextBoxFor(x => x.SurName, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.SurName)
-
-
-
-
+                                        
                                     </div>
                                 </div>
                                 <div class="editpro-row">

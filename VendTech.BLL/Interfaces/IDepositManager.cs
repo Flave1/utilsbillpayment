@@ -30,6 +30,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize,long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
         PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin=false);
+        PagingResult<DepositListingModel> GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
     }

@@ -6562,6 +6562,7 @@
     <Content Include="Content\beagle\lib\summernote\font\summernote.woff" />
     <Content Include="Areas\Admin\Views\User\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\Partials\_widgetsListing.cshtml" />
+    <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -6573,6 +6574,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.table2excel.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -6670,6 +6672,8 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Meter\Utility.cshtml" />
     <Content Include="Views\Shared\_footer.cshtml" />
+    <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
+    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -43,7 +43,7 @@ var Deposits = {
     SortDeposits: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
-            $('.sorting').removeClass("sorting_desc")
+            $('.sorting').removeClass("sorting_desc");
             $(sender).addClass("sorting_desc");
             $('#SortBy').val($(sender).attr('data-sortby'));
             $('#SortOrder').val('Desc');
@@ -52,7 +52,7 @@ var Deposits = {
             Paging();
         } else {
             $('.sorting').removeClass("sorting_asc");
-            $('.sorting').removeClass("sorting_desc")
+            $('.sorting').removeClass("sorting_desc");
             $(sender).addClass("sorting_asc");
             $('#SortBy').val($(sender).attr('data-sortby'));
             $('#SortOrder').val('Asc');
@@ -142,6 +142,9 @@ function Paging(sender) {
 
 
     // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+
+    $("#btnFilterSearch").val('DATA LOADING........');
+    $("#btnFilterSearch").prop('disabled', true);
     $("#printedDate").text(formattedDate);
     $("#PrintedDateServer").val(formattedDate);
     $.ajaxExt({
@@ -154,6 +157,10 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Report/GetSalesReportPagingList',
         success: function (results, message) {
+            console.log(results);
+            debugger;
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);
           

@@ -8,11 +8,31 @@
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
-<style>
-    .input {
-        text-transform: uppercase;
-    }
-</style>
+                    <style> 
+                         input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+                         
+
+                        div.dataTables_filter > label::before {
+                            content: "Quick Search :";
+                        }
+                    </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h4><b>Manage Deposit Report</b></h4>
@@ -21,18 +41,13 @@
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
-                <div class="block-flat">
-                    @*<div class="header text-center">
-                            <h4 align="center"><b>ADMIN - MANAGE RESPORTS</b></h4>
-                        </div>*@
-
+                <div class="block-flat"> 
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-
-                                    <h2><label>REPORTS</label></h2>
-                                    <label>Deposit Report</label>
+                                    <h2><label>DEPOSIT REPORTS</label></h2>
+                                    @*<label>Deposit Report</label>*@
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">  @ViewBag.Pritdatetime @*@DateTime.Now.ToString("dd/MMM/yyyy hh:mm:ss tt")*@</span></label>
                                     <label>
@@ -56,64 +71,54 @@
                                     <div class="blwsec-left">
                                         <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                         <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                                        <div class="blwsec-left-row" style="margin-top:-20px;">
-                                            <label>Vendor:</label>
-                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
                                         </div>
 
-                                        <div class="blwsec-left-row">
-                                            <label>POS:</label>
-                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
                                         </div>
 
-                                        @*<div class="blwsec-left-row big firt col-md-12 row" style="padding-top:15px; margin-top: -20px;">
-            <label>TRANSACTION PERIOD</label>
-            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                <label>FROM:</label>
-                <input type="hidden" id="frmDt" />
-                <input type="text" name="FromDate" id="FromDate">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                <label>TO:</label>
-                <input type="hidden" id="toDt" />
-                <input type="text" id="ToDate" name="ToDate">
-            </div>
-        </div>*@
-
-                                        <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
-                                            <label>Transaction Period</label>
-                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                        <hr style="background:#d0cbcb; height:1px;" />
+                                        <div class="form-group row">
+                                            <label style="        width: 100%;
+">TRANSACTION PERIOD</label>
+                                            <div style="width: 49%; float: left; ">
                                                 <label>From:</label>
                                                 <input type="text" name="FromDate" id="FromDate">
                                                 <input type="hidden" id="frmDt" />
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
+                                            <div style="width: 49%; float: right; ">
                                                 <label>To:</label>
                                                 <input type="text" name="ToDate" id="ToDate">
                                                 <input type="hidden" id="toDt" />
                                             </div>
                                         </div>
 
-                                        <div class="blwsec-left-row big lst" style="margin-top:-20px;">
+                                        <hr style="background:#d0cbcb; height:1px;" />
+
+                                        <div class="form-group row">
                                             <label>Report</label>
-                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "input", @id = "reportType" })
+                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "form-control", @id = "reportType" })
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
                                         </div>
-                                        <div class="blwsec-left-row" style="margin-top:-20px;">
-                                            <label>BANK:</label>
-                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "input", @id = "bank" })
+                                        <hr style="background:#d0cbcb; height:1px;" />
+                                        <div class="form-group row">
+                                            <label style="width:30%;">BANK:</label>
+                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @style = "width:65%; float:right;", @class = "form-control", @id = "bank" })
                                         </div>
-                                        <div class="blwsec-left-row" style="margin-top:-10px;">
-                                            <label>DEPOSIT TYPE:</label>
-                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "input", @id = "depositType" })
+                                        <div class="form-group row">
+                                            <label style="width:30%;">DEPOSIT TYPE:</label>
+                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @style = "width:65%; float:right;", @class = "form-control", @id = "depositType" })
 
                                         </div>
-                                        <div class="blwsec-left-row" style="margin-top:-10px;">
-                                            <label>DEPOSIT REF NUMBER</label>
-                                            <input name="RefNumber" type="text" id="refNumber">
+                                        <div class="form-group row">
+                                            <label style="width:30%;">DEPOSIT REF #</label>
+                                            <input name="RefNumber" type="text" id="refNumber" style="width:65%; float:right;" class="form-control">
                                         </div>
                                         <div>
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
@@ -123,29 +128,29 @@
 
                                     </div>
                                     }
-                                    <div class="blwsec-right">
-                                        <div class="exportdata">
-                                            <table class="table table-bordered" id="datatable-icons">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th>
-                                                        <th class="sorting" data-sortby="UserName">USER NAME</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                        <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                        <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
-                                                        <th class="sorting" data-sortby="BANK">BANK</th>
-                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
-                                                        <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @Html.Partial("Partials/_reportListing", Model)
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        @Html.Partial("_Paging")
+                                <div class="blwsec-right">
+                                    <div class="exportdata" style="height:560px; overflow:scroll;   max-width: 100%;">
+                                        <table class="table table-bordered" id="datatable-icons">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                    <th class="sorting" data-sortby="POS">POS ID</th>
+                                                    <th class="sorting" data-sortby="UserName">USER NAME</th>
+                                                    <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
+                                                    <th class="sorting" data-sortby="BANK">BANK</th>
+                                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
+                                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                    <th class="sorting" data-sortby="PercentageAmount">%</th>
+                                                    <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                @Html.Partial("Partials/_reportListing", Model)
+                                            </tbody>
+                                        </table>
                                     </div>
+                                    @*@Html.Partial("_Paging")*@
+                                </div>
                                     <div style="clear:both">
 
                                     </div>
@@ -190,34 +195,34 @@
         };
         $(document).ready(function () {
 
-             $("#FromDate").kendoDatePicker({
+            //  $('#datatable-icons').DataTable({
+            //    "sScrollY": "380px",
+            //});
+
+              $("#FromDate").kendoDatePicker({
                 culture: "en-GB",
-                value: new Date()
+                  value: new Date(),
+                  format : "dd/MM/yyyy"
             });
             $("#ToDate").kendoDatePicker({
                 culture: "en-GB",
-                value: new Date()
+                value: new Date(),
+                format : "dd/MM/yyyy"
             });
+                App.init();
+
             debugger;
              var type = getUrlParameter("type"); 
             if(type)
             $("#reportType").val(type);
             App.init();
-            //initialize the javascript
-             console.log("soon will show details");
-            var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-            var to = $.datepicker.formatDate("dd-mm-yy", new Date());
+            //initialize the javascript 
 
 
-            //$("#FromDate").val(frm);
-            //$("#ToDate").val(to);
-            var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
-            $("#FromDate").data("kendoDatePicker").value(todayDate);
-            $("#ToDate").data("kendoDatePicker").value(todayDate);
-
-
-            //alert(frm);
-            //alert(to);
+            //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+            //$("#FromDate").data("kendoDatePicker").value(todayDate);
+            //$("#ToDate").data("kendoDatePicker").value(todayDate);
+ 
 
         $("#vendor").on("change", function () {
             var vendorId = $("#vendor").val();
@@ -240,16 +245,7 @@
             }
         });
            
-
-            console.log("soon will show details");
-            var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-            var to = $.datepicker.formatDate("dd-mm-yy", new Date());
-
-            $("#frmDt").val(frm);
-            $("#ToDate").val(to);
-
-            console.log(frm + " to " + to);
-
+ 
         const date = new Date();
         const formattedDate = date.toLocaleDateString('en-GB', {
             day: '2-digit', month: '2-digit', year: 'numeric'
@@ -318,13 +314,12 @@
 
 
             Deposits.ManageDeposits(totalCount);
-            var d = new Date();
+           var d = new Date();
             $("#FromDate").kendoDatePicker({
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                 format: "dd/MM/yyyy"
             });
-
-        var datePicker1 = $("#FromDate").data("kendoDatePicker");
+            var datePicker1 = $("#FromDate").data("kendoDatePicker");
             $("#FromDate").click(function () {
                 datePicker1.open();
             })
@@ -336,8 +331,6 @@
             $("#ToDate").click(function () {
                 datePicker2.open();
             })
-            var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
-            $("#ToDate").data("kendoDatePicker").value(todayDate);
         });
     </script>
 }

@@ -91,7 +91,19 @@
                                         <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
 
                                         <div class=" col-md-12">
-                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList) 
+                                            @{ var listing = Model.ModuleList.Where(r => (bool)!r.IsAdmin)
+                                                    .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                    .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                    .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                    .ToList();
+                                                if (listing == null || !listing.Any())
+                                                {
+                                                    listing = new List<Checkbox>();
+                                                }
+                                                }
+                                            @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>
                                 </div>

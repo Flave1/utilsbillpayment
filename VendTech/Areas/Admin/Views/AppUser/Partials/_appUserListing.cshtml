@@ -16,14 +16,15 @@
             <td class="center">
                 @if (item.Status == UserStatusEnum.Pending)
                 {
-                    <a data-userid="@item.UserId" class="btn btn-primary btn-xs activateUser" href="javascript:void(0);" data-original-title="Mark Active" data-toggle="tooltip">Approve</a>
                     <a data-userid="@item.UserId" class="btn btn-danger btn-xs declinedUser" href="javascript:void(0);" data-original-title="Decline" data-toggle="tooltip">Decline</a>
+                    <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
+
                 }
                 else if (item.Status != UserStatusEnum.Declined)
                 {
-                        <a class="btn btn-primary btn-xs" href="@Url.Action("EditUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a> 
-                  
+                    <a class="btn btn-primary btn-xs" href="@Url.Action("EditUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+
 
                     if (item.Status == UserStatusEnum.Block)
                     {
@@ -34,6 +35,13 @@
                         <a data-userid="@item.UserId" class="btn btn-danger btn-xs blockUser" href="javascript:void(0);" data-original-title="Block" data-toggle="tooltip">Block</a>
                     }
                 }
+                else if (item.Status == UserStatusEnum.Declined)
+                {
+                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                    <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
+
+                }
+
             </td>
         </tr>
     }

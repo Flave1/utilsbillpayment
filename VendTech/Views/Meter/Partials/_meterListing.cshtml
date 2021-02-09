@@ -1,58 +1,6 @@
 ﻿@model PagingResult<MeterAPIListingModel>
-@*<ul id="meterList">
-       @foreach (var item in Model.List)
-    {
-        <li>
-            <a title="Delete" class="deletethis" data-id="@item.MeterId" href="javascript:void(0)"></a>
-            <a title="Edit" class="editthis" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a>
-            <a title="Recharge" class="recharge" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter")'><i class="fa fa-money"></i></a>
-            <br />
 
-            <ul>
-                <li>
-                    <i class="fa fa-user"></i>
-                    <label>@item.Name</label>
-                </li>
-                <li>
-                    <i class="fa fa-tachometer"></i>
-                    <label>@item.Number</label>
-                </li>
-                <li>
-                    <i class="fa fa-map-marker"></i>
-                    <label>@item.Address</label>
-                </li>
-                <li>
-                    <i class="fa fa-building-o"></i>
-                    <label>@item.MeterMake</label>
-                </li>
-                <li>
-                    <i class="fa fa-calendar"></i>
-                    <label>@item.CreatedAt.ToString("dd MMMM yyyy")</label>
-                </li>
-            </ul>
-        </li>
-      }
-    </ul>*@
 
-<div class="table-responsive">
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">METER #</th>
-                <th scope="col">NAME ON METER</th>
-                <th scope="col">ADDRESS</th>
-                <th scope="col">ALIAS</th>
-                <th scope="col">METER MAKE</th>
-                <th scope="col">DATE SAVED</th>
-                <th scope="col">VERIFIED</th>
-                <th sope="col">DELETE</th>
-                <th sope="col">EDIT</th>
-                <th sope="col">RECHARGE</th>
-            </tr>
-        </thead>
-        <tbody>
             @{ int i = 0;}
             @foreach (var item in Model.List)
             {
@@ -75,7 +23,3 @@
                     <td><a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a></td>
                 </tr>
             }
-
-        </tbody>
-    </table>
-</div>

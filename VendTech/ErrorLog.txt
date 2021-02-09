@@ -2606,3 +2606,301 @@ Parameter name: startIndex
 
 
 
+The underlying provider failed on Open.
+
+
+
+'System.Collections.Generic.List<System.Web.Mvc.SelectListItem>' does not contain a definition for 'Text'
+
+
+
+Cannot convert type 'System.Collections.Generic.List<System.Web.Mvc.SelectListItem>' to 'System.Web.Mvc.SelectListItem'
+
+
+
+'System.Collections.Generic.List<System.Web.Mvc.SelectListItem>' does not contain a definition for 'Text'
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Report\SalesReport.cshtml(56): error CS1003: Syntax error, ',' expected
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Encountered end tag "tr" with no matching start tag.  Are your start/end tags properly balanced?
+
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Home\Dashboard.cshtml(8): error CS0103: The name 'user' does not exist in the current context
+
+
+
+Nullable object must have a value.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+
+
+
+Could not load file or assembly 'BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Meter\Partials\_salesListing.cshtml(4): error CS1061: 'System.Collections.Generic.List<VendTech.BLL.Models.MeterRechargeApiListingModel>' does not contain a definition for 'List' and no extension method 'List' accepting a first argument of type 'System.Collections.Generic.List<VendTech.BLL.Models.MeterRechargeApiListingModel>' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RechargeMeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.OrderedEnumerable`2[VendTech.BLL.Models.MeterRechargeApiListingModel,System.String]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.OrderedEnumerable`2[VendTech.BLL.Models.MeterRechargeApiListingModel,System.Int64]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The specified type member 'Date' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Limit must have a non-negative value.
+Parameter name: count
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Expression expected
+
+
+
+Expression expected
+
+
+
+Expression expected
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RechargeMeterModel', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RechargeMeterModel', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Deposit\Index.cshtml(59): error CS0136: A local variable named 'Model' cannot be declared in this scope because it would give a different meaning to 'Model', which is already used in a 'parent or current' scope to denote something else
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Deposit\Index.cshtml(59): error CS0136: A local variable named 'Model' cannot be declared in this scope because it would give a different meaning to 'Model', which is already used in a 'parent or current' scope to denote something else
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Deposit\Index.cshtml(59): error CS0136: A local variable named 'Model' cannot be declared in this scope because it would give a different meaning to 'Model', which is already used in a 'parent or current' scope to denote something else
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Views\Deposit\Index.cshtml(58): error CS0136: A local variable named 'Model' cannot be declared in this scope because it would give a different meaning to 'Model', which is already used in a 'parent or current' scope to denote something else
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\AppUser\ViewUser.cshtml(142): error CS0103: The name 'item' does not exist in the current context
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An opening "(" is missing the corresponding closing ")".
+
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.Checkbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.Checkbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.Checkbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.OrderedEnumerable`2[VendTech.BLL.Models.Checkbox,System.Boolean]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.OrderedEnumerable`2[VendTech.BLL.Models.Checkbox,System.Boolean]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.Checkbox]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\Partials\_posListing.cshtml(37): error CS1002: ; expected
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\Partials\_posListing.cshtml(37): error CS1002: ; expected
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\Partials\_posListing.cshtml(37): error CS1002: ; expected
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

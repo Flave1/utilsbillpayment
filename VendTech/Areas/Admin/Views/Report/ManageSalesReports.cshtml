@@ -1,11 +1,13 @@
 ﻿@model PagingResult<MeterRechargeApiListingModel>
-@{ /**/
+@{
 
-    ViewBag.Title = "Manage Sales Reports";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml"; }
+                ViewBag.Title = "Manage Sales Reports";
+                Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml"; }
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+
+
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h4><b>Manage Sales Report</b></h4>
@@ -14,15 +16,34 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat">
-                    @*<div class="header">
-                            <h3>Manage Sales Reports</h3>
-                        </div>*@
+                    <style>
+                        input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+             
+                    </style>
+
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2>REPORTS</h2>
-                                    <label>Sales Report</label>
+                                    <h2>SALES REPORTS</h2>
+                                    @*<label>Sales Report</label>*@
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
                                     <label>
@@ -35,9 +56,8 @@
 
                                     <label>
                                         <button type="button" id="btnExport">Export</button>
-
                                     </label>
-                                    <label>                                                                                                                                                                     
+                                    <label>
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
                                 </div>
@@ -45,74 +65,82 @@
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportSalesReportTo", "Report", FormMethod.Post, new { @id = "salesForm" }))
                                     {
-                        <div class="blwsec-left">
-                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                            <div class="blwsec-left-row" style="margin-top:-20px;">
-                                <label>Vendor:</label>
-                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "SELECT VENDOR", new { @id = "vendor" })
-                            </div>
+                                        <div class="blwsec-left">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "SELECT VENDOR", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
+                                            </div>
 
-                            <div class="blwsec-left-row">
-                                <label>POS:</label> 
-                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @id = "pos" })
-                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
+                                            </div>
 
+                                            <hr style="background:#d0cbcb; height:1px;" />
 
-                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top:-20px; padding-top:-10px;">
-                                <label>Transaction Period</label>
-                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                                    <label>From:</label>
-                                    <input type="text" name="FromDate" id="FromDate">
-                                    <input type="hidden" id="frmDt" />
-                                </div>
-                            
-                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; margin:0;">
-                                    <label>To:</label>
-                                    <input type="text" name="ToDate" id="ToDate">
-                                    <input type="hidden" id="toDt" />
-                                </div>
-                            </div> 
-                            <div class="blwsec-left-row big lst" style="margin-top:-20px;">
-                                <label>Report</label>
-                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType" })
-                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
-                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                            </div>
-                            <div class="blwsec-left-row" style="margin-top:-20px;">
-                                <label>Meter #:</label>
-                                <input name="Meter" type="text" id="meterNo">
-                            </div> 
-                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                <label>VT Trans ID:</label>
-                                <input name="TransactionId" type="text" id="tranId">
-                            </div>
-                            <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
-                        </div>}
-                                    <div class="blwsec-right">
-                                        <div class="exportdata">
-                                            <table class="table table-bordered" id="datatable-icons">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th >PRODUCT </th>
-                                                        <th>PIN</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                        <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
-                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
-                                                        <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @Html.Partial("Partials/_salesReportListing", Model)
-                                                </tbody>
-                                            </table>
+                                            <div class="form-group row">
+                                                <label style="width:100%;">TRANSACTION PERIOD</label>
+                                                <div style="width: 49%; float: left; ">
+                                                    <label>From:</label>
+                                                    <input type="text" name="FromDate" id="FromDate">
+                                                    <input type="hidden" id="frmDt" />
+                                                </div>
+
+                                                <div style="width: 49%; float: right; ">
+                                                    <label>To:</label>
+                                                    <input type="text" name="ToDate" id="ToDate">
+                                                    <input type="hidden" id="toDt" />
+                                                </div>
+                                            </div>
+                                            <hr style="        background: #d0cbcb !important;
+        height: 1px;" />
+                                            <div class="form-group row">
+                                                <label>Report</label>
+                                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control" })
+                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                            </div>
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group row">
+                                                <label style="width:30%;  float:left;">Meter #:</label>
+                                                <input name="Meter" type="text" id="meterNo" style="width:65%; float:right;" class="form-control">
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;  float:left;">VT Trans ID:</label>
+                                                <input name="TransactionId" type="text" id="tranId" style="width:65%; float:right;" class="form-control">
+                                            </div>
+                                            <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
                                         </div>
-                                        @Html.Partial("_Paging")
+                                    }
 
-
+                                <div class="blwsec-right">
+                                    <div class="exportdata" style="height:500px; overflow:scroll; scrollbar-face-color:yellow;  max-width: 100%;">
+                                        <table class="table table-bordered" id="datatable-icons">
+                                            @*<div class="exportdata ">
+                <table class="table table-bordered mb-0 table-responsive" id="datatable-icons">*@
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                    <th>PRODUCT </th>
+                                                    <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
+                                                    <th class="sorting" data-sortby="MeterNumber">METER #</th>
+                                                    <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
+                                                    <th class="sorting" data-sortby="POS">POS ID</th>
+                                                    <th>PIN</th>
+                                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                @Html.Partial("Partials/_salesReportListing", Model)
+                                            </tbody>
+                                        </table>
                                     </div>
+                                    @*<div style="display:none">@Html.Partial("_Paging")</div>*@
+
+
+                                </div>
                                     <div style="clear:both"></div>
 
                                 </div>
@@ -127,8 +155,10 @@
     </div>
 </div>
 
-
 @section scripts{
+
+
+
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
     </script>
@@ -138,12 +168,16 @@
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+
+
+    <!-- dev URL -->
+    <script src="https://rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script>
+
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
         $(document).ready(function () {
 
+ 
             $("#FromDate").kendoDatePicker({
                 culture: "en-GB",
                 value: new Date()
@@ -152,28 +186,30 @@
                 culture: "en-GB",
                 value: new Date()
             });
-    App.init();
+                App.init();
 
-    $("#vendor").on("change", function () {
-    var vendorId = $("#vendor").val();
-    $("#pos").empty();
-    if (vendorId) {
-    $.ajax({
-    url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-    success: function (res) {
-    $("#pos").append("<option value=''> Select POS</option>")
-    if (res.posList != null) {
-    for (var i = 0; i < res.posList.length; i++) {
-    $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
-    }
-    }
-    }
-    })
-    }
-    else {
-    $("#pos").append("<option value=''> SELECT POS</option>")
-    }
-});
+                $("#vendor").on("change", function () {
+                var vendorId = $("#vendor").val();
+                $("#pos").empty();
+                if (vendorId) {
+                $.ajax({
+                url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                success: function (res) {
+                $("#pos").append("<option value=''> Select POS</option>")
+                if (res.posList != null) {
+                for (var i = 0; i < res.posList.length; i++) {
+                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                }
+                }
+                }
+                })
+                }
+                else {
+                $("#pos").append("<option value=''> SELECT POS</option>")
+                }
+                });
+
+
             function downloadURI(imgData, name) {
                 var link = document.createElement("a");
 
@@ -260,5 +296,7 @@
             })
         });
     </script>
+
+
 }
 

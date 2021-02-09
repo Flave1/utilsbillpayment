@@ -25,9 +25,7 @@ namespace VendTech.BLL.Models
     public class MeterAPIListingModel : MeterModel
     {
         public string UserName { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string Allias { get; set; }
-        public bool isVerified { get; set; }
+        public DateTime CreatedAt { get; set; } 
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
@@ -39,6 +37,8 @@ namespace VendTech.BLL.Models
             CreatedAt = obj.CreatedAt;
             Address = obj.Address;
             Number = obj.Number;
+            Allias = obj.Allias;
+            isVerified = (bool)obj.IsVerified;
         }
     }
 
@@ -56,6 +56,9 @@ namespace VendTech.BLL.Models
 
         [MaxLength(11, ErrorMessage = "Meter Number must be of 11 digits"), MinLength(11, ErrorMessage = "Meter Number must be of 11 digits")]
         public string MeterNumber { get; set; }
+        public bool SaveAsNewMeter { get; set; }
+
+        public List<MeterRechargeApiListingModel> History { get; set; }
     }
 
     public class RechargeDetailPDFData

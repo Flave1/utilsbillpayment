@@ -140,6 +140,8 @@ namespace VendTech.BLL.Models
         public int Percentage { get; set; }
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
+
+        public List<DepositListingModel> History { get; set; }
     }
     public class ReleaseDepositModel
     {
@@ -183,6 +185,7 @@ namespace VendTech.BLL.Models
         public int RecordsPerPage { get; set; }
         public string SortBy { get; set; }
         public string SortOrder { get; set; }
+        public bool IsInitialLoad { get; set; } = false;
     }
 
     

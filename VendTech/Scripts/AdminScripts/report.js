@@ -245,6 +245,8 @@ function Paging(sender) {
         $("#toSpan").text("_");
     debugger;
     const date = new Date();
+    $("#btnFilterSearch").val('DATA LOADING........');
+    $("#btnFilterSearch").prop('disabled', true);
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'
     }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
@@ -265,6 +267,8 @@ function Paging(sender) {
             throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
             url: baseUrl + '/Admin/Report/GetReportsPagingList',
             success: function (results, message) {
+                $("#btnFilterSearch").val('SEARCH');
+                $("#btnFilterSearch").prop('disabled', false);
                 $('#divResult table:first tbody').html(results[0]);
                 PageNumbering(results[1]);
 

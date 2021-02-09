@@ -1703,9 +1703,9 @@ height: 35px; color: #666;
 background: #efefef;
 font-weight: 600;
 padding: 12px;}
-.blwsec-left-row.big.lst label, .blwsec-left-row.big.firt label{float: left; width: 100%; margin-bottom: 10px;}
+.blwsec-left-row.big.lst label, .blwsec-left-row.big.firt label{width: 100%;}
 .blwsec-left-row.big.lst select, .blwsec-left-row.big.firt input{width: 100%;}
-.blwsec-left-row.big.firt{padding-top: 24px;border-top: 2px solid #efefef;margin-top: 12px;}
+.blwsec-left-row.big.firt{padding-top: 15px; border-top: 2px solid #555;margin-top: 6px;}
 .blwsec-left-row.big.lst{padding-bottom: 30px;border-bottom: 2px solid #efefef;margin-bottom: 35px;}
 .blwsec-right{float: right; width: 78%;}
 .cl-vnavigation li a.active{background: #e4c200 !important}
@@ -1716,7 +1716,7 @@ padding: 12px;}
 
 .row .blwsec-left select#DepositType{width: 50% !important}
 .manage-desposit-row button.savebttn{margin-right: 10px;}
-#datatable-icons .odd.gradeX td.center a.btn{width: 75px !important}
+#datatable-icons .odd.gradeX td.center a.btn{width: 75px !important; font-weight:bold;}
 
 .blwsec-left-row.frmto span.k-widget{float: left !important;width: 50% !important;margin-bottom: 17px;border: 1px solid #ccc;box-shadow: none !important;border-radius: 0;}
 .blwsec-left-row.frmto span.k-widget span.k-icon{width: 100%; height: 37px; text-align: right;}

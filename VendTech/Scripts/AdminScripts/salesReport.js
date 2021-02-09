@@ -232,9 +232,14 @@ function Paging(sender) {
     else
         $("#fromSpan").text("_");
 
+
+    $("#btnFilterSearch").val('DATA LOADING........');
+    $("#btnFilterSearch").prop('disabled', true);
+
     if (obj.To)
     {
         var dt = new Date(obj.To);
+      
         //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
         var val = dt.toLocaleDateString('en-GB', {
             day: '2-digit', month: '2-digit', year: 'numeric'
@@ -270,6 +275,14 @@ function Paging(sender) {
         success: function (results, message)
         {
             $('#divResult table:first tbody').html(results[0]);
+            debugger;
+            //var table = $('#datatable-icons').DataTable(); 
+            //table.destroy();
+            //table.draw();
+             
+             
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false); 
             PageNumbering(results[1]);
         }
     });

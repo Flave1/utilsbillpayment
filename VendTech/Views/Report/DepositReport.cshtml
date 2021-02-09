@@ -7,6 +7,31 @@
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
+     <style> 
+  input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+                         
+
+                        div.dataTables_filter > label::before {
+                            content: "Quick Search :";
+                        }
+    </style>
     <div class="page-head">
         <h3><b>Manage Deposit Report</b></h3>
 
@@ -22,8 +47,8 @@
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2>REPORTS</h2>
-                                    <label>Deposit Report</label>
+                                    <h2>DEPOSIT REPORTS</h2>
+                                    @*<label>Deposit Report</label>*@
                                     <label>From: <span id="fromSpan">_</span> &nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate"> @ViewBag.Pritdatetime</span></label>
                                     <label>
@@ -51,64 +76,64 @@
 
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                            <div class="blwsec-left-row">
-                                                <label>POS:</label>
-                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @id = "pos" })
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:20% !important;">POS:</label>
+                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @style = " width:70% !important;", @class = "form-control col-md-6", @id = "pos" })
 
                                             </div>
-                                            <div class="blwsec-left-row big firt row" style="margin: 0; margin-top : -20px;">
-                                                <label>TRANSACTION PERIOD</label>
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group  row">
+                                                <label style="width:100%;">TRANSACTION PERIOD</label>
+                                                <div style="width: 49%; float: left; ">
                                                     <label>FROM:</label>
                                                     <input type="text" value="" id="FromDate" name="FromDate">
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                <div style="width: 49%; float: right; ">
                                                     <label>TO:</label>
                                                     <input type="text" value="" id="ToDate" name="ToDate">
                                                 </div>
-                                             
-                                           </div>
+                                            </div>
 
-                                                <div class="blwsec-left-row big lst" style="margin: 0; margin-top : -10px;">
-                                                    <label>REPORT</label>
-                                                    <select id="rpt" onchange="changeReport()">
-                                                        <option value="2">SALES REPORT</option>
-                                                        <option value="1" selected="selected">DEPOSIT REPORT</option>
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group  row">
+                                                <label>REPORT</label>
+                                                <select id="rpt" onchange="changeReport()" class="form-control">
+                                                    <option value="2">SALES REPORT</option>
+                                                    <option value="1" selected="selected">DEPOSIT REPORT</option>
+                                                </select>
+                                            </div>
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group  row">
+                                                <label style="width:30%;  float:left;">BANK:</label>
+                                                @Html.DropDownList("BANK", new SelectList(ViewBag.Banks, "value", "text"), "SELECT BANK", new { @style = "width:65%; float:right;", @id = "bank", @class = "form-control" })
 
-                                                    </select>
-                                                </div>
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;">DEPOSIT TYPE:</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
 
-                                                <div class="blwsec-left-row" >
-                                                    <label>BANK:</label>
-                                                    @Html.DropDownList("BANK", new SelectList(ViewBag.Banks, "value", "text"), "SELECT BANK", new { @id = "bank" })
-
-                                                </div>
-                                                <div class="blwsec-left-row">
-                                                    <label>DEPOSIT TYPE:</label>
-                                                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @id = "depositType" })
-
-                                                </div>
-                                                <div class="blwsec-left-row" style="margin: 0; margin-top : -10px;">
-                                                    <label>DEPOSIT REF NUMBER</label>
-                                                    <input type="text" id="refNumber" name="refNumber">
-                                                </div>
-                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-</form>
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;">DEPOSIT REF #</label>
+                                                <input style = "width:65%; float:right;", type="text" id="refNumber" name="refNumber" class = "form-control">
+                                            </div>
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                        </form>
 
                                     </div>
                                     <div class="blwsec-right">
-                                        <div class="exportdata">
+                                        <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th class="sorting" data-sortby="UserName">USER NAME</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                        <th class="sorting" data-sortby="PercentageAmount">%</th>
                                                         <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
                                                         <th class="sorting" data-sortby="BANK">BANK</th>
                                                         <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="PercentageAmount">%</th>
                                                         <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
                                                     </tr>
                                                 </thead>
@@ -117,7 +142,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @Html.Partial("_Paging")
+                                        @*@Html.Partial("_Paging")*@
 
 
                                     </div>
@@ -152,7 +177,9 @@
     <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
 
-            $(document).ready(function () {
+       $(document).ready(function () {
+                        
+                        
                 //initialize the javascript
                 App.init();
                 $("#FromDate").kendoDatePicker({
@@ -216,7 +243,7 @@
                 $("#ToDate").click(function () {
                     datePicker2.open();
                 })
-            });
+       });
             function changeReport() {
                 var val = $("#rpt").val();
                 if (val == 1)
@@ -265,7 +292,7 @@
                 $("#depositsForm").attr("method", "get");
                 $("#depositsForm").submit();
             });
-
+    
     </script>
 }
 

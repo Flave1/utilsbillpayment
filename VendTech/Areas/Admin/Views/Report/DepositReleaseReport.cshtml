@@ -5,9 +5,9 @@
 }
 
 <div class="container-fluid" id="pcont">
+     
     <div class="page-head">
-        <h2>DEPOSIT RELEASE REPORT</h2>
-
+        <h2>DEPOSIT RELEASE REPORT</h2> 
     </div>
     <div class="cl-mcont">
         <div class="row">
@@ -54,8 +54,9 @@
 
                                         @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @id = "pos" })
                                     </div>
+
                                     <div class="blwsec-left-row big firt row">
-                                        <label>Transaction Period</label>
+                                        <label style="width:100%;">TRANSACTION PERIOD</label>
                                         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
                                             <label>From:</label>
                                             <input type="hidden" name="From" id="frmDt" />
@@ -67,7 +68,7 @@
                                             <label>To:</label>
                                             <input type="text" value="" id="ToDate">
                                         </div>
-                                    
+
                                     </div>
 
 
@@ -125,7 +126,7 @@
                                 </div>
 
                             </div>
-                            @Html.Partial("_Paging")
+                            @*@Html.Partial("_Paging")*@
                         </div>
                     </div>
                 </div>
@@ -150,7 +151,7 @@
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
         $(document).ready(function () {
-
+          $('#datatable-icons').DataTable();
             //initialize the javascript
             App.init();
 

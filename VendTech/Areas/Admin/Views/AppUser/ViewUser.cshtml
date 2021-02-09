@@ -1,7 +1,7 @@
 ﻿@model AddUserModel
 
 @{
-    ViewBag.Title = "Edit App User Details";
+    ViewBag.Title = "Aprove App User";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
     var appUserVal = VendTech.BLL.Common.Utilities.GetUserRoleIntValue(UserRoles.AppUser);
 }
@@ -21,7 +21,7 @@
                         <form class="form-horizontal" role="form" id="UserForm" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-4">
-                                    @Html.HiddenFor(x => x.UserId)
+                                    @Html.HiddenFor(x => x.UserId) 
                                     <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">FIRST NAME<em>*</em></label>
                                         <div class="col-md-12">
@@ -88,39 +88,25 @@
 
                                 </div>
 
-
-                                @*  @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
-                            {
-
-                                <div class="row">
-            <div class=" col-md-12">
-                <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
-                <div class="col-md-8">
-                    <input type="file" name="ImagefromWeb">
-                </div>
-            </div>
-        </div>*@
-
-
-                                @*<div class="row">
-            <div class=" col-md-12">
-                <label for="inputEmail3" class="col-md-2 control-label">Profile Pic</label>
-                <div class="col-md-2">
-                    <img src="@Model.ProfilePicUrl" style="width:100px;height:100px;" />
-                </div>
-            </div>
-
-        </div>
-                            }*@
-
-
+                                  
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-12">
-                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList.Where(r => (bool)!r.IsAdmin).ToList())
-
+                                            @{ var listing = Model.ModuleList.Where(r => (bool)!r.IsAdmin)
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                     .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                     .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                     .ToList();
+                                                if (listing == null || !listing.Any())
+                                                {
+                                                    listing = new List<Checkbox>();
+                                                }
+                                            }
+                                            @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>
                                 </div>
@@ -140,8 +126,8 @@
                                 <div class="row" style="text-align:right;">
                                     <div class="col-sm-12">
                                         <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin"  })" class="btn btn-default">Cancel</a>
-
-                                        <input type="button" class="btn btn-primary" id="editUserBtn" value="Submit" />
+                                        <a data-userid="@Model.UserId" class="btn btn-danger btn-xs declinedUser" href="javascript:void(0);" data-original-title="Decline" data-toggle="tooltip">Decline</a> 
+                                        <input type="button" class="btn btn-primary" id="reactivateUserBtn" value="Approve" />
                                     </div>
                                 </div>
                             </div>

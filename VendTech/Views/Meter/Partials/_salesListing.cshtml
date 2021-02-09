@@ -1,0 +1,25 @@
+﻿@model List<MeterRechargeApiListingModel>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model.OrderByDescending(r => r.TransactionId))
+    {
+        <tr class="odd gradeX">
+            <td style="text-align:right;"> @item.CreatedAt</td>
+            <td style="text-align:right;"> @item.ProductShortName</td>
+            <td style="text-align:right;"> @item.TransactionId</td>
+            <td style="text-align:right;"> @item.MeterNumber</td>
+            <td style="text-align:right;"> @item.POSId</td>
+            <td style="text-align:right;"> <strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong> </td>
+        </tr>
+    }
+}
+else
+{
+    @*<tr class="odd gradeX">
+            <td colspan="8" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+        </tr>*@
+}
+
+

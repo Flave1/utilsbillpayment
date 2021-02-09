@@ -109,17 +109,18 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
-             var query=Context.POS.Where(p => !p.IsDeleted && p.Enabled!=false);
+             var query= new List<POS>();
             //var query = Context.POS.Where(p => !p.IsDeleted);
             var userPos = new List<POS>();
             if (userId > 0)
-            {
-                var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-
-                query = query.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId));
+            { 
+                var user = Context.Users.FirstOrDefault(p => p.UserId == userId); 
+                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId)).ToList();
             }
-            var list = query.ToList();
-            return list.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
+            else
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList(); 
+
+            return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
                 Text = p.SerialNumber.ToUpper(),
                 Value = p.POSId.ToString()

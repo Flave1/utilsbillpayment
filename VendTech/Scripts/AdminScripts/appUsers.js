@@ -5,6 +5,9 @@
     $("input[type=button]#editUserBtn").live("click", function () {
         return Users.UpdateUser($(this));
     });
+    $("input[type=button]#reactivateUserBtn").live("click", function () {
+        return Users.ReactivateUser($(this));
+    });
     $("a.deleteUser").live("click", function () {
         return Users.DeleteUser($(this));
     });
@@ -85,6 +88,32 @@ var Users = {
         });
      
     },
+
+    ReactivateUser: function (sender) {
+        $.ConfirmBox("", "Are you sure to activate this user?", null, true, "Yes", true, null, function () {
+            $.ajaxExt({
+                url: baseUrl + '/Admin/AppUser/ReactivateUserDetails',
+                type: 'POST',
+                validate: true,
+                showErrorMessage: true,
+                messageControl: $('div.messageAlert'),
+                formToValidate: $(sender).parents("form:first"),
+                formToPost: $(sender).parents("form:first"),
+                isAjaxForm: true,
+                showThrobber: true,
+                button: $(sender),
+                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                success: function (results, message) {
+                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    setTimeout(function () {
+                        debugger
+                        window.location.href = baseUrl + '/Admin/AppUser/ManageAppUsers';
+                    }, 1500);
+                }
+            });
+        });
+    },
+
     UpdateUser: function (sender) {
         $.ajaxExt({
             url: baseUrl + '/Admin/AppUser/UpdateUserDetails',

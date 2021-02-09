@@ -3,296 +3,165 @@
     ViewBag.Title = Model.POSId > 0 ? "Edit POS Details" : "Add POS Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
-    <style>
-       th {
-            text-align: left !important;
-        }
-    </style>
 
-    <div class="container-fluid">
+
+    <div class="dashright ">
         @Html.Partial("_FunctionCallMessage")
-        <div class="row " style="width:80%; margin:auto; margin-top : 100px;">
-            <div class="header"> <h2>MANAGE POS</h2></div>
-           
-            <form class="form-horizontal" role="form" id="UserForm" style=" background:#ffffff; margin:5px;">
-                @Html.HiddenFor(x => x.POSId)
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <style>
+            th {
+                text-align: left !important;
+            } 
+        </style>
 
-                <div class="row" >
-                    <div class="col-md-6 ">
-                        <div style="border:1px solid #c0bbcb; padding:4px;">
-                            <h5><p style="text-align:left; font-weight:bold;">POS Settings</p></h5>
-                            <hr />
-
-                            <div class="form-group">
-                                <div class="col-md-8">
-                                    <label for="inputEmail3" class="col-md-3 control-label">POS ID<em>*</em></label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" @ViewBag.read name="SerialNumber" value="@Model.SerialNumber" />
-                                        @* @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control", @ViewBag.read })*@
-                                        @Html.ValidationMessageFor(x => x.SerialNumber)
-                                    </div>
-                                </div>
-                                <div class=" col-md-4">
-                                    <label for="inputEmail3" class="col-md-5 control-label" style="padding-top:0px;">ENABLED</label>
-                                    <div class="col-md-7">
-                                        @Html.CheckBoxFor(x => x.Enabled)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME<em>*</em></label>
-                                    <div class="col-md-5">
-                                        @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.VendorId)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-md-2 control-label">TYPE<em>*</em></label>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(x => x.Type, new SelectList(ViewBag.PosTypes, "value", "text"), null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Type)
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-md-2 control-label">%</label>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-md-2 control-label">CELL#<em>*</em></label>
-                                <div class="col-md-4">
-                                    <select name="CountryCode" class="form-control">
-                                        <option value="+232">+232</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.Phone)
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-                        @Html.Partial("Partials/_platformsListing", Model.PlatformList)
-
-                        <br />
-                        
-                        <div>
-                            <table class="table" style=" border-top: 1px solid #c0bbcb;">
-
-                                <thead>
-                                    <tr><th colspan="4"><p style="font-weight:bold; text-align:left;">Notification Settings</p></th></tr>
-                                    <tr>
-                                        <th scope="col">PLATFORM</th>
-                                        <th scope="col">SALES</th>
-                                        <th scope="col">DEPOSITS</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>SMS</td>
-                                        <td>
-                                            <div class="col-md-8">
-                                                @Html.CheckBoxFor(x => x.SMSNotificationSales)
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-md-8">
-                                                @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>EMAIL</td>
-                                        <td>
-                                            <div class="col-md-8">
-                                                @Html.CheckBoxFor(x => x.EmailNotificationDeposit)
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-md-8">
-                                                @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-
-                </div><br />
-                <div class="row">
-                    <div class=" col-md-12" style="text-align:right;">
-                        <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
-                        <a href="@Url.Action("ManagePOS", "POS", new { area = "Admin" })" class="btn btn-default">Cancel</a>
-                    </div>
-                </div>
-
-            </form>
-
+        <div class="page-head">
+            <h2>Manange POS</h2>
         </div>
-      
-    </div>
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-21">
+                    <div class="block-flat">
 
 
-@*<div class="container-fluid" id="pcont">
-    <div class="page-head">
-        <h2>@ViewBag.Title</h2>
-    </div>
-    <div class="cl-mcont">
-        @Html.Partial("_FunctionCallMessage")
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat">
-                    <div class="header">
-                        <h3>@ViewBag.Title</h3>
-                    </div>
-                    <div class="content people-form-cs">
-                        <form class="form-horizontal" role="form" id="UserForm">
+
+                        <form class="form-horizontal" role="form" id="UserForm" style=" background:#ffffff; margin:5px;">
                             @Html.HiddenFor(x => x.POSId)
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">POS ID<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control", @readonly = "readonly" })
-                                            @Html.ValidationMessageFor(x => x.SerialNumber)
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <p style="text-align:left; font-weight:bold; ">POS SETTINGS</p>
+                                    <div style="border:1px solid #c0bbcb; padding:4px;">
+                                        <div class="form-group">
+                                            <div class="col-md-8">
+                                                <label for="inputEmail3" class="col-md-3 control-label">POS ID<em>*</em></label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" @ViewBag.read name="SerialNumber" value="@Model.SerialNumber" />
+                                                    @* @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control", @ViewBag.read })*@
+                                                    @Html.ValidationMessageFor(x => x.SerialNumber)
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-4">
+                                                <label for="inputEmail3" class="col-md-5 control-label" style="padding-top:0px;">ENABLED</label>
+                                                <div class="col-md-7">
+                                                    @Html.CheckBoxFor(x => x.Enabled)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME<em>*</em></label>
+                                                <div class="col-md-5">
+                                                    @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.VendorId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="inputEmail3" class="col-md-2 control-label">TYPE<em>*</em></label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(x => x.Type, new SelectList(ViewBag.PosTypes, "value", "text"), null, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Type)
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="inputEmail3" class="col-md-2 control-label">%</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-2 control-label">CELL#<em>*</em></label>
+                                            <div class="col-md-4">
+                                                <select name="CountryCode" class="form-control">
+                                                    <option value="+232">+232</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.Phone)
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">VENDOR NAME<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.VendorId)
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">TYPE<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(x => x.Type, new SelectList(ViewBag.PosTypes, "value", "text"), null, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Type)
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">%</label>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control" })
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">CELL#<em>*</em></label>
-                                        <div class="col-md-1">
-                                            <select name="CountryCode" class="form-control">
-                                                <option value="+232">+232</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Phone)
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label" style="padding-top:0px;">ENABLED</label>
-                                        <div class="col-md-8">
-                                            @Html.CheckBoxFor(x => x.Enabled)
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label" style="padding-top:0px;">NOTIFICATION(SMS Deposit)</label>
-                                        <div class="col-md-8">
-                                            @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label" style="padding-top:0px;">NOTIFICATION(SMS Sales)</label>
-                                        <div class="col-md-8">
-                                            @Html.CheckBoxFor(x => x.SMSNotificationSales)
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label" style="padding-top:0px;">NOTIFICATION(Email Deposit)</label>
-                                        <div class="col-md-8">
-                                            @Html.CheckBoxFor(x => x.EmailNotificationDeposit)
-                                        </div>
-                                    </div>
-
-                                </div>
-                               <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label" style="padding-top:0px;">NOTIFICATION(SMS Deposit)</label>
-                                        <div class="col-md-8">
-                                            @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
-                                        </div>
-                                    </div>
-
+                                
+                                <div class="col-md-2">
+                                    <p style="font-weight:bold; text-align:left;">PRODUCT SETTINGS</p>
+                                    @Html.Partial("Partials/_platformsListing", Model.PlatformList)
                                 </div>
                                
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">PRODUCTS<em>*</em></label>
+                                <div class="col-md-4">
+                                    <p style="font-weight:bold; text-align:left;">NOTIFICATION SETTINGS</p>
+                                    <div>
+                                        <table class="table" style=" border-top: 1px solid #c0bbcb;">
 
-                                        <div class=" col-md-8">
-                                            @Html.Partial("Partials/_platformsListing", Model.PlatformList)
-
-                                        </div>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">PLATFORM</th>
+                                                    <th scope="col">SALES</th>
+                                                    <th scope="col">DEPOSITS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>SMS</td>
+                                                    <td>
+                                                        <div class="col-md-8">
+                                                            @Html.CheckBoxFor(x => x.SMSNotificationSales)
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-8">
+                                                            @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>EMAIL</td>
+                                                    <td>
+                                                        <div class="col-md-8">
+                                                            @Html.CheckBoxFor(x => x.EmailNotificationDeposit)
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-8">
+                                                            @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class=" col-md-6">
-                                        <div class="col-sm-offset-4 col-sm-8">
-                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
-                                            <a href="@Url.Action("ManagePOS", "POS", new { area = "Admin" })" class="btn btn-default">Cancel</a>
-                                        </div>
-                                    </div>
+                                 
+                            </div><br />
+                            <div class="row">
+                                <div class=" col-md-12" style="text-align:right;">
+                                    <a href="@Url.Action("ManagePOS", "POS", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                    <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
                                 </div>
                             </div>
+
                         </form>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>*@
+
+ 
+
+
+
 
 @section scripts{
     <script src="~/Scripts/AdminScripts/pos.js"></script>
