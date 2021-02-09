@@ -1,7 +1,7 @@
 ﻿@model AddUserModel
 
 @{
-    ViewBag.Title = "Edit App User Details";
+    ViewBag.Title = "Edit APP User Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
     var appUserVal = VendTech.BLL.Common.Utilities.GetUserRoleIntValue(UserRoles.AppUser);
 }
@@ -119,8 +119,19 @@
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-12">
-                                            @Html.Partial("Partials/_modulesListing", Model.ModuleList.Where(r => (bool)!r.IsAdmin).ToList())
-
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false)
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                     .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                     .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                     .ToList();
+                                                if (listing == null || !listing.Any())
+                                                {
+                                                    listing = new List<Checkbox>();
+                                                }
+                                            }
+                                            @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>
                                 </div>

@@ -101,6 +101,29 @@
     .block-flat .btn {
         padding: 3px 6px;
     }
+          input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+                         
+
+                        div.dataTables_filter > label::before {
+                            content: "Quick Search :";
+                        }
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -137,85 +160,86 @@
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportDepositAuditReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
                                     {
-                                        <div class="blwsec-left">
-                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
-                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
-                                            <input type="hidden" name="Status" id="hdnStatus" />
-                                            <div class="blwsec-left-row" style="margin-top:-20px;">
-                                                <label>Vendor:</label>
-                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "input", @id = "vendor" })
+                                    <div class="blwsec-left">
+                                        <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                        <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                        <input type="hidden" name="Status" id="hdnStatus" />
+                                        <div class="form-group row" style="margin-top:-20px;">
+                                            <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
+                                        </div>
+                                        <hr style="background:#d0cbcb; height:1px;" />
+
+                                        <div class="form-group row">
+                                            <label style="width: 100%;">TRANSACTION PERIOD</label>
+                                            <div style="width: 49%; float: left; ">
+                                                <label>From:</label>
+                                                <input type="text" name="FromDate" id="FromDate">
+                                                <input type="hidden" id="frmDt" />
                                             </div>
 
-                                            <div class="blwsec-left-row">
-                                                <label>POS:</label>
-                                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "input", @id = "pos" })
+                                            <div style="width: 49%; float: right; ">
+                                                <label>To:</label>
+                                                <input type="text" name="ToDate" id="ToDate">
+                                                <input type="hidden" id="toDt" />
                                             </div>
-                                            <div class="blwsec-left-row big firt row col-md-12" style="margin-top: -20px; padding-top: -10px;">
-                                                <label>Transaction Period</label>
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
-                                                    <label>From:</label>
-                                                    <input type="text" name="FromDate" id="FromDate">
-                                                    <input type="hidden" id="frmDt" />
-                                                </div>
+                                        </div>
+                                        <hr style="background:#d0cbcb; height:1px;" />
 
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0;
-        margin: 0;
-">
-                                                    <label>To:</label>
-                                                    <input type="text" name="ToDate" id="ToDate">
-                                                    <input type="hidden" id="toDt" />
-                                                </div>
-                                            </div>
 
-                                            <div class="blwsec-left-row big lst" style="margin-top:-20px;">
-                                                <label>Report</label>
-                                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "input", @id = "reportType" })
-                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
-                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-20px;">
-                                                <label>BANK:</label>
-                                                @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "input", @id = "bank" })
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>DEPOSIT TYPE:</label>
-                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "input", @id = "depositType" })
-
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>PAYER</label>
-                                                <input name="Payer" type="text" id="Payer">
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>DEPOSIT REF#</label>
-                                                <input name="RefNumber" type="text" id="refNumber">
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>PAYER BANK</label>
-                                                @Html.DropDownList("IssuingBank", null, "SELECT BANK")
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>AMOUNT</label>
-                                                <input name="Amount" type="text" id="amount" style="text-align:right;font-weight:1000">
-                                            </div>
-                                            <div class="blwsec-left-row" style="margin-top:-10px;">
-                                                <label>STATUS</label>
-                                                <input type="hidden" name="IsAudit" id="IsAudit" />
-                                                <select class="input" id="status" name="IsAudit">
-                                                    <option value="">SELECT STATUS</option>
-                                                    <option value="1">OPEN</option>
-                                                    <option value="2">CLEARED</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-                                            </div>
-
+                                        <div class="form-group row">
+                                            <label>Report</label>
+                                            @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @class = "form-control", @id = "reportType" })
+                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                        </div>
+                                        <hr style="background:#d0cbcb; height:1px;" />
+                                        <div class="form-group row">
+                                            <label style="width:30%;">BANK:</label>
+                                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "form-control", @style = "width:65%; float:right;", @id = "bank" })
+                                        </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;">DEPOSIT TYPE:</label>
+                                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
 
                                         </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;">PAYER</label>
+                                            <input name="Payer" type="text" id="Payer" class="form-control" style = "width:65%; float:right;">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;"> DEPOSIT REF#</label>
+                                            <input name="RefNumber" type="text" id="refNumber" class="form-control" style = "width:65%; float:right;">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;">PAYER BANK</label>
+                                            @Html.DropDownList("IssuingBank", null, "SELECT BANK", new { @class = "form-control", @style = "width:65%; float:right;" })
+                                        </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;">AMOUNT</label>
+                                            <input name="Amount" type="text" id="amount" class="form-control" style = "width:65%; float:right;">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label style="width:30%;">STATUS</label>
+                                            <input type="hidden" name="IsAudit" id="IsAudit" />
+                                            <select class="form-control" id="status" name="IsAudit"  style = "width:65%; float:right;">
+                                                <option value="">SELECT STATUS</option>
+                                                <option value="1">OPEN</option>
+                                                <option value="2">CLEARED</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
+                                        </div> 
+                                    </div>
                                     }
                                     <div class="blwsec-right">
-                                        <div class="exportdata">
+                                        <div class="exportdata" style="height:700px; overflow:scroll;   max-width: 100%;">
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
@@ -236,7 +260,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @Html.Partial("_Paging")
+                                        @*@Html.Partial("_Paging")*@
                                     </div>
                                     <div style="clear:both">
 

@@ -336,8 +336,7 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
-                    }
-
+                    } 
                 }
             }
 

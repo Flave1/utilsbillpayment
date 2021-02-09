@@ -16,12 +16,17 @@ namespace VendTech.BLL.Models
         public string AgencyName { get; set; }
         public string StringId { get; set; }
         public decimal Balance { get; set; }
-
+        public string Name { get; set; } 
+        public string SurName { get; set; } 
+        public string Phone { get; set; } 
         public VendorListingModel(User obj)
         {
             VendorId = obj.UserId;
             VendorName = obj.Vendor;
             AgencyName = obj.Agency==null?"":obj.Agency.AgencyName;
+            Name = obj.Name;
+            SurName = obj.SurName;
+            Phone = obj.Phone;
             //Balance = obj.Balance==null?0:obj.Balance.Value;
             StringId = Utilities.Base64Encode(obj.UserId.ToString());
         }

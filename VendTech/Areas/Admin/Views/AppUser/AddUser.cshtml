@@ -91,7 +91,7 @@
                                         <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r => (bool)!r.IsAdmin)
+                                            @{ var listing = Model.ModuleList.Where(r =>  r.IsAdmin == false)
                                                     .OrderByDescending(r => r.ModuleName == "Manage Reports")
                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
