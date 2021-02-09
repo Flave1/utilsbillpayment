@@ -16,8 +16,15 @@
 });
 
 var Admin = {
+
     Register: function (sender) {
 
+        var mobile_number = $("#Mobile").val();
+        if (mobile_number !== undefined && mobile_number.length > 8) {
+            $.ShowMessage($('div.messageAlert'), "Invalid phone number", MessageType.Error);
+            return;
+        }
+            
         $.ajaxExt({
             url:  '/Home/Submit_new_user_details',
             type: 'POST',

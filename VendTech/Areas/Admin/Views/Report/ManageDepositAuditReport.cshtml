@@ -445,6 +445,7 @@ $(document).ready(function () {
                         $("#frmDt").val('');
 
                     }
+                    debugger;
                     if (to) {
                         var dtVal = to.split("/");
                         $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
@@ -455,7 +456,7 @@ $(document).ready(function () {
                     if ($("#status").val() === "1")
                         $('#IsAudit').val(false);
                     else if ($("#status").val() === "2")
-                    $('#IsAudit').val(true);
+                        $('#IsAudit').val(true);
                     else
                     {
                          $('#hdnStatus').val("Status");
