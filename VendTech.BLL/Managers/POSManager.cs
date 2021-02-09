@@ -73,7 +73,7 @@ namespace VendTech.BLL.Managers
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "POS List Fetched Successfully";
-            result.TotalCount = query.Count();
+            result.TotalCount = Convert.ToInt32(query.Sum(x=>x.Balance));
             return result;
         }
         List<PosAPiListingModel> IPOSManager.GetPOSSelectListForApi(long userId = 0)
