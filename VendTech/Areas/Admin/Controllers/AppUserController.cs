@@ -139,6 +139,38 @@ namespace VendTech.Areas.Admin.Controllers
             return View(userModel);
         }
 
+        public ActionResult ViewUser(long userId)
+        {
+            ViewBag.UserTypes = _userManager.GetUserRolesSelectList();
+            ViewBag.SelectedTab = SelectedAdminTab.Users;
+            var userModel = new AddUserModel();
+            ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };
+            ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+            ViewBag.Pos = _posManager.GetPOSSelectList();
+            userModel = _userManager.GetAppUserDetailsByUserId(userId);
+            userModel.ModuleList = _userManager.GetAllModules(userId);
+            userModel.PlatformList = _userManager.GetAllPlatforms(userId);
+            userModel.WidgetList = _userManager.GetAllWidgets(userId);
+            return View(userModel);
+        }
+
+
+        [AjaxOnly, HttpPost]
+        public JsonResult ReactivateUserDetails(AddUserModel model)
+        {
+
+            ViewBag.SelectedTab = SelectedAdminTab.Users;
+            if (model.ImagefromWeb != null)
+            {
+                var file = model.ImagefromWeb;
+                var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
+                model.Image = (HttpPostedFile)constructorInfo
+                           .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
+            }
+            model.IsRe_Approval = true;
+            return JsonResult(_userManager.UpdateAppUserDetails(model));
+        }
+
         [AjaxOnly, HttpPost]
         public JsonResult UpdateUserDetails(AddUserModel model)
         {

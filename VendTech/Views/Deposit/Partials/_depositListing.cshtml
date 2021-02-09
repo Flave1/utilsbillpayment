@@ -1,9 +1,9 @@
-﻿@model PagingResult<DepositListingModel>
+﻿@model List<DepositListingModel>
 
 
-    @if (Model.List != null && Model.List.Count() > 0)
+    @if (Model != null && Model.Count() > 0)
     {
-        foreach (var item in Model.List)
+        foreach (var item in Model)
         {
     <tr class="odd gradeX">
         <td style="text-align:right"> @item.CreatedAt</td>
@@ -22,11 +22,11 @@
     </tr>
         }
     }
-    else
+    @*else
     {
         <tr class="odd gradeX">
             <td colspan="9" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
         </tr>
-    }
+    }*@
 
 

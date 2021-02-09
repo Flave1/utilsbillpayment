@@ -60,11 +60,17 @@ namespace VendTech.Controllers
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
-            //ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
-            //ViewBag.Percentage = _posManager.GetPosCommissionPercentageByUserId(LOGGEDIN_USER.UserID);
-            //model.Deposits = _depositManager.GetUserDepositList(1, 10, LOGGEDIN_USER.UserID).List;
-            //model.Recharges = _meterManager.GetUserMeterRecharges(LOGGEDIN_USER.UserID, 1, 10).List;
 
+            var history_model = new ReportSearchModel
+            {
+                SortBy = "CreatedAt",
+                SortOrder = "Desc",
+                VendorId = LOGGEDIN_USER.UserID
+            };
+
+            var deposits = new PagingResult<DepositListingModel>();
+            deposits = _depositManager.GetReportsPagedHistoryList(history_model);
+            ViewBag.WalletHistory = deposits.List;
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);

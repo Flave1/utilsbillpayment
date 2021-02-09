@@ -28,6 +28,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositAuditModel> GetAuditReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
         DepositAuditModel SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
+        PagingResult<DepositListingModel> GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);

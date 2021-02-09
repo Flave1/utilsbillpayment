@@ -112,27 +112,34 @@ namespace VendTech.BLL.Managers
             user.CountryId = model.Country;
             user.Phone = model.Phone;
             user.Address = model.Address;
-            if (model.Image != null)
+            try
             {
-                var ext = Path.GetExtension(model.Image.FileName); //getting the extension(ex-.jpg)  
-                myfile = Guid.NewGuid().ToString() + ext; //appending the name with id  
-                // store the file inside ~/project folder(Images/ProfileImages)  
-                var folderName = HttpContext.Current.Server.MapPath("~/Images/ProfileImages");
-                if (!Directory.Exists(folderName))
-                    Directory.CreateDirectory(folderName);
-                var path = Path.Combine(folderName, myfile);
-                model.Image.SaveAs(path);
-                if (!string.IsNullOrEmpty(user.ProfilePic))
+                if (model.Image != null)
                 {
-                    if (File.Exists(HttpContext.Current.Server.MapPath("~" + user.ProfilePic)))
-                        File.Delete(HttpContext.Current.Server.MapPath("~" + user.ProfilePic));
+                    var ext = Path.GetExtension(model.Image.FileName); //getting the extension(ex-.jpg)  
+                    myfile = Guid.NewGuid().ToString() + ext; //appending the name with id  
+                                                              // store the file inside ~/project folder(Images/ProfileImages)  
+                    var folderName = HttpContext.Current.Server.MapPath("~/Images/ProfileImages");
+                    if (!Directory.Exists(folderName))
+                        Directory.CreateDirectory(folderName);
+                    var path = Path.Combine(folderName, myfile);
+                    model.Image.SaveAs(path);
+                    if (!string.IsNullOrEmpty(user.ProfilePic))
+                    {
+                        if (File.Exists(HttpContext.Current.Server.MapPath("~" + user.ProfilePic)))
+                            File.Delete(HttpContext.Current.Server.MapPath("~" + user.ProfilePic));
+                    }
+                    user.ProfilePic = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProfileImages/" + myfile;
+                    //var obj = new QuickbloxServices();
+                    //var result = obj.RegisterUser(model);
                 }
-                user.ProfilePic = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProfileImages/" + myfile;
-                //var obj = new QuickbloxServices();
-                //var result = obj.RegisterUser(model);
+                Context.SaveChanges();
+                return ReturnSuccess("User profile updated successfully, All changes will be fully update by the next login.");
             }
-            Context.SaveChanges();
-            return ReturnSuccess("User profile updated successfully, All changes will be fully update by the next login.");
+            catch (Exception e)
+            {
+                return ReturnError(e.ToString());
+            }
         }
 
         ActionOutput IUserManager.UpdateAdminprofile(long userId, UpdateProfileModel model)
@@ -441,7 +448,14 @@ namespace VendTech.BLL.Managers
                 //    user.FKPOSId = userDetails.POSId;
                 //else
                 //    user.FKPOSId = null;
-                user.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : user.Status;
+                if (userDetails.ResetUserPassword)
+                    user.Status = (int)UserStatusEnum.PasswordNotReset;
+                else
+                    user.Status = user.Status;
+
+                if(userDetails.IsRe_Approval)
+                    user.Status = (int)UserStatusEnum.Active;
+
                 if (userDetails.Image != null)
                 {
                     var ext = Path.GetExtension(userDetails.Image.FileName); //getting the extension(ex-.jpg)  

@@ -70,7 +70,7 @@
 
 
 
-                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "Platform" && X.ControllerName == "Commission" && X.ControllerName == "BankAccount" && X.ControllerName == "Role").ToList().Count() > 0)
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "PlatformSettings").ToList().Count() > 0)
                     {
                         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Platforms ? "open" : "")">
                             <a href="#"><i class="fa fa-cog"></i><span>Platform Settings</span></a>
@@ -90,8 +90,7 @@
                                 }
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "Role").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
-
+                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li> 
                                 }
                                 @if (user.UserType != UserRoles.AppUser)
                                 {

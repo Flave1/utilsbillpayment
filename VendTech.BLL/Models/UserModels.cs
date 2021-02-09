@@ -98,6 +98,8 @@ namespace VendTech.BLL.Models
         public decimal Percentage { get; set; }
         public HttpPostedFile Image { get; set; }
         public HttpPostedFileBase ImagefromWeb { get; set; }
+
+        public bool IsRe_Approval { get; set; } = false;
         public UserModel() { }
         public UserModel(User userObj)
         {

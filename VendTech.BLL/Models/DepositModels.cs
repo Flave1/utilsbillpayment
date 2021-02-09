@@ -184,6 +184,8 @@ namespace VendTech.BLL.Models
         public int Percentage { get; set; }
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
+
+        public List<DepositListingModel> History { get; set; }
     }
     public class ReleaseDepositModel
     {
@@ -232,6 +234,7 @@ namespace VendTech.BLL.Models
         public string Amount { get; set; }
         public bool IsAudit { get; set; }
         public string Status { get; set; }
+        public bool IsInitialLoad { get; set; } = false;
     }
 
     public class DepositAuditModel

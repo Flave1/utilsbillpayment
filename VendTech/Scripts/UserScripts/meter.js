@@ -96,7 +96,7 @@ var Users = {
             Paging();
         } else {
             $('.sorting').removeClass("sorting_asc");
-            $('.sorting').removeClass("sorting_desc")
+            $('.sorting').removeClass("sorting_desc");
             $(sender).addClass("sorting_asc");
             $('#SortBy').val($(sender).attr('data-sortby'));
             $('#SortOrder').val('Asc');
@@ -118,7 +118,9 @@ var Users = {
         }
         debugger
         var redirectToAddMeter = $("#saveMeterChk").prop("checked");
-       
+        $("#pay_Now_Btn").val('PROCESSING....');
+        $("#pay_Now_Btn").prop('disabled', true);
+
             $.ajaxExt({
                 url: baseUrl + '/Meter/Recharge',
                 type: 'POST',
@@ -133,11 +135,13 @@ var Users = {
                 throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                 success: function (results, message) {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    $("#pay_Now_Btn").val('PAY NOW');
+                    $("#pay_Now_Btn").prop('disabled', false);
                     setTimeout(function () {
-                        if (redirectToAddMeter) {
-                            window.location.href = baseUrl + '/Meter/AddEditMeter?number=' + $("#MeterNumber").val();
-                            return;
-                        }
+                        //if (redirectToAddMeter) {
+                        //    window.location.href = baseUrl + '/Meter/AddEditMeter?number=' + $("#MeterNumber").val();
+                        //    return;
+                        //}
                         window.location.href = baseUrl + '/Home/Index';
                     }, 1500);
 
@@ -147,6 +151,10 @@ var Users = {
 
     },
     RechargeMeter2: function (sender) {
+
+        $("#pay_Now_Btn").val('PROCESSING....');
+        $("#pay_Now_Btn").prop('disabled', true);
+
         if (!$("#Amount").val() || $("#Amount").val() == "0") {
             $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
             return;
@@ -166,6 +174,8 @@ var Users = {
                 console.log(data);
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code == 200) {
+                    $("#pay_Now_Btn").val('PAY NOW');
+                    $("#pay_Now_Btn").prop('disabled', false);
                     console.log(data);
                     debugger;
                     $("#customer_name").html(data.Data.CustomerName);
@@ -181,15 +191,9 @@ var Users = {
                     $("#units").html(data.Data.Unit);
                     $("#generated_token").html(data.Data.RechargeToken);
                     $("#edsa_serial").html(data.Data.SerialNo);
-                    $("#barcode").html(data.Data.SerialNo);
+                    $("#barcode").html(data.Data.DeviceNumber);
                     $("#vendtech_serial_code").html(data.Data.ReceiptNo);
-
-                    //$("#tender").html("TENDER AMOUNT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Amount + "<br> GTS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00" + "<br> EDSA DEBIT CHARGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + data.Data.Charges + "<br> DEPT RECOVERY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.00")
-                    //$("#tarrif").html("TARIFF: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;560 <br>" + " COST OF UNIT Le: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1,720,869.57 <br> Units: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1246");
-                    //$("#tendered").html(data.Data.Amount)
-                    /*$("#charges").html("0.00")
-                    $("#dept").html("0.00")*/
-                    //$("#token").html(data.Data.RechargeToken)
+ 
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {

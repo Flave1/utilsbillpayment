@@ -1,10 +1,40 @@
 ﻿@model PagingResult<MeterRechargeApiListingModel>
 @{ ViewBag.Title = "Manage Reports";
                 Layout = "~/Views/Shared/_LayOut.cshtml"; }
+
+
+@{ 
+    var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
+}
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
+    <style> 
+           input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+                         
+
+                        div.dataTables_filter > label::before {
+                            content: "Quick Search :";
+                        }
+    </style>
     <div class="page-head">
         <h3><b>Manage Sales Report</b></h3>
 
@@ -23,20 +53,18 @@
                                     <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
                                     <label>
                                         Export:
-                                        <select name="PrintType" id="PrintType">
+                                        <select name="PrintType" id="PrintType">    
                                             <option value="Excel">Excel</option>
                                             <option value="PDF">PDF</option>
                                         </select>
                                     </label>
 
                                     <label>
-                                        <button type="button" id="btnExport">Export</button>
-
+                                        <button type="button" id="btnExport">Export</button> 
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
-                                    </label>
-
+                                    </label> 
                                 </div>
                                 <div class="blwsec">
                                     <div class="blwsec-left">
@@ -44,43 +72,51 @@
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
 
-
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                            <div class="blwsec-left-row">
-                                                <label>POS:</label>
-                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @id = "pos" })
-
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
+                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;", @id = "pos" })
                                             </div>
-                                            <div class="blwsec-left-row big firt row" style="margin: 0; margin-top : -20px;">
-                                                <label>TRANSACTION PERIOD</label>
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="row" >
+                                                <label style="width:100%;">TRANSACTION PERIOD</label>
+                                                <div style="width: 49%; float: left; ">
                                                     <label>FROM:</label>
                                                     <input type="text" value="" id="FromDate" name="FromDate">
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" style="padding: 0; ">
+                                                <div style="width: 49%; float: right;">
                                                     <label>TO:</label>
                                                     <input type="text" value="" id="ToDate" name="ToDate">
                                                 </div>
-                                              
                                             </div>
 
+                                            <hr style="background: #d0cbcb; height: 1px; " />
 
-                                            <div class="blwsec-left-row big lst" >
+                                            <div class="form-group row">
                                                 <label>REPORT</label>
-                                                <select id="rpt" onchange="changeReport()">
-                                                    <option value="2" selected="selected">SALES REPORT</option>
-                                                    <option value="1">DEPOSIT REPORT</option>
+                                                <select id="rpt" onchange="changeReport()" class="form-control">
+                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "SALES REPORT"))
+                                                    {
+                                                        <option value="2" selected="selected">SALES REPORT</option>
+                                                    }
+                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "DEPOSITS REPORT"))
+                                                    {
+                                                        <option value="1">DEPOSIT REPORT</option>
+                                                    }
                                                 </select>
                                             </div>
-                                            <div class="blwsec-left-row" style=" margin-top : -20px;">
-                                                <label>Meter #:</label>
-                                                <input type="text" id="meterNo" name="Meter">
+                                            <hr style="background:#d0cbcb; height:1px;" />
+
+                                            <div class="form-group row">
+                                                <label style="width:30%;  float:left;">Meter #:</label>
+                                                <input style="width:65%; float:right;" type="text" id="meterNo" name="Meter" class="form-control">
                                             </div>
 
-                                            <div class="blwsec-left-row">
-                                                <label>VT Trans ID:</label>
-                                                <input type="text" id="tranId" name="TransactionId">
+
+                                            <div class="form-group row">
+                                                <label style="width:30%;  float:left;">VT Trans ID:</label>
+                                                <input style="width:65%; float:right;" type="text" id="tranId" name="TransactionId" class="form-control">
                                             </div>
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
@@ -89,19 +125,19 @@
 
 
                                     <div class="blwsec-right">
-                                        <div class="exportdata">
+                                        <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                         <th>PRODUCT</th>
-                                                        <th>PIN</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
                                                         <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                         <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
 
+                                                        <th>PIN</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -109,9 +145,6 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @Html.Partial("_Paging")
-
-
                                     </div>
                                     <input type="hidden" value="CreatedAt" id="SortBy" />
                                     <input type="hidden" value="Desc" id="SortOrder" />
@@ -145,8 +178,13 @@
             var totalCount = "@Model.TotalCount";
 
             $(document).ready(function () {
-                //initialize the javascript
+                //initialize the javascript 
+                 
                 App.init();
+
+                $("#reportType").on("change", function () {
+
+                });
 
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",

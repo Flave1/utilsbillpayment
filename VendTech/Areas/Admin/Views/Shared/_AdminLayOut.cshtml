@@ -20,10 +20,20 @@
 </head>
 <body>
     @Html.Partial("_Header")
+    @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
     <div id="cl-wrapper" class="fixed-menu">
         @Html.Partial("_SideBaar")
 
-        @RenderBody()
+        @if (user.UserType != UserRoles.AppUser)
+        {
+
+            @RenderBody()
+
+        }
+        else
+        {
+            <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+        }
 
     </div>
 
@@ -33,7 +43,6 @@
     @Scripts.Render("~/bundles/themeSpecific")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/custom")
-
     @RenderSection("scripts", required: false)
 
     <script>
@@ -61,7 +70,7 @@
         function saveLogoutTime() {
             if (!$("#timeTxt").val()) {
                 $.ShowMessage($('div.messageAlert'), "Time is required", MessageType.Error);
-                return 
+                return
             }
             $.ajax({
                 url: '/Admin/Home/SaveLogoutTime',
@@ -81,8 +90,8 @@
             })
         }
 
-        
-       
+
+
     </script>
 </body>
 </html>

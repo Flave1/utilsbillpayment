@@ -17,7 +17,7 @@
                     <div class="manage-desposit">
                         <div class="manage-desposit-top">
                             <h3></h3>
-                            <label style="font-size: 24px; color: #00a2e8 !important;"> @(ViewBag.Balance == 0 ? "0" : string.Format("{0:N0}", ViewBag.Balance))  SLL</label>
+                            <label style="font-size: 24px; color: #00a2e8 !important;">SLL: @(ViewBag.Balance == 0 ? "0" : string.Format("{0:N0}", ViewBag.Balance))  </label>
                         </div>
                         <div class="manage-desposit-content divResult" id="divResult">
                             <form>
@@ -56,14 +56,26 @@
                                     </div>
                                     <div class="manage-desposit-row">
                                         <label>DEPOSIT AMOUNT</label>
-                                        <input type="text" style="font-size: 24px; color: #00a2e8 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()">
+                                        <input type="text" 
+                                               style="font-size: 25px; text-align:right; 
+                                                font-weight:bold; color: #00a2e8 !important;" 
+                                               id="amountDisplay" onkeypress="javascript:return isNumber(event)" 
+                                               onkeyup="getAmountWithPercentage()">
                                         <input type="hidden" id="amount" name="Amount">
                                     </div>
                                     <input type="hidden" name="UserId" value="@ViewBag.vendorId" />
                                     <div class="manage-desposit-row">
                                         <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
                                         @*<span ></span>*@
-                                        <input type="text" id="percentageAmount" style="font-size: 24px; color: #00a2e8 !important;" readonly />
+                                        <input type="text" id="percentageAmount" 
+                                               style="font-size: 50px; 
+                                                height:55px;
+                                                border : none;
+                                                text-align:right; 
+                                                color: red !important; 
+                                                font-weight:bold;" 
+                                               readonly
+                                               />
                                         <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                     </div>
                                     @*<div class="manage-desposit-row">

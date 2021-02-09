@@ -17,12 +17,26 @@
             <td>@item.VendorType</td>
             <td>@item.Enabled</td>
             @*<td>
-                <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-                <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
-            </td>*@
+                    <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                    <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                </td>*@
 
         </tr>
+
     }
+<tr class="odd gradeX" >
+    <td style="border:1px solid white;">    </td>
+    <td style="border:1px solid white;">    </td>
+    <td style="font-weight:bold; text-align:right; font-size:20px; color:#00a2e8; border:none;">
+        @{
+            var total = Model.List.Sum(e => e.Balance);
+        }
+        @(total == null ? "0" : string.Format("{0:N0}", total))
+    </td>
+    <td style="border:1px solid white;">    </td>
+    <td style="border:1px solid white;">    </td>
+    <td style="border:1px solid white;">    </td>
+</tr>
 }
 else
 {
@@ -30,5 +44,6 @@ else
         <td colspan="7">No Record Found</td>
     </tr>
 }
+
 
 

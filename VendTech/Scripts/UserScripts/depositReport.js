@@ -28,7 +28,7 @@
     $('.releaseDepositBtn').live("click", function () {
         return Deposits.ApproveReleaseDeposit($(this));
     });
-    $("#btnFilterSearch").live("click", function () {
+    $("#btnFilterSearch").live("click", function () { 
         return Deposits.SearchDeposits($(this));
     });
 
@@ -43,7 +43,7 @@ var Deposits = {
     SortDeposits: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
-            $('.sorting').removeClass("sorting_desc")
+            $('.sorting').removeClass("sorting_desc");
             $(sender).addClass("sorting_desc");
             $('#SortBy').val($(sender).attr('data-sortby'));
             $('#SortOrder').val('Desc');
@@ -52,7 +52,7 @@ var Deposits = {
             Paging();
         } else {
             $('.sorting').removeClass("sorting_asc");
-            $('.sorting').removeClass("sorting_desc")
+            $('.sorting').removeClass("sorting_desc");
             $(sender).addClass("sorting_asc");
             $('#SortBy').val($(sender).attr('data-sortby'));
             $('#SortOrder').val('Asc');
@@ -136,6 +136,8 @@ function Paging(sender) {
         $("#toSpan").text("_");
 
     debugger;
+    $("#btnFilterSearch").val('DATA LOADING........');
+    $("#btnFilterSearch").prop('disabled', true);
     const date = new Date();
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'
@@ -157,6 +159,8 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Report/GetDepositReportPagingList',
         success: function (results, message) {
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);
           

@@ -65,7 +65,6 @@ namespace VendTech.Areas.Admin.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 PageNo = 1,
-                RecordsPerPage = 50
             };
 
             var deposits = new PagingResult<DepositListingModel>();
@@ -143,7 +142,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 10;
+            model.RecordsPerPage = 100000000;
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "1012")
@@ -181,7 +180,7 @@ namespace VendTech.Areas.Admin.Controllers
             //model.SortBy = "CreatedAt";
             //model.SortOrder = "Desc";
 
-            model.RecordsPerPage = 10;
+            model.RecordsPerPage = 1000000000;
             var modal = _meterManager.GetUserMeterRechargesReport(model, true);
 
             //List<string> resultString = new List<string>();
@@ -189,9 +188,7 @@ namespace VendTech.Areas.Admin.Controllers
             //resultString.Add(modal.TotalCount.ToString());
 
 
-            var resultString = new List<string> {
-               RenderRazorViewToString("Partials/_salesReportListing", modal),
-               modal.TotalCount.ToString()
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
            };
             return JsonResult(resultString);
         }
@@ -233,6 +230,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             };
             gv.DataBind();
+
             if (list.Count > 0)
             {
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
@@ -313,6 +311,7 @@ namespace VendTech.Areas.Admin.Controllers
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+               
 
 
 
@@ -320,7 +319,7 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "TOKEN"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[2].Text = "TOKEN"; gv.HeaderRow.Cells[2].ColumnSpan = 3; //PRODUCT_TYPE
                 gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
                 gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
                 gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
@@ -329,11 +328,11 @@ namespace VendTech.Areas.Admin.Controllers
 
                 // R&D on Alignment section
                 foreach (GridViewRow row in gv.Rows)
-                {
+                { 
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right; 
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;  row.Cells[2].ColumnSpan = 3; row.Cells[2].Text = $"`{row.Cells[2].Text}`";
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
@@ -361,92 +360,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Response.Output.Write(objStringWriter.ToString());
                 Response.Flush();
                 Response.End();
-
-
-                // Okay Code
-                //string filename = "SalesReport_" + PrintedDateServer + ".xlsx";
-                //try
-                //{
-                //    XLWorkbook workbook =new  XLWorkbook(Server.MapPath(@"~/Content/StaticFileFormat/TempSalesReport.xlsx"));
-                //    string filepath = Server.MapPath(@"~/Content/StaticFileFormat/Generated/" + DateTime.Now.ToString("ddmmyyyyhhmmss") + ".xlsx");
-                //    var sheet = workbook.Worksheets.FirstOrDefault();
-                //    sheet.Cell(2, 1).Value = "FROM DATE:  " + fromdate;
-                //    sheet.Cell(3, 1).Value = "TO DATE:  " + Todate;
-                //    sheet.Cell(4, 1).Value= "  ";
-                //    sheet.Cell(5, 1).Value = "PRINT DATE:  " + PrintedDateServer;
-                //    sheet.Cell(6, 1).Value= "  ";
-
-                //    int row = 8;
-                //    foreach (var item in list)
-                //    {
-                //        sheet.Cell(row, 1).Value = item.Date_TIME;
-                //        sheet.Cell(row, 2 ).Value= item.PRODUCT_TYPE;
-                //        sheet.Cell(row, 3).Value = item.AMOUNT;
-                //        sheet.Cell(row, 4 ).Value= item.TRANSACTIONID;
-                //        sheet.Cell(row, 5).Value=item.METER_NO;
-                //        sheet.Cell(row, 6).Value = item.POSID;
-                //        sheet.Cell(row, 7).Value= item.VENDORNAME;
-                //        row++;
-                //    }
-
-                //    workbook.SaveAs(filepath);
-                //    Response.Clear();
-                //    Response.AppendHeader("content-disposition", "attachment; filename=" + filename);
-                //    Response.ContentType = "application/octet-stream";
-                //    Response.WriteFile(filepath);
-                //    Response.Flush();
-                //    Response.End();
-
-                //    if (System.IO.File.Exists(filepath))
-                //    {
-                //        System.IO.File.Delete(filepath);
-                //        Console.WriteLine("File deleted.");
-                //    }
-                //}
-                //catch (Exception e)
-                //{
-
-                //}
-
-                //string filepath = Server.MapPath(@"~/Content/StaticFileFormat/Generated/" + DateTime.Now.ToString("ddmmyyyyhhmmss") + ".xlsx");
-                //Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-                //if (xlApp == null)
-                //{
-                //    return;
-                //}
-
-                //Microsoft.Office.Interop.Excel.Workbook xlWorkBook;
-                //Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
-                //object misValue = System.Reflection.Missing.Value;
-
-                //xlWorkBook = xlApp.Workbooks.Add(misValue);
-                //xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                ////xlWorkSheet.Cells[1, 1] = "ID";
-                ////xlWorkSheet.Cells[1, 2] = "Name";
-                ////xlWorkSheet.Cells[2, 1] = "1";
-                ////xlWorkSheet.Cells[2, 2] = "One";
-                ////xlWorkSheet.Cells[3, 1] = "2";
-                ////xlWorkSheet.Cells[3, 2] = "Two";
-
-                //xlWorkSheet.Cells[1, 1] = "Date/Time";
-                //int rowid = 2;
-                //foreach (var items in list)
-                //{
-                //    CultureInfo culture = new CultureInfo("en-US");
-                //    DateTime tempDate = Convert.ToDateTime(items.Date_TIME, culture);
-                //    xlWorkSheet.Cells[rowid, 1] = tempDate;
-                //    rowid++;
-                //}
-                ////Here saving the file in xlsx
-                //xlWorkBook.SaveAs("E:\\vdfgdfg.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
-                //misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                //xlWorkBook.Close(true, misValue, misValue);
-                //xlApp.Quit();
-                //Marshal.ReleaseComObject(xlWorkSheet);
-                //Marshal.ReleaseComObject(xlWorkBook);
-                //Marshal.ReleaseComObject(xlApp);
-
+                 
             }
             else if (ExportType == "PDF")
             {

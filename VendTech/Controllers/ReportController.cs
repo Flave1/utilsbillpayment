@@ -360,7 +360,8 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
 
             };
-
+            var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+            ViewBag.AssignedReports = assignedReportModule;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<MeterRechargeApiListingModel>();
@@ -376,7 +377,7 @@ namespace VendTech.Controllers
             //model.SortBy = "CreatedAt";
             //model.SortOrder = "Desc";
             model.VendorId = LOGGEDIN_USER.UserID;
-            model.RecordsPerPage = 10;
+            model.RecordsPerPage = 100000000;
             var modal = new PagingResult<MeterRechargeApiListingModel>();
 
             modal = _meterManager.GetUserMeterRechargesReport(model);
