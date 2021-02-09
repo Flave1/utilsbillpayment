@@ -5406,6 +5406,8 @@
     <Content Include="Images\ProfileImages\ac8cecb5-b2f4-42f5-be4c-6b6ce70f7710.jpg" />
     <Content Include="Images\ProfileImages\bc435e6b-db71-451b-8f3d-b10b87615a64.jpg" />
     <Content Include="Images\ProfileImages\d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg" />
+    <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
     <Content Include="Scripts\AdminScripts\cmsPages.js" />
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
@@ -6569,6 +6571,7 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\baseProject.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
