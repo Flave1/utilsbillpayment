@@ -19,6 +19,7 @@ namespace VendTech.BLL.Models
         public string Name { get; set; } 
         public string SurName { get; set; } 
         public string Phone { get; set; } 
+        public string Address { get; set; }
         public VendorListingModel(User obj)
         {
             VendorId = obj.UserId;
@@ -27,6 +28,7 @@ namespace VendTech.BLL.Models
             Name = obj.Name;
             SurName = obj.SurName;
             Phone = obj.Phone;
+            Address = obj.Address;
             //Balance = obj.Balance==null?0:obj.Balance.Value;
             StringId = Utilities.Base64Encode(obj.UserId.ToString());
         }
@@ -34,27 +36,33 @@ namespace VendTech.BLL.Models
 
  public class SaveVendorModel
  {
-     [Required(ErrorMessage = "Required")]
-     public string Name { get; set; }
-     [Required(ErrorMessage = "Required")]
-     public string SurName { get; set; }
-     [Required(ErrorMessage = "Required")]
-     public string Vendor { get; set; }
-     public string Email { get; set; }
-     [Required(ErrorMessage = "Required")]
-     [MaxLength(8)]
-     public string Phone { get; set; }
-     public string CountryCode { get; set; }
-     public long AgencyId { get; set; }
-     public long VendorId { get; set; }
-     [Required(ErrorMessage = "Required")]
-     [StringLength(20, MinimumLength = 6, ErrorMessage = "Password should be minimum of 6 and maximum of 20 characters.")]
-     public string Password { get; set; }
-     public decimal AgentPercentage { get; set; }
-     [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
-     public string ConfirmPassword { get; set; }
-     public int? VendorType { get; set; }
-     public int? Percentage { get; set; }
-     //public long? POSId { get; set; }
- }
+        [Required(ErrorMessage = "Required")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string SurName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string Vendor { get; set; }
+
+        public string Address { get; set; }
+
+        public string Email { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [MaxLength(8)]
+        public string Phone { get; set; }
+        public string CountryCode { get; set; }
+        public long AgencyId { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public long VendorId { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Password should be minimum of 6 and maximum of 20 characters.")]
+        public string Password { get; set; }
+        public decimal AgentPercentage { get; set; }
+        [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
+        public string ConfirmPassword { get; set; }
+        public int? VendorType { get; set; }
+        public int? Percentage { get; set; }
+
+        //public long? POSId { get; set; }
+    }
 }

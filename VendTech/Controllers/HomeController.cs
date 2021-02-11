@@ -36,7 +36,14 @@ namespace VendTech.Controllers
     
         #endregion
 
-        public HomeController(IUserManager userManager, IErrorLogManager errorLogManager,IAuthenticateManager authenticateManager,ICMSManager cmsManager,IPlatformManager platformManager,IEmailTemplateManager templateManager,IVendorManager vendorManager, IDashboardManager dashboardManager)
+        public HomeController(IUserManager userManager, 
+            IErrorLogManager errorLogManager,
+            IAuthenticateManager authenticateManager,
+            ICMSManager cmsManager,
+            IPlatformManager platformManager,
+            IEmailTemplateManager templateManager,
+            IVendorManager vendorManager, 
+            IDashboardManager dashboardManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -228,12 +235,22 @@ namespace VendTech.Controllers
         [Public]
         public ActionResult Register()
         {
+            var countries = _authenticateManager.GetCountries();
+            var countryDrpData = new List<SelectListItem>();
+
+            foreach (var item in countries)
+            {
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+            }
+            ViewBag.countries = countryDrpData;
+            ViewBag.Cities = _authenticateManager.GetCities();
+
             return View(new RegisterAPIModel());
         }
 
         [AjaxOnly, Public, HttpPost]
         public JsonResult Submit_new_user_details(RegisterAPIModel request)
-        {
+        { 
             if (string.IsNullOrEmpty(request.FirstName) && string.IsNullOrEmpty(request.CompanyName))
             {
                 return Json(new ActionOutput { Status = ActionStatus.Error,  Message = "Name must not be empty" });

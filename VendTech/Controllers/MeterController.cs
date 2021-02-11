@@ -190,8 +190,11 @@ namespace VendTech.Controllers
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            var result = _meterManager.RechargeMeterReturn(model);
-
+            var result = _meterManager.RechargeMeterReturn(model).Result;
+            if(result.ReceiptStatus.Status == "unsuccessful")
+            {
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
+            }
             if(model.SaveAsNewMeter) _meterManager.SaveMeter(new MeterModel { Address= "", Allias = "", isVerified = false, MeterId=0, MeterMake = "", Name = "", UserId = LOGGEDIN_USER.UserID, Number = model.MeterNumber });
 
             if (result != null)

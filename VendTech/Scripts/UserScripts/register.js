@@ -18,7 +18,7 @@
 var Admin = {
 
     Register: function (sender) {
-
+        debugger;
         var mobile_number = $("#Mobile").val();
         if (mobile_number !== undefined && mobile_number.length > 8) {
             $.ShowMessage($('div.messageAlert'), "Invalid phone number", MessageType.Error);
@@ -37,8 +37,7 @@ var Admin = {
             showThrobber: true,
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-            success: function (results, message) {
-                debugger;
+            success: function (results, message) { 
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () {
                     window.location.href = baseUrl + '/Home/Index';
@@ -47,8 +46,7 @@ var Admin = {
         });
         return false;
     },
-    ForgotPassword: function (sender) {
-        debugger
+    ForgotPassword: function (sender) { 
         var email = $("#email").val();
         if (!email) {
             $.ShowMessage($('div.messageAlert'), "Email is required.", MessageType.Error);

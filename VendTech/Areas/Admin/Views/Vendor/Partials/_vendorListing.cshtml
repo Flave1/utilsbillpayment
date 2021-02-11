@@ -16,7 +16,7 @@
 
         <td> @item.AgencyName</td>
 
-        <td>@item.Phone</td>
+        <td><span>+232 </span> @item.Phone</td>
         <td>
             <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditVendor", "Vendor", new { area = "Admin", id = @item.StringId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
             @*<a class="btn btn-warning btn-xs" href="@Url.Action("Detail", "Vendor", new { area = "Admin", id = @item.StringId })" data-original-title="Detail" data-toggle="tooltip">Detail</a>*@

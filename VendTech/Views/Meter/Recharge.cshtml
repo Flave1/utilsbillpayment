@@ -224,7 +224,7 @@
                 </div>
                 <div class="row">
                     <div class=" text-right" style="margin:20px; text-align: right;">
-                        <strong>POS ID</strong>  <span class="text-light"></span> 12345
+                        <strong>POS ID</strong>  <span class="text-light" id="pos_id">12345</span>
                     </div>
                 </div>
                 <div class="separator" style="margin:5px;"><strong>Customer Information</strong></div>
@@ -285,10 +285,26 @@
                         <div style="text-align: right;" class="col-md-6 col-sm-6"> <span id="units"> 1245.4</span></div>
                     </div>
                 </div>
-                <div class="row" style="text-align: center;">
+                <div class="row" style="text-align: center; display: none;" id="pin1_section">
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
                         <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
-                            <span id="generated_token" class="col-md-12 col-sm-12 col-xs-12"
+                            <span id="pin1" class="col-md-12 col-sm-12 col-xs-12"
+                                  style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; display:none;" id="pin2_section">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                        <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                            <span id="pin2" class="col-md-12 col-sm-12 col-xs-12"
+                                  style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; display: none;" id="pin3_section">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                        <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                            <span id="pin3" class="col-md-12 col-sm-12 col-xs-12"
                                   style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
                         </p>
                     </div>
@@ -307,7 +323,7 @@
                         <span id="barcode" style="font-family: 'Libre Barcode 39 Text', cursive !important;  font-size: 32px;">22222222222 </span>
                     </div>
                     <div class="col-md-5 col-sm-5 col-xs-5 row" id="print_section" style="padding: 0; margin: 0px;">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light ">SMS</button>
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" style="display:none">SMS</button>
                         <button class="btn btn-primary waves-effect waves-light " onclick="printReceipt()">PRINT</button>
                     </div>
 
@@ -337,12 +353,12 @@
         function printReceipt() {
             debugger;
             $("#print_section").hide();
-           var prtContent = document.getElementById("printSection");
+             var prtContent = document.getElementById("printSection");
             var WinPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0'); 
-            WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">');
-            WinPrint.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">');
-            WinPrint.document.write('<link rel="preconnect" href="https://fonts.gstatic.com">');
+             WinPrint.document.write('<link rel="preconnect" href="https://fonts.gstatic.com">');
             WinPrint.document.write('<link href="~/Content/pos_receipt.css" rel="stylesheet" />');
+            WinPrint.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">');
+            WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">');
             window.location.reload();
             WinPrint.document.write(prtContent.innerHTML);
             WinPrint.document.close();

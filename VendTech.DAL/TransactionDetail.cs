@@ -12,9 +12,9 @@ namespace VendTech.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class MeterRecharge
+    public partial class TransactionDetail
     {
-        public long MeterRechargeId { get; set; }
+        public long TransactionDetailsId { get; set; }
         public long UserId { get; set; }
         public string TransactionId { get; set; }
         public Nullable<long> MeterId { get; set; }
@@ -25,7 +25,25 @@ namespace VendTech.DAL
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<int> PlatFormId { get; set; }
-        public string MeterToken { get; set; }
+        public System.DateTime RequestDate { get; set; }
+        public decimal CurrentDealerBalance { get; set; }
+        public string AccountNumber { get; set; }
+        public string Customer { get; set; }
+        public long RTSUniqueID { get; set; }
+        public string ReceiptNumber { get; set; }
+        public string ServiceCharge { get; set; }
+        public string Tariff { get; set; }
+        public decimal TaxCharge { get; set; }
+        public decimal TenderedAmount { get; set; }
+        public decimal TransactionAmount { get; set; }
+        public decimal Units { get; set; }
+        public string SerialNumber { get; set; }
+        public string CustomerAddress { get; set; }
+        public long DebitRecovery { get; set; }
+        public decimal CostOfUnits { get; set; }
+        public string MeterToken1 { get; set; }
+        public string MeterToken2 { get; set; }
+        public string MeterToken3 { get; set; }
     
         public virtual Meter Meter { get; set; }
         public virtual Platform Platform { get; set; }

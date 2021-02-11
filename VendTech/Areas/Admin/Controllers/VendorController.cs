@@ -20,9 +20,18 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly ICommissionManager _commissionManager;
         private readonly IEmailTemplateManager _emailTemplateManager;
         private readonly IPOSManager _posManager;
+        private readonly IAuthenticateManager _authenticateManager;
         #endregion
 
-        public VendorController(IUserManager userManager, IErrorLogManager errorLogManager, IVendorManager vendorManager, IAgencyManager agentManager, ICommissionManager commissionManager, IEmailTemplateManager emailTemplateManager, IPOSManager posManager)
+        public VendorController(
+            IUserManager userManager, 
+            IErrorLogManager errorLogManager, 
+            IVendorManager vendorManager, 
+            IAgencyManager agentManager, 
+            ICommissionManager commissionManager, 
+            IEmailTemplateManager emailTemplateManager, 
+            IPOSManager posManager, 
+            IAuthenticateManager authenticateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -31,6 +40,8 @@ namespace VendTech.Areas.Admin.Controllers
             _commissionManager = commissionManager;
             _emailTemplateManager = emailTemplateManager;
             _posManager = posManager;
+            _authenticateManager = authenticateManager;
+           
         }
 
         #region User Management
@@ -57,6 +68,8 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddEditVendor(SaveVendorModel model)
         {
+            
+
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             bool isAddCase = model.VendorId == 0;
             var result = _vendorManager.SaveVendor(model);
@@ -75,6 +88,17 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult AddEditVendor(string id = null)
         {
+
+            var countries = _authenticateManager.GetCountries();
+            var countryDrpData = new List<SelectListItem>();
+
+            foreach (var item in countries)
+            {
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+            }
+            ViewBag.countries = countryDrpData;
+            ViewBag.Cities = _authenticateManager.GetCities();
+
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             var model = new SaveVendorModel();
             ViewBag.Agents = _agentManager.GetAgentsSelectList();

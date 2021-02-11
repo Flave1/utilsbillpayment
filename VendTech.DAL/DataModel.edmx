@@ -205,23 +205,6 @@
           <Property Name="OTP" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="MeterRecharge">
-          <Key>
-            <PropertyRef Name="MeterRechargeId" />
-          </Key>
-          <Property Name="MeterRechargeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="MeterId" Type="bigint" />
-          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="MeterNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="POSId" Type="bigint" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="PlatFormId" Type="int" />
-          <Property Name="MeterToken" Type="varchar" MaxLength="20" />
-        </EntityType>
         <EntityType Name="Meters">
           <Key>
             <PropertyRef Name="MeterId" />
@@ -307,6 +290,9 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="EmailNotificationDeposit" Type="bit" />
           <Property Name="SMSNotificationSales" Type="bit" />
           <Property Name="SMSNotificationDeposit" Type="bit" />
+          <Property Name="IsPassCode" Type="bit" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="PassCode" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="POSAssignedPlatforms">
           <Key>
@@ -338,6 +324,41 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="AppType" Type="int" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionDetails">
+          <Key>
+            <PropertyRef Name="TransactionDetailsId" />
+          </Key>
+          <Property Name="TransactionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MeterId" Type="bigint" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MeterNumber1" Type="varchar" MaxLength="50" />
+          <Property Name="POSId" Type="bigint" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="PlatFormId" Type="int" />
+          <Property Name="MeterToken1" Type="varchar" MaxLength="22" />
+          <Property Name="MeterToken2" Type="varchar" MaxLength="22" />
+          <Property Name="MeterToken3" Type="varchar" MaxLength="22" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="CurrentDealerBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Customer" Type="varchar" MaxLength="100" />
+          <Property Name="RTSUniqueID" Type="bigint" Nullable="false" />
+          <Property Name="ReceiptNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ServiceCharge" Type="varchar" MaxLength="50" />
+          <Property Name="Tariff" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaxCharge" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Units" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
+          <Property Name="DebitRecovery" Type="bigint" Nullable="false" />
+          <Property Name="CostOfUnits" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
@@ -572,54 +593,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MeterRecharge_Meters">
-          <End Role="Meters" Type="Self.Meters" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meters">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Platforms">
-          <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="PlatFormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_POS">
-          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="POSId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Meters_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Meters" Type="Self.Meters" Multiplicity="*" />
@@ -724,6 +697,54 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="TokensManager">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Meters">
+          <End Role="Meters" Type="Self.Meters" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meters">
+              <PropertyRef Name="MeterId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="MeterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Platforms">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="PlatFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -902,7 +923,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForgotPasswordRequests" EntityType="Self.ForgotPasswordRequests" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MeterRecharge" EntityType="Self.MeterRecharge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meters" EntityType="Self.Meters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
@@ -911,6 +931,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedModules" EntityType="Self.UserAssignedModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedPlatforms" EntityType="Self.UserAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidgets" Schema="dbo" store:Type="Tables" />
@@ -971,22 +992,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             <End Role="Users" EntitySet="Users" />
             <End Role="ForgotPasswordRequests" EntitySet="ForgotPasswordRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Meters" Association="Self.FK_MeterRecharge_Meters">
-            <End Role="Meters" EntitySet="Meters" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Platforms" Association="Self.FK_MeterRecharge_Platforms">
-            <End Role="Platform" EntitySet="Platform" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_POS" Association="Self.FK_MeterRecharge_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Users" Association="Self.FK_MeterRecharge_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
           <AssociationSet Name="FK_Meters_Users" Association="Self.FK_Meters_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Meters" EntitySet="Meters" />
@@ -1022,6 +1027,22 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <AssociationSet Name="FK_TokensManager_Users" Association="Self.FK_TokensManager_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="TokensManager" EntitySet="TokensManager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Meters" Association="Self.FK_TransactionDetails_Meters">
+            <End Role="Meters" EntitySet="Meters" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="Self.FK_TransactionDetails_Platforms">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_POS" Association="Self.FK_TransactionDetails_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Users" Association="Self.FK_TransactionDetails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_UserAssignedModules_Modules" Association="Self.FK_UserAssignedModules_Modules">
             <End Role="Modules" EntitySet="Modules" />
@@ -1098,7 +1119,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySet Name="EmailTemplates" EntityType="VendTechModel.EmailTemplate" />
           <EntitySet Name="ErrorLogs" EntityType="VendTechModel.ErrorLog" />
           <EntitySet Name="ForgotPasswordRequests" EntityType="VendTechModel.ForgotPasswordRequest" />
-          <EntitySet Name="MeterRecharges" EntityType="VendTechModel.MeterRecharge" />
           <EntitySet Name="Meters" EntityType="VendTechModel.Meter" />
           <EntitySet Name="Modules" EntityType="VendTechModel.Module" />
           <EntitySet Name="Notifications" EntityType="VendTechModel.Notification" />
@@ -1184,22 +1204,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             <End Role="User" EntitySet="Users" />
             <End Role="ForgotPasswordRequest" EntitySet="ForgotPasswordRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Meters" Association="VendTechModel.FK_MeterRecharge_Meters">
-            <End Role="Meter" EntitySet="Meters" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Platforms" Association="VendTechModel.FK_MeterRecharge_Platforms">
-            <End Role="Platform" EntitySet="Platforms" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_POS" Association="VendTechModel.FK_MeterRecharge_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Users" Association="VendTechModel.FK_MeterRecharge_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
           <AssociationSet Name="FK_Meters_Users" Association="VendTechModel.FK_Meters_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Meter" EntitySet="Meters" />
@@ -1264,7 +1268,24 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             <End Role="User" EntitySet="Users" />
             <End Role="User1" EntitySet="Users" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="TransactionDetails" EntityType="VendTechModel.TransactionDetail" />
+          <AssociationSet Name="FK_TransactionDetails_Meters" Association="VendTechModel.FK_TransactionDetails_Meters">
+            <End Role="Meter" EntitySet="Meters" />
+            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="VendTechModel.FK_TransactionDetails_Platforms">
+            <End Role="Platform" EntitySet="Platforms" />
+            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_POS" Association="VendTechModel.FK_TransactionDetails_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Users" Association="VendTechModel.FK_TransactionDetails_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1486,27 +1507,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_ForgotPasswordRequests_Users" FromRole="ForgotPasswordRequest" ToRole="User" />
         </EntityType>
-        <EntityType Name="MeterRecharge">
-          <Key>
-            <PropertyRef Name="MeterRechargeId" />
-          </Key>
-          <Property Name="MeterRechargeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MeterId" Type="Int64" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="MeterNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="POSId" Type="Int64" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PlatFormId" Type="Int32" />
-          <Property Name="MeterToken" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Meter" Relationship="VendTechModel.FK_MeterRecharge_Meters" FromRole="MeterRecharge" ToRole="Meter" />
-          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_MeterRecharge_Platforms" FromRole="MeterRecharge" ToRole="Platform" />
-          <NavigationProperty Name="POS" Relationship="VendTechModel.FK_MeterRecharge_POS" FromRole="MeterRecharge" ToRole="POS" />
-          <NavigationProperty Name="User" Relationship="VendTechModel.FK_MeterRecharge_Users" FromRole="MeterRecharge" ToRole="User" />
-        </EntityType>
         <EntityType Name="Meter">
           <Key>
             <PropertyRef Name="MeterId" />
@@ -1522,8 +1522,8 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="IsVerified" Type="Boolean" />
           <Property Name="Allias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Meters" FromRole="Meter" ToRole="MeterRecharge" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_Meters_Users" FromRole="Meter" ToRole="User" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Meters" FromRole="Meter" ToRole="TransactionDetail" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
@@ -1564,9 +1564,9 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ShortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Platforms" FromRole="Platform" ToRole="MeterRecharge" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="VendTechModel.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatform" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="VendTechModel.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatform" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetail" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -1589,9 +1589,12 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="SMSNotificationDeposit" Type="Boolean" />
           <NavigationProperty Name="Commission" Relationship="VendTechModel.FK_POS_Commissions" FromRole="POS" ToRole="Commission" />
           <NavigationProperty Name="Deposits" Relationship="VendTechModel.FK_Deposits_POS" FromRole="POS" ToRole="Deposit" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_POS" FromRole="POS" ToRole="MeterRecharge" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_POS_Vendors" FromRole="POS" ToRole="User" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="VendTechModel.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatform" />
+          <Property Name="IsPassCode" Type="Boolean" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="PassCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetail" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -1712,7 +1715,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="Deposits" Relationship="VendTechModel.FK_Deposits_Users" FromRole="User" ToRole="Deposit" />
           <NavigationProperty Name="EmailConfirmationRequests" Relationship="VendTechModel.FK_EmailConfirmationRequests_Users" FromRole="User" ToRole="EmailConfirmationRequest" />
           <NavigationProperty Name="ForgotPasswordRequests" Relationship="VendTechModel.FK_ForgotPasswordRequests_Users" FromRole="User" ToRole="ForgotPasswordRequest" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Users" FromRole="User" ToRole="MeterRecharge" />
           <NavigationProperty Name="Meters" Relationship="VendTechModel.FK_Meters_Users" FromRole="User" ToRole="Meter" />
           <NavigationProperty Name="Notifications" Relationship="VendTechModel.FK_Notifications_Users" FromRole="User" ToRole="Notification" />
           <NavigationProperty Name="POS" Relationship="VendTechModel.FK_POS_Vendors" FromRole="User" ToRole="POS" />
@@ -1724,6 +1726,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="UserRole" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="User" ToRole="UserRole" />
           <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="User" ToRole="TransactionDetail" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -1976,54 +1979,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MeterRecharge_Meters">
-          <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meter">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Platforms">
-          <End Type="VendTechModel.Platform" Role="Platform" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="PlatFormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_POS">
-          <End Type="VendTechModel.POS" Role="POS" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="POSId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Users">
-          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Meters_Users">
           <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
           <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="*" />
@@ -2213,6 +2168,93 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Principal>
             <Dependent Role="User1">
               <PropertyRef Name="FKVendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TransactionDetail">
+          <Key>
+            <PropertyRef Name="TransactionDetailsId" />
+          </Key>
+          <Property Name="TransactionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MeterId" Type="Int64" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MeterNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="POSId" Type="Int64" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PlatFormId" Type="Int32" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CurrentDealerBalance" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RTSUniqueID" Type="Int64" Nullable="false" />
+          <Property Name="ReceiptNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tariff" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaxCharge" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TenderedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TransactionAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Units" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DebitRecovery" Type="Int64" Nullable="false" />
+          <Property Name="CostOfUnits" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Meter" Relationship="VendTechModel.FK_TransactionDetails_Meters" FromRole="TransactionDetail" ToRole="Meter" />
+          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_TransactionDetails_Platforms" FromRole="TransactionDetail" ToRole="Platform" />
+          <NavigationProperty Name="POS" Relationship="VendTechModel.FK_TransactionDetails_POS" FromRole="TransactionDetail" ToRole="POS" />
+          <NavigationProperty Name="User" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="TransactionDetail" ToRole="User" />
+          <Property Name="MeterToken1" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <Property Name="MeterToken2" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <Property Name="MeterToken3" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_TransactionDetails_Meters">
+          <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="0..1" />
+          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meter">
+              <PropertyRef Name="MeterId" />
+            </Principal>
+            <Dependent Role="TransactionDetail">
+              <PropertyRef Name="MeterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Platforms">
+          <End Type="VendTechModel.Platform" Role="Platform" Multiplicity="0..1" />
+          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="TransactionDetail">
+              <PropertyRef Name="PlatFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_POS">
+          <End Type="VendTechModel.POS" Role="POS" Multiplicity="0..1" />
+          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="TransactionDetail">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Users">
+          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
+          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TransactionDetail">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2439,24 +2481,6 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MeterRecharges">
-            <EntityTypeMapping TypeName="VendTechModel.MeterRecharge">
-              <MappingFragment StoreEntitySet="MeterRecharge">
-                <ScalarProperty Name="MeterToken" ColumnName="MeterToken" />
-                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="POSId" ColumnName="POSId" />
-                <ScalarProperty Name="MeterNumber" ColumnName="MeterNumber" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="MeterRechargeId" ColumnName="MeterRechargeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Meters">
             <EntityTypeMapping TypeName="VendTechModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
@@ -2516,6 +2540,9 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VendTechModel.POS">
               <MappingFragment StoreEntitySet="POS">
+                <ScalarProperty Name="PassCode" ColumnName="PassCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsPassCode" ColumnName="IsPassCode" />
                 <ScalarProperty Name="SMSNotificationDeposit" ColumnName="SMSNotificationDeposit" />
                 <ScalarProperty Name="SMSNotificationSales" ColumnName="SMSNotificationSales" />
                 <ScalarProperty Name="EmailNotificationDeposit" ColumnName="EmailNotificationDeposit" />
@@ -2684,6 +2711,42 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionDetails">
+            <EntityTypeMapping TypeName="VendTechModel.TransactionDetail">
+              <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
+                <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
+                <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />
+                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
+                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
+                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
+                <ScalarProperty Name="TaxCharge" ColumnName="TaxCharge" />
+                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
+                <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
+                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
+                <ScalarProperty Name="RTSUniqueID" ColumnName="RTSUniqueID" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="CurrentDealerBalance" ColumnName="CurrentDealerBalance" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="POSId" ColumnName="POSId" />
+                <ScalarProperty Name="MeterNumber" ColumnName="MeterNumber1" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

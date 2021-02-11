@@ -21,7 +21,7 @@
                         <form class="form-horizontal" role="form" id="UserForm" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-4">
-                                    @Html.HiddenFor(x => x.UserId) 
+                                    @Html.HiddenFor(x => x.UserId)
                                     <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">FIRST NAME<em>*</em></label>
                                         <div class="col-md-12">
@@ -43,6 +43,13 @@
                                         <div class="col-md-12">
                                             @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
+                                        <div class="col-md-12">
+                                            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Address)
                                         </div>
                                     </div>
 
@@ -72,9 +79,9 @@
                                             </select>
                                         </div>
                                         <div class="col-md-1">
-                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Phone)
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" }) 
                                         </div>
+                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
                                     </div>
 
                                     <div class="form-group">
@@ -94,7 +101,7 @@
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r => (bool)!r.IsAdmin)
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false)
                                                      .OrderByDescending(r => r.ModuleName == "Manage Reports")
                                                      .OrderByDescending(r => r.ModuleName == "Manage Wallet")
                                                      .OrderByDescending(r => r.ModuleName == "Manage Wallet")

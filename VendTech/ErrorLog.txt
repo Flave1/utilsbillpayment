@@ -3281,3 +3281,128 @@ Nullable object must have a value.
 
 
 
+Nullable object must have a value.
+
+
+
+Nullable object must have a value.
+
+
+
+Nullable object must have a value.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Exception has been thrown by the target of an invocation.
+
+
+
+Exception has been thrown by the target of an invocation.
+
+
+
+Exception has been thrown by the target of an invocation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Exception has been thrown by the target of an invocation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+The underlying provider failed on Open.
+
+
+
+No property or field 'TransactionId' exists in type 'DepositLog'
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'c' and no extension method 'c' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+

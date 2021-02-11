@@ -47,12 +47,13 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-certificate"></i></span>
-                                                    <select class="form-control" name="Company_individual" id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;"> 
+                                                    <select class="form-control"  id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
                                                         <option value="Individual">INDIVIDUAL</option>
                                                         <option value="Company">COMPANY</option>
                                                     </select>
+                                                    @Html.HiddenFor(model => model.IsCompany, new { @id = "beTrueIfIsCompany" })
                                                     @*@Html.DropDownListFor(m => m.Individual_or_company, new SelectList(Enum.GetValues(typeof(Individual_or_company))),
-                                                    new { @class = "form-control", @id = "isCompany", @style = "font-weight:bold; text-transform:uppercase; font-size:20px;" })*@
+                    new { @class = "form-control", @id = "isCompany", @style = "font-weight:bold; text-transform:uppercase; font-size:20px;" })*@
                                                 </div>
                                             </div>
                                         </div>
@@ -62,28 +63,25 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
                                                     @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name *" } })
-                                                </div>
-                                                @*<div id="fullname-error">@Html.ValidationMessageFor(m => m.FirstName)</div>*@
+                                                </div> 
                                             </div>
                                         </div>
 
-                                        <div class="form-group for_individual">
+                                        <div class="form-group">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "First Name *" } })
-                                                </div>
-                                                @*<div id="fullname-error">@Html.ValidationMessageFor(m => m.FirstName)</div>*@
+                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "First Name *", @id="first_name" } })
+                                                </div> 
                                             </div>
                                         </div>
 
-                                        <div class="form-group for_individual">
+                                        <div class="form-group ">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Last Name *" } })
-                                                </div>
-                                                @*<div id="fullname-error">@Html.ValidationMessageFor(m => m.LastName)</div>*@
+                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Last Name *",  @id="last_name" } })
+                                                </div> 
                                             </div>
                                         </div>
 
@@ -100,7 +98,12 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @placeholder = "Number *",  } })
+                                                    <div class="" style="width:20%;">
+                                                        <select name="CountryCode" class="form-control">
+                                                            <option value="+232">+232</option>
+                                                        </select>
+                                                    </div>
+                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { style="width:80%;", @class = "form-control col-md-10 col-sm-10", @placeholder = "Number *", } })
                                                 </div>
                                                 <div id="mobile-error">@Html.ValidationMessageFor(m => m.Mobile)</div>
                                             </div>
@@ -110,26 +113,30 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address *" } })
-                                                </div>
-                                                @*<div id="address-error">@Html.ValidationMessageFor(m => m.Address)</div>*@
+                                                </div> 
+                                            </div>
+                                        </div>
+
+ 
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
+                                                    <select class="form-control" name="Country" id="Country">
+                                                        <option  value=""  >Select Country</option>
+                                                    </select > 
+                                                </div> 
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                                    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", @placeholder = "Country *" } })
-                                                </div>
-                                                @*  <div id="country-error">@Html.ValidationMessageFor(m => m.Country)</div>*@
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = "City *" } })
-                                                </div>
-                                                @*<div id="city-error">@Html.ValidationMessageFor(m => m.City)</div>*@
+                                                    <select id="City" name="City" class="form-control">
+                                                        <option  value="">Select City</option>
+                                                    </select> 
+                                                </div> 
                                             </div>
                                         </div>
 
@@ -149,78 +156,9 @@
 
             </div>
         </div>
-    </div>
-    @*<div class="row" style="padding-top:80px;">
-        <div class="text-left "><a href="#" style="color:aliceblue;">&copy; Copyright @DateTime.Now.Year Vendtech, Inc. All Rights Reserved</a></div>
-    </div>*@
+    </div> 
 </div>
-
-
-
-@*<div id="cl-wrapper" class="login-container">
-
-        <div class="middle-login">
-            <div class="block-flat">
-                <div class="header">
-                    <h3 class="text-center"><a href="/"><img class="logo-img" src="@Url.Content("~/Content/images/logo1.jpg")" alt="logo" /></a></h3>
-                </div>
-                <div>
-                    <form style="margin-bottom: 0 !important;" class="form-horizontal" id="loginForm">
-                        <div class="content">
-                            <h4 class="title">Application registration</h4>
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })   <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email Address*" } })
-                                    </div>
-                                    <div id="email-error">@Html.ValidationMessageFor(m => m.Email)</div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile phone*" } })
-                                    </div>
-                                    <div id="phone-error">@Html.ValidationMessageFor(m => m.Phone)</div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "First Name*" } })
-                                    </div>
-                                    <div id="fullname-error">@Html.ValidationMessageFor(m => m.FirstName)</div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Last Name*" } })
-                                    </div>
-                                    <div id="fullname-error">@Html.ValidationMessageFor(m => m.LastName)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="foot">
-                            <button class="btn btn-primary" id="registerBtn" data-dismiss="modal" type="button">Register me</button>
-                            <a class="btn btn-warning" href="/Home/Index">Already have an account</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="text-center out-links"><a href="#">&copy; Copyright @DateTime.Now.Year Vendtech, Inc. All Rights Reserved</a></div>
-        </div>
-
-    </div>*@
-
-
+ 
 
 
 @section scripts{
@@ -232,24 +170,73 @@
             });
         })
 
-       $(function() {
+        $(function() {
             
-
-            $("#isCompany").change(function() {
+           
+            $("#isCompany").change(function () {  
                 if (this.value === "Individual")
                 {
-                     $('.for_company').hide();
-                     $('.for_individual').show();
+                    $("#beTrueIfIsCompany").val(false)
+                    $(".for_company").hide();
+                    $("#first_name").attr("placeholder", "First Name *");
+                    $("#last_name").attr("placeholder", "Last Name *"); 
                 }
                     
                 if (this.value === "Company")
                 {
-                     $('.for_company').show();
-                     $('.for_individual').hide();
+                    $("#beTrueIfIsCompany").val(true)
+                    $(".for_company").show();
+                    $("#first_name").attr("placeholder", "REP. First Name *");
+                    $("#last_name").attr("placeholder", "REP. Last Name *"); 
                 }
             })
 
         });
+
+        $(document).ready(function () {
+             
+
+            $("#Country").change(onCountryChange);  
+              onCountryChange();
+              loadAllCountries();
+
+            $("input[type=button]#saveProfileBtn").live("click", function () {
+                return UpdateProfile($(this));
+            });
+            //initialize the javascript
+            App.init();
+            //Templates.ManageTemplates(totalCount);
+          });
+
+        function loadAllCountries() {
+            var array = @Html.Raw(Json.Encode(ViewBag.countries));
+            if (array.length > 0)
+            { 
+                        for (var i = 0; i < array.length; i++) {
+                            $("#Country").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
+                        } 
+            }
+        }
+
+        function onCountryChange() {
+            $("#City").empty();
+            $("#City").append("<option value=''> Select City </option>") 
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records=   array.filter(p=>p.CountryId==val);
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>") 
+
+                        }
+                        $("#City").val('@Model.City');
+                    }
+                }
+        }
+
+   
     </script>
 }
 

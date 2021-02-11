@@ -7,30 +7,30 @@
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
-     <style> 
-  input {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+    <style>
+        input {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        select {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+        select {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        label {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+        label {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        option {
-                            font-weight: bold;
-                        }
-                         
+        option {
+            font-weight: bold;
+        }
 
-                        div.dataTables_filter > label::before {
-                            content: "Quick Search :";
-                        }
+
+        div.dataTables_filter > label::before {
+            content: "Quick Search :";
+        }
     </style>
     <div class="page-head">
         <h3><b>Manage Deposit Report</b></h3>
@@ -109,13 +109,13 @@
 
                                             </div>
                                             <div class="form-group  row">
-                                                <label style="width:30%;">DEPOSIT TYPE:</label>
+                                                <label style="width:30%;">TYPE:</label>
                                                 @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
 
                                             </div>
                                             <div class="form-group  row">
-                                                <label style="width:30%;">DEPOSIT REF #</label>
-                                                <input style = "width:65%; float:right;", type="text" id="refNumber" name="refNumber" class = "form-control">
+                                                <label style="width:30%;">REF #</label>
+                                                <input style="width:65%; float:right;" , type="text" id="refNumber" name="refNumber" class="form-control">
                                             </div>
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
@@ -129,12 +129,13 @@
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th class="sorting" data-sortby="UserName">USER NAME</th>
-                                                        <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
+                                                        <th class="sorting" data-sortby="PaymentType">TYPE</th>
                                                         <th class="sorting" data-sortby="BANK">BANK</th>
-                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
+                                                        <th class="sorting" data-sortby="TransactionId">TRANS. ID</th>
+                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                        <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
+                                                        <th class="sorting" data-sortby="NewBalance">BALANCE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -164,13 +165,10 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script type="text/javascript">
-    </script>
-    <script src="~/Scripts/UserScripts/depositReport.js"></script>
+    <script src="~/Scripts/AdminScripts/report.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
@@ -178,8 +176,8 @@
             var totalCount = "@Model.TotalCount";
 
        $(document).ready(function () {
-                        
-                        
+
+
                 //initialize the javascript
                 App.init();
                 $("#FromDate").kendoDatePicker({
@@ -292,7 +290,7 @@
                 $("#depositsForm").attr("method", "get");
                 $("#depositsForm").submit();
             });
-    
+
     </script>
 }
 

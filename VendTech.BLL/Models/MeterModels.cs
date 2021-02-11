@@ -42,6 +42,8 @@ namespace VendTech.BLL.Models
         }
     }
 
+   
+
     public class RechargeMeterModel 
     {
         public long UserId { get; set; }
@@ -52,12 +54,15 @@ namespace VendTech.BLL.Models
         [Required(ErrorMessage = "Amount is Required")]
         public decimal Amount { get; set; }
 
-        public string MeterToken { get; set; }
+        public string MeterToken1 { get; set; }
+        public string MeterToken2 { get; set; }
+        public string MeterToken3 { get; set; }
 
         [MaxLength(11, ErrorMessage = "Meter Number must be of 11 digits"), MinLength(11, ErrorMessage = "Meter Number must be of 11 digits")]
         public string MeterNumber { get; set; }
-        public bool SaveAsNewMeter { get; set; }
-
+        public bool SaveAsNewMeter { get; set; } 
+        public long TransactionId { get; set; }
+        public bool IsSame_Request { get; set; } = false;
         public List<MeterRechargeApiListingModel> History { get; set; }
     }
 
