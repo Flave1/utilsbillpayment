@@ -153,6 +153,8 @@ var Users = {
     RechargeMeter2: function (sender) {
 
         $("#pay_Now_Btn").css({ backgroundColor: '#56bb96' });
+        $("#error_reponse").hide();
+        $("#error_reponse").empty();
         $("#pay_Now_Btn").val('PROCESSING....');
         $("#pay_Now_Btn").prop('disabled', true);
 
@@ -180,6 +182,8 @@ var Users = {
                 if (data.Code === 302)
                 { 
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
+                    $("#error_reponse").show(); 
+                    $("#error_reponse").html(data.Msg); 
                     return false;
                 }
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);

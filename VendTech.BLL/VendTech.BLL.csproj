@@ -122,7 +122,6 @@
     <Compile Include="Common\Commons.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\EmailSender.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
