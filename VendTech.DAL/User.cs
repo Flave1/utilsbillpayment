@@ -23,12 +23,12 @@ namespace VendTech.DAL
             this.Deposits = new HashSet<Deposit>();
             this.EmailConfirmationRequests = new HashSet<EmailConfirmationRequest>();
             this.ForgotPasswordRequests = new HashSet<ForgotPasswordRequest>();
-            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.Meters = new HashSet<Meter>();
             this.Notifications = new HashSet<Notification>();
             this.POS = new HashSet<POS>();
             this.ReferralCodes = new HashSet<ReferralCode>();
             this.TokensManagers = new HashSet<TokensManager>();
+            this.TransactionDetails = new HashSet<TransactionDetail>();
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
@@ -81,8 +81,6 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ForgotPasswordRequest> ForgotPasswordRequests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Meter> Meters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
@@ -92,6 +90,8 @@ namespace VendTech.DAL
         public virtual ICollection<ReferralCode> ReferralCodes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TokensManager> TokensManagers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedModule> UserAssignedModules { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

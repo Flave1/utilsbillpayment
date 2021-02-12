@@ -18,8 +18,8 @@ namespace VendTech.DAL
         public POS()
         {
             this.Deposits = new HashSet<Deposit>();
-            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
+            this.TransactionDetails = new HashSet<TransactionDetail>();
         }
     
         public long POSId { get; set; }
@@ -37,14 +37,17 @@ namespace VendTech.DAL
         public Nullable<bool> EmailNotificationDeposit { get; set; }
         public Nullable<bool> SMSNotificationSales { get; set; }
         public Nullable<bool> SMSNotificationDeposit { get; set; }
+        public bool IsPassCode { get; set; }
+        public string Email { get; set; }
+        public string PassCode { get; set; }
     
         public virtual Commission Commission { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Deposit> Deposits { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
     }
 }
