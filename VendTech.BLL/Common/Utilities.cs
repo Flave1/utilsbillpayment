@@ -58,7 +58,7 @@ namespace VendTech.BLL.Common
                 context.SaveChanges();
             }
 
-             stanTable.Stan += 1;// stanValue;
+            stanTable.Stan += 1;// stanValue;
             int stanValue = stanTable.Stan;
             //context.StanTables.Add(stanTable);
             context.SaveChanges();
@@ -69,7 +69,7 @@ namespace VendTech.BLL.Common
 
         public static int GetUserRoleIntValue(string role)
         {
-            var db=new VendTechEntities();
+            var db = new VendTechEntities();
             var record = db.UserRoles.FirstOrDefault(p => p.Role == role);
             if (record == null)
                 return 0;
@@ -77,7 +77,7 @@ namespace VendTech.BLL.Common
         }
         public static string FormatBankAccount(string bankAccount)
         {
-            var length = (bankAccount.Length)-4;
+            var length = (bankAccount.Length) - 4;
             string formattedString = "";
             for (int i = 0; i < length; i++)
             {
@@ -207,19 +207,19 @@ namespace VendTech.BLL.Common
                 mail.Body = new TextPart("html")
                 {
                     Text = body
-                }; 
+                };
 
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
-                    client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
-                    client.AuthenticationMechanisms.Remove("XOAUTH2"); 
-                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go"); 
-                    client.Send(mail); 
+                    client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go");
+                    client.Send(mail);
                     client.Disconnect(true);
                 }
 
-                
+
                 //MailMessage mail = new MailMessage();
                 //SmtpClient SmtpServer = new SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString());
 
@@ -237,8 +237,8 @@ namespace VendTech.BLL.Common
                 return true;
             }
             catch (Exception x)
-            { throw x;    }
-            
+            { throw x; }
+
         }
         public static bool SendEmail(string to, string sub, string body)
         {
@@ -257,15 +257,15 @@ namespace VendTech.BLL.Common
                 ////SmtpServer.UseDefaultCredentials = false;
                 ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
                 ////SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true; 
+                mail.IsBodyHtml = true;
 
                 SmtpServer.Send(mail);
-                 
-                return true;  
+
+                return true;
             }
             catch (Exception x)
-            { return true;    }
-            
+            { return true; }
+
         }
         public static string Base64Decode(string base64EncodedData)
         {
@@ -287,12 +287,48 @@ namespace VendTech.BLL.Common
             return localTime;
         }
 
-        public static string GetNumbersFromGuid() {
+        public static string GetNumbersFromGuid()
+        {
             var guidstring = Guid.NewGuid().ToString("N");
             var getNumbers = (from t in guidstring
                               where char.IsDigit(t)
                               select t).ToArray();
             return string.Join("", getNumbers.Take(20));// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
-        } 
+        }
+
+        public async static Task<bool> Execute(string email, string subject, string message)
+        {
+            try
+            {
+                string toEmail = email;
+
+                MailMessage mail = new MailMessage()
+                {
+                    From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
+                };
+                mail.To.Add(toEmail);
+
+                //mail.To.Add(new MailAddress(toEmail));
+                //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
+
+                mail.Subject = subject;
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+
+                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
+                {
+                    smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(mail);
+                }
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

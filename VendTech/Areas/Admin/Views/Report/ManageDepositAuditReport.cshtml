@@ -273,7 +273,7 @@
                     <div class=" col-md-12">
                         <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" readonly name="posid" id="posid" class="form-control margin" />
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin" })
                         </div>
                     </div>
                 </div>
@@ -281,7 +281,7 @@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">DEPOSIT BY<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" readonly name="depositby" id="depositby" class="form-control margin" />
+                            <input type="text" name="depositby" id="depositby" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -504,7 +504,7 @@ function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtban
     $("#depositModalTitle").text("Edit Deposit Audit");
     $("#hdnDepositId").val(id);
     $("#hdnUserId").val(userId);
-    $("#posid").val(posid);
+    $("#PosId").find("option:contains("+posid+")").attr("selected","selected");
     $("#depositby").val(depositby);
     $("#payer").val(payer);
     $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
@@ -522,12 +522,13 @@ function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtban
             debugger;
             var inputParam = new Object();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
-            inputParam.PosId = $("#posid").val();
+            inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
             inputParam.Payer = $("#payer").val();
             inputParam.GTBank = $("#gtbank").val();
             inputParam.DepositRef = $("#depositref").val();
             inputParam.DepositId = $("#hdnDepositId").val();
+            inputParam.DepositBy = $("#depositby").val();
             inputParam.UserId = $("#hdnUserId").val();
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;

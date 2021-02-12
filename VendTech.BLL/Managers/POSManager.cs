@@ -73,7 +73,7 @@ namespace VendTech.BLL.Managers
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "POS List Fetched Successfully";
-            result.TotalCount = Convert.ToInt32(query.Sum(x=>x.Balance));
+            result.TotalCount = Convert.ToInt32(query.Sum(x => x.Balance));
             return result;
         }
         List<PosAPiListingModel> IPOSManager.GetPOSSelectListForApi(long userId = 0)
@@ -109,16 +109,16 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
-             var query= new List<POS>();
+            var query = new List<POS>();
             //var query = Context.POS.Where(p => !p.IsDeleted);
             var userPos = new List<POS>();
             if (userId > 0)
-            { 
-                var user = Context.Users.FirstOrDefault(p => p.UserId == userId); 
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
                 if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId)).ToList();
             }
             else
-                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList(); 
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
 
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
@@ -145,8 +145,9 @@ namespace VendTech.BLL.Managers
                 EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
                 EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
-
-                
+                CountryCode = dbPos.CountryCode,
+                Email = dbPos.Email,
+                PassCode = dbPos.PassCode
             };
         }
         ActionOutput IPOSManager.DeletePos(long posId)
@@ -283,6 +284,24 @@ namespace VendTech.BLL.Managers
                 Context.POSAssignedPlatforms.AddRange(newPlatforms);
                 Context.SaveChanges();
             }
+            return ReturnSuccess("Pos saved successfully.");
+        }
+
+        ActionOutput IPOSManager.SavePasscodePos(SavePassCodeModel savePassCodeModel)
+        {
+            var dbPos = new POS();
+            if (savePassCodeModel.POSId > 0)
+            {
+                dbPos = Context.POS.FirstOrDefault(p => p.POSId == savePassCodeModel.POSId);
+                if (dbPos == null)
+                    return ReturnError("Pos not exist");
+            }
+            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
+            dbPos.PassCode = savePassCodeModel.PassCode;
+            dbPos.Email = !string.IsNullOrEmpty(savePassCodeModel.Email) ? savePassCodeModel.Email : dbPos.Email;
+            if (savePassCodeModel.POSId == 0)
+                Context.POS.Add(dbPos);
+            Context.SaveChanges();
             return ReturnSuccess("Pos saved successfully.");
         }
     }
