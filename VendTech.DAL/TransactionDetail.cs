@@ -44,6 +44,16 @@ namespace VendTech.DAL
         public string MeterToken1 { get; set; }
         public string MeterToken2 { get; set; }
         public string MeterToken3 { get; set; }
+        public string VProvider { get; set; }
+        public Nullable<bool> Finalised { get; set; }
+        public Nullable<int> StatusRequestCount { get; set; }
+        public Nullable<bool> Sold { get; set; }
+        public Nullable<System.DateTime> DateAndTimeSold { get; set; }
+        public Nullable<System.DateTime> DateAndTimeFinalised { get; set; }
+        public Nullable<System.DateTime> DateAndTimeLinked { get; set; }
+        public string VoucherSerialNumber { get; set; }
+        public string VendStatusDescription { get; set; }
+        public string VendStatus { get; set; }
     
         public virtual Meter Meter { get; set; }
         public virtual Platform Platform { get; set; }

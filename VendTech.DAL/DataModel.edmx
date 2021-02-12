@@ -359,6 +359,16 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
           <Property Name="DebitRecovery" Type="bigint" Nullable="false" />
           <Property Name="CostOfUnits" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VProvider" Type="varchar" MaxLength="1" />
+          <Property Name="Finalised" Type="bit" />
+          <Property Name="StatusRequestCount" Type="int" />
+          <Property Name="Sold" Type="bit" />
+          <Property Name="DateAndTimeSold" Type="datetime" />
+          <Property Name="DateAndTimeFinalised" Type="datetime" />
+          <Property Name="DateAndTimeLinked" Type="datetime" />
+          <Property Name="VoucherSerialNumber" Type="varchar" MaxLength="1" />
+          <Property Name="VendStatusDescription" Type="varchar" MaxLength="1" />
+          <Property Name="VendStatus" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
@@ -2209,6 +2219,16 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="MeterToken1" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
           <Property Name="MeterToken2" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
           <Property Name="MeterToken3" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <Property Name="VProvider" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Finalised" Type="Boolean" />
+          <Property Name="StatusRequestCount" Type="Int32" />
+          <Property Name="Sold" Type="Boolean" />
+          <Property Name="DateAndTimeSold" Type="DateTime" Precision="3" />
+          <Property Name="DateAndTimeFinalised" Type="DateTime" Precision="3" />
+          <Property Name="DateAndTimeLinked" Type="DateTime" Precision="3" />
+          <Property Name="VoucherSerialNumber" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VendStatusDescription" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VendStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_TransactionDetails_Meters">
           <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="0..1" />
@@ -2717,6 +2737,16 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="TransactionDetails">
             <EntityTypeMapping TypeName="VendTechModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="VendStatus" ColumnName="VendStatus" />
+                <ScalarProperty Name="VendStatusDescription" ColumnName="VendStatusDescription" />
+                <ScalarProperty Name="VoucherSerialNumber" ColumnName="VoucherSerialNumber" />
+                <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
+                <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
+                <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
+                <ScalarProperty Name="Sold" ColumnName="Sold" />
+                <ScalarProperty Name="StatusRequestCount" ColumnName="StatusRequestCount" />
+                <ScalarProperty Name="Finalised" ColumnName="Finalised" />
+                <ScalarProperty Name="VProvider" ColumnName="VProvider" />
                 <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
                 <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
                 <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />

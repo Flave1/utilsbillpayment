@@ -6,7 +6,66 @@ using System.Threading.Tasks;
 
 namespace VendTech.BLL.Models
 {
-    public partial class IceCloudErorResponse
+
+
+    public  class IcekloudQueryResponse
+    { 
+        public string Status { get; set; }
+         
+        public QueryContent Content { get; set; }
+         
+        public object[] ErrorLog { get; set; }
+    }
+
+    public  class QueryContent
+    { 
+        public long SerialNumber { get; set; }
+         
+        public long TransactionId { get; set; }
+         
+        public long StatusRequestCount { get; set; }
+         
+        public bool Finalised { get; set; }
+         
+        public bool Sold { get; set; }
+         
+        public object DateAndTimeSold { get; set; }
+         
+        public DateTimeOffset DateAndTimeCreated { get; set; }
+         
+        public object DateAndTimeFinalised { get; set; }
+         
+        public object DateAndTimeLinked { get; set; }
+         
+        public DateTimeOffset DateAndTimeRequested { get; set; }
+         
+        public object Provider { get; set; }
+         
+        public object VoucherSerialNumber { get; set; }
+         
+        public object Denomination { get; set; }
+         
+        public object VoucherPin { get; set; }
+         
+        public object MeterNumber { get; set; }
+         
+        public object Units { get; set; }
+         
+        public object Tariff { get; set; }
+         
+        public object Customer { get; set; }
+         
+        public object CustomerAccNo { get; set; }
+         
+        public object ServiceCharge { get; set; }
+         
+        public object TaxCharge { get; set; }
+         
+        public string StatusDescription { get; set; }
+         
+        public string Status { get; set; }
+    }
+    public class IceCloudErorResponse
     { 
         public string Status { get; set; }
          
@@ -17,7 +76,7 @@ namespace VendTech.BLL.Models
         public Stack[] Stack { get; set; }
     }
 
-    public partial class Stack
+    public class Stack
     { 
         public long Code { get; set; }
          
@@ -29,7 +88,7 @@ namespace VendTech.BLL.Models
         public string Type { get; set; }
     }
 
-    public partial class IcekloudRequestmodel
+    public class IcekloudRequestmodel
     { 
         public IcekloudAuth Auth { get; set; }
          
@@ -53,13 +112,13 @@ namespace VendTech.BLL.Models
 
         public object[] ErrorLog { get; set; } = new object[0];
     }
-    public partial class Content
+    public class Content
     {
         public Data Data { get; set; } = new Data();
 
         public string ProcessOption { get; set; }
     }
-    public partial class Data
+    public class Data
     {
         public Datum[] DataData { get; set; } = new Datum[0];
 
@@ -70,7 +129,7 @@ namespace VendTech.BLL.Models
         public long ErrorCode { get; set; }
     }
 
-    public partial class Datum
+    public class Datum
     {
         public long Barcode { get; set; }
 
@@ -104,7 +163,7 @@ namespace VendTech.BLL.Models
 
         public object XmlResponse { get; set; }
     }
-    public partial class PowerHubVoucher
+    public class PowerHubVoucher
     {
         public long AccountCredit { get; set; }
 
@@ -174,7 +233,7 @@ namespace VendTech.BLL.Models
 
         public long VatNumber { get; set; }
     }
-    public partial class Tym2SellVoucher
+    public class Tym2SellVoucher
     {
         public object Account { get; set; }
 

@@ -16,6 +16,7 @@ using System.Net;
 using VendTech.BLL.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace VendTech.BLL.Common
 {
@@ -306,22 +307,14 @@ namespace VendTech.BLL.Common
             string strings_result = string.Empty;
             IcekloudRequestmodel request_model = new IcekloudRequestmodel();
             HttpResponseMessage icekloud_response = new HttpResponseMessage();
-            HttpClient http_client = new HttpClient();
-            bool should_query = false;
-
-
+            HttpClient _http_client = new HttpClient();
+             
             try
-            {
-                if (!model.IsSame_Request)
-                    request_model = Buid_new_request_object(model);
-                else
-                    request_model = Buid_get_status_request_object(model);
-
-                //var request_json_content = JsonConvert.SerializeObject(request_model);
-                //var request_buffer_content = Encoding.UTF8.GetBytes(request_json_content);
-                //var request_byte_content = new ByteArrayContent(request_buffer_content);
-                 
-                icekloud_response =  http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", request_model).Result; 
+            { 
+                request_model = Buid_new_request_object(model); 
+                    
+                icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", request_model).Result;
+                  
                 strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
                 response = JsonConvert.DeserializeObject<IceCloudResponse>(strings_result);
                 return response;
@@ -336,9 +329,9 @@ namespace VendTech.BLL.Common
                     {
                         if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
                         {
-                            model.IsSame_Request = true;
-                            should_query = true;
-                            return Make_recharge_request_from_icekloud(model);
+                            response.Status = "unsuccesful";
+                            response.Content.Data.Error = error_response.SystemError;
+                            return response;
                         }
                         if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
                         {  
@@ -352,6 +345,29 @@ namespace VendTech.BLL.Common
                 }
                 catch (Exception e) {  throw e; }
                 throw ;
+            }
+        }
+
+
+        public static IcekloudQueryResponse Query_vend_status(IcekloudRequestmodel model)
+        {
+            IcekloudQueryResponse response = new IcekloudQueryResponse();
+            string strings_result = string.Empty;
+            IcekloudRequestmodel request_model = new IcekloudRequestmodel();
+            HttpResponseMessage icekloud_response = new HttpResponseMessage();
+            HttpClient _http_client = new HttpClient();
+             
+            try
+            {  
+                icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", model).Result;
+
+                strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
+                response = JsonConvert.DeserializeObject<IcekloudQueryResponse>(strings_result);
+                return response;
+            }
+            catch (Exception ex)
+            { 
+                throw;
             }
         }
 
@@ -391,7 +407,7 @@ namespace VendTech.BLL.Common
             };
         }
 
-        public static IcekloudRequestmodel Buid_get_status_request_object(RechargeMeterModel model)
+        public static IcekloudRequestmodel Buid_vend_query_object(RechargeMeterModel model)
         {
             var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
             var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
