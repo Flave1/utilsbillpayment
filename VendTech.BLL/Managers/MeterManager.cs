@@ -689,8 +689,7 @@ namespace VendTech.BLL.Managers
                 Units = response_data.PowerHubVoucher.Units,
 
             };
-        }
-
+        } 
         TransactionDetail Build_db_transaction_detail_response(RechargeMeterModel model, User user)
         {
             return new TransactionDetail
