@@ -429,5 +429,40 @@ namespace VendTech.BLL.Common
                        },
             };
         }
+
+        public async static Task<bool> Execute(string email, string subject, string message)
+        {
+            try
+            {
+                string toEmail = email;
+
+                MailMessage mail = new MailMessage()
+                {
+                    From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
+                };
+                mail.To.Add(toEmail);
+
+                //mail.To.Add(new MailAddress(toEmail));
+                //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
+
+                mail.Subject = subject;
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+
+                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
+                {
+                    smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(mail);
+                }
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

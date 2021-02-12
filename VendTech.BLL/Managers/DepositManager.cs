@@ -1308,16 +1308,18 @@ namespace VendTech.BLL.Managers
 
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
-            var dbDeposit = Context.Deposits.Include(x => x.User).Include(x => x.BankAccount).Include(x => x.POS).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId && x.POS.SerialNumber == depositAuditModel.PosId.ToString() && x.User.UserId == depositAuditModel.UserId);
-
+            var dbDeposit = Context.Deposits.Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
+            var posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
-            dbDeposit.POS.SerialNumber = Convert.ToString(depositAuditModel.PosId);
+            dbDeposit.POSId = depositAuditModel.PosId;
             dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
+            dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;
+            dbDeposit.User.SurName = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : 0) : dbDeposit.User.SurName;
 
             Context.Deposits.Add(dbDeposit);
             Context.Entry(dbDeposit).State = EntityState.Modified;
@@ -1330,6 +1332,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
+            depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
             return depositAuditModel;
         }
     }

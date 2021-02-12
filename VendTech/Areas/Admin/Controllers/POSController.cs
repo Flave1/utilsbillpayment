@@ -1,12 +1,15 @@
-﻿using VendTech.Attributes;
-using VendTech.BLL.Interfaces;
-using VendTech.BLL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using VendTech.Attributes;
 using VendTech.BLL.Common;
+using VendTech.BLL.Interfaces;
+using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -20,7 +23,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly ICommissionManager _commissionManager;
         #endregion
 
-        public POSController(IPOSManager posManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IVendorManager vendorManager, IUserManager userManager,ICommissionManager commissionManager)
+        public POSController(IPOSManager posManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IVendorManager vendorManager, IUserManager userManager, ICommissionManager commissionManager)
             : base(errorLogManager)
         {
             _posManager = posManager;
@@ -56,15 +59,70 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.POS;
             return JsonResult(_posManager.SavePos(model));
         }
+
+        [AjaxOnly, HttpPost]
+        public async Task<ActionResult> SavePos(SavePassCodeModel savePassCodeModel)
+        {
+            if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
+            {
+                var name = _vendorManager.GetVendorDetail(Convert.ToInt64(savePassCodeModel.VendorId)).Name;
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%UserName%", name);
+                body = body.Replace("%passcode%", savePassCodeModel.PassCode);
+                if (!string.IsNullOrEmpty(savePassCodeModel.Email))
+                {
+                    //var to = new List<string>();
+                    //to.Add(savePassCodeModel.Email);
+                    //var emailSender = new EmailSender();
+                    //emailSender.SendEmailAsync(to, emailTemplate.EmailSubject, body);
+                    await Utilities.Execute(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                }
+                if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
+                {
+                    String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
+                    //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
+                    using (var wb = new WebClient())
+                    {
+                        byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                {
+                {"apikey" , "3dmxGZ4kX6w-GheG39NELIgd6546OjfacESXqNOVY4"},
+                {"numbers" , savePassCodeModel.CountryCode+savePassCodeModel.Phone},
+                {"message" , message},
+                {"sender" , "TXTLCL"}
+                });
+                        string result = System.Text.Encoding.UTF8.GetString(response);
+                    }
+
+                    //        string accountSid = "AC8f6fb0fee17e0c77f875cb7adbb85b9e"; //Environment.GetEnvironmentVariable(TWILIO_ACCOUNT_SID);
+                    //        string authToken = "2d7452931f1f1cebfdd79220e3f5893f";// Environment.GetEnvironmentVariable(TWILIO_AUTH_TOKEN);
+
+                    //        var client = new TwilioRestClient(accountSid, authToken);
+
+                    //        var message = MessageResource.Create(
+                    //            body: "Join Earth's mightiest heroes. Like Kevin Bacon.",
+                    //            from: new Twilio.Types.PhoneNumber("+91 8000403703"),
+                    //            to: new Twilio.Types.PhoneNumber("+91 807715964"),
+                    //            client: client
+                    //        );
+                    //        var statusCode = TwilioClient.GetRestClient().HttpClient
+                    //.LastResponse.StatusCode;
+
+                }
+            }
+            ViewBag.SelectedTab = SelectedAdminTab.POS;
+            return Json(_posManager.SavePasscodePos(savePassCodeModel));
+        }
+
         [HttpGet]
         public ActionResult AddEditPos(long? id = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.POS;
             var model = new SavePosModel();
-            var readonlyStr = "readonly"; 
+            var readonlyStr = "readonly";
             ViewBag.read = "";
 
-            if (id > 0) ViewBag.read = readonlyStr;   
+            if (id > 0) ViewBag.read = readonlyStr;
 
             ViewBag.PosTypes = Utilities.EnumToList(typeof(PosTypeEnum));
             ViewBag.Vendors = _vendorManager.GetVendorsSelectList();

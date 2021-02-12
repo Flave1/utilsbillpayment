@@ -14,6 +14,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<POSListingModel> GetPOSPagedList(PagingModel model, long agentId = 0, long vendorId = 0, bool callForGetVendorPos = false);
         SavePosModel GetPosDetail(long posId);
         ActionOutput SavePos(SavePosModel model);
+        ActionOutput SavePasscodePos(SavePassCodeModel savePassCodeModel);
         IList<PlatformCheckbox> GetAllPlatforms(long posId);
         ActionOutput DeletePos(long posId);
         ActionOutput ChangePOSStatus(int posId, bool value);

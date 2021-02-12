@@ -32,6 +32,8 @@ namespace VendTech.BLL.Models
         NewAppUser = 6,
         [Description("NewCMSUser")]
         NewCMSUser = 7,
+        [Description("GeneratePasscode")]
+        GeneratePasscode = 3,
     }
     public enum PosTypeEnum
     {
