@@ -687,7 +687,6 @@ namespace VendTech.BLL.Managers
             var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
             if (false)
             {
-               
                 //return new ActionOutput
                 //{
                 //    Status = ActionStatus.Error,
@@ -785,7 +784,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 var dbUser = new User();
-                dbUser.Name = string.IsNullOrEmpty(userDetails.CompanyName)? userDetails.FirstName: userDetails.CompanyName;
+                dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
@@ -798,21 +797,9 @@ namespace VendTech.BLL.Managers
                 dbUser.CityId = Convert.ToInt32(userDetails.City); 
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.Phone = userDetails.Mobile;
-                using(var _trans = Context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        Context.Users.Add(dbUser);
-                        Context.SaveChanges();
-                        _trans.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        _trans.Rollback(); 
-                    }
-                    finally { _trans.Dispose(); }
-                }
-               
+                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName: string.Empty; 
+                Context.Users.Add(dbUser);
+                Context.SaveChanges(); 
 
                 //return new ActionOutput
                 //{

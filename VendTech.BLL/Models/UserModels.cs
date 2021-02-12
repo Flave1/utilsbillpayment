@@ -110,8 +110,7 @@ namespace VendTech.BLL.Models
             this.UserType = userObj.UserType;
             this.Phone = userObj.Phone;
             this.CompanyName = userObj.CompanyName;
-            this.isemailverified = userObj.IsEmailVerified;
-
+            this.isemailverified = userObj.IsEmailVerified; 
 
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();

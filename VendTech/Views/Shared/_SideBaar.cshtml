@@ -8,16 +8,17 @@
     <div class="cl-navblock">
         <div class="menu-space">
             <div class="content">
+                @if (user.IsEmailVerified)
+                {
+                    <ul class="cl-vnavigation" style="display: none;" id="IsVerified">
 
-                <ul class="cl-vnavigation">
-
-                    @*<li><a href="@Url.Action("Dashboard", "Home")"><i class="fa fa-columns"></i><span>Dashboard</span></a></li>*@
+                        @*<li><a href="@Url.Action("Dashboard", "Home")"><i class="fa fa-columns"></i><span>Dashboard</span></a></li>*@
                         @if (assignerModules.Where(X => X.ControllerName == "BillPayment").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                         {
                             <li><a href="@Url.Action("Utility", "Meter")"><i class="fa fa-shopping-cart"></i><span>Bill Payment</span></a></li>
                         }
                         @if (assignerModules.Where(X => X.ControllerName == "Meter").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
-                        { 
+                        {
                             <li><a href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a></li>
                         }
                         @if (assignerModules.Where(X => X.ControllerName == "POS").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
@@ -42,9 +43,12 @@
                                 </ul>
                             </li>
                         }
-                         
+
                     </ul>
+                }
+
             </div>
         </div> 
     </div>
 </div>
+ 

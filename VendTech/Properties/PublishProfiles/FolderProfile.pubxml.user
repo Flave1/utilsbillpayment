@@ -344,10 +344,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/21/2020 05:51:35</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/12/2021 08:51:40</publishTime>
+      <publishTime>02/12/2021 09:52:37</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/12/2021 08:51:39</publishTime>
+      <publishTime>02/12/2021 09:52:37</publishTime>
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
       <publishTime>12/17/2020 21:32:28</publishTime>
@@ -491,13 +491,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/21/2020 05:51:41</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>02/12/2021 08:51:00</publishTime>
+      <publishTime>02/12/2021 09:52:22</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>02/12/2021 05:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>02/12/2021 08:51:00</publishTime>
+      <publishTime>02/12/2021 09:52:22</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
       <publishTime>02/12/2021 08:50:58</publishTime>
@@ -509,19 +509,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/12/2021 08:50:58</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>02/12/2021 08:51:05</publishTime>
+      <publishTime>02/12/2021 09:52:25</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>02/12/2021 08:51:01</publishTime>
+      <publishTime>02/12/2021 09:52:23</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>02/12/2021 05:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>02/12/2021 08:51:01</publishTime>
+      <publishTime>02/12/2021 09:52:23</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>02/12/2021 08:51:05</publishTime>
+      <publishTime>02/12/2021 09:52:25</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 05:51:44</publishTime>
@@ -19085,13 +19085,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:44:24</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/12/2021 08:51:27</publishTime>
+      <publishTime>02/12/2021 09:52:27</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/baseProject.pubxml.user">
       <publishTime>02/09/2021 07:45:19</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>02/12/2021 05:06:28</publishTime>
+      <publishTime>02/12/2021 08:52:15</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 04:44:24</publishTime>

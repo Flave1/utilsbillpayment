@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using System.Data.Entity.Validation;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
 
 namespace VendTech.BLL.Managers
 {
@@ -267,7 +268,7 @@ namespace VendTech.BLL.Managers
             var list = query.ToList().Select(x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
-                ProductShortName = x.Platform.ShortName ==null ? "" : x.Platform.ShortName,
+                ProductShortName = x.Platform?.ShortName ==null ? "" : x.Platform.ShortName,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,
@@ -275,7 +276,7 @@ namespace VendTech.BLL.Managers
                 TransactionId = x.TransactionId,
                 MeterRechargeId = x.TransactionDetailsId,
                 RechargeId = x.TransactionDetailsId,
-                UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
+                UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
                 VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
             }).ToList();
             
@@ -587,9 +588,18 @@ namespace VendTech.BLL.Managers
                     db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
                     db_transaction_detail.PlatFormId = platf.PlatformId;
                     db_transaction_detail.Platform = platf;
-                    Context.TransactionDetails.Add(db_transaction_detail);
-                    Context.SaveChanges();
-
+                    try
+                    {
+                        Context.TransactionDetails.Add(db_transaction_detail);
+                        Context.SaveChanges();
+                    }
+                    catch (SqlException ex)
+                    {
+                        response.ReceiptStatus.Status = "unsuccessful";
+                        response.ReceiptStatus.Message = ex.ToString();
+                        return response;
+                    }
+                    
                     response.ReceiptStatus.Status = "unsuccessful";
                     response.ReceiptStatus.Message = query_response.Content.StatusDescription;
                     return response;
@@ -689,13 +699,13 @@ namespace VendTech.BLL.Managers
             trans.Amount = model.Amount;
             trans.TransactionId = model.TransactionId.ToString();
             trans.IsDeleted = false;
-            trans.Status = response_data.Content.Status != "1" ? (int)RechargeMeterStatusEnum.Success : 0;
+            trans.Status = response_data.Content.Finalised ? (int)RechargeMeterStatusEnum.Success : 0;
             trans.CreatedAt = DateTime.UtcNow;
             trans.AccountNumber = response_data.Content?.CustomerAccNo?.ToString()??string.Empty;
             trans.CurrentDealerBalance = 0;
             trans.Customer = response_data.Content?.Customer?.ToString()??string.Empty;
             trans.ReceiptNumber = response_data.Content?.VoucherSerialNumber?.ToString()??string.Empty;
-            trans.RequestDate = Convert.ToDateTime(response_data.Content.DateAndTimeCreated.Date);
+            trans.RequestDate = Convert.ToDateTime(response_data.Content.DateAndTimeCreated.Date).Date;
             trans.RTSUniqueID = 00;
             trans.SerialNumber = response_data.Content?.SerialNumber.ToString()??string.Empty;
             trans.ServiceCharge = response_data.Content?.ServiceCharge?.ToString()??string.Empty;
@@ -704,6 +714,16 @@ namespace VendTech.BLL.Managers
             trans.TenderedAmount = Convert.ToDecimal(response_data.Content.Denomination);
             trans.TransactionAmount = Convert.ToDecimal(response_data.Content.Denomination);
             trans.Units = Convert.ToDecimal(response_data.Content.Units);
+            trans.VProvider = response_data?.Content?.Provider?.ToString() ?? string.Empty;
+            trans.Finalised = response_data?.Content?.Finalised;
+            trans.StatusRequestCount = Convert.ToInt16(response_data?.Content?.StatusRequestCount);
+            trans.Sold = response_data.Content.Sold;
+            //trans.DateAndTimeSold =  response_data.Content?.DateAndTimeSold?.ToString();
+            //trans.DateAndTimeFinalised =  response_data.Content?.DateAndTimeFinalised?.ToString();
+            //trans.DateAndTimeLinked = response_data.Content?.DateAndTimeLinked?.ToString();
+            trans.VoucherSerialNumber = response_data.Content?.VoucherSerialNumber?.ToString();
+            trans.VendStatus = response_data.Content?.Status?.ToString();
+            trans.VendStatusDescription = response_data.Content?.StatusDescription?.ToString();
             return trans;
         }
 

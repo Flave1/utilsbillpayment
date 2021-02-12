@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5e90c8a4a3764d66aaca11dbc8c03ff2" Name="Diagram1" ZoomLevel="96">
+      <Diagram DiagramId="5e90c8a4a3764d66aaca11dbc8c03ff2" Name="Diagram1" ZoomLevel="84">
         <EntityTypeShape EntityType="VendTechModel.AccountVerificationOTP" Width="1.5" PointX="7.5" PointY="71.25" />
         <EntityTypeShape EntityType="VendTechModel.Agency" Width="1.5" PointX="3" PointY="30.25" />
         <EntityTypeShape EntityType="VendTechModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" />

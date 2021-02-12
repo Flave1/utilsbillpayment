@@ -48,9 +48,6 @@ namespace VendTech.DAL
         public Nullable<bool> Finalised { get; set; }
         public Nullable<int> StatusRequestCount { get; set; }
         public Nullable<bool> Sold { get; set; }
-        public Nullable<System.DateTime> DateAndTimeSold { get; set; }
-        public Nullable<System.DateTime> DateAndTimeFinalised { get; set; }
-        public Nullable<System.DateTime> DateAndTimeLinked { get; set; }
         public string VoucherSerialNumber { get; set; }
         public string VendStatusDescription { get; set; }
         public string VendStatus { get; set; }
