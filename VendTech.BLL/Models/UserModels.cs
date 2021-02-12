@@ -151,8 +151,9 @@ namespace VendTech.BLL.Models
         public string CompanyName { get; set; }
         public string LastName { get; set; } 
         public string Address { get; set; } 
-        public string Country { get; set; } 
-        public string City { get; set; }
+            public string Country { get; set; } 
+            public string City { get; set; }
+        public bool IsCompany { get; set; }
     }
     public class LoginAPIModel
     {
@@ -204,6 +205,7 @@ namespace VendTech.BLL.Models
 
         [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
         public string ConfirmPassword { get; set; }
+        public string Address { get; set; }
 
 
         public AddUserModel()

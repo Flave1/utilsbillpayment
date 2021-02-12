@@ -12,6 +12,7 @@ using System.Web;
 using System.IO;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 
 namespace VendTech.BLL.Managers
 {
@@ -405,6 +406,7 @@ namespace VendTech.BLL.Managers
                 Phone = user.Phone,
                 CompanyName = user.CompanyName,
                 VendorId=user.FKVendorId,
+                Address = user.Address,
                ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
                 //POSId=user.FKPOSId,
                 AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
@@ -439,6 +441,7 @@ namespace VendTech.BLL.Managers
                 user.SurName = userDetails.LastName;
                 user.Phone = userDetails.Phone;
                 user.CountryCode = userDetails.CountryCode;
+                user.Address = userDetails.Address;
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
@@ -512,7 +515,7 @@ namespace VendTech.BLL.Managers
                 if (userId > 0)
                 {
                     var existingPermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
-                    if (existingPermissons.Count > 0)
+                    if (existingPermissons.Count() > 0)
                     {
                         chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.ModuleId == x.ID).Any());
                     }
@@ -556,7 +559,7 @@ namespace VendTech.BLL.Managers
                  if (userId > 0)
                  {
                      var existingPermissons = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
-                     if (existingPermissons.Count > 0)
+                     if (existingPermissons.Count() > 0)
                      {
                          chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.PlatformId == x.Id).Any());
                      }
@@ -585,7 +588,7 @@ namespace VendTech.BLL.Managers
                 if (userId > 0)
                 {
                     var existingPermissons = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
-                    if (existingPermissons.Count > 0)
+                    if (existingPermissons.Count() > 0)
                     {
                         chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.WidgetId == x.Id).Any());
                     }
@@ -702,6 +705,7 @@ namespace VendTech.BLL.Managers
                 dbUser.CreatedAt = DateTime.Now;
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser); 
                 dbUser.IsEmailVerified = false;
+                dbUser.Address = userDetails.Address;
                 //dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
                 dbUser.Status =  (int)UserStatusEnum.Pending;
 
@@ -787,11 +791,11 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword("vendtech8");
                 dbUser.CreatedAt = DateTime.UtcNow;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
-                dbUser.Address = $"{userDetails.Address}....{userDetails.Country}";
-                //dbUser.CountryCode = userDetails.Country.Substring(0,9);
-                //dbUser.CityId = userDetails.City; 
+                dbUser.Address = userDetails.Address;
+                dbUser.CountryCode = userDetails.Country;
+                dbUser.CityId = Convert.ToInt32(userDetails.City); 
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.Phone = userDetails.Mobile;
                 using(var _trans = Context.Database.BeginTransaction())
@@ -823,17 +827,23 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.GetUserDetailsByUserId(long userId)
         {
-            if (userId == 0) return new UserModel();
-            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
-            if (user == null)
-                return null;
-            else
+            try
             {
-                var current_user_data = new UserModel(user);
-                current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
-                return current_user_data;
+                if (userId == 0) return new UserModel();
+                var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+                if (user == null)
+                    return null;
+                else
+                {
+                    var current_user_data = new UserModel(user);
+                    current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
+                    return current_user_data;
+                }
             }
-                
+            catch (SqlException ex)
+            {
+                throw ex;
+            } 
         }
 
         ActionOutput IUserManager.ChangeUserStatus(long userId,UserStatusEnum status)
@@ -930,7 +940,7 @@ namespace VendTech.BLL.Managers
         bool RemoveORAddUserPermissions(long userId, AddUserModel model)
         { 
             var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
-            if (existingpermissons.Count > 0)
+            if (existingpermissons.Count() > 0)
             {
                 Context.UserAssignedModules.RemoveRange(existingpermissons);
                 Context.SaveChanges();
@@ -953,7 +963,7 @@ namespace VendTech.BLL.Managers
         bool RemoveOrAddUserPlatforms(long userId, AddUserModel model)
         { 
             var existingPlatforms = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
-            if (existingPlatforms.Count > 0)
+            if (existingPlatforms.Count() > 0)
             {
                 Context.UserAssignedPlatforms.RemoveRange(existingPlatforms);
                 Context.SaveChanges();
@@ -980,7 +990,7 @@ namespace VendTech.BLL.Managers
         {
             //Deleting Exisiting Widgets
             var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
-            if (existing_widgets.Count > 0)
+            if (existing_widgets.Count() > 0)
             {
                 Context.UserAssignedWidgets.RemoveRange(existing_widgets);
                 Context.SaveChanges();

@@ -59,11 +59,11 @@ namespace VendTech.BLL.Managers
                 return null;
             return new SaveVendorModel()
             {
-                Vendor=vendor.Vendor,
-                VendorId=vendor.UserId,
+                Vendor = vendor.Vendor,
+                VendorId = vendor.UserId,
                 Name = vendor.Name,
                 SurName = vendor.SurName,
-                AgencyId = vendor.AgentId==null?0:vendor.AgentId.Value,
+                AgencyId = vendor.AgentId == null ? 0 : vendor.AgentId.Value,
                 Password = Utilities.DecryptPassword(vendor.Password),
                 ConfirmPassword = Utilities.DecryptPassword(vendor.Password),
                 Phone = vendor.Phone,
@@ -71,6 +71,7 @@ namespace VendTech.BLL.Managers
                 AgentPercentage = vendor.Commission != null ? vendor.Commission.Percentage : 0,
                 Percentage = vendor.VendorCommissionPercentage,
                 VendorType = vendor.VendorType,
+                Address = vendor.Address
                 //POSId=vendor.FKPOSId
             };
         }
@@ -150,6 +151,18 @@ namespace VendTech.BLL.Managers
                     return ReturnError("Vendor not exist");
             }
 
+
+            var existing_user_by_number = Context.Users.FirstOrDefault(z => z.Phone.Trim().ToLower() == model.Phone.Trim().ToLower()) ?? null;
+
+            if (existing_user_by_number != null)
+            {
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "User OR Vendor with this phone number already exist"
+                };
+            }
+
             //if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower() && p.UserId != model.VendorId))
             //    return ReturnError("This email is already exist with another user");
 
@@ -162,10 +175,13 @@ namespace VendTech.BLL.Managers
             vendor.AgentId = model.AgencyId;
             vendor.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
             vendor.CreatedAt = DateTime.UtcNow;
-            vendor.Status = (int)UserStatusEnum.Active;
+            vendor.Status = (int)UserStatusEnum.Pending;
             vendor.VendorCommissionPercentage = model.Percentage;
             vendor.VendorType = model.VendorType;
             vendor.Vendor = model.Vendor;
+            vendor.CityId = Convert.ToInt32(model.City);
+            vendor.CountryId = Convert.ToInt32(model.Country);
+            vendor.Address = model.Address;
             //if (model.POSId.HasValue && model.POSId > 0)
             //    vendor.FKPOSId = model.POSId;
             //else

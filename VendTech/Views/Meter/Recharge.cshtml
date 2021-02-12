@@ -3,14 +3,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<MeterRechargeApiListingModel> history = Model.History;
-    if (history == null) {
+    if (history == null)
+    {
         history = new List<MeterRechargeApiListingModel>();
     }
 }
 <div class="dashright ">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    @*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@ 
+    @*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
 
     <div class="page-head">
         <h2>EDSA Recharge</h2>
@@ -18,125 +19,132 @@
     <div class="cl-mcont">
         <div class="row">
             <style>
-              .separator {
+                .separator {
                     display: flex;
                     align-items: center;
-                    text-align: center; 
+                    text-align: center;
                 }
-                .separator::before, .separator::after {
-                    content: '';
-                    flex: 1;
-                    border-bottom: 2px solid #f6eded;
+
+                    .separator::before, .separator::after {
+                        content: '';
+                        flex: 1;
+                        border-bottom: 2px solid #f6eded;
+                    }
+
+                    .separator::before {
+                        margin-right: .25em;
+                    }
+
+                    .separator::after {
+                        margin-left: .25em;
+                    }
+
+                label {
+                    font-weight: bold;
+                    font-size: 12px;
                 }
-                .separator::before {
-                    margin-right: .25em;
+
+                .input {
+                    font-weight: bold;
                 }
-                .separator::after {
-                    margin-left: .25em;
-                }
-                label{
-                    font-weight:bold;
-                    font-size:12px;
-                }
-                .input{font-weight:bold;}
             </style>
             <div class="col-md-12">
                 <div class="block-flat">
                     @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
                     {
                         @*<div class="dashtop">
-                            <label>Wallet Balance - </label>
-                            <span id="balanceSpan" style="color: #00a2e8; ">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
-                        </div>*@
-                    <div class="contarea meterpage row"> 
-                        <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                            <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
-                        </div>
-                        <div class="tabcont-row current">
-                            <div class="row">
-                                <div class="col-md-4" style=" border-right:2px solid #f6eded;">
-                                    <br />
-                                    <form id="rechargeForm" style="box-shadow:0 0 1px #8f7e7e; border:none; ">
-                                        <div class="row">
-                                            <div class="row padded">
-                                                <div class=" col-md-6">
-                                                    <label class="control-label">SELECT POS ID</label>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                <label>Wallet Balance - </label>
+                                <span id="balanceSpan" style="color: #00a2e8; ">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                            </div>*@
+                        <div class="contarea meterpage row">
+                            <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
+                                <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                            </div>
+                            <div class="tabcont-row current">
+                                <div class="row">
+                                    <div class="col-md-4" style=" border-right:2px solid #f6eded;">
+                                        <br />
+                                        <form id="rechargeForm" style="box-shadow:0 0 1px #8f7e7e; border:none; ">
+                                            <div class="row">
+                                                <div class="row padded">
+                                                    <div class=" col-md-6">
+                                                        <label class="control-label">SELECT POS ID</label>
+                                                        @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label ">SELECT SAVED METER</label>
+                                                        @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label class="control-label ">SELECT SAVED METER</label>
-                                                    @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
-                                                </div>
-                                            </div>
-                                            <div class="separator padded">OR</div>
-                                            <div class="row padded">
-                                                <div class="col-md-6">
-                                                    <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>
-                                                    @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
-                                                    @Html.ValidationMessageFor(x => x.MeterNumber)
-                                                </div>
-                                                <div class="col-md-6 form-group">
-                                                    <br /><br />
-                                                    <label class="col-md-10">SAVE AS NEW METER </label>
-                                                    @*<input id="saveMeterChk" name="SaveAsNewMeter" type="checkbox" class="col-md-2" />*@
-                                                    @Html.CheckBoxFor(m => m.SaveAsNewMeter, new { @checked = Model.SaveAsNewMeter, @class = "col-md-2", @id = "saveMeterChk" })
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row padded">
-
-                                                <div class="col-md-8">
-                                                    <label>AMOUNT</label>
-                                                    <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
-                                                           id="AmountDisplay" type="text"
-                                                           onkeypress="javascript:return isNumber(event)"
-                                                           onkeyup="amountFormatter()"
-                                                           class="form-control " />
-
-                                                    @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(x => x.Amount)
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="row">
-                                                        <input type="button"
-                                                               style="height:50px; font-weight:bold; text-transform:uppercase; border:none; margin-top:7px; width:100%; background: #ffd800; border-radius:5px;" disabled class="savebttn addDepositBtn"
-                                                               id="pay_Now_Btn" value="PAY NOW">
+                                                <div class="separator padded">OR</div>
+                                                <div class="row padded">
+                                                    <div class="col-md-6">
+                                                        <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>
+                                                        @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
+                                                        @Html.ValidationMessageFor(x => x.MeterNumber)
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <br /><br />
+                                                        <label class="col-md-10">SAVE AS NEW METER </label>
+                                                        @*<input id="saveMeterChk" name="SaveAsNewMeter" type="checkbox" class="col-md-2" />*@
+                                                        @Html.CheckBoxFor(m => m.SaveAsNewMeter, new { @checked = Model.SaveAsNewMeter, @class = "col-md-2", @id = "saveMeterChk" })
                                                     </div>
                                                 </div>
 
+
+                                                <div class="row padded">
+
+                                                    <div class="col-md-8">
+                                                        <label>AMOUNT</label>
+                                                        <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
+                                                               id="AmountDisplay" type="text"
+                                                               onkeypress="javascript:return isNumber(event)"
+                                                               onkeyup="amountFormatter()"
+                                                               class="form-control " />
+
+                                                        @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(x => x.Amount)
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="row">
+                                                            <input type="button"
+                                                                   style="height:50px; font-weight:bold; text-transform:uppercase; border:none; margin-top:7px; width:100%; background: #ffd800; border-radius:5px;" disabled class="savebttn addDepositBtn"
+                                                                   id="pay_Now_Btn" value="PAY NOW">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
                                             </div>
-
-
+                                        </form>
+                                    </div>
+                                    <div class="col-md-8 hidden-sm">
+                                        <h4>Latest (10) recharge history</h4>
+                                        <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
+                                            <table class="table table-bordered  mb-0" id="datatable-icons">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th>PRODUCT</th>
+                                                        <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
+                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("Partials/_salesListing", history)
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-8 hidden-sm">
-                                    <h4>Latest (10) recharge history</h4>
-                                    <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
-                                        <table class="table table-bordered  mb-0" id="datatable-icons">
-                                            <thead>
-                                                <tr>
-                                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                    <th>PRODUCT</th>
-                                                    <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
-                                                    <th class="sorting" data-sortby="MeterNumber">METER #</th>
-                                                    <th class="sorting" data-sortby="POS">POS ID</th>
-                                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @Html.Partial("Partials/_salesListing", history)
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div> 
-                        }
+                    }
                     else
                     {
                         <div class="contarea">
@@ -162,14 +170,14 @@
                 <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12"> 
+                <div class="col-md-12">
                     <div class="row" style=" margin-top: 55px; margin-bottom: 25px ">
                         <div class="col-md-6 col-item">
                             <span class="adv-company-name">Meter No:</span>
                         </div>
                         <div class="col-md-6 col-item">
                             <span id="meterno" class="adv-company-name" style="font-weight: bold; font-size: 30px;">Peter Bamidele</span>
-                        </div> 
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-item adv-company-name">
@@ -192,8 +200,10 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="modalCart">
-    <div class="modal-dialog" style="width:28%;">
+
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" id="printSection">
                 <div class="row" style="text-align:center; margin:20px;" id="gen-invoice">
@@ -202,10 +212,10 @@
                 </div>
                 <hr class="bg-dark" style="border:1px solid grey; background: grey; ">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                    <div class="col-md-6 col-sm-12 col-xs-12 text-left">
                         <strong>Date : @DateTime.UtcNow</strong>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 " style="text-align: :right;">
+                    <div class="col-md-6 col-sm-12 col-xs-12 " style="text-align:right;">
                         <div style="text-align: right;">
                             <span class="text-light"><strong>Vendor ID</strong></span>
                             <br>Office Coporate
@@ -214,72 +224,87 @@
                 </div>
                 <div class="row">
                     <div class=" text-right" style="margin:20px; text-align: right;">
-                        <span class="text-light"><strong>POS ID</strong></span>
-                        <p>12345</p>
+                        <strong>POS ID</strong>  <span class="text-light" id="pos_id">12345</span>
                     </div>
                 </div>
-                <div class="separator" style="margin:5px;" ><strong>Customer Information</strong></div>
+                <div class="separator" style="margin:5px;"><strong>Customer Information</strong></div>
                 <div class="row ">
                     <div class="col-md-12">
-                        <div class="col-md-4">Customer : </div>
-                        <div style="text-align: right;" class="col-md-8" id="customer_name"> Emmanuel Favour</div>
+                        <div class="col-md-4 col-sm-6">Customer: </div>
+                        <div style="text-align: right;" class="col-md-8 col-sm-6" id="customer_name"> Emmanuel Favour</div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-4">Account # : </div>
-                        <div style="text-align: right;" class="col-md-8" id="customer_account_number"> 234567890</div>
+                        <div class="col-md-4 col-sm-6">Account #: </div>
+                        <div style="text-align: right;" class="col-md-8 col-sm-6" id="customer_account_number"> 234567890</div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-4">Address : </div>
-                        <div style="text-align: right;" class="col-md-8" id="customer_address"> 52 Oshola str. Ogba Ikeja, Lagos Nigeria</div>
+                        <div class="col-md-4 col-sm-4">Address: </div>
+                        <div style="text-align: right;" class="col-md-8 col-sm-8" id="customer_address"> 52 Oshola str. Ogba Ikeja, Lagos Nigeria</div>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-4">Meter #:  </div>
-                        <div style="text-align: right;" class="col-md-8" id="meter_number"><strong> 22222222222</strong></div>
+                        <div class="col-md-4 col-sm-5">Meter #:  </div>
+                        <div style="text-align: right;" class="col-md-8 col-sm-7" id="meter_number"><strong> 22222222222</strong></div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-4">Tariff : </div>
-                        <div style="text-align: right;" class="col-md-8" id="current_tarrif"> 569</div>
+                        <div class="col-md-4 col-sm-5">Tariff: </div>
+                        <div style="text-align: right;" class="col-md-8 col-sm-7" id="current_tarrif"> 569</div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-4">Amount Tendered: le :  </div>
-                        <div style="text-align: right;" class="col-md-8" id="amount_tender"> <strong>1000,000</strong></div>
+                        <div class="col-md-4 col-sm-8">AMT Tendered: le:  </div>
+                        <div style="text-align: right;" class="col-md-4 col-sm-2" id="amount_tender"> <strong>1000,000</strong></div>
                     </div>
                 </div>
 
                 <div class="separator" style="margin:5px;"><strong>Deductions</strong></div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-6"> GST: le:</div>
-                        <div style="text-align: right;" class="col-md-6"> <span id="gst"> 150,000</span></div>
+                        <div class="col-md-6 col-sm-6 col-xs-6"> GST: le:</div>
+                        <div style="text-align: right;" class="col-md-6 col-sm-6 col-xs-6"> <span id="gst"> 150,000</span></div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-6"> Service charge: le :  </div>
-                        <div style="text-align: right;" class="col-md-6"> <span id="service_charge"> 10,500</span></div>
+                        <div class="col-md-6 col-sm-8 col-xs-8"> Service charge: le:  </div>
+                        <div style="text-align: right;" class="col-md-6 col-sm-4 col-xs-8"> <span id="service_charge"> 10,500</span></div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-6">Debit recovery: le :  </div>
-                        <div style="text-align: right;" class="col-md-6"> <span id="debit_recovery"> 350,000</span></div>
+                        <div class="col-md-6 col-sm-8 col-xs-8">Debit recovery: le:  </div>
+                        <div style="text-align: right;" class="col-md-6 col-sm-4 col-xs-4"> <span id="debit_recovery"> 350,000</span></div>
                     </div>
                 </div>
                 <div class="separator" style="margin:5px;"><strong>TOTAL</strong></div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-6">Cost of units: le :  </div>
-                        <div style="text-align: right;" class="col-md-6"> <span id="cost_of_units"> 489,500</span></div>
+                        <div class="col-md-6 col-sm-8">Cost of units: le:  </div>
+                        <div style="text-align: right;" class="col-md-6 col-sm-4"> <span id="cost_of_units"> 489,500</span></div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-6">Units:   </div>
-                        <div style="text-align: right;" class="col-md-6"> <span id="units"> 1245.4</span></div>
+                        <div class="col-md-6 col-sm-6">Units:   </div>
+                        <div style="text-align: right;" class="col-md-6 col-sm-6"> <span id="units"> 1245.4</span></div>
                     </div>
                 </div>
-                <div class="row" style="text-align: center;">
+                <div class="row" style="text-align: center; display: none;" id="pin1_section">
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
                         <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
-                            <span id="generated_token" class="col-md-12 col-sm-12 col-xs-12"
+                            <span id="pin1" class="col-md-12 col-sm-12 col-xs-12"
+                                  style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; display:none;" id="pin2_section">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                        <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                            <span id="pin2" class="col-md-12 col-sm-12 col-xs-12"
+                                  style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; display: none;" id="pin3_section">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                        <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                            <span id="pin3" class="col-md-12 col-sm-12 col-xs-12"
                                   style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
                         </p>
                     </div>
@@ -288,25 +313,24 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <em>
-                            EDSA Serial #: <span class="edsa_serial">123467</span>
-                            <p>VENDTECH Serial #: <span id="vendtech_serial_code">1234356</span> </p>
+                            EDSA Serial #: <span class="edsa_serial">123467</span><br>
+                            VTECH Serial #: <span id="vendtech_serial_code">1234356</span>
                         </em>
                     </div>
                 </div>
-                <br />
                 <div class="row modal-footer">
-                    <div class="col-md-7 col-sm-7 col-xs-7 text-center">
+                    <div class="col-md-7 col-sm-7 col-xs-7 text-center" style="border-bottom:7px; border-top:7px;">
                         <span id="barcode" style="font-family: 'Libre Barcode 39 Text', cursive !important;  font-size: 32px;">22222222222 </span>
                     </div>
                     <div class="col-md-5 col-sm-5 col-xs-5 row" id="print_section" style="padding: 0; margin: 0px;">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light ">SMS</button>
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" style="display:none">SMS</button>
                         <button class="btn btn-primary waves-effect waves-light " onclick="printReceipt()">PRINT</button>
                     </div>
 
                 </div>
                 <div class="row">
-                    <div class="col-md-6"><em>www.vendtechsl.com</em></div>
-                    <div class="col-md-6" style="text-align: right;"><em>Call +232 76 990 990</em></div>
+                    <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
+                    <div class="col-md-6 col-sm-12"><em>Call +232 76 990 990</em></div>
                 </div>
             </div>
             <!-- modal-footer -->
@@ -318,19 +342,23 @@
 </div>
 
 
+
 @section scripts{
     <script src="~/Scripts/UserScripts/meter.js"></script>
     <link href="~/Content/transdetails.css" rel="stylesheet" />
     <link href="~/Content/pos_receipt.css" rel="stylesheet" />
+    
     <script>
 
         function printReceipt() {
             debugger;
             $("#print_section").hide();
-           var prtContent = document.getElementById("printSection");
-            var WinPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+             var prtContent = document.getElementById("printSection");
+            var WinPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0'); 
+             WinPrint.document.write('<link rel="preconnect" href="https://fonts.gstatic.com">');
             WinPrint.document.write('<link href="~/Content/pos_receipt.css" rel="stylesheet" />');
-            WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">'); 
+            WinPrint.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">');
+            WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">');
             window.location.reload();
             WinPrint.document.write(prtContent.innerHTML);
             WinPrint.document.close();
@@ -415,7 +443,7 @@
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return num_parts.join(".");
         }
-        function amountFormatter() { 
+        function amountFormatter() {
             $("#pay_Now_Btn").prop('disabled', false);
 
             var displayVal = $("#AmountDisplay").val();
@@ -428,8 +456,8 @@
                 var amt_to_display = thousands_separators(val);
                 var wallet_balance = '@(string.Format("{0:N0}", ViewBag.walletBalance))';
 
-                if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) { 
-                    $("#pay_Now_Btn").prop('disabled', true); 
+                if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
+                    $("#pay_Now_Btn").prop('disabled', true);
                      $.ShowMessage($('div.messageAlert'), "Walllet balance is insufficient to make purchase.", MessageType.Error);
                     return false;
                 }

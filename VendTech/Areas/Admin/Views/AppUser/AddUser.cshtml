@@ -44,6 +44,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
+                                        <div class="col-md-12">
+                                            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Address)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">
                                             PASSWORD<em>*</em>
 
@@ -72,8 +79,8 @@
                                         </div>
                                         <div class="col-md-10">
                                             @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Phone)
                                         </div>
+                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
                                     </div>
 
                                     <div class="form-group">
@@ -91,7 +98,7 @@
                                         <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r => (bool)!r.IsAdmin)
+                                            @{ var listing = Model.ModuleList.Where(r =>  r.IsAdmin == false)
                                                     .OrderByDescending(r => r.ModuleName == "Manage Reports")
                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")

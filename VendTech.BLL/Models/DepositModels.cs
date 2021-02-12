@@ -27,7 +27,7 @@ namespace VendTech.BLL.Models
         public decimal? PercentageAmount { get; set; }
         public long DepositId { get; set; }
         public string Payer { get; set; }
-        public string IssuingBank { get; set; }
+        public string IssuingBank { get; set; } 
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         {
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;

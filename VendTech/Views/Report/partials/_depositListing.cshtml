@@ -11,6 +11,7 @@
         <td style="text-align:left">@item.UserName</td>
         <td> @item.Type</td>
         <td> @item.Bank</td>
+        <td style="text-align:center;"> @item.TransactionId</td>
         <td style="text-align:right"> @item.ChkNoOrSlipId</td>
         <td style="text-align:right"><strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong></td>
         <td style="text-align:right"><strong>@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</strong></td>
@@ -25,7 +26,7 @@
     else
     {
         <tr class="odd gradeX">
-            <td colspan="9" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+            <td colspan="10" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
         </tr>
     }
 

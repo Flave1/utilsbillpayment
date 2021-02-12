@@ -3277,79 +3277,75 @@ Object reference not set to an instance of an object.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Nullable object must have a value.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Nullable object must have a value.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Nullable object must have a value.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Nullable object must have a value.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+The underlying provider failed on Open.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Exception has been thrown by the target of an invocation.
 
 
 
-e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\POS\AddEditPos.cshtml(63): error CS1061: 'VendTech.BLL.Models.SavePosModel' does not contain a definition for 'ManagePassCode' and no extension method 'ManagePassCode' accepting a first argument of type 'VendTech.BLL.Models.SavePosModel' could be found (are you missing a using directive or an assembly reference?)
+Exception has been thrown by the target of an invocation.
 
 
 
-There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'CountryCode'.
+Exception has been thrown by the target of an invocation.
 
 
 
-There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'CountryCode'.
+The underlying provider failed on Open.
 
 
 
-The ViewData item that has the key 'CountryCode' is of type 'System.String' but must be of type 'IEnumerable<SelectListItem>'.
+Exception has been thrown by the target of an invocation.
 
 
 
-There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'CountryCode'.
+The underlying provider failed on Open.
 
 
 
-There is no ViewData item of type 'IEnumerable<SelectListItem>' that has the key 'CountryCode'.
+One or more errors occurred.
 
 
 
-The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
-
-
-
-The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+One or more errors occurred.
 
 
 
@@ -3357,11 +3353,32 @@ The cast to value type 'System.Decimal' failed because the materialized value is
 
 
 
-The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+One or more errors occurred.
 
 
 
-The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+One or more errors occurred.
+
+
+
+The underlying provider failed on Open.
+
+
+
+No property or field 'TransactionId' exists in type 'DepositLog'
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Value cannot be null.
+Parameter name: items
 
 
 
@@ -3369,55 +3386,27 @@ Object reference not set to an instance of an object.
 
 
 
-Object reference not set to an instance of an object.
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'City' and no extension method 'City' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Vendor\AddEditVendor.cshtml(196): error CS1061: 'VendTech.BLL.Models.SaveVendorModel' does not contain a definition for 'c' and no extension method 'c' accepting a first argument of type 'VendTech.BLL.Models.SaveVendorModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
 
 
 
 Object reference not set to an instance of an object.
-
-
-
-Object reference not set to an instance of an object.
-
-
-
-Object reference not set to an instance of an object.
-
-
-
-Object reference not set to an instance of an object.
-
-
-
-Object reference not set to an instance of an object.
-
-
-
-534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
-5.7.14 uYVUzpz1r5DfP3IDk2G8FJdRKi_dp6FSEvYswr5dcx9PGlcc7HTFriEOXXFvldJBIcZEB
-5.7.14 J6vmaNt910ZKsJ4jxUueoIeNLOQAvVDg0bRxGiQF6MZ-7jAE9BA01K_WV8PGLzro>
-5.7.14 Please log in via your web browser and then try again.
-5.7.14  Learn more at
-5.7.14  https://support.google.com/mail/answer/78754 d68sm6232505pfd.85 - gsmtp
-
-
-
-534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbs
-5.7.14 r2Uz_ZKVjlGW0K0c-1Y2vEZVoM_MbAWxbRMhVNrtlb5AhgamME_A_4z7qlMtRVxhd6ZBz
-5.7.14 zYog2JiePgJJ4gHufDQd9ySfqzyDuM5lVtCzZ3iG4-icJaXFCpwnjaAlmlM-mSFj>
-5.7.14 Please log in via your web browser and then try again.
-5.7.14  Learn more at
-5.7.14  https://support.google.com/mail/answer/78754 25sm5880381pfj.120 - gsmtp
-
-
-
-535: 5.7.8 Username and Password not accepted. Learn more at
-5.7.8  https://support.google.com/mail/?p=BadCredentials ke13sm5719494pjb.44 - gsmtp
-
-
-
-535: 5.7.8 Username and Password not accepted. Learn more at
-5.7.8  https://support.google.com/mail/?p=BadCredentials d4sm6834857pgq.32 - gsmtp
 
 
 

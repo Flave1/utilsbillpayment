@@ -83,8 +83,7 @@
 
                                         <hr style="background:#d0cbcb; height:1px;" />
                                         <div class="form-group row">
-                                            <label style="        width: 100%;
-">TRANSACTION PERIOD</label>
+                                            <label style="width: 100%;">TRANSACTION PERIOD</label>
                                             <div style="width: 49%; float: left; ">
                                                 <label>From:</label>
                                                 <input type="text" name="FromDate" id="FromDate">
@@ -129,23 +128,24 @@
                                     </div>
                                     }
                                 <div class="blwsec-right">
-                                    <div class="exportdata" style="height:560px; overflow:scroll;   max-width: 100%;">
+                                    <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                         <table class="table table-bordered" id="datatable-icons">
                                             <thead>
                                                 <tr>
                                                     <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                     <th class="sorting" data-sortby="POS">POS ID</th>
                                                     <th class="sorting" data-sortby="UserName">USER NAME</th>
-                                                    <th class="sorting" data-sortby="PaymentType">DEPOSIT TYPE</th>
+                                                    <th class="sorting" data-sortby="PaymentType">TYPE</th>
                                                     <th class="sorting" data-sortby="BANK">BANK</th>
-                                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">DEPOSIT REF #</th>
+                                                    <th class="sorting" data-sortby="TransactionId">TRANS_ID</th>
+                                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
                                                     <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                    <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
+                                                    <th class="sorting" data-sortby="NewBalance">BALANCE</th>
                                                 </tr>
                                             </thead>
-                                            <tbody >
-                                                @Html.Partial("Partials/_reportListing", Model)
+                                            <tbody>
+                                                @Html.Partial("Partials/_depositListing", Model)
                                             </tbody>
                                         </table>
                                     </div>

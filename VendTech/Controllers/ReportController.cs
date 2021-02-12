@@ -372,7 +372,7 @@ namespace VendTech.Controllers
         }
         [AjaxOnly, HttpPost]
         public JsonResult GetSalesReportPagingList(ReportSearchModel model)
-        {
+            {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
             //model.SortOrder = "Desc";

@@ -152,6 +152,7 @@ var Users = {
     },
     RechargeMeter2: function (sender) {
 
+        $("#pay_Now_Btn").css({ backgroundColor: '#56bb96' });
         $("#pay_Now_Btn").val('PROCESSING....');
         $("#pay_Now_Btn").prop('disabled', true);
 
@@ -171,13 +172,21 @@ var Users = {
             data: $("form#rechargeForm").serialize(),
             type: "POST",
             success: function (data) {
+                debugger;
+                $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
+                $("#pay_Now_Btn").val('PAY NOW');
+                $("#pay_Now_Btn").prop('disabled', false);
                 console.log(data);
+                if (data.Code === 302)
+                { 
+                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
+                    return false;
+                }
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
-                if (data.Code == 200) {
-                    $("#pay_Now_Btn").val('PAY NOW');
-                    $("#pay_Now_Btn").prop('disabled', false);
+                if (data.Code === 200) {
+                
                     console.log(data);
-                    debugger;
+                    
                     $("#customer_name").html(data.Data.CustomerName);
                     $("#customer_account_number").html(data.Data.AccountNo);
                     $("#customer_address").html(data.Data.Address);
@@ -186,14 +195,20 @@ var Users = {
                     $("#amount_tender").html(data.Data.Amount);
                     $("#gst").html("0.00");
                     $("#service_charge").html(data.Data.Charges);
-                    $("#debit_recovery").html("0.00");
+                    $("#debit_recovery").html(data.Data.DebitRecovery);
                     $("#cost_of_units").html(data.Data.UnitCost); 
                     $("#units").html(data.Data.Unit);
-                    $("#generated_token").html(data.Data.RechargeToken);
+                    $("#pin1").html(data.Data.Pin1);
+                    if (data.Data.Pin1.length > 0) $("#pin1_section").show();
+                    $("#pin2").html(data.Data.Pin2);
+                    if (data.Data.Pin2.length > 0) $("#pin2_section").show();
+                    $("#pin3").html(data.Data.Pin3);
+                    if (data.Data.Pin3.length > 0) $("#pin3_section").show();
                     $("#edsa_serial").html(data.Data.SerialNo);
                     $("#barcode").html(data.Data.DeviceNumber);
                     $("#vendtech_serial_code").html(data.Data.ReceiptNo);
- 
+                    $("#pos_id").html(data.Data.POS);
+                    if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {
@@ -204,6 +219,7 @@ var Users = {
                         //window.location.href = baseUrl + '/Home/Index';
                     }, 100500);*/
                 } else {
+
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
                 }
 

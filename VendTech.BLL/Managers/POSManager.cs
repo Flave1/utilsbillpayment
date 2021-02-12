@@ -298,7 +298,7 @@ namespace VendTech.BLL.Managers
             }
             dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;
-            dbPos.Email = !string.IsNullOrEmpty(savePassCodeModel.Email) ? savePassCodeModel.Email : dbPos.Email;
+            dbPos.Email = savePassCodeModel.Email;
             if (savePassCodeModel.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
