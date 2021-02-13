@@ -68,7 +68,8 @@ namespace VendTech.Controllers
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
-                VendorId = LOGGEDIN_USER.UserID
+                VendorId = LOGGEDIN_USER.UserID,
+                IsInitialLoad = true,
             };
 
 

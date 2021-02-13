@@ -169,16 +169,13 @@
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
 
        $(document).ready(function () {
 
-
-                //initialize the javascript
+           //initialize the javascript
                 App.init();
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
@@ -192,6 +189,8 @@
                 });
                 $("#fromSpan").html($("#ToDate").val())
                 $("#toSpan").html($("#ToDate").val())
+
+
                 const date = new Date();
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -212,36 +211,28 @@
                     //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
                     pdf.save(name);
                 }
-                //$("#btnExport").click(function (e) {
-                //    var element = $(".exportdata")[0];
-                //    html2canvas(element).then(function (canvas) {
-
-                //        var myImage = canvas.toDataURL();
-
-                //        downloadURI(myImage, "Report.pdf");
-                //    });
-                //    //window.open('data:application/vnd.ms-excel,' + $('.exportdata').html());
-                //    e.preventDefault();
-                //})
-                Deposits.ManageDeposits(totalCount);
-                var d = new Date();
-                $("#FromDate").kendoDatePicker({
-                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
-                });
-                var datePicker1 = $("#FromDate").data("kendoDatePicker");
-                $("#FromDate").click(function () {
-                    datePicker1.open();
-                })
-                $("#ToDate").kendoDatePicker({
-                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
-                });
-                var datePicker2 = $("#ToDate").data("kendoDatePicker");
-                $("#ToDate").click(function () {
-                    datePicker2.open();
-                })
+          
+               Deposits.ManageDeposits(totalCount); 
        });
+
+        
+        var d = new Date();
+        $("#FromDate").kendoDatePicker({
+            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+            format: "dd/MM/yyyy"
+        });
+        var datePicker1 = $("#FromDate").data("kendoDatePicker");
+        $("#FromDate").click(function () {
+            datePicker1.open();
+        });
+        $("#ToDate").kendoDatePicker({
+            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+            format: "dd/MM/yyyy"
+        });
+                var datePicker2 = $("#ToDate").data("kendoDatePicker");
+        $("#ToDate").click(function () {
+            datePicker2.open();
+        });
             function changeReport() {
                 var val = $("#rpt").val();
                 if (val == 1)

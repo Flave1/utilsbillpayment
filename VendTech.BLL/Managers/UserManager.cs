@@ -788,19 +788,22 @@ namespace VendTech.BLL.Managers
                 dbUser.CompanyName = userDetails.CompanyName;
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
-                dbUser.Password = Utilities.EncryptPassword("vendtech8");
+                dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
                 dbUser.CreatedAt = DateTime.UtcNow;
                 dbUser.UserType = userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
-                dbUser.CountryCode = userDetails.Country;
+                dbUser.CountryCode = "+232";
                 dbUser.CityId = Convert.ToInt32(userDetails.City); 
                 dbUser.Status = (int)UserStatusEnum.Pending;
+                dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
-                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName: string.Empty; 
-                Context.Users.Add(dbUser);
-                Context.SaveChanges(); 
+                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
+                Context.Users.Add(dbUser);
+                Context.SaveChanges();
+                if (userDetails.IsCompany) dbUser.FKVendorId = dbUser.UserId;
+                Context.SaveChanges();
                 //return new ActionOutput
                 //{
                 //    ID = dbUser.UserId,

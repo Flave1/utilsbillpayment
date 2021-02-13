@@ -68,6 +68,7 @@ namespace VendTech.BLL.Models
         public DateTime? LastActivityTime { get; set; }
         public bool IsAuthenticated { get; set; }
         public bool IsEmailVerified { get; set; }
+        public int Status { get; set; }
 
         public string ProfilePicPath { get; set; }
         public UserDetails()

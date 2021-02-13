@@ -3518,16 +3518,40 @@ Parameter name: args
 
 
 
-Object reference not set to an instance of an object.
+Expected "}".
 
 
 
-535: 5.7.8 Username and Password not accepted. Learn more at
-5.7.8  https://support.google.com/mail/?p=BadCredentials w4sm12553261pfn.45 - gsmtp
+
+One or more errors occurred.
 
 
 
-The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+One or more errors occurred.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. 
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
 
 
 

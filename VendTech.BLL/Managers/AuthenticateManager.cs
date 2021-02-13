@@ -56,10 +56,6 @@ namespace VendTech.BLL.Managers
             if (user.Password != encryptedPassword)
                 return ReturnError<string>("Old password did not match.");
 
-            if (!user.IsEmailVerified)
-            { 
-                return ReturnSuccess(user.Email, "IsEmailVerification");
-            }
             var existingRequest = Context.ForgotPasswordRequests.Where(p => p.UserId == userId);
             var request = new ForgotPasswordRequest();
             request.CreatedAt = DateTime.UtcNow;
@@ -70,6 +66,23 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess(user.Email, "OTP sent to your email");
         }
+
+        ActionOutput<string> IAuthenticateManager.FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword)
+        {
+            var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
+             
+            if (user == null)
+                return ReturnError<string>("User not exist.");
+            var encryptedPassword = Utilities.EncryptPassword(oldPassword);
+            if (user.Password != encryptedPassword)
+                return ReturnError<string>("Old password did not match.");
+
+            user.IsEmailVerified = true; 
+            user.Password = Utilities.EncryptPassword(newPassword);
+            Context.SaveChanges();
+            return ReturnSuccess(user.Email, "Email succesfuly verified");
+        }
+
         ActionOutput IAuthenticateManager.VerifyChangePasswordOTP(ResetPasswordModel model)
         {
             var user = Context.Users.Single(p => p.UserId == model.UserId);
@@ -128,7 +141,8 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) 
+                var result = Context.Users
+                    .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) 
                 && x.Password == encryptPassword 
                 && (UserRoles.AppUser == x.UserRole.Role 
                 || UserRoles.Vendor == x.UserRole.Role) 
