@@ -92,6 +92,7 @@ namespace VendTech.BLL.Models
         public long? VendorId { get; set; }
         //public long? POSId { get; set; }
         public string POSNumber { get; set; }
+        public int Status { get; set; }
 
         public bool isemailverified { get; set; }
 
@@ -110,7 +111,8 @@ namespace VendTech.BLL.Models
             this.UserType = userObj.UserType;
             this.Phone = userObj.Phone;
             this.CompanyName = userObj.CompanyName;
-            this.isemailverified = userObj.IsEmailVerified; 
+            this.isemailverified = userObj.IsEmailVerified;
+            this.Status = userObj.Status;
 
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();

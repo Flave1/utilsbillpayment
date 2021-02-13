@@ -163,9 +163,7 @@
 
 
 @section scripts{
-    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script type="text/javascript">
-    </script>
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script> 
     <script src="~/Scripts/UserScripts/salesReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
@@ -181,11 +179,7 @@
                 //initialize the javascript 
                  
                 App.init();
-
-                $("#reportType").on("change", function () {
-
-                });
-
+ 
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
                     value: new Date(),
@@ -215,26 +209,11 @@
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                     pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-
-                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
+                     
                     pdf.save(name);
-                    //link.download = name;
-                    //link.href = uri;
-                    //document.body.appendChild(link);
-                    //link.click();
+              
                 }
-
-                //$("#btnExport").click(function (e) {
-                //    var element = $(".exportdata")[0];
-                //    html2canvas(element).then(function (canvas) {
-
-                //        var myImage = canvas.toDataURL();
-
-                //        downloadURI(myImage, "Report.pdf");
-                //    });
-                //    //window.open('data:application/vnd.ms-excel,' + $('.exportdata').html());
-                //    e.preventDefault();
-                //})
+                 
                 Deposits.ManageDeposits(totalCount);
 
             });

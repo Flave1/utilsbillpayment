@@ -29,9 +29,28 @@
 
     @if (user.UserType == UserRoles.AppUser)
     {
+        if (user.IsEmailVerified)
+        {
+            if (user.Status == (int)UserStatusEnum.Active)
+            {
+                @RenderBody()
+            }
+            else
+            {
 
-        @RenderBody()
+            <div class="jumbotron">
 
+                <div class="row text-center">
+                    <H1>Please hold on as we are currently working on activating your account</H1>
+                    <p>
+                        Please contact <a href="mailto:vblell@gmail.com">VENDTECH</a> for more information
+                    </p>
+                </div>
+
+            </div>
+            }
+
+        }
     }
     else
     {

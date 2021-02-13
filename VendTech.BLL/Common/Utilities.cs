@@ -156,6 +156,14 @@ namespace VendTech.BLL.Common
             string result = new String(decoded_char);
             return result;
         }
+         
+        public static string GenerateByAnyLength(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var rn = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            return $"vtsl{rn}";
+        }
+
         public static int GenerateRandomNo()
         {
             int _min = 1000;

@@ -70,7 +70,7 @@ namespace VendTech.BLL.Managers
         ActionOutput<string> IAuthenticateManager.FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-
+             
             if (user == null)
                 return ReturnError<string>("User not exist.");
             var encryptedPassword = Utilities.EncryptPassword(oldPassword);
@@ -141,7 +141,8 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) 
+                var result = Context.Users
+                    .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) 
                 && x.Password == encryptPassword 
                 && (UserRoles.AppUser == x.UserRole.Role 
                 || UserRoles.Vendor == x.UserRole.Role) 

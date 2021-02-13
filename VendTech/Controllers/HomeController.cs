@@ -92,6 +92,7 @@ namespace VendTech.Controllers
                     LastActivityTime = DateTime.UtcNow,
                     UserType = UserRoles.AppUser,
                     IsEmailVerified = userDetails.isemailverified,
+                    Status = userDetails.Status
                 };
             }
             else
@@ -230,13 +231,13 @@ namespace VendTech.Controllers
             model.UserId = LOGGEDIN_USER.UserID;
             var data = new ActionOutput<UserDetails>();
 
-            var result = _authenticateManager.FirstTimeLoginChangePassword(LOGGEDIN_USER.UserID, model.OldPassword, model.OldPassword);
+            var result = _authenticateManager.FirstTimeLoginChangePassword(LOGGEDIN_USER.UserID, model.OldPassword, model.Password);
 
             if (result.Status != ActionStatus.Successfull)
                 return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message });
 
 
-            var userDetails = _authenticateManager.GetDetailsbyUser(LOGGEDIN_USER.UserEmail, model.Password);
+            var userDetails = _authenticateManager.GetDetailsbyUser(LOGGEDIN_USER.UserName, model.Password);
             if (userDetails != null)
             { 
                 data.Status = ActionStatus.Successfull;
