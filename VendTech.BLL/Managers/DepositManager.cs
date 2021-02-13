@@ -1324,7 +1324,7 @@ namespace VendTech.BLL.Managers
             Context.Deposits.Add(dbDeposit);
             Context.Entry(dbDeposit).State = EntityState.Modified;
             Context.SaveChanges();
-            depositAuditModel.DateTime = Convert.ToString(dbDeposit.CreatedAt);
+            depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.DepositBy = dbDeposit.User.Name + " " + dbDeposit.User.SurName;
             depositAuditModel.IssuingBank = dbDeposit.ChequeBankName != null ?
                 dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";

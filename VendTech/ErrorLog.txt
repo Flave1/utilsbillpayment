@@ -3518,3 +3518,16 @@ Parameter name: args
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+535: 5.7.8 Username and Password not accepted. Learn more at
+5.7.8  https://support.google.com/mail/?p=BadCredentials w4sm12553261pfn.45 - gsmtp
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+

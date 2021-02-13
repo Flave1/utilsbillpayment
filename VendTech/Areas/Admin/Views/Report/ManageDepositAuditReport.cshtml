@@ -574,8 +574,8 @@ function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtban
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
                         $('tr').each(function(index, value) {
-                            if ($(this).find("#hdnId").val()==data.DepositId) {
-                        $(this).find("#_date").text(data.DateTime);
+                            if ($(this).find("#hdnId").val() == data.DepositId) {
+                                    $(this).find("#_date").text(data.DateTime);
                         $(this).find("#_pos").text(data.PosId);
                         $(this).find("#_usr").text(data.DepositBy);
                         $(this).find("#_typ").text(data.Type);

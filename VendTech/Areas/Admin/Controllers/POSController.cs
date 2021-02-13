@@ -61,7 +61,7 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
         [AjaxOnly, HttpPost]
-        public async Task<ActionResult> SavePos(SavePassCodeModel savePassCodeModel)
+        public ActionResult SavePos(SavePassCodeModel savePassCodeModel)
         {
             if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
             {
@@ -76,7 +76,7 @@ namespace VendTech.Areas.Admin.Controllers
                     //to.Add(savePassCodeModel.Email);
                     //var emailSender = new EmailSender();
                     //emailSender.SendEmailAsync(to, emailTemplate.EmailSubject, body);
-                    await Utilities.Execute(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
                 }
                 if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
                 {
