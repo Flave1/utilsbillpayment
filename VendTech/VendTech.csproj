@@ -6684,6 +6684,7 @@
     <Content Include="Views\Shared\_footer.cshtml" />
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
     <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
+    <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

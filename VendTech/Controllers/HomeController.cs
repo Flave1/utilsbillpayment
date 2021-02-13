@@ -135,8 +135,6 @@ namespace VendTech.Controllers
             { 
                 SignOut(); 
             }
-            LOGGEDIN_USER.IsEmailVerified = true;
-            ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID??0)?.POSNumber;
             var model = new List<PlatformModel>();
@@ -191,49 +189,85 @@ namespace VendTech.Controllers
         [Public]
         public ActionResult ChangePassword()
         {
-            ViewBag.SelectedTab = SelectedAdminTab.Users;
+
+            ViewBag.SelectedTab = SelectedAdminTab.Users; 
             var model = new ResetPasswordModel();
             return View(model);
         }
+       
         [AjaxOnly, HttpPost]
         public JsonResult ChangePassword(ResetPasswordModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
             var code = Utilities.GenerateRandomNo();
             var result = _authenticateManager.SaveChangePasswordOTP(LOGGEDIN_USER.UserID, model.OldPassword, code.ToString());
-            
-            if(result.Message != "IsEmailVerification")
+
+            if (result.Status == ActionStatus.Successfull)
             {
-                if (result.Status == ActionStatus.Successfull)
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ChangePassword);
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%OTP%", code.ToString());
+                string to = result.Object;
+                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+            }
+            return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message }); 
+        }
+
+
+        [Public]
+        public ActionResult FirstTimeLoginChangePassword()
+        {
+
+            ViewBag.SelectedTab = SelectedAdminTab.Users;
+            ViewBag.IsFirstTimeLogin = true; ;
+            var model = new ResetPasswordModel();
+            return View(model);
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult FirstTimeLoginChangePassword(ResetPasswordModel model)
+        {
+            model.UserId = LOGGEDIN_USER.UserID;
+            var data = new ActionOutput<UserDetails>();
+
+            var result = _authenticateManager.FirstTimeLoginChangePassword(LOGGEDIN_USER.UserID, model.OldPassword, model.OldPassword);
+
+            if (result.Status != ActionStatus.Successfull)
+                return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message });
+
+
+            var userDetails = _authenticateManager.GetDetailsbyUser(LOGGEDIN_USER.UserEmail, model.Password);
+            if (userDetails != null)
+            { 
+                data.Status = ActionStatus.Successfull;
+                var userId = userDetails.UserId;
+                data.Object = new UserDetails
                 {
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ChangePassword);
-                    string body = emailTemplate.TemplateContent;
-                    body = body.Replace("%OTP%", code.ToString());
-                    string to = result.Object;
-                    Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
-                }
-                return JsonResult(new ActionOutput {Status=result.Status,Message=result.Message });
+                    FirstName = userDetails.FirstName,
+                    LastName = userDetails.LastName,
+                    UserName = userDetails.Email,
+                    ProfilePicPath = userDetails.ProfilePicUrl,
+                    IsAuthenticated = true,
+                    UserID = userId,
+                    LastActivityTime = DateTime.UtcNow,
+                    UserType = UserRoles.AppUser,
+                    IsEmailVerified = userDetails.isemailverified,
+                };
             }
             else
             {
-                LOGGEDIN_USER.IsEmailVerified = true;
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-
-                var chnPass = new ChangePasswordModel
-                {
-                    Password = model.Password,
-                    ConfirmPassword = model.ConfirmPassword,
-                    OldPassword = model.OldPassword,
-                    UserId = LOGGEDIN_USER.UserID
-                };
-                 
-                _authenticateManager.ConfirmThisUser(chnPass);
-                  
-                return JsonResult(new ActionOutput { Status = result.Status, Message = "IsEmailVerification" });
+                data = new ActionOutput<UserDetails>();
+                data.Status = ActionStatus.Error;
+                data.Message = "Invalid Credentials.";
             }
-                
-            //var result = _authenticateManager.ResetPassword(model);
-            
+            if (data != null && data.Object != null)
+            {
+                var PermissonAndDetailModel = new PermissonAndDetailModel();
+                PermissonAndDetailModel.UserDetails = data.Object;
+                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
+                CreateCustomAuthorisationCookie(userDetails.Email, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel)); 
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         [AjaxOnly, HttpPost]
         public JsonResult VerifyChangePasswordOTP(ResetPasswordModel model)

@@ -137,7 +137,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:43:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/AddEditPos.cshtml">
-      <publishTime>02/08/2021 12:55:36</publishTime>
+      <publishTime>02/12/2021 18:04:34</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>11/20/2020 18:50:27</publishTime>
@@ -158,7 +158,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2021 13:35:53</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
-      <publishTime>02/09/2021 10:38:42</publishTime>
+      <publishTime>02/12/2021 18:04:34</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
       <publishTime>02/12/2021 05:06:28</publishTime>
@@ -344,10 +344,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/21/2020 05:51:35</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/12/2021 09:52:37</publishTime>
+      <publishTime>02/12/2021 18:20:18</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/12/2021 09:52:37</publishTime>
+      <publishTime>02/12/2021 18:20:17</publishTime>
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
       <publishTime>12/17/2020 21:32:28</publishTime>
@@ -393,6 +393,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/itextsharp.xmlworker.dll">
       <publishTime>12/21/2020 05:51:44</publishTime>
+    </File>
+    <File Include="bin/JWT.dll">
+      <publishTime>05/15/2015 10:15:52</publishTime>
     </File>
     <File Include="bin/MailKit.dll">
       <publishTime>11/21/2020 01:56:58</publishTime>
@@ -490,38 +493,41 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/System.Web.WebPages.Razor.dll">
       <publishTime>12/21/2020 05:51:41</publishTime>
     </File>
+    <File Include="bin/Twilio.dll">
+      <publishTime>01/27/2021 20:48:34</publishTime>
+    </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>02/12/2021 09:52:22</publishTime>
+      <publishTime>02/12/2021 18:19:55</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>02/12/2021 05:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>02/12/2021 09:52:22</publishTime>
+      <publishTime>02/12/2021 18:19:55</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>02/12/2021 08:50:58</publishTime>
+      <publishTime>02/12/2021 18:19:51</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>02/12/2021 05:06:28</publishTime>
+      <publishTime>02/12/2021 18:04:34</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
-      <publishTime>02/12/2021 08:50:58</publishTime>
+      <publishTime>02/12/2021 18:19:51</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>02/12/2021 09:52:25</publishTime>
+      <publishTime>02/12/2021 18:19:58</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>02/12/2021 09:52:23</publishTime>
+      <publishTime>02/12/2021 18:19:56</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>02/12/2021 05:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>02/12/2021 09:52:23</publishTime>
+      <publishTime>02/12/2021 18:19:56</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>02/12/2021 09:52:25</publishTime>
+      <publishTime>02/12/2021 18:19:58</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 05:51:44</publishTime>
@@ -19028,7 +19034,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/31/2020 11:53:15</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>02/12/2021 08:28:40</publishTime>
+      <publishTime>02/12/2021 17:53:33</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>12/20/2020 04:44:24</publishTime>
@@ -19085,13 +19091,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:44:24</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/12/2021 09:52:27</publishTime>
+      <publishTime>02/12/2021 18:20:06</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/baseProject.pubxml.user">
       <publishTime>02/09/2021 07:45:19</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>02/12/2021 08:52:15</publishTime>
+      <publishTime>02/12/2021 09:52:46</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 04:44:24</publishTime>
@@ -19232,7 +19238,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2021 12:50:11</publishTime>
     </File>
     <File Include="Scripts/UserScripts/login.js">
-      <publishTime>12/20/2020 04:44:24</publishTime>
+      <publishTime>02/12/2021 13:00:03</publishTime>
     </File>
     <File Include="Scripts/UserScripts/meter.js">
       <publishTime>02/12/2021 06:09:03</publishTime>
@@ -19271,7 +19277,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:44:24</publishTime>
     </File>
     <File Include="Views/Home/ChangePassword.cshtml">
-      <publishTime>12/20/2020 04:44:24</publishTime>
+      <publishTime>02/12/2021 17:51:02</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>12/20/2020 04:44:24</publishTime>
@@ -19367,7 +19373,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:44:24</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
-      <publishTime>02/02/2021 00:29:16</publishTime>
+      <publishTime>02/12/2021 17:59:24</publishTime>
     </File>
     <File Include="Views/User/EditProfile.cshtml">
       <publishTime>02/03/2021 12:13:47</publishTime>
@@ -19379,7 +19385,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2020 04:44:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/12/2021 08:51:06</publishTime>
+      <publishTime>02/12/2021 18:19:59</publishTime>
     </File>
   </ItemGroup>
 </Project>
