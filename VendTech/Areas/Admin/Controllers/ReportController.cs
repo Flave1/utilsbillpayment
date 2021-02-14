@@ -332,7 +332,10 @@ namespace VendTech.Areas.Admin.Controllers
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right; 
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;  row.Cells[2].ColumnSpan = 3; row.Cells[2].Text = $"`{row.Cells[2].Text}`";
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;  
+                        row.Cells[2].ColumnSpan = 3;
+                        var token =  row.Cells[2].Text.ToString();
+                        row.Cells[2].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;

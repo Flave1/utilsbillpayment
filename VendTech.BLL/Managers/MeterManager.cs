@@ -150,7 +150,7 @@ namespace VendTech.BLL.Managers
             var list = query.ToList().Select(x => new SalesReportExcelModel
             {
                 Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                PRODUCT_TYPE = x.Platform.ShortName,
+                PRODUCT_TYPE = x?.Platform?.ShortName,
                 PIN = x.MeterToken1,
                 AMOUNT = string.Format("{0:N0}", x.Amount),
                 TRANSACTIONID = x.TransactionId,

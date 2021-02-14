@@ -1,4 +1,4 @@
-﻿@model PagingResult<DepositListingModel>
+﻿﻿@model PagingResult<DepositListingModel>
 @{
     /**/
 
@@ -27,7 +27,6 @@
     option {
         font-weight: bold;
     }
-     
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -38,12 +37,17 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat">
+                    @*<div class="header text-center">
+                            <h4 align="center"><b>ADMIN - MANAGE RESPORTS</b></h4>
+                        </div>*@
+
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2><label>DEPOSIT REPORTS</label></h2>
-                                    @*<label>Deposit Report</label>*@
+
+                                    <h2><label>REPORTS</label></h2>
+                                    <label>Deposit Report</label>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">  @ViewBag.Pritdatetime @*@DateTime.Now.ToString("dd/MMM/yyyy hh:mm:ss tt")*@</span></label>
                                     <label>
@@ -164,13 +168,6 @@
 
 
 @section scripts{
-    @*<script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-        <script src="~/Scripts/AdminScripts/report.js"></script>
-        <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
-        <script src="~/Scripts/jspdf.min.js"></script>
-        <script src="~/Scripts/html2canvas.min.js"></script>*@
-
-
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/report.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
@@ -197,12 +194,11 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
         $(document).ready(function () {
-
-            //  $('#datatable-icons').DataTable({
-            //    "sScrollY": "380px",
-            //});
-
-              $("#FromDate").kendoDatePicker({
+            if (@Html.Raw(Json.Encode(Model.List)) == null) {
+                swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
+            }
+            else {
+                 $("#FromDate").kendoDatePicker({
                 culture: "en-GB",
                   value: new Date(),
                   format : "dd/MM/yyyy"
@@ -212,44 +208,39 @@
                 value: new Date(),
                 format : "dd/MM/yyyy"
             });
+                debugger;
+                var type = getUrlParameter("type");
+                if (type)
+                    $("#reportType").val(type);
                 App.init();
+                //initialize the javascript
+              
 
-            debugger;
-             var type = getUrlParameter("type");
-            if(type)
-            $("#reportType").val(type);
-            App.init();
-            //initialize the javascript
+ 
 
-
-            //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
-            //$("#FromDate").data("kendoDatePicker").value(todayDate);
-            //$("#ToDate").data("kendoDatePicker").value(todayDate);
-
-
-        $("#vendor").on("change", function () {
-            var vendorId = $("#vendor").val();
-            $("#pos").empty();
-            if (vendorId) {
-                $.ajax({
-                    url: '/Admin/Report/GetVendorPosSelectList?userId='+vendorId,
-                    success: function (res) {
-                        $("#pos").append("<option value=''> Select POS </option>")
-                        if (res.posList != null) {
-                            for (var i = 0; i < res.posList.length; i++) {
-                                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                $("#vendor").on("change", function () {
+                    var vendorId = $("#vendor").val();
+                    $("#pos").empty();
+                    if (vendorId) {
+                        $.ajax({
+                            url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                            success: function (res) {
+                                $("#pos").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) {
+                                    for (var i = 0; i < res.posList.length; i++) {
+                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                    }
+                                }
                             }
-                        }
+                        })
                     }
-                })
-            }
-            else {
-                $("#pos").append("<option value=''> SELECT POS</option>")
-            }
-        });
+                    else {
+                        $("#pos").append("<option value=''> SELECT POS</option>")
+                    }
+                });
 
 
-        const date = new Date();
+                const date = new Date();
         const formattedDate = date.toLocaleDateString('en-GB', {
             day: '2-digit', month: '2-digit', year: 'numeric'
         }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
@@ -279,44 +270,44 @@
 
 
 
-        $('#PrintType').on("change", function () {
-            $('#ExportType').val($(this).val());
-        });
+                $('#PrintType').on("change", function () {
+                    $('#ExportType').val($(this).val());
+                });
 
-        $("#btnExport").click(function (e) {
+                $("#btnExport").click(function (e) {
 
-            debugger;
-                var frm = $("#FromDate").val();
-                var to = $("#ToDate").val();
-                if (frm) {
-                    var dtVal = frm.split("/");
-                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#frmDt").val('');
+                    debugger;
+                    var frm = $("#FromDate").val();
+                    var to = $("#ToDate").val();
+                    if (frm) {
+                        var dtVal = frm.split("/");
+                        $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#frmDt").val('');
 
-                }
-                if (to) {
-                    var dtVal = to.split("/");
-                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#toDt").val('');
-            }
+                    }
+                    if (to) {
+                        var dtVal = to.split("/");
+                        $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#toDt").val('');
+                    }
 
-                $('#depositsForm').attr('action', '/Admin/Report/ExportDepositReportTo');
-                $("#depositsForm").attr("method", "Post");
-                $("#depositsForm").submit();
-        })
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportDepositReportTo');
+                    $("#depositsForm").attr("method", "Post");
+                    $("#depositsForm").submit();
+                })
 
-        $('#btnprint').click(function (e) {
-            $('#depositsForm').attr('action', '/Admin/Report/PrintDepositReport');
-            $("#depositsForm").attr("method", "get");
-            $("#depositsForm").submit();
-        });
+                $('#btnprint').click(function (e) {
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintDepositReport');
+                    $("#depositsForm").attr("method", "get");
+                    $("#depositsForm").submit();
+                });
 
 
-            Deposits.ManageDeposits(totalCount);
+                Deposits.ManageDeposits(totalCount);
            var d = new Date();
             $("#FromDate").kendoDatePicker({
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
@@ -334,6 +325,7 @@
             $("#ToDate").click(function () {
                 datePicker2.open();
             })
+            }
         });
     </script>
 }

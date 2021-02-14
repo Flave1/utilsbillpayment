@@ -445,8 +445,8 @@ namespace VendTech.BLL.Managers
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
-                else
-                    user.FKVendorId = null;
+                //else
+                //    user.FKVendorId = null;
                 //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
                 //    user.FKPOSId = userDetails.POSId;
                 //else
@@ -817,23 +817,28 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.GetUserDetailsByUserId(long userId)
         {
-            try
+            if (userId == 0) return new UserModel();
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            if (user == null)
+                return null;
+            else
             {
-                if (userId == 0) return new UserModel();
-                var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
-                if (user == null)
-                    return null;
-                else
-                {
-                    var current_user_data = new UserModel(user);
-                    current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
-                    return current_user_data;
-                }
+                var current_user_data = new UserModel(user);
+                current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
+                return current_user_data;
             }
-            catch (SqlException ex)
-            {
-                throw ex;
-            } 
+        }
+
+        string IUserManager.GetUserPasswordbyUserId(long userId)
+        {
+            if (userId == 0) return string.Empty;
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            if (user == null)
+                return string.Empty;
+            else
+            { 
+                return Utilities.DecryptPassword(user.Password);
+            }
         }
 
         ActionOutput IUserManager.ChangeUserStatus(long userId,UserStatusEnum status)

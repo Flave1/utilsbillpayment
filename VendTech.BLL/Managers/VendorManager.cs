@@ -202,6 +202,7 @@ namespace VendTech.BLL.Managers
                 Context.Users.Add(vendor);
             Context.SaveChanges();
             vendor.FKVendorId = vendor.UserId;
+            Context.SaveChanges();
             return ReturnSuccess("Vendor saved successfully.");
         }
         List<SelectListItem> IVendorManager.GetVendorsSelectList(long agentId)

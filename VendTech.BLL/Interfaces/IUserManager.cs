@@ -79,6 +79,7 @@ namespace VendTech.BLL.Interfaces
         int GetUnreadNotifications(long userId);
         List<SelectListItem> GetAssignedReportModules(long UserId,bool isAdmin);
         IList<WidgetCheckbox> GetAllWidgets(long userId);
+        string GetUserPasswordbyUserId(long userId);
     }
     
 }

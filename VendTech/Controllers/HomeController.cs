@@ -325,7 +325,8 @@ namespace VendTech.Controllers
             }
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
-            { 
+            {
+                var registered_user_password = _userManager.GetUserPasswordbyUserId(result.ID);
                 var code = Utilities.GenerateRandomNo();
                 var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.ID, code.ToString());
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
@@ -337,7 +338,7 @@ namespace VendTech.Controllers
                 // new code apllied here 
                 body = body.Replace("%USER%", request.FirstName);
                 body = body.Replace("%UserName%", request.Email);
-                body = body.Replace("%Password%", "vendtech8");
+                body = body.Replace("%Password%", registered_user_password);
                 var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.ID + "'>Verify Now</a>";
 
                 body = body.Replace("%verifylink%", verifybutton);

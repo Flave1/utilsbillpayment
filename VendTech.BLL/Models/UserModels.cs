@@ -94,7 +94,7 @@ namespace VendTech.BLL.Models
         public string POSNumber { get; set; }
         public int Status { get; set; }
 
-        public bool isemailverified { get; set; }
+        public bool isemailverified { get; set; } 
 
         public decimal Percentage { get; set; }
         public HttpPostedFile Image { get; set; }
