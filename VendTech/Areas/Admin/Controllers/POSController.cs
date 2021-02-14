@@ -63,6 +63,11 @@ namespace VendTech.Areas.Admin.Controllers
         [AjaxOnly, HttpPost]
         public ActionResult SavePos(SavePassCodeModel savePassCodeModel)
         {
+            var isEmailed = false;
+            if (string.IsNullOrEmpty(savePassCodeModel.Email))
+            {
+                isEmailed = true;
+            }
             if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
             {
                 var name = _vendorManager.GetVendorDetail(Convert.ToInt64(savePassCodeModel.VendorId)).Name;
@@ -72,13 +77,9 @@ namespace VendTech.Areas.Admin.Controllers
                 body = body.Replace("%passcode%", savePassCodeModel.PassCode);
                 if (!string.IsNullOrEmpty(savePassCodeModel.Email))
                 {
-                    //var to = new List<string>();
-                    //to.Add(savePassCodeModel.Email);
-                    //var emailSender = new EmailSender();
-                    //emailSender.SendEmailAsync(to, emailTemplate.EmailSubject, body);
-                    Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
                 }
-                if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
+                if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
                 {
                     String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
                     //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
@@ -111,7 +112,15 @@ namespace VendTech.Areas.Admin.Controllers
                 }
             }
             ViewBag.SelectedTab = SelectedAdminTab.POS;
-            return Json(_posManager.SavePasscodePos(savePassCodeModel));
+            if (isEmailed)
+            {
+                return Json(_posManager.SavePasscodePos(savePassCodeModel));
+            }
+            return Json(new ActionOutput
+            {
+                Status = ActionStatus.Error,
+                Message = "Something went wrong!!"
+            });
         }
 
         [HttpGet]
