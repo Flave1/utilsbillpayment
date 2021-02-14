@@ -34,6 +34,7 @@ function generateCode(th) {
     }
 }
 function Save(th) {
+    debugger;
     $('#passcodeModal').modal("hide");
     var inputParam = new Object();
     inputParam.PosId = $("#POSId").val();
@@ -55,11 +56,11 @@ function Save(th) {
             type: 'POST',
             data: $.postifyData(inputParam),
             success: function (data) {
-                if (data !== null) {
+                if (data.Status === 1) {
                     $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
                 }
                 else {
-                    $.ShowMessage($('div.messageAlert'), "Something went wrong", MessageType.Error);
+                    $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
                 }
             }
         });

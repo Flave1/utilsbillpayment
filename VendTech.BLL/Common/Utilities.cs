@@ -64,7 +64,7 @@ namespace VendTech.BLL.Common
                 context.SaveChanges();
             }
 
-             stanTable.Stan += 1;// stanValue;
+            stanTable.Stan += 1;// stanValue;
             int stanValue = stanTable.Stan;
             //context.StanTables.Add(stanTable);
             context.SaveChanges();
@@ -75,7 +75,7 @@ namespace VendTech.BLL.Common
 
         public static int GetUserRoleIntValue(string role)
         {
-            var db=new VendTechEntities();
+            var db = new VendTechEntities();
             var record = db.UserRoles.FirstOrDefault(p => p.Role == role);
             if (record == null)
                 return 0;
@@ -83,7 +83,7 @@ namespace VendTech.BLL.Common
         }
         public static string FormatBankAccount(string bankAccount)
         {
-            var length = (bankAccount.Length)-4;
+            var length = (bankAccount.Length) - 4;
             string formattedString = "";
             for (int i = 0; i < length; i++)
             {
@@ -156,7 +156,7 @@ namespace VendTech.BLL.Common
             string result = new String(decoded_char);
             return result;
         }
-         
+
         public static string GenerateByAnyLength(int length)
         {
             const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -221,19 +221,19 @@ namespace VendTech.BLL.Common
                 mail.Body = new TextPart("html")
                 {
                     Text = body
-                }; 
+                };
 
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
-                    client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false); 
-                    client.AuthenticationMechanisms.Remove("XOAUTH2"); 
-                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go"); 
-                    client.Send(mail); 
+                    client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go");
+                    client.Send(mail);
                     client.Disconnect(true);
                 }
 
-                
+
                 //MailMessage mail = new MailMessage();
                 //SmtpClient SmtpServer = new SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString());
 
@@ -251,8 +251,8 @@ namespace VendTech.BLL.Common
                 return true;
             }
             catch (Exception x)
-            { throw x;    }
-            
+            { throw x; }
+
         }
         public static bool SendEmail(string to, string sub, string body)
         {
@@ -271,15 +271,15 @@ namespace VendTech.BLL.Common
                 ////SmtpServer.UseDefaultCredentials = false;
                 ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
                 ////SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true; 
+                mail.IsBodyHtml = true;
 
                 SmtpServer.Send(mail);
-                 
-                return true;  
+
+                return true;
             }
             catch (Exception x)
-            { return true;    }
-            
+            { return false; }
+
         }
         public static string Base64Decode(string base64EncodedData)
         {
@@ -301,13 +301,14 @@ namespace VendTech.BLL.Common
             return localTime;
         }
 
-        public static string GetNumbersFromGuid() {
+        public static string GetNumbersFromGuid()
+        {
             var guidstring = Guid.NewGuid().ToString("N");
             var getNumbers = (from t in guidstring
                               where char.IsDigit(t)
                               select t).ToArray();
             return string.Join("", getNumbers.Take(20));// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
-        } 
+        }
 
         public static IceCloudResponse Make_recharge_request_from_icekloud(RechargeMeterModel model)
         {
@@ -316,24 +317,24 @@ namespace VendTech.BLL.Common
             IcekloudRequestmodel request_model = new IcekloudRequestmodel();
             HttpResponseMessage icekloud_response = new HttpResponseMessage();
             HttpClient _http_client = new HttpClient();
-             
+
             try
-            { 
-                request_model = Buid_new_request_object(model); 
-                    
+            {
+                request_model = Buid_new_request_object(model);
+
                 icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", request_model).Result;
-                  
+
                 strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
                 response = JsonConvert.DeserializeObject<IceCloudResponse>(strings_result);
                 return response;
             }
             catch (Exception)
             {
-                try 
+                try
                 {
-                    IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result); 
-                    
-                    if(error_response.Status == "Error")
+                    IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
+
+                    if (error_response.Status == "Error")
                     {
                         if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
                         {
@@ -342,17 +343,17 @@ namespace VendTech.BLL.Common
                             return response;
                         }
                         if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
-                        {  
+                        {
                             model.TransactionId = model.TransactionId + 1;
-                            return Make_recharge_request_from_icekloud(model); 
+                            return Make_recharge_request_from_icekloud(model);
                         }
                         response.Status = error_response.Status;
                         response.Content.Data.Error = error_response.Stack.FirstOrDefault().Detail;
                         return response;
                     }
                 }
-                catch (Exception e) {  throw e; }
-                throw ;
+                catch (Exception e) { throw e; }
+                throw;
             }
         }
 
@@ -364,9 +365,9 @@ namespace VendTech.BLL.Common
             IcekloudRequestmodel request_model = new IcekloudRequestmodel();
             HttpResponseMessage icekloud_response = new HttpResponseMessage();
             HttpClient _http_client = new HttpClient();
-             
+
             try
-            {  
+            {
                 icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", model).Result;
 
                 strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
@@ -374,7 +375,7 @@ namespace VendTech.BLL.Common
                 return response;
             }
             catch (Exception ex)
-            { 
+            {
                 throw;
             }
         }
@@ -387,7 +388,7 @@ namespace VendTech.BLL.Common
                 token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ");
             else if (token_item != null && token_item.Length >= 16 && token_item.Length <= 21)
                 token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-            token_item = token_item; 
+            token_item = token_item;
 
             return token_item;
         }
@@ -395,7 +396,7 @@ namespace VendTech.BLL.Common
         {
             var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
             var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
-            return  new IcekloudRequestmodel
+            return new IcekloudRequestmodel
             {
                 Auth = new IcekloudAuth
                 {
