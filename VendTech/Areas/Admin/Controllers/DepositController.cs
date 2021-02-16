@@ -147,10 +147,11 @@ namespace VendTech.Areas.Admin.Controllers
             var model = new DepositModel();
             var commissions = _commissionManager.GetCommissions();
             var drpCommissions = new List<SelectListItem>();
-            foreach (var item in commissions)
-            {
-                drpCommissions.Add(new SelectListItem { Text = item.Value.ToString(), Value = item.CommissionId.ToString() });
-            }
+            if(commissions.Any())
+                foreach (var item in commissions)
+                {
+                    drpCommissions.Add(new SelectListItem { Text = item.Value.ToString(), Value = item.CommissionId.ToString() });
+                }
             ViewBag.commissions = drpCommissions;
           
             ViewBag.AppUsers = _userManager.GetAppUsersSelectList();

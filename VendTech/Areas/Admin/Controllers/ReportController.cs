@@ -66,7 +66,7 @@ namespace VendTech.Areas.Admin.Controllers
                 SortOrder = "Desc",
                 PageNo = 1,
             };
-
+            model.IsInitialLoad = true;
             var deposits = new PagingResult<DepositListingModel>();
             var depositAudit = new PagingResult<DepositAuditModel>();
 
@@ -142,7 +142,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 100000000;
+            model.RecordsPerPage = 100000000; 
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "1012")
@@ -635,6 +635,19 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.AllowPaging = true;
             }
         }
+
+
+        //DateTime? FormatThisStringDate(string date)
+        //{
+        //    if (!string.IsNullOrEmpty(date))
+        //    {
+        //        var splitted_date = date.Split('/');
+        //        var formatted_date = $"{splitted_date[1]}/{splitted_date[0]}/{splitted_date[2]}";
+        //        return Convert.ToDateTime(formatted_date);
+        //    }
+        //    return null;
+        //}
+
         public void ExportDepositAuditReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -642,13 +655,13 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = Convert.ToDateTime(FromDate, provider);
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider); 
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = Convert.ToDateTime(ToDate, provider);
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 

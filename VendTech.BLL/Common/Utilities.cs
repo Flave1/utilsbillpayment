@@ -50,6 +50,15 @@ namespace VendTech.BLL.Common
             return max.ToString();
         }
 
+        public static string GetLastDepositTrabsactionId()
+        {
+            VendTechEntities context = new VendTechEntities();
+            var existing_details = context.Deposits.ToList();
+            long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
+            max = max + 1;
+            return max.ToString();
+        }
+
         private static string GenerateTransStanNo()
         {
             string transRef = "";
@@ -210,7 +219,7 @@ namespace VendTech.BLL.Common
             }
             return result.ToString();
         }
-        public static bool SendEmail(string to, string sub, string body)
+        public static bool SendEmailOld(string to, string sub, string body)
         {
             try
             {
@@ -254,7 +263,7 @@ namespace VendTech.BLL.Common
             { throw x; }
 
         }
-        public static bool SendEmailOld(string to, string sub, string body)
+        public static bool SendEmail(string to, string sub, string body)
         {
             try
             {

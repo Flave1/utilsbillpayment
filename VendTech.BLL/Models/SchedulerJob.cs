@@ -15,7 +15,7 @@ namespace VendTech.BLL.Models
             using (var db = new VendTechEntities())
             {
                 int minutes=3;
-                var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
+               var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
                 if (record != null)
                     minutes = Convert.ToInt32(record.Value);
                 var logOutTime = DateTime.UtcNow.AddMinutes(-minutes);

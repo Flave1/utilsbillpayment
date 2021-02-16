@@ -1298,7 +1298,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CheckNumberOrSlipId = model.ChkOrSlipNo;
             dbDeposit.Comments = model.Comments;
             dbDeposit.PercentageAmount = model.TotalAmountWithPercentage;
-            dbDeposit.TransactionId = Utilities.GenerateUniqueId();
+            dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             Context.Deposits.Add(dbDeposit);

@@ -358,8 +358,8 @@ namespace VendTech.Controllers
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
-                VendorId = LOGGEDIN_USER.UserID
-
+                VendorId = LOGGEDIN_USER.UserID,IsInitialLoad = true
+                
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
