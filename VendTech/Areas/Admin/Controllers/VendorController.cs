@@ -1,13 +1,11 @@
-﻿using VendTech.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Configuration;
+using System.Web.Mvc;
+using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
-using System.Web.Configuration;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -24,13 +22,13 @@ namespace VendTech.Areas.Admin.Controllers
         #endregion
 
         public VendorController(
-            IUserManager userManager, 
-            IErrorLogManager errorLogManager, 
-            IVendorManager vendorManager, 
-            IAgencyManager agentManager, 
-            ICommissionManager commissionManager, 
-            IEmailTemplateManager emailTemplateManager, 
-            IPOSManager posManager, 
+            IUserManager userManager,
+            IErrorLogManager errorLogManager,
+            IVendorManager vendorManager,
+            IAgencyManager agentManager,
+            ICommissionManager commissionManager,
+            IEmailTemplateManager emailTemplateManager,
+            IPOSManager posManager,
             IAuthenticateManager authenticateManager)
             : base(errorLogManager)
         {
@@ -41,7 +39,7 @@ namespace VendTech.Areas.Admin.Controllers
             _emailTemplateManager = emailTemplateManager;
             _posManager = posManager;
             _authenticateManager = authenticateManager;
-           
+
         }
 
         #region User Management
@@ -68,7 +66,7 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddEditVendor(SaveVendorModel model)
         {
-            
+
 
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             bool isAddCase = model.VendorId == 0;
@@ -150,9 +148,9 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             ViewBag.VendorId = id;
-            var vendor=_vendorManager.GetVendorDetail(Convert.ToInt64(Utilities.Base64Decode(id)));
+            var vendor = _vendorManager.GetVendorDetail(Convert.ToInt64(Utilities.Base64Decode(id)));
             ViewBag.VendorName = vendor.Vendor;
-            var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, Convert.ToInt64(Utilities.Base64Decode(id)),true);
+            var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, Convert.ToInt64(Utilities.Base64Decode(id)), true);
             return View(users);
         }
 
@@ -160,7 +158,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetPosPagingList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
-            var modal = _posManager.GetPOSPagedList(model, 0, Convert.ToInt64(Utilities.Base64Decode(model.VendorId)),true);
+            var modal = _posManager.GetPOSPagedList(model, 0, Convert.ToInt64(Utilities.Base64Decode(model.VendorId)), true);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_posListing", modal));
             resultString.Add(modal.TotalCount.ToString());

@@ -1,6 +1,5 @@
 ﻿#region Default Namespaces
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +12,6 @@ using VendTech.Attributes;
 using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
-using VendTech.BLL.Common;
 #endregion
 
 namespace VendTech.Controllers
@@ -97,7 +95,7 @@ namespace VendTech.Controllers
                 }
                 if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
                 {
-                    filter_context.Result = RedirectToAction("Dashboard", "Home" );// new { area = "Admin" });
+                    filter_context.Result = RedirectToAction("Dashboard", "Home");// new { area = "Admin" });
                 }
                 #endregion
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
@@ -175,7 +173,7 @@ namespace VendTech.Controllers
                 if (LOGGEDIN_USER.UserID > 0)
                 {
                     var user = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
-                    if(user != null)
+                    if (user != null)
                         if (user.AccountStatus == UserStatusEnum.PasswordNotReset.ToString())
                             filter_context.Result = RedirectToAction("ChangePassword", "Home");
 
@@ -216,7 +214,7 @@ namespace VendTech.Controllers
         public override ActionResult SignOut()
         {
             HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-            if(auth_cookie != null) auth_cookie.Expires = DateTime.Now.AddDays(-30);
+            if (auth_cookie != null) auth_cookie.Expires = DateTime.Now.AddDays(-30);
             if (auth_cookie != null) Response.Cookies.Add(auth_cookie);
             return Redirect(Url.Action("Index", "Home"));//, new { area = "Admin" }));
         }

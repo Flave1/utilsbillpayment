@@ -108,7 +108,7 @@ namespace VendTech.Controllers
 
 
                 #endregion
-              
+
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
             }
             #endregion
@@ -140,7 +140,7 @@ namespace VendTech.Controllers
                     var user = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
                     if (user.AccountStatus == (UserStatusEnum.PasswordNotReset).ToString())
                         filter_context.Result = RedirectToAction("ChangePassword", "Home");
-                    else if(user.AccountStatus == (UserStatusEnum.Block).ToString())
+                    else if (user.AccountStatus == (UserStatusEnum.Block).ToString())
                     {
                         HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                         val.Expires = DateTime.Now.AddDays(-30);
@@ -159,7 +159,7 @@ namespace VendTech.Controllers
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
 
-            else  if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
+            else if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
             {
                 string action = filter_context.ActionDescriptor.ActionName;
                 string controller = filter_context.RouteData.Values["controller"].ToString();
@@ -170,7 +170,7 @@ namespace VendTech.Controllers
                     CreateCustomAuthorisationCookie(LOGGEDIN_USER.UserName, false, ckie);
                 }
             }
-            if (LOGGEDIN_USER ==null)
+            if (LOGGEDIN_USER == null)
             {
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
@@ -252,8 +252,9 @@ namespace VendTech.Controllers
                 sw.WriteLine(ex); sw.WriteLine(""); sw.WriteLine("");
             }
             catch { }
-            finally { 
-                sw.Close(); 
+            finally
+            {
+                sw.Close();
             }
         }
 
@@ -315,7 +316,7 @@ namespace VendTech.Controllers
             {
                 var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, view_name);
                 var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);   
+                viewResult.View.Render(viewContext, sw);
                 viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
                 return sw.GetStringBuilder().ToString();
             }

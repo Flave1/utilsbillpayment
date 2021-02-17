@@ -1,7 +1,5 @@
 ﻿#region Default Namespaces
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 #endregion
@@ -9,9 +7,7 @@ using System.Web.Mvc;
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
-using System.Web.Script.Serialization;
 using System.Reflection;
 #endregion
 
@@ -54,7 +50,7 @@ namespace VendTech.Controllers
 
             foreach (var item in countries)
             {
-                countryDrpData.Add(new SelectListItem {Text=item.Name,Value=item.CountryId.ToString() });
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
             }
             ViewBag.countries = countryDrpData;
             ViewBag.Cities = _authenticateManager.GetCities();
@@ -66,14 +62,15 @@ namespace VendTech.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            if(model.ImagefromWeb!=null){
-                  var file = model.ImagefromWeb;
+            if (model.ImagefromWeb != null)
+            {
+                var file = model.ImagefromWeb;
 
-            var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
-           model.Image = (HttpPostedFile)constructorInfo
-                      .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
+                var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
+                model.Image = (HttpPostedFile)constructorInfo
+                           .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
             }
-            return JsonResult(_userManager.UpdateUserProfile(LOGGEDIN_USER.UserID,model));
+            return JsonResult(_userManager.UpdateUserProfile(LOGGEDIN_USER.UserID, model));
         }
     }
 }

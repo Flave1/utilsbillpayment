@@ -1,10 +1,6 @@
 ﻿using ClosedXML.Excel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace VendTech.Areas.Admin.Controllers
@@ -26,7 +22,7 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 wb.Worksheets.Add(dt);
                 var ws = wb.Worksheets.FirstOrDefault();
-                ws.Cell(6,1).Value = "From Query zsdfnbkjshdf sfjsdf sfhsfd sdfhsfdsdfhsfsf sfhsf sfhsf sfdhsf shs ";
+                ws.Cell(6, 1).Value = "From Query zsdfnbkjshdf sfjsdf sfhsfd sdfhsfdsdfhsfsf sfhsf sfhsf sfdhsf shs ";
                 wb.SaveAs(Server.MapPath(@"~/Content/StaticFileFormat/TempSalesReport235.xlsx"));
                 //wb.Save();
             }

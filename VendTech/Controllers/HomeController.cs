@@ -1,15 +1,12 @@
 ﻿#region Default Namespaces
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
@@ -29,7 +26,7 @@ namespace VendTech.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         private readonly ICMSManager _cmsManager;
         private readonly IEmailTemplateManager _templateManager;
-      //  private readonly IPlatformManager _platformManager;
+        //  private readonly IPlatformManager _platformManager;
         private readonly IVendorManager _vendorManager;
         private readonly IDashboardManager _dashboardManager;
         private readonly IAgencyManager _agentManager;
@@ -37,7 +34,7 @@ namespace VendTech.Controllers
 
         #endregion
 
-        public HomeController(IUserManager userManager, 
+        public HomeController(IUserManager userManager,
             IErrorLogManager errorLogManager,
             IAuthenticateManager authenticateManager,
             ICMSManager cmsManager,
@@ -73,15 +70,15 @@ namespace VendTech.Controllers
         {
             //to do: Implement user login
             //var data = _userManager.AdminLogin(model);
-        var   data = new ActionOutput<UserDetails>();
-        if (!_authenticateManager.IsUserAccountActive(model.Email, model.Password))
-        {
-            return Json(new ActionOutput { Message = "ACCOUNT BLOCKED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
-        }
+            var data = new ActionOutput<UserDetails>();
+            if (!_authenticateManager.IsUserAccountActive(model.Email, model.Password))
+            {
+                return Json(new ActionOutput { Message = "ACCOUNT BLOCKED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
+            }
             var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
             if (userDetails != null)
             {
-                
+
                 data.Status = ActionStatus.Successfull;
                 var userId = userDetails.UserId;
                 data.Object = new UserDetails
@@ -104,8 +101,8 @@ namespace VendTech.Controllers
                 data.Status = ActionStatus.Error;
                 data.Message = "Invalid Credentials.";
             }
-            if (data!=null && data.Object!=null)
-            {  
+            if (data != null && data.Object != null)
+            {
                 var PermissonAndDetailModel = new PermissonAndDetailModel();
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
@@ -136,11 +133,11 @@ namespace VendTech.Controllers
         public ActionResult Dashboard()
         {
             if (LOGGEDIN_USER.UserID == 0)
-            { 
-                SignOut(); 
+            {
+                SignOut();
             }
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
-            ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID??0)?.POSNumber;
+            ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID ?? 0)?.POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
@@ -194,11 +191,11 @@ namespace VendTech.Controllers
         public ActionResult ChangePassword()
         {
 
-            ViewBag.SelectedTab = SelectedAdminTab.Users; 
+            ViewBag.SelectedTab = SelectedAdminTab.Users;
             var model = new ResetPasswordModel();
             return View(model);
         }
-       
+
         [AjaxOnly, HttpPost]
         public JsonResult ChangePassword(ResetPasswordModel model)
         {
@@ -214,7 +211,7 @@ namespace VendTech.Controllers
                 string to = result.Object;
                 Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
             }
-            return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message }); 
+            return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message });
         }
 
 
@@ -242,7 +239,7 @@ namespace VendTech.Controllers
 
             var userDetails = _authenticateManager.GetDetailsbyUser(LOGGEDIN_USER.UserName, model.Password);
             if (userDetails != null)
-            { 
+            {
                 data.Status = ActionStatus.Successfull;
                 var userId = userDetails.UserId;
                 data.Object = new UserDetails
@@ -269,7 +266,7 @@ namespace VendTech.Controllers
                 var PermissonAndDetailModel = new PermissonAndDetailModel();
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
-                CreateCustomAuthorisationCookie(userDetails.Email, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel)); 
+                CreateCustomAuthorisationCookie(userDetails.Email, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -302,7 +299,7 @@ namespace VendTech.Controllers
                 result = false;
             return JsonResult(new ActionOutput { Status = result ? ActionStatus.Successfull : ActionStatus.Error });
         }
-   
+
         [Public]
         public ActionResult Register()
         {
@@ -323,10 +320,10 @@ namespace VendTech.Controllers
 
         [AjaxOnly, Public, HttpPost]
         public JsonResult Submit_new_user_details(RegisterAPIModel request)
-        { 
+        {
             if (string.IsNullOrEmpty(request.FirstName) && string.IsNullOrEmpty(request.CompanyName))
             {
-                return Json(new ActionOutput { Status = ActionStatus.Error,  Message = "Name must not be empty" });
+                return Json(new ActionOutput { Status = ActionStatus.Error, Message = "Name must not be empty" });
             }
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
@@ -364,9 +361,9 @@ namespace VendTech.Controllers
                 catch (Exception e)
                 {
                     throw e;
-                     //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+                    //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
                 }
-                
+
 
                 //password sent 
                 //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);

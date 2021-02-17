@@ -1,12 +1,7 @@
-﻿using VendTech.Attributes;
+﻿using System.Web.Mvc;
+using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -37,12 +32,12 @@ namespace VendTech.Areas.Admin.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult EnablePlatform(int id)
         {
-            return JsonResult(_platformManager.ChangePlatformStatus(id,true));
+            return JsonResult(_platformManager.ChangePlatformStatus(id, true));
         }
         [AjaxOnly, HttpPost]
         public JsonResult DisablePlatform(int id)
         {
-            return JsonResult(_platformManager.ChangePlatformStatus(id,false));
+            return JsonResult(_platformManager.ChangePlatformStatus(id, false));
         }
         [AjaxOnly, HttpPost]
         public JsonResult SavePlatform(SavePlatformModel model)

@@ -1,6 +1,5 @@
 ﻿#region Default Namespaces
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,7 +13,6 @@ using VendTech.Controllers;
 using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
-using VendTech.BLL.Common;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -62,7 +60,7 @@ namespace VendTech.Areas.Admin.Controllers
                     catch (Exception ex)
                     {
 
-                        Console.WriteLine(ex.ToString()); 
+                        Console.WriteLine(ex.ToString());
                     }
                 }
                 #endregion

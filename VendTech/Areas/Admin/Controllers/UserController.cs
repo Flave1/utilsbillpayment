@@ -1,14 +1,12 @@
-﻿using VendTech.Attributes;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.Web;
+using System.Web.Configuration;
+using System.Web.Mvc;
+using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
-using System.Web.Configuration;
-using System.Reflection;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -32,7 +30,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageUsers()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt","Desc"));
+            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
             return View(users);
         }
 
@@ -123,7 +121,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult BlockUser(long userId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            return JsonResult(_userManager.ChangeUserStatus(userId,UserStatusEnum.Block));
+            return JsonResult(_userManager.ChangeUserStatus(userId, UserStatusEnum.Block));
         }
         [AjaxOnly, HttpPost]
         public JsonResult UnBlockUser(long userId)
