@@ -90,4 +90,14 @@ namespace VendTech.BLL.Models
         public string Email { get; set; }
         public string PassCode { get; set; }
     }
+
+    public class SavePassCodeApiModel
+    {
+        public long UserId { get; set; }
+        [Required]
+        public string Phone { get; set; }
+        public string CountryCode { get; set; }
+        public string Email { get; set; }
+        public string PassCode { get; set; }
+    }
 }

@@ -11,7 +11,9 @@ namespace VendTech.BLL.Interfaces
     {
         bool IsEmailExist(string email);
         UserModel GetDetailsbyUser(string email, string password);
-        ActionOutput AddTokenDevice(LoginAPIModel model);
+        UserModel GetUserDetailByPassCode(string passCode);
+        //ActionOutput AddTokenDevice(LoginAPIModel model);
+        ActionOutput AddTokenDevice(LoginAPIPassCodeModel model);
         bool IsTokenAlreadyExists(long userId);
         bool DeleteGenerateToken(long userId);
         string GenerateToken(UserModel user, DateTime IssuedOn);
@@ -19,13 +21,13 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<long> SignUp(SignUpModel model);
         ActionOutput ForgotPassword(string email, string otp);
         bool IsValidForgotRequest(long userId, string token);
-        ActionOutput Logout(long userId,string token);
+        ActionOutput Logout(long userId, string token);
         ActionOutput ResetPassword(ResetPasswordModel model);
         ActionOutput SaveAccountVerificationRequest(long userId, string token);
         ActionOutput VerifyAccountVerificationCode(VerifyAccountVerificationCodeMOdel model);
         bool IsUserNameExists(string userName);
         List<CountryModel> GetCountries();
-        List<CityModel> GetCities(int countryId=0);
+        List<CityModel> GetCities(int countryId = 0);
         ActionOutput<string> SaveChangePasswordOTP(long userId, string oldPassword, string otp);
         ActionOutput VerifyChangePasswordOTP(ResetPasswordModel model);
         int GetLogoutTime();
@@ -35,5 +37,5 @@ namespace VendTech.BLL.Interfaces
         bool ConfirmThisUser(ChangePasswordModel model);
         ActionOutput<string> FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword);
     }
-    
+
 }

@@ -15,6 +15,7 @@ namespace VendTech.BLL.Interfaces
         SavePosModel GetPosDetail(long posId);
         ActionOutput SavePos(SavePosModel model);
         ActionOutput SavePasscodePos(SavePassCodeModel savePassCodeModel);
+        ActionOutput SavePasscodePosApi(SavePassCodeApiModel savePassCodeModel);
         IList<PlatformCheckbox> GetAllPlatforms(long posId);
         ActionOutput DeletePos(long posId);
         ActionOutput ChangePOSStatus(int posId, bool value);

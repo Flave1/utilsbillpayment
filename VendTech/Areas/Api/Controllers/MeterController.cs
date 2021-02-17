@@ -1,17 +1,11 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
-using VendTech.Attributes;
-using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
@@ -73,7 +67,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage GetRechargeDetail(long rechargeId)
         {
             var result = _meterManager.GetRechargeDetail(rechargeId);
-            return new JsonContent( result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
+            return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
         }
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
@@ -144,7 +138,7 @@ namespace VendTech.Areas.Api.Controllers
                             }
                         }
 
-                       
+
 
 
                         doc.Close();

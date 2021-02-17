@@ -171,6 +171,15 @@ namespace VendTech.BLL.Common
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
+
+        public static int GenerateFiveRandomNo()
+        {
+            int _min = 10000;
+            int _max = 99999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
+        }
+
         public static string Encrypt(string clearText)
         {
             string EncryptionKey = "MAKV2SPBNI99212";

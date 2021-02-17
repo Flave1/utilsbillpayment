@@ -146,8 +146,7 @@ namespace VendTech.BLL.Managers
                 EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                 CountryCode = dbPos.CountryCode,
-                Email = dbPos.Email,
-                PassCode = dbPos.PassCode
+                PassCode = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).PassCode
             };
         }
         ActionOutput IPOSManager.DeletePos(long posId)
@@ -296,15 +295,17 @@ namespace VendTech.BLL.Managers
                 if (dbPos == null)
                     return ReturnError("Pos not exist");
             }
-            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
-            dbPos.PassCode = savePassCodeModel.PassCode;
-            dbPos.Email = savePassCodeModel.Email;
-            if (savePassCodeModel.POSId == 0)
-                Context.POS.Add(dbPos);
+            var user = Context.Users.Where(x => x.UserId == dbPos.VendorId).FirstOrDefault();
+            user.PassCode = savePassCodeModel.PassCode;
             Context.SaveChanges();
-            return ReturnSuccess("Pos saved successfully.");
+            return ReturnSuccess("PassCode saved successfully.");
+        }
+        ActionOutput IPOSManager.SavePasscodePosApi(SavePassCodeApiModel savePassCodeModel)
+        {
+            var user = Context.Users.FirstOrDefault(x => x.UserId == savePassCodeModel.UserId);
+            user.PassCode = savePassCodeModel.PassCode;
+            Context.SaveChanges();
+            return ReturnSuccess("PassCode saved successfully.");
         }
     }
-
-
 }

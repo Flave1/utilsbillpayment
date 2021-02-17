@@ -32,7 +32,7 @@ namespace VendTech.BLL.Managers
         bool IUserManager.UpdateUserLastAppUsedTime(long userId)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-            if(user!=null)
+            if (user != null)
             {
                 user.AppLastUsed = DateTime.UtcNow;
                 Context.SaveChanges();
@@ -85,16 +85,16 @@ namespace VendTech.BLL.Managers
                 return null;
             return new UpdateProfileModel
             {
-                Address=user.Address,
-                City=user.CityId,
-                Country=user.CountryId,
-                ProfilePicUrl= string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
-                Name=user.Name,
-                SurName=user.SurName,
-                Phone=user.Phone,
-                
-                
-                
+                Address = user.Address,
+                City = user.CityId,
+                Country = user.CountryId,
+                ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
+                Name = user.Name,
+                SurName = user.SurName,
+                Phone = user.Phone,
+
+
+
 
             };
         }
@@ -109,7 +109,7 @@ namespace VendTech.BLL.Managers
             user.Name = model.Name;
             user.SurName = model.SurName;
             user.CityId = model.City;
-            user.DOB = model.DOB!=null?model.DOB:user.DOB;
+            user.DOB = model.DOB != null ? model.DOB : user.DOB;
             user.CountryId = model.Country;
             user.Phone = model.Phone;
             user.Address = model.Address;
@@ -191,15 +191,15 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return result;
         }
-        PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model,bool onlyAppUser)
+        PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model, bool onlyAppUser)
         {
             var result = new PagingResult<UserListingModel>();
             var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
             //Client want to show app user and vendor on the same screen because they both can login from app
             if (onlyAppUser)
-                query = query.Where(p => p.UserRole.Role == UserRoles.AppUser || p.UserRole.Role==UserRoles.Vendor);
+                query = query.Where(p => p.UserRole.Role == UserRoles.AppUser || p.UserRole.Role == UserRoles.Vendor);
             else
-                query = query.Where(p => p.UserRole.Role != UserRoles.AppUser  && p.UserRole.Role != UserRoles.Vendor);
+                query = query.Where(p => p.UserRole.Role != UserRoles.AppUser && p.UserRole.Role != UserRoles.Vendor);
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
@@ -212,7 +212,7 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("STATUS"))
                     query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("VENDOR"))
-                    query = query.Where(z =>z.User1!=null && z.User1.Vendor.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.User1 != null && z.User1.Vendor.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("ROLE"))
                     query = query.Where(z => z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
             }
@@ -246,8 +246,8 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-           // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
-            var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && ( p.Status == (int)UserStatusEnum.Active ||p.Status==(int)UserStatusEnum.PasswordNotReset)&& p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
+            // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
+            var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) && p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
             var modelUser = new UserDetails
@@ -256,8 +256,8 @@ namespace VendTech.BLL.Managers
                 LastName = user.SurName,
                 UserEmail = user.Email,
                 UserID = user.UserId,
-                UserType=user.UserRole.Role,
-                ProfilePicPath=user.ProfilePic
+                UserType = user.UserRole.Role,
+                ProfilePicPath = user.ProfilePic
             };
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
         }
@@ -265,7 +265,7 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AgentLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            var user = Context.Agencies.SingleOrDefault(p =>p.Password == encryptPassword && p.REPEmail.ToLower() == model.UserName.ToLower());
+            var user = Context.Agencies.SingleOrDefault(p => p.Password == encryptPassword && p.REPEmail.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
             var modelUser = new UserDetails
@@ -282,7 +282,7 @@ namespace VendTech.BLL.Managers
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             string _encryptPassword = Utilities.DecryptPassword("dGVzdG15cGF5");
-            var user = Context.Users.SingleOrDefault(p => p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower() && p.Status==(int)UserStatusEnum.Active && p.UserRole.Role==UserRoles.Vendor);
+            var user = Context.Users.SingleOrDefault(p => p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower() && p.Status == (int)UserStatusEnum.Active && p.UserRole.Role == UserRoles.Vendor);
             if (user == null)
                 return null;
             var modelUser = new UserDetails
@@ -316,12 +316,12 @@ namespace VendTech.BLL.Managers
                     Value = p.ModuleId.ToString()
                 }).ToList();
             }
-            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 7).ToList().OrderBy(l=>l.ModuleId).Select(p => new SelectListItem
+            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 7).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
             {
                 Text = p.Module.ModuleName,
                 Value = p.Module.ModuleId.ToString()
             }).ToList();
-         
+
         }
         ActionOutput IUserManager.UpdateUserDetails(AddUserModel userDetails)
         {
@@ -349,7 +349,7 @@ namespace VendTech.BLL.Managers
                 user.Email = userDetails.Email.Trim().ToLower();
                 user.Name = userDetails.FirstName;
                 if (user.UserType != Utilities.GetUserRoleIntValue(UserRoles.AppUser))
-                user.UserType = (int)userDetails.UserType;
+                    user.UserType = (int)userDetails.UserType;
                 user.SurName = userDetails.LastName;
                 user.Phone = userDetails.Phone;
                 user.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : user.Status;
@@ -405,9 +405,9 @@ namespace VendTech.BLL.Managers
                 UserType = user.UserType,
                 Phone = user.Phone,
                 CompanyName = user.CompanyName,
-                VendorId=user.FKVendorId,
+                VendorId = user.FKVendorId,
                 Address = user.Address,
-               ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
+                ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
                 //POSId=user.FKPOSId,
                 AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
             };
@@ -456,7 +456,7 @@ namespace VendTech.BLL.Managers
                 else
                     user.Status = user.Status;
 
-                if(userDetails.IsRe_Approval)
+                if (userDetails.IsRe_Approval)
                     user.Status = (int)UserStatusEnum.Active;
 
                 if (userDetails.Image != null)
@@ -493,7 +493,7 @@ namespace VendTech.BLL.Managers
                 };
             }
         }
-         IList<Checkbox> IUserManager.GetAllModules(long userId)
+        IList<Checkbox> IUserManager.GetAllModules(long userId)
         {
             IList<Checkbox> chekboxListOfModules = null;
             IList<Module> modules = Context.Modules.ToList();
@@ -507,7 +507,7 @@ namespace VendTech.BLL.Managers
                         ModuleName = x.ModuleName,
                         Description = x.Description,
                         Checked = false,
-                        SubMenuOf=x.SubMenuOf,
+                        SubMenuOf = x.SubMenuOf,
                         IsAdmin = x.IsAdmin
                     };
                 }).ToList();
@@ -523,50 +523,50 @@ namespace VendTech.BLL.Managers
             }
             return chekboxListOfModules;
         }
-         List<SelectListItem> IUserManager.GetUserRolesSelectList()
-         {
-             return Context.UserRoles.Where(p => !p.IsDeleted && p.Role  != UserRoles.AppUser &&  p.Role  != UserRoles.Vendor).ToList().Select(p => new SelectListItem
-             {
-                 Text = p.Role.ToUpper(),
-                 Value = p.RoleId.ToString().ToUpper()
-             }).ToList();
-         }
-         List<SelectListItem> IUserManager.GetAppUsersSelectList()
-         {
-             return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserRole.Role == UserRoles.AppUser).ToList().Select(p => new SelectListItem
-             {
-                 Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
-                 Value = p.UserId.ToString().ToUpper()
-             }).ToList();
-         }
+        List<SelectListItem> IUserManager.GetUserRolesSelectList()
+        {
+            return Context.UserRoles.Where(p => !p.IsDeleted && p.Role != UserRoles.AppUser && p.Role != UserRoles.Vendor).ToList().Select(p => new SelectListItem
+            {
+                Text = p.Role.ToUpper(),
+                Value = p.RoleId.ToString().ToUpper()
+            }).ToList();
+        }
+        List<SelectListItem> IUserManager.GetAppUsersSelectList()
+        {
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserRole.Role == UserRoles.AppUser).ToList().Select(p => new SelectListItem
+            {
+                Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
+                Value = p.UserId.ToString().ToUpper()
+            }).ToList();
+        }
 
-         IList<PlatformCheckbox> IUserManager.GetAllPlatforms(long userId)
-         {
-             IList<PlatformCheckbox> chekboxListOfModules = null;
-             IList<Platform> modules = Context.Platforms.Where(p=>!p.IsDeleted && p.Enabled).ToList();
-             if (modules.Count() > 0)
-             {
-                 chekboxListOfModules = modules.Select(x =>
-                 {
-                     return new PlatformCheckbox()
-                     {
-                         Id = x.PlatformId,
-                         Title = x.Title,
-                         Checked = false
-                     };
-                 }).ToList();
+        IList<PlatformCheckbox> IUserManager.GetAllPlatforms(long userId)
+        {
+            IList<PlatformCheckbox> chekboxListOfModules = null;
+            IList<Platform> modules = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled).ToList();
+            if (modules.Count() > 0)
+            {
+                chekboxListOfModules = modules.Select(x =>
+                {
+                    return new PlatformCheckbox()
+                    {
+                        Id = x.PlatformId,
+                        Title = x.Title,
+                        Checked = false
+                    };
+                }).ToList();
 
-                 if (userId > 0)
-                 {
-                     var existingPermissons = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
-                     if (existingPermissons.Count() > 0)
-                     {
-                         chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.PlatformId == x.Id).Any());
-                     }
-                 }
-             }
-             return chekboxListOfModules;
-         }
+                if (userId > 0)
+                {
+                    var existingPermissons = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
+                    if (existingPermissons.Count() > 0)
+                    {
+                        chekboxListOfModules.ToList().ForEach(x => x.Checked = existingPermissons.Where(z => z.PlatformId == x.Id).Any());
+                    }
+                }
+            }
+            return chekboxListOfModules;
+        }
 
 
         IList<WidgetCheckbox> IUserManager.GetAllWidgets(long userId)
@@ -656,12 +656,12 @@ namespace VendTech.BLL.Managers
 
                     RemoveORAddUserPermissions(dbUser.UserId, userDetails);
                     RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
-                    RemoveOrAddUserWidgets(dbUser.UserId, userDetails); 
+                    RemoveOrAddUserWidgets(dbUser.UserId, userDetails);
                 }
                 catch (Exception e)
-                { 
+                {
                     throw e;
-                } 
+                }
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
@@ -683,7 +683,7 @@ namespace VendTech.BLL.Managers
                     Message = "User with this phone number already exist"
                 };
             }
-            string myfile="";
+            string myfile = "";
             var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
             if (false)
             {
@@ -702,11 +702,11 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser); 
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 //dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
-                dbUser.Status =  (int)UserStatusEnum.Pending;
+                dbUser.Status = (int)UserStatusEnum.Pending;
 
                 dbUser.Phone = userDetails.Phone;
                 dbUser.CountryCode = userDetails.CountryCode;
@@ -724,7 +724,7 @@ namespace VendTech.BLL.Managers
                         Directory.CreateDirectory(folderName);
                     var path = Path.Combine(folderName, myfile);
                     userDetails.Image.SaveAs(path);
-                   
+
                     dbUser.ProfilePic = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProfileImages/" + myfile;
                 }
                 try
@@ -751,7 +751,7 @@ namespace VendTech.BLL.Managers
 
                 return new ActionOutput
                 {
-                    ID= dbUser.UserId,
+                    ID = dbUser.UserId,
                     Status = ActionStatus.Successfull,
                     Message = "User Added Successfully, Verification link has been sent on user email account"
                 };
@@ -794,11 +794,11 @@ namespace VendTech.BLL.Managers
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 dbUser.CountryCode = "+232";
-                dbUser.CityId = Convert.ToInt32(userDetails.City); 
+                dbUser.CityId = Convert.ToInt32(userDetails.City);
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
-                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName : string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
@@ -811,7 +811,7 @@ namespace VendTech.BLL.Managers
                 //    Message = "User Added Successfully, Verification link has been sent on user email account"
                 //};
 
-                return ReturnSuccess( dbUser.UserId, $"Registration Successful !! Confirnmation email sent to  {userDetails.Email}");
+                return ReturnSuccess(dbUser.UserId, $"Registration Successful !! Confirnmation email sent to  {userDetails.Email}");
             }
         }
 
@@ -821,6 +821,7 @@ namespace VendTech.BLL.Managers
             {
                 if (userId == 0) return new UserModel();
                 var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+                user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
                 if (user == null)
                     return null;
                 else
@@ -833,10 +834,10 @@ namespace VendTech.BLL.Managers
             catch (SqlException ex)
             {
                 throw ex;
-            } 
+            }
         }
 
-        ActionOutput IUserManager.ChangeUserStatus(long userId,UserStatusEnum status)
+        ActionOutput IUserManager.ChangeUserStatus(long userId, UserStatusEnum status)
         {
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user == null)
@@ -854,7 +855,7 @@ namespace VendTech.BLL.Managers
                 return new ActionOutput
                 {
                     Status = ActionStatus.Successfull,
-                    Message = status==UserStatusEnum.Block? "User Blocked Successfully.":"User Activate Successfully."
+                    Message = status == UserStatusEnum.Block ? "User Blocked Successfully." : "User Activate Successfully."
                 };
             }
         }
@@ -924,17 +925,17 @@ namespace VendTech.BLL.Managers
             {
                 return 0;
             }
-            
+
         }
 
         bool RemoveORAddUserPermissions(long userId, AddUserModel model)
-        { 
+        {
             var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
             if (existingpermissons.Count() > 0)
             {
                 Context.UserAssignedModules.RemoveRange(existingpermissons);
                 Context.SaveChanges();
-            } 
+            }
             List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
             if (model.SelectedModules != null)
             {
@@ -951,7 +952,7 @@ namespace VendTech.BLL.Managers
             return true;
         }
         bool RemoveOrAddUserPlatforms(long userId, AddUserModel model)
-        { 
+        {
             var existingPlatforms = Context.UserAssignedPlatforms.Where(x => x.UserId == userId).ToList();
             if (existingPlatforms.Count() > 0)
             {
@@ -1002,7 +1003,31 @@ namespace VendTech.BLL.Managers
             return true;
         }
 
-
+        IList<UserAssignedModuleModel> IUserManager.GetNavigations(long userId)
+        {
+            var userModule = (from ua in Context.UserAssignedModules
+                              join m in Context.Modules on ua.ModuleId equals m.ModuleId
+                              where ua.UserId == userId
+                              select new
+                              {
+                                  AssignUserModuleId = ua.AssignUserModuleId,
+                                  ModuleName = m.ModuleName
+                              }).ToList();
+            return userModule.Select(x => new UserAssignedModuleModel
+            {
+                Modules = x.ModuleName,
+                AssignUserModuleId = x.AssignUserModuleId
+            }).ToList();
+        }
+        long IUserManager.GetUserId(string phone)
+        {
+            var userDetail = Context.Users.FirstOrDefault(x => x.Phone == phone);
+            if (userDetail != null)
+            {
+                return userDetail.UserId;
+            }
+            return Convert.ToInt64(0);
+        }
     }
 
 

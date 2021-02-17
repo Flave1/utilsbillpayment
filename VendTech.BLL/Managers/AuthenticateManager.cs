@@ -42,14 +42,14 @@ namespace VendTech.BLL.Managers
             dbAccountVerificationRequest.OTP = token;
             dbAccountVerificationRequest.UserId = userId;
             Context.AccountVerificationOTPs.Add(dbAccountVerificationRequest);
-            if(alreadyGeneratedCodes.Count() > 0) Context.AccountVerificationOTPs.RemoveRange(alreadyGeneratedCodes);
+            if (alreadyGeneratedCodes.Count() > 0) Context.AccountVerificationOTPs.RemoveRange(alreadyGeneratedCodes);
             Context.SaveChanges();
             return ReturnSuccess("Code saved successully");
         }
-        ActionOutput<string> IAuthenticateManager.SaveChangePasswordOTP(long userId,string oldPassword,string otp)
+        ActionOutput<string> IAuthenticateManager.SaveChangePasswordOTP(long userId, string oldPassword, string otp)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-            
+
             if (user == null)
                 return ReturnError<string>("User not exist.");
             var encryptedPassword = Utilities.EncryptPassword(oldPassword);
@@ -70,14 +70,14 @@ namespace VendTech.BLL.Managers
         ActionOutput<string> IAuthenticateManager.FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-             
+
             if (user == null)
                 return ReturnError<string>("User not exist.");
             var encryptedPassword = Utilities.EncryptPassword(oldPassword);
             if (user.Password != encryptedPassword)
                 return ReturnError<string>("Old password did not match.");
 
-            user.IsEmailVerified = true; 
+            user.IsEmailVerified = true;
             user.Password = Utilities.EncryptPassword(newPassword);
             Context.SaveChanges();
             return ReturnSuccess(user.Email, "Email succesfuly verified");
@@ -86,8 +86,8 @@ namespace VendTech.BLL.Managers
         ActionOutput IAuthenticateManager.VerifyChangePasswordOTP(ResetPasswordModel model)
         {
             var user = Context.Users.Single(p => p.UserId == model.UserId);
-            var changePasswordOtp = user.ForgotPasswordRequests.Any(p=>p.UserId==model.UserId && model.Otp==p.OTP);
-            if(!changePasswordOtp)
+            var changePasswordOtp = user.ForgotPasswordRequests.Any(p => p.UserId == model.UserId && model.Otp == p.OTP);
+            if (!changePasswordOtp)
                 return ReturnError("OTP not matched");
             user.Password = Utilities.EncryptPassword(model.Password);
             Context.ForgotPasswordRequests.RemoveRange(user.ForgotPasswordRequests.ToList());
@@ -96,6 +96,7 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Password has been reset successfully.");
         }
+
         ActionOutput IAuthenticateManager.ResetPassword(ResetPasswordModel model)
         {
             var user = Context.Users.Single(p => p.UserId == model.UserId);
@@ -110,7 +111,7 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess("Password has been reset successfully.");
         }
 
-        ActionOutput IAuthenticateManager.ChangePassword(ChangePasswordModel model) 
+        ActionOutput IAuthenticateManager.ChangePassword(ChangePasswordModel model)
         {
             var user = Context.Users.Single(p => p.UserId == model.UserId);
             if (!string.IsNullOrEmpty(model.OldPassword))
@@ -128,7 +129,7 @@ namespace VendTech.BLL.Managers
         bool IAuthenticateManager.IsUserAccountActive(string email, string password)
         {
             string encryptPassword = Utilities.EncryptPassword(password.Trim());
-            var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) && x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role)&& (x.Status == (int)UserStatusEnum.Block) )
+            var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) && x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role) && (x.Status == (int)UserStatusEnum.Block))
                 .ToList()
                 .Select(x => new UserModel(x))
                 .FirstOrDefault();
@@ -142,12 +143,12 @@ namespace VendTech.BLL.Managers
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
                 var result = Context.Users
-                    .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) 
-                && x.Password == encryptPassword 
-                && (UserRoles.AppUser == x.UserRole.Role 
-                || UserRoles.Vendor == x.UserRole.Role) 
-                && (x.Status == (int)UserStatusEnum.Active 
-                || x.Status == (int)UserStatusEnum.Pending 
+                    .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
+                && x.Password == encryptPassword
+                && (UserRoles.AppUser == x.UserRole.Role
+                || UserRoles.Vendor == x.UserRole.Role)
+                && (x.Status == (int)UserStatusEnum.Active
+                || x.Status == (int)UserStatusEnum.Pending
                 || x.Status == (int)UserStatusEnum.PasswordNotReset))
                     .ToList()
                     .Select(x => new UserModel(x))
@@ -159,9 +160,32 @@ namespace VendTech.BLL.Managers
                 throw;
             }
         }
+
+
+        UserModel IAuthenticateManager.GetUserDetailByPassCode(string passCode)
+        {
+            try
+            {
+                var userModel = Context.Users.Where(x => x.PassCode == passCode
+                    && (UserRoles.AppUser == x.UserRole.Role
+               || UserRoles.Vendor == x.UserRole.Role)
+               && (x.Status == (int)UserStatusEnum.Active
+               || x.Status == (int)UserStatusEnum.Pending
+               || x.Status == (int)UserStatusEnum.PasswordNotReset))
+                   .ToList()
+                   .Select(x => new UserModel(x))
+                   .FirstOrDefault();
+                return userModel;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         ActionOutput IAuthenticateManager.ForgotPassword(string email, string otp)
         {
-            var user = Context.Users.OrderByDescending(p=>p.CreatedAt).FirstOrDefault(p => p.Email.ToLower().Trim() == email.ToLower().Trim());
+            var user = Context.Users.OrderByDescending(p => p.CreatedAt).FirstOrDefault(p => p.Email.ToLower().Trim() == email.ToLower().Trim());
             if (user == null)
                 return ReturnError("User with this email not exist.");
 
@@ -192,15 +216,35 @@ namespace VendTech.BLL.Managers
                 }
                 return ReturnError(ex?.Message);
             }
-            
+
             return ReturnSuccess(user.UserId, "Token generate successfully.");
         }
-        ActionOutput IAuthenticateManager.AddTokenDevice(LoginAPIModel model)
+
+        //ActionOutput IAuthenticateManager.AddTokenDevice(LoginAPIModel model)
+        //{
+        //    string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
+        //    //var data = Context.Users.Where(x => x.Email == model.Email && x.Password == encryptPassword).FirstOrDefault();
+        //    var userModel = new User();
+
+        //    var data = Context.Users.Where(x => x.Email == model.Email && x.Password == encryptPassword).FirstOrDefault();
+
+        //    userModel.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
+        //    userModel.AppType = string.IsNullOrEmpty(model.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
+        //    Context.SaveChanges();
+        //    return ReturnSuccess();
+        //}
+
+        ActionOutput IAuthenticateManager.AddTokenDevice(LoginAPIPassCodeModel model)
         {
-            string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            var data = Context.Users.Where(x => x.Email == model.Email && x.Password == encryptPassword).FirstOrDefault();
-            data.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
-            data.AppType = string.IsNullOrEmpty(model.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
+            //string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
+            //var data = Context.Users.Where(x => x.Email == model.Email && x.Password == encryptPassword).FirstOrDefault();
+            var userModel = new User();
+            userModel = Context.Users.FirstOrDefault(x => x.PassCode == model.PassCode);
+
+            //var data = Context.Users.Where(x => x.Email ==  && x.Password == encryptPassword).FirstOrDefault();
+
+            userModel.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
+            userModel.AppType = string.IsNullOrEmpty(model.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
             Context.SaveChanges();
             return ReturnSuccess();
         }
@@ -208,7 +252,7 @@ namespace VendTech.BLL.Managers
         ActionOutput IAuthenticateManager.Logout(long userId, string token)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-            Context.TokensManagers.RemoveRange(user.TokensManagers.Where(p=>p.TokenKey==token).ToList());
+            Context.TokensManagers.RemoveRange(user.TokensManagers.Where(p => p.TokenKey == token).ToList());
             user.DeviceToken = string.Empty;
             Context.SaveChanges();
             return ReturnSuccess("User successfully logout.");
@@ -233,7 +277,7 @@ namespace VendTech.BLL.Managers
         bool IAuthenticateManager.ConfirmThisUser(ChangePasswordModel model)
         {
             var user = Context.Users.Single(p => p.UserId == model.UserId);
-            
+
             user.Password = Utilities.EncryptPassword(model.Password);
             user.IsEmailVerified = true;
             if (user.Status == (int)UserStatusEnum.PasswordNotReset)
@@ -245,7 +289,7 @@ namespace VendTech.BLL.Managers
         {
             int second = 3;
             try
-            { 
+            {
                 var db = new VendTechEntities();
 
                 var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
@@ -258,7 +302,7 @@ namespace VendTech.BLL.Managers
 
                 return second;
             }
-            
+
         }
         ActionOutput IAuthenticateManager.SaveLogoutTime(SaveLogoutTimeModel model)
         {
@@ -294,7 +338,7 @@ namespace VendTech.BLL.Managers
                    string.Join(":", new string[]
                    {   Convert.ToString(user.UserId),
                 Utilities.GetUniqueKey(),
-               
+
                 Convert.ToString(IssuedOn.Ticks),
                 user.Email
                    });
@@ -332,9 +376,10 @@ namespace VendTech.BLL.Managers
         {
             if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower()))
                 return ReturnError<long>("User already exist with this email.");
-            if(!string.IsNullOrEmpty(model.ReferralCode)){
+            if (!string.IsNullOrEmpty(model.ReferralCode))
+            {
                 var referralCode = Context.ReferralCodes.FirstOrDefault(p => p.Code == model.ReferralCode && !p.IsUsed);
-                if(referralCode==null)
+                if (referralCode == null)
                     return ReturnError<long>("Invalid referral code.");
                 Context.ReferralCodes.Remove(referralCode);
             }
@@ -374,7 +419,7 @@ namespace VendTech.BLL.Managers
                 Context.AccountVerificationOTPs.Remove(record);
                 Context.SaveChanges();
 
-               
+
                 return ReturnSuccess("Email verified successfully.");
             }
             return ReturnError("OTP did not match.");
@@ -382,10 +427,10 @@ namespace VendTech.BLL.Managers
 
         List<CountryModel> IAuthenticateManager.GetCountries()
         {
-            return Context.Countries.Where(p => !p.IsDeleted).ToList().OrderByDescending(p=>p.CountryId).Select(x => new CountryModel
+            return Context.Countries.Where(p => !p.IsDeleted).ToList().OrderByDescending(p => p.CountryId).Select(x => new CountryModel
             {
-                CountryId=x.CountryId,
-                Name=x.Name
+                CountryId = x.CountryId,
+                Name = x.Name
             }).ToList();
         }
         List<CityModel> IAuthenticateManager.GetCities(int countryId)
@@ -397,8 +442,8 @@ namespace VendTech.BLL.Managers
             {
                 CountryId = x.CountryId,
                 Name = x.Name,
-                CityId=x.CityId,
-                CountryName=x.Country.Name
+                CityId = x.CityId,
+                CountryName = x.Country.Name
             }).ToList();
         }
     }
