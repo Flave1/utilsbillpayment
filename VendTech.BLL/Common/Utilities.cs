@@ -385,7 +385,7 @@ namespace VendTech.BLL.Common
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -396,8 +396,8 @@ namespace VendTech.BLL.Common
             else if (token_item != null && token_item.Length >= 12 && token_item.Length <= 16)
                 token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ");
             else if (token_item != null && token_item.Length >= 16 && token_item.Length <= 21)
-                token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-            token_item = token_item;
+                token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " "); 
+
 
             return token_item;
         }
@@ -409,8 +409,8 @@ namespace VendTech.BLL.Common
             {
                 Auth = new IcekloudAuth
                 {
-                    Password = username,
-                    UserName = password
+                    Password = password,
+                    UserName = username
                 },
                 Request = "ProcessPrePaidVendingV1",
                 Parameters = new object[]

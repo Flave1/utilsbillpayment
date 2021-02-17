@@ -187,7 +187,7 @@ namespace VendTech.BLL.Managers
             vendor.AgentId = model.AgencyId;
             vendor.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
             vendor.CreatedAt = DateTime.UtcNow;
-            vendor.Status = (int)UserStatusEnum.Pending;
+            vendor.Status = model.VendorId == 0 ? (int)UserStatusEnum.Pending : vendor.Status;
             vendor.VendorCommissionPercentage = model.Percentage;
             vendor.VendorType = model.VendorType;
             vendor.Vendor = model.Vendor;

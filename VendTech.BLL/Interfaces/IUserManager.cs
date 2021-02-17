@@ -10,7 +10,9 @@ using System.Web.Mvc;
 namespace VendTech.BLL.Interfaces
 {
     public interface IUserManager
-    {
+    { 
+
+
         /// <summary>
         /// Dummy Method for testing purpose:  Get Welcome Message
         /// </summary>

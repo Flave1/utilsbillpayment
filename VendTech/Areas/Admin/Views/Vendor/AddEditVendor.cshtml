@@ -152,11 +152,11 @@
                 $("#Password").val('@Model.Password');
                 $("#ConfirmPassword").val('@Model.Password');
             }
-
-              $("#Country").change(onCountryChange);  
-              onCountryChange();
+            debugger;
+            $("#Country").change(onCountryChange);  
             loadAllCountries();
-            $("#City").val('@Model.City');
+            loadAllCities();
+             
 
             $("input[type=button]#saveProfileBtn").live("click", function () {
                 return UpdateProfile($(this));
@@ -191,6 +191,17 @@
                         } 
                     }
             } 
+        }
+
+        function loadAllCities() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+            if (array.length > 0)
+            { 
+                for (var i = 0; i < array.length; i++) {
+                    $("#City").append("<option value=" + array[i].CityId + ">" + array[i].Name + " </option>");
+                } 
+                var val = $("#City").val('@Model.City');
+            }
         }
 
 

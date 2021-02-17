@@ -32,8 +32,9 @@ namespace VendTech.Controllers
       //  private readonly IPlatformManager _platformManager;
         private readonly IVendorManager _vendorManager;
         private readonly IDashboardManager _dashboardManager;
+        private readonly IAgencyManager _agentManager;
 
-    
+
         #endregion
 
         public HomeController(IUserManager userManager, 
@@ -42,10 +43,12 @@ namespace VendTech.Controllers
             ICMSManager cmsManager,
             IPlatformManager platformManager,
             IEmailTemplateManager templateManager,
-            IVendorManager vendorManager, 
+            IVendorManager vendorManager,
+            IAgencyManager agencyManager,
             IDashboardManager dashboardManager)
             : base(errorLogManager)
         {
+            _agentManager = agencyManager;
             _userManager = userManager;
             _authenticateManager = authenticateManager;
             _templateManager = templateManager;
@@ -305,6 +308,8 @@ namespace VendTech.Controllers
         {
             var countries = _authenticateManager.GetCountries();
             var countryDrpData = new List<SelectListItem>();
+
+            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
 
             foreach (var item in countries)
             {

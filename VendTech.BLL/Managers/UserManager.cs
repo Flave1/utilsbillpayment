@@ -18,7 +18,7 @@ namespace VendTech.BLL.Managers
 {
     public class UserManager : BaseManager, IUserManager
     {
-
+  
         string IUserManager.GetWelcomeMessage()
         {
             return "Welcome To Base Project Demo";
@@ -783,6 +783,8 @@ namespace VendTech.BLL.Managers
             //} 
             else
             {
+                var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
+                var last_pos1 = Convert.ToUInt64(last_pos) + 1;
                 var dbUser = new User();
                 dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
@@ -790,7 +792,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
                 dbUser.CreatedAt = DateTime.UtcNow;
-                dbUser.UserType = userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor); // userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 dbUser.CountryCode = "+232";
@@ -798,11 +800,12 @@ namespace VendTech.BLL.Managers
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
-                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.AgentId = Convert.ToInt64(userDetails.Agency);
+                dbUser.Vendor = $"{userDetails.LastName} {userDetails.FirstName}-{last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
-                if (userDetails.IsCompany) dbUser.FKVendorId = dbUser.UserId;
+                dbUser.FKVendorId = dbUser.UserId;
                 Context.SaveChanges();
                 //return new ActionOutput
                 //{

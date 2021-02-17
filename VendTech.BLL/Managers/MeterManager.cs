@@ -551,15 +551,11 @@ namespace VendTech.BLL.Managers
             }
             else
                 platf = Context.Platforms.Find(model.PlatformId);
-
-           
-
+             
             IceCloudResponse icekloud_response = new IceCloudResponse();
             IcekloudQueryResponse query_response = new IcekloudQueryResponse();
             TransactionDetail db_transaction_detail = new TransactionDetail();
-          
-         
-
+           
             model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
             icekloud_response =  Utilities.Make_recharge_request_from_icekloud(model);
 
