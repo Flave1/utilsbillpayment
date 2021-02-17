@@ -150,7 +150,7 @@ namespace VendTech.BLL.Managers
             var list = query.ToList().Select(x => new SalesReportExcelModel
             {
                 Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                PRODUCT_TYPE = x.Platform.ShortName,
+                PRODUCT_TYPE = x?.Platform?.ShortName,
                 PIN = x.MeterToken1,
                 AMOUNT = string.Format("{0:N0}", x.Amount),
                 TRANSACTIONID = x.TransactionId,
@@ -201,23 +201,13 @@ namespace VendTech.BLL.Managers
         {
             model.RecordsPerPage = 10000000;
              var result = new PagingResult<MeterRechargeApiListingModel>();
-            // var query =  Context.MeterRecharges.Where(p => !p.IsDeleted && p.POSId != null);
+
             IQueryable<TransactionDetail> query = null;
-            if (model.From != null)
-                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null);
+            if (!model.IsInitialLoad)
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
             else
-                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
-
-            //            if (model.SortBy == "UserName" )
-            //            {
-            //                query = query.OrderBy(p =>"Name" + " " + model.SortOrder);
-            //            }
-            //else if(model.SortBy == "MeterNumber"){
-            //    query = query.OrderBy(p => model.SortBy + " " + ( p.MeterNumber));
-
-            //}
-            //            else
-            //                query = query.OrderBy(model.SortBy + " " + model.SortOrder);
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
+ 
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -255,15 +245,7 @@ namespace VendTech.BLL.Managers
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
-
-            /*var innerJoin = from r in query // outer sequence
-                            join p in Context.Platforms //inner sequence 
-                            on r.PlatFormId equals p.PlatformId // key selector 
-                            select new MeterRechargeApiListingModel
-                            { // result selector 
-                                
-                            };*/
-
+ 
 
             var list = query.ToList().Select(x => new MeterRechargeApiListingModel
             {
@@ -278,6 +260,7 @@ namespace VendTech.BLL.Managers
                 RechargeId = x.TransactionDetailsId,
                 UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
                 VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
+                RechargePin = x?.MeterToken1
             }).ToList();
             
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
@@ -375,7 +358,7 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null); 
+            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null); 
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -471,7 +454,7 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRecharges(long userID, int pageNo, int pageSize)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.UserId == userID);
+            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.UserId == userID && p.Finalised == true);
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterRechargeApiListingModel
             {
@@ -568,15 +551,11 @@ namespace VendTech.BLL.Managers
             }
             else
                 platf = Context.Platforms.Find(model.PlatformId);
-
-           
-
+             
             IceCloudResponse icekloud_response = new IceCloudResponse();
             IcekloudQueryResponse query_response = new IcekloudQueryResponse();
             TransactionDetail db_transaction_detail = new TransactionDetail();
-          
-         
-
+           
             model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
             icekloud_response =  Utilities.Make_recharge_request_from_icekloud(model);
 
@@ -647,28 +626,27 @@ namespace VendTech.BLL.Managers
 
         ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
         {
-            return new ReceiptModel
-            {
-                AccountNo = model.AccountNumber,
-                POS = model.POS.SerialNumber,
-                CustomerName = model.Customer,
-                ReceiptNo = model.ReceiptNumber,
-                Address = model.CustomerAddress,
-                Tarrif = Convert.ToDouble(model.Tariff),
-                DeviceNumber = model.MeterNumber,
-                DebitRecovery = 0.00,
-                Amount = Convert.ToDouble(model.TenderedAmount),
-                Charges = Convert.ToDouble(model.ServiceCharge),
-                Commission = 0.00,
-                Unit = Convert.ToDouble(model.Units),
-                UnitCost = 0.00.ToString(),
-                SerialNo = model.SerialNumber,
-                Pin1 = Utilities.FormatThisToken(model.MeterToken1),
-                Pin2 = Utilities.FormatThisToken(model.MeterToken2),
-                Pin3 = Utilities.FormatThisToken(model.MeterToken3),
-                Discount = 0, 
-                VendorId = model.UserId.ToString()
-            };
+            var receipt = new ReceiptModel();
+            receipt.AccountNo = model?.AccountNumber;
+            receipt.POS = model?.POS?.SerialNumber;
+            receipt.CustomerName = model?.Customer;
+            receipt.ReceiptNo = model?.ReceiptNumber;
+            receipt.Address = model?.CustomerAddress;
+            receipt.Tarrif = Convert.ToDouble(model?.Tariff);
+            receipt.DeviceNumber = model?.MeterNumber;
+            receipt.DebitRecovery = 0.00;
+            receipt.Amount = Convert.ToDouble(model?.TenderedAmount);
+            receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
+            receipt.Commission = 0.00;
+            receipt.Unit = Convert.ToDouble(model?.Units);
+            receipt.UnitCost = 0.00.ToString();
+            receipt.SerialNo = model?.SerialNumber;
+            receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1);
+            receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2);
+            receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3);
+            receipt.Discount = 0;
+            receipt.VendorId = model.UserId.ToString();
+            return receipt;
         }
 
         void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)

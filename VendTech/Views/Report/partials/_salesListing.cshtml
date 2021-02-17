@@ -16,20 +16,9 @@
             <td style="text-align:right;">
                 <strong>
                     @{
-                        if (item.RechargePin != null && item.RechargePin.Length >= 2 && item.RechargePin.Length <= 12)
-                        {
-                            item.RechargePin = item.RechargePin.Insert(4, " ").Insert(9, " ");
-                        }
-                        if (item.RechargePin != null && item.RechargePin.Length >= 12 && item.RechargePin.Length <= 16)
-                        {
-                            item.RechargePin = item.RechargePin.Insert(4, " ").Insert(9, " ").Insert(14, " ");
-                        }
-                        if (item.RechargePin != null && item.RechargePin.Length >= 16 && item.RechargePin.Length <= 21)
-                        {
-                            item.RechargePin = item.RechargePin.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-                        }
+                        var pin = VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin);
                     }
-                    @item.RechargePin
+                    @pin
                 </strong>
             </td>
             <td style="text-align:right;"> <strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong> </td>

@@ -94,7 +94,7 @@ namespace VendTech.BLL.Models
         public string POSNumber { get; set; }
         public int Status { get; set; }
 
-        public bool isemailverified { get; set; }
+        public bool isemailverified { get; set; } 
 
         public decimal Percentage { get; set; }
         public HttpPostedFile Image { get; set; }
@@ -155,6 +155,7 @@ namespace VendTech.BLL.Models
         public string Country { get; set; }
         public string City { get; set; }
         public bool IsCompany { get; set; }
+        public string Agency { get; set; }
     }
     public class LoginAPIModel
     {

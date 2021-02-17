@@ -175,8 +175,9 @@ namespace VendTech.Controllers
                 if (LOGGEDIN_USER.UserID > 0)
                 {
                     var user = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
-                    if (user.AccountStatus == UserStatusEnum.PasswordNotReset.ToString())
-                        filter_context.Result = RedirectToAction("ChangePassword", "Home");
+                    if(user != null)
+                        if (user.AccountStatus == UserStatusEnum.PasswordNotReset.ToString())
+                            filter_context.Result = RedirectToAction("ChangePassword", "Home");
 
                 }
             }

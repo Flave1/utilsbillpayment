@@ -105,24 +105,7 @@
                                     <tbody>
                                         @Html.Partial("Partials/_depositListing", Model)
                                     </tbody>
-
-                                    @*@if (Model.List != null)
-                                        {
-                                            foreach (var item in Model.List)
-                                            {
-                                                <tr>
-                                                    <td style="text-align:right;">@item.PosNumber</td>
-                                                    <td>@item.UserName</td>
-                                                    <td style="text-align:right;">@item.CreatedAt.ToString()</td>
-                                                    <td>@item.Type</td>
-                                                    <td style="text-align:right;">@item.ChkNoOrSlipId</td>
-                                                    <td style="text-align:right;">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</td>
-                                                    <td style="text-align:right;">@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</td>
-                                                    <td>@item.Status</td>
-                                                </tr>
-                                            }
-                                        }*@
-                               
+                                     
                                 </table>
                             </div>
                             @Html.Partial("_Paging")

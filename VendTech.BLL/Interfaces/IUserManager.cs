@@ -10,7 +10,9 @@ using System.Web.Mvc;
 namespace VendTech.BLL.Interfaces
 {
     public interface IUserManager
-    {
+    { 
+
+
         /// <summary>
         /// Dummy Method for testing purpose:  Get Welcome Message
         /// </summary>
@@ -81,6 +83,7 @@ namespace VendTech.BLL.Interfaces
         IList<WidgetCheckbox> GetAllWidgets(long userId);
         IList<UserAssignedModuleModel> GetNavigations(long userId);
         long GetUserId(string phone);
+        string GetUserPasswordbyUserId(long userId);
     }
 
 }

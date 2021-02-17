@@ -42,12 +42,22 @@
                                         <h4 class="title">Application registration</h4>
 
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                         
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+                                                    <select class="form-control" name="Agency" id="Agency" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-certificate"></i></span>
-                                                    <select class="form-control"  id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
+                                                    <select class="form-control" id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
                                                         <option value="Individual">INDIVIDUAL</option>
                                                         <option value="Company">COMPANY</option>
                                                     </select>
@@ -63,7 +73,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
                                                     @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name *" } })
-                                                </div> 
+                                                </div>
                                             </div>
                                         </div>
 
@@ -71,8 +81,8 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "First Name *", @id="first_name" } })
-                                                </div> 
+                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "First Name *", @id = "first_name" } })
+                                                </div>
                                             </div>
                                         </div>
 
@@ -80,8 +90,8 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Last Name *",  @id="last_name" } })
-                                                </div> 
+                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Last Name *", @id = "last_name" } })
+                                                </div>
                                             </div>
                                         </div>
 
@@ -103,7 +113,7 @@
                                                             <option value="+232">+232</option>
                                                         </select>
                                                     </div>
-                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { style="width:80%;", @class = "form-control col-md-10 col-sm-10", @placeholder = "Number *", } })
+                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { style = "width:80%;", @class = "form-control col-md-10 col-sm-10", @placeholder = "Number *", } })
                                                 </div>
                                                 <div id="mobile-error">@Html.ValidationMessageFor(m => m.Mobile)</div>
                                             </div>
@@ -113,20 +123,20 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address *" } })
-                                                </div> 
+                                                </div>
                                             </div>
                                         </div>
 
- 
+
 
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
+                                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                                     <select class="form-control" name="Country" id="Country">
-                                                        <option  value=""  >Select Country</option>
-                                                    </select > 
-                                                </div> 
+                                                        <option value="">Select Country</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -134,9 +144,9 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                                     <select id="City" name="City" class="form-control">
-                                                        <option  value="">Select City</option>
-                                                    </select> 
-                                                </div> 
+                                                        <option value="">Select City</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -198,7 +208,8 @@
 
             $("#Country").change(onCountryChange);  
               onCountryChange();
-              loadAllCountries();
+            loadAllCountries();
+            loadAllAgencies();
 
             $("input[type=button]#saveProfileBtn").live("click", function () {
                 return UpdateProfile($(this));
@@ -207,6 +218,17 @@
             App.init();
             //Templates.ManageTemplates(totalCount);
           });
+
+
+        function loadAllAgencies() {
+            var array = @Html.Raw(Json.Encode( ViewBag.Agencies));
+            if (array.length > 0)
+            { 
+                        for (var i = 0; i < array.length; i++) {
+                            $("#Agency").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
+                        } 
+            }
+        }
 
         function loadAllCountries() {
             var array = @Html.Raw(Json.Encode(ViewBag.countries));

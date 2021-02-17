@@ -26,11 +26,7 @@
         option {
             font-weight: bold;
         }
-
-
-        div.dataTables_filter > label::before {
-            content: "Quick Search :";
-        }
+         
     </style>
     <div class="page-head">
         <h3><b>Manage Deposit Report</b></h3>
@@ -131,7 +127,7 @@
                                                         <th class="sorting" data-sortby="UserName">USER NAME</th>
                                                         <th class="sorting" data-sortby="PaymentType">TYPE</th>
                                                         <th class="sorting" data-sortby="BANK">BANK</th>
-                                                        <th class="sorting" data-sortby="TransactionId">TRANS. ID</th>
+                                                        <th class="sorting" data-sortby="TransactionId">TRANSANCTION ID</th>
                                                         <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="PercentageAmount">%</th>
@@ -143,9 +139,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @*@Html.Partial("_Paging")*@
-
-
+                                        @*@Html.Partial("_Paging")*@ 
                                     </div>
                                     <input type="hidden" value="CreatedAt" id="SortBy" />
                                     <input type="hidden" value="Desc" id="SortOrder" />
@@ -165,7 +159,7 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Scripts/AdminScripts/report.js"></script>
+    <script src="~/Scripts/UserScripts/depositReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>

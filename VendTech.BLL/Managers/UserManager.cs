@@ -445,8 +445,8 @@ namespace VendTech.BLL.Managers
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
-                else
-                    user.FKVendorId = null;
+                //else
+                //    user.FKVendorId = null;
                 //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
                 //    user.FKPOSId = userDetails.POSId;
                 //else
@@ -783,6 +783,8 @@ namespace VendTech.BLL.Managers
             //} 
             else
             {
+                var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
+                var last_pos1 = Convert.ToUInt64(last_pos) + 1;
                 var dbUser = new User();
                 dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
@@ -790,7 +792,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
                 dbUser.CreatedAt = DateTime.UtcNow;
-                dbUser.UserType = userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor); // userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 dbUser.CountryCode = "+232";
@@ -798,11 +800,12 @@ namespace VendTech.BLL.Managers
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
-                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName : string.Empty;
+                dbUser.AgentId = Convert.ToInt64(userDetails.Agency);
+                dbUser.Vendor = $"{userDetails.LastName} {userDetails.FirstName}-{last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
-                if (userDetails.IsCompany) dbUser.FKVendorId = dbUser.UserId;
+                dbUser.FKVendorId = dbUser.UserId;
                 Context.SaveChanges();
                 //return new ActionOutput
                 //{
@@ -817,23 +820,29 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.GetUserDetailsByUserId(long userId)
         {
-            try
+
+            if (userId == 0) return new UserModel();
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
+            if (user == null)
+                return null;
+            else
             {
-                if (userId == 0) return new UserModel();
-                var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
-                user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
-                if (user == null)
-                    return null;
-                else
-                {
-                    var current_user_data = new UserModel(user);
-                    current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
-                    return current_user_data;
-                }
+                var current_user_data = new UserModel(user);
+                current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
+                return current_user_data;
             }
-            catch (SqlException ex)
+        }
+
+        string IUserManager.GetUserPasswordbyUserId(long userId)
+        {
+            if (userId == 0) return string.Empty;
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            if (user == null)
+                return string.Empty;
+            else
             {
-                throw ex;
+                return Utilities.DecryptPassword(user.Password);
             }
         }
 
@@ -1029,6 +1038,4 @@ namespace VendTech.BLL.Managers
             return Convert.ToInt64(0);
         }
     }
-
-
 }
