@@ -51,6 +51,12 @@ namespace VendTech.DAL
         public string VoucherSerialNumber { get; set; }
         public string VendStatusDescription { get; set; }
         public string VendStatus { get; set; }
+        public string Request { get; set; }
+        public string Response { get; set; }
+        public string StatusResponse { get; set; }
+        public string DateAndTimeSold { get; set; }
+        public string DateAndTimeFinalised { get; set; }
+        public string DateAndTimeLinked { get; set; }
     
         public virtual Meter Meter { get; set; }
         public virtual Platform Platform { get; set; }

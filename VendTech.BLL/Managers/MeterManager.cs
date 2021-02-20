@@ -14,6 +14,8 @@ using System.Data.Entity.Validation;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
+using System.Web.Configuration;
+using System.Diagnostics;
 
 namespace VendTech.BLL.Managers
 {
@@ -552,16 +554,17 @@ namespace VendTech.BLL.Managers
             else
                 platf = Context.Platforms.Find(model.PlatformId);
              
-            IceCloudResponse icekloud_response = new IceCloudResponse();
+            IceKloudResponse icekloud_response = new IceKloudResponse();
             IcekloudQueryResponse query_response = new IcekloudQueryResponse();
             TransactionDetail db_transaction_detail = new TransactionDetail();
            
             model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
-            icekloud_response =  Utilities.Make_recharge_request_from_icekloud(model);
+            icekloud_response =  Make_recharge_request_from_icekloud(model);
 
             if (icekloud_response.Content.Data.Error == "Unable to connect to the remote server")
-            { 
-                query_response = Utilities.Query_vend_status(Utilities.Buid_vend_query_object(model));
+            {
+                var query_request = Buid_vend_query_object(model);
+                query_response = Query_vend_status(query_request);
                 if (!query_response.Content.Finalised)
                 {
                     db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
@@ -587,20 +590,24 @@ namespace VendTech.BLL.Managers
             else if (icekloud_response.Status.ToLower() != "success")
             {  
                 response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = icekloud_response.Content.Data.Error;
+                response.ReceiptStatus.Message = icekloud_response.Content.Data?.Error;
                 return response;
             }
         
-            var response_data = icekloud_response.Content.Data.DataData.FirstOrDefault();
+            var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
 
             
             if (response_data != null)
-                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model);
+            {
+                var vend_request = JsonConvert.SerializeObject(model);
+                var vend_response = JsonConvert.SerializeObject(icekloud_response);
+                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response); 
+            } 
             else if (query_response.Content.Finalised)
+            {
                 db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
-            else
-                db_transaction_detail = Build_db_transaction_detail_response(model, user);
-
+            }
+                 
             db_transaction_detail.PlatFormId = platf.PlatformId;
             db_transaction_detail.Platform = platf;
             db_transaction_detail.TransactionId = model.TransactionId.ToString();
@@ -617,163 +624,12 @@ namespace VendTech.BLL.Managers
                 return receipt;
             }
             catch (IndexOutOfRangeException e)
-            {
-
+            { 
                 throw e;
             }
             
         }
-
-        ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
-        {
-            var receipt = new ReceiptModel();
-            receipt.AccountNo = model?.AccountNumber;
-            receipt.POS = model?.POS?.SerialNumber;
-            receipt.CustomerName = model?.Customer;
-            receipt.ReceiptNo = model?.ReceiptNumber;
-            receipt.Address = model?.CustomerAddress;
-            receipt.Tarrif = Convert.ToDouble(model?.Tariff);
-            receipt.DeviceNumber = model?.MeterNumber;
-            receipt.DebitRecovery = 0.00;
-            receipt.Amount = Convert.ToDouble(model?.TenderedAmount);
-            receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
-            receipt.Commission = 0.00;
-            receipt.Unit = Convert.ToDouble(model?.Units);
-            receipt.UnitCost = 0.00.ToString();
-            receipt.SerialNo = model?.SerialNumber;
-            receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1);
-            receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2);
-            receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3);
-            receipt.Discount = 0;
-            receipt.VendorId = model.UserId.ToString();
-            return receipt;
-        }
-
-        void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
-        {
-            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
-            var obj = new PushNotificationModel();
-            obj.UserId = model.UserId;
-            obj.Id = MeterRechargeId;
-            obj.Title = "Meter recharged successfully";
-            obj.Message = $"Your meter has successfully recharged with SLL { string.Format("{0:N0}", model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
-            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
-            foreach (var item in deviceTokens)
-            {
-                obj.DeviceToken = item.DeviceToken;
-                obj.DeviceType = item.AppType.Value;
-                PushNotification.SendNotification(obj);
-            }
-        }
-        TransactionDetail Build_db_transaction_detail_from_Query_response(IcekloudQueryResponse response_data, RechargeMeterModel model)
-        {
-            var trans = new TransactionDetail();
-            trans.UserId = model.UserId;
-            trans.MeterId = model.MeterId;
-            trans.POSId = model.POSId;
-            trans.MeterNumber = model.MeterNumber;
-            trans.TransactionDetailsId = (long)model.MeterId;
-            trans.MeterToken1 = response_data.Content?.VoucherPin?.ToString()??string.Empty;
-            trans.Amount = model.Amount;
-            trans.TransactionId = model.TransactionId.ToString();
-            trans.IsDeleted = false;
-            trans.Status = response_data.Content.Finalised ? (int)RechargeMeterStatusEnum.Success : 0;
-            trans.CreatedAt = DateTime.UtcNow;
-            trans.AccountNumber = response_data.Content?.CustomerAccNo?.ToString()??string.Empty;
-            trans.CurrentDealerBalance = 0;
-            trans.Customer = response_data.Content?.Customer?.ToString()??string.Empty;
-            trans.ReceiptNumber = response_data.Content?.VoucherSerialNumber?.ToString()??string.Empty;
-            trans.RequestDate = Convert.ToDateTime(response_data.Content.DateAndTimeCreated.Date).Date;
-            trans.RTSUniqueID = 00;
-            trans.SerialNumber = response_data.Content?.SerialNumber.ToString()??string.Empty;
-            trans.ServiceCharge = response_data.Content?.ServiceCharge?.ToString()??string.Empty;
-            trans.Tariff = response_data.Content?.Tariff?.ToString()??string.Empty;
-            trans.TaxCharge = Convert.ToDecimal(response_data.Content.TaxCharge);
-            trans.TenderedAmount = Convert.ToDecimal(response_data.Content.Denomination);
-            trans.TransactionAmount = Convert.ToDecimal(response_data.Content.Denomination);
-            trans.Units = Convert.ToDecimal(response_data.Content.Units);
-            trans.VProvider = response_data?.Content?.Provider?.ToString() ?? string.Empty;
-            trans.Finalised = response_data?.Content?.Finalised;
-            trans.StatusRequestCount = Convert.ToInt16(response_data?.Content?.StatusRequestCount);
-            trans.Sold = response_data.Content.Sold;
-            //trans.DateAndTimeSold =  response_data.Content?.DateAndTimeSold?.ToString();
-            //trans.DateAndTimeFinalised =  response_data.Content?.DateAndTimeFinalised?.ToString();
-            //trans.DateAndTimeLinked = response_data.Content?.DateAndTimeLinked?.ToString();
-            trans.VoucherSerialNumber = response_data.Content?.VoucherSerialNumber?.ToString();
-            trans.VendStatus = response_data.Content?.Status?.ToString();
-            trans.VendStatusDescription = response_data.Content?.StatusDescription?.ToString();
-            return trans;
-        }
-
-        TransactionDetail Build_db_transaction_detail_from_Icekloud_response(Datum response_data, RechargeMeterModel model)
-        {
-            return new TransactionDetail
-            {
-                UserId = model.UserId,
-                MeterId = model.MeterId,
-                POSId = model.POSId,
-                MeterNumber = model.MeterNumber,
-                TransactionDetailsId = (long)model.MeterId,
-                MeterToken1 = response_data.PinNumber,
-                MeterToken2 = response_data.PinNumber2,
-                MeterToken3 = response_data.PinNumber3,
-                Amount = model.Amount, 
-                TransactionId = model.TransactionId.ToString(),
-                IsDeleted = false,
-                Status = (int)RechargeMeterStatusEnum.Success,
-                CreatedAt = DateTime.UtcNow,
-                AccountNumber = response_data.PowerHubVoucher.AccountNumber,
-                CurrentDealerBalance = response_data.DealerBalance,
-                Customer = response_data.PowerHubVoucher.Customer,
-                ReceiptNumber = response_data.PowerHubVoucher.ReceiptNumber,
-                RequestDate = Convert.ToDateTime(response_data.DateAndTime),
-                RTSUniqueID = response_data.PowerHubVoucher.RtsUniqueId,
-                SerialNumber = response_data.SerialNumber,
-                ServiceCharge = response_data.PowerHubVoucher.ServiceCharge.ToString(),
-                Tariff = response_data.PowerHubVoucher.Tariff.ToString(),
-                TaxCharge = Convert.ToDecimal(response_data.PowerHubVoucher.TaxCharge),
-                TenderedAmount = response_data.PowerHubVoucher.TenderedAmount,
-                TransactionAmount = response_data.PowerHubVoucher.TransactionAmount,
-                Units = response_data.PowerHubVoucher.Units,
-
-            };
-        } 
-        TransactionDetail Build_db_transaction_detail_response(RechargeMeterModel model, User user)
-        {
-            return new TransactionDetail
-            {
-                UserId = user.UserId,
-                MeterId = model.MeterId,
-                POSId = model.POSId, 
-                MeterNumber = model.MeterNumber,
-                TransactionDetailsId = (long)model.MeterId,
-                MeterToken1 = Utilities.GetNumbersFromGuid(),
-                MeterToken2 = string.Empty,
-                MeterToken3 = string.Empty,
-                Amount = model.Amount,
-                TransactionId = model.TransactionId.ToString(),
-                IsDeleted = false,
-                Status = (int)RechargeMeterStatusEnum.Success,
-                CreatedAt = DateTime.UtcNow,
-                AccountNumber = string.Empty,
-                CurrentDealerBalance = 0,
-                Customer = user.Name + " " + user.SurName,
-                ReceiptNumber = Utilities.GetUniqueKey(),
-                RequestDate = DateTime.UtcNow,
-                RTSUniqueID = 11111,
-                SerialNumber = model.TransactionId.ToString().PadLeft(2, '0'),
-                ServiceCharge = 0.ToString(),
-                Tariff = 0.ToString(),
-                TaxCharge = 0,
-                TenderedAmount = model.Amount,
-                TransactionAmount = model.Amount,
-                Units = 0,
-                CostOfUnits = 0,
-                CustomerAddress = user.Address,
-                DebitRecovery = 0, 
-            };
-        }
-
+         
         ActionOutput<MeterRechargeApiListingModel> IMeterManager.GetRechargeDetail(long rechargeId)
         {
             var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
@@ -809,10 +665,248 @@ namespace VendTech.BLL.Managers
 
             };
         }
-         
-         
+
+        private static IceKloudResponse Make_recharge_request_from_icekloud(RechargeMeterModel model)
+        {
+            IceKloudResponse response = new IceKloudResponse();
+            string strings_result = string.Empty;
+            IcekloudRequestmodel request_model = new IcekloudRequestmodel();
+            HttpResponseMessage icekloud_response = new HttpResponseMessage();
+            HttpClient _http_client = new HttpClient();
+            var url = WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
+
+            try
+            {
+                request_model = Buid_new_request_object(model);
+
+                icekloud_response = _http_client.PostAsJsonAsync(url, request_model).Result;
+
+                strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
+                response = JsonConvert.DeserializeObject<IceKloudResponse>(strings_result);
+                return response;
+            }
+            catch (AggregateException err)
+            {
+                foreach (var errInner in err.InnerExceptions)
+                {
+                    Debug.WriteLine(errInner);
+                }
+                throw new AggregateException();
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
+
+                    if (error_response.Status == "Error")
+                    {
+                        if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
+                        {
+                            response.Status = "unsuccesful";
+                            response.Content.Data.Error = error_response.SystemError;
+                            return response;
+                        }
+                        if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
+                        {
+                            model.TransactionId = model.TransactionId + 1;
+                            return Make_recharge_request_from_icekloud(model);
+                        }
+                        response.Status = error_response.Status;
+                        response.Content.Data.Error = error_response.Stack.FirstOrDefault().Detail;
+                        return response;
+                    }
+                }
+                catch (Exception e) { throw e; }
+                throw;
+            }
+        }
+        private static IcekloudRequestmodel Buid_new_request_object(RechargeMeterModel model)
+        {
+            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
+            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
+            return new IcekloudRequestmodel
+            {
+                Auth = new IcekloudAuth
+                {
+                    Password = password,
+                    UserName = username
+                },
+                Request = "ProcessPrePaidVendingV1",
+                Parameters = new object[]
+                                        {
+                        new
+                        {
+                            UserName = username,
+                            Password = password,
+                            System = "SL"
+                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId
+                       },
+            };
+        }
+        private static IcekloudQueryResponse Query_vend_status(IcekloudRequestmodel model)
+        {
+            IcekloudQueryResponse response = new IcekloudQueryResponse();
+            string strings_result = string.Empty;
+            HttpResponseMessage icekloud_response = new HttpResponseMessage();
+            HttpClient _http_client = new HttpClient();
+            var url = WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
+            try
+            {
+                icekloud_response = _http_client.PostAsJsonAsync(url, model).Result;
+                strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
+                response = JsonConvert.DeserializeObject<IcekloudQueryResponse>(strings_result);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private static IcekloudRequestmodel Buid_vend_query_object(RechargeMeterModel model)
+        {
+            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
+            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
+            return new IcekloudRequestmodel
+            {
+                Auth = new IcekloudAuth
+                {
+                    Password = password,
+                    UserName = username
+                },
+                Request = "ProcessPrePaidVendingV1",
+                Parameters = new object[]
+                       {
+                           new {
+                                UserName = username,
+                                Password = password,
+                                System = "ATB"
+                            }, "apiV1_GetTransactionStatus",  model.TransactionId
+                       },
+            };
+        }
+        private ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
+        {
+            var receipt = new ReceiptModel();
+            receipt.AccountNo = model?.AccountNumber;
+            receipt.POS = model?.POS?.SerialNumber;
+            receipt.CustomerName = model?.Customer;
+            receipt.ReceiptNo = model?.ReceiptNumber;
+            receipt.Address = model?.CustomerAddress;
+            receipt.Tarrif = Convert.ToDouble(model?.Tariff);
+            receipt.DeviceNumber = model?.MeterNumber;
+            receipt.DebitRecovery = 0.00;
+            receipt.Amount = Convert.ToDouble(model?.TenderedAmount);
+            receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
+            receipt.Commission = 0.00;
+            receipt.Unit = Convert.ToDouble(model?.Units);
+            receipt.UnitCost = 0.00.ToString();
+            receipt.SerialNo = model?.SerialNumber;
+            receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1);
+            receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2);
+            receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3);
+            receipt.Discount = 0;
+            receipt.VendorId = model.UserId.ToString();
+            return receipt;
+        }
+        private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
+        {
+            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+            var obj = new PushNotificationModel();
+            obj.UserId = model.UserId;
+            obj.Id = MeterRechargeId;
+            obj.Title = "Meter recharged successfully";
+            obj.Message = $"Your meter has successfully recharged with SLL { string.Format("{0:N0}", model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
+            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
+            foreach (var item in deviceTokens)
+            {
+                obj.DeviceToken = item.DeviceToken;
+                obj.DeviceType = item.AppType.Value;
+                PushNotification.SendNotification(obj);
+            }
+        }
+        private TransactionDetail Build_db_transaction_detail_from_Query_response(IcekloudQueryResponse response_data, RechargeMeterModel model)
+        {
+            var trans = new TransactionDetail();
+            trans.UserId = model.UserId;
+            trans.MeterId = model.MeterId;
+            trans.POSId = model.POSId;
+            trans.MeterNumber = model.MeterNumber;
+            trans.TransactionDetailsId = (long)model.MeterId;
+            trans.MeterToken1 = response_data.Content?.VoucherPin?.ToString() ?? string.Empty;
+            trans.Amount = model.Amount;
+            trans.TransactionId = model.TransactionId.ToString();
+            trans.IsDeleted = false;
+            trans.Status = response_data.Content.Finalised ? (int)RechargeMeterStatusEnum.Success : 0;
+            trans.CreatedAt = DateTime.UtcNow;
+            trans.AccountNumber = response_data.Content?.CustomerAccNo?.ToString() ?? string.Empty;
+            trans.CurrentDealerBalance = 00;
+            trans.Customer = response_data.Content?.Customer?.ToString() ?? string.Empty;
+            trans.ReceiptNumber = response_data.Content?.VoucherSerialNumber?.ToString() ?? string.Empty;
+            trans.RequestDate = Convert.ToDateTime(response_data.Content.DateAndTimeCreated.Date).Date;
+            trans.RTSUniqueID = 00;
+            trans.SerialNumber = response_data.Content?.SerialNumber.ToString() ?? string.Empty;
+            trans.ServiceCharge = response_data.Content?.ServiceCharge?.ToString() ?? string.Empty;
+            trans.Tariff = response_data.Content?.Tariff?.ToString() ?? string.Empty;
+            trans.TaxCharge = Convert.ToDecimal(response_data.Content.TaxCharge);
+            trans.TenderedAmount = Convert.ToDecimal(response_data.Content.Denomination);
+            trans.TransactionAmount = Convert.ToDecimal(response_data.Content.Denomination);
+            trans.Units = Convert.ToDecimal(response_data.Content.Units);
+            trans.VProvider = response_data?.Content?.Provider?.ToString() ?? string.Empty;
+            trans.Finalised = response_data?.Content?.Finalised;
+            trans.StatusRequestCount = Convert.ToInt16(response_data?.Content?.StatusRequestCount);
+            trans.Sold = response_data.Content.Sold;
+            trans.DateAndTimeSold = response_data.Content?.DateAndTimeSold?.ToString();
+            trans.DateAndTimeFinalised = response_data.Content?.DateAndTimeFinalised?.ToString();
+            trans.DateAndTimeLinked = response_data.Content?.DateAndTimeLinked?.ToString();
+            trans.VoucherSerialNumber = response_data.Content?.VoucherSerialNumber?.ToString();
+            trans.VendStatus = response_data.Content?.Status?.ToString();
+            trans.VendStatusDescription = response_data.Content?.StatusDescription?.ToString();
+            trans.StatusResponse = JsonConvert.SerializeObject(response_data); 
+            return trans;
+        }
+        private TransactionDetail Build_db_transaction_detail_from_Icekloud_response(Datum response_data, RechargeMeterModel model, string vend_request, string vend_response)
+        {
+            var tran = new TransactionDetail();
+            tran.UserId = model.UserId;
+            tran.MeterId = model.MeterId;
+            tran.POSId = model.POSId;
+            tran.MeterNumber = model?.MeterNumber;
+            tran.TransactionDetailsId = (long)model.MeterId;
+            tran.MeterToken1 = response_data?.PinNumber;
+            tran.MeterToken2 = response_data?.PinNumber2;
+            tran.MeterToken3 = response_data?.PinNumber3;
+            tran.Amount = model.Amount;
+            tran.TransactionId = model.TransactionId.ToString();
+            tran.IsDeleted = false;
+            tran.Status = (int)RechargeMeterStatusEnum.Success;
+            tran.CreatedAt = DateTime.UtcNow;
+            tran.AccountNumber = response_data.PowerHubVoucher?.AccountNumber;
+            tran.CurrentDealerBalance = response_data.DealerBalance;
+            tran.Customer = response_data.PowerHubVoucher?.Customer;
+            tran.ReceiptNumber = response_data.PowerHubVoucher?.ReceiptNumber.ToString();
+            tran.RequestDate = Convert.ToDateTime(response_data.DateAndTime);
+            tran.RTSUniqueID = response_data.PowerHubVoucher.RtsUniqueId;
+            tran.SerialNumber = response_data?.SerialNumber.ToString();
+            tran.ServiceCharge = response_data.PowerHubVoucher.ServiceCharge.ToString();
+            tran.Tariff = response_data.PowerHubVoucher?.Tariff.ToString();
+            tran.TaxCharge = Convert.ToDecimal(response_data.PowerHubVoucher?.TaxCharge);
+            tran.TenderedAmount = response_data.PowerHubVoucher.TenderedAmount;
+            tran.TransactionAmount = response_data.PowerHubVoucher.TransactionAmount;
+            var units = response_data.PowerHubVoucher.Units;
+            tran.Units = Convert.ToDecimal(units);
+            var costofunits = response_data.PowerHubVoucher?.CostOfUnits;
+            tran.CostOfUnits = Convert.ToDecimal(costofunits);
+            tran.CustomerAddress = response_data.PowerHubVoucher?.CustAddress?.ToString();
+            tran.PlatFormId = Convert.ToInt16(model.PlatformId);
+            tran.Request = vend_request;
+            tran.Response = vend_response;
+            tran.Finalised = true;
+            return tran;
+        }
+     
     }
 
-     
+
 
 }

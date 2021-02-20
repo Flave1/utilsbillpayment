@@ -292,7 +292,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="SMSNotificationDeposit" Type="bit" />
           <Property Name="IsPassCode" Type="bit" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="250" />
-          <Property Name="PassCode" Type="nvarchar" MaxLength="5" />
+          <Property Name="PassCode" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="POSAssignedPlatforms">
           <Key>
@@ -366,6 +366,12 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="VoucherSerialNumber" Type="varchar" MaxLength="200" />
           <Property Name="VendStatusDescription" Type="varchar" MaxLength="200" />
           <Property Name="VendStatus" Type="varchar" MaxLength="200" />
+          <Property Name="Request" Type="varchar(max)" />
+          <Property Name="Response" Type="varchar(max)" />
+          <Property Name="StatusResponse" Type="varchar(max)" />
+          <Property Name="DateAndTimeSold" Type="varchar(max)" />
+          <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
+          <Property Name="DateAndTimeLinked" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
@@ -434,6 +440,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="FKVendorId" Type="bigint" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="PassCode" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -1600,7 +1607,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="VendTechModel.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatform" />
           <Property Name="IsPassCode" Type="Boolean" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="PassCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="PassCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetail" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
@@ -1734,6 +1741,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
           <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="User" ToRole="TransactionDetail" />
+          <Property Name="PassCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -2223,6 +2231,12 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="VoucherSerialNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="VendStatusDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="VendStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StatusResponse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateAndTimeSold" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateAndTimeFinalised" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateAndTimeLinked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_TransactionDetails_Meters">
           <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="0..1" />
@@ -2651,6 +2665,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VendTechModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PassCode" ColumnName="PassCode" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="FKVendorId" ColumnName="FKVendorId" />
@@ -2731,6 +2746,12 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="TransactionDetails">
             <EntityTypeMapping TypeName="VendTechModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
+                <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
+                <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
+                <ScalarProperty Name="StatusResponse" ColumnName="StatusResponse" />
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
                 <ScalarProperty Name="VendStatus" ColumnName="VendStatus" />
                 <ScalarProperty Name="VendStatusDescription" ColumnName="VendStatusDescription" />
                 <ScalarProperty Name="VoucherSerialNumber" ColumnName="VoucherSerialNumber" />

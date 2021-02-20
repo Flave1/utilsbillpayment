@@ -126,12 +126,12 @@
                                             <table class="table table-bordered  mb-0" id="datatable-icons">
                                                 <thead>
                                                     <tr>
-                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th>PRODUCT</th>
-                                                        <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
-                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th >DATE/TIME</th>
+                                                        <th >PRODUCT</th>
+                                                        <th  >TRANSACTION ID</th>
+                                                        <th  >METER #</th>
+                                                        <th  >POS ID</th>
+                                                        <th  >AMOUNT</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -204,9 +204,9 @@
 
 <div class="modal fade" id="modalCart">
 
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="modal-body" id="printSection">
+            <div class="modal-body" style="margin:0; padding: 0;" id="printSection">
                 <div class="row" style="text-align:center; margin:20px;" id="gen-invoice">
                     <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
                     <h3>ELECTRICITY PURCHASE</h3>
@@ -254,8 +254,8 @@
                         <div style="text-align: right;" class="col-md-8 col-sm-7" id="current_tarrif"> 569</div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-4 col-sm-8">AMT Tendered: le:  </div>
-                        <div style="text-align: right;" class="col-md-4 col-sm-2" id="amount_tender"> <strong>1000,000</strong></div>
+                        <div class="col-md-8 col-sm-8">AMT Tendered: le:  </div>
+                        <div style="text-align: right;" class="col-md-4 col-sm-4" id="amount_tender"> <strong>1000,000</strong></div>
                     </div>
                 </div>
 
@@ -331,7 +331,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
-                    <div class="col-md-6 col-sm-12"><em>Call +232 76 990 990</em></div>
+                    <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
                 </div>
             </div>
             <!-- modal-footer -->
@@ -341,7 +341,6 @@
 
     </div>
 </div>
-
 
 
 @section scripts{
@@ -356,7 +355,7 @@
             $("#print_section").hide();
              var prtContent = document.getElementById("printSection");
             var WinPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0'); 
-             WinPrint.document.write('<link rel="preconnect" href="https://fonts.gstatic.com">');
+             WinPrint.document.write("<link rel='preconnect' href='https://fonts.gstatic.com'>");
             WinPrint.document.write('<link href="~/Content/pos_receipt.css" rel="stylesheet" />');
             WinPrint.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">');
             WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">');

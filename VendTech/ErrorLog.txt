@@ -3600,3 +3600,63 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+One or more errors occurred.
+
+
+
+The underlying provider failed on Open.
+
+
+

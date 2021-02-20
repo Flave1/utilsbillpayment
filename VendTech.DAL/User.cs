@@ -28,11 +28,11 @@ namespace VendTech.DAL
             this.POS = new HashSet<POS>();
             this.ReferralCodes = new HashSet<ReferralCode>();
             this.TokensManagers = new HashSet<TokensManager>();
-            this.TransactionDetails = new HashSet<TransactionDetail>();
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
             this.Users1 = new HashSet<User>();
+            this.TransactionDetails = new HashSet<TransactionDetail>();
         }
     
         public long UserId { get; set; }
@@ -63,6 +63,7 @@ namespace VendTech.DAL
         public Nullable<long> FKVendorId { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public string PassCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }
@@ -91,8 +92,6 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TokensManager> TokensManagers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedModule> UserAssignedModules { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
@@ -102,5 +101,7 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
         public virtual User User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
     }
 }
