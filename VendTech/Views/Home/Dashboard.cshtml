@@ -96,7 +96,9 @@
                                 </div>
                             </div>
                         }
-                    </div> 
+                    </div>
+                    @if (Model.currentUser.SelectedWidgets.Any())
+                    {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="widget widget-fullwidth be-loading">
@@ -104,20 +106,20 @@
                                         <div class="tools">
                                             <div class="dropdown">
                                                 <span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
-                                                <ul role="menu" class="dropdown-menu"> 
-                                                    <li><a href="#">Month</a></li> 
+                                                <ul role="menu" class="dropdown-menu">
+                                                    <li><a href="#">Month</a></li>
                                                 </ul>
                                             </div><span class="icon mdi mdi-chevron-down"></span><span class="icon toggle-loading mdi mdi-refresh-sync"></span><span class="icon mdi mdi-close"></span>
                                         </div>
                                         <div class="button-toolbar hidden-xs">
-                                            <div class="btn-group"> 
-                                                <button type="button" class="btn btn-default active">Month</button> 
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default active">Month</button>
                                             </div>
-   
+
                                         </div><span class="title">Recent Movement</span>
                                     </div>
                                     <div class="widget-chart-container">
-                                     
+
                                         <div id="main-chart" style="height: 260px;"></div>
                                     </div>
                                     <div class="be-spinner">
@@ -127,7 +129,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
+                    }
                 </div>
             </div>
         }

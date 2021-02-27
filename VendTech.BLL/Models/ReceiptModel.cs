@@ -28,6 +28,10 @@ namespace VendTech.BLL.Models
         public string Pin1 { get; set; }
         public string Pin2 { get; set; }
         public string Pin3 { get; set; }
+        public decimal Tax { get; set; }
+        public string TransactionDate { get; set; }
+        public string EDSASerial { get; set; }
+        public string VTECHSerial { get; set; }
         public bool ShouldShowSmsButton { get; set; }
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
     }

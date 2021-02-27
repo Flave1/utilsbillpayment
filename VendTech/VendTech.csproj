@@ -428,6 +428,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jspdf.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UserScripts\register.js" />
@@ -519,6 +520,8 @@
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
     <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
+    <Content Include="Views\Shared\_voucherReceipt.cshtml" />
+    <Content Include="Views\Shared\_fetchVoucher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -37,7 +37,8 @@ namespace VendTech.Controllers
 
         #endregion
 
-        public HomeController(IUserManager userManager, 
+        public HomeController(
+            IUserManager userManager, 
             IErrorLogManager errorLogManager,
             IAuthenticateManager authenticateManager,
             ICMSManager cmsManager,

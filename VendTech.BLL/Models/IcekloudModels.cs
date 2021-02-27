@@ -111,6 +111,8 @@ namespace VendTech.BLL.Models
         public Content Content { get; set; }
          
         public object[] ErrorLog { get; set; }
+
+        public IcekloudRequestmodel RequestModel { get; set; } = new IcekloudRequestmodel();
     }
 
     public partial class Content

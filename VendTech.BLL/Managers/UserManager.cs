@@ -801,7 +801,7 @@ namespace VendTech.BLL.Managers
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
                 dbUser.AgentId = Convert.ToInt64(userDetails.Agency);
-                dbUser.Vendor = $"{userDetails.LastName} {userDetails.FirstName}-{last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.Vendor = $"{userDetails.FirstName} {userDetails.LastName}-{last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();

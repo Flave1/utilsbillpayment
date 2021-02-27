@@ -170,7 +170,7 @@ namespace VendTech.Controllers
             var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
 
             if (deposits.List.Any())
-                model.History = deposits.List.Take(10).ToList();
+                model.History = deposits.List.ToList();
             if (meterId > 0) model.MeterId = meterId;
             if (posList.Count > 0)
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
@@ -185,7 +185,24 @@ namespace VendTech.Controllers
         {
             model.UserId = LOGGEDIN_USER.UserID;
             return JsonResult(_meterManager.RechargeMeter(model));
-                    }
+        }
+
+        public class tokenobject
+        {
+            public string token_string { get; set; }
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult ReturnVoucher(tokenobject tokenobject)
+        { 
+            var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
+            if (result.ReceiptStatus.Status == "unsuccessful") 
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
+
+
+
         [HttpPost, AjaxOnly]
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {

@@ -3660,3 +3660,147 @@ The underlying provider failed on Open.
 
 
 
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The specified type member 'Date' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+

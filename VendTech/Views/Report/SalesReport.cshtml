@@ -1,39 +1,40 @@
 ﻿@model PagingResult<MeterRechargeApiListingModel>
 @{ ViewBag.Title = "Manage Reports";
-                Layout = "~/Views/Shared/_LayOut.cshtml"; }
+    Layout = "~/Views/Shared/_LayOut.cshtml"; }
 
 
-@{ 
+@{
     var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
 }
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<link href="~/Content/pos_receipt.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
-    <style> 
-           input {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+    <style>
+        input {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        select {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+        select {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        label {
-                            font-weight: bold;
-                            text-transform: uppercase;
-                        }
+        label {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-                        option {
-                            font-weight: bold;
-                        }
-                         
+        option {
+            font-weight: bold;
+        }
 
-                        div.dataTables_filter > label::before {
-                            content: "Quick Search :";
-                        }
+
+        div.dataTables_filter > label::before {
+            content: "Quick Search :";
+        }
     </style>
     <div class="page-head">
         <h3><b>Manage Sales Report</b></h3>
@@ -47,23 +48,23 @@
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2>SALES REPORTS</h2> 
+                                    <h2>SALES REPORTS</h2>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
                                     <label>
                                         Export:
-                                        <select name="PrintType" id="PrintType">    
+                                        <select name="PrintType" id="PrintType">
                                             <option value="Excel">Excel</option>
                                             <option value="PDF">PDF</option>
                                         </select>
                                     </label>
 
                                     <label>
-                                        <button type="button" id="btnExport">Export</button> 
+                                        <button type="button" id="btnExport">Export</button>
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
-                                    </label> 
+                                    </label>
                                 </div>
                                 <div class="blwsec">
                                     <div class="blwsec-left">
@@ -78,7 +79,7 @@
                                                 @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;", @id = "pos" })
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
-                                            <div class="row" >
+                                            <div class="row">
                                                 <label style="width:100%;">TRANSACTION PERIOD</label>
                                                 <div style="width: 49%; float: left; ">
                                                     <label>FROM:</label>
@@ -134,7 +135,6 @@
                                                         <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                         <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
-
                                                         <th>PIN</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     </tr>
@@ -160,13 +160,19 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalCart2">
+    @Html.Partial("_fetchVoucher")
+</div>
 
 @section scripts{
-    <script src="~/Scripts/UserDefinedScripts/paging.js"></script> 
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/UserScripts/salesReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
+
+    <script src="~/Scripts/Receipt.js"></script>
+
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
@@ -175,10 +181,10 @@
             var totalCount = "@Model.TotalCount";
 
             $(document).ready(function () {
-                //initialize the javascript 
-                 
+                //initialize the javascript
+
                 App.init();
- 
+
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
                     value: new Date(),
@@ -208,11 +214,11 @@
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                     pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-                     
+
                     pdf.save(name);
-              
+
                 }
-                 
+
                 Deposits.ManageDeposits(totalCount);
 
             });
@@ -234,9 +240,9 @@
         $("#ToDate").click(function () {
             datePicker2.open();
         })
-           
-       
-       
+
+
+
             debugger
 
             function changeReport() {

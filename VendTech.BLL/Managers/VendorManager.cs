@@ -24,23 +24,20 @@ namespace VendTech.BLL.Managers
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
-            {
-                //query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()) || z.SurName.ToLower().Contains(model.Search.ToLower()) || z.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
-
-                if (model.SearchField.Equals("VENDOR"))
-                    query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()) || z.SurName.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("AGENCY"))
+            { 
+                if (model.SearchField.Equals("vendorname"))
+                    query = query.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("agency"))
                     query = query.Where(z => z.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                //else if (model.SearchField.Equals("BALANCE"))
-                //{
-                //    if (model.Search == "0")
-                //        query = query.Where(z => z.Balance == null || z.Balance.ToString().ToLower().Contains(model.Search.ToLower()));
-                //    else
-                //        query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.ToLower()));
-                //}
+                if (model.SearchField.Equals("fisrtname"))
+                    query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("lastname"))
+                    query = query.Where(z => z.SurName.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("phone"))
+                    query = query.Where(z => z.Phone.ToLower().Contains(model.Search.ToLower())); 
             }
-            var list = query
-               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+
+            var list = query.Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new VendorListingModel(x)).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;

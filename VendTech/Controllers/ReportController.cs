@@ -537,7 +537,7 @@ namespace VendTech.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "PIN"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[2].Text = "TOKEN"; gv.HeaderRow.Cells[2].ColumnSpan = 3; //PRODUCT_TYPE
                 gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
                 gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
                 gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
@@ -549,6 +549,10 @@ namespace VendTech.Controllers
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].ColumnSpan = 3;
+                        var token = row.Cells[2].Text.ToString();
+                        row.Cells[2].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;

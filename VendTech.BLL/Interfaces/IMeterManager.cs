@@ -23,7 +23,8 @@ namespace VendTech.BLL.Interfaces
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false);
         List<SelectListItem> GetMetersDropDown(long userID);
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin);
-        Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model); 
+        Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model);
+        ReceiptModel ReturnVoucherReceipt(string token);
     }
     
 }

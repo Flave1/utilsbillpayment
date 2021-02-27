@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using MailKit.Net.Smtp;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +12,6 @@ using VendTech.DAL;
 using MimeKit;
 using System.Net.Mail;
 using System.Net;
-using VendTech.BLL.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using System.IdentityModel;
-using System.Diagnostics;
 
 namespace VendTech.BLL.Common
 {
