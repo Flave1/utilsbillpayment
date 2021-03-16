@@ -65,7 +65,7 @@ namespace VendTech.BLL.Models
         public long? VendorId { get; set; }
 
         [Required(ErrorMessage = "Required")]
-        [MaxLength(8)]
+        [MaxLength(10)]
         public string Phone { get; set; }
         public string CountryCode { get; set; }
         public int? Type { get; set; }
@@ -89,6 +89,7 @@ namespace VendTech.BLL.Models
         public string CountryCode { get; set; }
         public string Email { get; set; }
         public string PassCode { get; set; }
+        public string PosNumber { get; set; }
     }
 
     public class SavePassCodeApiModel

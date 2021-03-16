@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 using System.Web.Configuration;
@@ -149,6 +150,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
+
             return View(userModel);
         }
 
@@ -156,7 +158,6 @@ namespace VendTech.Areas.Admin.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult ReactivateUserDetails(AddUserModel model)
         {
-
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             if (model.ImagefromWeb != null)
             {

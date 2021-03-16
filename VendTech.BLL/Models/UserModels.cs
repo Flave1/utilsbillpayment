@@ -69,7 +69,7 @@ namespace VendTech.BLL.Models
         [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Required")]
-        [MaxLength(8)]
+        [MaxLength(10)]
         [Index(IsUnique = true)]
         public string Phone { get; set; }
         public string Token { get; set; }
@@ -216,7 +216,7 @@ namespace VendTech.BLL.Models
         [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
-
+        public int PassCode { get; set; }
 
         public AddUserModel()
         {

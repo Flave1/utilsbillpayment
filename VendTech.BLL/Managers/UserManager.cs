@@ -920,12 +920,12 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
             if (user == null)
                 return 0;
-            if (user.UserRole.Role == UserRoles.AppUser) //user.UserRole.Role == UserRoles.Vendor ||
+            if (user.UserRole.Role != UserRoles.AppUser) //user.UserRole.Role == UserRoles.Vendor ||
             {
                 var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
                 return posTotalBalance.Value;
             }
-            else if (user.UserRole.Role != UserRoles.AppUser)
+            else if (user.UserRole.Role == UserRoles.AppUser)
             {
                 var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
                 return posTotalBalance.Value;

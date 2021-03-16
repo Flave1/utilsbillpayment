@@ -119,6 +119,9 @@
     <Compile Include="Meter.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MeterRecharge.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Module.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

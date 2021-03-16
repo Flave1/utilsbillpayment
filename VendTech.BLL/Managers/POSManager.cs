@@ -73,7 +73,7 @@ namespace VendTech.BLL.Managers
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "POS List Fetched Successfully";
-            result.TotalCount = Convert.ToInt32(query.Sum(x => x.Balance));
+            result.TotalCount = Convert.ToInt32(list.Sum(x => x.Balance));
             return result;
         }
         List<PosAPiListingModel> IPOSManager.GetPOSSelectListForApi(long userId = 0)
@@ -130,6 +130,7 @@ namespace VendTech.BLL.Managers
         SavePosModel IPOSManager.GetPosDetail(long posId)
         {
             var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);
+
             if (dbPos == null)
                 return null;
             return new SavePosModel()
@@ -146,7 +147,24 @@ namespace VendTech.BLL.Managers
                 EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                 CountryCode = dbPos.CountryCode,
-                PassCode = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).PassCode
+                PassCode = dbPos.PassCode,
+                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
+            };
+        }
+
+        UserModel IPOSManager.GetUserPosDetails(string posSerialNumber)
+        {
+            var dbPos = Context.POS.FirstOrDefault(p => p.SerialNumber == posSerialNumber);
+
+            if (dbPos == null)
+                return null;
+            var user = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId);
+            return new UserModel()
+            {
+                Email = user.Email,
+                UserId = user.UserId,
+                FirstName = user.Name,
+                Phone = user.Phone
             };
         }
         ActionOutput IPOSManager.DeletePos(long posId)
@@ -295,17 +313,42 @@ namespace VendTech.BLL.Managers
                 if (dbPos == null)
                     return ReturnError("Pos not exist");
             }
-            var user = Context.Users.Where(x => x.UserId == dbPos.VendorId).FirstOrDefault();
-            user.PassCode = savePassCodeModel.PassCode;
+            else if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
+            {
+                dbPos = Context.POS.FirstOrDefault(p => p.Phone == savePassCodeModel.Phone);
+                if (dbPos == null)
+                    return ReturnError("Pos not exist");
+            }
+            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
+            dbPos.PassCode = savePassCodeModel.PassCode;
+            if (savePassCodeModel.POSId == 0)
+                Context.POS.Add(dbPos);
             Context.SaveChanges();
-            return ReturnSuccess("PassCode saved successfully.");
+            return ReturnSuccess("Passcode saved successfully.");
         }
-        ActionOutput IPOSManager.SavePasscodePosApi(SavePassCodeApiModel savePassCodeModel)
+
+        ActionOutput IPOSManager.SavePasscodePosApi(SavePassCodeModel savePassCodeModel)
         {
-            var user = Context.Users.FirstOrDefault(x => x.UserId == savePassCodeModel.UserId);
-            user.PassCode = savePassCodeModel.PassCode;
+            var dbPos = new POS();
+            if (!string.IsNullOrEmpty(savePassCodeModel.PosNumber))
+            {
+                dbPos = Context.POS.FirstOrDefault(p => p.SerialNumber == savePassCodeModel.PosNumber);
+                if (dbPos == null)
+                    return ReturnError("Pos not exist");
+            }
+            else if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
+            {
+                dbPos = Context.POS.FirstOrDefault(p => p.Phone == savePassCodeModel.Phone);
+                if (dbPos == null)
+                    return ReturnError("Pos not exist");
+            }
+            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
+            dbPos.PassCode = savePassCodeModel.PassCode;
+            if (dbPos.POSId == 0)
+                Context.POS.Add(dbPos);
             Context.SaveChanges();
-            return ReturnSuccess("PassCode saved successfully.");
+            return ReturnSuccess("Passcode saved successfully.");
         }
+
     }
 }

@@ -64,7 +64,7 @@ namespace VendTech.Areas.Api.Controllers
 
                 //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
-                if (userDetails == null)
+                if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode for this user.Please use another one.", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
@@ -92,9 +92,7 @@ namespace VendTech.Areas.Api.Controllers
             }
         }
 
-
         [HttpPost]
-
         public HttpResponseMessage Logout()
         {
             var token = Request.Headers.GetValues("Token").FirstOrDefault();
@@ -103,7 +101,6 @@ namespace VendTech.Areas.Api.Controllers
         }
 
         [NonAction]
-
         private HttpResponseMessage GenerateandSaveToken(UserModel user, LoginAPIPassCodeModel model)
         {
             var IssuedOn = DateTime.UtcNow;
@@ -225,9 +222,11 @@ namespace VendTech.Areas.Api.Controllers
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
-        public HttpResponseMessage ForgotPasscode(SavePassCodeApiModel savePassCodeModel)
+        public HttpResponseMessage ForgotPasscode(SavePassCodeModel savePassCodeModel)
         {
             var isEmailed = false;
+            long userId = 0;
+            var user = new UserModel();
             savePassCodeModel.PassCode = Convert.ToString(Utilities.GenerateFiveRandomNo());
             if (string.IsNullOrEmpty(savePassCodeModel.Email))
             {
@@ -235,47 +234,62 @@ namespace VendTech.Areas.Api.Controllers
             }
             if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
             {
-                var userId = _userManager.GetUserId(savePassCodeModel.Phone);
-                savePassCodeModel.UserId = userId;
-                var name = _vendorManager.GetVendorDetail(userId).Name;
-                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%UserName%", name);
-                body = body.Replace("%passcode%", savePassCodeModel.PassCode);
-                if (!string.IsNullOrEmpty(savePassCodeModel.Email))
+                if (!string.IsNullOrEmpty(savePassCodeModel.PosNumber))
                 {
-                    isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    user = _posManager.GetUserPosDetails(savePassCodeModel.PosNumber);
+                    userId = user.UserId;
                 }
-                //if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
-                //{
-                //    String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
-                //    //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
-                //    using (var wb = new WebClient())
-                //    {
-                //        byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
-                //{
-                //{"apikey" , "3dmxGZ4kX6w-GheG39NELIgd6546OjfacESXqNOVY4"},
-                //{"numbers" , savePassCodeModel.CountryCode+savePassCodeModel.Phone},
-                //{"message" , message},
-                //{"sender" , "TXTLCL"}
-                //});
-                //        string result = System.Text.Encoding.UTF8.GetString(response);
-                //    }
-                //}
-            }
-            if (isEmailed)
-            {
-                _posManager.SavePasscodePosApi(savePassCodeModel);
-                string message = string.Empty;
-                message = string.IsNullOrEmpty(savePassCodeModel.Email) ? "New PassCode is Sent to Mobile! Please Check."
-                    : "New PassCode is Sent to Email! Please Check.";
-                return new JsonContent(message, Status.Success)
-                    .ConvertToHttpResponseOK();
-            }
-            return new JsonContent("Something went wrong!!", Status.Failed).ConvertToHttpResponseOK();
+                else
+                {
+                    userId = _userManager.GetUserId(savePassCodeModel.Phone);
+                }
+                if (userId > 0)
+                {
+                    var vendorDetail = _vendorManager.GetVendorDetail(userId);
+                    savePassCodeModel.VendorId = vendorDetail.VendorId;
 
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%UserName%", vendorDetail.Name);
+                    body = body.Replace("%passcode%", savePassCodeModel.PassCode);
+                    if (!string.IsNullOrEmpty(savePassCodeModel.Email))
+                    {
+                        isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    }
+                    //if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
+                    //{
+                    //    String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
+                    //    //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
+                    //    using (var wb = new WebClient())
+                    //    {
+                    //        byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                    //{
+                    //{"apikey" , "3dmxGZ4kX6w-GheG39NELIgd6546OjfacESXqNOVY4"},
+                    //{"numbers" , savePassCodeModel.CountryCode+savePassCodeModel.Phone},
+                    //{"message" , message},
+                    //{"sender" , "TXTLCL"}
+                    //});
+                    //        string result = System.Text.Encoding.UTF8.GetString(response);
+                    //    }
+                    //}
+                }
+                else
+                {
+                    isEmailed = false;
+                }
+                if (isEmailed)
+                {
+                    _posManager.SavePasscodePosApi(savePassCodeModel);
+                    string message = string.Empty;
+                    message = string.IsNullOrEmpty(savePassCodeModel.Email) ? "New PassCode is Sent to Mobile! Please Check."
+                        : "New PassCode is Sent to Email! Please Check.";
+                    return new JsonContent(message, Status.Success)
+                        .ConvertToHttpResponseOK();
+                }
+                return new JsonContent("This Email Or Phone Number Is Not Register!!Please Try with something else!", Status.Failed).ConvertToHttpResponseOK();
+            }
+            return new JsonContent("PassCode Not Generated!", Status.Failed).ConvertToHttpResponseOK();
         }
-
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -285,7 +299,17 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
 
-
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetPOSUserDetails(SavePassCodeModel savePassCodeModel)
+        {
+            var result = _posManager.GetUserPosDetails(savePassCodeModel.PosNumber);
+            if (result != null)
+            {
+                return new JsonContent("User POS Details!!", Status.Success, result).ConvertToHttpResponseOK();
+            }
+            return new JsonContent("You Do not have a valid account!!", Status.Success, result).ConvertToHttpResponseOK();
+        }
 
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -294,6 +318,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _authenticateManager.GetCountries();
             return new JsonContent("Countries fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetCities(int countryId)
@@ -301,6 +326,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _authenticateManager.GetCities(countryId);
             return new JsonContent("Cities fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetAppUserTypes()
@@ -316,6 +342,7 @@ namespace VendTech.Areas.Api.Controllers
             CMSPageViewModel model = _cmsManager.GetPageContentByPageIdforFront(1);
             return new JsonContent("Terms and conditions fetched successfully.", Status.Success, new { html = model.PageContent }).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetPrivacyPolicy()
@@ -325,6 +352,7 @@ namespace VendTech.Areas.Api.Controllers
             CMSPageViewModel terms = _cmsManager.GetPageContentByPageIdforFront(1);
             return new JsonContent("Privacy policy fetched successfully.", Status.Success, new { privacyPolicyHtml = privacyPolicy.PageContent, termsHtml = terms.PageContent }).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage TestPush()
@@ -365,6 +393,7 @@ namespace VendTech.Areas.Api.Controllers
             var data = result.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankName }).ToList();
             return new JsonContent("Banks  fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
+
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetBankAccountsSelectList()

@@ -18,6 +18,7 @@ namespace VendTech.DAL
         public POS()
         {
             this.Deposits = new HashSet<Deposit>();
+            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
             this.TransactionDetails = new HashSet<TransactionDetail>();
         }
@@ -44,6 +45,8 @@ namespace VendTech.DAL
         public virtual Commission Commission { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Deposit> Deposits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
