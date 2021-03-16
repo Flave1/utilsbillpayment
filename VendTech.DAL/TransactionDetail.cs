@@ -19,12 +19,15 @@ namespace VendTech.DAL
         public string TransactionId { get; set; }
         public Nullable<long> MeterId { get; set; }
         public decimal Amount { get; set; }
-        public string MeterNumber { get; set; }
+        public string MeterNumber1 { get; set; }
         public Nullable<long> POSId { get; set; }
         public int Status { get; set; }
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<int> PlatFormId { get; set; }
+        public string MeterToken1 { get; set; }
+        public string MeterToken2 { get; set; }
+        public string MeterToken3 { get; set; }
         public System.DateTime RequestDate { get; set; }
         public decimal CurrentDealerBalance { get; set; }
         public string AccountNumber { get; set; }
@@ -41,9 +44,6 @@ namespace VendTech.DAL
         public string CustomerAddress { get; set; }
         public long DebitRecovery { get; set; }
         public decimal CostOfUnits { get; set; }
-        public string MeterToken1 { get; set; }
-        public string MeterToken2 { get; set; }
-        public string MeterToken3 { get; set; }
         public string VProvider { get; set; }
         public Nullable<bool> Finalised { get; set; }
         public Nullable<int> StatusRequestCount { get; set; }
