@@ -97,11 +97,13 @@ namespace VendTech.BLL.Models
     {
         public string Date_TIME { get; set; }
         public string PRODUCT_TYPE { get; set; }
-        public string PIN { get; set; }
-        public string AMOUNT { get; set; }
         public string TRANSACTIONID { get; set; }
         public string METER_NO { get; set; }
-        public string POSID { get; set; }
         public string VENDORNAME { get; set; }
+        public string POSID { get; set; }
+        //public string Request { get; set; }
+        //public string Response { get; set; }
+        public string PIN { get; set; }
+        public string AMOUNT { get; set; }
     }
 }

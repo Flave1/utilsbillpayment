@@ -240,6 +240,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
+                                                        <th class="sorting" data-sortby="CREATEDAT">VALUE DATE</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th class="sorting" data-sortby="DEPOSITBY">DEPOSIT BY</th>
                                                         <th class="sorting" data-sortby="DEPOSITTYPE">DEPOSIT TYPE</th>
@@ -288,6 +289,12 @@
                         <label for="short_name" class="col-md-4 control-label margin">DATE/TIME<em>*</em></label>
                         <div class="col-md-8">
                             <input type="datetime" readonly name="CreatedAt" id="modal_created" class="form-control margin" />
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
+                        <div class="col-md-4">
+                            <input type="text"  name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -369,7 +376,24 @@ function getUrlParameter(name) {
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
-$(document).ready(function () {
+        $(document).ready(function () { 
+             var d = new Date();
+            $("#value_date").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate())
+             });
+
+           
+            $("#value_date").kendoDatePicker({
+                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                format: "dd/MM/yyyy"
+            });
+            var datePicker3 = $("#value_date").data("kendoDatePicker"); 
+            $("#value_date").click(function () {
+                datePicker3.open();
+            })
+
+
     if (@Html.Raw(Json.Encode(Model.List)) == null) {
         swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
     }
@@ -519,29 +543,30 @@ $(document).ready(function () {
             }
         });
 
-function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
-{
-    debugger;
-    $("#depositModalTitle").text("Edit Deposit Audit");
-    $("#hdnDepositId").val(id);
-    $("#hdnUserId").val(userId);
-    $("#PosId").find("option:contains("+posid+")").attr("selected","selected");
-    $("#depositby").val(depositby);
-    $("#payer").val(payer);
-    $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
-    $("#depositref").val(depositref);
-    $("#gtbank").val(gtbank);
-    $("#modal_amount").val(amount);
-    if (isAudit == "")
-        $("#modal_btn").val("Clear");
-    else
-        $("#modal_btn").val("Open");
-    $("#modal_created").val(date)
-    $("#depositModal").modal('show');
-            }
+    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
+    {
+        debugger;
+        $("#depositModalTitle").text("Edit Deposit Audit");
+        $("#hdnDepositId").val(id);
+        $("#hdnUserId").val(userId);
+        $("#PosId").find("option:contains("+posid+")").attr("selected","selected");
+        $("#depositby").val(depositby);
+        $("#payer").val(payer);
+        $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
+        $("#depositref").val(depositref);
+        $("#gtbank").val(gtbank);
+        $("#modal_amount").val(amount);
+        if (isAudit == "")
+            $("#modal_btn").val("Clear");
+        else
+            $("#modal_btn").val("Open");
+        $("#modal_created").val(date)
+        $("#depositModal").modal('show');
+      }
         function Save(th) {
             debugger;
             var inputParam = new Object();
+            inputParam.ValueDate = $("value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();

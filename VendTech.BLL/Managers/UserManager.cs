@@ -246,7 +246,8 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-           // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
+            // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
+            var users = Context.Users.ToList();
             var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && ( p.Status == (int)UserStatusEnum.Active ||p.Status==(int)UserStatusEnum.PasswordNotReset)&& p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
@@ -796,12 +797,12 @@ namespace VendTech.BLL.Managers
                 dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 dbUser.CountryCode = "+232";
-                dbUser.CityId = Convert.ToInt32(userDetails.City); 
+                dbUser.CityId = Convert.ToInt32(userDetails.City != null? userDetails.City : "0"); 
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
-                dbUser.AgentId = Convert.ToInt64(userDetails.Agency);
-                dbUser.Vendor = $"{userDetails.FirstName} {userDetails.LastName}-{last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.AgentId = Convert.ToInt64(userDetails.Agency != null? userDetails.Agency : "0");
+                dbUser.Vendor = $"{userDetails.FirstName} {userDetails.LastName} - {last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
@@ -918,7 +919,7 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
             if (user == null)
                 return 0;
-            if (user.UserRole.Role == UserRoles.AppUser) //user.UserRole.Role == UserRoles.Vendor ||
+            if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
             {
                 var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
                 return posTotalBalance.Value;

@@ -37,7 +37,8 @@ namespace VendTech.DAL
         public int BankAccountId { get; set; }
         public Nullable<decimal> NewBalance { get; set; }
         public bool isAudit { get; set; }
-    
+
+        public string ValueDate { get; set; }
         public virtual BankAccount BankAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepositLog> DepositLogs { get; set; }

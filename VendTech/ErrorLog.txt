@@ -3804,3 +3804,167 @@ LINQ to Entities does not recognize the method 'System.String Format(System.Stri
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: startIndex
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Keyword not supported: 'data source'.
+
+
+
+Keyword not supported: 'data source'.
+
+
+
+Keyword not supported: 'data source'.
+
+
+
+Keyword not supported: 'data source'.
+
+
+
+c:\Users\flave\Desktop\Vend Tech\Vendtech\github\vendtech\VendTech\Areas\Admin\Views\Shared\_SideBaar.cshtml(13): error CS1525: Invalid expression term '||'
+
+
+
+A space or line break was encountered after the "@" character.  Only valid identifiers, keywords, comments, "(" and "{" are valid at the start of a code block and they must occur immediately following "@" with no space in between.
+
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.AddUserModel', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.WidgetCheckbox]'.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Sequence contains no elements
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.SavePosModel', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformCheckbox]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.SavePosModel', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PlatformCheckbox]'.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Method not found: 'Void VendTech.BLL.Models.PlatformModel.set_Logo(System.String)'.
+
+
+
+Method not found: 'Void VendTech.BLL.Models.PlatformModel.set_Logo(System.String)'.
+
+
+
+Method not found: 'Void VendTech.BLL.Models.PlatformModel.set_Logo(System.String)'.
+
+
+

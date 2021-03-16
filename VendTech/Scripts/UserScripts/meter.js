@@ -197,6 +197,7 @@ var Users = {
                     $("#vendtech_serial_code").html(data.Data.ReceiptNo);
                     $("#pos_id").html(data.Data.POS);
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
+                    $("#vendorId").html(data.Data.VendorId);
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {

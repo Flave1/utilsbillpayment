@@ -28,16 +28,17 @@
                 </td>
             </tr>*@
 
-        <tr class="odd gradeX">
-            <td style="text-align:right;">@item.PosNumber</td>
-            <td>@item.UserName</td>
-            <td style="text-align:right;">@item.CreatedAt.ToString()</td>
-            <td>@item.Type</td>
-            <td style="text-align:right;">@item.ChkNoOrSlipId</td>
-            <td style="text-align:right;">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</td>
-            <td style="text-align:right;">@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</td>
-            <td>@item.Status</td>
-        </tr>
+    <tr class="odd gradeX">
+        <td style="text-align:right;">@item.CreatedAt.ToString()</td>
+        <td style="text-align:right;">@item.ValueDate</td>
+        <td style="text-align:right;">@item.PosNumber</td>
+        <td>@item.UserName</td>
+        <td>@item.Type</td>
+        <td style="text-align:right;">@item.ChkNoOrSlipId</td>
+        <td style="text-align:right;">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</td>
+        <td style="text-align:right;">@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</td>
+        <td>@item.Status</td>
+    </tr>
     }
 }
 else

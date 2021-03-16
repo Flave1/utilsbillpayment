@@ -130,8 +130,8 @@
                                                         <th>PRODUCT</th>
                                                         <th>TRANSACTION ID</th>
                                                         <th>METER #</th>
-                                                        <th>POS ID</th>
-                                                        <th>PIN</th>
+                                                        <th>POS ID</th> 
+                                                        <th>TOKEN</th>
                                                         <th>AMOUNT</th>
                                                     </tr>
                                                 </thead>
@@ -207,6 +207,9 @@
 </div>
 <div class="modal fade" id="modalCart2"> 
     @Html.Partial("_fetchVoucher") 
+</div>
+<div class="modal fade" id="modalCart3">
+    @Html.Partial("_RequestResponseJSON")
 </div>
 
     @section scripts{

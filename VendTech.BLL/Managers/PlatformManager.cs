@@ -10,6 +10,7 @@ using VendTech.DAL;
 using VendTech.BLL.Common;
 using System.Web;
 using System.IO;
+using System.Reflection;
 
 namespace VendTech.BLL.Managers
 {
@@ -23,7 +24,8 @@ namespace VendTech.BLL.Managers
                 PlatformId = p.PlatformId,
                 ShortName = p.ShortName,
                 Title = p.Title,
-                Enabled = p.Enabled
+                Enabled = p.Enabled,
+                Logo = !string.IsNullOrEmpty(p.Logo) ? p.Logo : string.Empty
             }).ToList();
         }
         List<PlatformModel> IPlatformManager.GetUserAssignedPlatforms(long userId)
@@ -51,13 +53,39 @@ namespace VendTech.BLL.Managers
         ActionOutput IPlatformManager.SavePlateform(SavePlatformModel model)
         {
             var dbPlatform = new Platform();
+            var myfile = string.Empty;
             if (model.Id > 0)
             {
                 dbPlatform = Context.Platforms.FirstOrDefault(p => p.PlatformId == model.Id);
                 if (dbPlatform == null)
                     return ReturnError("Platform not exist.");
             }
-            dbPlatform.Title = model.Title;
+
+            if (model.ImagefromWeb != null)
+            {
+                var file = model.ImagefromWeb;
+                var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
+                model.Image = (HttpPostedFile)constructorInfo.Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
+            }
+
+            if (model.Image != null)
+            {
+                var ext = Path.GetExtension(model.Image.FileName);   
+                myfile = Guid.NewGuid().ToString() + ext;  
+                var folderName = HttpContext.Current.Server.MapPath("~/Images/ProductImages");
+                if (!Directory.Exists(folderName))
+                    Directory.CreateDirectory(folderName);
+                var path = Path.Combine(folderName, myfile);
+                model.Image.SaveAs(path);
+                if (!string.IsNullOrEmpty(dbPlatform.Logo))
+                {
+                    if (File.Exists(HttpContext.Current.Server.MapPath("~" + dbPlatform.Logo)))
+                        File.Delete(HttpContext.Current.Server.MapPath("~" + dbPlatform.Logo));
+                }
+                dbPlatform.Logo = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProductImages/" + myfile; 
+            }
+
+            dbPlatform.Title = model.Title; 
             dbPlatform.ShortName = model.ShortName;
             if (model.Id == null || model.Id == 0)
             {

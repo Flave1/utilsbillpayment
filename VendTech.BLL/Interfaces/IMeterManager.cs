@@ -25,6 +25,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin);
         Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model);
         ReceiptModel ReturnVoucherReceipt(string token);
+        RequestResponse ReturnRequestANDResponseJSON(string token);
     }
     
 }

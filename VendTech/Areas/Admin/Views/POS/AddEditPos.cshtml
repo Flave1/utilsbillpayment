@@ -116,7 +116,7 @@
 
                             <div class="col-md-2">
                                 <p style="font-weight:bold; text-align:left;">PRODUCT SETTINGS</p>
-                                @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+                                @Html.Partial("Partials/_platformsListing", Model.PlatformList ?? new List<PlatformCheckbox>())
                             </div>
 
                             <div class="col-md-4">

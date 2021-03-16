@@ -14,17 +14,22 @@ namespace VendTech.BLL.Models
         {
             using (var db = new VendTechEntities())
             {
-                int minutes=3;
-               var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
-                if (record != null)
-                    minutes = Convert.ToInt32(record.Value);
-                var logOutTime = DateTime.UtcNow.AddMinutes(-minutes);
-                var logOutUsers = db.Users.Where(p => p.AppLastUsed!=null && logOutTime > p.AppLastUsed.Value).ToList();
-                foreach (var user in logOutUsers)
+                try
                 {
-                    db.TokensManagers.RemoveRange(user.TokensManagers.ToList());
-                    db.SaveChanges();
+                    int minutes = 3;
+                    var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
+                    if (record != null)
+                        minutes = Convert.ToInt32(record.Value);
+                    var logOutTime = DateTime.UtcNow.AddMinutes(-minutes);
+                    var logOutUsers = db.Users.Where(p => p.AppLastUsed != null && logOutTime > p.AppLastUsed.Value).ToList();
+                    foreach (var user in logOutUsers)
+                    {
+                        db.TokensManagers.RemoveRange(user.TokensManagers.ToList());
+                        db.SaveChanges();
+                    }
                 }
+                catch (Exception) { }
+                
             }
         }
     }

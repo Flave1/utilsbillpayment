@@ -100,8 +100,8 @@ blockquote cite {
 }
 
 .flave-content {
-    display: table-cell;
-    vertical-align: middle;
+    /*display: table-cell;*/
+    /*vertical-align: middle;*/
     text-align: left; 
     opacity: 0.9;
     font-weight: bold;

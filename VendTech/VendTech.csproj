@@ -522,6 +522,7 @@
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
     <Content Include="Views\Shared\_fetchVoucher.cshtml" />
+    <Content Include="Views\Shared\_RequestResponseJSON.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -530,6 +531,7 @@
     <Folder Include="Areas\Audit\Controllers\" />
     <Folder Include="Areas\Audit\Data\" />
     <Folder Include="Areas\Audit\Views\Shared\" />
+    <Folder Include="Images\ProductImages\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Project_Readme.html" />

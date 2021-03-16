@@ -134,8 +134,8 @@
                                                         <th class="sorting" data-sortby="TransactionId">TRANSACTION ID</th>
                                                         <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                         <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th>
-                                                        <th>PIN</th>
+                                                        <th class="sorting" data-sortby="POS">POS ID</th> 
+                                                        <th>TOKEN</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     </tr>
                                                 </thead>
@@ -162,6 +162,9 @@
 
 <div class="modal fade" id="modalCart2">
     @Html.Partial("_fetchVoucher")
+</div>
+<div class="modal fade" id="modalCart3">
+    @Html.Partial("_RequestResponseJSON")
 </div>
 
 @section scripts{

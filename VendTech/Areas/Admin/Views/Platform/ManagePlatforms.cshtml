@@ -36,25 +36,11 @@
                                         {
                                             foreach (var item in Model)
                                             {
-                                        <tr class="odd gradeX">
-                                            @*@if (item.Enabled) {
-        <td>
-            <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
-
-        </td>
-        }
-
-        else
-        {
-        <td>
-            <a data-id="@item.PlatformId" class="btn btn-primary btn-xs enablePlatform" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
-        </td>
-
-        }*@
+                                        <tr class="odd gradeX"> 
                                             <td>@item.ShortName</td>
                                             <td>@item.Title</td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
                                                 @if (item.Enabled)
                                                 {
@@ -91,34 +77,46 @@
 <div id="platformModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" id="platformModalTitle"></h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="hdnPlatformId" class="form-control" />
+                <form id="platformSettingsForm" enctype="multipart/form-data">
+                    <input type="hidden" name="Id" id="hdnPlatformId" class="form-control" />
 
-                <div class="row">
-                    <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label">SHORTNAME<em>*</em></label>
-                        <div class="col-md-8">
-                            <input type="text" name="short_name" id="short_name" class="form-control" />
+                    <div class="row">
+                        <div class=" col-md-12">
+                            <label for="short_name" class="col-md-4 control-label">SHORTNAME<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="ShortName" id="short_name" class="form-control" />
+                            </div>
                         </div>
-                    </div>
-                    <div class=" col-md-12">
-                        <label for="title" class="col-md-4 control-label">TITLE<em>*</em></label>
-                        <div class="col-md-8">
-                            <input type="text" name="title" id="title" class="form-control" />
+                        <br /><br /><br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">TITLE<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="title" id="title" class="form-control" />
+                            </div>
                         </div>
-                    </div>
+                        <br /><br /><br />
+                        <div class="col-md-12">
+                            <label for="title" class="col-md-4 control-label">LOGO</label>
+                            <div class="col-md-8">
+                                <img id="previewImg" style="height:50px; border:2px solid #d2c6c6;  width:40%;" class="dummyimg" src="" />
+                                <input class="pull-right" style="width:52%; " type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
+                            </div>
+                            @*@(Model.ProfilePicUrl == null ? "http://vendtech.xicom.info/Content/images/dummyimg.jpg" : Model.ProfilePicUrl)*@
 
-                </div>
-             
+                        </div>
+
+                    </div>
+                </form> 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="savePlatform()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="savePlatform(this)">Save</button>
             </div>
         </div>
 
@@ -130,9 +128,38 @@
     <script src="~/Scripts/AdminScripts/platform.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+              $("input[type=button]#saveProfileBtn").live("click", function () {
+                return UpdateProfile($(this));
+            }); 
             //initialize the javascript
             App.init();
         });
+
+           function previewFile(input) {
+            debugger;
+
+            var file = $("input[type=file]").get(0).files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                var fileType = file["type"];
+                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                if ($.inArray(fileType, validImageTypes) < 0) {
+                    alert("Only image file is allowed");
+                    $('#ImagefromWeb').val('');
+                }
+                else {
+
+                    reader.onload = function () {
+                        $("#previewImg").attr("src", reader.result);
+                        //reader.readAsDataURL(file);
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+            }
+        }
+
     </script>
 }
 

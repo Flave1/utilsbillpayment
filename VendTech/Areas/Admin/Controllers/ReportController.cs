@@ -318,27 +318,27 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "TOKEN"; gv.HeaderRow.Cells[2].ColumnSpan = 3; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
-                gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
-                gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
-                gv.HeaderRow.Cells[6].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[7].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[2].Text = "TRANS ID"; //TRANSACTIONID
+                gv.HeaderRow.Cells[3].Text = "METER #"; //METER_NO
+                gv.HeaderRow.Cells[4].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
+                //gv.HeaderRow.Cells[6].Text = "REQUEST"; //REQUEST
+                //gv.HeaderRow.Cells[7].Text = "RESPONSE"; //RESPONSE
+                gv.HeaderRow.Cells[6].Text = "TOKEN";  
+                gv.HeaderRow.Cells[7].Text = "AMOUNT"; //AMOUNT
 
                 // R&D on Alignment section
                 foreach (GridViewRow row in gv.Rows)
                 { 
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right; 
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;  
-                        row.Cells[2].ColumnSpan = 3;
-                        var token =  row.Cells[2].Text.ToString();
-                        row.Cells[2].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        var token = row.Cells[6].Text.ToString(); row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                     } 
                 }
             }
@@ -425,7 +425,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -441,7 +441,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -456,7 +456,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -470,7 +470,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -483,7 +483,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -501,7 +501,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "DEPOSIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -519,14 +519,16 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[2].Text = "USER NAME"; //USERNAME
-                gv.HeaderRow.Cells[3].Text = "AMOUNT";
-                gv.HeaderRow.Cells[4].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[5].Text = "DEPOSIT TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[8].Text = "NEW BALANCE"; //NEW_BALANCE
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //BANK
+                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID 
+                gv.HeaderRow.Cells[3].Text = "USER NAME"; //USERNAME
+                gv.HeaderRow.Cells[4].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[5].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[6].Text = "TRANSACTION ID"; //TRANSACTION_ID
+                gv.HeaderRow.Cells[7].Text = "REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[8].Text = "AMOUNT";
+                gv.HeaderRow.Cells[9].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[10].Text = "NEW BALANCE"; //NEW_BALANCE
 
                 foreach (GridViewRow row in gv.Rows)
                 {
@@ -534,10 +536,13 @@ namespace VendTech.Areas.Admin.Controllers
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }

@@ -219,6 +219,16 @@ namespace VendTech.Controllers
             return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
 
         }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult ReturnRequestANDResponseJSON(tokenobject tokenobject)
+        {
+            var result = _meterManager.ReturnRequestANDResponseJSON(tokenobject.token_string.Trim());
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
+
         //[HttpGet]
         //public ActionResult GetUserMeterRecharges(int pageNo, int pageSize)
         //{

@@ -160,7 +160,7 @@ namespace VendTech.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -174,7 +174,7 @@ namespace VendTech.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -187,7 +187,7 @@ namespace VendTech.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -200,7 +200,7 @@ namespace VendTech.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -225,7 +225,7 @@ namespace VendTech.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "DEPOSIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -245,9 +245,9 @@ namespace VendTech.Controllers
                 gv.HeaderRow.Cells[2].Text = "USER NAME"; //USERNAME
                 gv.HeaderRow.Cells[3].Text = "AMOUNT";
                 gv.HeaderRow.Cells[4].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[5].Text = "DEPOSIT TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[5].Text = "TYPE"; //DEPOSIT_TYPE
                 gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[7].Text = "REF #"; //DEPOSIT_REF_NO
                 gv.HeaderRow.Cells[8].Text = "NEW BALANCE"; //NEW_BALANCE
 
 
@@ -257,8 +257,10 @@ namespace VendTech.Controllers
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
                     }
@@ -283,44 +285,7 @@ namespace VendTech.Controllers
                 Response.Output.Write(objStringWriter.ToString());
                 Response.Flush();
                 Response.End();
-
-                //WorkBook workbook = WorkBook.Load(Server.MapPath(@"~/Content/StaticFileFormat/TempDepositReport.xlsx"));
-                //string filepath = Server.MapPath(@"~/Content/StaticFileFormat/Generated/" + DateTime.Now.ToString("ddmmyyyyhhmmss") + ".xlsx");
-
-                //WorkSheet sheet = workbook.DefaultWorkSheet;
-                //sheet.SetCellValue(1, 0, "FROM DATE:  " + fromdate);
-                //sheet.SetCellValue(2, 0, "TO DATE:  " + Todate);
-                //sheet.SetCellValue(3, 0, "  ");
-                //sheet.SetCellValue(4, 0, "PRINT DATE:  " + PrintedDateServer);
-                //sheet.SetCellValue(5, 0, "  ");
-
-                //int row = 7;
-                //foreach (var item in list)
-                //{
-                //    sheet.SetCellValue(row, 0, item.DATE_TIME);
-                //    sheet.SetCellValue(row, 1, item.POSID);
-                //    sheet.SetCellValue(row, 2, item.USERNAME);
-                //    sheet.SetCellValue(row, 3, item.AMOUNT);
-                //    sheet.SetCellValue(row, 4, item.PERCENT);
-                //    sheet.SetCellValue(row, 5, item.DEPOSIT_TYPE);
-                //    sheet.SetCellValue(row, 6, item.BANK);
-                //    sheet.SetCellValue(row, 7, item.DEPOSIT_REF_NO);
-                //    sheet.SetCellValue(row, 8, item.NEW_BALANCE);
-                //    row++;
-                //}
-                //workbook.SaveAs(filepath);
-                //Response.Clear();
-                //Response.AppendHeader("content-disposition", "attachment; filename=" + filename);
-                //Response.ContentType = "application/octet-stream";
-                //Response.WriteFile(filepath);
-                //Response.Flush();
-                //Response.End();
-
-                //if (System.IO.File.Exists(filepath))
-                //{
-                //    System.IO.File.Delete(filepath);
-                //    Console.WriteLine("File deleted.");
-                //}
+ 
             }
             else if (ExportType == "PDF")
             {
@@ -536,27 +501,26 @@ namespace VendTech.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "PRODUCT TYPE"; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[2].Text = "TOKEN"; gv.HeaderRow.Cells[2].ColumnSpan = 3; //PRODUCT_TYPE
-                gv.HeaderRow.Cells[3].Text = "AMOUNT"; //AMOUNT
-                gv.HeaderRow.Cells[4].Text = "TRANSACTION ID"; //TRANSACTIONID
-                gv.HeaderRow.Cells[5].Text = "METER #"; //METER_NO
-                gv.HeaderRow.Cells[6].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[7].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[2].Text = "TRANSACTION ID"; //TRANSACTIONID
+                gv.HeaderRow.Cells[3].Text = "METER #"; //METER_NO
+                gv.HeaderRow.Cells[4].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
+                //gv.HeaderRow.Cells[6].Text = "REQUEST"; //REQUEST
+                //gv.HeaderRow.Cells[7].Text = "RESPONSE"; //RESPONSE
+                gv.HeaderRow.Cells[6].Text = "TOKEN";   //PIN
+                gv.HeaderRow.Cells[7].Text = "AMOUNT"; //AMOUNT
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].ColumnSpan = 3;
-                        var token = row.Cells[2].Text.ToString();
-                        row.Cells[2].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right; 
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        var token = row.Cells[6].Text.ToString(); row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                     }
                 }
             }

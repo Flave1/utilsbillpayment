@@ -15,10 +15,7 @@
                 <div class="block-flat front">
                     <div class="editpro">
                         <form id="profileForm" enctype="multipart/form-data">
-                            <div class="editpro-left">
-                                @*<div class="dummyimg" style="background:url(@(Model.ProfilePicUrl==null?"http://vendtech.xicom.info/Content/images/dummyimg.jpg":Model.ProfilePicUrl)) no-repeat;">
-
-                                </div>*@
+                            <div class="editpro-left"> 
                                 <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.xicom.info/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
                                 <br />
                                 <br />
@@ -85,12 +82,7 @@
         </div>
     </div>
 </div>
-
-<style>
-    .profpic{
-
-    }
-</style>
+ 
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -143,8 +135,8 @@
                 }
             });
             return false;
-
         }
+
         function previewFile(input) {
             debugger;
 
@@ -169,12 +161,6 @@
 
             }
         }
-            //var file = this.files[0];
-            //var fileType = file["type"];
-            //var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-            //if ($.inArray(fileType, validImageTypes) < 0) {
-            //    // invalid file type code goes here.
-            //}
 
        
     </script>

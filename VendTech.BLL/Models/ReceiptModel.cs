@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace VendTech.BLL.Models
 {
+    public class RequestResponse
+    {
+        public string Request { get; set; }
+        public string Response { get; set; }
+        public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
+    }
     public class ReceiptModel
     {
         public string ReceiptNo { get; set; }
@@ -13,7 +19,7 @@ namespace VendTech.BLL.Models
         public string AccountNo { get; set; }
         public string Address { get; set; }
         public string DeviceNumber { get; set; } 
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         public double Charges { get; set; }
         public double Discount { get; set; }
         public double Commission { get; set; }

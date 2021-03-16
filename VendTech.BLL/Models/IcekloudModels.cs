@@ -24,8 +24,8 @@ namespace VendTech.BLL.Models
         public long TransactionId { get; set; }
          
         public long StatusRequestCount { get; set; }
-         
-        public bool Finalised { get; set; }
+
+        public bool Finalised { get; set; } = false;
          
         public bool Sold { get; set; }
          
@@ -107,8 +107,8 @@ namespace VendTech.BLL.Models
     public partial class IceKloudResponse
     { 
         public string Status { get; set; }
-         
-        public Content Content { get; set; }
+
+        public Content Content { get; set; } = new Content();
          
         public object[] ErrorLog { get; set; }
 
@@ -116,15 +116,15 @@ namespace VendTech.BLL.Models
     }
 
     public partial class Content
-    { 
-        public DataResponse Data { get; set; }
+    {
+        public DataResponse Data { get; set; } = new DataResponse();
          
         public string ProcessOption { get; set; }
     }
 
     public partial class DataResponse
-    { 
-        public Datum[] Data { get; set; }
+    {
+        public Datum[] Data { get; set; } = new Datum[0];
          
         public string DataName { get; set; }
          
@@ -154,14 +154,14 @@ namespace VendTech.BLL.Models
         public string PinNumber2 { get; set; }
          
         public string PinNumber3 { get; set; }
-         
-        public PowerHubVoucher PowerHubVoucher { get; set; }
+
+        public PowerHubVoucher PowerHubVoucher { get; set; } = new PowerHubVoucher();
          
         public string Provider { get; set; }
          
         public long SerialNumber { get; set; }
-         
-        public Tym2SellVoucher Tym2SellVoucher { get; set; }
+
+        public Tym2SellVoucher Tym2SellVoucher { get; set; } = new Tym2SellVoucher();
          
         public long VoucherProfit { get; set; }
          
