@@ -30,17 +30,24 @@
                                     <div class="manage-desposit-row">
                                         <label>POS ID</label>
                                         @Html.DropDownList("PosId", null, "SELECT POS", new { @onchange = "changeVendor()", @id = "vendorId" })
-                                       
+
                                     </div>
                                     <div class="manage-desposit-row">
                                         <label>BANK ACCOUNT</label>
                                         @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { })
                                     </div>
-                                    <div class="manage-desposit-row">
-                                        <label>CHX/CASH</label>
-                                        @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @onchange = "onPaymentTypeChange()", @id = "paymentType" })
-                                    </div>
 
+                                    <div class="row" style="margin-bottom:10px;">
+                                        <div class="form-group">
+                                            <label class="col-md-4">
+                                                CHX/CASH
+                                            </label>
+                                            <div class="col-md-4" style="padding-left:0;">@Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-10  form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })</div>
+                                            <div class="col-md-4">
+                                                <input type="text" style="font-weight:bold; padding:0; margin:0; text-align:center;" name="ValueDate" placeholder="VALUE DATE" id="ValueDate" class="form-control chkBankDiv"> 
+                                            </div> 
+                                        </div> 
+                                    </div>
                                     <div class="manage-desposit-row chkBankDiv" style="display:none">
                                         <label>BANK</label>
                                         @*<input type="text" id="ChkBankName" name="ChkBankName">*@
@@ -56,10 +63,10 @@
                                     </div>
                                     <div class="manage-desposit-row">
                                         <label>DEPOSIT AMOUNT</label>
-                                        <input type="text" 
-                                               style="font-size: 25px; text-align:right; 
-                                                font-weight:bold; color: #00a2e8 !important;" 
-                                               id="amountDisplay" onkeypress="javascript:return isNumber(event)" 
+                                        <input type="text"
+                                               style="font-size: 25px; text-align:right;
+                                                font-weight:bold; color: #00a2e8 !important;"
+                                               id="amountDisplay" onkeypress="javascript:return isNumber(event)"
                                                onkeyup="getAmountWithPercentage()">
                                         <input type="hidden" id="amount" name="Amount">
                                     </div>
@@ -67,15 +74,14 @@
                                     <div class="manage-desposit-row">
                                         <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
                                         @*<span ></span>*@
-                                        <input type="text" id="percentageAmount" 
-                                               style="font-size: 50px; 
+                                        <input type="text" id="percentageAmount"
+                                               style="font-size: 50px;
                                                 height:55px;
                                                 border : none;
-                                                text-align:right; 
-                                                color: red !important; 
-                                                font-weight:bold;" 
-                                               readonly
-                                               />
+                                                text-align:right;
+                                                color: red !important;
+                                                font-weight:bold;"
+                                               readonly />
                                         <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                     </div>
                                     @*<div class="manage-desposit-row">
@@ -92,9 +98,10 @@
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
+                                            <th>DATE</th>
+                                            <th>VALUE DATE</th>
                                             <th>POS ID</th>
                                             <th>USER NAME</th>
-                                            <th>DATE</th>
                                             <th>PAYMENT TYPE</th>
                                             <th>REF #</th>
                                             <th>AMOUNT</th>
@@ -105,7 +112,7 @@
                                     <tbody>
                                         @Html.Partial("Partials/_depositListing", Model)
                                     </tbody>
-                                     
+
                                 </table>
                             </div>
                             @Html.Partial("_Paging")
@@ -120,6 +127,9 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
     </script>
@@ -180,7 +190,7 @@
         //    $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         //}
         function initPosValue(vendorId) {
-          
+
             $("#vendorId").empty();
             $.ajax({
                 url: '/Admin/Deposit/GetVendorPosSelectList?userId=' + vendorId,
@@ -198,7 +208,22 @@
         }
         $(document).ready(function () {
 
-           
+             //$("#ValueDate").kendoDatePicker({
+             //   culture: "en-GB",
+             //   value: new Date()
+             //});
+
+             var d = new Date();
+            $("#ValueDate").kendoDatePicker({
+                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                format: "dd/MM/yyyy"
+            });
+            var datePicker1 = $("#ValueDate").data("kendoDatePicker");
+            $("#ValueDate").click(function () {
+                datePicker1.open();
+            })
+
+
             var venderid=@ViewBag.vendorId;
 
             if (venderid!=0) {
@@ -209,7 +234,7 @@
                 initPosValue(@ViewBag.vendorId);
             }
             }
-           
+
 
 
 

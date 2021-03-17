@@ -1,19 +1,24 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
+﻿using VendTech.Attributes;
+using VendTech.BLL.Interfaces;
+using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VendTech.BLL.Common;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using VendTech.Attributes;
-using VendTech.BLL.Interfaces;
-using VendTech.BLL.Models;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+using System.Globalization;
+using IronXL;
+using System.Data;
+using Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
+using ClosedXML.Excel;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -137,7 +142,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 100000000;
+            model.RecordsPerPage = 100000000; 
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "1012")
@@ -200,6 +205,196 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(resultString);
         }
 
+        public void ExportSalesReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            PrintedDateServer = PrintedDateServer.TrimEnd(' ');
+            string fromdate = "";
+            string Todate = "";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                fromdate = model.From.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                Todate = model.To.Value.ToString("dd/MM/yyyy");
+            }
+
+            var list = _meterManager.GetSalesExcelReportData(model, true).List;
+            var gv = new GridView
+            {
+                DataSource = list,
+
+            };
+            gv.DataBind();
+
+            if (list.Count > 0)
+            {
+                GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbr = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbr.BorderStyle = BorderStyle.None;
+                forbr.Controls.Add(tecbr);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
+
+
+                GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec3 = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = "PRINT DATE:  " + PrintedDateServer,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                row3.BorderStyle = BorderStyle.None;
+                row3.Controls.Add(tec3);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row3);
+
+
+                GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbrafterdate = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbrafterdate.BorderStyle = BorderStyle.None;
+                forbrafterdate.Controls.Add(tecbrafterdate);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
+
+
+
+                GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec2 = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = "TO DATE:  " + Todate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row2.BorderStyle = BorderStyle.None;
+                row2.Controls.Add(tec2);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row2);
+
+                GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec22 = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = "FROM DATE:  " + fromdate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row22.BorderStyle = BorderStyle.None;
+                row22.Controls.Add(tec22);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row22);
+
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec1 = new TableHeaderCell
+                {
+                    ColumnSpan = 8,
+                    Text = "SALES REPORTS",
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+
+                row1.Controls.Add(tec1);
+                row1.BorderStyle = BorderStyle.None;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+               
+
+
+
+
+
+                gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
+                gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
+                gv.HeaderRow.Cells[2].Text = "TRANS ID"; //TRANSACTIONID
+                gv.HeaderRow.Cells[3].Text = "METER #"; //METER_NO
+                gv.HeaderRow.Cells[4].Text = "VENDOR NAME"; //VENDORNAME
+                gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
+                //gv.HeaderRow.Cells[6].Text = "REQUEST"; //REQUEST
+                //gv.HeaderRow.Cells[7].Text = "RESPONSE"; //RESPONSE
+                gv.HeaderRow.Cells[6].Text = "TOKEN";  
+                gv.HeaderRow.Cells[7].Text = "AMOUNT"; //AMOUNT
+
+                // R&D on Alignment section
+                foreach (GridViewRow row in gv.Rows)
+                { 
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        var token = row.Cells[6].Text.ToString(); row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
+                    } 
+                }
+            }
+
+
+            if (ExportType == "Excel")
+            {
+
+                string filename = "SalesReport_" + PrintedDateServer + ".xls";
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                //Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+                 
+            }
+            else if (ExportType == "PDF")
+            {
+                string filename = "SalesReport_" + PrintedDateServer + ".pdf";
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment;filename=\"" + filename + "\"");
+
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                gv.RenderControl(hw);
+                StringReader sr = new StringReader(sw.ToString());
+                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
+                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                pdfDoc.Open();
+                htmlparser.Parse(sr);
+                pdfDoc.Close();
+                Response.Write(pdfDoc);
+                Response.End();
+                gv.AllowPaging = true;
+
+                //Response.Charset = "";
+                //StringWriter objStringWriter = new StringWriter();
+                //HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                //gv.RenderControl(objHtmlTextWriter);
+                //Response.Output.Write(objStringWriter.ToString());
+                //Response.Flush();
+                //Response.End();
+            }
+
+        }
         public void ExportDepositReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -230,7 +425,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -246,7 +441,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -261,7 +456,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -275,7 +470,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -288,7 +483,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -306,7 +501,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 11,
                     Text = "DEPOSIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -324,14 +519,16 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[2].Text = "USER NAME"; //USERNAME
-                gv.HeaderRow.Cells[3].Text = "AMOUNT";
-                gv.HeaderRow.Cells[4].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[5].Text = "DEPOSIT TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[8].Text = "NEW BALANCE"; //NEW_BALANCE
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //BANK
+                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID 
+                gv.HeaderRow.Cells[3].Text = "USER NAME"; //USERNAME
+                gv.HeaderRow.Cells[4].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[5].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[6].Text = "TRANSACTION ID"; //TRANSACTION_ID
+                gv.HeaderRow.Cells[7].Text = "REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[8].Text = "AMOUNT";
+                gv.HeaderRow.Cells[9].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[10].Text = "NEW BALANCE"; //NEW_BALANCE
 
                 foreach (GridViewRow row in gv.Rows)
                 {
@@ -339,10 +536,13 @@ namespace VendTech.Areas.Admin.Controllers
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }
@@ -460,7 +660,7 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider); 
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
@@ -773,12 +973,12 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-Us");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = Convert.ToDateTime(FromDate, provider);
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = Convert.ToDateTime(ToDate, provider);
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
             }
 
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");

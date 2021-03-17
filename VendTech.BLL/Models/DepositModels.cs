@@ -28,6 +28,7 @@ namespace VendTech.BLL.Models
         public long DepositId { get; set; }
         public string Payer { get; set; }
         public string IssuingBank { get; set; } 
+        public string ValueDate { get; set; }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         {
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
@@ -61,20 +62,24 @@ namespace VendTech.BLL.Models
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
             Payer = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
         }
     }
     public class DepositExcelReportModel
     {
         [DisplayName("Date/Time")]
         public string DATE_TIME { get; set; }
+        public string VALUEDATE { get; set; }
         public string POSID { get; set; }
         public string USERNAME { get; set; }
+        public string DEPOSIT_TYPE { get; set; }
+        public string BANK { get; set; }
+        [DisplayName("TRANSACTION ID")]
+        public string TRANSACTION_ID { get; set; }
+        public string DEPOSIT_REF_NO { get; set; }
         public string AMOUNT { get; set; }
         [DisplayName("%")]
         public string PERCENT { get; set; }
-        public string DEPOSIT_TYPE { get; set; }
-        public string BANK { get; set; }
-        public string DEPOSIT_REF_NO { get; set; }
         public string NEW_BALANCE { get; set; }
         public DepositExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
@@ -87,6 +92,8 @@ namespace VendTech.BLL.Models
             AMOUNT = string.Format("{0:N0}", obj.Amount);
             NEW_BALANCE = obj.NewBalance == null ? string.Format("{0:N0}", obj.Amount) : string.Format("{0:N0}", obj.NewBalance.Value);
             PERCENT = string.Format("{0:N0}", obj.PercentageAmount);
+            TRANSACTION_ID = obj?.TransactionId;
+            VALUEDATE = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
         }
 
@@ -98,7 +105,8 @@ namespace VendTech.BLL.Models
     public class DepositAuditExcelReportModel
     {
         [DisplayName("Date/Time")]
-        public string DATE_TIME { get; set; }
+        public string DATE_TIME { get; set; } 
+        //public string VALUEDATE { get; set; }
         public string POSID { get; set; }
         public string GTBANK { get; set; }
         [DisplayName("DepositBy")]
@@ -125,6 +133,7 @@ namespace VendTech.BLL.Models
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
             GTBANK = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
+            //VALUEDATE = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");
         }
 
         public DepositAuditExcelReportModel()
@@ -184,6 +193,7 @@ namespace VendTech.BLL.Models
         public int Percentage { get; set; }
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
+        public DateTime ValueDate { get; set; } = DateTime.UtcNow;
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
     }
@@ -257,6 +267,7 @@ namespace VendTech.BLL.Models
         public bool isAudit { get; set; }
         public long UserId { get; set; }
         public string Price { get; set; }
+        public DateTime ValueDate { get; set; }
         public DepositAuditModel() { }
         public DepositAuditModel(Deposit obj, bool changeStatusForApi = false)
         {

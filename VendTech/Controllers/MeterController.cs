@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
+using Ninject;
 using VendTech.BLL.Models;
+using System.Web.Script.Serialization;
 #endregion
 
 namespace VendTech.Controllers
@@ -30,7 +33,7 @@ namespace VendTech.Controllers
 
         #endregion
 
-        public MeterController(IUserManager userManager, IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager, IPOSManager posManager)
+        public MeterController(IUserManager userManager,IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager,IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -74,7 +77,7 @@ namespace VendTech.Controllers
         /// Index View 
         /// </summary>
         /// <returns></returns>
-        public ActionResult AddEditMeter(string number = "")
+        public ActionResult AddEditMeter(string number="")
         {
             MeterModel model = new MeterModel();
             //if (meterId.HasValue && meterId > 0)
@@ -122,7 +125,7 @@ namespace VendTech.Controllers
                 Value = "SAGENCOM"
             });
             ViewBag.meterMakes = list;
-            return View("AddEditMeter", model);
+            return View("AddEditMeter",model);
 
         }
         [AjaxOnly, HttpPost]
@@ -183,22 +186,49 @@ namespace VendTech.Controllers
             model.UserId = LOGGEDIN_USER.UserID;
             return JsonResult(_meterManager.RechargeMeter(model));
         }
+
+        public class tokenobject
+        {
+            public string token_string { get; set; }
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult ReturnVoucher(tokenobject tokenobject)
+        { 
+            var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
+            if (result.ReceiptStatus.Status == "unsuccessful") 
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
+
+
+
         [HttpPost, AjaxOnly]
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
             var result = _meterManager.RechargeMeterReturn(model).Result;
-            if (result.ReceiptStatus.Status == "unsuccessful")
+            if(result.ReceiptStatus.Status == "unsuccessful")
             {
-                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
             }
-            if (model.SaveAsNewMeter) _meterManager.SaveMeter(new MeterModel { Address = "", Allias = "", isVerified = false, MeterId = 0, MeterMake = "", Name = "", UserId = LOGGEDIN_USER.UserID, Number = model.MeterNumber });
+            if(model.SaveAsNewMeter) _meterManager.SaveMeter(new MeterModel { Address= "", Allias = "", isVerified = false, MeterId=0, MeterMake = "", Name = "", UserId = LOGGEDIN_USER.UserID, Number = model.MeterNumber });
 
             if (result != null)
                 return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
             return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
 
         }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult ReturnRequestANDResponseJSON(tokenobject tokenobject)
+        {
+            var result = _meterManager.ReturnRequestANDResponseJSON(tokenobject.token_string.Trim());
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
+
         //[HttpGet]
         //public ActionResult GetUserMeterRecharges(int pageNo, int pageSize)
         //{

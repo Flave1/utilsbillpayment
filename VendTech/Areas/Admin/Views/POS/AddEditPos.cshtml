@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">CELL#<em>*</em></label>
+                                        <label for="inputEmail3" class="col-md-2 control-label">POS SIM#<em>*</em></label>
                                         <div class="col-md-4">
                                             <select name="CountryCode" class="form-control">
                                                 <option value="+232">+232</option>
@@ -116,7 +116,7 @@
 
                             <div class="col-md-2">
                                 <p style="font-weight:bold; text-align:left;">PRODUCT SETTINGS</p>
-                                @Html.Partial("Partials/_platformsListing", Model.PlatformList)
+                                @Html.Partial("Partials/_platformsListing", Model.PlatformList ?? new List<PlatformCheckbox>())
                             </div>
 
                             <div class="col-md-4">

@@ -1,0 +1,137 @@
+﻿<div class="modal-dialog modal-md">
+    <div class="modal-content modal-md" >
+        <div class="modal-body" id="re-printSection" style="padding:0; margin:0;">
+            <div class="row" style="text-align:center; margin:20px;" id="re-gen-invoice">
+                <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
+                <h3>ELECTRICITY PURCHASE</h3>
+            </div>
+            <hr class="bg-dark" style="border:1px solid grey; background: grey; ">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12 text-left">
+                    <strong>Date : <span id="re-sales_date"></span></strong>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 " style="text-align:right;">
+                    <div style="text-align: right;">
+                       
+                        <strong>Vendor ID :</strong>  <span class="text-light" id="re-vendorId">Office Coporate</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" text-right" style="margin:20px; text-align: right;">
+                    <strong>POS ID :</strong>  <span class="text-light" id="re-pos_id">12345</span>
+                </div>
+            </div>
+            <div class="separator" style="margin:5px;"><strong>Customer Information</strong></div>
+            <div class="row ">
+                <div class="col-md-12" style="display:flex; padding: 0;">
+                    <div class="col-md-4 col-sm-6" style="width:45%; float:left">Customer: </div>
+                    <div style="text-align: right; width:58%; float:right;" class="col-md-8 col-sm-6" id="re-customer_name"> Emmanuel Favour</div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-4 col-sm-6" style="width:50%; float:left">Account #: </div>
+                    <div style="text-align: right; width:49%; float:right;" class="col-md-8 col-sm-6" id="re-customer_account_number"> 234567890</div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-4 col-sm-4" style="width:45%; float:left">Address: </div>
+                    <div style="text-align: right; width:53%; float:right;" class="col-md-8 col-sm-8" id="re-customer_address"> 52 Oshola str. Ogba Ikeja, Lagos Nigeria</div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-4 col-sm-5" style="width:45%; float:left">Meter #:  </div>
+                    <div style="text-align: right; width:53%; float:right;" class="col-md-8 col-sm-7" id="re-meter_number"><strong> 22222222222</strong></div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-4 col-sm-5" style="width:45%; float:left">Tariff: </div>
+                    <div style="text-align: right; width:53%; float:right;" class="col-md-8 col-sm-7" id="re-current_tarrif"> 569</div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-8 col-sm-8" style="width:60%; float:left">AMT Tendered: le:  </div>
+                    <div style="text-align: right; width:39%; float:right;" class="col-md-4 col-sm-4" id="re-amount_tender"> <strong>1000,000</strong></div>
+                </div>
+            </div>
+
+            <div class="separator" style="margin:5px;"><strong>Deductions</strong></div>
+            <div class="row">
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-6 col-sm-6 col-xs-6" style="width:45%; float:left"> GST: le:</div>
+                    <div style="text-align: right; width:53%; float:right;" class="col-md-6 col-sm-6 col-xs-6"> <span id="re-gst"> 150,000</span></div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-6 col-sm-8 col-xs-8" style="width:60%; float:left"> Service charge: le:  </div>
+                    <div style="text-align: right; width:39%; float:right;" class="col-md-6 col-sm-4 col-xs-8"> <span id="re-service_charge"> 10,500</span></div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-6 col-sm-8 col-xs-8" style="width:60%; float:left">Debt recovery: le:  </div>
+                    <div style="text-align: right; width:39%; float:right;" class="col-md-6 col-sm-4 col-xs-4"> <span id="re-debit_recovery"> 350,000</span></div>
+                </div>
+            </div>
+            <div class="separator" style="margin:5px;"><strong>TOTAL</strong></div>
+
+            <div class="row">
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-6 col-sm-8" style="width:60%; float:left">Cost of units: le:  </div>
+                    <div style="text-align: right; width:39%; float:right;" class="col-md-6 col-sm-4"> <span id="re-cost_of_units"> 489,500</span></div>
+                </div>
+                <div class="col-md-12" style="display: flex; padding: 0;">
+                    <div class="col-md-6 col-sm-6" style="width:60%; float:left">Units:   </div>
+                    <div style="text-align: right; width:39%; float:right;" class="col-md-6 col-sm-6"> <span id="re-units"> 1245.4</span></div>
+                </div>
+            </div>
+            <div class="row" style="text-align: center; display: none;" id="re-pin1_section">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                    <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                        <span id="re-pin1" class="col-md-12 col-sm-12 col-xs-12"
+                              style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row" style="text-align: center; display:none;" id="re-pin2_section">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                    <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                        <span id="re-pin2" class="col-md-12 col-sm-12 col-xs-12"
+                              style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row" style="text-align: center; display: none;" id="re-pin3_section">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
+                    <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
+                        <span id="re-pin3" class="col-md-12 col-sm-12 col-xs-12"
+                              style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <em>
+                        EDSA Serial #: <span id="re-edsa_serial">123467</span><br>
+                        VTECH Serial #: <span id="re-vendtech_serial_code">1234356</span>
+                    </em>
+                </div>
+            </div>
+            <div class="row modal-footer">
+                <div class="col-md-7 col-sm-7 col-xs-7 text-center" style="border-bottom:7px; border-top:7px;">
+                    <span id="re-barcode" style="font-family: 'Libre Barcode 39 Text', cursive !important;  font-size: 32px;">22222222222 </span>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-5 row" id="re-print_section" style="padding: 0; margin: 0px;">
+                    <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="re-showsms_btn" style="display:none">SMS</button>
+                    <button class="btn btn-primary waves-effect waves-light " onclick="Reprint()">REPRINT</button>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
+                <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
+            </div>
+        </div>
+        <!-- modal-footer -->
+
+
+    </div>
+
+</div>
+@*<iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>*@

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace VendTech.BLL.Models
 {
@@ -12,6 +13,7 @@ namespace VendTech.BLL.Models
         public string ShortName { get; set; }
         public string Title { get; set; }
         public bool Enabled { get; set; }
+        public string Logo { get; set; }
     }
 
   public class SavePlatformModel
@@ -19,5 +21,8 @@ namespace VendTech.BLL.Models
       public int? Id { get; set; }
       public string ShortName { get; set; }
       public string Title { get; set; }
-  }
+        public HttpPostedFile Image { get; set; }
+        public HttpPostedFileBase ImagefromWeb { get; set; }
+        public string Logo { get; internal set; }
+    }
 }

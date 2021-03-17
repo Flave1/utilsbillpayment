@@ -28,6 +28,7 @@ namespace VendTech.DAL
         public bool Enabled { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public string ShortName { get; set; }
+        public string Logo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }

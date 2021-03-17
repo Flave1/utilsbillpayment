@@ -63,6 +63,7 @@ namespace VendTech.DAL
         public Nullable<long> FKVendorId { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public string PassCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }

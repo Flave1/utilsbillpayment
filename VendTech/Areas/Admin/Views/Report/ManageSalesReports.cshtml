@@ -118,9 +118,7 @@
 
                                 <div class="blwsec-right">
                                     <div class="exportdata" style="height:500px; overflow:scroll; scrollbar-face-color:yellow;  max-width: 100%;">
-                                        <table class="table table-bordered" id="datatable-icons">
-                                            @*<div class="exportdata ">
-                <table class="table table-bordered mb-0 table-responsive" id="datatable-icons">*@
+                                        <table class="table table-bordered" id="datatable-icons"> 
                                             <thead>
                                                 <tr>
                                                     <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
@@ -129,7 +127,8 @@
                                                     <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                     <th class="sorting" data-sortby="VendorName">VENDOR NAME</th>
                                                     <th class="sorting" data-sortby="POS">POS ID</th>
-                                                    <th>PIN</th>
+                                                    <th>REQUEST/RESPONSE</th>
+                                                    <th>TOKEN</th>
                                                     <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                 </tr>
                                             </thead>
@@ -142,8 +141,7 @@
 
 
                                 </div>
-                                    <div style="clear:both"></div>
-
+                                    <div style="clear:both"></div> 
                                 </div>
 
                             </div>
@@ -154,6 +152,12 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="modalCart2">
+    @Html.Partial("_fetchVoucher")
+</div>
+<div class="modal fade" id="modalCart3">
+    @Html.Partial("_RequestResponseJSON")
 </div>
 
 @section scripts{
@@ -169,7 +173,7 @@
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
-
+    <script src="~/Scripts/Receipt.js"></script>
 
     <!-- dev URL -->
     <script src="https://rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script>

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using MailKit.Net.Smtp;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +12,6 @@ using VendTech.DAL;
 using MimeKit;
 using System.Net.Mail;
 using System.Net;
-using VendTech.BLL.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace VendTech.BLL.Common
 {
@@ -327,77 +322,7 @@ namespace VendTech.BLL.Common
                               select t).ToArray();
             return string.Join("", getNumbers.Take(20));// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
         }
-
-        public static IceCloudResponse Make_recharge_request_from_icekloud(RechargeMeterModel model)
-        {
-            IceCloudResponse response = new IceCloudResponse();
-            string strings_result = string.Empty;
-            IcekloudRequestmodel request_model = new IcekloudRequestmodel();
-            HttpResponseMessage icekloud_response = new HttpResponseMessage();
-            HttpClient _http_client = new HttpClient();
-
-            try
-            {
-                request_model = Buid_new_request_object(model);
-
-                icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", request_model).Result;
-
-                strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
-                response = JsonConvert.DeserializeObject<IceCloudResponse>(strings_result);
-                return response;
-            }
-            catch (Exception)
-            {
-                try
-                {
-                    IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
-
-                    if (error_response.Status == "Error")
-                    {
-                        if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
-                        {
-                            response.Status = "unsuccesful";
-                            response.Content.Data.Error = error_response.SystemError;
-                            return response;
-                        }
-                        if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
-                        {
-                            model.TransactionId = model.TransactionId + 1;
-                            return Make_recharge_request_from_icekloud(model);
-                        }
-                        response.Status = error_response.Status;
-                        response.Content.Data.Error = error_response.Stack.FirstOrDefault().Detail;
-                        return response;
-                    }
-                }
-                catch (Exception e) { throw e; }
-                throw;
-            }
-        }
-
-
-        public static IcekloudQueryResponse Query_vend_status(IcekloudRequestmodel model)
-        {
-            IcekloudQueryResponse response = new IcekloudQueryResponse();
-            string strings_result = string.Empty;
-            IcekloudRequestmodel request_model = new IcekloudRequestmodel();
-            HttpResponseMessage icekloud_response = new HttpResponseMessage();
-            HttpClient _http_client = new HttpClient();
-
-            try
-            {
-                icekloud_response = _http_client.PostAsJsonAsync("http://prepaid.icekloud.com/api/services", model).Result;
-
-                strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
-                response = JsonConvert.DeserializeObject<IcekloudQueryResponse>(strings_result);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+          
         public static string FormatThisToken(string token_item)
         {
             if (token_item != null && token_item.Length >= 2 && token_item.Length <= 12)
@@ -410,53 +335,7 @@ namespace VendTech.BLL.Common
 
             return token_item;
         }
-        public static IcekloudRequestmodel Buid_new_request_object(RechargeMeterModel model)
-        {
-            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
-            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
-            return new IcekloudRequestmodel
-            {
-                Auth = new IcekloudAuth
-                {
-                    Password = password,
-                    UserName = username
-                },
-                Request = "ProcessPrePaidVendingV1",
-                Parameters = new object[]
-                                        {
-                        new
-                        {
-                            UserName = username,
-                            Password = password,
-                            System = "ATB"
-                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId
-                       },
-            };
-        }
-
-        public static IcekloudRequestmodel Buid_vend_query_object(RechargeMeterModel model)
-        {
-            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
-            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
-            return new IcekloudRequestmodel
-            {
-                Auth = new IcekloudAuth
-                {
-                    Password = password,
-                    UserName = username
-                },
-                Request = "ProcessPrePaidVendingV1",
-                Parameters = new object[]
-                       {
-                           new {
-                                UserName = username,
-                                Password = password,
-                                System = "ATB"
-                            }, "apiV1_GetTransactionStatus",  model.TransactionId
-                       },
-            };
-        }
-
+       
         public async static Task<bool> Execute(string email, string subject, string message)
         {
             try
