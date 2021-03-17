@@ -263,6 +263,33 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
         }
 
+
+        IList<UserAssignedModuleModel> IUserManager.GetNavigations(long userId)
+        {
+            var userModule = (from ua in Context.UserAssignedModules
+                              join m in Context.Modules on ua.ModuleId equals m.ModuleId
+                              where ua.UserId == userId
+                              select new
+                              {
+                                  AssignUserModuleId = ua.AssignUserModuleId,
+                                  ModuleName = m.ModuleName
+                              }).ToList();
+            return userModule.Select(x => new UserAssignedModuleModel
+            {
+                Modules = x.ModuleName,
+                AssignUserModuleId = x.AssignUserModuleId
+            }).ToList();
+        }
+        long IUserManager.GetUserId(string phone)
+        {
+            var userDetail = Context.Users.FirstOrDefault(x => x.Phone == phone);
+            if (userDetail != null)
+            {
+                return userDetail.UserId;
+            }
+            return Convert.ToInt64(0);
+        }
+
         ActionOutput<UserDetails> IUserManager.AgentLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
@@ -823,6 +850,7 @@ namespace VendTech.BLL.Managers
         {
             if (userId == 0) return new UserModel();
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
             if (user == null)
                 return null;
             else

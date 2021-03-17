@@ -39,7 +39,7 @@ namespace VendTech.BLL.Interfaces
         /// <returns></returns>
         ActionOutput UpdateProfilePic(long userId, HttpPostedFile image);
         /// 
-        PagingResult<UserListingModel> GetUserPagedList(PagingModel model,bool onlyAppUser=false);
+        PagingResult<UserListingModel> GetUserPagedList(PagingModel model, bool onlyAppUser = false);
         IList<Checkbox> GetAllModules(long userId);
 
         /// <summary>
@@ -72,16 +72,18 @@ namespace VendTech.BLL.Interfaces
         /// <returns></returns>
         ActionOutput DeleteUser(long userId);
         ActionOutput DeclineUser(long userId);
-        ActionOutput ChangeUserStatus(long userId,UserStatusEnum status);
+        ActionOutput ChangeUserStatus(long userId, UserStatusEnum status);
         ActionOutput<UserDetails> AdminLogin(LoginModal model);
         ActionOutput<UserDetails> AgentLogin(LoginModal model);
         ActionOutput<UserDetails> VendorLogin(LoginModal model);
         IList<ModulesModel> GetAllModulesAtAuthentication(long userId);
         decimal GetUserWalletBalance(long userId);
         int GetUnreadNotifications(long userId);
-        List<SelectListItem> GetAssignedReportModules(long UserId,bool isAdmin);
+        List<SelectListItem> GetAssignedReportModules(long UserId, bool isAdmin);
         IList<WidgetCheckbox> GetAllWidgets(long userId);
+        IList<UserAssignedModuleModel> GetNavigations(long userId);
+        long GetUserId(string phone);
         string GetUserPasswordbyUserId(long userId);
     }
-    
+
 }

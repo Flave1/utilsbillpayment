@@ -170,7 +170,7 @@ namespace VendTech.Controllers
             var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
 
             if (deposits.List.Any())
-                model.History = deposits.List.ToList();
+                model.History = deposits.List.Take(10).ToList();
             if (meterId > 0) model.MeterId = meterId;
             if (posList.Count > 0)
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));

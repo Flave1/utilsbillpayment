@@ -1,12 +1,7 @@
-﻿using VendTech.Attributes;
+﻿using System.Web.Mvc;
+using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -31,7 +26,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             return View(_roleManager.GetRoles());
         }
-       
+
         [AjaxOnly, HttpPost]
         public JsonResult SaveRole(SaveRoleModel model)
         {

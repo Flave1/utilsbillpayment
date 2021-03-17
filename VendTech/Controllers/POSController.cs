@@ -1,17 +1,12 @@
 ﻿#region Default Namespaces
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
-using System.Web.Script.Serialization;
 #endregion
 
 namespace VendTech.Controllers
@@ -34,7 +29,7 @@ namespace VendTech.Controllers
 
         #endregion
 
-        public POSController(IUserManager userManager,IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager,IVendorManager vendorManager,IPOSManager posManager)
+        public POSController(IUserManager userManager, IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager, IVendorManager vendorManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -57,8 +52,8 @@ namespace VendTech.Controllers
             var users = new PagingResult<POSListingModel>();
             //if (vendorId > 0)
             //{
-                users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, LOGGEDIN_USER.UserID);
-                ViewBag.VendorName = vendor!=null? vendor.Vendor:"";
+            users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, LOGGEDIN_USER.UserID);
+            ViewBag.VendorName = vendor != null ? vendor.Vendor : "";
 
             //}
             return View(users);

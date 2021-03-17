@@ -1,7 +1,6 @@
 ﻿#region Default Namespaces
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -30,7 +29,7 @@ namespace VendTech.Areas.Admin.Controllers
 
 
         // /Admin/Home/OTPVerification/
-        public HomeController(IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager )
+        public HomeController(IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -99,11 +98,11 @@ namespace VendTech.Areas.Admin.Controllers
         {
             if (LOGGEDIN_USER.UserID == 0)
             {
-                SignOut(); 
+                SignOut();
             }
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
-            
+
             DashboardViewModel dashBoard = new DashboardViewModel();
             dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
             dashBoard.platFormModels = model;

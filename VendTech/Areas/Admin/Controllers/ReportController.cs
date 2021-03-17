@@ -973,12 +973,12 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-Us");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = Convert.ToDateTime(FromDate, provider);
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = Convert.ToDateTime(ToDate, provider);
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
             }
 
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");

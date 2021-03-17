@@ -23,7 +23,14 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IVendorManager _vendorManager;
         private readonly ICMSManager _cmsManager;
         private readonly IBankAccountManager _bankAccountManager;
-        public AccountController(IUserManager userManager,IBankAccountManager bankAccountManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IVendorManager vendorManager)
+        private readonly IPOSManager _posManager;
+        public AccountController(IUserManager userManager,
+            IBankAccountManager bankAccountManager,
+            IErrorLogManager errorLogManager,
+            IEmailTemplateManager templateManager,
+            IAuthenticateManager authenticateManager,
+            ICMSManager cmsManager,
+            IVendorManager vendorManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -32,6 +39,7 @@ namespace VendTech.Areas.Api.Controllers
             _vendorManager = vendorManager;
             _cmsManager = cmsManager;
             _bankAccountManager = bankAccountManager;
+            _posManager = posManager;
         }
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -44,19 +52,20 @@ namespace VendTech.Areas.Api.Controllers
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         [ActionName("SignIn")]
-        public HttpResponseMessage SignIn(LoginAPIModel model)
+        public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
             if (!ModelState.IsValid)
-                return new JsonContent("Email and password is required.", Status.Failed).ConvertToHttpResponseOK();
+                return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
             else
             {
                 //if (!_authenticateManager.IsEmailExist(model.Email))
                 //    return new JsonContent("Email is not registered with us.", Status.Failed).ConvertToHttpResponseOK();
 
 
-                var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
-                if (userDetails == null)
-                    return new JsonContent("Invalid Credentials.", Status.Failed).ConvertToHttpResponseOK();
+                //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
+                var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
+                if (userDetails.UserId == 0)
+                    return new JsonContent("Invalid Passcode for this user.Please use another one.", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
                     userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
@@ -64,10 +73,10 @@ namespace VendTech.Areas.Api.Controllers
                     if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId))
                     {
                         _authenticateManager.DeleteGenerateToken(userDetails.UserId);
-                        return GenerateandSaveToken(userDetails,model);
+                        return GenerateandSaveToken(userDetails, model);
                     }
                     else
-                    return GenerateandSaveToken(userDetails, model);
+                        return GenerateandSaveToken(userDetails, model);
                     //var code = Utilities.GenerateRandomNumber();
                     ////Send login code on Email
                     //var saveToken = _authenticateManager.SaveLoginCode(userDetails.UserId, code);
@@ -82,8 +91,8 @@ namespace VendTech.Areas.Api.Controllers
                 }
             }
         }
-        [HttpPost]
 
+        [HttpPost]
         public HttpResponseMessage Logout()
         {
             var token = Request.Headers.GetValues("Token").FirstOrDefault();
@@ -92,8 +101,7 @@ namespace VendTech.Areas.Api.Controllers
         }
 
         [NonAction]
-
-        private HttpResponseMessage GenerateandSaveToken(UserModel user, LoginAPIModel model)
+        private HttpResponseMessage GenerateandSaveToken(UserModel user, LoginAPIPassCodeModel model)
         {
             var IssuedOn = DateTime.UtcNow;
             var newToken = _authenticateManager.GenerateToken(user, IssuedOn);
@@ -143,17 +151,17 @@ namespace VendTech.Areas.Api.Controllers
                 body = body.Replace("%USER%", model.FirstName);
                 body = body.Replace("%UserName%", model.Email);
                 body = body.Replace("%Password%", model.Password);
-                var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.Object+ "'>Verify Now</a>";
+                var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.Object + "'>Verify Now</a>";
 
                 body = body.Replace("%verifylink%", verifybutton);
                 body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
-               body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
+                body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
                 var link = "";
                 var otp = Utilities.GenerateRandomNo();
                 var result_ = _authenticateManager.ForgotPassword(model.Email, otp.ToString());
                 if (result_.Status == ActionStatus.Successfull)
                 {
-                     link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.Object + "&token=" + otp + "'>Reset Now</a>";
+                    link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.Object + "&token=" + otp + "'>Reset Now</a>";
                 }
                 body = body.Replace("%passwordrestlink%", link);
                 Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
@@ -167,7 +175,7 @@ namespace VendTech.Areas.Api.Controllers
                 //body_ = body_.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
                 //Utilities.SendEmail(model.Email, emailTemplate_.EmailSubject, body_);
 
-              
+
 
 
                 user = new UserModel();
@@ -213,6 +221,75 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent("Email is required.", Status.Failed).ConvertToHttpResponseOK();
         }
 
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        public HttpResponseMessage ForgotPasscode(SavePassCodeModel savePassCodeModel)
+        {
+            var isEmailed = false;
+            long userId = 0;
+            var user = new UserModel();
+            savePassCodeModel.PassCode = Convert.ToString(Utilities.GenerateFiveRandomNo());
+            if (string.IsNullOrEmpty(savePassCodeModel.Email))
+            {
+                isEmailed = true;
+            }
+            if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
+            {
+                if (!string.IsNullOrEmpty(savePassCodeModel.PosNumber))
+                {
+                    user = _posManager.GetUserPosDetails(savePassCodeModel.PosNumber);
+                    userId = user.UserId;
+                }
+                else
+                {
+                    userId = _userManager.GetUserId(savePassCodeModel.Phone);
+                }
+                if (userId > 0)
+                {
+                    var vendorDetail = _vendorManager.GetVendorDetail(userId);
+                    savePassCodeModel.VendorId = vendorDetail.VendorId;
+
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%UserName%", vendorDetail.Name);
+                    body = body.Replace("%passcode%", savePassCodeModel.PassCode);
+                    if (!string.IsNullOrEmpty(savePassCodeModel.Email))
+                    {
+                        isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    }
+                    //if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
+                    //{
+                    //    String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
+                    //    //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
+                    //    using (var wb = new WebClient())
+                    //    {
+                    //        byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                    //{
+                    //{"apikey" , "3dmxGZ4kX6w-GheG39NELIgd6546OjfacESXqNOVY4"},
+                    //{"numbers" , savePassCodeModel.CountryCode+savePassCodeModel.Phone},
+                    //{"message" , message},
+                    //{"sender" , "TXTLCL"}
+                    //});
+                    //        string result = System.Text.Encoding.UTF8.GetString(response);
+                    //    }
+                    //}
+                }
+                else
+                {
+                    isEmailed = false;
+                }
+                if (isEmailed)
+                {
+                    _posManager.SavePasscodePosApi(savePassCodeModel);
+                    string message = string.Empty;
+                    message = string.IsNullOrEmpty(savePassCodeModel.Email) ? "New PassCode is Sent to Mobile! Please Check."
+                        : "New PassCode is Sent to Email! Please Check.";
+                    return new JsonContent(message, Status.Success)
+                        .ConvertToHttpResponseOK();
+                }
+                return new JsonContent("This Email Or Phone Number Is Not Register!!Please Try with something else!", Status.Failed).ConvertToHttpResponseOK();
+            }
+            return new JsonContent("PassCode Not Generated!", Status.Failed).ConvertToHttpResponseOK();
+        }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -222,7 +299,17 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
 
-
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetPOSUserDetails(SavePassCodeModel savePassCodeModel)
+        {
+            var result = _posManager.GetUserPosDetails(savePassCodeModel.PosNumber);
+            if (result != null)
+            {
+                return new JsonContent("User POS Details!!", Status.Success, result).ConvertToHttpResponseOK();
+            }
+            return new JsonContent("You Do not have a valid account!!", Status.Success, result).ConvertToHttpResponseOK();
+        }
 
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -231,6 +318,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _authenticateManager.GetCountries();
             return new JsonContent("Countries fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetCities(int countryId)
@@ -238,6 +326,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _authenticateManager.GetCities(countryId);
             return new JsonContent("Cities fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetAppUserTypes()
@@ -253,6 +342,7 @@ namespace VendTech.Areas.Api.Controllers
             CMSPageViewModel model = _cmsManager.GetPageContentByPageIdforFront(1);
             return new JsonContent("Terms and conditions fetched successfully.", Status.Success, new { html = model.PageContent }).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetPrivacyPolicy()
@@ -260,8 +350,9 @@ namespace VendTech.Areas.Api.Controllers
             //Client wants these two combined so we did this way
             CMSPageViewModel privacyPolicy = _cmsManager.GetPageContentByPageIdforFront(6);
             CMSPageViewModel terms = _cmsManager.GetPageContentByPageIdforFront(1);
-            return new JsonContent("Privacy policy fetched successfully.", Status.Success, new { privacyPolicyHtml = privacyPolicy.PageContent,termsHtml=terms.PageContent }).ConvertToHttpResponseOK();
+            return new JsonContent("Privacy policy fetched successfully.", Status.Success, new { privacyPolicyHtml = privacyPolicy.PageContent, termsHtml = terms.PageContent }).ConvertToHttpResponseOK();
         }
+
         [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage TestPush()
@@ -291,7 +382,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage GetBankAccounts()
         {
             var result = _bankAccountManager.GetBankAccounts();
-            return new JsonContent("Bank accounts fetched successfully.", Status.Success,result).ConvertToHttpResponseOK();
+            return new JsonContent("Bank accounts fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
 
         [HttpGet]
@@ -302,6 +393,7 @@ namespace VendTech.Areas.Api.Controllers
             var data = result.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankName }).ToList();
             return new JsonContent("Banks  fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
+
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetBankAccountsSelectList()

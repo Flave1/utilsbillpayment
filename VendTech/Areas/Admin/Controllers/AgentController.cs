@@ -1,12 +1,9 @@
-﻿using VendTech.Attributes;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -18,7 +15,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IEmailTemplateManager _templateManager;
         #endregion
 
-        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager,ICommissionManager commissionManager)
+        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICommissionManager commissionManager)
             : base(errorLogManager)
         {
             _agencyManager = agencyManager;
@@ -33,7 +30,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
 
-            var users = _agencyManager.GetAgenciesPagedList(PagingModel.DefaultModel("CreatedAt","Desc"));
+            var users = _agencyManager.GetAgenciesPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
             return View(users);
         }
 
@@ -64,7 +61,7 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(_agencyManager.AddAgent(model));
         }
         [HttpGet]
-        public ActionResult AddAgent(long? id=null)
+        public ActionResult AddAgent(long? id = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             var model = new AddAgentModel();

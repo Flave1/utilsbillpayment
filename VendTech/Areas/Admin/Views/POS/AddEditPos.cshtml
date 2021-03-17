@@ -193,23 +193,23 @@
                 <input type="hidden" id="hdnPOSId" class="form-control" />
                 <div class="row  contact-form">
                     <div class=" col-md-4">
-                        <input type="button" id="modal_Passcode" class="btn btn-success" style="border-radius:5px" value="Generate" onclick="generateCode(this)" />
+                        @*<input type="button" id="modal_Passcode" class="btn btn-success" style="border-radius:5px" value="Generate" onclick="generateCode(this)" />*@
                     </div>
                     <div class=" col-md-7 _passcode">
                         <div class="col-md-2">
-                            <input type="password" name="passcode" id="dig-1" data-next="dig-2" class="form-control margin custom" placeholder="*" />
+                            <input type="password" name="passcode" readonly id="dig-1" data-next="dig-2" class="form-control margin custom" placeholder="*" />
                         </div>
                         <div class="col-md-2">
-                            <input type="password" name="passcode" id="dig-2" data-next="dig-3" data-previous="dig-1" class="form-control margin custom" placeholder="*" />
+                            <input type="password" name="passcode" readonly id="dig-2" data-next="dig-3" data-previous="dig-1" class="form-control margin custom" placeholder="*" />
                         </div>
                         <div class="col-md-2">
-                            <input type="password" name="passcode" id="dig-3" data-next="dig-4" data-previous="dig-2" class="form-control margin custom" placeholder="*" />
+                            <input type="password" name="passcode" readonly id="dig-3" data-next="dig-4" data-previous="dig-2" class="form-control margin custom" placeholder="*" />
                         </div>
                         <div class="col-md-2">
-                            <input type="password" name="passcode" id="dig-4" data-next="dig-5" data-previous="dig-3" class="form-control margin custom" placeholder="*" />
+                            <input type="password" name="passcode" readonly id="dig-4" data-next="dig-5" data-previous="dig-3" class="form-control margin custom" placeholder="*" />
                         </div>
                         <div class="col-md-2">
-                            <input type="password" name="passcode" id="dig-5" data-previous="dig-4" class="form-control margin custom" placeholder="*" />
+                            <input type="password" name="passcode" readonly id="dig-5" data-previous="dig-4" class="form-control margin custom" placeholder="*" />
                         </div>
                     </div>
                 </div>
@@ -219,11 +219,9 @@
                     </div>
                     <div class=" col-md-7">
                         <div class="col-md-4">
-                            @*@Html.DropDownListFor(x => x.CountryCode, null, new { @class = "form-control" })*@
-                            <select class="form-control" id="modal_countryCode" name="CountryCode">
+                            @*@Html.DropDownListFor(x => x.CountryCode, null, new { @class = "form-control", @id = "modal_countryCode" })*@
+                            <select name="CountryCode" id = "modal_countryCode"class = "form-control">
                                 <option value="+232">+232</option>
-                                @*<option value="">+951</option>
-                                    <option value="">+91</option>*@
                             </select>
                         </div>
                         <div class="col-md-8">
@@ -242,7 +240,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)" value="Send">
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="generateCode();Save()" value="Generate Passcode & Send">
             </div>
         </div>
     </div>

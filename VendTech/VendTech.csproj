@@ -245,6 +245,7 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
     <Compile Include="Areas\Api\Controllers\ContactUsController.cs" />
     <Compile Include="Areas\Api\Controllers\MeterController.cs" />
@@ -528,6 +529,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Testing\" />
+    <Folder Include="Areas\Api\Views\Dashboard\" />
     <Folder Include="Areas\Audit\Controllers\" />
     <Folder Include="Areas\Audit\Data\" />
     <Folder Include="Areas\Audit\Views\Shared\" />

@@ -1,14 +1,13 @@
-﻿using VendTech.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Web;
+using System.Web.Configuration;
+using System.Web.Mvc;
+using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
-using System.Web.Configuration;
-using System.Reflection;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -23,7 +22,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         #endregion
 
-        public AppUserController(IUserManager userManager, IAuthenticateManager authenticateManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager,IAgencyManager agentManager,IVendorManager vendorManager,IPOSManager posManager)
+        public AppUserController(IUserManager userManager, IAuthenticateManager authenticateManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IAgencyManager agentManager, IVendorManager vendorManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -40,7 +39,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageAppUsers()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"),true);
+            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
             return View(users);
         }
 
@@ -48,7 +47,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetAppUsersPagingList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var modal = _userManager.GetUserPagedList(model,true);
+            var modal = _userManager.GetUserPagedList(model, true);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_appUserListing", modal));
             resultString.Add(modal.TotalCount.ToString());
@@ -151,6 +150,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
+
             return View(userModel);
         }
 
@@ -158,7 +158,6 @@ namespace VendTech.Areas.Admin.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult ReactivateUserDetails(AddUserModel model)
         {
-
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             if (model.ImagefromWeb != null)
             {
@@ -202,7 +201,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult BlockUser(long userId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            return JsonResult(_userManager.ChangeUserStatus(userId,UserStatusEnum.Block));
+            return JsonResult(_userManager.ChangeUserStatus(userId, UserStatusEnum.Block));
         }
         [AjaxOnly, HttpPost]
         public JsonResult UnBlockUser(long userId)

@@ -1,12 +1,11 @@
-﻿using VendTech.Attributes;
-using VendTech.BLL.Interfaces;
-using VendTech.BLL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using VendTech.Attributes;
 using VendTech.BLL.Common;
+using VendTech.BLL.Interfaces;
+using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -22,7 +21,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         #endregion
 
-        public DepositController(IUserManager userManager,ICommissionManager commissionManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager,IDepositManager depositManager,IVendorManager vendor,IBankAccountManager bankAccountManager,IPOSManager posManager)
+        public DepositController(IUserManager userManager, ICommissionManager commissionManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IDepositManager depositManager, IVendorManager vendor, IBankAccountManager bankAccountManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -37,13 +36,13 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageDeposits(long? posId=null,long? vendorId=null)
+        public ActionResult ManageDeposits(long? posId = null, long? vendorId = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
-           var vendors = _vendorManager.GetVendorsSelectList();
-              var user=new SaveVendorModel();
-          if(posId.HasValue)
+            var vendors = _vendorManager.GetVendorsSelectList();
+            var user = new SaveVendorModel();
+            if (posId.HasValue)
             {
                 user = _vendorManager.GetVendorDetailByPosId(posId.Value);
                 ViewBag.vendorId = user.VendorId;
@@ -51,7 +50,7 @@ namespace VendTech.Areas.Admin.Controllers
                 ViewBag.Balance = _vendorManager.GetVendorPendingDepositTotal(posId.Value);
                 ViewBag.percentage = _posManager.GetPosCommissionPercentage(posId.Value);
             }
-          else
+            else
             {
                 ViewBag.vendorId = 0;
                 ViewBag.Balance = _vendorManager.GetVendorPendingDepositTotal(0);
@@ -67,14 +66,14 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
 
             var bankAccounts = _bankAccountManager.GetBankAccounts();
-              ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName.ToUpper(), Value = p.BankAccountId.ToString() }).ToList();
+            ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName.ToUpper(), Value = p.BankAccountId.ToString() }).ToList();
             ViewBag.vendors = vendors;
             var deposits = new PagingResult<DepositListingModel>();
 
             // This is commented because client want all  POS on page load;
             //if (posId.HasValue && posId.Value > 0)
             //{
-                 deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: posId.HasValue ? posId.Value : 0);
+            deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: posId.HasValue ? posId.Value : 0);
             //}
             return View(deposits);
         }
@@ -85,24 +84,24 @@ namespace VendTech.Areas.Admin.Controllers
             model.SortOrder = "createdat";
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             long vendorid = 0;
-            if(!string.IsNullOrEmpty(model.VendorId))
+            if (!string.IsNullOrEmpty(model.VendorId))
             {
                 vendorid = Convert.ToInt64(model.VendorId);
             }
-            var modal = _depositManager.GetDepositPagedList(model,false, vendorid);
+            var modal = _depositManager.GetDepositPagedList(model, false, vendorid);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_depositListing", modal));
             resultString.Add(modal.TotalCount.ToString());
             return JsonResult(resultString);
         }
 
-      
+
 
         [HttpGet]
         public ActionResult DepositLogs()
         {
             //ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            var deposits = _depositManager.GetDepositLogsPagedList(PagingModel.DefaultModel("CreatedAt","Desc"));
+            var deposits = _depositManager.GetDepositLogsPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
             return View(deposits);
         }
 
@@ -133,13 +132,13 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult ApproveReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released,LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, LOGGEDIN_USER.UserID));
         }
         [AjaxOnly, HttpPost]
         public JsonResult RejectReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected,LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, LOGGEDIN_USER.UserID));
         }
 
         public ActionResult AddDeposit()
@@ -147,13 +146,13 @@ namespace VendTech.Areas.Admin.Controllers
             var model = new DepositModel();
             var commissions = _commissionManager.GetCommissions();
             var drpCommissions = new List<SelectListItem>();
-            if(commissions.Any())
+            if (commissions.Any())
                 foreach (var item in commissions)
                 {
                     drpCommissions.Add(new SelectListItem { Text = item.Value.ToString(), Value = item.CommissionId.ToString() });
                 }
             ViewBag.commissions = drpCommissions;
-          
+
             ViewBag.AppUsers = _userManager.GetAppUsersSelectList();
             ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
             return View(model);

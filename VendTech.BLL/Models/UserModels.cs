@@ -69,7 +69,7 @@ namespace VendTech.BLL.Models
         [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Required")]
-        [MaxLength(8)]
+        [MaxLength(10)]
         [Index(IsUnique = true)]
         public string Phone { get; set; }
         public string Token { get; set; }
@@ -86,7 +86,7 @@ namespace VendTech.BLL.Models
         public IList<WidgetCheckbox> WidgetList { get; set; }
         public List<int> SelectedWidgets { get; set; }
         public List<int> SelectedModules { get; set; }
-        
+
         public List<int> SelectedPlatforms { get; set; }
         public long? AgentId { get; set; }
         public long? VendorId { get; set; }
@@ -144,16 +144,16 @@ namespace VendTech.BLL.Models
     public class RegisterAPIModel
     {
         [Required(ErrorMessage = "Email required")]
-        public string Email { get; set; } 
+        public string Email { get; set; }
         public int Individual_or_company { get; set; }
         [Required(ErrorMessage = "Phone number required")]
-        public string Mobile { get; set; } 
+        public string Mobile { get; set; }
         public string FirstName { get; set; }
         public string CompanyName { get; set; }
-        public string LastName { get; set; } 
-        public string Address { get; set; } 
-            public string Country { get; set; } 
-            public string City { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
         public bool IsCompany { get; set; }
         public string Agency { get; set; }
     }
@@ -163,6 +163,14 @@ namespace VendTech.BLL.Models
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        public string DeviceToken { get; set; }
+        public string AppType { get; set; }
+    }
+    public class LoginAPIPassCodeModel
+    {
+        public long UserId { get; set; }
+        [Required]
+        public string PassCode { get; set; }
         public string DeviceToken { get; set; }
         public string AppType { get; set; }
     }
@@ -208,7 +216,7 @@ namespace VendTech.BLL.Models
         [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
-
+        public int PassCode { get; set; }
 
         public AddUserModel()
         {
@@ -252,6 +260,7 @@ namespace VendTech.BLL.Models
         public string OldPassword { get; set; }
         public string Otp { get; set; }
     }
+
     public class ChangePasswordModel
     {
         public long UserId { get; set; }

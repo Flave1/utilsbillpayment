@@ -9,10 +9,7 @@ using System.Web.Mvc;
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
-using System.Web.Script.Serialization;
-using VendTech.BLL.Common;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
@@ -20,7 +17,6 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using IronXL;
 #endregion
 
 namespace VendTech.Controllers
@@ -323,8 +319,9 @@ namespace VendTech.Controllers
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
-                VendorId = LOGGEDIN_USER.UserID,IsInitialLoad = true
-                
+                VendorId = LOGGEDIN_USER.UserID,
+                IsInitialLoad = true
+
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
@@ -338,7 +335,7 @@ namespace VendTech.Controllers
         }
         [AjaxOnly, HttpPost]
         public JsonResult GetSalesReportPagingList(ReportSearchModel model)
-            {
+        {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
             //model.SortOrder = "Desc";
@@ -386,7 +383,7 @@ namespace VendTech.Controllers
             {
 
                 VendorId = LOGGEDIN_USER.UserID,
-               
+
                 RecordsPerPage = 500000,
                 PosId = model.POS,
                 Meter = model.Meter,

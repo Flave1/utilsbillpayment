@@ -1,13 +1,9 @@
-﻿using VendTech.Attributes;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VendTech.BLL.Common;
-using System.Web.Configuration;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -34,7 +30,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
-            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"),true);
+            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
             return View(deposits);
         }
 
@@ -42,7 +38,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetDepositReleasePagingList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            var modal = _depositManager.GetDepositPagedList(model,true);
+            var modal = _depositManager.GetDepositPagedList(model, true);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_depositReleaseListing", modal));
             resultString.Add(modal.TotalCount.ToString());
@@ -52,13 +48,13 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult ApproveReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released,LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, LOGGEDIN_USER.UserID));
         }
         [AjaxOnly, HttpPost]
         public JsonResult RejectReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected,LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, LOGGEDIN_USER.UserID));
         }
         [AjaxOnly, HttpPost]
         public JsonResult SendOTP()
@@ -71,16 +67,16 @@ namespace VendTech.Areas.Admin.Controllers
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%otp%", result.Object);
                 var currentUser = LOGGEDIN_USER.UserID;
-                
+
                 Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
             }
-            return JsonResult(new ActionOutput { Message=result.Message,Status=result.Status});
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
         [AjaxOnly, HttpPost]
         public JsonResult ChangeDepositStatus(ReleaseDepositModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            var result = _depositManager.ChangeMultipleDepositStatus(model,LOGGEDIN_USER.UserID);
+            var result = _depositManager.ChangeMultipleDepositStatus(model, LOGGEDIN_USER.UserID);
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
         #endregion

@@ -1,17 +1,13 @@
 ﻿#region Default Namespaces
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
-using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 #endregion
 
@@ -37,7 +33,7 @@ namespace VendTech.Controllers
 
         #endregion
 
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager,IDepositManager depositManager,IMeterManager meterManager,IVendorManager vendorManager,IBankAccountManager bankAccountManager,IPOSManager posManager, IEmailTemplateManager templateManager)
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IEmailTemplateManager templateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -55,7 +51,7 @@ namespace VendTech.Controllers
         /// Index View 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(long posId=0)
+        public ActionResult Index(long posId = 0)
         {
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
@@ -75,7 +71,7 @@ namespace VendTech.Controllers
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
             ViewBag.userPos = posList;
-            if (posId==0 &&  posList.Count > 0)
+            if (posId == 0 && posList.Count > 0)
             {
                 posId = Convert.ToInt64(posList[0].Value);
                 ViewBag.posId = posId;
@@ -92,8 +88,8 @@ namespace VendTech.Controllers
             }
             var bankAccounts = _bankAccountManager.GetBankAccounts();
 
-            ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName+" - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
-           
+            ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
+
             return View(model);
         }
         [AjaxOnly, HttpPost]
@@ -102,7 +98,7 @@ namespace VendTech.Controllers
             model.UserId = LOGGEDIN_USER.UserID;
 
             var result = _depositManager.SaveDepositRequest(model);
-            
+
             return JsonResult(result);
         }
         [AjaxOnly]

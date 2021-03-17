@@ -3968,3 +3968,7 @@ Method not found: 'Void VendTech.BLL.Models.PlatformModel.set_Logo(System.String
 
 
 
+String was not recognized as a valid DateTime.
+
+
+

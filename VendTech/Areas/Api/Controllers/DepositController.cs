@@ -1,20 +1,15 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
-using VendTech.Attributes;
-using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
+
 
 namespace VendTech.Areas.Api.Controllers
 {
@@ -45,7 +40,7 @@ namespace VendTech.Areas.Api.Controllers
          [HttpGet]
          [ResponseType(typeof(ResponseBase))]
          public HttpResponseMessage GetDeposits(int pageNo,int pageSize)
-         {
+         {            
              var result = _depositManager.GetUserDepositList(pageNo,pageSize,LOGGEDIN_USER.UserId);
              return new JsonContent(result.TotalCount,result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed,result.List).ConvertToHttpResponseOK();
          }
