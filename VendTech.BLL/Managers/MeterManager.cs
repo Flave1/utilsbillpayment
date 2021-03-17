@@ -140,7 +140,7 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber != null && p.MeterNumber.Contains(model.Meter)));
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
 
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
@@ -161,7 +161,7 @@ namespace VendTech.BLL.Managers
                 PIN = x.MeterToken1,
                 AMOUNT = string.Format("{0:N0}", x.Amount),
                 TRANSACTIONID = x.TransactionId,
-                METER_NO = x.Meter == null ? x.MeterNumber : x.Meter.Number,
+                METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor,
                 POSID = x.POSId == null ? "" : x.POS.SerialNumber,
                 //Request = x?.Request,
@@ -241,7 +241,7 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber != null && p.MeterNumber.Contains(model.Meter))); 
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter))); 
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -261,7 +261,7 @@ namespace VendTech.BLL.Managers
                 Amount = x.Amount,
                 ProductShortName = x.Platform?.ShortName ==null ? "" : x.Platform.ShortName,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                MeterNumber = x.Meter == null ? x.MeterNumber : x.Meter.Number,
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,
                 Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
                 TransactionId = x.TransactionId,
@@ -324,7 +324,7 @@ namespace VendTech.BLL.Managers
                 Amount = x.Amount,
                 ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                MeterNumber = x.Meter == null ? x.MeterNumber : x.Meter.Number,
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,
                 Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
                 TransactionId = x.TransactionId,
@@ -350,7 +350,7 @@ namespace VendTech.BLL.Managers
             {
                 Amount = x.Amount,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),
-                MeterNumber = x.Meter == null ? x.MeterNumber : x.Meter.Number,
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
                 TransactionId = x.TransactionId,
                 MeterRechargeId = x.TransactionDetailsId,
@@ -376,7 +376,7 @@ namespace VendTech.BLL.Managers
                 UserId = model.UserId,
                 MeterId = model.MeterId,
                 POSId = model.POSId,
-                MeterNumber = model.MeterNumber,
+                MeterNumber1 = model.MeterNumber,
                 MeterToken1 = Utilities.GetNumbersFromGuid(),
                 Amount = model.Amount,
                 PlatFormId = 1, /**TODO temporary hard codded */
@@ -523,7 +523,7 @@ namespace VendTech.BLL.Managers
             var data = new MeterRechargeApiListingModel();
             data.Amount = recharge.Amount;
             data.CreatedAt = recharge.CreatedAt.ToString();
-            data.MeterNumber = recharge.Meter == null ? recharge.MeterNumber : recharge.Meter.Number;
+            data.MeterNumber = recharge.Meter == null ? recharge.MeterNumber1 : recharge.Meter.Number;
             data.Status = ((RechargeMeterStatusEnum)recharge.Status).ToString();
             data.RechargeId = recharge.TransactionDetailsId;
             data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
@@ -682,7 +682,7 @@ namespace VendTech.BLL.Managers
             receipt.ReceiptNo = model?.ReceiptNumber;
             receipt.Address = model?.CustomerAddress;
             receipt.Tarrif = Convert.ToDouble(model?.Tariff);
-            receipt.DeviceNumber = model?.MeterNumber;
+            receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = model.DebitRecovery;
             receipt.Amount =  model?.TenderedAmount.ToString("N");
             receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
@@ -725,7 +725,7 @@ namespace VendTech.BLL.Managers
                 trans.UserId = model.UserId;
                 trans.MeterId = model.MeterId;
                 trans.POSId = model.POSId;
-                trans.MeterNumber = model.MeterNumber;
+                trans.MeterNumber1 = model.MeterNumber;
                 trans.TransactionDetailsId = (long)model.MeterId;
                 trans.MeterToken1 = response_data?.Content?.VoucherPin?.ToString() ?? string.Empty;
                 trans.Amount = model?.Amount ?? new decimal();
@@ -774,7 +774,7 @@ namespace VendTech.BLL.Managers
                 tran.UserId = model.UserId;
                 tran.MeterId = model.MeterId;
                 tran.POSId = model.POSId;
-                tran.MeterNumber = model?.MeterNumber;
+                tran.MeterNumber1 = model?.MeterNumber;
                 tran.TransactionDetailsId = (long)model.MeterId;
                 tran.MeterToken1 = response_data != null ? response_data?.PinNumber : string.Empty;
                 tran.MeterToken2 = response_data != null ? response_data?.PinNumber2 : string.Empty;
@@ -822,7 +822,7 @@ namespace VendTech.BLL.Managers
                 trans.UserId = model.UserId;
                 trans.MeterId = model.MeterId;
                 trans.POSId = model.POSId;
-                trans.MeterNumber = model.MeterNumber;
+                trans.MeterNumber1 = model.MeterNumber;
                 trans.TransactionDetailsId = (long)model.MeterId;
                 trans.MeterToken1 = string.Empty;
                 trans.Amount = model?.Amount ?? new decimal();
