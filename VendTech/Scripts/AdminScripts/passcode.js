@@ -20,8 +20,8 @@ $("#IsPassCode").on('change', function (e) {
         $('#passcodeModal').modal("show");
     }
 });
-function generateCode(th) {
-    var input = Math.floor(Math.random() * 100000);
+function generateCode() {
+    var input = Math.floor(Math.random() * 90000) + 10000;
     var div = 10000;
     var value = 0;
     var i = 1;
@@ -33,8 +33,7 @@ function generateCode(th) {
         i++;
     }
 }
-function Save(th) {
-    debugger;
+function Save() {
     $('#passcodeModal').modal("hide");
     var inputParam = new Object();
     inputParam.PosId = $("#POSId").val();

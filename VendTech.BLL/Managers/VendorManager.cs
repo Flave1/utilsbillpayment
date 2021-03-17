@@ -163,14 +163,14 @@ namespace VendTech.BLL.Managers
                 }
             }
 
-            if(string.IsNullOrEmpty(model.City) || string.IsNullOrEmpty(model.Country))
-            {
-                return new ActionOutput
-                {
-                    Status = ActionStatus.Error,
-                    Message = "Country and City required "
-                };
-            }
+            //if(string.IsNullOrEmpty(model.City) || string.IsNullOrEmpty(model.Country))
+            //{
+            //    return new ActionOutput
+            //    {
+            //        Status = ActionStatus.Error,
+            //        Message = "Country and City required "
+            //    };
+            //}
 
             //if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower() && p.UserId != model.VendorId))
             //    return ReturnError("This email is already exist with another user");
@@ -188,8 +188,8 @@ namespace VendTech.BLL.Managers
             vendor.VendorCommissionPercentage = model.Percentage;
             vendor.VendorType = model.VendorType;
             vendor.Vendor = model.Vendor;
-            vendor.CityId = Convert.ToInt32(model.City);
-            vendor.CountryId = Convert.ToInt32(model.Country);
+            //vendor.CityId = Convert.ToInt32(model.City);
+            //vendor.CountryId = Convert.ToInt32(model.Country);
                 vendor.Address = model.Address;
             //if (model.POSId.HasValue && model.POSId > 0)
             //    vendor.FKPOSId = model.POSId;

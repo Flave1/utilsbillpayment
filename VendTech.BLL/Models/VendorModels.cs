@@ -47,7 +47,7 @@ namespace VendTech.BLL.Models
 
         public string Email { get; set; }
         [Required(ErrorMessage = "Required")]
-        [MaxLength(8)]
+        [MaxLength(10)]
         public string Phone { get; set; }
         public string CountryCode { get; set; }
         public long AgencyId { get; set; }

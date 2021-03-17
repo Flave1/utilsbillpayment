@@ -193,7 +193,7 @@
                 <input type="hidden" id="hdnPOSId" class="form-control" />
                 <div class="row  contact-form">
                     <div class=" col-md-4">
-                        <input type="button" id="modal_Passcode" class="btn btn-success" style="border-radius:5px" value="Generate" onclick="generateCode(this)" />
+                        @*<input type="button" id="modal_Passcode" class="btn btn-success" style="border-radius:5px" value="Generate" onclick="generateCode(this)" />*@
                     </div>
                     <div class=" col-md-7 _passcode">
                         <div class="col-md-2">
@@ -240,7 +240,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)" value="Send">
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="generateCode();Save()" value="Generate Passcode & Send">
             </div>
         </div>
     </div>

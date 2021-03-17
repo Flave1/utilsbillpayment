@@ -166,8 +166,11 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                var userModel = Context.Users.Where(x => x.PassCode == passCode
-                    && (UserRoles.AppUser == x.UserRole.Role
+                var userModel = new UserModel();
+                var pos = Context.POS.Where(x => x.PassCode == passCode).FirstOrDefault();
+                if (pos != null)
+                {
+                    userModel = Context.Users.Where(x => x.UserId == pos.VendorId && (UserRoles.AppUser == x.UserRole.Role
                || UserRoles.Vendor == x.UserRole.Role)
                && (x.Status == (int)UserStatusEnum.Active
                || x.Status == (int)UserStatusEnum.Pending
@@ -175,7 +178,10 @@ namespace VendTech.BLL.Managers
                    .ToList()
                    .Select(x => new UserModel(x))
                    .FirstOrDefault();
+                    return userModel;
+                }
                 return userModel;
+
             }
             catch (Exception ex)
             {
@@ -238,9 +244,9 @@ namespace VendTech.BLL.Managers
         {
             //string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             //var data = Context.Users.Where(x => x.Email == model.Email && x.Password == encryptPassword).FirstOrDefault();
-            var userModel = new User();
-            userModel = Context.Users.FirstOrDefault(x => x.PassCode == model.PassCode);
 
+            var pos = Context.POS.FirstOrDefault(x => x.PassCode == model.PassCode);
+            var userModel = Context.Users.FirstOrDefault(x => x.UserId == pos.VendorId);
             //var data = Context.Users.Where(x => x.Email ==  && x.Password == encryptPassword).FirstOrDefault();
 
             userModel.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
@@ -318,7 +324,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 var token = Context.TokensManagers.Where(x => x.UserId == userId).ToList();
-                if (token.Count > 0)
+                if (token.Count() > 0)
                 {
                     Context.TokensManagers.RemoveRange(token);
                     Context.SaveChanges();
@@ -376,6 +382,8 @@ namespace VendTech.BLL.Managers
         {
             if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower()))
                 return ReturnError<long>("User already exist with this email.");
+            if (Context.Users.Any(p => p.Phone.ToLower() == model.Phone.ToLower()))
+                return ReturnError<long>("User already exist with this phone number.");
             if (!string.IsNullOrEmpty(model.ReferralCode))
             {
                 var referralCode = Context.ReferralCodes.FirstOrDefault(p => p.Code == model.ReferralCode && !p.IsUsed);
