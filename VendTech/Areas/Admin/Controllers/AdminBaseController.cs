@@ -23,8 +23,6 @@ namespace VendTech.Areas.Admin.Controllers
     [NoCache]
     public class AdminBaseController : BaseController
     {
-
-
         public AdminBaseController(IErrorLogManager errorLogManager)
             : base(errorLogManager)
         {
@@ -37,7 +35,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies. AdminAuthorizationCookie];
             var model = new PermissonAndDetailModel();
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();

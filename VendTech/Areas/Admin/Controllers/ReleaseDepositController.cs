@@ -26,12 +26,29 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageDepositRelease()
+        public ActionResult ManageDepositRelease(string status = "")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
-            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
-            return View(deposits);
+            var deposits = new PagingResult<DepositListingModel>();
+            var pagingModel = new PagingModel();
+            if (string.IsNullOrEmpty(status))
+            {
+                deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
+                return View(deposits);
+            }
+            else
+            {
+                pagingModel.Search = status;
+                pagingModel.PageNo = 1;
+                pagingModel.RecordsPerPage = 10;
+                pagingModel.Search = status;
+                pagingModel.SortBy = "CreatedAt";
+                pagingModel.SortOrder = "Desc";
+                pagingModel.SearchField = "STATUS";
+                deposits = _depositManager.GetDepositPagedList(pagingModel, true);
+                return View(deposits);
+            }
         }
 
         [AjaxOnly, HttpPost]

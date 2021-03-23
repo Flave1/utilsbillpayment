@@ -3972,3 +3972,681 @@ String was not recognized as a valid DateTime.
 
 
 
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+The "section" element was not closed.  All elements must be either self-closing or have a matching end tag.
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. 
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_Layout.cshtml".
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+

@@ -17,6 +17,7 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Meter()
         {
+            this.MeterRecharges = new HashSet<MeterRecharge>();
             this.TransactionDetails = new HashSet<TransactionDetail>();
         }
     
@@ -32,6 +33,8 @@ namespace VendTech.DAL
         public Nullable<bool> IsVerified { get; set; }
         public string Allias { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MeterRecharge> MeterRecharges { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }

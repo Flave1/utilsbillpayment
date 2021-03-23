@@ -36,11 +36,29 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageAppUsers()
+        public ActionResult ManageAppUsers(string status = "")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
-            return View(users);
+            var users = new PagingResult<UserListingModel>();
+            var pagingModel = new PagingModel();
+
+            if (string.IsNullOrEmpty(status))
+            {
+                users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
+                return View(users);
+            }
+            else
+            {
+                pagingModel.Search = status;
+                pagingModel.PageNo = 1;
+                pagingModel.RecordsPerPage = 10;
+                pagingModel.Search = status;
+                pagingModel.SortBy = "CreatedAt";
+                pagingModel.SortOrder = "Desc";
+                pagingModel.SearchField = "STATUS";
+                users = _userManager.GetUserPagedList(pagingModel, true);
+                return View(users);
+            }
         }
 
         [AjaxOnly, HttpPost]
