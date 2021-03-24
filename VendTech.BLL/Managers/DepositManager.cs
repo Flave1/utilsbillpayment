@@ -1,13 +1,12 @@
-﻿using VendTech.BLL.Interfaces;
-using VendTech.BLL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
-using VendTech.DAL;
 using VendTech.BLL.Common;
-using System.Data.Entity;
-using System.Globalization;
+using VendTech.BLL.Interfaces;
+using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
 {
