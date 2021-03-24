@@ -159,7 +159,7 @@
           <Property Name="BankAccountId" Type="int" Nullable="false" />
           <Property Name="NewBalance" Type="decimal" Precision="18" Scale="2" />
           <Property Name="isAudit" Type="bit" Nullable="false" />
-          <Property Name="ValueDate" Type="nvarchar" MaxLength="10" />
+          <Property Name="ValueDate" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -206,23 +206,6 @@
           <Property Name="OTP" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="MeterRecharge">
-          <Key>
-            <PropertyRef Name="MeterRechargeId" />
-          </Key>
-          <Property Name="MeterRechargeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="MeterId" Type="bigint" />
-          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="MeterNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="POSId" Type="bigint" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="PlatFormId" Type="int" />
-          <Property Name="MeterToken" Type="varchar" MaxLength="20" />
-        </EntityType>
         <EntityType Name="Meters">
           <Key>
             <PropertyRef Name="MeterId" />
@@ -237,7 +220,7 @@
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="IsVerified" Type="bit" />
-          <Property Name="Allias" Type="nvarchar" MaxLength="100" />
+          <Property Name="Allias" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
@@ -251,7 +234,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -344,6 +327,54 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="TransactionDetails">
+          <Key>
+            <PropertyRef Name="TransactionDetailsId" />
+          </Key>
+          <Property Name="TransactionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MeterId" Type="bigint" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MeterNumber1" Type="varchar" MaxLength="50" />
+          <Property Name="POSId" Type="bigint" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="PlatFormId" Type="int" />
+          <Property Name="MeterToken1" Type="varchar" MaxLength="22" />
+          <Property Name="MeterToken2" Type="varchar" MaxLength="22" />
+          <Property Name="MeterToken3" Type="varchar" MaxLength="22" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="CurrentDealerBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Customer" Type="varchar" MaxLength="100" />
+          <Property Name="RTSUniqueID" Type="bigint" Nullable="false" />
+          <Property Name="ReceiptNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ServiceCharge" Type="varchar" MaxLength="50" />
+          <Property Name="Tariff" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaxCharge" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Units" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
+          <Property Name="DebitRecovery" Type="bigint" Nullable="false" />
+          <Property Name="CostOfUnits" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VProvider" Type="varchar" MaxLength="200" />
+          <Property Name="Finalised" Type="bit" />
+          <Property Name="StatusRequestCount" Type="int" />
+          <Property Name="Sold" Type="bit" />
+          <Property Name="VoucherSerialNumber" Type="varchar" MaxLength="200" />
+          <Property Name="VendStatusDescription" Type="varchar" MaxLength="200" />
+          <Property Name="VendStatus" Type="varchar" MaxLength="200" />
+          <Property Name="Request" Type="varchar(max)" />
+          <Property Name="Response" Type="varchar(max)" />
+          <Property Name="StatusResponse" Type="varchar(max)" />
+          <Property Name="DateAndTimeSold" Type="varchar(max)" />
+          <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
+          <Property Name="DateAndTimeLinked" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
             <PropertyRef Name="AssignUserModuleId" />
@@ -411,6 +442,7 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <Property Name="FKVendorId" Type="bigint" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="PassCode" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -444,118 +476,6 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Stan" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="test">
-          <Key>
-            <PropertyRef Name="TransactionDetailsId" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="Amount" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="RequestDate" />
-            <PropertyRef Name="CurrentDealerBalance" />
-            <PropertyRef Name="RTSUniqueID" />
-            <PropertyRef Name="TaxCharge" />
-            <PropertyRef Name="TenderedAmount" />
-            <PropertyRef Name="TransactionAmount" />
-            <PropertyRef Name="Units" />
-            <PropertyRef Name="DebitRecovery" />
-            <PropertyRef Name="CostOfUnits" />
-          </Key>
-          <Property Name="TransactionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="MeterId" Type="bigint" />
-          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="MeterNumber" Type="varchar" MaxLength="50" />
-          <Property Name="POSId" Type="bigint" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="PlatFormId" Type="int" />
-          <Property Name="MeterToken1" Type="varchar" MaxLength="22" />
-          <Property Name="MeterToken2" Type="varchar" MaxLength="22" />
-          <Property Name="MeterToken3" Type="varchar" MaxLength="22" />
-          <Property Name="RequestDate" Type="datetime" Nullable="false" />
-          <Property Name="CurrentDealerBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
-          <Property Name="Customer" Type="varchar" MaxLength="100" />
-          <Property Name="RTSUniqueID" Type="bigint" Nullable="false" />
-          <Property Name="ReceiptNumber" Type="varchar" MaxLength="50" />
-          <Property Name="ServiceCharge" Type="varchar" MaxLength="50" />
-          <Property Name="Tariff" Type="nvarchar" MaxLength="50" />
-          <Property Name="TaxCharge" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Units" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
-          <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
-          <Property Name="DebitRecovery" Type="bigint" Nullable="false" />
-          <Property Name="CostOfUnits" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="VProvider" Type="varchar" MaxLength="200" />
-          <Property Name="Finalised" Type="bit" />
-          <Property Name="StatusRequestCount" Type="int" />
-          <Property Name="Sold" Type="bit" />
-          <Property Name="VoucherSerialNumber" Type="varchar" MaxLength="200" />
-          <Property Name="VendStatusDescription" Type="varchar" MaxLength="200" />
-          <Property Name="VendStatus" Type="varchar" MaxLength="200" />
-          <Property Name="Request" Type="varchar(max)" />
-          <Property Name="Response" Type="varchar(max)" />
-          <Property Name="StatusResponse" Type="varchar(max)" />
-          <Property Name="DateAndTimeSold" Type="varchar(max)" />
-          <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
-          <Property Name="DateAndTimeLinked" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="TransactionDetails">
-          <Key>
-            <PropertyRef Name="TransactionDetailsId" />
-          </Key>
-          <Property Name="TransactionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="MeterId" Type="bigint" />
-          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="MeterNumber1" Type="varchar" MaxLength="50" />
-          <Property Name="POSId" Type="bigint" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="PlatFormId" Type="int" />
-          <Property Name="MeterToken1" Type="varchar" MaxLength="22" />
-          <Property Name="MeterToken2" Type="varchar" MaxLength="22" />
-          <Property Name="MeterToken3" Type="varchar" MaxLength="22" />
-          <Property Name="RequestDate" Type="datetime" Nullable="false" />
-          <Property Name="CurrentDealerBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
-          <Property Name="Customer" Type="varchar" MaxLength="100" />
-          <Property Name="RTSUniqueID" Type="bigint" Nullable="false" />
-          <Property Name="ReceiptNumber" Type="varchar" MaxLength="50" />
-          <Property Name="ServiceCharge" Type="varchar" MaxLength="50" />
-          <Property Name="Tariff" Type="nvarchar" MaxLength="50" />
-          <Property Name="TaxCharge" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Units" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
-          <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
-          <Property Name="DebitRecovery" Type="bigint" Nullable="false" />
-          <Property Name="CostOfUnits" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="VProvider" Type="varchar" MaxLength="200" />
-          <Property Name="Finalised" Type="bit" />
-          <Property Name="StatusRequestCount" Type="int" />
-          <Property Name="Sold" Type="bit" />
-          <Property Name="VoucherSerialNumber" Type="varchar" MaxLength="200" />
-          <Property Name="VendStatusDescription" Type="varchar" MaxLength="200" />
-          <Property Name="VendStatus" Type="varchar" MaxLength="200" />
-          <Property Name="Request" Type="varchar(max)" />
-          <Property Name="Response" Type="varchar(max)" />
-          <Property Name="StatusResponse" Type="varchar(max)" />
-          <Property Name="DateAndTimeSold" Type="varchar(max)" />
-          <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
-          <Property Name="DateAndTimeLinked" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK_AccountVerificationOTP_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -689,54 +609,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MeterRecharge_Meters">
-          <End Role="Meters" Type="Self.Meters" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meters">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Platform">
-          <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="PlatFormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_POS">
-          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="POSId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="MeterRecharge" Type="Self.MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Meters_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Meters" Type="Self.Meters" Multiplicity="*" />
@@ -857,7 +729,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TransactionDetails_Platform">
+        <Association Name="FK_TransactionDetails_Platforms">
           <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
           <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -941,7 +813,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserAssignedWidgets_Users">
+        <Association Name="FK_UserAssignedWidgets_User">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidgets" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1067,7 +939,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForgotPasswordRequests" EntityType="Self.ForgotPasswordRequests" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MeterRecharge" EntityType="Self.MeterRecharge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meters" EntityType="Self.Meters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
@@ -1076,6 +947,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedModules" EntityType="Self.UserAssignedModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedPlatforms" EntityType="Self.UserAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidgets" Schema="dbo" store:Type="Tables" />
@@ -1084,7 +956,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="Vendors" EntityType="Self.Vendors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="vt_admin" store:Type="Tables" />
-          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="vt_admin" store:Type="Tables" />
           <EntitySet Name="Nations" EntityType="Self.Nations" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Nations].[id] AS [id], 
@@ -1092,53 +963,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
     [Nations].[name] AS [name], 
     [Nations].[isd_code] AS [isd_code]
     FROM [dbo].[Nations] AS [Nations]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="test" EntityType="Self.test" store:Type="Tables" store:Schema="vt_admin">
-            <DefiningQuery>SELECT 
-    [test].[TransactionDetailsId] AS [TransactionDetailsId], 
-    [test].[UserId] AS [UserId], 
-    [test].[TransactionId] AS [TransactionId], 
-    [test].[MeterId] AS [MeterId], 
-    [test].[Amount] AS [Amount], 
-    [test].[MeterNumber] AS [MeterNumber], 
-    [test].[POSId] AS [POSId], 
-    [test].[Status] AS [Status], 
-    [test].[IsDeleted] AS [IsDeleted], 
-    [test].[CreatedAt] AS [CreatedAt], 
-    [test].[PlatFormId] AS [PlatFormId], 
-    [test].[MeterToken1] AS [MeterToken1], 
-    [test].[MeterToken2] AS [MeterToken2], 
-    [test].[MeterToken3] AS [MeterToken3], 
-    [test].[RequestDate] AS [RequestDate], 
-    [test].[CurrentDealerBalance] AS [CurrentDealerBalance], 
-    [test].[AccountNumber] AS [AccountNumber], 
-    [test].[Customer] AS [Customer], 
-    [test].[RTSUniqueID] AS [RTSUniqueID], 
-    [test].[ReceiptNumber] AS [ReceiptNumber], 
-    [test].[ServiceCharge] AS [ServiceCharge], 
-    [test].[Tariff] AS [Tariff], 
-    [test].[TaxCharge] AS [TaxCharge], 
-    [test].[TenderedAmount] AS [TenderedAmount], 
-    [test].[TransactionAmount] AS [TransactionAmount], 
-    [test].[Units] AS [Units], 
-    [test].[SerialNumber] AS [SerialNumber], 
-    [test].[CustomerAddress] AS [CustomerAddress], 
-    [test].[DebitRecovery] AS [DebitRecovery], 
-    [test].[CostOfUnits] AS [CostOfUnits], 
-    [test].[VProvider] AS [VProvider], 
-    [test].[Finalised] AS [Finalised], 
-    [test].[StatusRequestCount] AS [StatusRequestCount], 
-    [test].[Sold] AS [Sold], 
-    [test].[VoucherSerialNumber] AS [VoucherSerialNumber], 
-    [test].[VendStatusDescription] AS [VendStatusDescription], 
-    [test].[VendStatus] AS [VendStatus], 
-    [test].[Request] AS [Request], 
-    [test].[Response] AS [Response], 
-    [test].[StatusResponse] AS [StatusResponse], 
-    [test].[DateAndTimeSold] AS [DateAndTimeSold], 
-    [test].[DateAndTimeFinalised] AS [DateAndTimeFinalised], 
-    [test].[DateAndTimeLinked] AS [DateAndTimeLinked]
-    FROM [vt_admin].[test] AS [test]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1184,22 +1008,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="Users" EntitySet="Users" />
             <End Role="ForgotPasswordRequests" EntitySet="ForgotPasswordRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Meters" Association="Self.FK_MeterRecharge_Meters">
-            <End Role="Meters" EntitySet="Meters" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Platform" Association="Self.FK_MeterRecharge_Platform">
-            <End Role="Platform" EntitySet="Platform" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_POS" Association="Self.FK_MeterRecharge_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Users" Association="Self.FK_MeterRecharge_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharge" />
-          </AssociationSet>
           <AssociationSet Name="FK_Meters_Users" Association="Self.FK_Meters_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Meters" EntitySet="Meters" />
@@ -1240,7 +1048,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="Meters" EntitySet="Meters" />
             <End Role="TransactionDetails" EntitySet="TransactionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Platform" Association="Self.FK_TransactionDetails_Platform">
+          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="Self.FK_TransactionDetails_Platforms">
             <End Role="Platform" EntitySet="Platform" />
             <End Role="TransactionDetails" EntitySet="TransactionDetails" />
           </AssociationSet>
@@ -1268,7 +1076,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="Users" EntitySet="Users" />
             <End Role="UserAssignedPlatforms" EntitySet="UserAssignedPlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserAssignedWidgets_Users" Association="Self.FK_UserAssignedWidgets_Users">
+          <AssociationSet Name="FK_UserAssignedWidgets_User" Association="Self.FK_UserAssignedWidgets_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
           </AssociationSet>
@@ -1327,7 +1135,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="EmailTemplates" EntityType="VendTechModel.EmailTemplate" />
           <EntitySet Name="ErrorLogs" EntityType="VendTechModel.ErrorLog" />
           <EntitySet Name="ForgotPasswordRequests" EntityType="VendTechModel.ForgotPasswordRequest" />
-          <EntitySet Name="MeterRecharges" EntityType="VendTechModel.MeterRecharge" />
           <EntitySet Name="Meters" EntityType="VendTechModel.Meter" />
           <EntitySet Name="Modules" EntityType="VendTechModel.Module" />
           <EntitySet Name="Notifications" EntityType="VendTechModel.Notification" />
@@ -1336,6 +1143,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="POSAssignedPlatforms" EntityType="VendTechModel.POSAssignedPlatform" />
           <EntitySet Name="ReferralCodes" EntityType="VendTechModel.ReferralCode" />
           <EntitySet Name="TokensManagers" EntityType="VendTechModel.TokensManager" />
+          <EntitySet Name="TransactionDetails" EntityType="VendTechModel.TransactionDetail" />
           <EntitySet Name="UserAssignedModules" EntityType="VendTechModel.UserAssignedModule" />
           <EntitySet Name="UserAssignedPlatforms" EntityType="VendTechModel.UserAssignedPlatform" />
           <EntitySet Name="UserAssignedWidgets" EntityType="VendTechModel.UserAssignedWidget" />
@@ -1344,9 +1152,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySet Name="Vendors" EntityType="VendTechModel.Vendor" />
           <EntitySet Name="Widgets" EntityType="VendTechModel.Widget" />
           <EntitySet Name="StanTables" EntityType="VendTechModel.StanTable" />
-          <EntitySet Name="TransactionDetails" EntityType="VendTechModel.TransactionDetail" />
           <EntitySet Name="Nations" EntityType="VendTechModel.Nation" />
-          <EntitySet Name="tests" EntityType="VendTechModel.test" />
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="VendTechModel.FK_AccountVerificationOTP_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="AccountVerificationOTP" EntitySet="AccountVerificationOTPs" />
@@ -1415,22 +1221,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="User" EntitySet="Users" />
             <End Role="ForgotPasswordRequest" EntitySet="ForgotPasswordRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Meters" Association="VendTechModel.FK_MeterRecharge_Meters">
-            <End Role="Meter" EntitySet="Meters" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Platform" Association="VendTechModel.FK_MeterRecharge_Platform">
-            <End Role="Platform" EntitySet="Platforms" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_POS" Association="VendTechModel.FK_MeterRecharge_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MeterRecharge_Users" Association="VendTechModel.FK_MeterRecharge_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="MeterRecharge" EntitySet="MeterRecharges" />
-          </AssociationSet>
           <AssociationSet Name="FK_Meters_Users" Association="VendTechModel.FK_Meters_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Meter" EntitySet="Meters" />
@@ -1455,7 +1245,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="POSAssignedPlatform" EntitySet="POSAssignedPlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Platform" Association="VendTechModel.FK_TransactionDetails_Platform">
+          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="VendTechModel.FK_TransactionDetails_Platforms">
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="TransactionDetail" EntitySet="TransactionDetails" />
           </AssociationSet>
@@ -1483,6 +1273,10 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="User" EntitySet="Users" />
             <End Role="TokensManager" EntitySet="TokensManagers" />
           </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Users" Association="VendTechModel.FK_TransactionDetails_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserAssignedModules_Users" Association="VendTechModel.FK_UserAssignedModules_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="UserAssignedModule" EntitySet="UserAssignedModules" />
@@ -1491,7 +1285,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             <End Role="User" EntitySet="Users" />
             <End Role="UserAssignedPlatform" EntitySet="UserAssignedPlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserAssignedWidgets_Users" Association="VendTechModel.FK_UserAssignedWidgets_Users">
+          <AssociationSet Name="FK_UserAssignedWidgets_User" Association="VendTechModel.FK_UserAssignedWidgets_User">
             <End Role="User" EntitySet="Users" />
             <End Role="UserAssignedWidget" EntitySet="UserAssignedWidgets" />
           </AssociationSet>
@@ -1502,10 +1296,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <AssociationSet Name="FK_Users_UserRoles" Association="VendTechModel.FK_Users_UserRoles">
             <End Role="UserRole" EntitySet="UserRoles" />
             <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Users" Association="VendTechModel.FK_TransactionDetails_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="TransactionDetail" EntitySet="TransactionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Users1" Association="VendTechModel.FK_Users_Users1">
             <End Role="User" EntitySet="Users" />
@@ -1681,7 +1471,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="BankAccountId" Type="Int32" Nullable="false" />
           <Property Name="NewBalance" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="isAudit" Type="Boolean" Nullable="false" />
-          <Property Name="ValueDate" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="BankAccount" Relationship="VendTechModel.FK_Deposits_BankAccounts" FromRole="Deposit" ToRole="BankAccount" />
           <NavigationProperty Name="DepositLogs" Relationship="VendTechModel.FK_DepositLogs_Deposits" FromRole="Deposit" ToRole="DepositLog" />
           <NavigationProperty Name="POS" Relationship="VendTechModel.FK_Deposits_POS" FromRole="Deposit" ToRole="POS" />
@@ -1734,27 +1524,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_ForgotPasswordRequests_Users" FromRole="ForgotPasswordRequest" ToRole="User" />
         </EntityType>
-        <EntityType Name="MeterRecharge">
-          <Key>
-            <PropertyRef Name="MeterRechargeId" />
-          </Key>
-          <Property Name="MeterRechargeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MeterId" Type="Int64" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="MeterNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="POSId" Type="Int64" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PlatFormId" Type="Int32" />
-          <Property Name="MeterToken" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Meter" Relationship="VendTechModel.FK_MeterRecharge_Meters" FromRole="MeterRecharge" ToRole="Meter" />
-          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_MeterRecharge_Platform" FromRole="MeterRecharge" ToRole="Platform" />
-          <NavigationProperty Name="POS" Relationship="VendTechModel.FK_MeterRecharge_POS" FromRole="MeterRecharge" ToRole="POS" />
-          <NavigationProperty Name="User" Relationship="VendTechModel.FK_MeterRecharge_Users" FromRole="MeterRecharge" ToRole="User" />
-        </EntityType>
         <EntityType Name="Meter">
           <Key>
             <PropertyRef Name="MeterId" />
@@ -1769,8 +1538,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="IsVerified" Type="Boolean" />
-          <Property Name="Allias" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Meters" FromRole="Meter" ToRole="MeterRecharge" />
+          <Property Name="Allias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_Meters_Users" FromRole="Meter" ToRole="User" />
           <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Meters" FromRole="Meter" ToRole="TransactionDetail" />
         </EntityType>
@@ -1814,9 +1582,8 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ShortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Logo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Platform" FromRole="Platform" ToRole="MeterRecharge" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="VendTechModel.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatform" />
-          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Platform" FromRole="Platform" ToRole="TransactionDetail" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetail" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="VendTechModel.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatform" />
         </EntityType>
         <EntityType Name="POS">
@@ -1843,7 +1610,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="PassCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Commission" Relationship="VendTechModel.FK_POS_Commissions" FromRole="POS" ToRole="Commission" />
           <NavigationProperty Name="Deposits" Relationship="VendTechModel.FK_Deposits_POS" FromRole="POS" ToRole="Deposit" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_POS" FromRole="POS" ToRole="MeterRecharge" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_POS_Vendors" FromRole="POS" ToRole="User" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="VendTechModel.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatform" />
           <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetail" />
@@ -1882,139 +1648,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpiresOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_TokensManager_Users" FromRole="TokensManager" ToRole="User" />
-        </EntityType>
-        <EntityType Name="UserAssignedModule">
-          <Key>
-            <PropertyRef Name="AssignUserModuleId" />
-          </Key>
-          <Property Name="AssignUserModuleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="ModuleId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Module" Relationship="VendTechModel.FK_UserAssignedModules_Modules" FromRole="UserAssignedModule" ToRole="Module" />
-          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedModules_Users" FromRole="UserAssignedModule" ToRole="User" />
-        </EntityType>
-        <EntityType Name="UserAssignedPlatform">
-          <Key>
-            <PropertyRef Name="AssignUserPlatformId" />
-          </Key>
-          <Property Name="AssignUserPlatformId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="PlatformId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_UserAssignedPlatforms_Platform" FromRole="UserAssignedPlatform" ToRole="Platform" />
-          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedPlatforms_Users" FromRole="UserAssignedPlatform" ToRole="User" />
-        </EntityType>
-        <EntityType Name="UserAssignedWidget">
-          <Key>
-            <PropertyRef Name="AssignWidgetId" />
-          </Key>
-          <Property Name="AssignWidgetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="WidgetId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedWidgets_Users" FromRole="UserAssignedWidget" ToRole="User" />
-          <NavigationProperty Name="Widget" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="UserAssignedWidget" ToRole="Widget" />
-        </EntityType>
-        <EntityType Name="UserRole">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="UserRole" ToRole="User" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Precision="0" />
-          <Property Name="UserType" Type="Int32" Nullable="false" />
-          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="AppType" Type="Int32" />
-          <Property Name="AppUserType" Type="Int32" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CityId" Type="Int32" />
-          <Property Name="CountryId" Type="Int32" />
-          <Property Name="ProfilePic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AppLastUsed" Type="DateTime" Precision="3" />
-          <Property Name="AgentId" Type="Int64" />
-          <Property Name="VendorType" Type="Int32" />
-          <Property Name="VendorCommissionPercentage" Type="Int32" />
-          <Property Name="Vendor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FKVendorId" Type="Int64" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AccountVerificationOTPs" Relationship="VendTechModel.FK_AccountVerificationOTP_Users" FromRole="User" ToRole="AccountVerificationOTP" />
-          <NavigationProperty Name="Agency" Relationship="VendTechModel.FK_Users_Agency" FromRole="User" ToRole="Agency" />
-          <NavigationProperty Name="City" Relationship="VendTechModel.FK_Users_City" FromRole="User" ToRole="City" />
-          <NavigationProperty Name="Commission" Relationship="VendTechModel.FK_Users_Commissions" FromRole="User" ToRole="Commission" />
-          <NavigationProperty Name="ContactUs" Relationship="VendTechModel.FK_ContactUs_Users" FromRole="User" ToRole="ContactU" />
-          <NavigationProperty Name="Country" Relationship="VendTechModel.FK_Users_Country" FromRole="User" ToRole="Country" />
-          <NavigationProperty Name="DepositLogs" Relationship="VendTechModel.FK_DepositLogs_Users" FromRole="User" ToRole="DepositLog" />
-          <NavigationProperty Name="Deposits" Relationship="VendTechModel.FK_Deposits_Users" FromRole="User" ToRole="Deposit" />
-          <NavigationProperty Name="EmailConfirmationRequests" Relationship="VendTechModel.FK_EmailConfirmationRequests_Users" FromRole="User" ToRole="EmailConfirmationRequest" />
-          <NavigationProperty Name="ForgotPasswordRequests" Relationship="VendTechModel.FK_ForgotPasswordRequests_Users" FromRole="User" ToRole="ForgotPasswordRequest" />
-          <NavigationProperty Name="MeterRecharges" Relationship="VendTechModel.FK_MeterRecharge_Users" FromRole="User" ToRole="MeterRecharge" />
-          <NavigationProperty Name="Meters" Relationship="VendTechModel.FK_Meters_Users" FromRole="User" ToRole="Meter" />
-          <NavigationProperty Name="Notifications" Relationship="VendTechModel.FK_Notifications_Users" FromRole="User" ToRole="Notification" />
-          <NavigationProperty Name="POS" Relationship="VendTechModel.FK_POS_Vendors" FromRole="User" ToRole="POS" />
-          <NavigationProperty Name="ReferralCodes" Relationship="VendTechModel.FK_ReferralCodes_Users" FromRole="User" ToRole="ReferralCode" />
-          <NavigationProperty Name="TokensManagers" Relationship="VendTechModel.FK_TokensManager_Users" FromRole="User" ToRole="TokensManager" />
-          <NavigationProperty Name="UserAssignedModules" Relationship="VendTechModel.FK_UserAssignedModules_Users" FromRole="User" ToRole="UserAssignedModule" />
-          <NavigationProperty Name="UserAssignedPlatforms" Relationship="VendTechModel.FK_UserAssignedPlatforms_Users" FromRole="User" ToRole="UserAssignedPlatform" />
-          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_Users" FromRole="User" ToRole="UserAssignedWidget" />
-          <NavigationProperty Name="UserRole" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="User" ToRole="UserRole" />
-          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="User" ToRole="TransactionDetail" />
-          <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
-          <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="VendorId" />
-          </Key>
-          <Property Name="VendorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Vendor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="AgencyId" Type="Int64" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentType" Type="Int32" />
-          <Property Name="CommissionPercentage" Type="Int32" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Agency" Relationship="VendTechModel.FK_Vendors_Agency" FromRole="Vendor" ToRole="Agency" />
-        </EntityType>
-        <EntityType Name="Widget">
-          <Key>
-            <PropertyRef Name="WidgetId" />
-          </Key>
-          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="Widget" ToRole="UserAssignedWidget" />
-        </EntityType>
-        <EntityType Name="StanTable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Stan" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TransactionDetail">
           <Key>
@@ -2064,9 +1697,142 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="DateAndTimeFinalised" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAndTimeLinked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Meter" Relationship="VendTechModel.FK_TransactionDetails_Meters" FromRole="TransactionDetail" ToRole="Meter" />
-          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_TransactionDetails_Platform" FromRole="TransactionDetail" ToRole="Platform" />
+          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_TransactionDetails_Platforms" FromRole="TransactionDetail" ToRole="Platform" />
           <NavigationProperty Name="POS" Relationship="VendTechModel.FK_TransactionDetails_POS" FromRole="TransactionDetail" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="TransactionDetail" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserAssignedModule">
+          <Key>
+            <PropertyRef Name="AssignUserModuleId" />
+          </Key>
+          <Property Name="AssignUserModuleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Module" Relationship="VendTechModel.FK_UserAssignedModules_Modules" FromRole="UserAssignedModule" ToRole="Module" />
+          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedModules_Users" FromRole="UserAssignedModule" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserAssignedPlatform">
+          <Key>
+            <PropertyRef Name="AssignUserPlatformId" />
+          </Key>
+          <Property Name="AssignUserPlatformId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="PlatformId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Platform" Relationship="VendTechModel.FK_UserAssignedPlatforms_Platform" FromRole="UserAssignedPlatform" ToRole="Platform" />
+          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedPlatforms_Users" FromRole="UserAssignedPlatform" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserAssignedWidget">
+          <Key>
+            <PropertyRef Name="AssignWidgetId" />
+          </Key>
+          <Property Name="AssignWidgetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="WidgetId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="VendTechModel.FK_UserAssignedWidgets_User" FromRole="UserAssignedWidget" ToRole="User" />
+          <NavigationProperty Name="Widget" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="UserAssignedWidget" ToRole="Widget" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="AppType" Type="Int32" />
+          <Property Name="AppUserType" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="ProfilePic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AppLastUsed" Type="DateTime" Precision="3" />
+          <Property Name="AgentId" Type="Int64" />
+          <Property Name="VendorType" Type="Int32" />
+          <Property Name="VendorCommissionPercentage" Type="Int32" />
+          <Property Name="Vendor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FKVendorId" Type="Int64" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="PassCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountVerificationOTPs" Relationship="VendTechModel.FK_AccountVerificationOTP_Users" FromRole="User" ToRole="AccountVerificationOTP" />
+          <NavigationProperty Name="Agency" Relationship="VendTechModel.FK_Users_Agency" FromRole="User" ToRole="Agency" />
+          <NavigationProperty Name="City" Relationship="VendTechModel.FK_Users_City" FromRole="User" ToRole="City" />
+          <NavigationProperty Name="Commission" Relationship="VendTechModel.FK_Users_Commissions" FromRole="User" ToRole="Commission" />
+          <NavigationProperty Name="ContactUs" Relationship="VendTechModel.FK_ContactUs_Users" FromRole="User" ToRole="ContactU" />
+          <NavigationProperty Name="Country" Relationship="VendTechModel.FK_Users_Country" FromRole="User" ToRole="Country" />
+          <NavigationProperty Name="DepositLogs" Relationship="VendTechModel.FK_DepositLogs_Users" FromRole="User" ToRole="DepositLog" />
+          <NavigationProperty Name="Deposits" Relationship="VendTechModel.FK_Deposits_Users" FromRole="User" ToRole="Deposit" />
+          <NavigationProperty Name="EmailConfirmationRequests" Relationship="VendTechModel.FK_EmailConfirmationRequests_Users" FromRole="User" ToRole="EmailConfirmationRequest" />
+          <NavigationProperty Name="ForgotPasswordRequests" Relationship="VendTechModel.FK_ForgotPasswordRequests_Users" FromRole="User" ToRole="ForgotPasswordRequest" />
+          <NavigationProperty Name="Meters" Relationship="VendTechModel.FK_Meters_Users" FromRole="User" ToRole="Meter" />
+          <NavigationProperty Name="Notifications" Relationship="VendTechModel.FK_Notifications_Users" FromRole="User" ToRole="Notification" />
+          <NavigationProperty Name="POS" Relationship="VendTechModel.FK_POS_Vendors" FromRole="User" ToRole="POS" />
+          <NavigationProperty Name="ReferralCodes" Relationship="VendTechModel.FK_ReferralCodes_Users" FromRole="User" ToRole="ReferralCode" />
+          <NavigationProperty Name="TokensManagers" Relationship="VendTechModel.FK_TokensManager_Users" FromRole="User" ToRole="TokensManager" />
+          <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Users" FromRole="User" ToRole="TransactionDetail" />
+          <NavigationProperty Name="UserAssignedModules" Relationship="VendTechModel.FK_UserAssignedModules_Users" FromRole="User" ToRole="UserAssignedModule" />
+          <NavigationProperty Name="UserAssignedPlatforms" Relationship="VendTechModel.FK_UserAssignedPlatforms_Users" FromRole="User" ToRole="UserAssignedPlatform" />
+          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_User" FromRole="User" ToRole="UserAssignedWidget" />
+          <NavigationProperty Name="UserRole" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="User" ToRole="UserRole" />
+          <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
+          <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Vendor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AgencyId" Type="Int64" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentType" Type="Int32" />
+          <Property Name="CommissionPercentage" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Agency" Relationship="VendTechModel.FK_Vendors_Agency" FromRole="Vendor" ToRole="Agency" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserAssignedWidgets" Relationship="VendTechModel.FK_UserAssignedWidgets_Widget" FromRole="Widget" ToRole="UserAssignedWidget" />
+        </EntityType>
+        <EntityType Name="StanTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stan" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Nation">
           <Key>
@@ -2079,68 +1845,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <Property Name="sortname" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="isd_code" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="test">
-          <Key>
-            <PropertyRef Name="TransactionDetailsId" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="Amount" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="RequestDate" />
-            <PropertyRef Name="CurrentDealerBalance" />
-            <PropertyRef Name="RTSUniqueID" />
-            <PropertyRef Name="TaxCharge" />
-            <PropertyRef Name="TenderedAmount" />
-            <PropertyRef Name="TransactionAmount" />
-            <PropertyRef Name="Units" />
-            <PropertyRef Name="DebitRecovery" />
-            <PropertyRef Name="CostOfUnits" />
-          </Key>
-          <Property Name="TransactionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MeterId" Type="Int64" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="MeterNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="POSId" Type="Int64" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PlatFormId" Type="Int32" />
-          <Property Name="MeterToken1" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
-          <Property Name="MeterToken2" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
-          <Property Name="MeterToken3" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
-          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CurrentDealerBalance" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RTSUniqueID" Type="Int64" Nullable="false" />
-          <Property Name="ReceiptNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ServiceCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tariff" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TaxCharge" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TenderedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TransactionAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Units" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DebitRecovery" Type="Int64" Nullable="false" />
-          <Property Name="CostOfUnits" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VProvider" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Finalised" Type="Boolean" />
-          <Property Name="StatusRequestCount" Type="Int32" />
-          <Property Name="Sold" Type="Boolean" />
-          <Property Name="VoucherSerialNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VendStatusDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VendStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="StatusResponse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DateAndTimeSold" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DateAndTimeFinalised" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DateAndTimeLinked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_AccountVerificationOTP_Users">
           <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
@@ -2346,54 +2050,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MeterRecharge_Meters">
-          <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meter">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Platform">
-          <End Type="VendTechModel.Platform" Role="Platform" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="PlatFormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_POS">
-          <End Type="VendTechModel.POS" Role="POS" Multiplicity="0..1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="POSId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MeterRecharge_Users">
-          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
-          <End Type="VendTechModel.MeterRecharge" Role="MeterRecharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="MeterRecharge">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Meters_Users">
           <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
           <End Type="VendTechModel.Meter" Role="Meter" Multiplicity="*" />
@@ -2466,7 +2122,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TransactionDetails_Platform">
+        <Association Name="FK_TransactionDetails_Platforms">
           <End Type="VendTechModel.Platform" Role="Platform" Multiplicity="0..1" />
           <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2550,6 +2206,18 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TransactionDetails_Users">
+          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
+          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TransactionDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserAssignedModules_Users">
           <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
           <End Type="VendTechModel.UserAssignedModule" Role="UserAssignedModule" Multiplicity="*" />
@@ -2574,7 +2242,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserAssignedWidgets_Users">
+        <Association Name="FK_UserAssignedWidgets_User">
           <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
           <End Type="VendTechModel.UserAssignedWidget" Role="UserAssignedWidget" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2607,18 +2275,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="UserType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TransactionDetails_Users">
-          <End Type="VendTechModel.User" Role="User" Multiplicity="1" />
-          <End Type="VendTechModel.TransactionDetail" Role="TransactionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="TransactionDetail">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2858,24 +2514,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MeterRecharges">
-            <EntityTypeMapping TypeName="VendTechModel.MeterRecharge">
-              <MappingFragment StoreEntitySet="MeterRecharge">
-                <ScalarProperty Name="MeterToken" ColumnName="MeterToken" />
-                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="POSId" ColumnName="POSId" />
-                <ScalarProperty Name="MeterNumber" ColumnName="MeterNumber" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="MeterRechargeId" ColumnName="MeterRechargeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Meters">
             <EntityTypeMapping TypeName="VendTechModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
@@ -2991,6 +2629,55 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TransactionDetails">
+            <EntityTypeMapping TypeName="VendTechModel.TransactionDetail">
+              <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
+                <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
+                <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
+                <ScalarProperty Name="StatusResponse" ColumnName="StatusResponse" />
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
+                <ScalarProperty Name="VendStatus" ColumnName="VendStatus" />
+                <ScalarProperty Name="VendStatusDescription" ColumnName="VendStatusDescription" />
+                <ScalarProperty Name="VoucherSerialNumber" ColumnName="VoucherSerialNumber" />
+                <ScalarProperty Name="Sold" ColumnName="Sold" />
+                <ScalarProperty Name="StatusRequestCount" ColumnName="StatusRequestCount" />
+                <ScalarProperty Name="Finalised" ColumnName="Finalised" />
+                <ScalarProperty Name="VProvider" ColumnName="VProvider" />
+                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
+                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
+                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
+                <ScalarProperty Name="TaxCharge" ColumnName="TaxCharge" />
+                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
+                <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
+                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
+                <ScalarProperty Name="RTSUniqueID" ColumnName="RTSUniqueID" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="CurrentDealerBalance" ColumnName="CurrentDealerBalance" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
+                <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
+                <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />
+                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="POSId" ColumnName="POSId" />
+                <ScalarProperty Name="MeterNumber1" ColumnName="MeterNumber1" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
             <EntityTypeMapping TypeName="VendTechModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
@@ -3033,6 +2720,7 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VendTechModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PassCode" ColumnName="PassCode" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="FKVendorId" ColumnName="FKVendorId" />
@@ -3100,55 +2788,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="VendTechModel.TransactionDetail">
-              <MappingFragment StoreEntitySet="TransactionDetails">
-                <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
-                <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
-                <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
-                <ScalarProperty Name="StatusResponse" ColumnName="StatusResponse" />
-                <ScalarProperty Name="Response" ColumnName="Response" />
-                <ScalarProperty Name="Request" ColumnName="Request" />
-                <ScalarProperty Name="VendStatus" ColumnName="VendStatus" />
-                <ScalarProperty Name="VendStatusDescription" ColumnName="VendStatusDescription" />
-                <ScalarProperty Name="VoucherSerialNumber" ColumnName="VoucherSerialNumber" />
-                <ScalarProperty Name="Sold" ColumnName="Sold" />
-                <ScalarProperty Name="StatusRequestCount" ColumnName="StatusRequestCount" />
-                <ScalarProperty Name="Finalised" ColumnName="Finalised" />
-                <ScalarProperty Name="VProvider" ColumnName="VProvider" />
-                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
-                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
-                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="Units" ColumnName="Units" />
-                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
-                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
-                <ScalarProperty Name="TaxCharge" ColumnName="TaxCharge" />
-                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
-                <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
-                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
-                <ScalarProperty Name="RTSUniqueID" ColumnName="RTSUniqueID" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="CurrentDealerBalance" ColumnName="CurrentDealerBalance" />
-                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
-                <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
-                <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
-                <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />
-                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="POSId" ColumnName="POSId" />
-                <ScalarProperty Name="MeterNumber1" ColumnName="MeterNumber1" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Nations">
             <EntityTypeMapping TypeName="VendTechModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
@@ -3156,55 +2795,6 @@ warning 6002: The table/view 'Vendtech25nov_2.vt_admin.test' does not have a pri
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tests">
-            <EntityTypeMapping TypeName="VendTechModel.test">
-              <MappingFragment StoreEntitySet="test">
-                <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
-                <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
-                <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
-                <ScalarProperty Name="StatusResponse" ColumnName="StatusResponse" />
-                <ScalarProperty Name="Response" ColumnName="Response" />
-                <ScalarProperty Name="Request" ColumnName="Request" />
-                <ScalarProperty Name="VendStatus" ColumnName="VendStatus" />
-                <ScalarProperty Name="VendStatusDescription" ColumnName="VendStatusDescription" />
-                <ScalarProperty Name="VoucherSerialNumber" ColumnName="VoucherSerialNumber" />
-                <ScalarProperty Name="Sold" ColumnName="Sold" />
-                <ScalarProperty Name="StatusRequestCount" ColumnName="StatusRequestCount" />
-                <ScalarProperty Name="Finalised" ColumnName="Finalised" />
-                <ScalarProperty Name="VProvider" ColumnName="VProvider" />
-                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
-                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
-                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="Units" ColumnName="Units" />
-                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
-                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
-                <ScalarProperty Name="TaxCharge" ColumnName="TaxCharge" />
-                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
-                <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
-                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
-                <ScalarProperty Name="RTSUniqueID" ColumnName="RTSUniqueID" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="CurrentDealerBalance" ColumnName="CurrentDealerBalance" />
-                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
-                <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
-                <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
-                <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />
-                <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="POSId" ColumnName="POSId" />
-                <ScalarProperty Name="MeterNumber" ColumnName="MeterNumber" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

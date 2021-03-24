@@ -251,7 +251,7 @@ namespace VendTech.BLL.Models
     {
         public long DepositId { get; set; }
         public string DateTime { get; set; }
-        public long PosId { get; set; }
+        public long? PosId { get; set; }
         public string DepositBy { get; set; }
         public string Payer { get; set; }
         public string IssuingBank { get; set; }

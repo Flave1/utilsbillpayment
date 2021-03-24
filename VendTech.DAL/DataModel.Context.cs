@@ -42,7 +42,6 @@ namespace VendTech.DAL
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<ForgotPasswordRequest> ForgotPasswordRequests { get; set; }
-        public virtual DbSet<MeterRecharge> MeterRecharges { get; set; }
         public virtual DbSet<Meter> Meters { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
@@ -51,6 +50,7 @@ namespace VendTech.DAL
         public virtual DbSet<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         public virtual DbSet<ReferralCode> ReferralCodes { get; set; }
         public virtual DbSet<TokensManager> TokensManagers { get; set; }
+        public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
         public virtual DbSet<UserAssignedModule> UserAssignedModules { get; set; }
         public virtual DbSet<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
         public virtual DbSet<UserAssignedWidget> UserAssignedWidgets { get; set; }
@@ -59,8 +59,6 @@ namespace VendTech.DAL
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
         public virtual DbSet<StanTable> StanTables { get; set; }
-        public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
-        public virtual DbSet<test> tests { get; set; }
     }
 }

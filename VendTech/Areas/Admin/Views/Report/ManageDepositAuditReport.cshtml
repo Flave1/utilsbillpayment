@@ -564,6 +564,7 @@ function getUrlParameter(name) {
         $("#depositModal").modal('show');
       }
         function Save(th) {
+            debugger
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
@@ -603,6 +604,7 @@ function getUrlParameter(name) {
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_pay").text(data.Payer);
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
                                 if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
                                     $(this).find("#_bnk").text(data.IssuingBank);
                                 }
@@ -629,7 +631,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                                 else {
@@ -640,7 +642,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                             }
