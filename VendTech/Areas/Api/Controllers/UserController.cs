@@ -113,6 +113,18 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent(result.Message, Status.Failed).ConvertToHttpResponseOK();
             return new JsonContent(result.TotalCount, result.Message, Status.Success, result.List).ConvertToHttpResponseOK();
         }
+
+        [HttpGet]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetUserNotificationsApi(int pageNo, int pageSize)
+        {
+
+            var result = _userManager.GetUserNotificationApi(pageNo, pageSize, LOGGEDIN_USER.UserId);
+            if (result.Result3 == ActionStatus.Error)
+                return new JsonContent("Error In Retrieving Data!!", Status.Failed).ConvertToHttpResponseOK();
+            return new JsonContent(0, "Notification Received For this user!", Status.Success, result).ConvertToHttpResponseOK();
+        }
+
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetWalletBalance()

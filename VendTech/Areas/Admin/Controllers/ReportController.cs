@@ -142,7 +142,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 100000000; 
+            model.RecordsPerPage = 100000000;
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "1012")
@@ -311,7 +311,7 @@ namespace VendTech.Areas.Admin.Controllers
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
-               
+
 
 
 
@@ -325,12 +325,12 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID
                 //gv.HeaderRow.Cells[6].Text = "REQUEST"; //REQUEST
                 //gv.HeaderRow.Cells[7].Text = "RESPONSE"; //RESPONSE
-                gv.HeaderRow.Cells[6].Text = "TOKEN";  
+                gv.HeaderRow.Cells[6].Text = "TOKEN";
                 gv.HeaderRow.Cells[7].Text = "AMOUNT"; //AMOUNT
 
                 // R&D on Alignment section
                 foreach (GridViewRow row in gv.Rows)
-                { 
+                {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
@@ -339,7 +339,7 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                         var token = row.Cells[6].Text.ToString(); row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
-                    } 
+                    }
                 }
             }
 
@@ -362,7 +362,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Response.Output.Write(objStringWriter.ToString());
                 Response.Flush();
                 Response.End();
-                 
+
             }
             else if (ExportType == "PDF")
             {
@@ -660,7 +660,7 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider); 
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
@@ -973,12 +973,12 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-Us");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                model.From = Convert.ToDateTime(FromDate, provider);
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
-                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                model.To = Convert.ToDateTime(ToDate, provider);
             }
 
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");

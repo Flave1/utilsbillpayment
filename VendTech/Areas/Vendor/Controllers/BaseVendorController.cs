@@ -173,7 +173,7 @@ namespace VendTech.Areas.Vendor.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-            else filter_context.Result = null;
+            else filter_context.Result = RedirectToAction("error", "home", new { errorMessage = filter_context.Exception.Message });
 
             base.OnException(filter_context);
         }

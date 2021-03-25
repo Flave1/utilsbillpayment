@@ -1,12 +1,12 @@
-﻿using VendTech.BLL.Interfaces;
-using VendTech.BLL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
-using VendTech.DAL;
 using VendTech.BLL.Common;
-using System.Data.Entity;
+using VendTech.BLL.Interfaces;
+using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
 {
@@ -74,7 +74,7 @@ namespace VendTech.BLL.Managers
             result.TotalCount = query.Count();
             return result;
         }
-       
+
         PagingResult<DepositListingModel> IDepositManager.GetUserDepositList(int pageNo, int pageSize, long userId)
         {
             var result = new PagingResult<DepositListingModel>();
@@ -89,7 +89,7 @@ namespace VendTech.BLL.Managers
             result.TotalCount = query.Count();
             return result;
         }
-       
+
         PagingResult<DepositLogListingModel> IDepositManager.GetDepositLogsPagedList(PagingModel model)
         {
             var result = new PagingResult<DepositLogListingModel>();
@@ -880,7 +880,7 @@ namespace VendTech.BLL.Managers
 
 
         }
-       
+
         PagingResult<DepositExcelReportModel> IDepositManager.GetReportExcelData(ReportSearchModel model)
         {
             var result = new PagingResult<DepositExcelReportModel>();
@@ -1157,7 +1157,7 @@ namespace VendTech.BLL.Managers
             amt += Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.PercentageAmount == null).ToList().Sum(p => p.Amount);
             return amt;
         }
-        
+
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
         {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
@@ -1218,7 +1218,7 @@ namespace VendTech.BLL.Managers
             }
             return ReturnSuccess("Deposit status changed successfully.");
         }
-       
+
         ActionOutput IDepositManager.ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId)
         {
             try
@@ -1247,7 +1247,7 @@ namespace VendTech.BLL.Managers
             }
 
         }
-      
+
         ActionOutput<string> IDepositManager.SendOTP()
         {
             try
@@ -1268,7 +1268,7 @@ namespace VendTech.BLL.Managers
                 return ReturnError<string>("Error occured in sending OTP.");
             }
         }
-        
+
         ActionOutput<DepositListingModel> IDepositManager.GetDepositDetail(long depositId)
         {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
@@ -1314,16 +1314,24 @@ namespace VendTech.BLL.Managers
         }
 
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
-        { 
-            var dbDeposit = Context.Deposits.Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
-            var posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
+        {
+            var posId = new POS();
+            var dbDeposit = Context.Deposits.Include(x => x.POS).Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
+            if (depositAuditModel.PosId != null)
+            {
+                posId = Context.POS.FirstOrDefault(x => x.SerialNumber == Convert.ToString(depositAuditModel.PosId));
+            }
+            else
+            {
+                posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
+            }
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
-            dbDeposit.POSId = depositAuditModel.PosId;
+            dbDeposit.POSId = depositAuditModel.PosId != null ? posId.POSId : dbDeposit.POSId;
             dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-            dbDeposit.ValueDate = depositAuditModel.ValueDate.ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.ValueDate = depositAuditModel.ValueDateModel;
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
             dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;
@@ -1341,6 +1349,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
+            depositAuditModel.ValueDate = Convert.ToDateTime(dbDeposit.ValueDate);
             return depositAuditModel;
         }
     }

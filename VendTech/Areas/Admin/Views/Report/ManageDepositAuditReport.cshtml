@@ -120,7 +120,6 @@
     option {
         font-weight: bold;
     }
- 
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -135,7 +134,7 @@
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2><label>DEPOSIT AUDIT REPORTS</label></h2> 
+                                    <h2><label>DEPOSIT AUDIT REPORTS</label></h2>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">  @ViewBag.Pritdatetime @*@DateTime.Now.ToString("dd/MMM/yyyy hh:mm:ss tt")*@</span></label>
                                     <label>
@@ -240,7 +239,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
-                                                        <th class="sorting" data-sortby="CREATEDAT">VALUE DATE</th>
+                                                        <th class="sorting" data-sortby="VALUEDATE">VALUE DATE</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th class="sorting" data-sortby="DEPOSITBY">DEPOSIT BY</th>
                                                         <th class="sorting" data-sortby="DEPOSITTYPE">DEPOSIT TYPE</th>
@@ -294,7 +293,7 @@
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
                         <div class="col-md-4">
-                            <input type="text"  name="ValueDate" id="value_date" class="form-control margin" />
+                            <input type="text" name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -376,19 +375,19 @@ function getUrlParameter(name) {
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
              var d = new Date();
             $("#value_date").kendoDatePicker({
                 culture: "en-GB",
                 value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate())
              });
 
-           
+
             $("#value_date").kendoDatePicker({
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                 format: "dd/MM/yyyy"
             });
-            var datePicker3 = $("#value_date").data("kendoDatePicker"); 
+            var datePicker3 = $("#value_date").data("kendoDatePicker");
             $("#value_date").click(function () {
                 datePicker3.open();
             })
@@ -407,7 +406,7 @@ function getUrlParameter(name) {
                     culture: "en-GB",
                     value: new Date()
                 });
-               
+                debugger;
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);
@@ -478,7 +477,7 @@ function getUrlParameter(name) {
 
                 $("#btnExport").click(function (e) {
 
-                   
+                    debugger;
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
@@ -489,7 +488,7 @@ function getUrlParameter(name) {
                         $("#frmDt").val('');
 
                     }
-                   
+                    debugger;
                     if (to) {
                         var dtVal = to.split("/");
                         $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
@@ -543,9 +542,9 @@ function getUrlParameter(name) {
             }
         });
 
-    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
+    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date,valueDate)
     {
-       
+        debugger;
         $("#depositModalTitle").text("Edit Deposit Audit");
         $("#hdnDepositId").val(id);
         $("#hdnUserId").val(userId);
@@ -555,6 +554,7 @@ function getUrlParameter(name) {
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
+        $("#valuedate").val(valueDate);
         $("#modal_amount").val(amount);
         if (isAudit == "")
             $("#modal_btn").val("Clear");
@@ -564,9 +564,9 @@ function getUrlParameter(name) {
         $("#depositModal").modal('show');
       }
         function Save(th) {
-            debugger;
+            debugger
             var inputParam = new Object();
-            inputParam.ValueDate = $("#value_date").val();
+            inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
@@ -590,23 +590,28 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    if (data!=null) {
+                    if (data.Message === "Validation Error") {
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                    }
+                    else {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
-                        $('tr').each(function(index, value) {
+                        $('tr').each(function (index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
-                                    $(this).find("#_date").text(data.DateTime);
-                        $(this).find("#_pos").text(data.PosId);
-                        $(this).find("#_usr").text(data.DepositBy);
-                        $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_date").text(data.DateTime);
+                                $(this).find("#_valuedate").text(data.ValueDate);
+                                $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_usr").text(data.DepositBy);
+                                $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_pay").text(data.Payer);
-                                if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
+                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
                                     $(this).find("#_bnk").text(data.IssuingBank);
                                 }
                                 else {
                                     $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
                                 }
-                        $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("#_ref").text(data.DepositRef);
                                 $(this).find("td").find("#_gt").text(data.GTBank);
                                 if (data.Price == "0") {
                                     $(this).find("#_amt").text(data.Price);
@@ -626,7 +631,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                                 else {
@@ -637,14 +642,12 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                             }
-});
+                        });
                     }
-                    else
-                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
                 }
             });
         }
