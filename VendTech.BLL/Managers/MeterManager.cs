@@ -686,7 +686,8 @@ namespace VendTech.BLL.Managers
             receipt.Tarrif = Convert.ToDouble(model?.Tariff);
             receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = model.DebitRecovery;
-            receipt.Amount = model?.TenderedAmount.ToString("N");
+            var amt = model?.TenderedAmount.ToString("N");
+            receipt.Amount = amt.Contains(".") ? amt.TrimEnd('0').TrimEnd('.') : amt;
             receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
             receipt.Commission = 0.00;
             receipt.Unit = Convert.ToDouble(model?.Units);
