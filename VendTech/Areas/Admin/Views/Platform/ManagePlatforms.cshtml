@@ -106,8 +106,7 @@
                             <div class="col-md-8">
                                 <img id="previewImg" style="height:50px; border:2px solid #d2c6c6;  width:40%;" class="dummyimg" src="" />
                                 <input class="pull-right" style="width:52%; " type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
-                            </div>
-                            @*@(Model.ProfilePicUrl == null ? "http://vendtech.xicom.info/Content/images/dummyimg.jpg" : Model.ProfilePicUrl)*@
+                            </div> 
 
                         </div>
 
@@ -134,31 +133,6 @@
             //initialize the javascript
             App.init();
         });
-
-           function previewFile(input) {
-            debugger;
-
-            var file = $("input[type=file]").get(0).files[0];
-
-            if (file) {
-                var reader = new FileReader();
-                var fileType = file["type"];
-                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-                if ($.inArray(fileType, validImageTypes) < 0) {
-                    alert("Only image file is allowed");
-                    $('#ImagefromWeb').val('');
-                }
-                else {
-
-                    reader.onload = function () {
-                        $("#previewImg").attr("src", reader.result);
-                        //reader.readAsDataURL(file);
-                    }
-                    reader.readAsDataURL(file);
-                }
-
-            }
-        }
 
     </script>
 }

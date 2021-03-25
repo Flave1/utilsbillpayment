@@ -114,7 +114,7 @@ var Users = {
     },
 
     UpdateUser: function (sender) {
-        debugger;
+       
         $.ajaxExt({
             url: baseUrl + '/Admin/AppUser/UpdateUserDetails',
             type: 'POST',

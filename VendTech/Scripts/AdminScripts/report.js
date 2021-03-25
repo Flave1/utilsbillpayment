@@ -195,7 +195,7 @@ var Deposits = {
 
  
 function Paging(sender) {
-    debugger;
+   
 
     var obj = new Object();
     obj.Search = $('#Search').val();
@@ -256,7 +256,7 @@ function Paging(sender) {
     }
     else
         $("#toSpan").text("_");
-    debugger;
+   
     const date = new Date();
     $("#btnFilterSearch").val('DATA LOADING........');
     $("#btnFilterSearch").prop('disabled', true);

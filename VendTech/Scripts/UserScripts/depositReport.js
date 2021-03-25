@@ -135,7 +135,7 @@ function Paging(sender) {
     else
         $("#toSpan").text("_");
 
-    debugger;
+   
     $("#btnFilterSearch").val('DATA LOADING........');
     $("#btnFilterSearch").prop('disabled', true);
     const date = new Date();

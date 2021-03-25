@@ -18,7 +18,7 @@
                             <div class="editpro-left">
                                 @*editpro-left*@
                                 <div class="" >
-                                    <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.xicom.info/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
+                                    <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.com/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
                                     <br />
                                     <br />
                                     <br />
@@ -124,7 +124,7 @@
         }
 
         function UpdateProfile(sender) {
-            debugger;
+           
             $.ajaxExt({
                 url:  '/User/EditProfile',
                 type: 'POST',
@@ -164,7 +164,7 @@
         //}
 
         function previewFile(input) {
-            debugger;
+           
 
             var file = $("input[type=file]").get(0).files[0];
 
