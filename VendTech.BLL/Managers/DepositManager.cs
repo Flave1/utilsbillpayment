@@ -1317,14 +1317,17 @@ namespace VendTech.BLL.Managers
         {
             var posId = new POS();
             var dbDeposit = Context.Deposits.Include(x => x.POS).Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
-            if (depositAuditModel.PosId != null)
-            {
-                posId = Context.POS.FirstOrDefault(x => x.SerialNumber == Convert.ToString(depositAuditModel.PosId));
-            }
-            else
-            {
-                posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
-            }
+            //if (depositAuditModel.PosId != null)
+            //{
+            //    var _posId = Convert.ToString(depositAuditModel.PosId);
+            //    posId = Context.POS.FirstOrDefault(x => x.SerialNumber == _posId);
+            //}
+            //else
+            //{
+            //    posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
+            //}
+            posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
+
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
             dbDeposit.POSId = depositAuditModel.PosId != null ? posId.POSId : dbDeposit.POSId;
             dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
