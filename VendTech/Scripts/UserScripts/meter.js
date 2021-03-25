@@ -158,7 +158,7 @@ var Users = {
             data: $("form#rechargeForm").serialize(),
             type: "POST",
             success: function (data) {
-                debugger;
+               
                 $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                 $("#pay_Now_Btn").val('PAY NOW');
                 $("#pay_Now_Btn").prop('disabled', false);

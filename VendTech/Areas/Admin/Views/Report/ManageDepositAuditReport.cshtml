@@ -407,7 +407,7 @@ function getUrlParameter(name) {
                     culture: "en-GB",
                     value: new Date()
                 });
-                debugger;
+               
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);
@@ -478,7 +478,7 @@ function getUrlParameter(name) {
 
                 $("#btnExport").click(function (e) {
 
-                    debugger;
+                   
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
@@ -489,7 +489,7 @@ function getUrlParameter(name) {
                         $("#frmDt").val('');
 
                     }
-                    debugger;
+                   
                     if (to) {
                         var dtVal = to.split("/");
                         $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
@@ -545,7 +545,7 @@ function getUrlParameter(name) {
 
     function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
     {
-        debugger;
+       
         $("#depositModalTitle").text("Edit Deposit Audit");
         $("#hdnDepositId").val(id);
         $("#hdnUserId").val(userId);
@@ -564,9 +564,9 @@ function getUrlParameter(name) {
         $("#depositModal").modal('show');
       }
         function Save(th) {
-            debugger;
+           
             var inputParam = new Object();
-            inputParam.ValueDate = $("value_date").val();
+            inputParam.ValueDate = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();

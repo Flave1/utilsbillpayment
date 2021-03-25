@@ -152,7 +152,7 @@
                 $("#Password").val('@Model.Password');
                 $("#ConfirmPassword").val('@Model.Password');
             }
-            debugger;
+           
             $("#Country").change(onCountryChange);  
             loadAllCountries();
             loadAllCities();
@@ -183,7 +183,7 @@
                 var array = @Html.Raw(Json.Encode(ViewBag.Cities));
                 if (val) {
                     var records = array.filter(p => p.CountryId == val);
-                    debugger;
+                   
                     if(records.length>0){
 
                         for (var i = 0; i < records.length; i++) {

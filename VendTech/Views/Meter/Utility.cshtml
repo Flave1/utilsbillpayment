@@ -8,6 +8,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>BillPayment </title>
+    <style>
+        platformLogo {}
+       
+    </style>
 </head>
 <body>
     <div class="container-fluid" id="pcont">
@@ -29,7 +33,7 @@
                                         @foreach (var item in Model)
                                         {
                                             //<div class="@(item.Title.Contains("GAS") ? "gasicons" : item.Title.Contains("WATER") ? "watericons" : "icons")"></div>
-                                            <li class="productBox" style="cursor:pointer;">
+                                            <li class="productBox" style="cursor: pointer;">
                                                 <a href="javascript:void(0)">
                                                     @{ 
                                                         string icon = string.Empty; 
@@ -52,7 +56,7 @@
                                                             icon = "icons"; 
                                                         }
                                                     }
-                                                    <div class="@icon" style="width:17%;"></div>
+                                                    <div class="platformLogo" style="width:17%; width:60px;height:75px;display:inline-block;background:url(@item.Logo) no-repeat;background-size:100%;"></div>
                                                     <label style="font-weight:bold;">@item.Title</label>
                                                 </a>
                                             </li>

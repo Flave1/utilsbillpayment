@@ -18,19 +18,45 @@ function addPlatform() {
     $("#platformModal").modal('show');
 }
 
+
+function previewFile(input) {
+    
+    var file = $("input[type=file]").get(0).files[0];
+
+    if (file) {
+        var reader = new FileReader();
+        var fileType = file["type"];
+        var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+        if ($.inArray(fileType, validImageTypes) < 0) {
+            alert("Only image file is allowed");
+            $('#ImagefromWeb').val('');
+        }
+        else {
+
+            reader.onload = function () {
+                $("#previewImg").attr("src", reader.result);
+                //reader.readAsDataURL(file);
+            }
+            reader.readAsDataURL(file);
+        }
+
+    }
+}
+
 function editPlatform(title, id, short_name, logo) {
-    debugger;
+   
     $("#platformModalTitle").text("Edit Product");
     $("#hdnPlatformId").val(id);
     $("#short_name").val(short_name);
-    $("#title").val(title);
-    $("previewImg").val(logo);
-    $("ImagefromWeb").val(logo);
+    $("#title").val(title); 
+    $("#ImagefromWeb").val(logo.fileName);
+    $("#previewImg").attr("src", logo);
+    //previewFile(logo);
     $("#platformModal").modal('show');
 }
 
 function savePlatform(sender) {
-    debugger;
+   
     if (!$("#title").val()) {
         $.ShowMessage($('div.messageAlert'), "Title is required", MessageType.Error);
         return;

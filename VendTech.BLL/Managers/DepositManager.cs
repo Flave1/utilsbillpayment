@@ -1314,7 +1314,7 @@ namespace VendTech.BLL.Managers
         }
 
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
-        {
+        { 
             var dbDeposit = Context.Deposits.Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
             var posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));

@@ -698,7 +698,7 @@ namespace VendTech.BLL.Managers
             receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
-            receipt.VTECHSerial = model.TransactionDetailsId.ToString();
+            receipt.VTECHSerial = model.TransactionId;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
