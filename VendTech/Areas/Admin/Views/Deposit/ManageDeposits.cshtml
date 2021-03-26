@@ -4,6 +4,9 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
 
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h2>Deposit Uploader</h2>
@@ -40,13 +43,17 @@
                                     <div class="row" style="margin-bottom:10px;">
                                         <div class="form-group">
                                             <label class="col-md-4">
-                                                CHX/CASH
+                                                @*CHX/CASH*@
                                             </label>
-                                            <div class="col-md-4" style="padding-left:0;">@Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-10  form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })</div>
-                                            <div class="col-md-4">
-                                                <input type="text" style="font-weight:bold; padding:0; margin:0; text-align:center;" name="ValueDate" placeholder="VALUE DATE" id="ValueDate" class="form-control chkBankDiv"> 
-                                            </div> 
-                                        </div> 
+                                            <div class="col-md-4" style="padding-left:0;">
+                                                <label>CHX/CASH</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-10  form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                                            </div>
+                                            <div class="col-md-4" style="padding-left:0;">
+                                                <label>VALUE DATE</label>  
+                                                <input type="text" style="font-weight:bold;  text-align:right; padding-right:3px;" autocomplete="off" name="ValueDate" id="ValueDate" class="form-control chkBankDiv">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="manage-desposit-row chkBankDiv" style="display:none">
                                         <label>BANK</label>
@@ -208,16 +215,21 @@
         }
         $(document).ready(function () {
 
-             //$("#ValueDate").kendoDatePicker({
-             //   culture: "en-GB",
-             //   value: new Date()
-             //});
+            var d = new Date();
+             $("#ValueDate").kendoDatePicker({
+                    culture: "en-GB",
+                   value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate()),
+                });
 
-             var d = new Date();
-            $("#ValueDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
+
+
+             $("#ValueDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy",
+                    max: new Date(today.setDate(today.getDate() + 30)),
+                    maxDate: new Date, minDate: new Date(2007, 6, 12),
+             });
+
             var datePicker1 = $("#ValueDate").data("kendoDatePicker");
             $("#ValueDate").click(function () {
                 datePicker1.open();

@@ -1,6 +1,6 @@
 ﻿
 function GetRequestANDResponse(transactionId) {
-    debugger;
+   
     DisableAndEnablelinks(true, transactionId);
 
     try {
@@ -15,7 +15,7 @@ function GetRequestANDResponse(transactionId) {
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
-                debugger;
+               
 
                 DisableAndEnablelinks(false, transactionId);
 
@@ -58,7 +58,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchVoucherDetailsByToken(token) {
-    debugger;
+   
     DisableAndEnablelinks(true, token);
     $("#re-print_section").show();
     try {
@@ -72,7 +72,7 @@ function fetchVoucherDetailsByToken(token) {
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
-                debugger;
+               
 
                 DisableAndEnablelinks(false, token);
                 if (data.Code === 302) {
@@ -141,7 +141,7 @@ function DisableAndEnablelinks(enable, token) {
 }
 
 //function printReceipt() {
-//    debugger;
+//   
 //    $("#print_section").hide();
 //    var prtContent = document.getElementById("printSection");
 //    var WinPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
@@ -161,7 +161,7 @@ function DisableAndEnablelinks(enable, token) {
 //
 
 function JsonPrint() {
-    debugger;
+   
     $("#json_print_section").hide();
     var prtContent = document.getElementById("requestRequestContent");
     var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');  
@@ -176,7 +176,7 @@ function JsonPrint() {
 
 
 function Reprint() {
-    debugger;
+   
     $("#re-print_section").hide();
     var prtContent = document.getElementById("re-printSection");
     var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
@@ -192,7 +192,7 @@ function Reprint() {
 }
 
 function Print() {
-    debugger;
+   
     $("#print_section").hide();
     var prtContent = document.getElementById("printSection");
     var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');

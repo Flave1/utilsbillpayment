@@ -252,7 +252,7 @@ function Paging(sender) {
 
 
 
-    debugger;
+   
     const date = new Date();
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'
@@ -275,7 +275,7 @@ function Paging(sender) {
         success: function (results, message)
         {
             $('#divResult table:first tbody').html(results[0]);
-            debugger;
+           
             //var table = $('#datatable-icons').DataTable(); 
             //table.destroy();
             //table.draw();
@@ -290,7 +290,7 @@ function Paging(sender) {
 
 function getMonthName(number)
 {
-    debugger;
+   
     var month = new Array();
     month[0] = "JAN";
     month[1] = "FEB";

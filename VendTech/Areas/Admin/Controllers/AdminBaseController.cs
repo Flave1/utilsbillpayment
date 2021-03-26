@@ -1,5 +1,6 @@
 ﻿#region Default Namespaces
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,6 +14,7 @@ using VendTech.Controllers;
 using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
+using VendTech.BLL.Common;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -192,8 +194,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="custom_data"></param>
         protected override void CreateCustomAuthorisationCookie(String user_name, Boolean is_persistent, String custom_data)
         {
-            FormsAuthenticationTicket auth_ticket =
-                new FormsAuthenticationTicket(
+            FormsAuthenticationTicket auth_ticket = new FormsAuthenticationTicket(
                     1, user_name,
                     DateTime.Now,
                     DateTime.Now.AddDays(7),

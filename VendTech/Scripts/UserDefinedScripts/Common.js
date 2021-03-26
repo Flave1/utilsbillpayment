@@ -372,7 +372,7 @@ $.OpenPopupWindow = function (parameters) {
             url: parameters.url,
             data: parameters.data,
             success: function (data) {
-                debugger;
+               
                 $("#rmsModal .modal-body").html(data[0]);
 
                 if (typeof parameters.callback === "function")
@@ -397,7 +397,7 @@ $.OpenDeletePopupWindow = function (parameters) {
     $(".ConfirmDelete").attr(parameters.attr, parameters.id);
 }
 $.ShowPopup = function (url, title) {
-    debugger;
+   
     var $this = new Object();
     var overlay = "";
     var methods = {

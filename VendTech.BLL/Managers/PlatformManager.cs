@@ -19,14 +19,15 @@ namespace VendTech.BLL.Managers
 
         List<PlatformModel> IPlatformManager.GetPlatforms()
         {
-            return Context.Platforms.Where(p => !p.IsDeleted).ToList().Select(p => new PlatformModel
+            var platforms = Context.Platforms.Where(p => !p.IsDeleted).ToList().Select(p => new PlatformModel
             {
                 PlatformId = p.PlatformId,
                 ShortName = p.ShortName,
                 Title = p.Title,
                 Enabled = p.Enabled,
-                Logo = !string.IsNullOrEmpty(p.Logo) ? p.Logo : string.Empty
+                Logo = string.IsNullOrEmpty(p.Logo) ? "" : Utilities.DomainUrl + p.Logo
             }).ToList();
+            return platforms;
         }
         List<PlatformModel> IPlatformManager.GetUserAssignedPlatforms(long userId)
         {
@@ -44,7 +45,8 @@ namespace VendTech.BLL.Managers
                 return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled).ToList().Select(p => new PlatformModel
                 {
                     PlatformId = p.Platform.PlatformId,
-                    Title = p.Platform.Title
+                    Title = p.Platform.Title,
+                    Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo
                 }).ToList();
             }
             return new List<PlatformModel>();

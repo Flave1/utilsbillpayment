@@ -51,7 +51,7 @@
                 $.ajax({
                     url: '/Admin/Home/AutoLogout',
                     success: function (data) {
-                        debugger;
+                       
                         if (data.Status != 1) {
                             window.location.href = '/Admin/Home/Index';
                         }

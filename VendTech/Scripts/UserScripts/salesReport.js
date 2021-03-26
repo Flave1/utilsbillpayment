@@ -133,7 +133,7 @@ function Paging(sender) {
     else
         $("#toSpan").text("_");
 
-    debugger;
+   
     const date = new Date();
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: '2-digit', month: '2-digit', year: 'numeric'
@@ -158,7 +158,7 @@ function Paging(sender) {
         url: baseUrl + '/Report/GetSalesReportPagingList',
         success: function (results, message) {
             console.log(results);
-            debugger;
+           
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);
