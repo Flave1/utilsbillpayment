@@ -238,8 +238,8 @@ namespace VendTech.Attributes
 
         }
     } /// <summary>
-    /// This will be used to set No Cache For Controller Actions
-    /// </summary>
+      /// This will be used to set No Cache For Controller Actions
+      /// </summary>
 
     public class NoCacheAttribute : System.Web.Mvc.ActionFilterAttribute
     {
@@ -264,8 +264,7 @@ namespace VendTech.Attributes
                 var message = actionContext.ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
                 if (!string.IsNullOrEmpty(message))
                 {
-                    actionContext.Response = new JsonContent(message, Status.Failed).ConvertToHttpResponseOK();
-
+                    actionContext.Response = new JsonContent(message, Status.Failed).ConvertToHttpResponseOK(); 
                 }
                 else
                 {

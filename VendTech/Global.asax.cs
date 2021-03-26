@@ -40,20 +40,20 @@ namespace VendTech
             BundleConfig.RegisterBundles(BundleTable.Bundles);
            
         }
-        protected void Application_Error(object sender, EventArgs e)
-        {
-            var error = Server.GetLastError();
-            var cryptoEx = error as CryptographicException;
-            if (cryptoEx != null)
-            {
-                HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-                if (auth_cookie != null)
-                {
-                    auth_cookie.Expires = DateTime.Now.AddDays(-30);
-                    Response.Cookies.Add(auth_cookie);
-                }
-                Server.ClearError();
-            }
-        }
+        //protected void Application_Error(object sender, EventArgs e)
+        //{
+        //    var error = Server.GetLastError();
+        //    var cryptoEx = error as CryptographicException;
+        //    if (cryptoEx != null)
+        //    {
+        //        HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+        //        if (auth_cookie != null)
+        //        {
+        //            auth_cookie.Expires = DateTime.Now.AddDays(-30);
+        //            Response.Cookies.Add(auth_cookie);
+        //        }
+        //        Server.ClearError();
+        //    }
+        //}
     }
 }
