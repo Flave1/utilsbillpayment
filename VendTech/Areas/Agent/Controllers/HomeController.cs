@@ -99,11 +99,5 @@ namespace VendTech.Areas.Agent.Controllers
 
             return View();
         }
-
-        public ActionResult Error(string errorMessage)
-        {
-            ViewBag.ErrorMessage = errorMessage;
-            return View();
-        }
     }
 }

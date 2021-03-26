@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace VendTech.BLL.Interfaces
 {
     public interface IUserManager
-    {
+    { 
 
 
         /// <summary>
@@ -25,7 +25,6 @@ namespace VendTech.BLL.Interfaces
         ActionOutput UpdateAdminprofile(long userId, UpdateProfileModel model);
 
         PagingResult<NotificationApiListingModel> GetUserNotifications(int pageNo, int pageSize, long userId);
-        DataResult<List<MeterRechargeApiListingModel>, List<DepositListingModel>, ActionStatus> GetUserNotificationApi(int pageNo, int pageSize, long userId);
         ActionOutput<string> SaveReferralCode(long userId);
         IList<PlatformCheckbox> GetAllPlatforms(long userId);
         List<SelectListItem> GetAppUsersSelectList();

@@ -165,7 +165,6 @@
     <Compile Include="Models\BankAccountModel.cs" />
     <Compile Include="Models\CMSPageModels.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
-    <Compile Include="Models\DataResult.cs" />
     <Compile Include="Models\IcekloudModels.cs" />
     <Compile Include="Models\ReceiptModel.cs" />
     <Compile Include="Models\ReportSearchModeluser.cs" />

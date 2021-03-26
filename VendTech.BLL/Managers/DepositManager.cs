@@ -1331,7 +1331,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-            dbDeposit.ValueDate = depositAuditModel.ValueDateModel;
+            dbDeposit.ValueDate = depositAuditModel.ValueDate.ToString("dd/MM/yyyy hh:mm");
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
             dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;

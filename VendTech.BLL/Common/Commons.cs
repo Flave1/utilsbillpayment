@@ -71,10 +71,6 @@ namespace VendTech.BLL.Models
         public int Status { get; set; }
 
         public string ProfilePicPath { get; set; }
-        public int RemainingAppUser { get; set; }
-        public int RemainingDepositRelease { get; set; }
-        public string AppUserMessage { get; set; }
-        public string DepositReleaseMessage { get; set; }
         public UserDetails()
         { }
 
