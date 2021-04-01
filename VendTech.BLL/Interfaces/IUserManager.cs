@@ -1,16 +1,12 @@
-﻿using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using VendTech.BLL.Models;
 
 namespace VendTech.BLL.Interfaces
 {
     public interface IUserManager
-    { 
+    {
 
 
         /// <summary>
@@ -25,6 +21,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput UpdateAdminprofile(long userId, UpdateProfileModel model);
 
         PagingResult<NotificationApiListingModel> GetUserNotifications(int pageNo, int pageSize, long userId);
+        DataResult<List<MeterRechargeApiListingModel>, List<DepositListingModel>, ActionStatus> GetUserNotificationApi(int pageNo, int pageSize, long userId);
         ActionOutput<string> SaveReferralCode(long userId);
         IList<PlatformCheckbox> GetAllPlatforms(long userId);
         List<SelectListItem> GetAppUsersSelectList();

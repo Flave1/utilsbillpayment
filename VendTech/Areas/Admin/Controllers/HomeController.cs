@@ -70,7 +70,11 @@ namespace VendTech.Areas.Admin.Controllers
                     UserID = userId,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = data.Object.UserType,
-                    ProfilePicPath = data.Object.ProfilePicPath
+                    ProfilePicPath = data.Object.ProfilePicPath,
+                    AppUserMessage = data.Object.AppUserMessage,
+                    DepositReleaseMessage = data.Object.DepositReleaseMessage,
+                    RemainingAppUser = data.Object.RemainingAppUser,
+                    RemainingDepositRelease = data.Object.RemainingDepositRelease
                 };
             }
             else

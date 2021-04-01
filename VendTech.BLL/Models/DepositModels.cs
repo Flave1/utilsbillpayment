@@ -28,7 +28,7 @@ namespace VendTech.BLL.Models
         public decimal? PercentageAmount { get; set; }
         public long DepositId { get; set; }
         public string Payer { get; set; }
-        public string IssuingBank { get; set; } 
+        public string IssuingBank { get; set; }
         public string ValueDate { get; set; }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         {
@@ -106,7 +106,7 @@ namespace VendTech.BLL.Models
     public class DepositAuditExcelReportModel
     {
         [DisplayName("Date/Time")]
-        public string DATE_TIME { get; set; } 
+        public string DATE_TIME { get; set; }
         //public string VALUEDATE { get; set; }
         public string POSID { get; set; }
         public string GTBANK { get; set; }
@@ -269,6 +269,7 @@ namespace VendTech.BLL.Models
         public long UserId { get; set; }
         public string Price { get; set; }
         public DateTime ValueDate { get; set; }
+        public string ValueDateModel { get; set; }
         public DepositAuditModel() { }
         public DepositAuditModel(Deposit obj, bool changeStatusForApi = false)
         {
@@ -285,7 +286,7 @@ namespace VendTech.BLL.Models
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
-            //ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate,"dd/MM/yyyy hh:mm",CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate,"dd/MM/yyyy hh:mm",CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
         }
     }
 }

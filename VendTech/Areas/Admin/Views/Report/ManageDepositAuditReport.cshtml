@@ -120,7 +120,6 @@
     option {
         font-weight: bold;
     }
- 
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -135,7 +134,7 @@
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2><label>DEPOSIT AUDIT REPORTS</label></h2> 
+                                    <h2><label>DEPOSIT AUDIT REPORTS</label></h2>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">  @ViewBag.Pritdatetime @*@DateTime.Now.ToString("dd/MMM/yyyy hh:mm:ss tt")*@</span></label>
                                     <label>
@@ -294,7 +293,7 @@
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
                         <div class="col-md-4">
-                            <input type="text" style="text-align:right;"  name="ValueDate" id="value_date" class="form-control margin" />
+                            <input type="text" style="text-align:center;" name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -376,14 +375,14 @@ function getUrlParameter(name) {
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
              var d = new Date();
             $("#value_date").kendoDatePicker({
                 culture: "en-GB",
                 value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate())
              });
 
-           
+
             $("#value_date").kendoDatePicker({
 
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
@@ -391,7 +390,7 @@ function getUrlParameter(name) {
                     max: new Date(d.setDate(d.getDate() + 30)),
                     maxDate: new Date, minDate: new Date(2007, 6, 12),
             });
-            var datePicker3 = $("#value_date").data("kendoDatePicker"); 
+            var datePicker3 = $("#value_date").data("kendoDatePicker");
             $("#value_date").click(function () {
                 datePicker3.open();
             })
@@ -546,7 +545,7 @@ function getUrlParameter(name) {
             }
         });
 
-    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date)
+    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date,valueDate)
     {
         debugger;
         $("#depositModalTitle").text("Edit Deposit Audit");
@@ -558,6 +557,7 @@ function getUrlParameter(name) {
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
+        $("#valuedate").val(valueDate);
         $("#modal_amount").val(amount);
         if (isAudit == "")
             $("#modal_btn").val("Clear");
@@ -569,7 +569,7 @@ function getUrlParameter(name) {
         function Save(th) {
             debugger;
             var inputParam = new Object();
-            inputParam.ValueDate = $("value_date").val();
+            inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
@@ -598,11 +598,12 @@ function getUrlParameter(name) {
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
                         $('tr').each(function(index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
-                                    $(this).find("#_date").text(data.DateTime);
-                        $(this).find("#_pos").text(data.PosId);
-                        $(this).find("#_usr").text(data.DepositBy);
-                        $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_date").text(data.DateTime);
+                                $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_usr").text(data.DepositBy);
+                                $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_pay").text(data.Payer);
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
                                 if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
                                     $(this).find("#_bnk").text(data.IssuingBank);
                                 }
@@ -629,7 +630,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                                 else {
@@ -640,7 +641,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '', data.UserId, data.DateTime);
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime,data.ValueDateModel);
                                     });
                                 }
                             }

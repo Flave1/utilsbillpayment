@@ -191,6 +191,41 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return result;
         }
+
+        DataResult<List<MeterRechargeApiListingModel>, List<DepositListingModel>, ActionStatus> IUserManager.GetUserNotificationApi(int pageNo, int pageSize, long userId)
+        {
+            var result = new DataResult<List<MeterRechargeApiListingModel>, List<DepositListingModel>, ActionStatus>();
+            IQueryable<TransactionDetail> query = null;
+
+            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+
+            var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
+            var posIds = new List<long>();
+            posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+            query = query.Where(p => posIds.Contains(p.POSId.Value));
+            result.Result1 = query.OrderByDescending(x => x.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterRechargeApiListingModel
+            {
+                Amount = x.Amount,
+                CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
+                TransactionId = x.TransactionId,
+                MeterRechargeId = x.TransactionDetailsId,
+                RechargePin = x?.MeterToken1,
+                POSId = x.POSId == null ? "" : x.POS.SerialNumber
+            }).ToList();
+            IQueryable<DepositLog> query1 = null;
+
+            query1 = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+
+            posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+            query1 = query1.OrderByDescending(x => x.CreatedAt).Where(p => posIds.Contains(p.Deposit.POSId));
+            var totalrecoed = query.ToList().Count();
+            result.Result2 = query1
+               .Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new DepositListingModel(x.Deposit)).ToList();
+            result.Result3 = ActionStatus.Successfull;
+            return result;
+        }
+
         PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model,bool onlyAppUser)
         {
             var result = new PagingResult<UserListingModel>();
@@ -260,6 +295,12 @@ namespace VendTech.BLL.Managers
                 UserType=user.UserRole.Role,
                 ProfilePicPath=user.ProfilePic
             };
+            var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == modelUser.UserID && (x.ModuleId == 6 || x.ModuleId == 10));
+            modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
+            modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
+            modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
+            modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
+
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
         }
 
