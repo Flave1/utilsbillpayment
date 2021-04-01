@@ -207,6 +207,17 @@ namespace VendTech.Areas.Admin.Controllers
             return View(model);
         }
 
+
+
+
+
+
+
+
+
+
+
+
         public ActionResult EditProfile()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Profile;
@@ -304,13 +315,6 @@ namespace VendTech.Areas.Admin.Controllers
             else if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
                 result = false;
             return JsonResult(new ActionOutput { Status = result ? ActionStatus.Successfull : ActionStatus.Error });
-        }
-
-        [Public]
-        public ActionResult Error(string errorMessage)
-        {
-            ViewBag.ErrorMessage = errorMessage;
-            return View();
         }
 
     }

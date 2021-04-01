@@ -239,7 +239,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
-                                                        <th class="sorting" data-sortby="VALUEDATE">VALUE DATE</th>
+                                                        <th class="sorting" data-sortby="CREATEDAT">VALUE DATE</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th class="sorting" data-sortby="DEPOSITBY">DEPOSIT BY</th>
                                                         <th class="sorting" data-sortby="DEPOSITTYPE">DEPOSIT TYPE</th>
@@ -293,7 +293,7 @@
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
                         <div class="col-md-4">
-                            <input type="text" style="text-align:right;" name="ValueDate" id="value_date" class="form-control margin" />
+                            <input type="text" style="text-align:center;" name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -384,10 +384,11 @@ function getUrlParameter(name) {
 
 
             $("#value_date").kendoDatePicker({
+
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                 format: "dd/MM/yyyy",
-                 max: new Date(d.setDate(d.getDate() + 1000)),
-                 maxDate: new Date, minDate: new Date(2007, 6, 12),
+                    max: new Date(d.setDate(d.getDate() + 30)),
+                    maxDate: new Date, minDate: new Date(2007, 6, 12),
             });
             var datePicker3 = $("#value_date").data("kendoDatePicker");
             $("#value_date").click(function () {
@@ -566,7 +567,7 @@ function getUrlParameter(name) {
         $("#depositModal").modal('show');
       }
         function Save(th) {
-            debugger
+            debugger;
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');;
@@ -592,28 +593,24 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    if (data.Message === "Validation Error") {
-                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
-                    }
-                    else {
+                    if (data!=null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
-                        $('tr').each(function (index, value) {
+                        $('tr').each(function(index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);
-                                $(this).find("#_valuedate").text(data.ValueDate);
                                 $(this).find("#_pos").text(data.PosId);
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_pay").text(data.Payer);
                                 $(this).find("#_valuedate").text(data.ValueDateModel);
-                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
+                                if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
                                     $(this).find("#_bnk").text(data.IssuingBank);
                                 }
                                 else {
                                     $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
                                 }
-                                $(this).find("#_ref").text(data.DepositRef);
+                        $(this).find("#_ref").text(data.DepositRef);
                                 $(this).find("td").find("#_gt").text(data.GTBank);
                                 if (data.Price == "0") {
                                     $(this).find("#_amt").text(data.Price);
@@ -648,8 +645,10 @@ function getUrlParameter(name) {
                                     });
                                 }
                             }
-                        });
+});
                     }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
                 }
             });
         }

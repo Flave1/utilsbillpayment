@@ -414,8 +414,6 @@
     <Content Include="Areas\Admin\Views\Report\Partials\_depositAuditListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\PrintDepositAuditReport.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
-    <Content Include="Areas\Vendor\Views\Home\Error.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -485,7 +483,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\__Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -526,7 +524,7 @@
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
     <Content Include="Views\Shared\_fetchVoucher.cshtml" />
     <Content Include="Views\Shared\_RequestResponseJSON.cshtml" />
-    <Content Include="Areas\Agent\Views\Home\Error.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

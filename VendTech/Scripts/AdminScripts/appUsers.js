@@ -35,7 +35,7 @@
     $("#btnFilterSearch").live("click", function () {
         return Users.SearchUsers($(this));
     });
-    
+
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
@@ -86,7 +86,7 @@ var Users = {
 
             }
         });
-
+     
     },
 
     ReactivateUser: function (sender) {
@@ -135,7 +135,7 @@ var Users = {
                 }, 1500);
             }
         });
-
+    
     },
     BlockUser: function (sender) {
         $.ConfirmBox("", "Are you sure to block this user?", null, true, "Yes", true, null, function () {
@@ -276,7 +276,7 @@ function Paging(sender) {
         success: function (results, message) {
             $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);
-
+          
         }
     });
 }

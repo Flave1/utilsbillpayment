@@ -341,6 +341,10 @@ namespace VendTech.BLL.Managers
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+
+
+
+
             }
 
             if (model.To != null)
