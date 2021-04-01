@@ -294,7 +294,7 @@
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
                         <div class="col-md-4">
-                            <input type="text"  name="ValueDate" id="value_date" class="form-control margin" />
+                            <input type="text" style="text-align:right;"  name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -385,8 +385,11 @@ function getUrlParameter(name) {
 
            
             $("#value_date").kendoDatePicker({
+
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
+                format: "dd/MM/yyyy",
+                    max: new Date(d.setDate(d.getDate() + 30)),
+                    maxDate: new Date, minDate: new Date(2007, 6, 12),
             });
             var datePicker3 = $("#value_date").data("kendoDatePicker"); 
             $("#value_date").click(function () {

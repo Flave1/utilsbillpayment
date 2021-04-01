@@ -1,9 +1,52 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
+﻿
 @{
     ViewBag.Title = "Error";
+    Layout = "~/Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml";
+    string errorMessage = ViewBag.ErrorMessage;
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<style>
+    .error {
+        padding: 0 0 100px;
+        text-align: center;
+    }
 
+        .error h1 {
+            padding-bottom: 0;
+            font-family: 'ProximaNova-Semibold';
+            font-size: 200px;
+            line-height: 170px;
+            color: #fff;
+        }
+
+            .error h1 span {
+                color: #007db2;
+            }
+
+        .error h2 {
+            font-family: 'ProximaNova-Semibold';
+            font-size: 30px;
+            color: #fff;
+        }
+
+    .error-wrap {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+<section class="error">
+    <div style="float: right;padding-left: 10px;">
+        <div class="error-wrap">
+            <div>
+                <h1>5<span>0</span>0</h1>
+            </div>
+            <h2 style="font-family: inherit;">Looks like something went wrong!</h2>
+            <p style="color: #fff;font-family: inherit;">Please copy the error message on the screen below and send to <a href="javascript:void();">admin@vendtechsl.com</a> or call our customer service number on <b>+232 79 990 990</b> to report this error</p>
+            <p style="color: #fff;font-family: inherit;">Click here to go to HomePage</p>
+            <a href=@Url.Action("Dashboard","Home")><input type="submit" class="btn btn-primary" value="Back To Home"></a>
+            @*<div>
+                <p style="color: #fff;font-family: inherit;">The Message is : @errorMessage</p>
+            </div>*@
+        </div>
+    </div>
+</section>

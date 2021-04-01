@@ -684,7 +684,8 @@ namespace VendTech.BLL.Managers
             receipt.Tarrif = Convert.ToDouble(model?.Tariff);
             receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = model.DebitRecovery;
-            receipt.Amount =  model?.TenderedAmount.ToString("N");
+            var amt = model?.TenderedAmount.ToString("N");
+            receipt.Amount =  amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
             receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
             receipt.Commission = 0.00;
             receipt.Unit = Convert.ToDouble(model?.Units);
@@ -698,7 +699,7 @@ namespace VendTech.BLL.Managers
             receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
-            receipt.VTECHSerial = model.TransactionDetailsId.ToString();
+            receipt.VTECHSerial = model.TransactionId;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
