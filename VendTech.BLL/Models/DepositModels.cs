@@ -276,7 +276,7 @@ namespace VendTech.BLL.Models
             Id = obj.DepositId;
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
-            DepositBy = obj.User.Name + " " + obj.User.SurName;
+            DepositBy =  obj.User.Name.Trim() + " " + obj.User.SurName.Trim();
             PosId = obj.POS != null ? Convert.ToInt64(obj.POS.SerialNumber) : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;

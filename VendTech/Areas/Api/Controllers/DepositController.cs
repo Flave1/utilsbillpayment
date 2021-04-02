@@ -32,7 +32,7 @@ namespace VendTech.Areas.Api.Controllers
          public HttpResponseMessage SaveDepositRequest(DepositModel model)
          {
              model.UserId = LOGGEDIN_USER.UserId;
-             model.TotalAmountWithPercentage = model.Amount;
+             //model.TotalAmountWithPercentage = model.Amount;
              model.BankAccountId = 1;
              var result = _depositManager.SaveDepositRequest(model);
              return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();

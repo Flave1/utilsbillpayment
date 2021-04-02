@@ -387,7 +387,7 @@ function getUrlParameter(name) {
 
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                 format: "dd/MM/yyyy",
-                    max: new Date(d.setDate(d.getDate() + 30)),
+                    max: new Date(d.setDate(d.getDate() + 365)),
                     maxDate: new Date, minDate: new Date(2007, 6, 12),
             });
             var datePicker3 = $("#value_date").data("kendoDatePicker");
@@ -557,7 +557,8 @@ function getUrlParameter(name) {
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
-        $("#valuedate").val(valueDate);
+        var date =valueDate.split("-");
+        $("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
         $("#modal_amount").val(amount);
         if (isAudit == "")
             $("#modal_btn").val("Clear");
