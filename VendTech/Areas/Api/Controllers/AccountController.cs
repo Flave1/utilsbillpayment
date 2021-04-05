@@ -60,34 +60,38 @@ namespace VendTech.Areas.Api.Controllers
             {
                 //if (!_authenticateManager.IsEmailExist(model.Email))
                 //    return new JsonContent("Email is not registered with us.", Status.Failed).ConvertToHttpResponseOK();
-
-
                 //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
-                if (userDetails.UserId == 0)
-                    return new JsonContent("Invalid Passcode for this user.Please use another one.", Status.Failed).ConvertToHttpResponseOK();
+                var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
+                if (isEnabled)
+                {
+                    if (userDetails.UserId == 0)
+                        return new JsonContent("Invalid Passcode for this user.Please use another one.", Status.Failed).ConvertToHttpResponseOK();
+                    else
+                    {
+                        userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
+                        _authenticateManager.AddTokenDevice(model);
+                        if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId))
+                        {
+                            _authenticateManager.DeleteGenerateToken(userDetails.UserId);
+                            return GenerateandSaveToken(userDetails, model);
+                        }
+                        else
+                            return GenerateandSaveToken(userDetails, model);
+                        //var code = Utilities.GenerateRandomNumber();
+                        ////Send login code on Email
+                        //var saveToken = _authenticateManager.SaveLoginCode(userDetails.UserId, code);
+                        //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.LoginCodeEmail);
+                        //string body = emailTemplate.TemplateContent;
+                        //body = body.Replace("%code%", code.ToString());
+                        //Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+                        ////_authenticateManager.FirstTimeLogin(userDetails.UserId);
+                        //return new JsonContent("Login code sent to your email.", Status.Success, userDetails).ConvertToHttpResponseOK();
+                    }
+                }
                 else
                 {
-                    userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
-                    _authenticateManager.AddTokenDevice(model);
-                    if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId))
-                    {
-                        _authenticateManager.DeleteGenerateToken(userDetails.UserId);
-                        return GenerateandSaveToken(userDetails, model);
-                    }
-                    else
-                        return GenerateandSaveToken(userDetails, model);
-                    //var code = Utilities.GenerateRandomNumber();
-                    ////Send login code on Email
-                    //var saveToken = _authenticateManager.SaveLoginCode(userDetails.UserId, code);
-                    //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.LoginCodeEmail);
-                    //string body = emailTemplate.TemplateContent;
-                    //body = body.Replace("%code%", code.ToString());
-                    //Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
-                    ////_authenticateManager.FirstTimeLogin(userDetails.UserId);
-                    //return new JsonContent("Login code sent to your email.", Status.Success, userDetails).ConvertToHttpResponseOK();
-
-
+                    return new JsonContent("Account Is Disabled. Please Contact To VendTech Management.", Status.Failed).ConvertToHttpResponseOK();
                 }
             }
         }
