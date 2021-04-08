@@ -44,6 +44,7 @@
     });
 
     function disablePOS(sender) {
+        debugger;
         $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
                 url: baseUrl + '/Admin/POS/DisablePOS',

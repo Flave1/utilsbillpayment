@@ -9,6 +9,7 @@ using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.BLL.Common;
+using VendTech.Areas.Admin.Controllers;
 #endregion
 
 namespace VendTech.Controllers

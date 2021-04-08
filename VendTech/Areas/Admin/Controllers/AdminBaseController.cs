@@ -50,14 +50,21 @@ namespace VendTech.Areas.Admin.Controllers
                 #region If LoggedInUser is null
                 if (LOGGEDIN_USER == null)
                 {
+                   
                     try
                     {
-                        FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                        model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
-                        LOGGEDIN_USER = model.UserDetails;
-                        ModulesModel = model.ModulesModelList;
-                        System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-
+                        if (JustLoggedin)
+                        {
+                            FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                            model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
+                            LOGGEDIN_USER = model.UserDetails;
+                            ModulesModel = model.ModulesModelList;
+                            System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
+                        }
+                        else
+                        {
+                            //SignOut();
+                        } 
                     }
                     catch (Exception ex)
                     {
@@ -87,22 +94,22 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (auth_cookie != null)
             {
-                #region If Logged User is null
-                if (LOGGEDIN_USER == null)
-                {
-                    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
-                    LOGGEDIN_USER = model.UserDetails;
-                    ModulesModel = model.ModulesModelList;
-                    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                }
-                if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
-                {
-                    filter_context.Result = RedirectToAction("Dashboard", "Home", new { area = "Admin" });
-                }
-                #endregion
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                ViewBag.USER_PERMISSONS = ModulesModel;
+                //#region If Logged User is null
+                //if (LOGGEDIN_USER == null)
+                //{
+                //    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                //    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
+                //    LOGGEDIN_USER = model.UserDetails;
+                //    ModulesModel = model.ModulesModelList;
+                //    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
+                //}
+                //if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
+                //{
+                //    filter_context.Result = RedirectToAction("Dashboard", "Home", new { area = "Admin" });
+                //}
+                //#endregion
+                //ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                //ViewBag.USER_PERMISSONS = ModulesModel;
 
             }
 
@@ -140,6 +147,8 @@ namespace VendTech.Areas.Admin.Controllers
                 HttpCookie val = Request.Cookies[Cookies.AdminAuthorizationCookie];
                 val.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(val);
+                SignOut();
+                LOGGEDIN_USER = null;
                 filter_context.Result = RedirectToAction("Index", "Home", new { Area = "Admin" });
                 sessionExpired = true;
             }
@@ -194,7 +203,8 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="custom_data"></param>
         protected override void CreateCustomAuthorisationCookie(String user_name, Boolean is_persistent, String custom_data)
         {
-            FormsAuthenticationTicket auth_ticket = new FormsAuthenticationTicket(
+            FormsAuthenticationTicket auth_ticket =
+                new FormsAuthenticationTicket(
                     1, user_name,
                     DateTime.Now,
                     DateTime.Now.AddDays(7),
@@ -215,8 +225,9 @@ namespace VendTech.Areas.Admin.Controllers
         public override ActionResult SignOut()
         {
             HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-            if (auth_cookie != null)
+            if(auth_cookie != null)
             {
+                JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
             }

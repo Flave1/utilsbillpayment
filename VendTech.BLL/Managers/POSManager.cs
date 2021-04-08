@@ -105,8 +105,7 @@ namespace VendTech.BLL.Managers
                 Value = p.POSId.ToString()
             }).ToList();
         }
-
-
+         
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
             var query = new List<POS>();
@@ -173,10 +172,11 @@ namespace VendTech.BLL.Managers
             if (dbPos == null)
                 return ReturnError("POS not exist");
             dbPos.IsDeleted = true;
+            EnableOrdisablePOSAccount(false, dbPos.POSId);
             Context.SaveChanges();
             return ReturnSuccess("POS deleted successfully.");
         }
-
+         
         ActionOutput IPOSManager.ChangePOSStatus(int posId, bool value)
         {
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
@@ -191,6 +191,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 pos.Enabled = value;
+                EnableOrdisablePOSAccount(value, pos.POSId);
                 Context.SaveChanges();
                 return new ActionOutput
                 {
@@ -277,6 +278,7 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
+            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
@@ -303,7 +305,18 @@ namespace VendTech.BLL.Managers
             }
             return ReturnSuccess("Pos saved successfully.");
         }
-
+        void EnableOrdisablePOSAccount(bool isEnabled, long posId)
+        {
+            var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
+            if (pos != null)
+            {
+                var posUserAccount = pos.User;
+                if (posUserAccount != null && !isEnabled)
+                    posUserAccount.Status = (int)UserStatusEnum.Block;
+                else if (posUserAccount != null && isEnabled)
+                    posUserAccount.Status = (int)UserStatusEnum.Active;
+            }
+        }
         ActionOutput IPOSManager.SavePasscodePos(SavePassCodeModel savePassCodeModel)
         {
             var dbPos = new POS();
@@ -311,13 +324,13 @@ namespace VendTech.BLL.Managers
             {
                 dbPos = Context.POS.FirstOrDefault(p => p.POSId == savePassCodeModel.POSId);
                 if (dbPos == null)
-                    return ReturnError("Pos not exist");
+                    return ReturnError("Pos does not exist");
             }
             else if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
             {
                 dbPos = Context.POS.FirstOrDefault(p => p.Phone == savePassCodeModel.Phone);
                 if (dbPos == null)
-                    return ReturnError("Pos not exist");
+                    return ReturnError("Pos does not exist");
             }
             dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;
@@ -334,13 +347,13 @@ namespace VendTech.BLL.Managers
             {
                 dbPos = Context.POS.FirstOrDefault(p => p.SerialNumber == savePassCodeModel.PosNumber);
                 if (dbPos == null)
-                    return ReturnError("Pos not exist");
+                    return ReturnError("Pos does not exist");
             }
             else if (!string.IsNullOrEmpty(savePassCodeModel.Phone))
             {
                 dbPos = Context.POS.FirstOrDefault(p => p.Phone == savePassCodeModel.Phone);
                 if (dbPos == null)
-                    return ReturnError("Pos not exist");
+                    return ReturnError("Pos does not exist");
             }
             dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;

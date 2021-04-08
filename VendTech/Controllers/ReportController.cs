@@ -17,6 +17,7 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
+using VendTech.Areas.Admin.Controllers;
 #endregion
 
 namespace VendTech.Controllers
@@ -510,13 +511,14 @@ namespace VendTech.Controllers
                     if (row.RowType == DataControlRowType.DataRow)
                     {
            
-                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right; 
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right; 
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         var token = row.Cells[6].Text.ToString(); 
                         row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 2;

@@ -23,6 +23,8 @@ namespace VendTech.Controllers
     [NoCache]
     public class BaseController : Controller
     {
+        //FOR LOGIN CHECK
+        public static bool JustLoggedin { get; set; } = false;
 
         #region Variable Declaration
         private readonly IErrorLogManager _errorLogManager;
@@ -61,7 +63,7 @@ namespace VendTech.Controllers
                     Message = "Validation Error"
                 }, JsonRequestBehavior.AllowGet);
                 //This needs to be changed to redirect the control to an error page.
-                else filterContext.Result = null;
+                else filterContext.Result = RedirectToAction("dashboard", "home");
             }
         }
 
@@ -206,11 +208,7 @@ namespace VendTech.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-            else 
-            {
-                SignOut();
-                filter_context.Result = RedirectToAction("Index", "Home");  
-            }
+            else filter_context.Result = RedirectToAction("dashboard", "Home");
 
             base.OnException(filter_context);
         }
@@ -336,10 +334,10 @@ namespace VendTech.Controllers
             HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
+                JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
-            }
-
+            } 
             return Redirect(Url.Action("Index", "Home"));
         }
 

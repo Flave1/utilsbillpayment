@@ -14,6 +14,7 @@ using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
+using VendTech.Areas.Admin.Controllers;
 #endregion
 
 namespace VendTech.Controllers
@@ -106,7 +107,8 @@ namespace VendTech.Controllers
                 data.Message = "Invalid Credentials.";
             }
             if (data!=null && data.Object!=null)
-            {  
+            {
+                JustLoggedin = true;
                 var PermissonAndDetailModel = new PermissonAndDetailModel();
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
@@ -136,9 +138,10 @@ namespace VendTech.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
-            if (LOGGEDIN_USER.UserID == 0)
+            if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
             { 
                 SignOut(); 
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID??0)?.POSNumber;

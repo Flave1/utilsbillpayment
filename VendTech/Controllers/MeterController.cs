@@ -12,6 +12,7 @@ using VendTech.BLL.Interfaces;
 using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
+using VendTech.Areas.Admin.Controllers;
 #endregion
 
 namespace VendTech.Controllers

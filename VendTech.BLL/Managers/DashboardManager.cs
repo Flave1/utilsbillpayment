@@ -142,80 +142,85 @@ namespace VendTech.BLL.Managers
 
         public DashboardViewModel getDashboardData(long userId)
         {
-            if (userId == 0) return new DashboardViewModel();
-            var user = Context.Users.Find(userId);
-            List<TransactionChartData> tDatas = new List<TransactionChartData>();
-            var total_deposits = new decimal();
-            var total_sales = new decimal();
-
-            var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
-
-            total_deposits = Context.Deposits.Where(e => current_user_pos_ids.Contains(e.POSId) && e.CreatedAt == DateTime.UtcNow).ToList().Sum(s=>s.Amount);
-            total_sales = Context.TransactionDetails.Where(e => current_user_pos_ids.Contains(e.POSId??0) && e.CreatedAt == DateTime.UtcNow).ToList().Sum(s => s.Amount);
-
-            if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
+            try
             {
-                tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
-                if (tDatas.Any())
+                if (userId == 0) return new DashboardViewModel();
+                var user = Context.Users.Find(userId);
+                List<TransactionChartData> tDatas = new List<TransactionChartData>();
+                var total_deposits = new decimal();
+                var total_sales = new decimal();
+
+                var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
+
+                total_deposits = Context.Deposits.Where(e => current_user_pos_ids.Contains(e.POSId) && e.CreatedAt == DateTime.UtcNow).ToList().Sum(s => s.Amount);
+                total_sales = Context.TransactionDetails.Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt == DateTime.UtcNow).ToList().Sum(s => s.Amount);
+
+                if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
                 {
-                    for (int x = 0; x < tDatas.Count; x++)
+                    tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
+                    if (tDatas.Any())
                     {
-                        tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
+                        for (int x = 0; x < tDatas.Count; x++)
+                        {
+                            tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
+                        }
                     }
-                }
 
-                return new DashboardViewModel
-                {
-                    totalSales = total_sales,
-                    totalDeposit = total_deposits,
-                    posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                    walletBalance = _userManager.GetUserWalletBalance(userId),
-                    transactionChartData = tDatas
-                };
-
-            }
-            else if (user.UserRole.Role != UserRoles.AppUser)
-            {
-                total_deposits = new decimal();
-                total_sales = new decimal();
-
-                total_deposits = Context.Deposits.ToList().Any() ? Context.Deposits.Sum(s => s.Amount) : 0;
-                total_sales = Context.TransactionDetails.ToList().Any() ? Context.TransactionDetails.Sum(s => s.Amount) : 0; 
-
-                tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
-                if (tDatas.Any())
-                {
-                    for (int x = 0; x < tDatas.Count; x++)
+                    return new DashboardViewModel
                     {
-                        tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
-                    }
-                }
-                return new DashboardViewModel
-                {
-                    totalSales = total_sales,
-                    totalDeposit = total_deposits,
-                    userCount = Context.Users.Count(),
-                    posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
-                    walletBalance = _userManager.GetUserWalletBalance(userId),
-                    transactionChartData = tDatas
-                }; 
-            } 
-            else
-            {
+                        totalSales = total_sales,
+                        totalDeposit = total_deposits,
+                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        transactionChartData = tDatas
+                    };
 
-                return new DashboardViewModel
+                }
+                else if (user.UserRole.Role != UserRoles.AppUser)
                 {
-                    totalSales = total_sales,
-                    totalDeposit = total_deposits,
-                    posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                    walletBalance = _userManager.GetUserWalletBalance(userId),
-                    transactionChartData = tDatas
-                };
+                    total_deposits = new decimal();
+                    total_sales = new decimal();
+
+                    total_deposits = Context.Deposits.ToList().Any() ? Context.Deposits.Sum(s => s.Amount) : 0;
+                    total_sales = Context.TransactionDetails.ToList().Any() ? Context.TransactionDetails.Sum(s => s.Amount) : 0;
+
+                    tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
+                    if (tDatas.Any())
+                    {
+                        for (int x = 0; x < tDatas.Count; x++)
+                        {
+                            tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
+                        }
+                    }
+                    return new DashboardViewModel
+                    {
+                        totalSales = total_sales,
+                        totalDeposit = total_deposits,
+                        userCount = Context.Users.Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
+                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        transactionChartData = tDatas
+                    };
+                }
+                else
+                {
+
+                    return new DashboardViewModel
+                    {
+                        totalSales = total_sales,
+                        totalDeposit = total_deposits,
+                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        transactionChartData = tDatas
+                    };
+                }
             }
-            
-            
-            
-            
+            catch (Exception e)
+            { 
+                return new DashboardViewModel();
+            }
+          
+             
             
         }
     }

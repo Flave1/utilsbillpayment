@@ -889,17 +889,25 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.GetUserDetailsByUserId(long userId)
         {
-            if (userId == 0) return new UserModel();
-            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
-            user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
-            if (user == null)
-                return null;
-            else
+            try
             {
-                var current_user_data = new UserModel(user);
-                current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
-                return current_user_data;
+                if (userId == 0) return new UserModel();
+                var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+                user.UserRole = Context.UserRoles.FirstOrDefault(x => x.RoleId == user.UserType);
+                if (user == null)
+                    return null;
+                else
+                {
+                    var current_user_data = new UserModel(user);
+                    current_user_data.SelectedWidgets = user.UserAssignedWidgets.Select(e => e.WidgetId).ToList();
+                    return current_user_data;
+                }
             }
+            catch (Exception)
+            {
+                return new UserModel();
+            }
+         
         }
 
         string IUserManager.GetUserPasswordbyUserId(long userId)
@@ -985,23 +993,31 @@ namespace VendTech.BLL.Managers
 
         decimal IUserManager.GetUserWalletBalance(long userId)
         {
-            var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
-            if (user == null)
-                return 0;
-            if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
+            try
             {
-                var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
-                return posTotalBalance.Value;
+                var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
+                if (user == null)
+                    return 0;
+                if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
+                {
+                    var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else if (user.UserRole.Role != UserRoles.AppUser)
+                {
+                    var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            else if (user.UserRole.Role != UserRoles.AppUser)
-            {
-                var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
-                return posTotalBalance.Value;
+            catch (Exception)
+            { 
+                return new decimal();
             }
-            else
-            {
-                return 0;
-            }
+           
             
         }
 

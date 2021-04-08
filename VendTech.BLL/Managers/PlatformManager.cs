@@ -31,24 +31,31 @@ namespace VendTech.BLL.Managers
         }
         List<PlatformModel> IPlatformManager.GetUserAssignedPlatforms(long userId)
         {
-            if (userId == 0) return new List<PlatformModel>();
-            var user = Context.Users.SingleOrDefault(p => p.UserId == userId);
-            var userAssignedPos = new POS();
-            //if (user.UserRole.Role == UserRoles.Vendor)
-            //    userAssignedPos = user.POS.FirstOrDefault();
-            //else if (user.UserRole.Role == UserRoles.AppUser && user.User1 != null)
-            //    userAssignedPos = user.User1.POS.FirstOrDefault();
-            userAssignedPos = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).FirstOrDefault();
-
-            if (userAssignedPos != null && userAssignedPos.POSId > 0)
+            try
             {
-                return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled).ToList().Select(p => new PlatformModel
+                if (userId == 0) return new List<PlatformModel>();
+                var user = Context.Users.SingleOrDefault(p => p.UserId == userId);
+                var userAssignedPos = new POS();
+                //if (user.UserRole.Role == UserRoles.Vendor)
+                //    userAssignedPos = user.POS.FirstOrDefault();
+                //else if (user.UserRole.Role == UserRoles.AppUser && user.User1 != null)
+                //    userAssignedPos = user.User1.POS.FirstOrDefault();
+                userAssignedPos = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).FirstOrDefault();
+
+                if (userAssignedPos != null && userAssignedPos.POSId > 0)
                 {
-                    PlatformId = p.Platform.PlatformId,
-                    Title = p.Platform.Title,
-                    Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo
-                }).ToList();
+                    return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled).ToList().Select(p => new PlatformModel
+                    {
+                        PlatformId = p.Platform.PlatformId,
+                        Title = p.Platform.Title,
+                        Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo
+                    }).ToList();
+                }
             }
+            catch (Exception)
+            {
+               return new List<PlatformModel>();
+            } 
             return new List<PlatformModel>();
 
         }

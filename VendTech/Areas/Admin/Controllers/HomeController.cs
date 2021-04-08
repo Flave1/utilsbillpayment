@@ -85,6 +85,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (data.Status == ActionStatus.Successfull)
             {
+                JustLoggedin = true;
                 var PermissonAndDetailModel = new PermissonAndDetailModel();
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
@@ -100,9 +101,10 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
-            if (LOGGEDIN_USER.UserID == 0)
+            if (LOGGEDIN_USER?.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
@@ -206,18 +208,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             return View(model);
         }
-
-
-
-
-
-
-
-
-
-
-
-
+         
         public ActionResult EditProfile()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Profile;
