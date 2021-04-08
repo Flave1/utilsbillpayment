@@ -21,6 +21,7 @@ namespace VendTech.DAL
         public Nullable<int> AppType { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime ExpiresOn { get; set; }
+        public string PosNumber { get; set; }
     
         public virtual User User { get; set; }
     }

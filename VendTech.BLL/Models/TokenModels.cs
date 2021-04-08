@@ -15,5 +15,6 @@ namespace VendTech.BLL.Models
         public string AppType { get; set; }
         public DateTime ExpiresOn { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string PosNumber { get; set; }
     }
 }

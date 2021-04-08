@@ -71,9 +71,9 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
                         _authenticateManager.AddTokenDevice(model);
-                        if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId))
+                        if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
                         {
-                            _authenticateManager.DeleteGenerateToken(userDetails.UserId);
+                            _authenticateManager.DeleteGenerateToken(userDetails.UserId, userDetails.POSNumber);
                             return GenerateandSaveToken(userDetails, model);
                         }
                         else
@@ -91,7 +91,7 @@ namespace VendTech.Areas.Api.Controllers
                 }
                 else
                 {
-                    return new JsonContent("Account Is Disabled. Please Contact To VendTech Management.", Status.Failed).ConvertToHttpResponseOK();
+                    return new JsonContent("YOUR ACCOUNT IS DISABLED! PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 }
             }
         }
@@ -116,6 +116,7 @@ namespace VendTech.Areas.Api.Controllers
             token.ExpiresOn = DateTime.MaxValue;
             token.DeviceToken = model.DeviceToken;
             token.AppType = model.AppType;
+            token.PosNumber = user.POSNumber;
             //  token.ExpiresOn = DateTime.Now.AddMinutes(Convert.ToInt32(ConfigurationManager.AppSettings["TokenExpiry"]));
             token.CreatedOn = DateTime.UtcNow;
             var result = _authenticateManager.InsertToken(token);

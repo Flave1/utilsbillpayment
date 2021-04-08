@@ -290,7 +290,7 @@ namespace VendTech.BLL.Managers
                     return ReturnError("Pos not exist");
             }
             dbPos.SerialNumber = model.SerialNumber;
-            dbPos.VendorId = model.VendorId;
+            dbPos.VendorId = model.VendorId != null ? model.VendorId : dbPos.VendorId;
             dbPos.VendorType = model.Type;
             dbPos.Phone = model.Phone;
             dbPos.Enabled = model.Enabled;

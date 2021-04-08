@@ -263,11 +263,11 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("User successfully logout.");
         }
-        bool IAuthenticateManager.IsTokenAlreadyExists(long userId)
+        bool IAuthenticateManager.IsTokenAlreadyExists(long userId, string posNumber)
         {
             try
             {
-                var result = Context.TokensManagers.Where(x => x.UserId == userId).Count();
+                var result = Context.TokensManagers.Where(x => x.UserId == userId && x.PosNumber == posNumber).Count();
                 //var result = (from token in _context.TokensManager
                 //              where token.CompanyID == CompanyID
                 //              select token).Count();
@@ -319,11 +319,11 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Logout time saved successfully.");
         }
-        bool IAuthenticateManager.DeleteGenerateToken(long userId)
+        bool IAuthenticateManager.DeleteGenerateToken(long userId, string posNumber)
         {
             try
             {
-                var token = Context.TokensManagers.Where(x => x.UserId == userId).ToList();
+                var token = Context.TokensManagers.Where(x => x.UserId == userId && x.PosNumber == posNumber).ToList();
                 if (token.Count() > 0)
                 {
                     Context.TokensManagers.RemoveRange(token);
@@ -367,6 +367,7 @@ namespace VendTech.BLL.Managers
                 newToken.TokenKey = token.TokenKey;
                 newToken.UserId = token.UserId;
                 newToken.DeviceToken = token.DeviceToken == null ? "" : token.DeviceToken.Trim();
+                newToken.PosNumber = token.PosNumber;
                 newToken.AppType = string.IsNullOrEmpty(token.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
                 Context.TokensManagers.Add(newToken);
                 Context.SaveChanges();
