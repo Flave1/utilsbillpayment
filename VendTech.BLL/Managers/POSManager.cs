@@ -150,6 +150,30 @@ namespace VendTech.BLL.Managers
                 Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
             };
         }
+        SavePosModel IPOSManager.GetPosDetails(string passCode)
+        {
+            var dbPos = Context.POS.FirstOrDefault(p => p.PassCode == passCode);
+
+            if (dbPos == null)
+                return null;
+            return new SavePosModel()
+            {
+                SerialNumber = dbPos.SerialNumber,
+                VendorId = dbPos.VendorId,
+                Phone = dbPos.Phone,
+                Type = dbPos.VendorType,
+                POSId = dbPos.POSId,
+                Percentage = dbPos.CommissionPercentage,
+                Enabled = dbPos.Enabled == null ? false : dbPos.Enabled.Value,
+                SMSNotificationDeposit = dbPos.SMSNotificationDeposit == null ? false : dbPos.SMSNotificationDeposit.Value,
+                EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
+                EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
+                SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
+                CountryCode = dbPos.CountryCode,
+                PassCode = dbPos.PassCode,
+                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
+            };
+        }
 
         UserModel IPOSManager.GetUserPosDetails(string posSerialNumber)
         {

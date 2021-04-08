@@ -13,6 +13,7 @@ namespace VendTech.BLL.Interfaces
     {
         PagingResult<POSListingModel> GetPOSPagedList(PagingModel model, long agentId = 0, long vendorId = 0, bool callForGetVendorPos = false);
         SavePosModel GetPosDetail(long posId);
+        SavePosModel GetPosDetails(string passCode);
         UserModel GetUserPosDetails(string posSerialNumber);
         ActionOutput SavePos(SavePosModel model);
         ActionOutput SavePasscodePos(SavePassCodeModel savePassCodeModel);
