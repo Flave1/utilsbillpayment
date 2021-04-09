@@ -78,7 +78,7 @@ namespace VendTech.Controllers
         var   data = new ActionOutput<UserDetails>();
         if (!_authenticateManager.IsUserAccountActive(model.Email, model.Password))
         {
-            return Json(new ActionOutput { Message = "ACCOUNT BLOCKED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
+            return Json(new ActionOutput { Message = "POS DISABLED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
         }
             var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
             if (userDetails != null)

@@ -91,7 +91,7 @@ namespace VendTech.Areas.Api.Controllers
                 }
                 else
                 {
-                    return new JsonContent("YOUR ACCOUNT IS DISABLED! PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 }
             }
         }
