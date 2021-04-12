@@ -302,10 +302,11 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
-            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
+            
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
+            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
             //Deleting Exisiting Platforms
             var existingPlatforms = Context.POSAssignedPlatforms.Where(x => x.POSId == dbPos.POSId).ToList();
             if (existingPlatforms.Count > 0)
@@ -334,11 +335,21 @@ namespace VendTech.BLL.Managers
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
             if (pos != null)
             {
-                var posUserAccount = pos.User;
-                if (posUserAccount != null && !isEnabled)
-                    posUserAccount.Status = (int)UserStatusEnum.Block;
-                else if (posUserAccount != null && isEnabled)
-                    posUserAccount.Status = (int)UserStatusEnum.Active;
+                var isPosEnable = Context.POS.Where(x => x.VendorId == pos.VendorId).All(x => x.Enabled == false);
+                if (isPosEnable)
+                {
+                    var posUserAccount = pos.User;
+                    if (posUserAccount != null && !isEnabled)
+                        posUserAccount.Status = (int)UserStatusEnum.Block;
+                    else if (posUserAccount != null && isEnabled)
+                        posUserAccount.Status = (int)UserStatusEnum.Active;
+                }
+                else
+                {
+                    var posUserAccount = pos.User;
+                    if (posUserAccount != null && isEnabled)
+                        posUserAccount.Status = (int)UserStatusEnum.Active;
+                }
             }
         }
         ActionOutput IPOSManager.SavePasscodePos(SavePassCodeModel savePassCodeModel)

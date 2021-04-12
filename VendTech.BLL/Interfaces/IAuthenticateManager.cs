@@ -34,6 +34,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput SaveLogoutTime(SaveLogoutTimeModel model);
         ActionOutput ChangePassword(ChangePasswordModel model);
         bool IsUserAccountActive(string email, string password);
+        bool IsUserPosEnabled(string email, string password);
         bool ConfirmThisUser(ChangePasswordModel model);
         ActionOutput<string> FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword);
     }
