@@ -97,6 +97,7 @@ namespace VendTech.Controllers
                         {
                             auth_cookie.Expires = DateTime.Now.AddDays(-30);
                             Response.Cookies.Add(auth_cookie);
+                            JustLoggedin = false;
                             filter_context.Result = RedirectToAction("index", "home");
                             LogExceptionToDatabase(exc);
                         }
@@ -146,6 +147,7 @@ namespace VendTech.Controllers
                     {
                         HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                         val.Expires = DateTime.Now.AddDays(-30);
+                        JustLoggedin = false;
                         Response.Cookies.Add(val);
                         filter_context.Result = RedirectToAction("Index", "Home");
                         LOGGEDIN_USER = null;
@@ -158,6 +160,7 @@ namespace VendTech.Controllers
                 HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                 val.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(val);
+                JustLoggedin = false;
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
 
@@ -174,6 +177,7 @@ namespace VendTech.Controllers
             }
             if (LOGGEDIN_USER == null)
             {
+                JustLoggedin = false;
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);

@@ -149,6 +149,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Response.Cookies.Add(val);
                 SignOut();
                 LOGGEDIN_USER = null;
+                JustLoggedin = false;
                 filter_context.Result = RedirectToAction("Index", "Home", new { Area = "Admin" });
                 sessionExpired = true;
             }
@@ -203,8 +204,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="custom_data"></param>
         protected override void CreateCustomAuthorisationCookie(String user_name, Boolean is_persistent, String custom_data)
         {
-            FormsAuthenticationTicket auth_ticket =
-                new FormsAuthenticationTicket(
+            FormsAuthenticationTicket auth_ticket = new FormsAuthenticationTicket(
                     1, user_name,
                     DateTime.Now,
                     DateTime.Now.AddDays(7),
