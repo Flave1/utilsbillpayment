@@ -903,7 +903,7 @@ namespace VendTech.BLL.Managers
                     return current_user_data;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new UserModel();
             }

@@ -59,6 +59,15 @@ namespace VendTech.Areas.Admin.Controllers
                             LOGGEDIN_USER = model.UserDetails;
                             ModulesModel = model.ModulesModelList;
                             System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
+                            if (model.UserDetails != null)
+                            {
+                                var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
+                                if (isEnabled)
+                                {
+                                    SignOut();
+                                    filter_context.Result = RedirectToAction("Index", "Home");
+                                }
+                            }
                         }
                         else
                         {

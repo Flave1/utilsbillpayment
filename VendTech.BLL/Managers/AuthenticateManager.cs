@@ -137,6 +137,53 @@ namespace VendTech.BLL.Managers
                 return true;
             return false;
         }
+        bool IAuthenticateManager.IsUserPosEnabled(string email, string password)
+        {
+            string encryptPassword = Utilities.EncryptPassword(password.Trim());
+            var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) &&
+            x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role)
+            && (x.Status == (int)UserStatusEnum.Active ||
+            x.Status == (int)UserStatusEnum.PasswordNotReset ||
+            x.Status == (int)UserStatusEnum.Pending))
+                .FirstOrDefault();
+            if (result != null)
+            {
+                bool userAssignedPos = false;
+                if (result.UserRole.Role == UserRoles.Vendor)
+                    userAssignedPos = result.POS.All(p => p.Enabled == false);
+                else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
+                    userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
+                if (userAssignedPos)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        bool IAuthenticateManager.IsUserPosEnable(long userId)
+        {
+            var result = Context.Users.Where(x => x.UserId ==userId
+            && (x.Status == (int)UserStatusEnum.Active ||
+            x.Status == (int)UserStatusEnum.PasswordNotReset ||
+            x.Status == (int)UserStatusEnum.Pending))
+                .FirstOrDefault();
+            if (result != null)
+            {
+                bool userAssignedPos = false;
+                if (result.UserRole.Role == UserRoles.Vendor)
+                    userAssignedPos = result.POS.All(p => p.Enabled == false);
+                else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
+                    userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
+                if (userAssignedPos)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         UserModel IAuthenticateManager.GetDetailsbyUser(string email, string password)
         {
             try
