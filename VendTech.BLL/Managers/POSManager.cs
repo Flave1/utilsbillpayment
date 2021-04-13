@@ -105,7 +105,7 @@ namespace VendTech.BLL.Managers
                 Value = p.POSId.ToString()
             }).ToList();
         }
-         
+
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
             var query = new List<POS>();
@@ -114,7 +114,7 @@ namespace VendTech.BLL.Managers
             if (userId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId)).ToList();
+                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
             }
             else
                 query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
@@ -200,7 +200,7 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("POS deleted successfully.");
         }
-         
+
         ActionOutput IPOSManager.ChangePOSStatus(int posId, bool value)
         {
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
@@ -302,7 +302,7 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
-            
+
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
@@ -335,21 +335,11 @@ namespace VendTech.BLL.Managers
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
             if (pos != null)
             {
-                var isPosEnable = Context.POS.Where(x => x.VendorId == pos.VendorId).All(x => x.Enabled == false);
-                if (isPosEnable)
-                {
-                    var posUserAccount = pos.User;
-                    if (posUserAccount != null && !isEnabled)
-                        posUserAccount.Status = (int)UserStatusEnum.Block;
-                    else if (posUserAccount != null && isEnabled)
-                        posUserAccount.Status = (int)UserStatusEnum.Active;
-                }
-                else
-                {
-                    var posUserAccount = pos.User;
-                    if (posUserAccount != null && isEnabled)
-                        posUserAccount.Status = (int)UserStatusEnum.Active;
-                }
+                var posUserAccount = pos.User;
+                if (posUserAccount != null && !isEnabled)
+                    posUserAccount.Status = (int)UserStatusEnum.Block;
+                else if (posUserAccount != null && isEnabled)
+                    posUserAccount.Status = (int)UserStatusEnum.Active;
             }
         }
         ActionOutput IPOSManager.SavePasscodePos(SavePassCodeModel savePassCodeModel)

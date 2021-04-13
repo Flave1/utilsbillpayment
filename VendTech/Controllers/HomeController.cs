@@ -80,7 +80,7 @@ namespace VendTech.Controllers
             {
                 return Json(new ActionOutput { Message = "ACCOUNT BLOCKED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
             }
-            if (!_authenticateManager.IsUserPosEnabled(model.Email, model.Password))
+            if (_authenticateManager.IsUserPosEnabled(model.Email, model.Password))
             {
                 return Json(new ActionOutput { Message = "POS IS DISABLED <br/>Contact <br/><br/> VENDTECH MANAGEMENT <br/> 232 79 990990", Status = ActionStatus.Error }, JsonRequestBehavior.AllowGet);
             }

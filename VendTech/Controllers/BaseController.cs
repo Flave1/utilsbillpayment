@@ -32,6 +32,8 @@ namespace VendTech.Controllers
         [Inject]
         public IUserManager _userManager { get; set; }
         [Inject]
+        public IAuthenticateManager _authManager { get; set; }
+        [Inject]
         public IPlatformManager _platformManager { get; set; }
         /// <summary>
         /// Contains Information for Logged In User
@@ -176,6 +178,7 @@ namespace VendTech.Controllers
             {
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
+            
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
 
         }
