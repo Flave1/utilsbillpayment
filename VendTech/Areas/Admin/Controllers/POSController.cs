@@ -21,7 +21,12 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly ICommissionManager _commissionManager;
         #endregion
 
-        public POSController(IPOSManager posManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IVendorManager vendorManager, IUserManager userManager, ICommissionManager commissionManager)
+        public POSController(IPOSManager posManager,
+            IErrorLogManager errorLogManager,
+            IEmailTemplateManager templateManager,
+            IVendorManager vendorManager,
+            IUserManager userManager,
+            ICommissionManager commissionManager)
             : base(errorLogManager)
         {
             _posManager = posManager;
@@ -55,6 +60,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult AddEditPos(SavePosModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.POS;
+            
             return JsonResult(_posManager.SavePos(model));
         }
 
@@ -68,6 +74,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
             {
+                savePassCodeModel.VendorId = _posManager.GetPosDetail(savePassCodeModel.POSId).VendorId;
                 var name = _vendorManager.GetVendorDetail(Convert.ToInt64(savePassCodeModel.VendorId)).Name;
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
                 string body = emailTemplate.TemplateContent;

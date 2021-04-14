@@ -20,7 +20,8 @@ $("#IsPassCode").on('change', function (e) {
         $('#passcodeModal').modal("show");
     }
 });
-function generateCode() {
+function Save() {
+    debugger;
     var input = Math.floor(Math.random() * 90000) + 10000;
     var div = 10000;
     var value = 0;
@@ -32,14 +33,12 @@ function generateCode() {
         $("#dig-" + i).val(value);
         i++;
     }
-}
-function Save() {
     $('#passcodeModal').modal("hide");
     var inputParam = new Object();
     inputParam.PosId = $("#POSId").val();
     inputParam.Email = $("#Email").val();
     inputParam.Phone = $("#modal_Phone").val();
-    inputParam.VendorId = $("#VendorId").val();
+    //inputParam.VendorId = $('#VendorId :selected').val();
     inputParam.Passcode = 0;
     inputParam.CountryCode = $("#modal_countryCode").val();
     var input = 10000;
@@ -67,5 +66,4 @@ function Save() {
     else {
         $("#phNumber").show();
     }
-
 }

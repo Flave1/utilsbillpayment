@@ -14,8 +14,8 @@ namespace VendTech.BLL.Interfaces
         UserModel GetUserDetailByPassCode(string passCode);
         //ActionOutput AddTokenDevice(LoginAPIModel model);
         ActionOutput AddTokenDevice(LoginAPIPassCodeModel model);
-        bool IsTokenAlreadyExists(long userId);
-        bool DeleteGenerateToken(long userId);
+        bool IsTokenAlreadyExists(long userId, string posNumber);
+        bool DeleteGenerateToken(long userId, string posNumber);
         string GenerateToken(UserModel user, DateTime IssuedOn);
         int InsertToken(TokenModel token);
         ActionOutput<long> SignUp(SignUpModel model);
@@ -34,6 +34,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput SaveLogoutTime(SaveLogoutTimeModel model);
         ActionOutput ChangePassword(ChangePasswordModel model);
         bool IsUserAccountActive(string email, string password);
+        bool IsUserPosEnabled(string email, string password);
+        bool IsUserPosEnable(long userId);
         bool ConfirmThisUser(ChangePasswordModel model);
         ActionOutput<string> FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword);
     }

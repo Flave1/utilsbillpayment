@@ -105,7 +105,7 @@ namespace VendTech.BLL.Managers
                 Value = p.POSId.ToString()
             }).ToList();
         }
-         
+
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
             var query = new List<POS>();
@@ -114,7 +114,7 @@ namespace VendTech.BLL.Managers
             if (userId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId)).ToList();
+                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
             }
             else
                 query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
@@ -200,7 +200,7 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("POS deleted successfully.");
         }
-         
+
         ActionOutput IPOSManager.ChangePOSStatus(int posId, bool value)
         {
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
@@ -290,7 +290,7 @@ namespace VendTech.BLL.Managers
                     return ReturnError("Pos not exist");
             }
             dbPos.SerialNumber = model.SerialNumber;
-            dbPos.VendorId = model.VendorId;
+            dbPos.VendorId = model.VendorId != null ? model.VendorId : dbPos.VendorId;
             dbPos.VendorType = model.Type;
             dbPos.Phone = model.Phone;
             dbPos.Enabled = model.Enabled;
@@ -302,10 +302,11 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
-            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
+
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
+            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
             //Deleting Exisiting Platforms
             var existingPlatforms = Context.POSAssignedPlatforms.Where(x => x.POSId == dbPos.POSId).ToList();
             if (existingPlatforms.Count > 0)

@@ -11,7 +11,7 @@ namespace VendTech.BLL.Interfaces
 {
     public interface IVendorManager
     {
-        PagingResult<VendorListingModel> GetVendorsPagedList(PagingModel model,long agentId=0);
+        PagingResult<VendorListingModel> GetVendorsPagedList(PagingModel model, long agentId = 0);
         ActionOutput SaveVendor(SaveVendorModel model);
         ActionOutput DeleteVendor(long vendorId);
         SaveVendorModel GetVendorDetail(long vendorId);
@@ -22,6 +22,7 @@ namespace VendTech.BLL.Interfaces
         List<SelectListItem> GetPosSelectList();
         decimal GetVendorPercentage(long userId);
         long GetVendorIdByAppUserId(long userId);
+        SaveVendorModel GetVendorDetailApi(long vendorId);
     }
-    
+
 }

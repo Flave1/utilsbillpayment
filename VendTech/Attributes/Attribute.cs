@@ -98,7 +98,7 @@ namespace VendTech.Attributes
                 catch (Exception)
                 {
 
-                    actionContext.Response = new JsonContent("Token not present!", Status.Failed).ConvertToHttpResponseOK();
+                    actionContext.Response = new JsonContent("Token Or Passcode not present!", Status.Failed).ConvertToHttpResponseOK();
                     return;
                 }
 
@@ -264,7 +264,7 @@ namespace VendTech.Attributes
                 var message = actionContext.ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
                 if (!string.IsNullOrEmpty(message))
                 {
-                    actionContext.Response = new JsonContent(message, Status.Failed).ConvertToHttpResponseOK(); 
+                    actionContext.Response = new JsonContent(message, Status.Failed).ConvertToHttpResponseOK();
                 }
                 else
                 {

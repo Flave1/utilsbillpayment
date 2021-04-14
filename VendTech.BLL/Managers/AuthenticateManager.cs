@@ -137,6 +137,53 @@ namespace VendTech.BLL.Managers
                 return true;
             return false;
         }
+        bool IAuthenticateManager.IsUserPosEnabled(string email, string password)
+        {
+            string encryptPassword = Utilities.EncryptPassword(password.Trim());
+            var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) &&
+            x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role)
+            && (x.Status == (int)UserStatusEnum.Active ||
+            x.Status == (int)UserStatusEnum.PasswordNotReset ||
+            x.Status == (int)UserStatusEnum.Pending))
+                .FirstOrDefault();
+            if (result != null)
+            {
+                bool userAssignedPos = false;
+                if (result.UserRole.Role == UserRoles.Vendor)
+                    userAssignedPos = result.POS.All(p => p.Enabled == false);
+                else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
+                    userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
+                if (userAssignedPos)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        bool IAuthenticateManager.IsUserPosEnable(long userId)
+        {
+            var result = Context.Users.Where(x => x.UserId ==userId
+            && (x.Status == (int)UserStatusEnum.Active ||
+            x.Status == (int)UserStatusEnum.PasswordNotReset ||
+            x.Status == (int)UserStatusEnum.Pending))
+                .FirstOrDefault();
+            if (result != null)
+            {
+                bool userAssignedPos = false;
+                if (result.UserRole.Role == UserRoles.Vendor)
+                    userAssignedPos = result.POS.All(p => p.Enabled == false);
+                else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
+                    userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
+                if (userAssignedPos)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         UserModel IAuthenticateManager.GetDetailsbyUser(string email, string password)
         {
             try
@@ -263,11 +310,11 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("User successfully logout.");
         }
-        bool IAuthenticateManager.IsTokenAlreadyExists(long userId)
+        bool IAuthenticateManager.IsTokenAlreadyExists(long userId, string posNumber)
         {
             try
             {
-                var result = Context.TokensManagers.Where(x => x.UserId == userId).Count();
+                var result = Context.TokensManagers.Where(x => x.UserId == userId && x.PosNumber == posNumber).Count();
                 //var result = (from token in _context.TokensManager
                 //              where token.CompanyID == CompanyID
                 //              select token).Count();
@@ -319,11 +366,11 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Logout time saved successfully.");
         }
-        bool IAuthenticateManager.DeleteGenerateToken(long userId)
+        bool IAuthenticateManager.DeleteGenerateToken(long userId, string posNumber)
         {
             try
             {
-                var token = Context.TokensManagers.Where(x => x.UserId == userId).ToList();
+                var token = Context.TokensManagers.Where(x => x.UserId == userId && x.PosNumber == posNumber).ToList();
                 if (token.Count() > 0)
                 {
                     Context.TokensManagers.RemoveRange(token);
@@ -367,6 +414,7 @@ namespace VendTech.BLL.Managers
                 newToken.TokenKey = token.TokenKey;
                 newToken.UserId = token.UserId;
                 newToken.DeviceToken = token.DeviceToken == null ? "" : token.DeviceToken.Trim();
+                newToken.PosNumber = token.PosNumber;
                 newToken.AppType = string.IsNullOrEmpty(token.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
                 Context.TokensManagers.Add(newToken);
                 Context.SaveChanges();
