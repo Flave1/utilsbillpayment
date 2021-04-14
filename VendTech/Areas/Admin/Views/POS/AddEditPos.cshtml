@@ -141,7 +141,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="col-md-8">
-                                                        @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
+                                                        @Html.CheckBoxFor(x => x.SMSNotificationDeposit,new { id="sms"})
                                                     </div>
                                                 </td>
                                             </tr>
@@ -154,7 +154,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="col-md-8">
-                                                        @Html.CheckBoxFor(x => x.SMSNotificationDeposit)
+                                                        @Html.CheckBoxFor(x => x.SMSNotificationDeposit,new { id="sms_"})
                                                     </div>
                                                 </td>
                                             </tr>
@@ -220,7 +220,7 @@
                     <div class=" col-md-7">
                         <div class="col-md-4">
                             @*@Html.DropDownListFor(x => x.CountryCode, null, new { @class = "form-control", @id = "modal_countryCode" })*@
-                            <select name="CountryCode" id = "modal_countryCode"class = "form-control">
+                            <select name="CountryCode" id="modal_countryCode" class="form-control">
                                 <option value="+232">+232</option>
                             </select>
                         </div>
@@ -240,7 +240,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-primary" id="modal_btn" onclick="generateCode();Save()" value="Generate Passcode & Send">
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save()" value="Generate Passcode & Send">
             </div>
         </div>
     </div>

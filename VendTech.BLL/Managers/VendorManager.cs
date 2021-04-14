@@ -24,7 +24,7 @@ namespace VendTech.BLL.Managers
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
-            { 
+            {
                 if (model.SearchField.Equals("vendorname"))
                     query = query.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("agency"))
@@ -34,7 +34,7 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("lastname"))
                     query = query.Where(z => z.SurName.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("phone"))
-                    query = query.Where(z => z.Phone.ToLower().Contains(model.Search.ToLower())); 
+                    query = query.Where(z => z.Phone.ToLower().Contains(model.Search.ToLower()));
             }
 
             var list = query.Skip(model.PageNo - 1).Take(model.RecordsPerPage)
@@ -50,7 +50,7 @@ namespace VendTech.BLL.Managers
             return Context.POS.Where(p => !p.IsDeleted && p.VendorId == vendorId).OrderByDescending(p => p.CreatedAt).ToList().Select(p => new POSListingModel(p)).ToList();
         }
         SaveVendorModel IVendorManager.GetVendorDetail(long vendorId)
-        { 
+        {
             var vendor = Context.Users.FirstOrDefault(p => p.UserId == vendorId);
             if (vendor == null)
                 return null;
@@ -74,6 +74,37 @@ namespace VendTech.BLL.Managers
                 //POSId=vendor.FKPOSId
             };
         }
+
+        SaveVendorModel IVendorManager.GetVendorDetailApi(long vendorId)
+        {
+            var vendor = Context.Users.FirstOrDefault(p => p.FKVendorId == vendorId);
+            if (vendor == null)
+            {
+                vendor = Context.Users.FirstOrDefault(p => p.UserId == vendorId);
+            }
+            if (vendor == null)
+                return null;
+            return new SaveVendorModel()
+            {
+                Vendor = vendor.Vendor,
+                VendorId = vendor.UserId,
+                Name = vendor.Name,
+                SurName = vendor.SurName,
+                AgencyId = vendor.AgentId == null ? 0 : vendor.AgentId.Value,
+                Password = Utilities.DecryptPassword(vendor.Password),
+                ConfirmPassword = Utilities.DecryptPassword(vendor.Password),
+                Phone = vendor.Phone,
+                Email = vendor.Email,
+                AgentPercentage = vendor.Commission != null ? vendor.Commission.Percentage : 0,
+                Percentage = vendor.VendorCommissionPercentage,
+                VendorType = vendor.VendorType,
+                Address = vendor.Address,
+                City = vendor.CityId.ToString(),
+                Country = vendor.CountryId.ToString()
+                //POSId=vendor.FKPOSId
+            };
+        }
+
         SaveVendorModel IVendorManager.GetVendorDetailByPosId(long posId)
         {
             var vendor = Context.POS.FirstOrDefault(p => p.POSId == posId).User;
@@ -98,7 +129,7 @@ namespace VendTech.BLL.Managers
         }
         decimal IVendorManager.GetVendorPendingDepositTotal(long vendorId)
         {
-            if(vendorId>0)
+            if (vendorId > 0)
             {
                 if (Context.Deposits.Where(p => p.POSId == vendorId && p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Count() > 0)
 
@@ -107,12 +138,12 @@ namespace VendTech.BLL.Managers
             }
             else
             {
-                if (Context.Deposits.Where(p=>p.Status == (int)DepositPaymentStatusEnum.Pending &&p.POS.Enabled!=false).ToList().Count() > 0)
-                    return Context.Deposits.Where(p =>p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Sum(p => p.PercentageAmount).Value;
+                if (Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Count() > 0)
+                    return Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Sum(p => p.PercentageAmount).Value;
                 return 0;
             }
 
-          
+
         }
         ActionOutput IVendorManager.DeleteVendor(long userId)
         {
@@ -190,7 +221,7 @@ namespace VendTech.BLL.Managers
             vendor.Vendor = model.Vendor;
             //vendor.CityId = Convert.ToInt32(model.City);
             //vendor.CountryId = Convert.ToInt32(model.Country);
-                vendor.Address = model.Address;
+            vendor.Address = model.Address;
             //if (model.POSId.HasValue && model.POSId > 0)
             //    vendor.FKPOSId = model.POSId;
             //else
@@ -224,18 +255,18 @@ namespace VendTech.BLL.Managers
             //    Text = p.Vendor,
             //    Value = p.UserId.ToString()
             //}).ToList();
-            return Context.POS.Where(p =>!p.IsDeleted && p.Enabled != false).ToList().OrderBy(p=>p.SerialNumber).Select(x=> new SelectListItem
+            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
             {
-                Text=x.SerialNumber.ToUpper(),
-                Value=x.POSId.ToString()
+                Text = x.SerialNumber.ToUpper(),
+                Value = x.POSId.ToString()
             }).ToList();
         }
 
-         decimal IVendorManager.GetVendorPercentage(long userId)
+        decimal IVendorManager.GetVendorPercentage(long userId)
         {
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user.FKVendorId == null)
-                return user.Commission==null?0:user.Commission.Percentage;
+                return user.Commission == null ? 0 : user.Commission.Percentage;
             else
             {
                 var vendor = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
@@ -243,15 +274,15 @@ namespace VendTech.BLL.Managers
             }
         }
 
-         long IVendorManager.GetVendorIdByAppUserId(long userId)
-         {
-             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
-             if (user.UserRole.Role == UserRoles.Vendor)
-                 return userId;
-             else if (user.FKVendorId != null)
-                 return user.FKVendorId.Value;
-             return 0;
-         }
+        long IVendorManager.GetVendorIdByAppUserId(long userId)
+        {
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            if (user.UserRole.Role == UserRoles.Vendor)
+                return userId;
+            else if (user.FKVendorId != null)
+                return user.FKVendorId.Value;
+            return 0;
+        }
     }
 
 

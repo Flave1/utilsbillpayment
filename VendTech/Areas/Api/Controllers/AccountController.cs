@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Configuration;
 using System.Web.Http;
@@ -250,7 +248,7 @@ namespace VendTech.Areas.Api.Controllers
                 }
                 if (userId > 0)
                 {
-                    var vendorDetail = _vendorManager.GetVendorDetail(userId);
+                    var vendorDetail = _vendorManager.GetVendorDetailApi(userId);
                     savePassCodeModel.VendorId = vendorDetail.VendorId;
 
                     var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
