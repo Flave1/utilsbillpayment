@@ -129,7 +129,13 @@ namespace VendTech.BLL.Managers
         SavePosModel IPOSManager.GetPosDetail(long posId)
         {
             var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);
-
+            var user = new User();
+            user = Context.Users.FirstOrDefault(x => x.FKVendorId == dbPos.VendorId && x.Status == (int)UserStatusEnum.Active);
+            if (user == null)
+            {
+                user = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId);
+            }
+            var email = user.Email;
             if (dbPos == null)
                 return null;
             return new SavePosModel()
@@ -147,7 +153,7 @@ namespace VendTech.BLL.Managers
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                 CountryCode = dbPos.CountryCode,
                 PassCode = dbPos.PassCode,
-                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
+                Email = email
             };
         }
         SavePosModel IPOSManager.GetPosDetails(string passCode)
@@ -190,6 +196,27 @@ namespace VendTech.BLL.Managers
                 Phone = user.Phone
             };
         }
+
+        UserModel IPOSManager.GetUserPosDetailApi(string posSerialNumber)
+        {
+            var dbPos = Context.POS.FirstOrDefault(p => p.SerialNumber == posSerialNumber);
+            var user = new User();
+            if (dbPos == null)
+                return null;
+            user = Context.Users.FirstOrDefault(x => x.FKVendorId == dbPos.VendorId && x.Status == (int)UserStatusEnum.Active);
+            if (user == null)
+            {
+                user = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId);
+            }
+            return new UserModel()
+            {
+                Email = user.Email,
+                UserId = user.UserId,
+                FirstName = user.Name,
+                Phone = user.Phone
+            };
+        }
+
         ActionOutput IPOSManager.DeletePos(long posId)
         {
             var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);

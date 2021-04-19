@@ -4878,3 +4878,28 @@ Object reference not set to an instance of an object.
 
 
 
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+

@@ -178,7 +178,7 @@ namespace VendTech.Controllers
             {
                 filter_context.Result = RedirectToAction("Index", "Home");
             }
-            
+
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
 
         }
@@ -211,7 +211,7 @@ namespace VendTech.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-            else filter_context.Result = RedirectToAction("dashboard", "Home");
+            else filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
 
             base.OnException(filter_context);
         }
@@ -340,7 +340,7 @@ namespace VendTech.Controllers
                 JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
-            } 
+            }
             return Redirect(Url.Action("Index", "Home"));
         }
 

@@ -46,6 +46,14 @@ namespace VendTech.Areas.Admin.Controllers
             return View(new LoginModal());
         }
 
+        [Public]
+        public ActionResult Error(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+            return View();
+
+        }
+
         /// <summary>
         /// This will handle user login request
         /// </summary>

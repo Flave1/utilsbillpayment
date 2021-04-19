@@ -274,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
+    <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
     <Content Include="Content\adminStyle.css" />
     <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\assets\css\style.min.css" />
@@ -6487,6 +6488,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Templates\DepositPDF.html" />
     <Content Include="Templates\RechargeMeter.html" />
+    <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
