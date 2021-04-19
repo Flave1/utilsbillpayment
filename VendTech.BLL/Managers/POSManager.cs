@@ -196,7 +196,7 @@ namespace VendTech.BLL.Managers
             if (dbPos == null)
                 return ReturnError("POS not exist");
             dbPos.IsDeleted = true;
-            EnableOrdisablePOSAccount(false, dbPos.POSId);
+           // EnableOrdisablePOSAccount(false, dbPos.POSId);
             Context.SaveChanges();
             return ReturnSuccess("POS deleted successfully.");
         }
@@ -215,7 +215,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 pos.Enabled = value;
-                EnableOrdisablePOSAccount(value, pos.POSId);
+               // EnableOrdisablePOSAccount(value, pos.POSId);
                 Context.SaveChanges();
                 return new ActionOutput
                 {
@@ -306,7 +306,7 @@ namespace VendTech.BLL.Managers
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
-            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
+            //EnableOrdisablePOSAccount(model.Enabled, model.POSId);
             //Deleting Exisiting Platforms
             var existingPlatforms = Context.POSAssignedPlatforms.Where(x => x.POSId == dbPos.POSId).ToList();
             if (existingPlatforms.Count > 0)
@@ -330,18 +330,18 @@ namespace VendTech.BLL.Managers
             }
             return ReturnSuccess("Pos saved successfully.");
         }
-        void EnableOrdisablePOSAccount(bool isEnabled, long posId)
-        {
-            var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
-            if (pos != null)
-            {
-                var posUserAccount = pos.User;
-                if (posUserAccount != null && !isEnabled)
-                    posUserAccount.Status = (int)UserStatusEnum.Block;
-                else if (posUserAccount != null && isEnabled)
-                    posUserAccount.Status = (int)UserStatusEnum.Active;
-            }
-        }
+        //void EnableOrdisablePOSAccount(bool isEnabled, long posId)
+        //{
+        //    var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();
+        //    if (pos != null)
+        //    {
+        //        var posUserAccount = pos.User;
+        //        if (posUserAccount != null && !isEnabled)
+        //            posUserAccount.Status = (int)UserStatusEnum.Block;
+        //        else if (posUserAccount != null && isEnabled)
+        //            posUserAccount.Status = (int)UserStatusEnum.Active;
+        //    }
+        //}
         ActionOutput IPOSManager.SavePasscodePos(SavePassCodeModel savePassCodeModel)
         {
             var dbPos = new POS();
