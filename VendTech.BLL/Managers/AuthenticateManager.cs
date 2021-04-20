@@ -164,7 +164,7 @@ namespace VendTech.BLL.Managers
 
         bool IAuthenticateManager.IsUserPosEnable(long userId)
         {
-            var result = Context.Users.Where(x => x.UserId ==userId
+            var result = Context.Users.Where(x => x.UserId == userId
             && (x.Status == (int)UserStatusEnum.Active ||
             x.Status == (int)UserStatusEnum.PasswordNotReset ||
             x.Status == (int)UserStatusEnum.Pending))
@@ -217,6 +217,18 @@ namespace VendTech.BLL.Managers
                 var pos = Context.POS.Where(x => x.PassCode == passCode).FirstOrDefault();
                 if (pos != null)
                 {
+                    userModel = Context.Users.Where(x => x.FKVendorId == pos.VendorId && (UserRoles.AppUser == x.UserRole.Role
+               || UserRoles.Vendor == x.UserRole.Role)
+               && (x.Status == (int)UserStatusEnum.Active
+               || x.Status == (int)UserStatusEnum.Pending
+               || x.Status == (int)UserStatusEnum.PasswordNotReset))
+                   .ToList()
+                   .Select(x => new UserModel(x))
+                   .FirstOrDefault();
+                    if (userModel != null)
+                    {
+                        return userModel;
+                    }
                     userModel = Context.Users.Where(x => x.UserId == pos.VendorId && (UserRoles.AppUser == x.UserRole.Role
                || UserRoles.Vendor == x.UserRole.Role)
                && (x.Status == (int)UserStatusEnum.Active

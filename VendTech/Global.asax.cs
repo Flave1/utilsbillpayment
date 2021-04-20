@@ -88,7 +88,13 @@ namespace VendTech
                         auth_cookie.Expires = DateTime.Now.AddDays(-30);
                         Response.Cookies.Add(auth_cookie);
                     }
-                    httpContext.Response.Redirect("~/Error");
+                    HttpCookie web_auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
+                    if (web_auth_cookie != null)
+                    {
+                        web_auth_cookie.Expires = DateTime.Now.AddDays(-30);
+                        Response.Cookies.Add(web_auth_cookie);
+                    }
+                    httpContext.Response.Redirect("~/Home/Error?errorMessage="+ httpContext.AllErrors[0].Message+"");
                 }
             }
         }

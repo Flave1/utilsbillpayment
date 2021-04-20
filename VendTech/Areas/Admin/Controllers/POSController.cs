@@ -75,7 +75,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(savePassCodeModel.PassCode))
             {
                 savePassCodeModel.VendorId = _posManager.GetPosDetail(savePassCodeModel.POSId).VendorId;
-                var name = _vendorManager.GetVendorDetail(Convert.ToInt64(savePassCodeModel.VendorId)).Name;
+                var name = _vendorManager.GetVendorDetailApi(Convert.ToInt64(savePassCodeModel.VendorId)).Name;
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.GeneratePasscode);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%UserName%", name);
