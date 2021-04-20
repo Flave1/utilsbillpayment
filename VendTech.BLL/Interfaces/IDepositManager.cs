@@ -32,6 +32,9 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);
+        PagingResult<DepositListingModel> GetReleasedDepositPagedList(PagingModel model, bool getForRelease, long vendorId = 0);
+        ActionOutput ChangeMultipleDepositStatusOnReverse(ReverseDepositModel model, long userId);
+        ActionOutput ReverseDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
     }
 
 }

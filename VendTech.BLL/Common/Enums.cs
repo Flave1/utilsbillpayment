@@ -129,6 +129,8 @@ namespace VendTech.BLL.Models
         Released = 4,
         [Description("Rejected")]
         Rejected = 5,
+        [Description("Rejected")]
+        Reversed = 6,
     }
     public enum AppTypeEnum
     {

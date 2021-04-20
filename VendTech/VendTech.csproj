@@ -225,6 +225,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommissionController.cs" />
     <Compile Include="Areas\Admin\Controllers\POSController.cs" />
@@ -5329,6 +5330,7 @@
     <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
     <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
     <Content Include="Scripts\AdminScripts\cmsPages.js" />
+    <Content Include="Scripts\AdminScripts\depositReverse.js" />
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
     <Content Include="Scripts\AdminScripts\passcode.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
@@ -6431,6 +6433,8 @@
     <Content Include="Content\themes\jquery.vectormaps\jvectormap.jquery.json" />
     <Content Include="Content\themes\jquery.vectormaps\README.md" />
     <Content Include="Content\themes\skycons\README.md" />
+    <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
+    <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

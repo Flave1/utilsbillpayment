@@ -4878,3 +4878,41 @@ Object reference not set to an instance of an object.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+535: 5.7.8 Username and Password not accepted. Learn more at
+5.7.8  https://support.google.com/mail/?p=BadCredentials a72sm561149wme.29 - gsmtp
+
+
+
+535: 5.7.8 Username and Password not accepted. Learn more at
+5.7.8  https://support.google.com/mail/?p=BadCredentials g13sm28030413wrr.9 - gsmtp
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

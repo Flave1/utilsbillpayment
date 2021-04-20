@@ -205,6 +205,13 @@ namespace VendTech.BLL.Models
         public string OTP { get; set; }
     }
 
+    public class ReverseDepositModel
+    {
+        public List<long> ReverseDepositIds { get; set; }
+        public List<long> CancelDepositIds { get; set; }
+        public string OTP { get; set; }
+    }
+
     public class MeterAndDepositListingModel
     {
         public List<DepositListingModel> Deposits { get; set; }
