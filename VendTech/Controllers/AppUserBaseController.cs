@@ -39,7 +39,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             var model = new PermissonAndDetailModel();
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();
@@ -77,13 +77,19 @@ namespace VendTech.Areas.Admin.Controllers
                     var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
                     if (isEnabled)
                     {
+                        HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
+                        val.Expires = DateTime.Now.AddDays(-30);
+                        Response.Cookies.Add(val);
                         SignOut();
                         LOGGEDIN_USER = null;
                         filter_context.Result = RedirectToAction("Index", "Home");
                     }
                 }
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                ViewBag.USER_PERMISSONS = ModulesModel;
+                if (LOGGEDIN_USER != null)
+                {
+                    ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                    ViewBag.USER_PERMISSONS = ModulesModel;
+                }
 
             }
             #endregion
@@ -192,7 +198,7 @@ namespace VendTech.Areas.Admin.Controllers
                 );
 
             String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
-            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AdminAuthorizationCookie, encrypted_ticket_ud);
+            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AuthorizationCookie, encrypted_ticket_ud);
             if (is_persistent) auth_cookie_ud.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(auth_cookie_ud);
         }
@@ -204,10 +210,9 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet, Public]
         public override ActionResult SignOut()
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
-                JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
             }

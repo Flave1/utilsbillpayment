@@ -242,7 +242,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 pos.Enabled = value;
-                EnableOrdisablePOSAccount(value, pos.POSId);
+                //EnableOrdisablePOSAccount(value, pos.POSId);
                 Context.SaveChanges();
                 return new ActionOutput
                 {
@@ -333,7 +333,7 @@ namespace VendTech.BLL.Managers
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
-            EnableOrdisablePOSAccount(model.Enabled, model.POSId);
+            //EnableOrdisablePOSAccount(model.Enabled, model.POSId);
             //Deleting Exisiting Platforms
             var existingPlatforms = Context.POSAssignedPlatforms.Where(x => x.POSId == dbPos.POSId).ToList();
             if (existingPlatforms.Count > 0)

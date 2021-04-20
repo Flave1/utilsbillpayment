@@ -254,8 +254,7 @@ namespace VendTech.BLL.Managers
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
- 
-
+  
             var list = query.ToList().Select(x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
