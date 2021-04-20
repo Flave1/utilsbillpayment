@@ -70,6 +70,15 @@ namespace VendTech.Controllers
             return View(new LoginAPIModel());
 
         }
+
+        [Public]
+        public ActionResult Error(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+            return View();
+
+        }
+
         [AjaxOnly, HttpPost, Public]
         public JsonResult Login(LoginAPIModel model)
         {

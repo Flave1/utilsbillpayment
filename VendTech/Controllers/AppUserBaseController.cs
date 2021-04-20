@@ -39,7 +39,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             var model = new PermissonAndDetailModel();
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();
@@ -59,15 +59,6 @@ namespace VendTech.Areas.Admin.Controllers
                             LOGGEDIN_USER = model.UserDetails;
                             ModulesModel = model.ModulesModelList;
                             System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                            if (model.UserDetails != null)
-                            {
-                                var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
-                                if (isEnabled)
-                                {
-                                    SignOut();
-                                    filter_context.Result = RedirectToAction("Index", "Home");
-                                }
-                            }
                         }
                         else
                         {
@@ -81,9 +72,24 @@ namespace VendTech.Areas.Admin.Controllers
                     }
                 }
                 #endregion
-
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                ViewBag.USER_PERMISSONS = ModulesModel;
+                if (model.UserDetails != null)
+                {
+                    var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
+                    if (isEnabled)
+                    {
+                        HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
+                        val.Expires = DateTime.Now.AddDays(-30);
+                        Response.Cookies.Add(val);
+                        SignOut();
+                        LOGGEDIN_USER = null;
+                        filter_context.Result = RedirectToAction("Index", "Home");
+                    }
+                }
+                if (LOGGEDIN_USER != null)
+                {
+                    ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                    ViewBag.USER_PERMISSONS = ModulesModel;
+                }
 
             }
             #endregion
@@ -91,7 +97,7 @@ namespace VendTech.Areas.Admin.Controllers
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
-                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("Index", "Home", new { returnUrl = Server.UrlEncode(Request.RawUrl)});
+                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("Index", "Home", new { returnUrl = Server.UrlEncode(Request.RawUrl) });
                 else filter_context.Result = Json(new ActionOutput
                 {
                     Status = ActionStatus.Error,
@@ -135,6 +141,33 @@ namespace VendTech.Areas.Admin.Controllers
             }
             #endregion
 
+            #region Admin User Role Module Permission Validation
+
+            string action = filter_context.ActionDescriptor.ActionName;
+            string controller = filter_context.RouteData.Values["controller"].ToString();
+            bool sessionExpired = false;
+            if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
+            {
+                HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
+                val.Expires = DateTime.Now.AddDays(-30);
+                Response.Cookies.Add(val);
+                SignOut();
+                LOGGEDIN_USER = null;
+                filter_context.Result = RedirectToAction("Index", "Home");
+                sessionExpired = true;
+            }
+            else if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
+            {
+                if (action.ToLower() != "autologout")
+                {
+                    model.UserDetails.LastActivityTime = DateTime.UtcNow;
+                    var ckie = new JavaScriptSerializer().Serialize(model);
+                    CreateCustomAuthorisationCookie(LOGGEDIN_USER.UserName, false, ckie);
+                }
+            }
+            #endregion
+
+
             #region if authorization cookie is not present and the action method being called is marked with the [Public] attribute
             else
             {
@@ -144,7 +177,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             }
             #endregion
-           
+
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
         }
 
@@ -165,7 +198,7 @@ namespace VendTech.Areas.Admin.Controllers
                 );
 
             String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
-            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AdminAuthorizationCookie, encrypted_ticket_ud);
+            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AuthorizationCookie, encrypted_ticket_ud);
             if (is_persistent) auth_cookie_ud.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(auth_cookie_ud);
         }
@@ -177,10 +210,9 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet, Public]
         public override ActionResult SignOut()
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
-                JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
             }

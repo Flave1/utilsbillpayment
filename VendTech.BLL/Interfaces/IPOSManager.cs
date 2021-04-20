@@ -28,6 +28,7 @@ namespace VendTech.BLL.Interfaces
         List<SelectListItem> GetVendorPos(long userId);
         List<PosAPiListingModel> GetPOSSelectListForApi(long userId = 0);
         PagingResult<POSListingModel> GetUserPosPagingListForApp(int pageNo, int pageSize, long userId);
+        UserModel GetUserPosDetailApi(string posSerialNumber);
     }
-    
+
 }

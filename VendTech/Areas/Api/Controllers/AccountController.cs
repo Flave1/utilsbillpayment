@@ -306,7 +306,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetPOSUserDetails(SavePassCodeModel savePassCodeModel)
         {
-            var result = _posManager.GetUserPosDetails(savePassCodeModel.PosNumber);
+            var result = _posManager.GetUserPosDetailApi(savePassCodeModel.PosNumber);
             if (result != null)
             {
                 return new JsonContent("User POS Details!!", Status.Success, result).ConvertToHttpResponseOK();

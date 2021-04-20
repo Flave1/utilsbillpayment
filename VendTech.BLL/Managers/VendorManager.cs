@@ -77,7 +77,7 @@ namespace VendTech.BLL.Managers
 
         SaveVendorModel IVendorManager.GetVendorDetailApi(long vendorId)
         {
-            var vendor = Context.Users.FirstOrDefault(p => p.FKVendorId == vendorId);
+            var vendor = Context.Users.FirstOrDefault(p => p.FKVendorId == vendorId && p.Status == (int)UserStatusEnum.Active);
             if (vendor == null)
             {
                 vendor = Context.Users.FirstOrDefault(p => p.UserId == vendorId);
