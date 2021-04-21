@@ -59,15 +59,6 @@ namespace VendTech.Areas.Admin.Controllers
                             LOGGEDIN_USER = model.UserDetails;
                             ModulesModel = model.ModulesModelList;
                             System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                            if (model.UserDetails != null)
-                            {
-                                var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
-                                if (isEnabled)
-                                {
-                                    SignOut();
-                                    filter_context.Result = RedirectToAction("Index", "Home");
-                                }
-                            }
                         }
                         else
                         {
@@ -91,7 +82,6 @@ namespace VendTech.Areas.Admin.Controllers
                         HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                         val.Expires = DateTime.Now.AddDays(-30);
                         Response.Cookies.Add(val);
-                        SignOut();
                         LOGGEDIN_USER = null;
                         filter_context.Result = RedirectToAction("Index", "Home");
                     }
@@ -180,7 +170,7 @@ namespace VendTech.Areas.Admin.Controllers
                 );
 
             String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
-            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AdminAuthorizationCookie, encrypted_ticket_ud);
+            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AuthorizationCookie, encrypted_ticket_ud);
             if (is_persistent) auth_cookie_ud.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(auth_cookie_ud);
         }
@@ -192,7 +182,7 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet, Public]
         public override ActionResult SignOut()
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
                 JustLoggedin = false;
