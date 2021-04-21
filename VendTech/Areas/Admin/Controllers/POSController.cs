@@ -84,37 +84,6 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
                 }
-                if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
-                {
-                    String message = HttpUtility.UrlEncode("Hello " + name + ",%nPlease find the Passcode requested for login. " + savePassCodeModel.PassCode + " in Ventech account.");
-                    //string msg = "This is a test message Your one time password for activating your Textlocal account is " + savePassCodeModel.PassCode;
-                    using (var wb = new WebClient())
-                    {
-                        byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
-                {
-                {"apikey" , "3dmxGZ4kX6w-GheG39NELIgd6546OjfacESXqNOVY4"},
-                {"numbers" , savePassCodeModel.CountryCode+savePassCodeModel.Phone},
-                {"message" , message},
-                {"sender" , "TXTLCL"}
-                });
-                        string result = System.Text.Encoding.UTF8.GetString(response);
-                    }
-
-                    //        string accountSid = "AC8f6fb0fee17e0c77f875cb7adbb85b9e"; //Environment.GetEnvironmentVariable(TWILIO_ACCOUNT_SID);
-                    //        string authToken = "2d7452931f1f1cebfdd79220e3f5893f";// Environment.GetEnvironmentVariable(TWILIO_AUTH_TOKEN);
-
-                    //        var client = new TwilioRestClient(accountSid, authToken);
-
-                    //        var message = MessageResource.Create(
-                    //            body: "Join Earth's mightiest heroes. Like Kevin Bacon.",
-                    //            from: new Twilio.Types.PhoneNumber("+91 8000403703"),
-                    //            to: new Twilio.Types.PhoneNumber("+91 807715964"),
-                    //            client: client
-                    //        );
-                    //        var statusCode = TwilioClient.GetRestClient().HttpClient
-                    //.LastResponse.StatusCode;
-
-                }
             }
             ViewBag.SelectedTab = SelectedAdminTab.POS;
             if (isEmailed)
