@@ -76,7 +76,8 @@ namespace VendTech.Controllers
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
 
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
+            HttpCookie admin_auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();
             ViewBag.Minutes = minutes;
@@ -146,7 +147,7 @@ namespace VendTech.Controllers
                         filter_context.Result = RedirectToAction("ChangePassword", "Home");
                     else if (user.AccountStatus == (UserStatusEnum.Block).ToString())
                     {
-                        HttpCookie val = Request.Cookies[Cookies.AdminAuthorizationCookie];
+                        HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                         val.Expires = DateTime.Now.AddDays(-30);
                         JustLoggedin = false;
                         Response.Cookies.Add(val);
@@ -158,7 +159,7 @@ namespace VendTech.Controllers
             }
             if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
             {
-                HttpCookie val = Request.Cookies[Cookies.AdminAuthorizationCookie];
+                HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
                 val.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(val);
                 JustLoggedin = false;
@@ -214,7 +215,7 @@ namespace VendTech.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-            else filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
+            else filter_context.Result = RedirectToAction("dashboard", "Home");
 
             base.OnException(filter_context);
         }
@@ -282,7 +283,7 @@ namespace VendTech.Controllers
                     is_persistent, custom_data, ""
                 );
             String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
-            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AdminAuthorizationCookie, encrypted_ticket_ud);
+            HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AuthorizationCookie, encrypted_ticket_ud);
             if (is_persistent) auth_cookie_ud.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(auth_cookie_ud);
         }
@@ -295,7 +296,7 @@ namespace VendTech.Controllers
         /// <param name="custom_data"></param>
         protected virtual void UpdateCustomAuthorisationCookie(String custom_data)
         {
-            var cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            var cookie = Request.Cookies[Cookies.AuthorizationCookie];
             FormsAuthenticationTicket authTicketExt = FormsAuthentication.Decrypt(cookie.Value);
 
             FormsAuthenticationTicket auth_ticket =
@@ -306,7 +307,7 @@ namespace VendTech.Controllers
                 authTicketExt.IsPersistent, custom_data, String.Empty
             );
             String encryptedTicket = FormsAuthentication.Encrypt(auth_ticket);
-            cookie = new HttpCookie(Cookies.AdminAuthorizationCookie, encryptedTicket);
+            cookie = new HttpCookie(Cookies.AuthorizationCookie, encryptedTicket);
             if (authTicketExt.IsPersistent) cookie.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
         }
@@ -337,7 +338,7 @@ namespace VendTech.Controllers
         [HttpGet, Public]
         public virtual ActionResult SignOut()
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
                 JustLoggedin = false;

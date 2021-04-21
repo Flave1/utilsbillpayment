@@ -559,8 +559,10 @@ function getUrlParameter(name) {
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
-        var date =valueDate.split("-");
-        $("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
+        //var date =valueDate.split("-");
+        var date = valueDate.replace("-", "/")
+        //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
+        $("#value_date").val(date);
         $("#modal_amount").val(amount);
         if (isAudit == "")
             $("#modal_btn").val("Clear");
