@@ -4916,3 +4916,41 @@ Object reference not set to an instance of an object.
 
 
 
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 j_kXWhuewednbItd_dRR2WZIuLTIAbAlsYaaIdtmO_AlyY2RxBVt2yAIKzDR6Yl8NDol3
+5.7.14 PHpIYZJWYuhjofuV-UD40cmWeLtNtxhLgsSwklaKLa-zj4u_LoMuus7pmb5F7zLd>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 n16sm2360608pjv.32 - gsmtp
+
+
+
+The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at
+
+
+
