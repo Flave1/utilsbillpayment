@@ -520,7 +520,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2021 08:00:55</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>04/21/2021 13:13:46</publishTime>
+      <publishTime>04/21/2021 14:18:01</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
       <publishTime>04/21/2021 10:10:43</publishTime>
@@ -532,7 +532,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2021 10:10:43</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>04/21/2021 13:13:46</publishTime>
+      <publishTime>04/21/2021 14:18:01</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
@@ -601,7 +601,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2021 09:59:19</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>04/21/2021 10:10:48</publishTime>
+      <publishTime>04/21/2021 13:13:52</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 05:44:24</publishTime>
