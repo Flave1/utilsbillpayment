@@ -38,7 +38,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetDepositReversePagingList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            var modal = _depositManager.GetDepositPagedList(model, true);
+            var modal = _depositManager.GetReleasedDepositPagedList(model, true);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_depositReverseListing", modal));
             resultString.Add(modal.TotalCount.ToString());

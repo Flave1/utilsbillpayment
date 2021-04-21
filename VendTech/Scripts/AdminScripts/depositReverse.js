@@ -4,7 +4,7 @@ var cancelDepositIds = [];
 $(document).ready(function () {
     
     cancelCkboxClick();
-    reverseChkboxClick();
+    reverseChkboxClick(); 
     
     $("#sendOTPBtn").live("click", function () {
         return sendOTPForDepositReverse($(this));
@@ -59,6 +59,17 @@ function cancelCkboxClick() {
         }
     });
 }
+
+function singleReverClick() {
+     
+    var id = $('#depositId').val();
+    if (id) {
+        reverseDepositIds.push(id);
+        sendOTPForDepositReverse($(this)); 
+    }
+    
+}
+
 function reverseChkboxClick() {
     $('.reverseChkBox').on('change', function () {
         if (this.checked) {
@@ -99,15 +110,13 @@ function sendOTPForDepositReverse(sender) {
             $('#depositReverseModal').modal({
                 backdrop: 'static',
                 keyboard: false
-            })
+            }); 
+            $('#depositReverseViewModal').modal('hide'); 
         }
     });
 }
 
-function ReverseDepositStatus() {
-    $.ShowMessage($('div.messageAlert'), "Yet to be implemented", MessageType.Success);
-    return;
-}
+ 
 function ChangeDepositStatus() {
     if (!$("#otp").val())
     {
@@ -222,9 +231,10 @@ var Deposits = {
     }
 };
 
-function viewReleasedDeposit(UserName, VendorName, PosNumber, Bank, CreatedAt, ValueDate, ChkNoOrSlipId, IssuingBank, Payer, Type, Amount, NewBalance) { 
+function viewReleasedDeposit(UserName, VendorName, PosNumber, Bank, CreatedAt, ValueDate, ChkNoOrSlipId, IssuingBank, Payer, Type, Amount, NewBalance, DepositId) { 
 
-    debugger
+    debugger;
+    $('#depositId').val(DepositId);
     $('#usern_name').html(UserName);
     $('#vendor').html(VendorName);
     $('#pos').html(PosNumber);
@@ -236,10 +246,8 @@ function viewReleasedDeposit(UserName, VendorName, PosNumber, Bank, CreatedAt, V
     $('#payer').html(Payer);
     $('#deposit_ref').html(ChkNoOrSlipId);
     $('#amount').html(Amount);
-    $('#plus').html(NewBalance); 
-
-    $('#depositReverseViewModal').modal('show'); 
-    console.log("Coming here " + row);
+    $('#plus').html(NewBalance);  
+    $('#depositReverseViewModal').modal('show');  
 }
 
 function Paging(sender) {

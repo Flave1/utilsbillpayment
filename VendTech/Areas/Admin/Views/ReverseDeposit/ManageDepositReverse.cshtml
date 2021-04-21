@@ -41,7 +41,7 @@
                                         @Html.Partial("Partials/_depositReverseListing", Model)
                                     </tbody>
                                 </table>
-                            </div>
+                            </div>  
 
                         </div>
                         @Html.Partial("_Paging")
@@ -98,6 +98,7 @@
 
                 </style>
                 <div class="row">
+                    <input type="hidden" value="0" id="depositId"/>
                     <div class="form-group">
                         <label for="inputEmail3" class="col-md-4 control-label">USER NAME</label>
                         <div class="col-md-8">
@@ -177,7 +178,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="ReverseDepositStatus()">Reverse</button>
+                <button type="button" class="btn btn-primary" onclick="singleReverClick()">Reverse</button>
             </div>
         </div>
 
