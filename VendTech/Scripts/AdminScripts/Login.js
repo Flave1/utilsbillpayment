@@ -16,7 +16,8 @@
 });
 
 var Admin = {
-    Login: function (sender) {
+    
+    Login: function (sender) { 
 
         $.ajaxExt({
             url:  '/Admin/Home/Login',

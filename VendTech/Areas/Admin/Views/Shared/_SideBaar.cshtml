@@ -44,17 +44,17 @@
                         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "open" : "open")">
                             <a href="#"><i class="fa fa-file-text-o"></i><span>Deposits</span></a>
                             <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "display:block;" : "display:none;")">
-                                @if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
                                 {
                                     <li><a href="@Url.Action("ManageDeposits", "Deposit", new { area = "Admin" })">Deposits Uploader</a></li>
                                 }
-                                @if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "ReleaseDeposit").ToList().Count() > 0)
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "ReleaseDeposit").ToList().Count() > 0)
                                 {
                                     <li><a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })">Deposits Release</a></li>
                                 }
-                                @if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "ReverseDeposit").ToList().Count() > 0)
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "ReverseDeposit").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reverse</a></li>
+                                    <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reversal</a></li>
                                 }
                                 @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
         {

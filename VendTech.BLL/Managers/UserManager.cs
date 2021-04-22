@@ -278,11 +278,35 @@ namespace VendTech.BLL.Managers
         {
             return Context.Notifications.Where(p => p.UserId == userId && !p.MarkAsRead).Count();
         }
+        //ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
+        //{
+        //    string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
+        //    string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
+        //    var users = Context.Users.ToList();
+        //    var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) && p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
+        //    if (user == null)
+        //        return null;
+        //    var modelUser = new UserDetails
+        //    {
+        //        FirstName = user.Name,
+        //        LastName = user.SurName,
+        //        UserEmail = user.Email,
+        //        UserID = user.UserId,
+        //        UserType = user.UserRole.Role,
+        //        ProfilePicPath = user.ProfilePic
+        //    };
+        //    var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == modelUser.UserID && (x.ModuleId == 6 || x.ModuleId == 10));
+        //    modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
+        //    modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
+        //    modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
+        //    modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
+
+        //    return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
+        //}
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
-            var users = Context.Users.ToList();
             var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) && p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
@@ -295,12 +319,6 @@ namespace VendTech.BLL.Managers
                 UserType = user.UserRole.Role,
                 ProfilePicPath = user.ProfilePic
             };
-            var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == modelUser.UserID && (x.ModuleId == 6 || x.ModuleId == 10));
-            modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
-            modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
-            modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
-            modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
-
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
         }
 
