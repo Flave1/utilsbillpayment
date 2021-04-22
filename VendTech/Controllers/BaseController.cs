@@ -215,7 +215,8 @@ namespace VendTech.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-            else filter_context.Result = RedirectToAction("dashboard", "Home");
+             else filter_context.Result = RedirectToAction("error", "Home", 
+                 new { errorMessage = filter_context.Exception.Message });
 
             base.OnException(filter_context);
         }
