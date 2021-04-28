@@ -51,6 +51,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
+        
         {
             if (!ModelState.IsValid)
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
@@ -60,12 +61,14 @@ namespace VendTech.Areas.Api.Controllers
                 //    return new JsonContent("Email is not registered with us.", Status.Failed).ConvertToHttpResponseOK();
                 //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
-                var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
-                if (isEnabled)
+                if (userDetails == null)
+                    return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                else if (userDetails.UserId == 0)
+                    return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
+                else
                 {
-                    if (userDetails.UserId == 0)
-                        return new JsonContent("Invalid Passcode for this user.Please use another one.", Status.Failed).ConvertToHttpResponseOK();
-                    else
+                    var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
+                    if (isEnabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
                         _authenticateManager.AddTokenDevice(model);
@@ -86,10 +89,10 @@ namespace VendTech.Areas.Api.Controllers
                         ////_authenticateManager.FirstTimeLogin(userDetails.UserId);
                         //return new JsonContent("Login code sent to your email.", Status.Success, userDetails).ConvertToHttpResponseOK();
                     }
-                }
-                else
-                {
-                    return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    else
+                    {
+                        return new JsonContent("POS IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
                 }
             }
         }
