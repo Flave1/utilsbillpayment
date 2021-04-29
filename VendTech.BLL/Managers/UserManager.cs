@@ -19,15 +19,23 @@ namespace VendTech.BLL.Managers
         {
             return "Welcome To Base Project Demo";
         }
+     
         UserModel IUserManager.ValidateUserSession(string token)
         {
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
-            var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
-            if (session != null &&
-                (session.User.Status == (int)UserStatusEnum.Active
-                || session.User.Status == (int)UserStatusEnum.Pending
-                || session.User.Status == (int)UserStatusEnum.PasswordNotReset) && pos.Enabled == true) return new UserModel(session.TokenKey, session.User);
-            else return null;
+            if (session != null)
+            {
+                var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
+                if (session != null &&
+                    (session.User.Status == (int)UserStatusEnum.Active
+                    || session.User.Status == (int)UserStatusEnum.Pending
+                    || session.User.Status == (int)UserStatusEnum.PasswordNotReset) && pos.Enabled == true) return new UserModel(session.TokenKey, session.User);
+                else return null;
+            }
+            else
+            {
+                return null;
+            }
         }
         bool IUserManager.UpdateUserLastAppUsedTime(long userId)
         {
