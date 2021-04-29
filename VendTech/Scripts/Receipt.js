@@ -58,7 +58,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchVoucherDetailsByToken(token) {
-   
+    debugger;
     DisableAndEnablelinks(true, token);
     $("#re-print_section").show();
     try {

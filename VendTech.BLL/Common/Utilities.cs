@@ -272,7 +272,7 @@ namespace VendTech.BLL.Common
             try
             {
                 MailMessage mail = new MailMessage();
-                System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient();
+                SmtpClient SmtpServer = new SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
                 mail.To.Add(to);

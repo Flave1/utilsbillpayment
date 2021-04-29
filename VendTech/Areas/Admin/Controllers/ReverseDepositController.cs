@@ -66,7 +66,8 @@ namespace VendTech.Areas.Admin.Controllers
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%otp%", result.Object);
-                var currentUser = LOGGEDIN_USER.UserID;
+                body = body.Replace("Approve", "Reverse");
+                body = body.Replace("%USER%", LOGGEDIN_USER.FirstName); 
 
                 Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
             }

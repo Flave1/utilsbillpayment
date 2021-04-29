@@ -341,7 +341,7 @@ namespace VendTech.BLL.Models
         {
             //this.ModuleId = model.ModuleId;
             //  this.ModuleName = model.ModuleName;
-            this.ControllerName = model.ControllerName;
+            this.ControllerName = model.ModuleId.ToString();
             //this.Description = model.Description;
             //this.IsAdmin = model.IsAdmin;
         }

@@ -231,11 +231,15 @@ var Deposits = {
     }
 };
 
+ 
+
 function viewReleasedDeposit(UserName, VendorName, PosNumber, Bank, CreatedAt, ValueDate, ChkNoOrSlipId, IssuingBank, Payer, Type, Amount, NewBalance, DepositId) { 
+  
     if (reverseDepositIds.length > 0) {
         $.ShowMessage($('div.messageAlert'), "Ooops..!! Please uncheck deposits to view", MessageType.Error);
         return;
     }
+    
     $('#depositId').val(DepositId);
     $('#usern_name').html(UserName);
     $('#vendor').html(VendorName);

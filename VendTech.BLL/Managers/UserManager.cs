@@ -388,8 +388,7 @@ namespace VendTech.BLL.Managers
             var modules = Context.Modules.Where(c => modulesPermissons.Contains(c.ModuleId)).ToList();
             if (modules.Count() > 0)
             {
-                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList();
-
+                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList(); 
             }
             return moduleListModel;
         }
@@ -397,13 +396,13 @@ namespace VendTech.BLL.Managers
         {
             if (isAdmin)
             {
-                return Context.Modules.Where(p => p.SubMenuOf == 7).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
+                return Context.Modules.Where(p => p.SubMenuOf == 9).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
                 {
                     Text = p.ModuleName,
                     Value = p.ModuleId.ToString()
                 }).ToList();
             }
-            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 7).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
+            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 9).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
             {
                 Text = p.Module.ModuleName,
                 Value = p.Module.ModuleId.ToString()

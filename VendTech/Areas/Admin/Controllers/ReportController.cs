@@ -84,19 +84,19 @@ namespace VendTech.Areas.Admin.Controllers
                     val = type.ToString();
                 }
                 /// This Is Used For Fetching DEPOSITS REPORT
-                if (val == "1012")
+                if (val == "17")
                 {
                     deposits = _depositManager.GetReportsPagedList(model, true);
                     return View(deposits);
                 }
                 /// This Is Used For Fetching SALES REPORT
-                if (val == "1011")
+                if (val == "16")
                 {
                     var recharges = _meterManager.GetUserMeterRechargesReport(model, true);
                     return View("ManageSalesReports", recharges);
                 }
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
-                if (val == "1016")
+                if (val == "21")
                 {
                     ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
@@ -145,18 +145,18 @@ namespace VendTech.Areas.Admin.Controllers
             model.RecordsPerPage = 100000000; 
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
-            if (model.ReportType == "1012")
+            if (model.ReportType == "17")
             {
                 modal = _depositManager.GetReportsPagedList(model, true);
             }
-            if (model.ReportType == "1016")
+            if (model.ReportType == "21")
             {
                 depositAuditModel = _depositManager.GetAuditReportsPagedList(model, true);
             }
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_reportListing", modal));
             //resultString.Add(modal.TotalCount.ToString());
-            if (model.ReportType == "1012")
+            if (model.ReportType == "17")
             {
                 var resultString = new List<string> {
                RenderRazorViewToString("Partials/_reportListing", modal),
@@ -164,7 +164,7 @@ namespace VendTech.Areas.Admin.Controllers
             };
                 return JsonResult(resultString);
             }
-            if (model.ReportType == "1016")
+            if (model.ReportType == "21")
             {
                 var resultString = new List<string> {
                RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),

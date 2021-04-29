@@ -15,6 +15,7 @@ using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
+using Newtonsoft.Json;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -34,15 +35,15 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// This will be used to chek admin user authorization
+        /// This will be used to chek  user authorization
         /// </summary>
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
-            var model = new PermissonAndDetailModel();
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie]; 
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();
+            var model = new PermissonAndDetailModel();
             ViewBag.Minutes = minutes;
             #region If auth cookie is present
             if (auth_cookie != null)
@@ -68,13 +69,19 @@ namespace VendTech.Areas.Admin.Controllers
                     }
                     catch (Exception ex)
                     {
-
+                        if (auth_cookie != null)
+                        {
+                            auth_cookie.Expires = DateTime.Now.AddDays(-30);
+                            Response.Cookies.Add(auth_cookie);
+                            JustLoggedin = false;
+                            filter_context.Result = RedirectToAction("index", "home"); 
+                        }
                         Console.WriteLine(ex.ToString());
                     }
                 }
                 #endregion
 
-                if (model.UserDetails != null)
+                if (LOGGEDIN_USER != null)
                 {
                     var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
                     if (isEnabled)
@@ -86,10 +93,8 @@ namespace VendTech.Areas.Admin.Controllers
                         filter_context.Result = RedirectToAction("Index", "Home");
                     }
                 }
-
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
                 ViewBag.USER_PERMISSONS = ModulesModel;
-
             }
             #endregion
 
@@ -107,22 +112,22 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (auth_cookie != null)
             {
-                //#region If Logged User is null
-                //if (LOGGEDIN_USER == null)
-                //{
-                //    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                //    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
-                //    LOGGEDIN_USER = model.UserDetails;
-                //    ModulesModel = model.ModulesModelList;
-                //    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                //}
-                //if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
-                //{
-                //    filter_context.Result = RedirectToAction("Dashboard", "Home");// new { area = "Admin" });
-                //}
-                //#endregion
-                //ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                //ViewBag.USER_PERMISSONS = ModulesModel;
+                #region If Logged User is null
+                if (LOGGEDIN_USER == null)
+                {
+                    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
+                    LOGGEDIN_USER = model.UserDetails;
+                    ModulesModel = model.ModulesModelList;
+                    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
+                }
+                if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
+                {
+                    filter_context.Result = RedirectToAction("Dashboard", "Home");// new { area = "Admin" });
+                }
+                #endregion
+                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                ViewBag.USER_PERMISSONS = ModulesModel;
 
             }
 
@@ -139,7 +144,7 @@ namespace VendTech.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             #endregion
-
+         
             #region if authorization cookie is not present and the action method being called is marked with the [Public] attribute
             else
             {
@@ -149,6 +154,35 @@ namespace VendTech.Areas.Admin.Controllers
 
             }
             #endregion
+
+            if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
+            {
+                HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
+                val.Expires = DateTime.Now.AddDays(-30);
+                Response.Cookies.Add(val);
+                SignOut();
+                LOGGEDIN_USER = null;
+                JustLoggedin = false;
+                filter_context.Result = RedirectToAction("Index", "Home"); 
+            }
+
+            else if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
+            {
+                string action = filter_context.ActionDescriptor.ActionName;
+                string controller = filter_context.RouteData.Values["controller"].ToString();
+                if (action.ToLower() != "autologout")
+                {
+                    LOGGEDIN_USER.LastActivityTime = DateTime.UtcNow;
+                    var ckie = new JavaScriptSerializer().Serialize(model);
+                    CreateCustomAuthorisationCookie(LOGGEDIN_USER.UserName, false, ckie);
+                }
+            }
+            //if (LOGGEDIN_USER.UserID == 0)
+            //{
+            //    SignOut();
+            //    JustLoggedin = false;
+            //    filter_context.Result = RedirectToAction("Index", "Home");
+            //}
 
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
         }

@@ -65,7 +65,7 @@ namespace VendTech.Controllers
                     Message = "Validation Error"
                 }, JsonRequestBehavior.AllowGet);
                 //This needs to be changed to redirect the control to an error page.
-                else filterContext.Result = RedirectToAction("dashboard", "home");
+                else filterContext.Result = null;/// RedirectToAction("dashboard", "home");
             }
         }
 
@@ -79,6 +79,7 @@ namespace VendTech.Controllers
             HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             HttpCookie admin_auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
             IAuthenticateManager authenticateManager = new AuthenticateManager();
+            var model = new PermissonAndDetailModel();
             var minutes = authenticateManager.GetLogoutTime();
             ViewBag.Minutes = minutes;
             #region If auth cookie is present
@@ -90,7 +91,9 @@ namespace VendTech.Controllers
                     try
                     {
                         FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                        LOGGEDIN_USER = new JavaScriptSerializer().Deserialize<UserDetails>(auth_ticket.UserData);
+                        model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
+                        LOGGEDIN_USER = model.UserDetails;
+                        ModulesModel = model.ModulesModelList;
                         System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
                     }
                     catch (Exception exc)
@@ -115,6 +118,7 @@ namespace VendTech.Controllers
                 #endregion
 
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                ViewBag.USER_PERMISSONS = ModulesModel;
             }
             #endregion
 
@@ -136,6 +140,7 @@ namespace VendTech.Controllers
             {
                 LOGGEDIN_USER = new UserDetails { IsAuthenticated = false };
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                ViewBag.USER_PERMISSONS = ModulesModel;
             }
             #endregion
             if (LOGGEDIN_USER != null && filter_context.ActionDescriptor.ActionName != "VerifyChangePasswordOTP" && (filter_context.ActionDescriptor.ActionName != "ChangePassword") && (filter_context.ActionDescriptor.ActionName != "SignOut"))
@@ -173,15 +178,10 @@ namespace VendTech.Controllers
                 if (action.ToLower() != "autologout")
                 {
                     LOGGEDIN_USER.LastActivityTime = DateTime.UtcNow;
-                    var ckie = new JavaScriptSerializer().Serialize(LOGGEDIN_USER);
+                    var ckie = new JavaScriptSerializer().Serialize(model);
                     CreateCustomAuthorisationCookie(LOGGEDIN_USER.UserName, false, ckie);
                 }
-            }
-            if (LOGGEDIN_USER == null)
-            {
-                JustLoggedin = false;
-                filter_context.Result = RedirectToAction("Index", "Home");
-            }
+            } 
 
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
 
@@ -192,8 +192,7 @@ namespace VendTech.Controllers
         /// </summary>
         /// <param name="filter_context"></param>
         protected override void OnException(ExceptionContext filter_context)
-        {
-
+        { 
             filter_context.ExceptionHandled = true;
             var error_id = "";
 
@@ -215,8 +214,18 @@ namespace VendTech.Controllers
             }, JsonRequestBehavior.AllowGet);
 
             //This needs to be changed to redirect the control to an error page.
-             else filter_context.Result = RedirectToAction("error", "Home", 
-                 new { errorMessage = filter_context.Exception.Message });
+            else
+            {
+                if(LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor)
+                {
+                    filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
+                }
+                else
+                {
+                    filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message, area = "Admin" });
+                }
+                
+            }
 
             base.OnException(filter_context);
         }

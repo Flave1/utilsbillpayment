@@ -94,22 +94,22 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (auth_cookie != null)
             {
-                //#region If Logged User is null
-                //if (LOGGEDIN_USER == null)
-                //{
-                //    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                //    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
-                //    LOGGEDIN_USER = model.UserDetails;
-                //    ModulesModel = model.ModulesModelList;
-                //    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                //}
-                //if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
-                //{
-                //    filter_context.Result = RedirectToAction("Dashboard", "Home", new { area = "Admin" });
-                //}
-                //#endregion
-                //ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                //ViewBag.USER_PERMISSONS = ModulesModel;
+                #region If Logged User is null
+                if (LOGGEDIN_USER == null)
+                {
+                    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
+                    LOGGEDIN_USER = model.UserDetails;
+                    ModulesModel = model.ModulesModelList;
+                    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
+                }
+                if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
+                {
+                    filter_context.Result = RedirectToAction("Dashboard", "Home", new { area = "Admin" });
+                }
+                #endregion
+                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                ViewBag.USER_PERMISSONS = ModulesModel;
 
             }
 
@@ -139,8 +139,7 @@ namespace VendTech.Areas.Admin.Controllers
             #region Admin User Role Module Permission Validation
 
             string action = filter_context.ActionDescriptor.ActionName;
-            string controller = filter_context.RouteData.Values["controller"].ToString();
-            var area = filter_context.RouteData.DataTokens["area"];
+            string controller = filter_context.RouteData.Values["controller"].ToString(); 
             bool sessionExpired = false;
             if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
             {
@@ -150,7 +149,7 @@ namespace VendTech.Areas.Admin.Controllers
                 SignOut();
                 LOGGEDIN_USER = null;
                 JustLoggedin = false;
-                filter_context.Result = RedirectToAction("Index", "Home", new { Area = "Admin" });
+                filter_context.Result = filter_context.Result = RedirectToAction("Index", "Home");
                 sessionExpired = true;
             }
             else if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
@@ -204,12 +203,14 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="custom_data"></param>
         protected override void CreateCustomAuthorisationCookie(String user_name, Boolean is_persistent, String custom_data)
         {
-            FormsAuthenticationTicket auth_ticket = new FormsAuthenticationTicket(
-                    1, user_name,
-                    DateTime.Now,
-                    DateTime.Now.AddDays(7),
-                    is_persistent, custom_data, ""
-                );
+
+            FormsAuthenticationTicket auth_ticket =
+                     new FormsAuthenticationTicket(
+                         1, user_name,
+                         DateTime.Now,
+                         DateTime.Now.AddDays(7),
+                         is_persistent, custom_data, ""
+                     );
 
             String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
             HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AdminAuthorizationCookie, encrypted_ticket_ud);

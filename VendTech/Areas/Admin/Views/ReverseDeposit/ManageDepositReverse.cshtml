@@ -6,7 +6,7 @@
 
 <div class="container-fluid" id="pcont">
     <div class="page-head">
-        <h2>Deposit Reverse</h2>
+        <h2>Deposit Reversal</h2>
 
     </div>
     <div class="cl-mcont">
@@ -58,7 +58,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Deposit Reverse</h4>
+                <h4 class="modal-title">Deposit Reversal</h4>
             </div>
             <div class="modal-body">
 
@@ -176,8 +176,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-footer"> 
                 <button type="button" class="btn btn-primary" onclick="singleReverClick()">Reverse</button>
             </div>
         </div>
@@ -199,6 +198,8 @@
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
+
+      
         $(document).ready(function () {
             
             //initialize the javascript

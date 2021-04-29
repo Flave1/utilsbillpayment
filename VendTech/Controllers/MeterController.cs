@@ -193,7 +193,7 @@ namespace VendTech.Controllers
             public string token_string { get; set; }
         }
 
-        [AjaxOnly, HttpPost]
+        [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(tokenobject tokenobject)
         { 
             var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
@@ -221,7 +221,7 @@ namespace VendTech.Controllers
 
         }
 
-        [AjaxOnly, HttpPost]
+        [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnRequestANDResponseJSON(tokenobject tokenobject)
         {
             var result = _meterManager.ReturnRequestANDResponseJSON(tokenobject.token_string.Trim());

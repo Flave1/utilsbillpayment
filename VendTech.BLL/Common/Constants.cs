@@ -13,7 +13,7 @@ namespace VendTech.BLL.Models
         public const string VendorAuthorizationCookie = "xyzVendorAuthorize";
 
         //replace xyz with required name as per your project
-        public const string AdminAuthorizationCookie = "xyzAdminAuthorize";
+        public const string AdminAuthorizationCookie = "xyzAdminAuthorizeKey";
 
     }
     public static class SelectedAdminTab

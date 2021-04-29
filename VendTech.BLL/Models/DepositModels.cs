@@ -11,7 +11,7 @@ using VendTech.DAL;
 namespace VendTech.BLL.Models
 {
     public class DepositListingModel
-    {
+    { 
         public string UserName { get; set; }
         public string VendorName { get; set; }
         public string ChkNoOrSlipId { get; set; }
@@ -65,6 +65,7 @@ namespace VendTech.BLL.Models
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
         }
+         
     }
     public class DepositExcelReportModel
     {

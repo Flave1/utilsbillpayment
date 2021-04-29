@@ -1,34 +1,42 @@
 ﻿$(document).ready(function () {
 
-
     $("input[type=button]#btnFilterVersion").live("click", function () {
         return Deposits.ManageDeposits($(this));
     });
+
     $("select#showRecords").on("change", function () {
         return Deposits.ShowRecords($(this));
     });
+
     $("#reportType").on("change", function () {
         var val = $("#reportType").val();
         window.location.href = "/Admin/Report/ManageReports?type=" + val;
     });
+
     $('.sorting').live("click", function () {
         return Deposits.SortDeposits($(this));
     });
+
     $('.rejectDepositBtn').live("click", function () {
         return Deposits.RejectDeposit($(this));
     });
+
     $('.addDepositBtn').live("click", function () {
         return Deposits.AddDeposit($(this));
     });
+
     $('.approveDepositBtn').live("click", function () {
         return Deposits.ApproveDeposit($(this));
     });
+
     $('.rejectReleaseDepositBtn').live("click", function () {
         return Deposits.RejectReleaseDeposit($(this));
     });
+
     $('.releaseDepositBtn').live("click", function () {
         return Deposits.ApproveReleaseDeposit($(this));
     });
+
     $("#btnFilterSearch").live("click", function () {
         return Deposits.SearchDeposits($(this));
     });
