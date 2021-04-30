@@ -51,7 +51,6 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
-        
         {
             if (!ModelState.IsValid)
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();

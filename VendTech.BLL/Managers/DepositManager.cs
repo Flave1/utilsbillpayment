@@ -185,8 +185,8 @@ namespace VendTech.BLL.Managers
                 query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed);
             else
                 query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt)
-                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released 
-                    || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed) 
+                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
                     && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
 
             if (model.From != null)
@@ -206,7 +206,7 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
@@ -814,7 +814,7 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId && p.Enabled !=false && !p.IsDeleted)).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
@@ -1216,7 +1216,7 @@ namespace VendTech.BLL.Managers
         }
 
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
-        { 
+        {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
             if (dbDeposit == null)
                 return ReturnError("Deposit not exist.");
@@ -1308,7 +1308,7 @@ namespace VendTech.BLL.Managers
                 User = dbDeposit.User,
                 UserId = dbDeposit.UserId,
                 ValueDate = dbDeposit.ValueDate
-            }; 
+            };
 
             Context.Deposits.Add(reversedDeposit);
             Context.SaveChanges();
@@ -1327,13 +1327,14 @@ namespace VendTech.BLL.Managers
             if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Reversed)
             {
                 var lastPosReleaseDeposit = Context.Deposits.Where(p => p.POSId == dbDeposit.POSId).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
-                if (lastPosReleaseDeposit != null && lastPosReleaseDeposit.NewBalance != null) {
+                if (lastPosReleaseDeposit != null && lastPosReleaseDeposit.NewBalance != null)
+                {
                     reversedDeposit.NewBalance = lastPosReleaseDeposit.NewBalance.Value - dbDeposit.PercentageAmount;
                     reversedDeposit.NewBalance = reversedDeposit.NewBalance;
-                } 
-                else 
+                }
+                else
                     reversedDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance - (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
-             
+
                 reversedDeposit.NewBalance = dbDeposit.POS.Balance;
             }
             Context.SaveChanges();
@@ -1390,7 +1391,7 @@ namespace VendTech.BLL.Managers
             {
                 if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
                     return ReturnError("Invalid OTP");
-           
+
                 if (model.ReverseDepositIds != null)
                 {
                     for (int i = 0; i < model.ReverseDepositIds.Count; i++)
