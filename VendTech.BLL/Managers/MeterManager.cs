@@ -81,8 +81,9 @@ namespace VendTech.BLL.Managers
         List<SelectListItem> IMeterManager.GetMetersDropDown(long userID)
         {
             return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID)
-                .Select(p => new SelectListItem { 
-                    Text = p.Number +" - "+ p.Allias??string.Empty,
+                .Select(p => new SelectListItem
+                {
+                    Text = p.Number + " - " + p.Allias ?? string.Empty,
                     Value = p.MeterId.ToString()
                 }).ToList();
         }
@@ -209,14 +210,14 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReport(ReportSearchModel model, bool callFromAdmin)
         {
             model.RecordsPerPage = 10000000;
-             var result = new PagingResult<MeterRechargeApiListingModel>();
+            var result = new PagingResult<MeterRechargeApiListingModel>();
 
             IQueryable<TransactionDetail> query = null;
             if (!model.IsInitialLoad)
                 query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
             else
                 query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
- 
+
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -229,19 +230,19 @@ namespace VendTech.BLL.Managers
             }
             if (model.From != null)
             {
-                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From)); 
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
             }
             if (model.To != null)
             {
-                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To)); 
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To));
             }
-            if (model.PosId >0)
+            if (model.PosId > 0)
             {
-                query = query.Where(p => p.POSId == model.PosId); 
+                query = query.Where(p => p.POSId == model.PosId);
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter))); 
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -254,11 +255,11 @@ namespace VendTech.BLL.Managers
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
-  
+
             var list = query.ToList().Select(x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
-                ProductShortName = x.Platform?.ShortName ==null ? "" : x.Platform.ShortName,
+                ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName,
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,
@@ -270,7 +271,7 @@ namespace VendTech.BLL.Managers
                 VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
                 RechargePin = x?.MeterToken1
             }).ToList();
-            
+
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             {
                 if (model.SortBy == "VendorName")
@@ -299,13 +300,13 @@ namespace VendTech.BLL.Managers
             result.Status = ActionStatus.Successfull;
             result.Message = "Meter recharges fetched successfully.";
             return result;
-        
+
         }
 
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null); 
+            var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -316,8 +317,8 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
-             
-  
+
+
             var list = query.Take(10).ToList().Select(x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
@@ -337,7 +338,7 @@ namespace VendTech.BLL.Managers
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meter recharges fetched successfully.";
-            return result; 
+            return result;
         }
 
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRecharges(long userID, int pageNo, int pageSize)
@@ -363,7 +364,7 @@ namespace VendTech.BLL.Managers
             return result;
         }
         ActionOutput IMeterManager.RechargeMeter(RechargeMeterModel model)
-        { 
+        {
             var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
             if (user == null)
                 return ReturnError("User not exist.");
@@ -394,7 +395,7 @@ namespace VendTech.BLL.Managers
             obj.UserId = model.UserId;
             obj.Id = dbMeterRecharge.TransactionDetailsId;
             obj.Title = "Meter recharged successfully";
-            obj.Message = "Your meter has successfully recharged with SLL " + string.Format("{0:N0}", model.Amount) +" PIN: "+dbMeterRecharge.MeterToken1;
+            obj.Message = "Your meter has successfully recharged with SLL " + string.Format("{0:N0}", model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
             obj.NotificationType = NotificationTypeEnum.MeterRecharge;
             foreach (var item in deviceTokens)
             {
@@ -403,7 +404,7 @@ namespace VendTech.BLL.Managers
                 PushNotification.SendNotification(obj);
             }
 
-            return  ReturnSuccess("Meter recharged successfully.");
+            return ReturnSuccess("Meter recharged successfully.");
 
             //return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = dbMeterRecharge, Count = retailSchedDetail.NoOfBags });
 
@@ -418,15 +419,15 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Status = "unsuccessful";
                 response.ReceiptStatus.Message = "User does not exist";
                 return response;
-            } 
+            }
             var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
             if (pos.Balance == null || pos.Balance.Value < model.Amount)
             {
                 response.ReceiptStatus.Status = "unsuccessful";
                 response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
                 return response;
-            } 
-            if(model.MeterId != null)
+            }
+            if (model.MeterId != null)
             {
                 var met = Context.Meters.Find(model.MeterId);
                 model.MeterNumber = met.Number;
@@ -439,13 +440,13 @@ namespace VendTech.BLL.Managers
             }
             else
                 platf = Context.Platforms.Find(model.PlatformId);
-             
+
             IceKloudResponse icekloud_response = new IceKloudResponse();
             IcekloudQueryResponse query_response = new IcekloudQueryResponse();
             TransactionDetail db_transaction_detail = new TransactionDetail();
-           
+
             model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
-            icekloud_response =  Make_recharge_request_from_icekloud(model);
+            icekloud_response = Make_recharge_request_from_icekloud(model);
 
             var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
             var vend_response = JsonConvert.SerializeObject(icekloud_response);
@@ -481,17 +482,17 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Message = icekloud_response.Content.Data?.Error;
                 return response;
             }
-         
-            
+
+
             if (response_data != null)
-            { 
-                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response); 
-            } 
+            {
+                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
+            }
             else if (query_response.Content.Finalised)
             {
                 db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
             }
-                 
+
             db_transaction_detail.PlatFormId = platf.PlatformId;
             db_transaction_detail.Platform = platf;
             db_transaction_detail.TransactionId = model.TransactionId.ToString();
@@ -508,12 +509,12 @@ namespace VendTech.BLL.Managers
                 return receipt;
             }
             catch (Exception e)
-            { 
+            {
                 throw e;
             }
-            
+
         }
-         
+
         ActionOutput<MeterRechargeApiListingModel> IMeterManager.GetRechargeDetail(long rechargeId)
         {
             var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
@@ -684,7 +685,7 @@ namespace VendTech.BLL.Managers
             receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = model.DebitRecovery;
             var amt = model?.TenderedAmount.ToString("N");
-            receipt.Amount =  amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
+            receipt.Amount = amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
             receipt.Charges = Convert.ToDouble(model?.ServiceCharge);
             receipt.Commission = 0.00;
             receipt.Unit = Convert.ToDouble(model?.Units);
@@ -764,7 +765,7 @@ namespace VendTech.BLL.Managers
 
                 throw;
             }
-       
+
         }
         private TransactionDetail Build_db_transaction_detail_from_Icekloud_response(Datum response_data, RechargeMeterModel model, string vend_request, string vend_response)
         {
@@ -793,7 +794,7 @@ namespace VendTech.BLL.Managers
                 tran.SerialNumber = response_data != null ? response_data?.SerialNumber.ToString() : string.Empty;
                 tran.ServiceCharge = response_data != null ? response_data?.PowerHubVoucher?.ServiceCharge.ToString() : string.Empty;
                 tran.Tariff = response_data != null ? response_data?.PowerHubVoucher?.Tariff.ToString() : string.Empty;
-                tran.TaxCharge = response_data != null ? Convert.ToDecimal(response_data?.PowerHubVoucher?.TaxCharge): new decimal();
+                tran.TaxCharge = response_data != null ? Convert.ToDecimal(response_data?.PowerHubVoucher?.TaxCharge) : new decimal();
                 tran.TenderedAmount = response_data != null ? (decimal)response_data?.PowerHubVoucher?.TenderedAmount : new decimal();
                 tran.TransactionAmount = response_data != null ? (decimal)response_data?.PowerHubVoucher?.TransactionAmount : new decimal();
                 var units = response_data != null ? response_data?.PowerHubVoucher?.Units : new double();
@@ -828,29 +829,29 @@ namespace VendTech.BLL.Managers
                 trans.Amount = model?.Amount ?? new decimal();
                 trans.TransactionId = model?.TransactionId.ToString();
                 trans.IsDeleted = false;
-                trans.Status =   0;
+                trans.Status = 0;
                 trans.CreatedAt = DateTime.UtcNow;
-                trans.AccountNumber =   string.Empty;
+                trans.AccountNumber = string.Empty;
                 trans.CurrentDealerBalance = 00;
                 trans.Customer = string.Empty;
-                trans.ReceiptNumber =  string.Empty;
+                trans.ReceiptNumber = string.Empty;
                 trans.RequestDate = DateTime.UtcNow;
                 trans.RTSUniqueID = 00;
                 trans.SerialNumber = string.Empty;
-                trans.ServiceCharge =  string.Empty;
+                trans.ServiceCharge = string.Empty;
                 trans.Tariff = string.Empty;
                 trans.TaxCharge = 0;
                 trans.TenderedAmount = model.Amount;
                 trans.TransactionAmount = model.Amount; ;
                 trans.Units = 0;
-                trans.VProvider =   string.Empty;
+                trans.VProvider = string.Empty;
                 trans.Finalised = false;
                 trans.StatusRequestCount = 1;
                 trans.Sold = false;
                 trans.DateAndTimeSold = string.Empty;
                 trans.DateAndTimeFinalised = string.Empty;
                 trans.DateAndTimeLinked = string.Empty;
-                trans.VoucherSerialNumber =string.Empty;
+                trans.VoucherSerialNumber = string.Empty;
                 trans.VendStatus = response_data?.Content?.Data?.Error;
                 trans.VendStatusDescription = response_data?.Content?.Data?.Error;
                 trans.StatusResponse = JsonConvert.SerializeObject(response_data);
@@ -866,7 +867,7 @@ namespace VendTech.BLL.Managers
         ReceiptModel IMeterManager.ReturnVoucherReceipt(string token)
         {
             var transaction_by_token = Context.TransactionDetails.Where(e => e.MeterToken1 == token).ToList().FirstOrDefault();
-            if(transaction_by_token != null)
+            if (transaction_by_token != null)
             {
                 var receipt = Build_receipt_model_from_dbtransaction_detail(transaction_by_token);
                 receipt.ShouldShowSmsButton = (bool)transaction_by_token.POS.SMSNotificationDeposit;
@@ -879,8 +880,8 @@ namespace VendTech.BLL.Managers
         {
             var transaction_by_token = Context.TransactionDetails.Where(e => e.TransactionId == token).ToList().FirstOrDefault();
             if (transaction_by_token != null)
-            { 
-                var receipt = new RequestResponse { Request = transaction_by_token.Request, Response = transaction_by_token.Response};
+            {
+                var receipt = new RequestResponse { Request = transaction_by_token.Request, Response = transaction_by_token.Response };
                 return receipt;
             }
             return new RequestResponse { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
