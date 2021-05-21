@@ -27,7 +27,6 @@ namespace VendTech.BLL.Managers
             IQueryable<Deposit> query = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending
             && p.POS.Enabled != false
             ).OrderBy(model.SortBy + " " + model.SortOrder);
-            if (!getForRelease)
             {
                 if (vendorId == 0)
                 {
@@ -561,7 +560,7 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
-
+              
             if (model.PosId.HasValue && model.PosId > 0)
             {
                 query = query.Where(p => p.Deposit.POSId == model.PosId);

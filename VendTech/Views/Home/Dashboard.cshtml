@@ -97,7 +97,7 @@
                             </div>
                         }
                     </div>
-                    @if (Model.currentUser.SelectedWidgets.Any())
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any())
                     {
                         <div class="row">
                             <div class="col-md-12">

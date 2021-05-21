@@ -128,7 +128,7 @@ namespace VendTech.BLL.Managers
         }
         bool IAuthenticateManager.IsUserAccountActive(string email, string password)
         {
-            string encryptPassword = Utilities.EncryptPassword(password.Trim());
+            string encryptPassword = Utilities.EncryptPassword(password.Trim()); 
             var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) && x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role) && (x.Status == (int)UserStatusEnum.Block))
                 .ToList()
                 .Select(x => new UserModel(x))
@@ -189,6 +189,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
+                ////var decryptedPass = Utilities.DecryptPassword("dGVzdHZpY3RvcjE=");
                 var result = Context.Users
                     .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
                 && x.Password == encryptPassword

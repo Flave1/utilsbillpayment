@@ -146,6 +146,7 @@ namespace VendTech.BLL.Managers
             {
                 if (userId == 0) return new DashboardViewModel();
                 var user = Context.Users.Find(userId);
+                if(user == null) return new DashboardViewModel();
                 List<TransactionChartData> tDatas = new List<TransactionChartData>();
                 var total_deposits = new decimal();
                 var total_sales = new decimal();

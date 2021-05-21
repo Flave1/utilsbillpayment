@@ -108,12 +108,12 @@
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                                    <div class="" style="width:20%;">
-                                                        <select name="CountryCode" class="form-control">
+                                                    <div class="" style="width:23%;">
+                                                        <select name="CountryCode" class="form-control" style="font-weight:bold; font-size:12px;">
                                                             <option value="+232">+232</option>
                                                         </select>
                                                     </div>
-                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { style = "width:80%;", @class = "form-control col-md-10 col-sm-10", @placeholder = "Number *", } })
+                                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { style = "width:77%;", @class = "form-control col-md-10 col-sm-10", @placeholder = "Number *", } })
                                                 </div>
                                                 <div id="mobile-error">@Html.ValidationMessageFor(m => m.Mobile)</div>
                                             </div>
@@ -153,8 +153,8 @@
 
                                     </div>
                                     <div class="foot">
-                                        <button class="btn btn-primary" id="registerBtn" data-dismiss="modal" type="button">Register me</button>
-                                        <a class="btn btn-warning" href="/Home/Index">Already have an account</a>
+                                        <a class="btn btn-primary" href="/Home/Index">Back to login</a>
+                                        <button class="btn btn-warning" id="registerBtn" data-dismiss="modal" type="button">Register</button>
                                     </div>
                                 </form>
                             </div>

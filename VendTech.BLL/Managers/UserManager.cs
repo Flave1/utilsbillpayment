@@ -290,8 +290,12 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            // string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
-            var user = Context.Users.FirstOrDefault(p => (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) && (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) && p.Password == encryptPassword && p.Email.ToLower() == model.UserName.ToLower());
+           string encryptPasswordde = Utilities.DecryptPassword("dGVzdDEyMzQ1Ng==");
+            var user = Context.Users.FirstOrDefault(p =>
+            (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
+            (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) &&
+             p.Password == encryptPassword &&
+             p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
             var modelUser = new UserDetails
@@ -853,8 +857,8 @@ namespace VendTech.BLL.Managers
             //} 
             else
             {
-                var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
-                var last_pos1 = Convert.ToUInt64(last_pos) + 1;
+                //var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
+                //var last_pos1 = Convert.ToUInt64(last_pos) + 1;
                 var dbUser = new User();
                 dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
@@ -871,7 +875,7 @@ namespace VendTech.BLL.Managers
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
                 dbUser.AgentId = Convert.ToInt64(userDetails.Agency != null ? userDetails.Agency : "0");
-                dbUser.Vendor = $"{userDetails.FirstName} {userDetails.LastName} - {last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.Vendor = $"{userDetails.FirstName} {userDetails.LastName}"; // - {last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
 
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
