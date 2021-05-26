@@ -289,7 +289,7 @@
                 $("#ValueDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                     format: "dd/MM/yyyy",
-                    max: new Date(today.setDate(today.getDate() + 30)),
+                    max: new Date(d.setDate(d.getDate() + 30)),
                     maxDate: new Date, minDate: new Date(2007, 6, 12),
                 });
 
@@ -333,6 +333,8 @@
         }
 
         function AddDeposit(sender) {
+
+            console.log($("#ValueDate").val())
             if (!$("#amount").val() || $("#amount").val() == "0")
             {
                     $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);

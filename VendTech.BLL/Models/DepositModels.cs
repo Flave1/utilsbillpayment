@@ -195,7 +195,7 @@ namespace VendTech.BLL.Models
         public int Percentage { get; set; }
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
-        public DateTime ValueDate { get; set; } = DateTime.UtcNow;
+        public string ValueDate { get; set; }
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
     }

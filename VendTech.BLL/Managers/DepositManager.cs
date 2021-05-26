@@ -1466,7 +1466,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
-            dbDeposit.ValueDate = model.ValueDate.ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.ValueDate = model.ValueDate;//.ToString("dd/MM/yyyy hh:mm");
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges();
             return ReturnSuccess("Deposit request saved successfully.");

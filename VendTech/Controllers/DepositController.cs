@@ -95,7 +95,7 @@ namespace VendTech.Controllers
         }
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
-        {
+        { 
             model.UserId = LOGGEDIN_USER.UserID;
 
             var result = _depositManager.SaveDepositRequest(model);
