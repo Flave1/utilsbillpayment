@@ -283,7 +283,7 @@ namespace VendTech.BLL.Common
                 ////SmtpServer.Port = 587;
                 ////SmtpServer.UseDefaultCredentials = false;
                 ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                ////SmtpServer.EnableSsl = true;
+               // SmtpServer.EnableSsl = true;
                 mail.IsBodyHtml = true;
 
                 SmtpServer.Send(mail);
@@ -291,7 +291,7 @@ namespace VendTech.BLL.Common
                 return true;
             }
             catch (Exception x)
-            { return false; }
+            { throw x; }
 
         }
         public static string Base64Decode(string base64EncodedData)
