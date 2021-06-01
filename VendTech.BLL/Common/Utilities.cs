@@ -223,7 +223,7 @@ namespace VendTech.BLL.Common
             }
             return result.ToString();
         }
-        public static bool SendEmailOld(string to, string sub, string body)
+        public static bool SendEmail(string to, string sub, string body)
         {
             try
             {
@@ -267,7 +267,7 @@ namespace VendTech.BLL.Common
             { throw x; }
 
         }
-        public static bool SendEmail(string to, string sub, string body)
+        public static bool SendEmailOld(string to, string sub, string body)
         {
             try
             {

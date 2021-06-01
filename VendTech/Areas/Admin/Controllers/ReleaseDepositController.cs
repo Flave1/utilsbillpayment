@@ -66,6 +66,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%otp%", result.Object);
+                body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                 var currentUser = LOGGEDIN_USER.UserID;
 
                 Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
