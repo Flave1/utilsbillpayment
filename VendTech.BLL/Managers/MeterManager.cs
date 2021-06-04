@@ -531,7 +531,7 @@ namespace VendTech.BLL.Managers
             data.RechargePin = recharge.MeterToken1;
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
-            data.POSId = recharge.POSId;
+            data.POSId = Convert.ToString(recharge.POSId);
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
