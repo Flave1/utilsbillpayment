@@ -226,7 +226,7 @@
           <Key>
             <PropertyRef Name="ModuleId" />
           </Key>
-          <Property Name="ModuleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
           <Property Name="ModuleName" Type="nvarchar" MaxLength="500" />
           <Property Name="ControllerName" Type="nvarchar" MaxLength="500" />
           <Property Name="Description" Type="nvarchar(max)" />
@@ -1547,7 +1547,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Key>
             <PropertyRef Name="ModuleId" />
           </Key>
-          <Property Name="ModuleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
           <Property Name="ModuleName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ControllerName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2292,7 +2292,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

@@ -704,6 +704,7 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
+
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
