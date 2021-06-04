@@ -25,7 +25,7 @@ namespace VendTech.BLL.Models
     public class MeterAPIListingModel : MeterModel
     {
         public string UserName { get; set; }
-        public DateTime CreatedAt { get; set; } 
+        public DateTime CreatedAt { get; set; }
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
@@ -42,9 +42,9 @@ namespace VendTech.BLL.Models
         }
     }
 
-   
 
-    public class RechargeMeterModel 
+
+    public class RechargeMeterModel
     {
         public long UserId { get; set; }
         public long? MeterId { get; set; }
@@ -60,7 +60,7 @@ namespace VendTech.BLL.Models
 
         [MaxLength(11, ErrorMessage = "Meter Number must be of 11 digits"), MinLength(11, ErrorMessage = "Meter Number must be of 11 digits")]
         public string MeterNumber { get; set; }
-        public bool SaveAsNewMeter { get; set; } 
+        public bool SaveAsNewMeter { get; set; }
         public long TransactionId { get; set; }
         public bool IsSame_Request { get; set; } = false;
         public List<MeterRechargeApiListingModel> History { get; set; }
@@ -92,6 +92,7 @@ namespace VendTech.BLL.Models
         public string Status { get; set; }
         public string TransactionId { get; set; }
         public long MeterRechargeId { get; set; }
+        public long? MeterId { get; set; }
     }
     public class SalesReportExcelModel
     {

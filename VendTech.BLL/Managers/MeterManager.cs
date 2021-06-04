@@ -530,6 +530,8 @@ namespace VendTech.BLL.Managers
             data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
             data.RechargePin = recharge.MeterToken1;
             data.TransactionId = recharge.TransactionId;
+            data.MeterId = recharge.MeterId;
+            data.POSId = recharge.POSId;
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
