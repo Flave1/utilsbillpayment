@@ -558,7 +558,9 @@ namespace VendTech.BLL.Managers
             IcekloudRequestmodel request_model = new IcekloudRequestmodel();
             HttpResponseMessage icekloud_response = new HttpResponseMessage();
             HttpClient _http_client = new HttpClient();
-            var url = WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
+            string url = (WebConfigurationManager.AppSettings["IsDevelopment"].ToString() == "1") ?
+                         WebConfigurationManager.AppSettings["DevIcekloudURL"].ToString() :
+                         WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
 
             try
             {

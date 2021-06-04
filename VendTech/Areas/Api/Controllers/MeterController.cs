@@ -150,5 +150,14 @@ namespace VendTech.Areas.Api.Controllers
             domain = domain + "/Content/RechargePdf/" + name;
             return new JsonContent("Pdf link fetched successfully", Status.Success, new { path = domain }).ConvertToHttpResponseOK();
         }
+
+        [HttpPost]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
+        {
+            model.UserId = LOGGEDIN_USER.UserId;
+            var result = _meterManager.RechargeMeterReturn(model).Result;
+            return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
+        }
     }
 }
