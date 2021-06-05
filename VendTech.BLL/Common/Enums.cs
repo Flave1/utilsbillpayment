@@ -34,6 +34,12 @@ namespace VendTech.BLL.Models
         NewCMSUser = 7,
         [Description("GeneratePasscode")]
         GeneratePasscode = 3,
+        [Description("UserAccountReactivation")]
+        UserAccountReactivation = 8,
+        [Description("UserAccountReactivationForAdmin")]
+        UserAccountReactivationForAdmin = 9,
+        [Description("DepositApprovedNotification")]
+        DepositApprovedNotification = 10,
     }
     public enum PosTypeEnum
     {

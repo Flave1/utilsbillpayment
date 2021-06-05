@@ -1216,6 +1216,7 @@ namespace VendTech.BLL.Managers
 
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
         {
+            var emailTemplate = Context.EmailTemplates.FirstOrDefault(z => z.TemplateId == 10);
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
             if (dbDeposit == null)
                 return ReturnError("Deposit not exist.");
@@ -1239,6 +1240,12 @@ namespace VendTech.BLL.Managers
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
             }
+
+            
+            string body = emailTemplate.TemplateContent;
+            body = body.Replace("%USER%", dbDeposit.POS.User.Name);
+            Utilities.SendEmail(dbDeposit.POS.User.Email, emailTemplate.EmailSubject, body);
+
             Context.SaveChanges();
             //Send push to all devices where this user logged in when admin released deposit
             var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
@@ -1272,6 +1279,9 @@ namespace VendTech.BLL.Managers
                 obj.DeviceType = item.AppType.Value;
                 PushNotification.SendNotification(obj);
             }
+
+           
+           
             return ReturnSuccess("Deposit status changed successfully.");
         }
 
