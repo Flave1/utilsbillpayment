@@ -5,39 +5,39 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8617b126c5ac452cbcc5a9a4605f73d8" Name="Diagram1">
-        <EntityTypeShape EntityType="VendTechModel.AccountVerificationOTP" Width="1.5" PointX="7.5" PointY="34.625" />
+        <EntityTypeShape EntityType="VendTechModel.AccountVerificationOTP" Width="1.5" PointX="7.5" PointY="30.625" />
         <EntityTypeShape EntityType="VendTechModel.Agency" Width="1.5" PointX="3" PointY="31.625" />
         <EntityTypeShape EntityType="VendTechModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="VendTechModel.BankAccount" Width="1.5" PointX="13.5" PointY="21.375" />
+        <EntityTypeShape EntityType="VendTechModel.BankAccount" Width="1.5" PointX="13.5" PointY="27.5" />
         <EntityTypeShape EntityType="VendTechModel.ChequeBank" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="VendTechModel.City" Width="1.5" PointX="3" PointY="28.375" />
+        <EntityTypeShape EntityType="VendTechModel.City" Width="1.5" PointX="3" PointY="36.875" />
         <EntityTypeShape EntityType="VendTechModel.CMSPage" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="VendTechModel.Commission" Width="1.5" PointX="0.75" PointY="32.625" />
-        <EntityTypeShape EntityType="VendTechModel.ContactU" Width="1.5" PointX="7.5" PointY="59" />
-        <EntityTypeShape EntityType="VendTechModel.Country" Width="1.5" PointX="0.75" PointY="28.5" />
-        <EntityTypeShape EntityType="VendTechModel.DepositLog" Width="1.5" PointX="10.5" PointY="36.5" />
+        <EntityTypeShape EntityType="VendTechModel.ContactU" Width="1.5" PointX="7.5" PointY="48.5" />
+        <EntityTypeShape EntityType="VendTechModel.Country" Width="1.5" PointX="0.75" PointY="37" />
+        <EntityTypeShape EntityType="VendTechModel.DepositLog" Width="1.5" PointX="7.5" PointY="26.5" />
         <EntityTypeShape EntityType="VendTechModel.DepositOTP" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="VendTechModel.Deposit" Width="1.5" PointX="15.75" PointY="29" />
-        <EntityTypeShape EntityType="VendTechModel.EmailConfirmationRequest" Width="1.5" PointX="7.5" PointY="68.625" />
+        <EntityTypeShape EntityType="VendTechModel.Deposit" Width="1.5" PointX="15.75" PointY="30.25" />
+        <EntityTypeShape EntityType="VendTechModel.EmailConfirmationRequest" Width="1.5" PointX="7.5" PointY="65.75" />
         <EntityTypeShape EntityType="VendTechModel.EmailTemplate" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="VendTechModel.ErrorLog" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="VendTechModel.ForgotPasswordRequest" Width="1.5" PointX="7.5" PointY="66" />
-        <EntityTypeShape EntityType="VendTechModel.Meter" Width="1.5" PointX="7.5" PointY="30.375" />
-        <EntityTypeShape EntityType="VendTechModel.Module" Width="1.5" PointX="5.25" PointY="24.5" />
-        <EntityTypeShape EntityType="VendTechModel.Notification" Width="1.5" PointX="7.5" PointY="62.25" />
-        <EntityTypeShape EntityType="VendTechModel.Platform" Width="1.5" PointX="10.5" PointY="22.375" />
-        <EntityTypeShape EntityType="VendTechModel.POS" Width="1.5" PointX="10.5" PointY="26.125" />
-        <EntityTypeShape EntityType="VendTechModel.POSAssignedPlatform" Width="1.5" PointX="12.75" PointY="24.75" />
-        <EntityTypeShape EntityType="VendTechModel.ReferralCode" Width="1.5" PointX="7.5" PointY="46.625" />
-        <EntityTypeShape EntityType="VendTechModel.TokensManager" Width="1.5" PointX="7.5" PointY="55.5" />
-        <EntityTypeShape EntityType="VendTechModel.TransactionDetail" Width="1.5" PointX="12.75" PointY="27.625" />
-        <EntityTypeShape EntityType="VendTechModel.UserAssignedModule" Width="1.5" PointX="7.5" PointY="26.75" />
-        <EntityTypeShape EntityType="VendTechModel.UserAssignedPlatform" Width="1.5" PointX="10.5" PointY="32.75" />
-        <EntityTypeShape EntityType="VendTechModel.UserAssignedWidget" Width="1.5" PointX="7.5" PointY="37.75" />
-        <EntityTypeShape EntityType="VendTechModel.UserRole" Width="1.5" PointX="3" PointY="37.5" />
+        <EntityTypeShape EntityType="VendTechModel.ForgotPasswordRequest" Width="1.5" PointX="7.5" PointY="36.25" />
+        <EntityTypeShape EntityType="VendTechModel.Meter" Width="1.5" PointX="7.5" PointY="51.75" />
+        <EntityTypeShape EntityType="VendTechModel.Module" Width="1.5" PointX="8.25" PointY="17.5" />
+        <EntityTypeShape EntityType="VendTechModel.Notification" Width="1.5" PointX="7.5" PointY="62.125" />
+        <EntityTypeShape EntityType="VendTechModel.Platform" Width="1.5" PointX="8.25" PointY="39.375" />
+        <EntityTypeShape EntityType="VendTechModel.POS" Width="1.5" PointX="13.5" PointY="31.125" />
+        <EntityTypeShape EntityType="VendTechModel.POSAssignedPlatform" Width="1.5" PointX="18.75" PointY="32.75" />
+        <EntityTypeShape EntityType="VendTechModel.ReferralCode" Width="1.5" PointX="7.5" PointY="68.5" />
+        <EntityTypeShape EntityType="VendTechModel.TokensManager" Width="1.5" PointX="7.5" PointY="21.25" />
+        <EntityTypeShape EntityType="VendTechModel.TransactionDetail" Width="1.5" PointX="15.75" PointY="36.875" />
+        <EntityTypeShape EntityType="VendTechModel.UserAssignedModule" Width="1.5" PointX="10.5" PointY="35.75" />
+        <EntityTypeShape EntityType="VendTechModel.UserAssignedPlatform" Width="1.5" PointX="10.5" PointY="29.75" />
+        <EntityTypeShape EntityType="VendTechModel.UserAssignedWidget" Width="1.5" PointX="10.5" PointY="32.75" />
+        <EntityTypeShape EntityType="VendTechModel.UserRole" Width="1.5" PointX="3" PointY="28.375" />
         <EntityTypeShape EntityType="VendTechModel.User" Width="1.5" PointX="5.25" PointY="28.375" />
         <EntityTypeShape EntityType="VendTechModel.Vendor" Width="1.5" PointX="5.25" PointY="58" />
-        <EntityTypeShape EntityType="VendTechModel.Widget" Width="1.5" PointX="5.25" PointY="40.75" />
+        <EntityTypeShape EntityType="VendTechModel.Widget" Width="1.5" PointX="8.25" PointY="43.75" />
         <EntityTypeShape EntityType="VendTechModel.StanTable" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="VendTechModel.Nation" Width="1.5" PointX="6.75" PointY="3.75" />
         <AssociationConnector Association="VendTechModel.FK_AccountVerificationOTP_Users" />

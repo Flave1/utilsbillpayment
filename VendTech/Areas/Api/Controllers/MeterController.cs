@@ -46,6 +46,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
+
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage RechargeMeter(RechargeMeterModel model)
@@ -69,6 +70,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _meterManager.GetRechargeDetail(rechargeId);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
         }
+
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetMeterRechargePdf(long rechargeId)
@@ -150,5 +152,26 @@ namespace VendTech.Areas.Api.Controllers
             domain = domain + "/Content/RechargePdf/" + name;
             return new JsonContent("Pdf link fetched successfully", Status.Success, new { path = domain }).ConvertToHttpResponseOK();
         }
+
+        [HttpPost]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
+        {
+            model.UserId = LOGGEDIN_USER.UserId;
+            var result = _meterManager.RechargeMeterReturn(model).Result;
+            return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage TransactionDetail(Tokenobject tokenobject)
+        {
+            var result = _meterManager.ReturnVoucherReceipt(tokenobject.Token.Trim());
+            return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
+        }
+    }
+    public class Tokenobject
+    {
+        public string Token { get; set; }
     }
 }

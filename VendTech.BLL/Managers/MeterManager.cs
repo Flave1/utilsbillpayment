@@ -530,6 +530,8 @@ namespace VendTech.BLL.Managers
             data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
             data.RechargePin = recharge.MeterToken1;
             data.TransactionId = recharge.TransactionId;
+            data.MeterId = recharge.MeterId;
+            data.POSId = Convert.ToString(recharge.POSId);
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
@@ -558,7 +560,9 @@ namespace VendTech.BLL.Managers
             IcekloudRequestmodel request_model = new IcekloudRequestmodel();
             HttpResponseMessage icekloud_response = new HttpResponseMessage();
             HttpClient _http_client = new HttpClient();
-            var url = WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
+            string url = (WebConfigurationManager.AppSettings["IsDevelopment"].ToString() == "1") ?
+                         WebConfigurationManager.AppSettings["DevIcekloudURL"].ToString() :
+                         WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
 
             try
             {
@@ -700,6 +704,7 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
+
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
