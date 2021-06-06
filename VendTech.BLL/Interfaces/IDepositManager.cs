@@ -1,4 +1,5 @@
-﻿using VendTech.BLL.Models;
+﻿using System.Collections.Generic;
+using VendTech.BLL.Models;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Interfaces
@@ -22,7 +23,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
         ActionOutput<string> SendOTP();
         ActionOutput SaveDepositRequest(DepositModel model);
-        ActionOutput ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
+        ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
         PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);

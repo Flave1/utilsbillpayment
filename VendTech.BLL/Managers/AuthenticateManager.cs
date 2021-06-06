@@ -188,6 +188,8 @@ namespace VendTech.BLL.Managers
         {
             try
             {
+
+
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
                 var decryptedPass = Utilities.DecryptPassword("dGVzdHZpY3RvcjE=");
                 var result = Context.Users
@@ -201,6 +203,11 @@ namespace VendTech.BLL.Managers
                     .ToList()
                     .Select(x => new UserModel(x))
                     .FirstOrDefault();
+                if(result != null)
+                {
+                    Context.Users.FirstOrDefault(d => d.UserId == result.UserId).AppLastUsed = DateTime.UtcNow;
+                    Context.SaveChanges();
+                }
                 return result;
             }
             catch (Exception)

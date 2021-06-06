@@ -37,6 +37,9 @@ namespace VendTech.BLL.Models
         public string Permissions { get; set; }
         public string Platforms { get; set; }
         public string Vendor { get; set; }
+        public Nullable<DateTime> LastLoggedIn { get; set; }
+        public decimal PosBalance { get; set; }
+        public string POSID { get; set; }
         public UserListingModel()
         {
 
@@ -44,6 +47,7 @@ namespace VendTech.BLL.Models
 
         public UserListingModel(User userObj)
         {
+            var firstPos = userObj.POS.FirstOrDefault(d => d.IsDeleted == false && d.Balance != null);
             this.FirstName = userObj.Name;
             this.LastName = userObj.SurName;
             this.Email = userObj.Email;
@@ -54,6 +58,9 @@ namespace VendTech.BLL.Models
             this.Platforms = string.Join(" , ", userObj.UserAssignedPlatforms.ToList().Select(x => x.Platform.Title).ToList());
             this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).ToList().Select(x => x.Module.ModuleName).ToList());
             this.Vendor = userObj.FKVendorId > 0 ? userObj.User1.Vendor : "";
+            this.LastLoggedIn = userObj.AppLastUsed;
+            this.PosBalance = firstPos != null ? firstPos.Balance.Value : new decimal();
+            this.POSID = firstPos != null ? firstPos.SerialNumber : string.Empty;
         }
 
     }

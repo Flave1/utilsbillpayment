@@ -44,7 +44,7 @@ namespace VendTech.BLL.Managers
         protected ActionOutput<T> ReturnError<T>(string msg = "")
         {
             return new ActionOutput<T> { Status = ActionStatus.Error, Message = msg };
-        }
+        } 
     }
 
 

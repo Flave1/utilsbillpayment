@@ -5,45 +5,48 @@
 {
     foreach (var item in Model.List)
     {
-        <tr class="odd gradeX">
-            <td>@item.FirstName</td>
-            <td> @item.LastName</td>
-            <td> @item.Vendor</td>
-            <td>
-                @item.Status.ToString()
-            </td>
+<tr class="odd gradeX">
+    <td>@item.FirstName</td>
+    <td> @item.LastName</td>
+    <td> @item.Vendor</td>
+    <td> @item.POSID</td>
+    <td> @item.PosBalance</td>
+    <td> @item.LastLoggedIn</td>
+    <td>
+        @item.Status.ToString()
+    </td>
 
-            <td class="center">
-                @if (item.Status == UserStatusEnum.Pending)
-                {
-                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs declinedUser" href="javascript:void(0);" data-original-title="Decline" data-toggle="tooltip">Decline</a>
-                    <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
+    <td class="center">
+        @if (item.Status == UserStatusEnum.Pending)
+        {
+            <a data-userid="@item.UserId" class="btn btn-danger btn-xs declinedUser" href="javascript:void(0);" data-original-title="Decline" data-toggle="tooltip">Decline</a>
+            <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
 
-                }
-                else if (item.Status != UserStatusEnum.Declined)
-                {
-                    <a class="btn btn-primary btn-xs" href="@Url.Action("EditUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+        }
+        else if (item.Status != UserStatusEnum.Declined)
+        {
+            <a class="btn btn-primary btn-xs" href="@Url.Action("EditUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+            <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
 
-                    if (item.Status == UserStatusEnum.Block)
-                    {
-                        <a data-userid="@item.UserId" class="btn btn-primary btn-xs unBlockUser" href="javascript:void(0);" data-original-title="UnBlock" data-toggle="tooltip">UnBlock</a>
-                    }
-                    else
-                    {
-                        <a data-userid="@item.UserId" class="btn btn-danger btn-xs blockUser" href="javascript:void(0);" data-original-title="Block" data-toggle="tooltip">Block</a>
-                    }
-                }
-                else if (item.Status == UserStatusEnum.Declined)
-                {
-                    <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
-                    <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
+            if (item.Status == UserStatusEnum.Block)
+            {
+                <a data-userid="@item.UserId" class="btn btn-primary btn-xs unBlockUser" href="javascript:void(0);" data-original-title="UnBlock" data-toggle="tooltip">UnBlock</a>
+            }
+            else
+            {
+                <a data-userid="@item.UserId" class="btn btn-danger btn-xs blockUser" href="javascript:void(0);" data-original-title="Block" data-toggle="tooltip">Block</a>
+            }
+        }
+        else if (item.Status == UserStatusEnum.Declined)
+        {
+            <a data-userid="@item.UserId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+            <a class="btn btn-warning btn-xs" href="@Url.Action("ViewUser", "AppUser", new { area = "Admin", userId = @item.UserId })" data-original-title="View" data-toggle="tooltip">Approve</a>
 
-                }
+        }
 
-            </td>
-        </tr>
+    </td>
+</tr>
     }
 }
 else

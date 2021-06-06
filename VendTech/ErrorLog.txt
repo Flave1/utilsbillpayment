@@ -5109,3 +5109,35 @@ The SMTP server has unexpectedly disconnected.
 
 
 
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+The underlying provider failed on Open.
+
+
+
