@@ -523,12 +523,12 @@ namespace VendTech.BLL.Managers
             var data = new MeterRechargeApiListingModel();
             data.Amount = recharge.Amount;
             data.CreatedAt = recharge.CreatedAt.ToString();
-            data.MeterNumber = recharge.Meter == null ? Utilities.FormatThisToken(recharge.MeterNumber1) : Utilities.FormatThisToken(recharge.Meter.Number);
+            data.MeterNumber = recharge.Meter == null ? recharge.MeterNumber1 : recharge.Meter.Number;
             data.Status = ((RechargeMeterStatusEnum)recharge.Status).ToString();
             data.RechargeId = recharge.TransactionDetailsId;
             data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
             data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
-            data.RechargePin = recharge.MeterToken1;
+            data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
