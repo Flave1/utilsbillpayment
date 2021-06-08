@@ -523,7 +523,7 @@ namespace VendTech.BLL.Managers
             var data = new MeterRechargeApiListingModel();
             data.Amount = recharge.Amount;
             data.CreatedAt = recharge.CreatedAt.ToString();
-            data.MeterNumber = recharge.Meter == null ? recharge.MeterNumber1 : recharge.Meter.Number;
+            data.MeterNumber = recharge.Meter == null ? Utilities.FormatThisToken(recharge.MeterNumber1) : Utilities.FormatThisToken(recharge.Meter.Number);
             data.Status = ((RechargeMeterStatusEnum)recharge.Status).ToString();
             data.RechargeId = recharge.TransactionDetailsId;
             data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
@@ -531,7 +531,7 @@ namespace VendTech.BLL.Managers
             data.RechargePin = recharge.MeterToken1;
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
-            data.POSId = Convert.ToString(recharge.POSId);
+            data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
