@@ -301,7 +301,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 9,
-                    Text = "SALES REPORTS",
+                    Text = "VENDTECH SALES REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -506,7 +506,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 11,
-                    Text = "DEPOSIT REPORTS",
+                    Text = "VENDTECH DEPOSIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),

@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -81,6 +82,7 @@ namespace VendTech.BLL.Interfaces
         IList<UserAssignedModuleModel> GetNavigations(long userId);
         long GetUserId(string phone);
         string GetUserPasswordbyUserId(long userId);
+        List<User> GetAllAdminUsersByAppUserPermission();
     }
 
 }

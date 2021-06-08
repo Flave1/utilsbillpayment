@@ -6594,6 +6594,10 @@
       <Project>{fa1c6f91-21f7-4318-95a6-06624ec3bb52}</Project>
       <Name>VendTech.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
+      <Project>{630910CD-1125-4E90-86DF-9B42B0E82DE2}</Project>
+      <Name>VendTech.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VendTech.Framework\VendTech.Framework.csproj">
       <Project>{4bffeefc-602a-4ae3-9614-d5c75f3f3b2b}</Project>
       <Name>VendTech.Framework</Name>

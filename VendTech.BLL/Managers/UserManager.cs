@@ -408,15 +408,14 @@ namespace VendTech.BLL.Managers
                     Status = ActionStatus.Error,
                     Message = "User Not Exist."
                 };
-            }
-            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower() && z.UserId != userDetails.UserId).FirstOrDefault();
-            if (false)
+            } 
+            if (IsEmailUsed(userDetails.Email, userDetails.UserId))
             {
-                //return new ActionOutput
-                //{
-                //    Status = ActionStatus.Error,
-                //    Message = "This email-id already exists for another user."
-                //};
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "This email-id already exists for another user."
+                };
             }
             else
             {
@@ -499,14 +498,14 @@ namespace VendTech.BLL.Managers
                     Message = "User Not Exist."
                 };
             }
-            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower() && z.UserId != userDetails.UserId).FirstOrDefault();
-            if (false)
+
+            if (IsEmailUsed(userDetails.Email, userDetails.UserId))
             {
-                //return new ActionOutput
-                //{
-                //    Status = ActionStatus.Error,
-                //    Message = "This email-id already exists for another user."
-                //};
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "This email-id already exists for another user."
+                };
             }
             else
             {
@@ -519,12 +518,7 @@ namespace VendTech.BLL.Managers
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
-                //else
-                //    user.FKVendorId = null;
-                //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
-                //    user.FKPOSId = userDetails.POSId;
-                //else
-                //    user.FKPOSId = null;
+         
                 if (userDetails.ResetUserPassword)
                     user.Status = (int)UserStatusEnum.PasswordNotReset;
                 else
@@ -549,8 +543,7 @@ namespace VendTech.BLL.Managers
                             File.Delete(HttpContext.Current.Server.MapPath("~" + user.ProfilePic));
                     }
                     user.ProfilePic = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProfileImages/" + myfile;
-                    //var obj = new QuickbloxServices();
-                    //var result = obj.RegisterUser(model);
+              
                 }
                 Context.SaveChanges();
 
@@ -1100,6 +1093,20 @@ namespace VendTech.BLL.Managers
         }
 
 
+        bool IsEmailUsed(string email, long userId)
+        {
+            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == email.Trim().ToLower() && z.UserId != userId).FirstOrDefault();
+            if (existngUser == null)
+                return false;
+            return false;
+        }
+
+        List<User> IUserManager.GetAllAdminUsersByAppUserPermission()
+        {
+            return Context.Users.Where(p =>
+            (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
+            (p.Status == (int)UserStatusEnum.Active) && p.UserAssignedModules.Select(f => f.ModuleId).Contains(11)).ToList(); // 11 is the Module key for appUsers
+        }
     }
 
 

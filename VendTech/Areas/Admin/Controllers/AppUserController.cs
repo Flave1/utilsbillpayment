@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Configuration;
@@ -157,7 +158,7 @@ namespace VendTech.Areas.Admin.Controllers
 
         [AjaxOnly, HttpPost]
         public JsonResult ReactivateUserDetails(AddUserModel model)
-        {
+        { 
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             if (model.ImagefromWeb != null)
             {
@@ -167,7 +168,29 @@ namespace VendTech.Areas.Admin.Controllers
                            .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
             }
             model.IsRe_Approval = true;
-            return JsonResult(_userManager.UpdateAppUserDetails(model));
+            var result = _userManager.UpdateAppUserDetails(model);
+
+            //send mail to activated user
+            var userEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivation);
+            string body = userEmailTemplate.TemplateContent; 
+            body = body.Replace("%USER%", model.FirstName);  
+            Utilities.SendEmail(model.Email, userEmailTemplate.EmailSubject, body);
+             
+            //send mail to all admin with this app users permission
+
+            var adminMembers = _userManager.GetAllAdminUsersByAppUserPermission();
+            if (adminMembers.Any())
+            {
+                foreach(var adminUser in adminMembers)
+                {
+                    var adminEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivationForAdmin);
+                    string _body = adminEmailTemplate.TemplateContent;
+                    _body = _body.Replace("%USER%", adminUser.Name);
+                    //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
+                    Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                }
+            } 
+            return JsonResult(result);
         }
 
         [AjaxOnly, HttpPost]

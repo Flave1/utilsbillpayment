@@ -5060,3 +5060,84 @@ The underlying provider failed on Open.
 
 
 
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 NRHecCeI9Y2XR10kd2q_LU3jfH1ONHIx1S8DwUNWuj7SP8TYnQewjJu8Cd6ySexksqt-a
+5.7.14 CTWHkTBzxOH9uWgM5YV3eq-zzBBIW2n69mVILQoHEd7f1SciFiywJDOf0tjRmWad>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 w13sm4056934edc.52 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 AIz4gFMIsx5eRC7SDP0sphiBCHjVm4LfJ6jvd7aLK2uCDpdk-b65qmtMhwgz5pKNUD1re
+5.7.14 tPQOQyyra-pXAYALLZ7Hyhe0U2DhOSmfgOqZpux4XN4vtKQk25Hprwndtw5A_7wF>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 ay24sm4101123edb.2 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 hlHPDpvpOAG7DFwZ9qWGtabsBWZ9q5wluEaXJTKoNtGPnXK6FmCT_X7_hMnPJSunJnWZu
+5.7.14 9T4MzkdqvGQyvD5R1KeuyCesN-5mx649AxKv5NhsPf7QkZvzsdf4DCKtqE7uGHcf>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 wq10sm3579569ejb.79 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 wtGiLb9IlU_4jv_EYAG2S8tPIPzufNIZKDWQtsn4HIuibv2i25N3qli8ltmedGiOqo-UP
+5.7.14 fUG5ikjhu-YDCeLo3fIS6qX0ssLZl48BNKKl5Vgccq4Bf1c65FCd7QkHCg06TnsM>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 k82sm10802299wmf.11 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 2zLfX79VVPxRTTpr9FsV--dvnnnYqd_YjkqIFPFy4Vj6h1fiMiwx-iRgDjOSspWYUQe__
+5.7.14 q63Ri2U-GIVsvrY_5YInssOoPudypsihxKbx6Crb6GDklfr-_CCD1L7K5gAu3CZI>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 m12sm3647153ejc.65 - gsmtp
+
+
+
+The SMTP server has unexpectedly disconnected.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Home\PrivacyPolicy.cshtml(4): error CS1525: Invalid expression term '.'
+
+
+
+The underlying provider failed on Open.
+
+
+

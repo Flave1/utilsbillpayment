@@ -26,6 +26,9 @@
                                             <th class="sorting" data-sortby="Name">FIRST NAME</th>
                                             <th class="sorting" data-sortby="SurName">LAST NAME</th>
                                             <th class="sorting" data-sortby="FKVendorId">VENDOR NAME</th>
+                                            <th class="sorting" data-sortby="PosId">POS ID</th>
+                                            <th class="sorting" data-sortby="Balance">Balance</th>
+                                            <th class="sorting" data-sortby="LastLoggin">LAST LOGIN</th>
                                             <th class="sorting" data-sortby="Status">STATUS</th>
 
                                             <th>ACTION</th>
@@ -51,7 +54,7 @@
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["FIRST NAME", "LAST NAME","VENDOR NAME", "STATUS"];
+        var searchFields = ["FIRST NAME", "LAST NAME","VENDOR NAME", "POSID","BALANCE","LASTLOGIN", "STATUS"];
 
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")

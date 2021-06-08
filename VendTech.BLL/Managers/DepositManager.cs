@@ -1215,7 +1215,7 @@ namespace VendTech.BLL.Managers
         }
 
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
-        {
+        { 
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
             if (dbDeposit == null)
                 return ReturnError("Deposit not exist.");
@@ -1238,7 +1238,9 @@ namespace VendTech.BLL.Managers
                     // dbDeposit.NewBalance = dbDeposit.POS.Balance == null ? (0 + dbDeposit.Amount) : dbDeposit.POS.Balance.Value + dbDeposit.PercentageAmount;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
-            }
+            } 
+           
+
             Context.SaveChanges();
             //Send push to all devices where this user logged in when admin released deposit
             var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
@@ -1272,7 +1274,8 @@ namespace VendTech.BLL.Managers
                 obj.DeviceType = item.AppType.Value;
                 PushNotification.SendNotification(obj);
             }
-            return ReturnSuccess("Deposit status changed successfully.");
+             
+            return ReturnSuccess(dbDeposit.User.UserId ,"Deposit status changed successfully.");
         }
 
         ActionOutput IDepositManager.ReverseDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
@@ -1355,31 +1358,33 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess("Deposit status changed successfully.");
         }
 
-        ActionOutput IDepositManager.ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId)
+        ActionOutput<List<long>> IDepositManager.ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId)
         {
+            List<long> userIds = new List<long>();
             try
             {
+                
                 if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
-                    return ReturnError("Invalid OTP");
+                    return ReturnError<List<long>>("Invalid OTP");
                 if (model.CancelDepositIds != null)
                 {
                     for (int i = 0; i < model.CancelDepositIds.Count; i++)
                     {
-                        (this as IDepositManager).ChangeDepositStatus(model.CancelDepositIds[i], DepositPaymentStatusEnum.Rejected, userId);
+                        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.CancelDepositIds[i], DepositPaymentStatusEnum.Rejected, userId).ID);
                     }
                 }
                 if (model.ReleaseDepositIds != null)
                 {
                     for (int i = 0; i < model.ReleaseDepositIds.Count; i++)
                     {
-                        (this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId);
+                        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId).ID);
                     }
                 }
-                return ReturnSuccess("Deposit status updated successfully.");
+                return ReturnSuccess(userIds ,"Deposit status updated successfully.");
             }
             catch (Exception)
             {
-                return ReturnError("Error occured while updating entries.");
+                return ReturnError<List<long>>("Error occured while updating entries.");
             }
 
         }
