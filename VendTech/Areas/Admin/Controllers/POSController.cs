@@ -19,6 +19,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IEmailTemplateManager _templateManager;
         private readonly IUserManager _userManager;
         private readonly ICommissionManager _commissionManager;
+        private readonly IMeterManager _meterManager;
         #endregion
 
         public POSController(IPOSManager posManager,
@@ -26,7 +27,8 @@ namespace VendTech.Areas.Admin.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IUserManager userManager,
-            ICommissionManager commissionManager)
+            ICommissionManager commissionManager,
+            IMeterManager meterManager)
             : base(errorLogManager)
         {
             _posManager = posManager;
@@ -34,6 +36,7 @@ namespace VendTech.Areas.Admin.Controllers
             _vendorManager = vendorManager;
             _userManager = userManager;
             _commissionManager = commissionManager;
+            _meterManager = meterManager;
         }
 
         #region User Management
@@ -46,6 +49,13 @@ namespace VendTech.Areas.Admin.Controllers
             return View(users);
         }
 
+        [AjaxOnly, HttpGet]
+        public ActionResult GetUserMeters(long userId)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Agents;
+            var result = _meterManager.GetMeters(userId, 0, 10);    
+            return PartialView("Partials/_meterListing", result);
+        }
         [AjaxOnly, HttpPost]
         public JsonResult GetUsersPagingList(PagingModel model)
         {

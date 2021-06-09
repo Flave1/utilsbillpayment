@@ -23,7 +23,7 @@ namespace VendTech.BLL.Models
 
         public bool EmailNotificationDeposit { get; set; }
         public bool SMSNotificationDeposit { get; set; }
-
+        public long UserId { get; set; } 
         public POSListingModel(POS obj)
         {
             POSId = obj.POSId;
@@ -38,7 +38,8 @@ namespace VendTech.BLL.Models
             EmailNotificationSales = Convert.ToBoolean(obj.EmailNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             SMSNotificationSales = Convert.ToBoolean(obj.SMSNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
-        }
+            UserId = obj.User.UserId;
+        } 
     }
     public class PosAPiListingModel
     {

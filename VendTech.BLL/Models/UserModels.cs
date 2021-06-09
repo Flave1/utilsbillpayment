@@ -38,8 +38,9 @@ namespace VendTech.BLL.Models
         public string Platforms { get; set; }
         public string Vendor { get; set; }
         public Nullable<DateTime> LastLoggedIn { get; set; }
-        public decimal PosBalance { get; set; }
-        public string POSID { get; set; }
+        public long PosBalance { get; set; }
+        public string POSSerialNumber { get; set; }
+        public long POSID { get; set; }
         public UserListingModel()
         {
 
@@ -59,8 +60,9 @@ namespace VendTech.BLL.Models
             this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).ToList().Select(x => x.Module.ModuleName).ToList());
             this.Vendor = userObj.FKVendorId > 0 ? userObj.User1.Vendor : "";
             this.LastLoggedIn = userObj.AppLastUsed;
-            this.PosBalance = firstPos != null ? firstPos.Balance.Value : new decimal();
-            this.POSID = firstPos != null ? firstPos.SerialNumber : string.Empty;
+            this.PosBalance = firstPos != null ? Convert.ToInt64(firstPos.Balance.Value) : new long();
+            this.POSSerialNumber = firstPos != null ? firstPos.SerialNumber : string.Empty;
+            this.POSID = firstPos != null ? firstPos.POSId : new long();
         }
 
     }

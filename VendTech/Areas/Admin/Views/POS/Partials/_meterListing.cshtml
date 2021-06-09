@@ -1,0 +1,57 @@
+﻿@model PagingResult<MeterAPIListingModel>
+
+@{
+    ViewBag.Title = "Manage Meters";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Meters</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front"> 
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">METER #</th>
+                                    <th scope="col">NAME ON METER</th> 
+                                    <th scope="col">ALIAS</th> 
+                                    <th scope="col">DATE SAVED</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.List != null)
+                                {
+                                    int i = 0;
+                                    foreach (var item in Model.List)
+                                    {
+                                        i += 1;
+                                        <tr id="meterList">
+                                            <th scope="row">@i</th>
+                                            <td>  <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>   </td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Allias</td>
+                                            <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    @Html.Partial("_Paging")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 

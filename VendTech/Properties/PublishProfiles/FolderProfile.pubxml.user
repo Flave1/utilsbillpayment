@@ -503,13 +503,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2021 21:48:34</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>06/06/2021 19:40:54</publishTime>
+      <publishTime>06/06/2021 20:08:50</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>06/06/2021 19:40:54</publishTime>
+      <publishTime>06/06/2021 20:08:50</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
       <publishTime>06/05/2021 16:01:07</publishTime>
@@ -521,19 +521,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/05/2021 16:01:07</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/06/2021 19:40:55</publishTime>
+      <publishTime>06/06/2021 20:08:52</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>06/06/2021 19:40:54</publishTime>
+      <publishTime>06/06/2021 20:08:51</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>06/06/2021 19:40:54</publishTime>
+      <publishTime>06/06/2021 20:08:51</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>06/06/2021 19:40:55</publishTime>
+      <publishTime>06/06/2021 20:08:52</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
@@ -602,7 +602,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2021 09:59:19</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>06/05/2021 16:01:12</publishTime>
+      <publishTime>06/06/2021 19:40:56</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 05:44:24</publishTime>
