@@ -5562,7 +5562,7 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
-    <Content Include="Areas\Admin\Views\POS\Partials\_meterListing.cshtml" />
+    <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Content\assets\css\includes\bootstrap-variables.less" />
     <Content Include="Content\assets\css\includes\bootstrap\accordions.less" />
     <Content Include="Content\assets\css\includes\bootstrap\alerts.less" />

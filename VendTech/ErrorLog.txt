@@ -5167,3 +5167,60 @@ Parameter name: parameters
 
 
 
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetUserMeters(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetUserMeters(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetUserMeters(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetUserMeters(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetUserMeters(Int64)' in 'VendTech.Areas.Admin.Controllers.POSController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_LayOut.cshtml".
+
+
+
+The partial view 'Partials/_userMeterListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/POS/Partials/_userMeterListing.aspx
+~/Areas/Admin/Views/POS/Partials/_userMeterListing.ascx
+~/Areas/Admin/Views/Shared/Partials/_userMeterListing.aspx
+~/Areas/Admin/Views/Shared/Partials/_userMeterListing.ascx
+~/Views/POS/Partials/_userMeterListing.aspx
+~/Views/POS/Partials/_userMeterListing.ascx
+~/Views/Shared/Partials/_userMeterListing.aspx
+~/Views/Shared/Partials/_userMeterListing.ascx
+~/Areas/Admin/Views/POS/Partials/_userMeterListing.cshtml
+~/Areas/Admin/Views/POS/Partials/_userMeterListing.vbhtml
+~/Areas/Admin/Views/Shared/Partials/_userMeterListing.cshtml
+~/Areas/Admin/Views/Shared/Partials/_userMeterListing.vbhtml
+~/Views/POS/Partials/_userMeterListing.cshtml
+~/Views/POS/Partials/_userMeterListing.vbhtml
+~/Views/Shared/Partials/_userMeterListing.cshtml
+~/Views/Shared/Partials/_userMeterListing.vbhtml
+
+
+

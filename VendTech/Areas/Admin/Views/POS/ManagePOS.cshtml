@@ -15,7 +15,8 @@
                     <div class="header noborder">
                         <h3>
                             <a href="@Url.Action("AddEditPOS", "POS", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS">
-                            <i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a>
+                                <i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super>
+                            </a>
                         </h3>
                     </div>
                     <div class="content">
@@ -40,7 +41,7 @@
                                         @Html.Partial("Partials/_posListing", Model)
                                     </tbody>
                                 </table>
-                            </div> 
+                            </div>
                         </div>
                         @Html.Partial("_Paging")
                     </div>
@@ -50,9 +51,29 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+     
+                <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
+                <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+            </div>
+
+            <div class="modal-body">
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
 @*<div class="modal fade" id="modalCart">
-    @Html.Partial("Partials/_meterListing", Model.)
-</div>*@
+        @Html.Partial("Partials/_userMeterListing", new )
+    </div>*@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -60,7 +81,7 @@
         var totalCount = "@Model.TotalCount";
     </script>
     <script src="~/Scripts/AdminScripts/pos.js"></script>
- 
+
 
     <script type="text/javascript">
         $("#searchField").show();
@@ -74,21 +95,23 @@
             Users.ManageUsers(totalCount);
         });
 
-        function onSavedMeterClicked(userId) {
+        function onSavedMeterClicked(userId, vendor, posid) {
             debugger;
 
-            var url = `GetUserMeters/${userId}`;
             if (userId) {
+                var inputParam = new Object();
+                inputParam.token_string = userId
 
                 $.ajax({
-                    type: "get", 
-                    url: url,
-                    contentType: "application/json",
-                    processData: true, 
-                    success: function (results, message) {
+                    url: baseUrl + '/Meter/GetUserMeters',
+                    data: $.postifyData(inputParam),
+                    type: "POST",
+                    success: function (data) {
+                        $("#vendorName").text(vendor);
+                        $("#posId").text(posid);
+                        $('.modal-body').html(data);
+                        $("#myModal2").modal("show");
                         debugger
-                        //$('#meterList').html(results[0]); 
-
                     }
                 });
             }

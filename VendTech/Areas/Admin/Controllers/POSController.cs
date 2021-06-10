@@ -8,6 +8,7 @@ using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using static VendTech.Controllers.MeterController;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -49,12 +50,13 @@ namespace VendTech.Areas.Admin.Controllers
             return View(users);
         }
 
-        [AjaxOnly, HttpGet]
-        public ActionResult GetUserMeters(long userId)
+       
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetUserMeters(tokenobject tokenobject)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            var result = _meterManager.GetMeters(userId, 0, 10);    
-            return PartialView("Partials/_meterListing", result);
+            var result = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);    
+            return Json(result);
         }
         [AjaxOnly, HttpPost]
         public JsonResult GetUsersPagingList(PagingModel model)
