@@ -2647,6 +2647,7 @@
     <Content Include="Content\images\mic-icon.png" />
     <Content Include="Content\images\minus.png" />
     <Content Include="Content\images\mov_bbb.ogg" />
+    <Content Include="Content\images\notification.jpg" />
     <Content Include="Content\images\photos_licenses.txt" />
     <Content Include="Content\images\pi-icon.png" />
     <Content Include="Content\images\plus.png" />

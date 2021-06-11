@@ -5141,3 +5141,399 @@ The underlying provider failed on Open.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+e:\MyProjects\vendtech\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(22): error CS1973: 'System.Web.Mvc.HtmlHelper<dynamic>' has no applicable method named 'Partial' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...HtmlHelper<dynamic>' has no ap...").
+
+
+
+Cannot perform runtime binding on a null reference
+
+
+
+Cannot perform runtime binding on a null reference
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Failure sending mail.
+
+
+
+Failure sending mail.
+
+
+
+Failure sending mail.
+
+
+

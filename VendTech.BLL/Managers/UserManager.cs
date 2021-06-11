@@ -19,7 +19,7 @@ namespace VendTech.BLL.Managers
         {
             return "Welcome To Base Project Demo";
         }
-     
+
         UserModel IUserManager.ValidateUserSession(string token)
         {
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
@@ -286,11 +286,11 @@ namespace VendTech.BLL.Managers
         {
             return Context.Notifications.Where(p => p.UserId == userId && !p.MarkAsRead).Count();
         }
-     
+
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-           string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
+            string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
             var user = Context.Users.FirstOrDefault(p =>
             (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
             (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) &&
@@ -376,7 +376,7 @@ namespace VendTech.BLL.Managers
             var modules = Context.Modules.Where(c => modulesPermissons.Contains(c.ModuleId)).ToList();
             if (modules.Count() > 0)
             {
-                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList(); 
+                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList();
             }
             return moduleListModel;
         }
@@ -408,7 +408,7 @@ namespace VendTech.BLL.Managers
                     Status = ActionStatus.Error,
                     Message = "User Not Exist."
                 };
-            } 
+            }
             if (IsEmailUsed(userDetails.Email, userDetails.UserId))
             {
                 return new ActionOutput
@@ -518,7 +518,7 @@ namespace VendTech.BLL.Managers
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
-         
+
                 if (userDetails.ResetUserPassword)
                     user.Status = (int)UserStatusEnum.PasswordNotReset;
                 else
@@ -543,7 +543,7 @@ namespace VendTech.BLL.Managers
                             File.Delete(HttpContext.Current.Server.MapPath("~" + user.ProfilePic));
                     }
                     user.ProfilePic = string.IsNullOrEmpty(myfile) ? "" : "/Images/ProfileImages/" + myfile;
-              
+
                 }
                 Context.SaveChanges();
 
@@ -1106,6 +1106,18 @@ namespace VendTech.BLL.Managers
             return Context.Users.Where(p =>
             (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
             (p.Status == (int)UserStatusEnum.Active) && p.UserAssignedModules.Select(f => f.ModuleId).Contains(11)).ToList(); // 11 is the Module key for appUsers
+        }
+
+        UserDetails IUserManager.GetNotificationUsersCount(long currentUserId)
+        {
+            var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == currentUserId && (x.ModuleId == 6 || x.ModuleId == 10));
+            var modelUser = new UserDetails();
+            modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
+            modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
+            modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
+            modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
+
+            return modelUser;
         }
     }
 
