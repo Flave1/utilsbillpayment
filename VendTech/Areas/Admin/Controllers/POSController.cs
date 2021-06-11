@@ -8,6 +8,7 @@ using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using static VendTech.Controllers.MeterController;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -19,6 +20,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IEmailTemplateManager _templateManager;
         private readonly IUserManager _userManager;
         private readonly ICommissionManager _commissionManager;
+        private readonly IMeterManager _meterManager;
         #endregion
 
         public POSController(IPOSManager posManager,
@@ -26,7 +28,8 @@ namespace VendTech.Areas.Admin.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IUserManager userManager,
-            ICommissionManager commissionManager)
+            ICommissionManager commissionManager,
+            IMeterManager meterManager)
             : base(errorLogManager)
         {
             _posManager = posManager;
@@ -34,6 +37,7 @@ namespace VendTech.Areas.Admin.Controllers
             _vendorManager = vendorManager;
             _userManager = userManager;
             _commissionManager = commissionManager;
+            _meterManager = meterManager;
         }
 
         #region User Management
@@ -46,6 +50,14 @@ namespace VendTech.Areas.Admin.Controllers
             return View(users);
         }
 
+       
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetUserMeters(tokenobject tokenobject)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Agents;
+            var result = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);    
+            return Json(result);
+        }
         [AjaxOnly, HttpPost]
         public JsonResult GetUsersPagingList(PagingModel model)
         {

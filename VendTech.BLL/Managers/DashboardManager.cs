@@ -197,8 +197,8 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        userCount = Context.Users.Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted).Count(),
+                        userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor).Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };
