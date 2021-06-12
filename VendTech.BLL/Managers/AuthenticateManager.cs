@@ -128,7 +128,7 @@ namespace VendTech.BLL.Managers
         }
         bool IAuthenticateManager.IsUserAccountActive(string email, string password)
         {
-            string encryptPassword = Utilities.EncryptPassword(password.Trim()); 
+            string encryptPassword = Utilities.EncryptPassword(password.Trim());
             var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) && x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role) && (x.Status == (int)UserStatusEnum.Block))
                 .ToList()
                 .Select(x => new UserModel(x))
@@ -139,6 +139,7 @@ namespace VendTech.BLL.Managers
         }
         bool IAuthenticateManager.IsUserPosEnabled(string email, string password)
         {
+            bool userAssignedPos = false;
             string encryptPassword = Utilities.EncryptPassword(password.Trim());
             var result = Context.Users.Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower()) &&
             x.Password == encryptPassword && (UserRoles.AppUser == x.UserRole.Role || UserRoles.Vendor == x.UserRole.Role)
@@ -146,19 +147,16 @@ namespace VendTech.BLL.Managers
             x.Status == (int)UserStatusEnum.PasswordNotReset ||
             x.Status == (int)UserStatusEnum.Pending))
                 .FirstOrDefault();
-            if (result != null)
+            if (result != null && result.POS.Any())
             {
-                bool userAssignedPos = false;
+
                 if (result.UserRole.Role == UserRoles.Vendor)
                     userAssignedPos = result.POS.All(p => p.Enabled == false);
                 else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
                     userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
-                if (userAssignedPos)
-                {
-                    return true;
-                }
+                return userAssignedPos;
             }
-            return false;
+            return userAssignedPos;
 
         }
 
@@ -201,7 +199,7 @@ namespace VendTech.BLL.Managers
                     .ToList()
                     .Select(x => new UserModel(x))
                     .FirstOrDefault();
-                if(result != null)
+                if (result != null)
                 {
                     Context.Users.FirstOrDefault(d => d.UserId == result.UserId).AppLastUsed = DateTime.UtcNow;
                     Context.SaveChanges();
