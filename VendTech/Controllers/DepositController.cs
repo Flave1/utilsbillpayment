@@ -10,6 +10,7 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.BLL.Common;
 using VendTech.Areas.Admin.Controllers;
+using static VendTech.Controllers.MeterController;
 #endregion
 
 namespace VendTech.Controllers
@@ -106,6 +107,15 @@ namespace VendTech.Controllers
         public JsonResult GetBankAccountDetail(int bankAccountId)
         {
             return Json(new { bankAccount = _bankAccountManager.GetBankAccountDetail(bankAccountId) }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetDepositDetails(RequestObject tokenobject)
+        {
+            var result = _depositManager.GetDepositDetail(Convert.ToInt64(tokenobject.token_string));
+            if (result.Object == null)
+                return Json(new { Success = false, Code = 302, Msg = result.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Success", Data = result });
         }
     }
 }

@@ -58,6 +58,21 @@
                     }
                 })
             }, 60000);
+
+            setInterval(function () {
+                $.ajax({
+                    url: '/Admin/Home/ReturnDealerBalance',
+                    success: function (data) {
+                        debugger;
+                         
+                        $("#dealerBal").text(data.result.LastDealerBalance);
+                        $("#transDate").text(data.result.RequestDate);
+                        //if (data.Status != 1) {
+                        //    window.location.href = '/Admin/Home/Index';
+                        //}
+                    }
+                })
+            }, 3000);
         })
         $(".navbar-default .navbar-brand").live("click", function () {
                 window.location.href='/Admin/Home/Dashboard';

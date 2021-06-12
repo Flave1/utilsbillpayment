@@ -26,6 +26,7 @@ namespace VendTech.BLL.Interfaces
         Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model);
         ReceiptModel ReturnVoucherReceipt(string token);
         RequestResponse ReturnRequestANDResponseJSON(string token);
+        TransactionDetail GetLastTransaction();
     }
     
 }

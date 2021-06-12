@@ -52,7 +52,7 @@ namespace VendTech.Areas.Admin.Controllers
 
        
         [AjaxOnly, HttpPost, Public]
-        public JsonResult GetUserMeters(tokenobject tokenobject)
+        public JsonResult GetUserMeters(RequestObject tokenobject)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             var result = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);    

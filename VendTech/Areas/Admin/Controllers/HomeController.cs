@@ -13,6 +13,8 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
 using System.Reflection;
+using VendTech.DAL;
+using Newtonsoft.Json;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -25,11 +27,12 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly ICMSManager _cmsManager;
         private readonly IAuthenticateManager _authenticateManager;
         private IDashboardManager _dashboardManager;
+        private readonly IMeterManager _meterManager;
         #endregion
 
 
         // /Admin/Home/OTPVerification/
-        public HomeController(IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
+        public HomeController(IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -37,6 +40,7 @@ namespace VendTech.Areas.Admin.Controllers
             _cmsManager = cmsManager;
             _authenticateManager = authenticateManager;
             _dashboardManager = dashboardManager;
+            _meterManager = meterManager;
         }
 
 
@@ -314,6 +318,29 @@ namespace VendTech.Areas.Admin.Controllers
             else if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
                 result = false;
             return JsonResult(new ActionOutput { Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+        }
+         
+
+        [HttpGet, Public]
+        public JsonResult ReturnDealerBalance()
+        {
+            try
+            {
+                var lastTransaction = _meterManager.GetLastTransaction();
+                
+                var result = new LastMeterTransaction
+                { 
+                    LastDealerBalance = string.Format("{0:N0}", lastTransaction.CurrentDealerBalance),
+                    RequestDate = lastTransaction.RequestDate.ToString("dd/MM/yyyy"),  
+                }; 
+
+                return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
     }

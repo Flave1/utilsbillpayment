@@ -77,6 +77,11 @@ namespace VendTech.BLL.Models
 
     }
 
+    public class LastMeterTransaction
+    {
+        public string RequestDate { get; set; }
+        public string LastDealerBalance { get; set; }
+    }
     public class MeterRechargeApiListingModel
     {
         public long RechargeId { get; set; }
@@ -93,6 +98,24 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }
         public long MeterRechargeId { get; set; }
         public long? MeterId { get; set; }
+        public long TransactionDetailsId { get; set; }
+        public MeterRechargeApiListingModel() { }
+        public MeterRechargeApiListingModel(TransactionDetail x)
+        {
+            TransactionDetailsId = x.TransactionDetailsId;
+            Amount = x.Amount;
+            ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            POSId = x.POSId == null ? "" : x.POS.SerialNumber;
+            Status = ((RechargeMeterStatusEnum)x.Status).ToString();
+            TransactionId = x.TransactionId;
+            MeterRechargeId = x.TransactionDetailsId;
+            RechargeId = x.TransactionDetailsId;
+            UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
+            RechargePin = x.MeterToken1;
+        }
     }
     public class SalesReportExcelModel
     {
