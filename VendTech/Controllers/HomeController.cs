@@ -298,7 +298,7 @@ namespace VendTech.Controllers
         }
         public ActionResult PrivacyPolicy()
         {
-            CMSPageViewModel model = _cmsManager.GetPageContentByPageIdforFront(2); 
+            CMSPageViewModel model = _cmsManager.GetPageContentByPageIdforFront(2);
             return View(model);
         }
 
