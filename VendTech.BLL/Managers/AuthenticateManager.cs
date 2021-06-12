@@ -188,8 +188,6 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-
-
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
                 var decryptedPass = Utilities.DecryptPassword("dGVzdHZpY3RvcjE=");
                 var result = Context.Users

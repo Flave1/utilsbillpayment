@@ -291,7 +291,7 @@ namespace VendTech.BLL.Common
                 return true;
             }
             catch (Exception x)
-            { throw x; }
+            { return true; }
 
         }
         public static string Base64Decode(string base64EncodedData)

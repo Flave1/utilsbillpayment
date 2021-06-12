@@ -5,31 +5,34 @@
 {
     foreach (var item in Model.List)
     {
-        <tr class="odd gradeX">
-            <td style="text-align:right;">@item.SerialNumber</td>
-            <td> @item.VendorName</td>
-            <td style="text-align:right;">   @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</td>  
-            <td style="text-align:right;">
-                @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
-            </td>
+<tr class="odd gradeX">
+    <td style="text-align:right;">@item.SerialNumber</td>
+    <td> @item.VendorName</td>
+    <td style="text-align:right;">   @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</td>
+    <td style="text-align:right;">
+        @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
+    </td>
+    <td style="text-align:right;">
+        <a href="#" onclick="onSavedMeterClicked('@item.UserId', '@item.VendorName', '@item.SerialNumber')">@item.POSCount</a>
+    </td>
 
-            <td>@item.VendorType</td>
-            <td>@item.Enabled</td>
-            <td>
-                <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-                <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
-                @if (item.Enabled)
-                {
-                    <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
-                }
-                else
-                {
-                    <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
-                }
+    <td>@item.VendorType</td>
+    <td>@item.Enabled</td>
+    <td>
+        <a class="btn btn-primary btn-xs" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+        <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+        @if (item.Enabled)
+        {
+            <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+        }
+        else
+        {
+            <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+        }
 
-            </td>
+    </td>
 
-        </tr>
+</tr>
     }
 }
 else

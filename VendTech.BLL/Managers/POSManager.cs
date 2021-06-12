@@ -49,6 +49,7 @@ namespace VendTech.BLL.Managers
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
+
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "POS List";
@@ -129,32 +130,36 @@ namespace VendTech.BLL.Managers
         SavePosModel IPOSManager.GetPosDetail(long posId)
         {
             var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);
-            var user = new User();
-            user = Context.Users.FirstOrDefault(x => x.FKVendorId == dbPos.VendorId && x.Status == (int)UserStatusEnum.Active);
-            if (user == null)
+            if(dbPos != null)
             {
-                user = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId);
+                var user = new User();
+                user = Context.Users.Where(x => x.FKVendorId == dbPos.VendorId && x.Status == (int)UserStatusEnum.Active).FirstOrDefault();
+                if (user == null)
+                {
+                    user = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId);
+                }
+                var email = user.Email;
+                if (dbPos == null)
+                    return null;
+                return new SavePosModel()
+                {
+                    SerialNumber = dbPos.SerialNumber,
+                    VendorId = dbPos.VendorId,
+                    Phone = dbPos.Phone,
+                    Type = dbPos.VendorType,
+                    POSId = dbPos.POSId,
+                    Percentage = dbPos.CommissionPercentage,
+                    Enabled = dbPos.Enabled == null ? false : dbPos.Enabled.Value,
+                    SMSNotificationDeposit = dbPos.SMSNotificationDeposit == null ? false : dbPos.SMSNotificationDeposit.Value,
+                    EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
+                    EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
+                    SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
+                    CountryCode = dbPos.CountryCode,
+                    PassCode = dbPos.PassCode,
+                    Email = email
+                };
             }
-            var email = user.Email;
-            if (dbPos == null)
-                return null;
-            return new SavePosModel()
-            {
-                SerialNumber = dbPos.SerialNumber,
-                VendorId = dbPos.VendorId,
-                Phone = dbPos.Phone,
-                Type = dbPos.VendorType,
-                POSId = dbPos.POSId,
-                Percentage = dbPos.CommissionPercentage,
-                Enabled = dbPos.Enabled == null ? false : dbPos.Enabled.Value,
-                SMSNotificationDeposit = dbPos.SMSNotificationDeposit == null ? false : dbPos.SMSNotificationDeposit.Value,
-                EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
-                EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
-                SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
-                CountryCode = dbPos.CountryCode,
-                PassCode = dbPos.PassCode,
-                Email = email
-            };
+            return new SavePosModel();
         }
         SavePosModel IPOSManager.GetPosDetails(string passCode)
         {

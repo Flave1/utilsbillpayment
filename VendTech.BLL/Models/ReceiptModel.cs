@@ -20,12 +20,12 @@ namespace VendTech.BLL.Models
         public string Address { get; set; }
         public string DeviceNumber { get; set; } 
         public string Amount { get; set; }
-        public double Charges { get; set; }
-        public double Discount { get; set; }
-        public double Commission { get; set; }
+        public string Charges { get; set; }
+        public string Discount { get; set; }
+        public string Commission { get; set; }
         public string UnitCost { get; set; }
-        public double Unit { get; set; }
-        public double Tarrif { get; set; }
+        public string Unit { get; set; }
+        public string Tarrif { get; set; }
         public string TerminalID { get; set; }
         public string SerialNo { get; set; }
         public string POS { get; set; }
@@ -34,7 +34,7 @@ namespace VendTech.BLL.Models
         public string Pin1 { get; set; }
         public string Pin2 { get; set; }
         public string Pin3 { get; set; }
-        public decimal Tax { get; set; }
+        public string Tax { get; set; }
         public string TransactionDate { get; set; }
         public string EDSASerial { get; set; }
         public string VTECHSerial { get; set; }

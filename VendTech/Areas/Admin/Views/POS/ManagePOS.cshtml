@@ -7,21 +7,22 @@
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h2>Manage POS</h2>
-
     </div>
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat">
                     <div class="header noborder">
-                        <h3 >
-                        <a href="@Url.Action("AddEditPOS", "POS", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a>
+                        <h3>
+                            <a href="@Url.Action("AddEditPOS", "POS", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS">
+                                <i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super>
+                            </a>
                         </h3>
                     </div>
                     <div class="content">
                         <div class="table-responsive">
-                                    @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
-                              
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+
                             <div id="divResult">
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
@@ -30,6 +31,7 @@
                                             <th>VENDOR NAME</th>
                                             <th>BALANCE</th>
                                             <th>POS SIM#</th>
+                                            <th>SAVED METERS</th>
                                             <th>POS TYPE</th>
                                             <th>ENABLED</th>
                                             <th>ACTION</th>
@@ -40,7 +42,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                         @Html.Partial("_Paging")
                     </div>
@@ -51,6 +52,29 @@
 </div>
 
 
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+     
+                <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
+                <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+            </div>
+
+            <div class="modal-body">
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@*<div class="modal fade" id="modalCart">
+        @Html.Partial("Partials/_userMeterListing", new )
+    </div>*@
+
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
@@ -59,10 +83,9 @@
     <script src="~/Scripts/AdminScripts/pos.js"></script>
 
 
-
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["POS ID", "VENDOR NAME", "CELL #","POS TYPE","ENABLED"];
+        var searchFields = ["POS ID", "VENDOR NAME", "CELL #", "POS TYPE", "ENABLED"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
@@ -71,6 +94,28 @@
             App.init();
             Users.ManageUsers(totalCount);
         });
+
+        function onSavedMeterClicked(userId, vendor, posid) {
+            debugger;
+
+            if (userId) {
+                var inputParam = new Object();
+                inputParam.token_string = userId
+
+                $.ajax({
+                    url: baseUrl + '/Meter/GetUserMeters',
+                    data: $.postifyData(inputParam),
+                    type: "POST",
+                    success: function (data) {
+                        $("#vendorName").text(vendor);
+                        $("#posId").text(posid);
+                        $('.modal-body').html(data);
+                        $("#myModal2").modal("show");
+                        debugger
+                    }
+                });
+            }
+        }
     </script>
 }
 

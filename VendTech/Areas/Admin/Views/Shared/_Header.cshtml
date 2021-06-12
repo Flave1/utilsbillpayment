@@ -1,6 +1,7 @@
 ﻿
 @{
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    var data = ViewBag.Data;
 }
 <style>
     ._custom {
@@ -14,14 +15,17 @@
         color: grey
     }
 
-    ._notificationBox {
-        width: 16px;
-        height: 16px;
-        left: 62px;
-        top: -62px;
-        background-color: red;
+    ._notificationContent {
+        width: 18px;
+        height: 19px;
+        left: -10px;
+        top: -10px;
+        display: inline-block;
         position: relative;
         text-align: center;
+        border-radius: 100%;
+        color: #fff;
+        background-color: red;
     }
 
     ._notification {
@@ -76,45 +80,49 @@
                 </li>
             </ul>
         </div>
-        @*<div class="navbar-collapse collapse">
-
-                <ul class="nav navbar-nav navbar-right user-nav">
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal">
-                            <img class="profilepictureclass" src="~/Images/notification.png" />
-                        </a>
-                        <div class="_notificationBox">@(user.RemainingAppUser + user.RemainingDepositRelease)</div>
-                    </li>
-                </ul>
-            </div>*@
+        @if (data != null)
+        {
+            <ul class="nav navbar-nav navbar-right user-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal">
+                        <img class="profilepictureclass" src="~/Content/images/notification.png" />
+                        <span class="_notificationContent">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
+                    </a>
+                </li>
+            </ul>
+        }
     </div>
 </div>
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title _title">NOTIFICATION CENTER</h4>
+@if (data != null)
+{
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title _title">NOTIFICATION CENTER</h4>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(data.AppUserMessage))
+                    {
+                        <span class="_custom">@data.AppUserMessage</span><div class="pull-right"><a href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">@data.RemainingAppUser</a></div> <br /><br />
+                    }
+                    @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
+                    {
+                        <span class="_custom">@data.DepositReleaseMessage</span> <div class="pull-right">  <a href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">@data.RemainingDepositRelease</a> </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                @if (!string.IsNullOrEmpty(user.AppUserMessage))
-                {
-                    <span class="_custom">@user.AppUserMessage</span><div class="pull-right"><a href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">@user.RemainingAppUser</a></div> <br /><br />
-                }
-                @if (!string.IsNullOrEmpty(user.DepositReleaseMessage))
-                {
-                    <span class="_custom">@user.DepositReleaseMessage</span> <div class="pull-right">  <a href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">@user.RemainingDepositRelease</a> </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+
         </div>
-
     </div>
-</div>
+}
+
 
 <style>
     .profilepictureclass {

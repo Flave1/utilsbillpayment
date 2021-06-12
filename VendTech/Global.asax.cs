@@ -79,7 +79,7 @@ namespace VendTech
                     };
                     jsonResult.ExecuteResult(controllerContext);
                     httpContext.Response.End();
-                }
+                }   
                 else
                 {
                     HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];

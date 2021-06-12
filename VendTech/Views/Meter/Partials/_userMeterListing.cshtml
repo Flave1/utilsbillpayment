@@ -1,0 +1,50 @@
+﻿@model PagingResult<MeterAPIListingModel>
+
+@{ 
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block-flat front">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="5"><strong>SAVED METERS</strong></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">METER #</th>
+                            <th scope="col">NAME ON METER</th>
+                            <th scope="col">ALIAS</th>
+                            <th scope="col">DATE SAVED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.List != null)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.List)
+                            {
+                                //@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })
+                            i += 1;
+                            <tr id="meterList">
+                                <th scope="row">@i</th>
+                                <td>  <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='#'> @item.Number</a>   </td>
+                                <td>@item.Name</td>
+                                <td>@item.Allias</td>
+                                <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+                            </tr>
+                        }
+                    }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

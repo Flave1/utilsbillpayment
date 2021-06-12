@@ -202,6 +202,15 @@ namespace VendTech.Controllers
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
 
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetUserMeters(tokenobject tokenobject)
+        {
+            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);
+            //List<string> resultString = new List<string>();
+            //resultString.Add(RenderRazorViewToString("Partials/_userMeterListing", modal));
+            //resultString.Add(modal.TotalCount.ToString());
+            return PartialView("Partials/_userMeterListing", modal);
+        }
 
 
         [HttpPost, AjaxOnly]
