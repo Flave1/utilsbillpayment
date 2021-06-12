@@ -514,10 +514,10 @@ namespace VendTech.BLL.Managers
             data.RechargeId = recharge.TransactionDetailsId;
             data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
             data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
-            data.RechargePin = recharge.MeterToken1;
+            data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
-            data.POSId = Convert.ToString(recharge.POSId);
+            data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }

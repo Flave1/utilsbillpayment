@@ -15,6 +15,7 @@ using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
+using Ninject;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -32,13 +33,15 @@ namespace VendTech.Areas.Admin.Controllers
         {
 
         }
-
+        [Inject]
+        public IUserManager _userManager { get; set; }
         /// <summary>
         /// This will be used to chek admin user authorization
         /// </summary>
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
+
             HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
             var model = new PermissonAndDetailModel();
             IAuthenticateManager authenticateManager = new AuthenticateManager();
@@ -50,7 +53,7 @@ namespace VendTech.Areas.Admin.Controllers
                 #region If LoggedInUser is null
                 if (LOGGEDIN_USER == null)
                 {
-                   
+
                     try
                     {
                         if (JustLoggedin)
@@ -64,7 +67,7 @@ namespace VendTech.Areas.Admin.Controllers
                         else
                         {
                             //SignOut();
-                        } 
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -110,7 +113,8 @@ namespace VendTech.Areas.Admin.Controllers
                 #endregion
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
                 ViewBag.USER_PERMISSONS = ModulesModel;
-
+                var notificationResult = _userManager.GetNotificationUsersCount(LOGGEDIN_USER.UserID);
+                ViewBag.Data = notificationResult;
             }
 
 
@@ -139,7 +143,7 @@ namespace VendTech.Areas.Admin.Controllers
             #region Admin User Role Module Permission Validation
 
             string action = filter_context.ActionDescriptor.ActionName;
-            string controller = filter_context.RouteData.Values["controller"].ToString(); 
+            string controller = filter_context.RouteData.Values["controller"].ToString();
             bool sessionExpired = false;
             if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
             {
@@ -226,7 +230,7 @@ namespace VendTech.Areas.Admin.Controllers
         public override ActionResult SignOut()
         {
             HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-            if(auth_cookie != null)
+            if (auth_cookie != null)
             {
                 JustLoggedin = false;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);

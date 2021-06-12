@@ -82,11 +82,7 @@ namespace VendTech.Areas.Admin.Controllers
                     UserID = userId,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = data.Object.UserType,
-                    ProfilePicPath = data.Object.ProfilePicPath,
-                    AppUserMessage = data.Object.AppUserMessage,
-                    DepositReleaseMessage = data.Object.DepositReleaseMessage,
-                    RemainingAppUser = data.Object.RemainingAppUser,
-                    RemainingDepositRelease = data.Object.RemainingDepositRelease
+                    ProfilePicPath = data.Object.ProfilePicPath
                 };
             }
             else
@@ -220,7 +216,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             return View(model);
         }
-         
+
         public ActionResult EditProfile()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Profile;
