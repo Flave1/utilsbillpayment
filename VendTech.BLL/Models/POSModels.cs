@@ -40,7 +40,7 @@ namespace VendTech.BLL.Models
             SMSNotificationSales = Convert.ToBoolean(obj.SMSNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
             UserId = obj?.User?.UserId??0;
-            POSCount = obj?.User?.POS?.Count()??0;
+            POSCount = obj?.User?.Meters?.Count()??0;
         } 
     }
     public class PosAPiListingModel

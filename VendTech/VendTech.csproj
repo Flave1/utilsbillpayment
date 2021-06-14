@@ -531,6 +531,7 @@
     <Content Include="Views\Shared\_fetchVoucher.cshtml" />
     <Content Include="Views\Shared\_RequestResponseJSON.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_depositReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

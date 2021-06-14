@@ -171,7 +171,7 @@ namespace VendTech.Controllers
             var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
 
             if (deposits.List.Any())
-                model.History = deposits.List.Take(10).ToList();
+                model.History = deposits.List;
             if (meterId > 0) model.MeterId = meterId;
             if (posList.Count > 0)
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
@@ -188,13 +188,14 @@ namespace VendTech.Controllers
             return JsonResult(_meterManager.RechargeMeter(model));
         }
 
-        public class tokenobject
+       
+        public class RequestObject
         {
             public string token_string { get; set; }
         }
 
         [AjaxOnly, HttpPost, Public]
-        public JsonResult ReturnVoucher(tokenobject tokenobject)
+        public JsonResult ReturnVoucher(RequestObject tokenobject)
         { 
             var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
             if (result.ReceiptStatus.Status == "unsuccessful") 
@@ -203,7 +204,7 @@ namespace VendTech.Controllers
         }
 
         [AjaxOnly, HttpPost, Public]
-        public ActionResult GetUserMeters(tokenobject tokenobject)
+        public ActionResult GetUserMeters(RequestObject tokenobject)
         {
             var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);
             //List<string> resultString = new List<string>();
@@ -231,7 +232,7 @@ namespace VendTech.Controllers
         }
 
         [AjaxOnly, HttpPost, Public]
-        public JsonResult ReturnRequestANDResponseJSON(tokenobject tokenobject)
+        public JsonResult ReturnRequestANDResponseJSON(RequestObject tokenobject)
         {
             var result = _meterManager.ReturnRequestANDResponseJSON(tokenobject.token_string.Trim());
             if (result.ReceiptStatus.Status == "unsuccessful")

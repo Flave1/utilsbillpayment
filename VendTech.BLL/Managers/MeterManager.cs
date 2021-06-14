@@ -306,7 +306,7 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            var query = Context.TransactionDetails.OrderByDescending(d => d.RequestDate).Take(10).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -319,21 +319,7 @@ namespace VendTech.BLL.Managers
             }
 
 
-            var list = query.Take(10).ToList().Select(x => new MeterRechargeApiListingModel
-            {
-                Amount = x.Amount,
-                ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName,
-                CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
-                POSId = x.POSId == null ? "" : x.POS.SerialNumber,
-                Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
-                TransactionId = x.TransactionId,
-                MeterRechargeId = x.TransactionDetailsId,
-                RechargeId = x.TransactionDetailsId,
-                UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
-                VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
-                RechargePin = x.MeterToken1
-            }).OrderByDescending(t => t.CreatedAt).ToList();
+            var list = query.ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -890,6 +876,11 @@ namespace VendTech.BLL.Managers
                 return receipt;
             }
             return new RequestResponse { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
+        }
+    
+        TransactionDetail IMeterManager.GetLastTransaction()
+        {
+            return Context.TransactionDetails.OrderByDescending(d => d.TransactionDetailsId).FirstOrDefault()?? new TransactionDetail();
         }
     }
 

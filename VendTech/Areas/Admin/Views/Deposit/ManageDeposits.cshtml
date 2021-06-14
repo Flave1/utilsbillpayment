@@ -26,15 +26,24 @@
                             <form>
 
                                 <div class="manage-desposit-content-left">
-                                    <div class="manage-desposit-row">
-                                        <label>VENDOR</label>
-                                        @Html.DropDownList("Vendor", new SelectList(ViewBag.vendors, "value", "text"), "SELECT VENDOR", new { @id = "vendor" })
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                        @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
                                     </div>
-                                    <div class="manage-desposit-row">
-                                        <label>POS ID</label>
-                                        @Html.DropDownList("PosId", null, "SELECT POS", new { @onchange = "changeVendor()", @id = "vendorId" })
 
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                        @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
                                     </div>
+                                    @*<div class="manage-desposit-row">
+            <label>VENDOR</label>
+            @Html.DropDownList("Vendor", new SelectList(ViewBag.vendors, "value", "text"), "SELECT VENDOR", new { @id = "vendor" })
+        </div>
+        <div class="manage-desposit-row">
+            <label>POS ID</label>
+            @Html.DropDownList("PosId", null, "SELECT POS", new { @onchange = "changeVendor()", @id = "pos" })
+
+        </div>*@
                                     <div class="manage-desposit-row">
                                         <label>BANK ACCOUNT</label>
                                         @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { })
@@ -50,7 +59,7 @@
                                                 @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-10  form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
                                             </div>
                                             <div class="col-md-4" style="padding-left:0;">
-                                                <label>VALUE DATE</label>  
+                                                <label>VALUE DATE</label>
                                                 <input type="text" style="font-weight:bold;  text-align:right; padding-right:3px;" autocomplete="off" name="ValueDate" id="ValueDate" class="form-control chkBankDiv">
                                             </div>
                                         </div>
@@ -92,9 +101,9 @@
                                         <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                     </div>
                                     @*<div class="manage-desposit-row">
-                                            <label>COMMENTS</label>
-                                            <textarea name="Comments"></textarea>
-                                        </div>*@
+            <label>COMMENTS</label>
+            <textarea name="Comments"></textarea>
+        </div>*@
                                     <div class="manage-desposit-row">
                                         <button class="savebttn addDepositBtn" type="button">SUBMIT</button>
                                     </div>
@@ -226,7 +235,7 @@
              $("#ValueDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                     format: "dd/MM/yyyy",
-                    max: new Date(today.setDate(today.getDate() + 30)),
+                    max: new Date(d.setDate(d.getDate() + 30)),
                     maxDate: new Date, minDate: new Date(2007, 6, 12),
              });
 
@@ -247,7 +256,28 @@
             }
             }
 
+            $("#vendor").on("change", function () {
 
+                debugger;
+                var vendorId = $("#vendor").val();
+                $("#pos").empty();
+                if (vendorId) {
+                    $.ajax({
+                        url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                        success: function (res) {
+                            $("#pos").append("<option value=''> Select POS </option>")
+                            if (res.posList != null) {
+                                for (var i = 0; i < res.posList.length; i++) {
+                                    $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                }
+                            }
+                        }
+                    })
+                }
+                else {
+                    $("#pos").append("<option value=''> SELECT POS</option>")
+                }
+            });
 
 
             App.init();
@@ -255,28 +285,9 @@
             onPaymentTypeChange();
 
 
-            $("#vendor").on("change", function () {
-                var vendorId = $("#vendor").val();
-                $("#vendorId").empty();
-                if (vendorId)
-                {
-                    $.ajax({
-                        url: '/Admin/Deposit/GetVendorPosSelectList?userId=' + vendorId,
-                        success: function (res) {
-                            $("#vendorId").append("<option value=''> SELECT POS</option>")
-                            if (res.posList != null) {
-                                for (var i = 0; i < res.posList.length; i++)
-                                {
-                                    $("#vendorId").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
-                                }
-                            }
-                        }
-                    })
-                }
-                else {
-                    $("#vendorId").append("<option value=''> SELECT POS</option>")
-                }
-            });
+           
+
+           
         });
         function isNumber(evt) {
             var iKeyCode = (evt.which) ? evt.which : evt.keyCode
