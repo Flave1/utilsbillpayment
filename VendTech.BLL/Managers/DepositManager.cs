@@ -560,7 +560,7 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
-              
+
             if (model.PosId.HasValue && model.PosId > 0)
             {
                 query = query.Where(p => p.Deposit.POSId == model.PosId);
@@ -1215,7 +1215,7 @@ namespace VendTech.BLL.Managers
         }
 
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
-        { 
+        {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
             if (dbDeposit == null)
                 return ReturnError("Deposit not exist.");
@@ -1238,8 +1238,8 @@ namespace VendTech.BLL.Managers
                     // dbDeposit.NewBalance = dbDeposit.POS.Balance == null ? (0 + dbDeposit.Amount) : dbDeposit.POS.Balance.Value + dbDeposit.PercentageAmount;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
-            } 
-           
+            }
+
 
             Context.SaveChanges();
             //Send push to all devices where this user logged in when admin released deposit
@@ -1274,8 +1274,8 @@ namespace VendTech.BLL.Managers
                 obj.DeviceType = item.AppType.Value;
                 PushNotification.SendNotification(obj);
             }
-             
-            return ReturnSuccess(dbDeposit.User.UserId ,"Deposit status changed successfully.");
+
+            return ReturnSuccess(dbDeposit.User.UserId, "Deposit status changed successfully.");
         }
 
         ActionOutput IDepositManager.ReverseDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
@@ -1363,7 +1363,7 @@ namespace VendTech.BLL.Managers
             List<long> userIds = new List<long>();
             try
             {
-                
+
                 if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
                     return ReturnError<List<long>>("Invalid OTP");
                 if (model.CancelDepositIds != null)
@@ -1380,7 +1380,7 @@ namespace VendTech.BLL.Managers
                         userIds.Add((this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId).ID);
                     }
                 }
-                return ReturnSuccess(userIds ,"Deposit status updated successfully.");
+                return ReturnSuccess(userIds, "Deposit status updated successfully.");
             }
             catch (Exception)
             {
@@ -1480,7 +1480,9 @@ namespace VendTech.BLL.Managers
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
             var posId = new POS();
-            var dbDeposit = Context.Deposits.Include(x => x.POS).Include(x => x.User).Include(x => x.BankAccount).FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
+            var dbDeposit = Context.Deposits.Include(x => x.POS)
+                .Include(x => x.User).Include(x => x.BankAccount)
+                .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
             //if (depositAuditModel.PosId != null)
             //{
             //    posId = Context.POS.FirstOrDefault(x => x.SerialNumber == Convert.ToString(depositAuditModel.PosId));
@@ -1496,7 +1498,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-            dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.ValueDate = depositAuditModel.ValueDateModel;
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
             dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;
