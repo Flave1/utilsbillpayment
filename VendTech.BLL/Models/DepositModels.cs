@@ -30,6 +30,7 @@ namespace VendTech.BLL.Models
         public string Payer { get; set; }
         public string IssuingBank { get; set; }
         public string ValueDate { get; set; }
+        public string NameOnCheque { get; set; }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         {
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
@@ -63,7 +64,7 @@ namespace VendTech.BLL.Models
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
             Payer = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
-            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate; 
         }
          
     }

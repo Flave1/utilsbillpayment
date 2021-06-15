@@ -168,13 +168,20 @@
 </div>
 
 
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/report.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
-
+    <script src="~/Scripts/Receipt.js"></script>
 
 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
@@ -209,15 +216,15 @@
                 value: new Date(),
                 format : "dd/MM/yyyy"
             });
-               
+
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);
                 App.init();
                 //initialize the javascript
-              
 
- 
+
+
 
                 $("#vendor").on("change", function () {
                     var vendorId = $("#vendor").val();
@@ -277,7 +284,7 @@
 
                 $("#btnExport").click(function (e) {
 
-                   
+
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
@@ -328,6 +335,7 @@
             })
             }
         });
+     
     </script>
 }
 

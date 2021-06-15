@@ -6657,3 +6657,95 @@ Exception has been thrown by the target of an invocation.
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The partial view 'GetDepositDetails' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/GetDepositDetails.aspx
+~/Views/Deposit/GetDepositDetails.ascx
+~/Views/Shared/GetDepositDetails.aspx
+~/Views/Shared/GetDepositDetails.ascx
+~/Views/Deposit/GetDepositDetails.cshtml
+~/Views/Deposit/GetDepositDetails.vbhtml
+~/Views/Shared/GetDepositDetails.cshtml
+~/Views/Shared/GetDepositDetails.vbhtml
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(46): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(46): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(54): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(54): error CS1002: ; expected
+
+
+

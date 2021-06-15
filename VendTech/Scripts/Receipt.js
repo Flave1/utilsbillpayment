@@ -1,43 +1,4 @@
 ﻿
-function fetchDepsitDetails(token) {
-    debugger;
-     
-    try {
-
-        var inputParam = new Object();
-        inputParam.token_string = token.replace(/ /g, ''); 
-
-        $.ajax({
-            url: baseUrl + '/Meter/GetDepositDetails',
-            data: $.postifyData(inputParam),
-            type: "POST",
-            success: function (data) {
-                 
-                if (data.Code === 302) {
-                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                    $("#error_reponse").show();
-                    $("#error_reponse").html(data.Msg);
-                    return false;
-                }
-                if (data.Code === 200) {
-
-                    console.log(data);
-
-           
-                    $("#modalCart2").modal("show");
-                } else {
-
-                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                }
-
-            }
-        });
-
-    } catch (e) {
-        console.log(e);
-        DisableAndEnablelinks(false, token);
-    }
-}
 
 
 

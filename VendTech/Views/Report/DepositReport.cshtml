@@ -26,7 +26,6 @@
         option {
             font-weight: bold;
         }
-         
     </style>
     <div class="page-head">
         <h3><b>Manage Deposit Report</b></h3>
@@ -139,7 +138,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @*@Html.Partial("_Paging")*@ 
+                                        @*@Html.Partial("_Paging")*@
                                     </div>
                                     <input type="hidden" value="CreatedAt" id="SortBy" />
                                     <input type="hidden" value="Desc" id="SortOrder" />
@@ -156,6 +155,13 @@
     </div>
 </div>
 
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
+</div>
+
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -164,6 +170,7 @@
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+    <script src="~/Scripts/Receipt.js"></script>
     <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
 
@@ -205,11 +212,11 @@
                     //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
                     pdf.save(name);
                 }
-          
-               Deposits.ManageDeposits(totalCount); 
+
+               Deposits.ManageDeposits(totalCount);
        });
 
-        
+
         var d = new Date();
         $("#FromDate").kendoDatePicker({
             max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
@@ -275,6 +282,25 @@
                 $("#depositsForm").attr("method", "get");
                 $("#depositsForm").submit();
             });
+
+        function onViewDepositDetails(depositId) { 
+
+            if (depositId) {
+                var inputParam = new Object();
+                inputParam.token_string = depositId;
+                $.ajax({
+                    url: baseUrl + '/Deposit/GetDepositDetails',
+                    data: $.postifyData(inputParam),
+                    type: "POST",
+                    success: function (data) {
+
+                        $('.modal-body').html(data);
+                        $("#depositDetailModal").modal("show");
+                        debugger
+                    }
+                });
+            }
+        }
 
     </script>
 }

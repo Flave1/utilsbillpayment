@@ -172,9 +172,13 @@ namespace VendTech.Areas.Admin.Controllers
 
             //send mail to activated user
             var userEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivation);
-            string body = userEmailTemplate.TemplateContent; 
-            body = body.Replace("%USER%", model.FirstName);  
-            Utilities.SendEmail(model.Email, userEmailTemplate.EmailSubject, body);
+            if(userEmailTemplate != null)
+            {
+                   string body = userEmailTemplate.TemplateContent; 
+                   body = body.Replace("%USER%", model.FirstName);  
+                   Utilities.SendEmail(model.Email, userEmailTemplate.EmailSubject, body);
+            }
+           
              
             //send mail to all admin with this app users permission
 
@@ -184,10 +188,14 @@ namespace VendTech.Areas.Admin.Controllers
                 foreach(var adminUser in adminMembers)
                 {
                     var adminEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivationForAdmin);
-                    string _body = adminEmailTemplate.TemplateContent;
-                    _body = _body.Replace("%USER%", adminUser.Name);
-                    //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
-                    Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                    if(adminEmailTemplate != null)
+                    {
+                        string _body = adminEmailTemplate.TemplateContent;
+                        _body = _body.Replace("%USER%", adminUser.Name);
+                        //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
+                        Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                    }
+                    
                 }
             } 
             return JsonResult(result);

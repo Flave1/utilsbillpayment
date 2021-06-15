@@ -206,10 +206,7 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public ActionResult GetUserMeters(RequestObject tokenobject)
         {
-            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10);
-            //List<string> resultString = new List<string>();
-            //resultString.Add(RenderRazorViewToString("Partials/_userMeterListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
+            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10); 
             return PartialView("Partials/_userMeterListing", modal);
         }
 
