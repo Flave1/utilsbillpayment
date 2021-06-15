@@ -94,7 +94,8 @@ namespace VendTech
                         web_auth_cookie.Expires = DateTime.Now.AddDays(-30);
                         Response.Cookies.Add(web_auth_cookie);
                     }
-                    httpContext.Response.Redirect("~/Home/Error?errorMessage="+ httpContext.AllErrors[0].Message+"");
+                    //httpContext.Response.Redirect("~/Home/Error?errorMessage="+ httpContext.AllErrors[0].Message+"");
+                    httpContext.Response.Redirect("~/Home/Index");
                 }
             }
         }

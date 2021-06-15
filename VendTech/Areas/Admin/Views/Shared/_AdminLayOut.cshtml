@@ -63,7 +63,7 @@
                 $.ajax({
                     url: '/Admin/Home/ReturnDealerBalance',
                     success: function (data) {
-                        debugger;
+                        
                          
                         $("#dealerBal").text(data.result.LastDealerBalance);
                         $("#transDate").text(data.result.RequestDate);

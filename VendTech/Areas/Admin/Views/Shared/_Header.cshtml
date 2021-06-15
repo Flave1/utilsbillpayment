@@ -4,32 +4,67 @@
     var data = ViewBag.Data;
 }
 <style>
-    ._custom {
-        font-weight: bold;
-        color: red;
-    }
 
-    ._title {
-        text-align: center;
-        font-weight: bold;
-        color: grey
-    }
 
     ._notificationContent {
-        width: 18px;
-        height: 19px;
-        left: -10px;
-        top: -10px;
+        width: 22px;
+        height: 22px;
+        left: -26px;
+        top: -13px;
+        line-height: 22px;
         display: inline-block;
         position: relative;
         text-align: center;
         border-radius: 100%;
         color: #fff;
+        font-weight: 700;
         background-color: red;
     }
 
     ._notification {
         height: 28px;
+    }
+
+    .notification-title {
+        font-weight: bold;
+        color: grey;
+        padding: 5px 10px;
+    }
+
+    .notification-wrap .dropdown-menu {
+        padding: 0;
+        min-width: 300px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .notification-wrap .dropdown-item {
+        padding: 10px;
+        display: block;
+        color: #777777;
+        font-weight: 400;
+        border-top: 1px solid #eeeeee;
+    }
+
+        .notification-wrap .dropdown-item:hover {
+            background: #f2f2f2;
+            color: #444444;
+        }
+
+    .notification-count {
+        float: right;
+        color: #227cb1;
+        font-weight: 700;
+        font-size: large;
+    }
+
+    element.style {
+    }
+
+    .navbar-default .navbar-nav > .open > a.notification-tab, .navbar-default .navbar-nav > .open > a.notification-tab:hover, .navbar-default .navbar-nav > .open > a.notification-tab:focus {
+        background-color: #282828;
+        height: 62px;
+    }
     }
 </style>
 <!-- Fixed navbar -->
@@ -82,46 +117,57 @@
         </div>
         @if (data != null)
         {
-            <ul class="nav navbar-nav navbar-right user-nav">
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal">
+            <ul class="nav navbar-nav navbar-right user-nav notification-wrap">
+                <li class="dropdown profile_menu">
+                    <a href="#" class="dropdown-toggle notification-tab" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profilepictureclass" src="~/Content/images/notification.png" />
                         <span class="_notificationContent">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <h4 class="notification-title">NOTIFICATION CENTER</h4>
+                        <a class="dropdown-item" href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">
+                            @if (!string.IsNullOrEmpty(data.AppUserMessage))
+                            {
+                                <span class="_custom">@data.AppUserMessage <span class="notification-count">@data.RemainingAppUser</span></span>
+                            }
+                        </a>
+                        <a class="dropdown-item" href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">
+                            @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
+                            {
+                                <span class="_custom">@data.DepositReleaseMessage <span class="notification-count">@data.RemainingDepositRelease</span></span>
+                            }
+                        </a>
+                    </div>
                 </li>
             </ul>
         }
     </div>
 </div>
-@if (data != null)
-{
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title _title">NOTIFICATION CENTER</h4>
-                </div>
-                <div class="modal-body">
-                    @if (!string.IsNullOrEmpty(data.AppUserMessage))
-                    {
-                        <span class="_custom">@data.AppUserMessage</span><div class="pull-right"><a href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">@data.RemainingAppUser</a></div> <br /><br />
-                    }
-                    @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
-                    {
-                        <span class="_custom">@data.DepositReleaseMessage</span> <div class="pull-right">  <a href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">@data.RemainingDepositRelease</a> </div>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+<!-- Modal -->
+<!--<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">-->
+<!-- Modal content-->
+<!--<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title _title">NOTIFICATION CENTER</h4>
             </div>
-
+            <div class="modal-body">
+                @if (!string.IsNullOrEmpty(data.AppUserMessage))
+                {
+                    <span class="_custom">@data.AppUserMessage</span><div class="pull-right"><a href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">@data.RemainingAppUser</a></div> <br /><br />
+                }
+                @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
+                {
+                    <span class="_custom">@data.DepositReleaseMessage</span> <div class="pull-right">  <a href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">@data.RemainingDepositRelease</a> </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
-}
+</div>-->
 
 
 <style>

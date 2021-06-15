@@ -130,7 +130,7 @@ var Users = {
             success: function (results, message) {
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () {
-                    debugger
+                    
                     window.location.href = baseUrl + '/Admin/AppUser/ManageAppUsers';
                 }, 1500);
             }

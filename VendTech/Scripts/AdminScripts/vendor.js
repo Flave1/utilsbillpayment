@@ -100,7 +100,7 @@ var Users = {
     },
 
     DeleteUser: function (sender,val) {
-        debugger
+        
         $.ConfirmBox("", "Are you sure to delete this record?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
                 url: baseUrl + '/Admin/Vendor/DeleteVendor',

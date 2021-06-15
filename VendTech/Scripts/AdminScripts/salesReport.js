@@ -195,7 +195,7 @@ var Deposits = {
 };
 
 function Paging(sender) {
-    debugger
+    
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
