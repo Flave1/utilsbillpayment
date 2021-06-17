@@ -1,4 +1,22 @@
 ﻿
+function onViewDepositDetails(depositId) {
+
+    if (depositId) {
+        var inputParam = new Object();
+        inputParam.token_string = depositId;
+        $.ajax({
+            url: baseUrl + '/Deposit/GetDepositDetails',
+            data: $.postifyData(inputParam),
+            type: "POST",
+            success: function (data) {
+
+                $('.modal-body').html(data);
+                $("#depositDetailModal").modal("show");
+                debugger
+            }
+        });
+    }
+}
 
 
 

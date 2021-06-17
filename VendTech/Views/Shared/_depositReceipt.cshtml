@@ -3,54 +3,47 @@
 <div class="modal-dialog modal-md">
     <div class="modal-content modal-md">
         <div class="modal-body" id="printSection">
-            <div class="row" style="text-align:center; margin:20px;" id="gen-invoice">
+            <div class="row" style="text-align:center;"> 
+                <img src="~/Content/images/ventech.png" width="90" />
+            </div>
+            <div class="row" style="text-align:center; margin:5px;" id="gen-invoice">
                 <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
-                <h3>DEPOSIT</h3>
+                <h3>DEPOSIT RECEIPT</h3>
             </div>
 
-    
-            <table style="border-top:0.8px solid grey;">
-                <tbody>
-                    <tr style="border:none;">
-                        <td><strong>Deposit Date : </strong><span id="sales_date"> @Model.CreatedAt </span></td>
-                        <td><strong>Value Date : </strong><span id="sales_date"> @Model.ValueDate</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Vendor ID :</strong> <span class="text-light" id="vendorId">@Model.VendorName</span></td>
-                        <td><strong>POS ID :</strong><span class="text-light" id="vendorId">@Model.PosNumber</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Transaction ID :</strong> <span class="text-light" id="vendorId">@Model.TransactionId</span></td>
-                        <td><strong>Transaction Type :</strong><span class="text-light" id="vendorId">@Model.Type</span></td>
-                    </tr>
 
+            <table  style="border-top:0.8px solid grey;">
+                <tbody>
                     <tr>
-                        <td>Amount</td>
-                        <td>@string.Format("{0:N0}", Model.Amount)</td>
+                        <td>Deposit Date : </td>
+                        <td> @Model.CreatedAt </td>
                     </tr>
                     <tr>
-                        <td>Percentage Amount</td>
-                        <td>@string.Format("{0:N0}", Model.PercentageAmount)</td>
+                        <td>Value Date :</td>
+                        <td> @Model.ValueDate</td>
                     </tr>
                     <tr>
-                        <td>Balance</td>
-                        <td>@string.Format("{0:N0}", Model.NewBalance)</td>
+                        <td>Vendor ID :</td>
+                        <td>@Model.VendorName</td>
                     </tr>
                     <tr>
-                        <td>Cheque/Slip ID</td>
-                        <td>
-                            @if (Model.ChkNoOrSlipId == "0")
-                            {
-                                <span>N/A</span>
-                            }
-                            else
-                            {
-                                <span>@Model.IssuingBank</span>
-                            }
-                        </td>
+                        <td>POS ID </td>
+                        <td>@Model.PosNumber</td>
                     </tr>
                     <tr>
-                        <td>Bank</td>
+                        <td>Transaction ID </td>
+                        <td>@Model.TransactionId</td>
+                    </tr>
+                    <tr>
+                        <td>Deposit Type </td>
+                        <td>@Model.Type</td>
+                    </tr>
+                    <tr>
+                        <td>Payer</td>
+                        <td>@Model.UserName</td>
+                    </tr>
+                    <tr>
+                        <td>Payer bank</td>
                         <td>
                             @if (string.IsNullOrEmpty(Model.Bank))
                             {
@@ -63,7 +56,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Issueing Bank</td>
+                        <td>Deposit Slip OR REF#</td>
+                        <td>
+                            @if (Model.ChkNoOrSlipId == "0")
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@Model.IssuingBank</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Payed to VTECH Bank</td>
                         <td>
                             @if (string.IsNullOrEmpty(Model.IssuingBank))
                             {
@@ -76,22 +82,32 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>User</td>
-                        <td>@Model.UserName</td>
+                        <td>Amount</td>
+                        <td>@string.Format("{0:N0}", Model.Amount)</td>
                     </tr>
                     <tr>
-                        <td>Name on cheque</td>
-                        <td>
-                            @if (string.IsNullOrEmpty(Model.Payer))
-                            {
-                                <span>N/A</span>
-                            }
-                            else
-                            {
-                                <span>@Model.Payer</span>
-                            }
-                        </td>
+                        <td>COMMISSION @@ %1</td>
+                        <td>@string.Format("{0:N0}", (Model.Amount) * 1 / 100 )</td>
                     </tr>
+
+                    <tr>
+                        <td>TOTAL DEPOSIT AMOUNT</td>
+                        <td>@string.Format("{0:N0}", (Model.Amount) * 1 / 100 + Model.Amount)</td>
+                    </tr>
+
+                    @*<tr>
+            <td>Name on cheque</td>
+            <td>
+                @if (string.IsNullOrEmpty(Model.Payer))
+                {
+                    <span>N/A</span>
+                }
+                else
+                {
+                    <span>@Model.Payer</span>
+                }
+            </td>
+        </tr>*@
                 </tbody>
             </table>
 
@@ -99,16 +115,13 @@
                 <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
                 <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
             </div>
-            <div class="row modal-footer"> 
-                <div class="row" id="print_section" style="padding: 0; margin: 0px;"> 
+            <div class="row modal-footer">
+                <div class="row" id="print_section" style="padding: 0; margin: 0px;">
                     <button class="btn btn-primary waves-effect waves-light " onclick="Reprint()">PRINT</button>
                 </div>
 
             </div>
         </div>
-        <!-- modal-footer -->
-
-
     </div>
 
 </div> 

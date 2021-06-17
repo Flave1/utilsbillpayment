@@ -46,28 +46,35 @@
     @RenderSection("scripts", required: false)
 
     <script>
-        $(function () {
-            setInterval(function () {
-                $.ajax({
-                    url: '/Admin/Home/AutoLogout',
-                    success: function (data) {
-                       
-                        if (data.Status != 1) {
-                            window.location.href = '/Admin/Home/Index';
-                        }
-                    }
-                })
-            }, 60000);
+        setInterval(function () {
+            debugger
+            $.ajax({
+                url: '/Admin/Home/AutoLogout',
+                success: function (data) {
 
-            setInterval(function () {
-                $.ajax({
-                    url: '/Admin/Home/ReturnDealerBalance',
-                    success: function (data) { 
-                        $("#dealerBal").text(data.result.LastDealerBalance);
-                        $("#transDate").text(data.result.RequestDate); 
+                    if (data.Status != 1) {
+                        window.location.href = '/Admin/Home/Index';
                     }
-                })
-            }, 3000);
+                }
+            })
+        }, 60000);
+
+        setInterval(function () {
+            debugger
+            $.ajax({
+                url: '/Admin/Home/ReturnDealerBalance',
+                success: function (data) {
+                    $("#dealerBal").text(data.result.LastDealerBalance);
+                    $("#transDate").text(data.result.RequestDate);
+                }
+            })
+        }, 3000);
+
+        $(function () {
+
+            
+
+      
         })
         $(".navbar-default .navbar-brand").live("click", function () {
                 window.location.href='/Admin/Home/Dashboard';

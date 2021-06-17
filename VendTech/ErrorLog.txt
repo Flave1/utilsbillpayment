@@ -6749,3 +6749,69 @@ c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositRece
 
 
 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.WidgetCheckbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.WidgetCheckbox]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+
+
+

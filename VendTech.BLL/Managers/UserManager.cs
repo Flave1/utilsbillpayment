@@ -1110,14 +1110,21 @@ namespace VendTech.BLL.Managers
 
         UserDetails IUserManager.GetNotificationUsersCount(long currentUserId)
         {
-            var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == currentUserId && (x.ModuleId == 6 || x.ModuleId == 10));
-            var modelUser = new UserDetails();
-            modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
-            modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
-            modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
-            modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
+            try
+            {
+                var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == currentUserId && (x.ModuleId == 6 || x.ModuleId == 10));
+                var modelUser = new UserDetails();
+                modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
+                modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
+                modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
+                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
 
-            return modelUser;
+                return modelUser;
+            }
+            catch (Exception)
+            {
+                return new UserDetails();
+            }
         }
     }
 

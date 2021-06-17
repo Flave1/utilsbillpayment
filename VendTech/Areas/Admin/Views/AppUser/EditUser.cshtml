@@ -147,7 +147,7 @@
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">DASHBOARD WIDGETS</label>
 
                                         <div class=" col-md-12">
-                                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList)
+                                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList.Where(d => d.Id != 9).ToList())
 
                                         </div>
                                     </div>
