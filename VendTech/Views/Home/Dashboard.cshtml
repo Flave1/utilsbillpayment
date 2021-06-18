@@ -6,10 +6,7 @@
 }
 
 
-<style>
-    body {
-        background-color: #eee
-    }
+<style> 
 
     .card {
         border: none;
@@ -21,51 +18,14 @@
         font-size: 8px;
         margin: auto;
     }
-
-    .icon {
-        width: 50px;
-        height: 50px;
-        background-color: #eee;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 39px
-    }
-
-    .badge span {
-        background-color: #fffbec;
-        width: 60px;
-        height: 25px;
-        padding-bottom: 3px;
-        border-radius: 5px;
-        display: flex;
-        color: #fed85d;
-        justify-content: center;
-        align-items: center
-    }
-
-    .progress {
-        height: 10px;
-        border-radius: 10px
-    }
-
-        .progress div {
-            background-color: red
-        }
-
-    .text1 {
-        font-size: 14px;
-        font-weight: 600
-    }
+     
+  
 
     .text2 {
-        color: #a5aec0
+        color: #808080;
+        font-weight:bold;
     }
-
-    .test {
-        border: 1px solid red;
-    }
+     
 
     .title-container {
         width: 100%;
@@ -79,10 +39,12 @@
     .action {
         color: #55565a;
         font-weight:bold;
-    }
-
+    } 
     .steps a {
-        color: #f7bf27
+        color: #f7bf27;
+    }
+    a {
+        font-weight: bold;
     }
     .custom-card {
         border-radius: 15px;
@@ -184,77 +146,73 @@
                             </div>
                         }
                     </div>
-
-                    <div class=" mt-5 mb-3 container-fluid" >
-                        <div class="row">
-                            <div class="col-md-4 ">
-                                <div class="card custom-card p-3 mb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex flex-row align-items-center title-container">
-                                            <div class=" c-details">
-                                                <h4 class="action">How To - Save Your Meters</h4> <span><hr /></span>
-                                            </div>
+                     
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - Save Your Meters</h4> <span><hr /></span>
                                         </div>
                                     </div>
-                                    <div class="steps row">
-                                        <ol>
-                                            <li>Click on  <a href="#">SAVED METERS</a>.</li>
-                                            <li>Enter the meter Information.</li>
-                                        </ol>
-                                    </div>
-                                    <span class="text2">Note: Alias is important as a short name to enable you differentiate your multiple meters (Eg : Apartment 1)</span>
-                                    <div class=" row "> <span style=" margin-left: 70%;"><small> <a href="#">Contact support</a></small></span> </div>
                                 </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Index", "Meter")">SAVED METERS</a>.</li>
+                                        <li>Enter the meter Information.</li>
+                                    </ol>
+                                </div>
+                                <span class="text2">Note: Alias is important as a short name to enable you differentiate your multiple meters (Eg : Apartment 1)</span> 
                             </div>
-                            <div class="col-md-4 ">
-                                <div class="card custom-card p-3 mb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex flex-row align-items-center title-container">
-                                            <div class=" c-details">
-                                                <h4 class="action">How To - Fund Your Wallet</h4> <span><hr /></span>
-                                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - Fund Your Wallet</h4> <span><hr /></span>
                                         </div>
                                     </div>
-                                    <div class="steps row">
-                                        <ol>
-                                            <li>Click on  <a href="#">WALLET</a>.</li>
-                                            <li>
-                                                Enter the payment Information. <br>
-                                                <small style="font-weight: bold;">
-                                                    VENDTECH will accept cash or cheque
-                                                    <p><strong>CASH : </strong> Send cash to any VENDTECH office and your account will be credited as qucik as possible.</p>
-                                                    <p>You can as well make a transfer to GT-BANK <br /> (VENDTECH SL LTD - <a href="tel:204/3403314/1/1/6">204/3403314/1/1/6)</a> </p>
-                                                    <p><strong>CHEQUE : </strong>Input the information on the Wallet screen and send a snapshot of the cheque to VENDTECH on the whatsapp number</p>
-                                                </small>
-                                            </li>
-                                        </ol>
-                                    </div>
-                                    <span class="text2"> Please contact <a href="tel:+232 76 277761">+232 76 277761</a> on whatsapp if you have any difficulties</span>
                                 </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Index", "Deposit")">WALLET</a>.</li>
+                                        <li>
+                                            Enter the payment Information. <br>
+                                            VENDTECH will accept cash or cheque.
+                                            <p>
+                                                <strong>CASH : </strong> Send cash to any VENDTECH office and <br /> your account will be credited as qucik as possible.
+                                                <br /> You can as well make a transfer to GT-BANK <br /> (VENDTECH SL LTD - <a href="#">204/3403314/1/1/6</a>)
+                                            </p>
+                                            <p><strong>CHEQUE : </strong>Input the information on the Wallet screen and send a snapshot of the cheque to VENDTECH on the whatsapp number</p>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <span class="text2"> Please contact <a href="tel:+232 76 277761">+232 76 277761</a> on whatsapp if you have any difficulties</span>
                             </div>
-                            <div class="col-md-4 ">
-                                <div class="card custom-card p-3 mb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex flex-row align-items-center title-container">
-                                            <div class=" c-details">
-                                                <h4 class="action">How To - BILL PAYMENT</h4> <span><hr /></span>
-                                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - BILL PAYMENT</h4> <span><hr /></span>
                                         </div>
                                     </div>
-                                    <div class="steps row">
-                                        <ol>
-                                            <li>Click on  <a href="#">BILL PAYMENT</a>, Utilities.</li>
-                                            <li>
-                                                Select a saved meter or enter a new meter
-                                                <br><i class="text2">(Select saved meter is also an option to save new meter)</i>
-                                            </li>
-                                            <li>Enter Amount --> Get Token</li>
-                                            <li>You can print this receipt or write it down to enter into the meter...</li>
-                                        </ol>
-                                    </div>
-                                    <span class="text2"> <i>Viola.... Life made easy.</i></span>
-                                    <div class=" row "> <span style=" margin-left: 70%;"><small> <a href="#">Contact support</a></small></span> </div>
                                 </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Utility", "Meter")">BILL PAYMENT</a>, Utility.</li>
+                                        <li>
+                                            Select a saved meter or enter a new meter
+                                            <br><i class="text2">(Select saved meter is also an option to save new meter)</i>
+                                        </li>
+                                        <li>Enter Amount --> Get Token</li>
+                                        <li>You can print this receipt or write it down to enter into the meter...</li>
+                                    </ol>
+                                </div>
+                                <span class="text2"> <i>Viola.... Life made easy.</i></span> 
                             </div>
                         </div>
                     </div>
