@@ -27,12 +27,12 @@
 
                                 <div class="manage-desposit-content-left">
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor Name:</label>
                                         @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                        <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS ID:</label>
                                         @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
                                     </div>
                                     @*<div class="manage-desposit-row">
@@ -87,8 +87,9 @@
                                         <input type="hidden" id="amount" name="Amount">
                                     </div>
                                     <input type="hidden" name="UserId" value="@ViewBag.vendorId" />
-                                    <div class="manage-desposit-row">
-                                        <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>%</label>
+
+                                    <div class="manage-desposit-row" >
+                                        <label>PLUS <span id="commission"  style="display:none;"> <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
                                         @*<span ></span>*@
                                         <input type="text" id="percentageAmount"
                                                style="font-size: 50px;
@@ -100,6 +101,7 @@
                                                readonly />
                                         <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                     </div>
+
                                     @*<div class="manage-desposit-row">
             <label>COMMENTS</label>
             <textarea name="Comments"></textarea>
@@ -171,6 +173,7 @@
             return num_parts.join(".");
         }
         function getAmountWithPercentage() {
+            debugger
             var displayVal = $("#amountDisplay").val();
             var val = "";
             if (displayVal) {
@@ -181,7 +184,7 @@
             }
             if (val && !isNaN(val)) {
                 val = parseInt(val);
-                var drpValue = '@ViewBag.percentage';
+                var drpValue = $("#agentPercentage").text();
                 if (drpValue != "") {
 
                     var percentageAmt = (drpValue / 100) * val;
@@ -256,6 +259,22 @@
             }
             }
 
+            $("#pos").on("change", function () {
+                debugger
+                var posId = $("#pos").val();
+                $.ajax({
+                    url: '/Admin/Report/GetPosPercentage?pos=' + posId,
+                    success: function (res) {
+                        debugger
+                        if (res.percentage > 0) {
+                            $("#agentPercentage").text(res.percentage);
+                            $("#commission").show();
+                        } else {
+                            $("#commission").hide();
+                        }
+                    }
+                });
+            });
             $("#vendor").on("change", function () {
 
                 debugger;
@@ -268,8 +287,9 @@
                             $("#pos").append("<option value=''> Select POS </option>")
                             if (res.posList != null) {
                                 for (var i = 0; i < res.posList.length; i++) {
-                                    $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                    $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>");
                                 }
+
                             }
                         }
                     })
@@ -280,14 +300,15 @@
             });
 
 
+
             App.init();
             Deposits.ManageDeposits(totalCount);
             onPaymentTypeChange();
 
 
-           
 
-           
+
+
         });
         function isNumber(evt) {
             var iKeyCode = (evt.which) ? evt.which : evt.keyCode

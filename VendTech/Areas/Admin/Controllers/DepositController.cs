@@ -48,7 +48,7 @@ namespace VendTech.Areas.Admin.Controllers
                 ViewBag.vendorId = user.VendorId;
                 ViewBag.posId_ = posId;
                 ViewBag.Balance = _vendorManager.GetVendorPendingDepositTotal(posId.Value);
-                ViewBag.percentage = _posManager.GetPosCommissionPercentage(posId.Value);
+                ViewBag.percentage = _posManager.GetPosCommissionPercentage(posId.Value); 
             }
             else
             {

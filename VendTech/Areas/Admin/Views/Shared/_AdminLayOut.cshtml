@@ -46,8 +46,7 @@
     @RenderSection("scripts", required: false)
 
     <script>
-        setInterval(function () {
-            debugger
+        setInterval(function () { 
             $.ajax({
                 url: '/Admin/Home/AutoLogout',
                 success: function (data) {
@@ -59,8 +58,7 @@
             })
         }, 60000);
 
-        setInterval(function () {
-            debugger
+        setInterval(function () { 
             $.ajax({
                 url: '/Admin/Home/ReturnDealerBalance',
                 success: function (data) {

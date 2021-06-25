@@ -220,7 +220,8 @@ namespace VendTech.Controllers
             {
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
             }
-            if(model.SaveAsNewMeter) _meterManager.SaveMeter(new MeterModel { Address= "", Allias = "", isVerified = false, MeterId=0, MeterMake = "", Name = "", UserId = LOGGEDIN_USER.UserID, Number = model.MeterNumber });
+            if(model.SaveAsNewMeter) 
+                _meterManager.SaveMeter(new MeterModel { Address= "", Allias = "", isVerified = false, MeterId=0, MeterMake = "", Name = "", UserId = LOGGEDIN_USER.UserID, Number = model.MeterNumber });
 
             if (result != null)
                 return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });

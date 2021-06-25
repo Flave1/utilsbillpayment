@@ -1254,13 +1254,9 @@ namespace VendTech.BLL.Managers
                 obj.Message = "Your deposit request has been rejected of SLL " + notyAmount;
             }
             else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Released)
-            {
-
-
-
+            { 
                 obj.Title = "Wallet updated successfully";
-                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
-
+                obj.Message = "Your wallet has been updated with SLL " + notyAmount; 
             }
             else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
             {

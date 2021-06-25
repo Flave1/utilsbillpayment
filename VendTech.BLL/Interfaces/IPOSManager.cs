@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static VendTech.BLL.Managers.POSManager;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -25,10 +26,11 @@ namespace VendTech.BLL.Interfaces
         decimal GetPosBalance(long posId);
         decimal GetPosCommissionPercentageByUserId(long userId);
         List<SelectListItem> GetPOSSelectList(long userId = 0);
-        List<SelectListItem> GetVendorPos(long userId);
+        List<PosSelectItem> GetVendorPos(long userId);
         List<PosAPiListingModel> GetPOSSelectListForApi(long userId = 0);
         PagingResult<POSListingModel> GetUserPosPagingListForApp(int pageNo, int pageSize, long userId);
         UserModel GetUserPosDetailApi(string posSerialNumber);
+        decimal GetPosPercentage(long posId);
     }
 
 }

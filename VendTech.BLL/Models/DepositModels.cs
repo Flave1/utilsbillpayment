@@ -31,6 +31,8 @@ namespace VendTech.BLL.Models
         public string IssuingBank { get; set; }
         public string ValueDate { get; set; }
         public string NameOnCheque { get; set; }
+        public decimal PercentageCommission { get; set; }
+        public POS POS { get; set; } = new POS();
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         {
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
@@ -63,8 +65,9 @@ namespace VendTech.BLL.Models
             DepositId = obj.DepositId;
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
             Payer = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
-            IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
-            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate; 
+            IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
+            PercentageCommission = obj.POS.Commission.Percentage;
         }
          
     }
@@ -74,6 +77,7 @@ namespace VendTech.BLL.Models
         public string DATE_TIME { get; set; }
         public string VALUEDATE { get; set; }
         public string POSID { get; set; }
+        public string VENDOR { get; set; }
         public string USERNAME { get; set; }
         public string DEPOSIT_TYPE { get; set; }
         public string BANK { get; set; }
@@ -87,6 +91,7 @@ namespace VendTech.BLL.Models
         public DepositExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
+            VENDOR = obj.User.Vendor;
             USERNAME = obj.User.Name + " " + obj.User.SurName;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;

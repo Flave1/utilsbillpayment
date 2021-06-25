@@ -109,7 +109,13 @@
                                                     <div class="col-md-4">
                                                         <div class="row">
                                                             <input type="button"
-                                                                   style="height:50px; font-weight:bold; text-transform:uppercase; border:none; margin-top:7px; width:100%; background: #ffd800; border-radius:5px;" disabled class="savebttn addDepositBtn"
+                                                                   style="height:50px; 
+                                                                   font-weight:bold; 
+                                                                   text-transform:uppercase; 
+                                                                   border:none; margin-top:7px; 
+                                                                   width:100%; background: #ffd800; 
+                                                                   border-radius:5px;" disabled 
+                                                                   class="savebttn addDepositBtn"
                                                                    id="pay_Now_Btn" value="PAY NOW">
                                                         </div>
                                                     </div>
@@ -180,6 +186,14 @@
                             <span id="meterno" class="adv-company-name" style="font-weight: bold; font-size: 30px;">Peter Bamidele</span>
                         </div>
                     </div>
+                    <div class="row" style="margin-top:55px; margin-bottom: 25px">
+                        <div class="col-md-6 col-item">
+                            <span class="adv-company-name text-muted">ALLIAS:</span>
+                        </div>
+                        <div class="col-md-6 col-item">
+                            <span id="allias" class="adv-company-name" style="font-weight: bold; font-size: 30px;">N/A</span>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 col-item adv-company-name">
                             <span class="adv-company-name">Amount:</span>
@@ -222,7 +236,10 @@
 
 
 
-        $(document).ready(function () {
+            $(document).ready(function () {
+
+                onSelectMeter();
+
             $(".savebttn").click(function () {
                 if (!$("#Amount").val() || $("#Amount").val() == "0") {
                     $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
@@ -233,12 +250,13 @@
                 } else {
                     let meterno = ""
                     if ($("#MeterNumber").val() == "") {
-                        meterno = $("#meterDrp option:selected").text()
+                        meterno = $("#meterDrp option:selected").text().split("-")[0]
                     } else {
                         meterno = $("#MeterNumber").val();
                     }
 
-                    $("#meterno").html(meterno)
+                    $("#meterno").html(meterno);
+                    $("#allias").html($("#meterDrp option:selected").text().split("-")[1])
                     $("#pamount").html(thousands_separators($("#Amount").val()))
                     $("#form-bp1").modal("show")
                 }

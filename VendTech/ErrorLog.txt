@@ -6815,3 +6815,32 @@ Encountered end tag "div" with no matching start tag.  Are your start/end tags p
 
 
 
+The underlying provider failed on Open.
+
+
+
+The parameters dictionary contains a null entry for parameter 'pos' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetPosPercentage(Int64)' in 'VendTech.Areas.Admin.Controllers.ReportController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(87): error CS1061: 'VendTech.BLL.Models.DepositListingModel' does not contain a definition for 'PercentageCommission' and no extension method 'PercentageCommission' accepting a first argument of type 'VendTech.BLL.Models.DepositListingModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+

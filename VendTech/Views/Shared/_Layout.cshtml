@@ -23,16 +23,17 @@
         @Html.Partial("_Header")
     </header>
     @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
-    <section id="cl-wrapper" class="fixed-menu content">
-        @Html.Partial("_SideBaar")
+<section id="cl-wrapper" class="fixed-menu content">
+    @Html.Partial("_SideBaar")
 
-        @if (user.UserType == UserRoles.AppUser)
+    @if (user.UserType == UserRoles.AppUser)
+    {
+        if (user.IsEmailVerified)
         {
-            if (user.IsEmailVerified)
-            {
-                if (user.Status == (int)UserStatusEnum.Active)
+            @RenderBody();
+            @*if (user.Status == (int)UserStatusEnum.Active)
                 {
-                    @RenderBody()
+
                 }
                 else
                 {
@@ -56,17 +57,17 @@
                         </div>
 
                     </div>
-                }
+                }*@
 
-            }
         }
-        else
-        {
-            <div><H1>Access denied! You do not have permission to access this corner</H1></div>
-        }
+    }
+    else
+    {
+        <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+    }
 
 
-    </section>
+</section>
 
     <footer>
         <style>

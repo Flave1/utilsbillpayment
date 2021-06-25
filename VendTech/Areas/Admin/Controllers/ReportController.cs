@@ -118,6 +118,14 @@ namespace VendTech.Areas.Admin.Controllers
             var posList = _posManager.GetVendorPos(userId);
             return Json(new { posList }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult GetPosPercentage(long pos)
+        {
+            var percentage = _posManager.GetPosPercentage(pos);
+            return Json(new { percentage }, JsonRequestBehavior.AllowGet);
+        }
+
         [AjaxOnly, HttpPost]
         public JsonResult GetDepositReleaseReportList(PagingModel model)
         {
@@ -429,7 +437,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -445,7 +453,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -460,7 +468,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -474,7 +482,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -487,7 +495,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -505,7 +513,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 11,
+                    ColumnSpan = 12,
                     Text = "VENDTECH DEPOSIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -523,15 +531,15 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //BANK
-                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID 
-                gv.HeaderRow.Cells[3].Text = "USER NAME"; //USERNAME
-                gv.HeaderRow.Cells[4].Text = "TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[5].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[6].Text = "TRANSACTION ID"; //TRANSACTION_ID
-                gv.HeaderRow.Cells[7].Text = "REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[8].Text = "AMOUNT";
-                gv.HeaderRow.Cells[9].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE
+                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID
+                gv.HeaderRow.Cells[3].Text = "VENDOR"; //VENDOR
+                gv.HeaderRow.Cells[4].Text = "APPROVER NAME"; //USERNAME
+                gv.HeaderRow.Cells[5].Text = "AMOUNT";
+                gv.HeaderRow.Cells[6].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[7].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[8].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[9].Text = "REF #"; //DEPOSIT_REF_NO
                 gv.HeaderRow.Cells[10].Text = "NEW BALANCE"; //NEW_BALANCE
 
                 foreach (GridViewRow row in gv.Rows)

@@ -1,127 +1,129 @@
 ﻿@model DepositListingModel
 
 <div class="modal-dialog modal-md">
-    <div class="modal-content modal-md">
-        <div class="modal-body" id="printSection">
-            <div class="row" style="text-align:center;"> 
-                <img src="~/Content/images/ventech.png" width="90" />
-            </div>
-            <div class="row" style="text-align:center; margin:5px;" id="gen-invoice">
-                <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
-                <h3>DEPOSIT RECEIPT</h3>
-            </div>
+    <div class="modal-content modal-md" >
+        <div class="modal-body" >
 
+            <div class="" id="re-printSection">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row" style="text-align:center;">
+                    <img src="~/Content/images/ventech.png" width="90" />
+                </div>
+                <div class="row" style="text-align:center; margin:5px;" id="gen-invoice">
+                    <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
+                    <h3>DEPOSIT RECEIPT</h3>
+                </div>
 
-            <table  style="border-top:0.8px solid grey;">
-                <tbody>
-                    <tr>
-                        <td>Deposit Date : </td>
-                        <td> @Model.CreatedAt </td>
-                    </tr>
-                    <tr>
-                        <td>Value Date :</td>
-                        <td> @Model.ValueDate</td>
-                    </tr>
-                    <tr>
-                        <td>Vendor ID :</td>
-                        <td>@Model.VendorName</td>
-                    </tr>
-                    <tr>
-                        <td>POS ID </td>
-                        <td>@Model.PosNumber</td>
-                    </tr>
-                    <tr>
-                        <td>Transaction ID </td>
-                        <td>@Model.TransactionId</td>
-                    </tr>
-                    <tr>
-                        <td>Deposit Type </td>
-                        <td>@Model.Type</td>
-                    </tr>
-                    <tr>
-                        <td>Payer</td>
-                        <td>@Model.UserName</td>
-                    </tr>
-                    <tr>
-                        <td>Payer bank</td>
-                        <td>
-                            @if (string.IsNullOrEmpty(Model.Bank))
-                            {
-                                <span>N/A</span>
-                            }
-                            else
-                            {
-                                <span>@Model.Bank</span>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Deposit Slip OR REF#</td>
-                        <td>
-                            @if (Model.ChkNoOrSlipId == "0")
-                            {
-                                <span>N/A</span>
-                            }
-                            else
-                            {
+                <table style="border-top:0.8px solid grey; margin:auto; width:90%;">
+                    <tbody>
+                        <tr>
+                            <td>Deposit Date : </td>
+                            <td> @Model.CreatedAt </td>
+                        </tr>
+                        <tr>
+                            <td>Value Date :</td>
+                            <td> @Model.ValueDate</td>
+                        </tr>
+                        <tr>
+                            <td>Vendor Name :</td>
+                            <td>@Model.VendorName</td>
+                        </tr>
+                        <tr>
+                            <td>POS ID </td>
+                            <td>@Model.PosNumber</td>
+                        </tr>
+                        <tr>
+                            <td>Transaction ID </td>
+                            <td>@Model.TransactionId</td>
+                        </tr>
+                        <tr>
+                            <td>Deposit Type </td>
+                            <td>@Model.Type</td>
+                        </tr>
+                        <tr>
+                            <td>Payer</td>
+                            <td>@Model.UserName</td>
+                        </tr>
+                        <tr>
+                            <td>Payer bank</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(Model.IssuingBank))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.IssuingBank</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Deposit Slip OR REF#</td>
+                            <td>
                                 <span>@Model.ChkNoOrSlipId</span>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Payed to VTECH Bank</td>
-                        <td>
-                            @if (string.IsNullOrEmpty(Model.IssuingBank))
-                            {
-                                <span>N/A</span>
-                            }
-                            else
-                            {
-                                <span>@Model.IssuingBank</span>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Amount</td>
-                        <td>@string.Format("{0:N0}", Model.Amount)</td>
-                    </tr>
-                    <tr>
-                        <td>COMMISSION @@ %1</td>
-                        <td>@string.Format("{0:N0}", (Model.Amount) * 1 / 100 )</td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Payed to VTECH Bank</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(Model.Bank))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.Bank</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td>@string.Format("{0:N0}", Model.Amount)</td>
+                        </tr>
+                        <tr>
+                            <td>COMMISSION @@ %1</td>
+                            <td>@string.Format("{0:N0}", (Model.Amount) * Model.PercentageCommission / 100)</td>
+                        </tr>
 
-                    <tr>
-                        <td>TOTAL DEPOSIT AMOUNT</td>
-                        <td>@string.Format("{0:N0}", (Model.Amount) * 1 / 100 + Model.Amount)</td>
-                    </tr>
+                        <tr>
+                            <td>TOTAL DEPOSIT AMOUNT</td>
+                            <td>@string.Format("{0:N0}", (Model.Amount) * Model.PercentageCommission / 100 + Model.Amount)</td>
+                        </tr>
 
-                    @*<tr>
-            <td>Name on cheque</td>
-            <td>
-                @if (string.IsNullOrEmpty(Model.Payer))
-                {
-                    <span>N/A</span>
-                }
-                else
-                {
-                    <span>@Model.Payer</span>
-                }
-            </td>
-        </tr>*@
-                </tbody>
-            </table>
+                        @*<tr>
+                    <td>Name on cheque</td>
+                    <td>
+                        @if (string.IsNullOrEmpty(Model.Payer))
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Payer</span>
+                        }
+                    </td>
+                </tr>*@
+                    </tbody>
+                </table>
 
-            <div class="row">
-                <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
-                <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
-            </div>
-            <div class="row modal-footer">
-                <div class="row" id="print_section" style="padding: 0; margin: 0px;">
-                    <button class="btn btn-primary waves-effect waves-light " onclick="Reprint()">PRINT</button>
+                <br />
+                <div class="row">
+                    <div style="width:90%; margin:auto">
+                        <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
+                        <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
+                    </div>
                 </div>
 
             </div>
+            <div class="row modal-footer">
+                <div class="row" id="print_section" style="padding: 0; margin: 0px;">
+                    <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
+                </div> 
+            </div>
         </div>
+      
     </div>
 
 </div> 

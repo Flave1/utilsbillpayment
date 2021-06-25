@@ -814,8 +814,7 @@ namespace VendTech.BLL.Managers
                 trans.UserId = model.UserId;
                 trans.MeterId = model.MeterId;
                 trans.POSId = model.POSId;
-                trans.MeterNumber1 = model.MeterNumber;
-                trans.TransactionDetailsId = (long)model.MeterId;
+                trans.MeterNumber1 = model.MeterNumber; 
                 trans.MeterToken1 = string.Empty;
                 trans.Amount = model?.Amount ?? new decimal();
                 trans.TransactionId = model?.TransactionId.ToString();
