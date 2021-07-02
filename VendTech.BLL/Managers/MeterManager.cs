@@ -225,7 +225,17 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                {
+                    if (user.Status == (int)UserStatusEnum.Active)
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null
+                        && p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                    }
+                    else
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).Select(p => p.POSId).ToList();
+                    }
+                }
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
             if (model.From != null)
@@ -618,7 +628,7 @@ namespace VendTech.BLL.Managers
                             UserName = username,
                             Password = password,
                             System = "SL"
-                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId
+                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId+5
                        },
             };
         }
@@ -684,7 +694,7 @@ namespace VendTech.BLL.Managers
             receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1) ?? string.Empty;
             receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2) ?? string.Empty;
             receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3) ?? string.Empty;
-            receipt.Discount = string.Format("{0:N0}",0);
+            receipt.Discount = string.Format("{0:N0}", 0);
             receipt.Tax = string.Format("{0:N0}", model.TaxCharge);
             receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             receipt.VendorId = model.User.Vendor;
@@ -814,7 +824,7 @@ namespace VendTech.BLL.Managers
                 trans.UserId = model.UserId;
                 trans.MeterId = model.MeterId;
                 trans.POSId = model.POSId;
-                trans.MeterNumber1 = model.MeterNumber; 
+                trans.MeterNumber1 = model.MeterNumber;
                 trans.MeterToken1 = string.Empty;
                 trans.Amount = model?.Amount ?? new decimal();
                 trans.TransactionId = model?.TransactionId.ToString();
@@ -876,10 +886,10 @@ namespace VendTech.BLL.Managers
             }
             return new RequestResponse { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
         }
-    
+
         TransactionDetail IMeterManager.GetLastTransaction()
         {
-            return Context.TransactionDetails.OrderByDescending(d => d.TransactionDetailsId).FirstOrDefault()?? new TransactionDetail();
+            return Context.TransactionDetails.OrderByDescending(d => d.TransactionDetailsId).FirstOrDefault() ?? new TransactionDetail();
         }
     }
 
