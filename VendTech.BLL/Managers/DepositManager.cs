@@ -396,10 +396,6 @@ namespace VendTech.BLL.Managers
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
-
-
-
-
             }
 
             if (model.To != null)
@@ -1254,9 +1250,9 @@ namespace VendTech.BLL.Managers
                 obj.Message = "Your deposit request has been rejected of SLL " + notyAmount;
             }
             else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Released)
-            { 
+            {
                 obj.Title = "Wallet updated successfully";
-                obj.Message = "Your wallet has been updated with SLL " + notyAmount; 
+                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
             }
             else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
             {
@@ -1494,7 +1490,8 @@ namespace VendTech.BLL.Managers
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-            dbDeposit.ValueDate = depositAuditModel.ValueDateModel;
+            var valueDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.ValueDate = valueDate;
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
             dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;
