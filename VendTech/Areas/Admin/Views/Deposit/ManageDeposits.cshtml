@@ -34,16 +34,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS ID:</label>
                                         @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
-                                    </div>
-                                    @*<div class="manage-desposit-row">
-            <label>VENDOR</label>
-            @Html.DropDownList("Vendor", new SelectList(ViewBag.vendors, "value", "text"), "SELECT VENDOR", new { @id = "vendor" })
-        </div>
-        <div class="manage-desposit-row">
-            <label>POS ID</label>
-            @Html.DropDownList("PosId", null, "SELECT POS", new { @onchange = "changeVendor()", @id = "pos" })
-
-        </div>*@
+                                    </div> 
                                     <div class="manage-desposit-row">
                                         <label>BANK ACCOUNT</label>
                                         @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { })
@@ -51,8 +42,7 @@
 
                                     <div class="row" style="margin-bottom:10px;">
                                         <div class="form-group">
-                                            <label class="col-md-4">
-                                                @*CHX/CASH*@
+                                            <label class="col-md-4"> 
                                             </label>
                                             <div class="col-md-4" style="padding-left:0;">
                                                 <label>CHX/CASH</label>
@@ -65,8 +55,7 @@
                                         </div>
                                     </div>
                                     <div class="manage-desposit-row chkBankDiv" style="display:none">
-                                        <label>BANK</label>
-                                        @*<input type="text" id="ChkBankName" name="ChkBankName">*@
+                                        <label>BANK</label> 
                                         @Html.DropDownList("ChkBankName", null, "SELECT BANK")
                                     </div>
                                     <div class="manage-desposit-row chkBankDiv" style="display:none">
@@ -89,7 +78,7 @@
                                     <input type="hidden" name="UserId" value="@ViewBag.vendorId" />
 
                                     <div class="manage-desposit-row" >
-                                        <label>PLUS <span id="commission"  style="display:none;"> <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
+                                        <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
                                         @*<span ></span>*@
                                         <input type="text" id="percentageAmount"
                                                style="font-size: 50px;
@@ -172,8 +161,7 @@
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return num_parts.join(".");
         }
-        function getAmountWithPercentage() {
-            debugger
+        function getAmountWithPercentage() { 
             var displayVal = $("#amountDisplay").val();
             var val = "";
             if (displayVal) {
@@ -260,34 +248,37 @@
             }
 
             $("#pos").on("change", function () {
-                debugger
+                $("#percentageAmountHdn").val(0);
+                $("#agentPercentage").text('');
                 var posId = $("#pos").val();
-                $.ajax({
-                    url: '/Admin/Report/GetPosPercentage?pos=' + posId,
-                    success: function (res) {
-                        debugger
-                        if (res.percentage > 0) {
-                            $("#agentPercentage").text(res.percentage);
-                            $("#commission").show();
-                        } else {
-                            $("#commission").hide();
-                        }
-                    }
-                });
+                if (posId) {
+                    fetchPosPercentage(posId);
+                }
             });
             $("#vendor").on("change", function () {
-
-                debugger;
+                 
                 var vendorId = $("#vendor").val();
                 $("#pos").empty();
                 if (vendorId) {
                     $.ajax({
                         url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-                        success: function (res) {
-                            $("#pos").append("<option value=''> Select POS </option>")
+                        success: function (res) { 
                             if (res.posList != null) {
+                                if (res.posList.length > 1) {
+                                    $("#pos").append("<option value=''> -Select POS- </option>")
+                                }
+                                if (res.posList.length == 0) {
+                                    $("#pos").append("<option value=''> -NO POS - </option>")
+                                }
                                 for (var i = 0; i < res.posList.length; i++) {
                                     $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>");
+                                }
+                                var currentPosId = $("#pos").val();
+                                $("#percentageAmountHdn").val(0);
+                                $("#percentageAmount").val(thousands_separators(0));
+                                $("#agentPercentage").text('')
+                                if (currentPosId) {
+                                    fetchPosPercentage(currentPosId);
                                 }
 
                             }
@@ -315,6 +306,21 @@
             if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
                 return false;
             return true;
+        }
+
+        function fetchPosPercentage(posiId) {
+            
+            $.ajax({
+                url: '/Admin/Report/GetPosPercentage?pos=' + posiId,
+                success: function (res) { 
+                    if (res.percentage > 0) {
+                        $("#agentPercentage").text(res.percentage);
+                        $("#commission").show();
+                    } else {
+                        $("#commission").hide();
+                    }
+                }
+            });
         }
     </script>
 }

@@ -34,8 +34,9 @@ namespace VendTech.BLL.Managers
             }
             else
             {
-                if (Context.Meters.Any(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId))
-                    return ReturnError("Same meter number already exist for you.");
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId);
+                if (met != null)
+                    return ReturnError(met.MeterId, "Same meter number already exist for you.");
             }
             dbMeter.Name = model.Name;
             dbMeter.Number = model.Number;
@@ -50,7 +51,7 @@ namespace VendTech.BLL.Managers
                 Context.Meters.Add(dbMeter);
             }
             Context.SaveChanges();
-            return ReturnSuccess("Meter details saved successfully.");
+            return ReturnSuccess(dbMeter.MeterId, "Meter details saved successfully.");
         }
         MeterModel IMeterManager.GetMeterDetail(long meterId)
         {
@@ -484,6 +485,15 @@ namespace VendTech.BLL.Managers
             db_transaction_detail.TransactionId = model.TransactionId.ToString();
             try
             {
+                MeterModel newMeter = new MeterModel();
+                long meterId = 0;
+                if (model.SaveAsNewMeter)
+                {
+                     newMeter = StackNewMeterToDbObject(model);
+                     meterId = (this as IMeterManager).SaveMeter(newMeter).ID; 
+                }
+
+                db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
                 pos.Balance = pos.Balance.Value - model.Amount;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
@@ -499,6 +509,21 @@ namespace VendTech.BLL.Managers
                 throw e;
             }
 
+        }
+
+        private MeterModel StackNewMeterToDbObject(RechargeMeterModel model)
+        { 
+            return new MeterModel
+            {
+                Address = "",
+                Allias = "",
+                isVerified = false,
+                MeterId = 0,
+                MeterMake = "",
+                Name = "",
+                UserId = model.UserId,
+                Number = model.MeterNumber
+            };  
         }
 
         ActionOutput<MeterRechargeApiListingModel> IMeterManager.GetRechargeDetail(long rechargeId)
@@ -764,10 +789,10 @@ namespace VendTech.BLL.Managers
             {
                 var tran = new TransactionDetail();
                 tran.UserId = model.UserId;
-                tran.MeterId = model.MeterId;
+                tran.MeterId = model.MeterId != null ? model.MeterId : 0;
                 tran.POSId = model.POSId;
                 tran.MeterNumber1 = model?.MeterNumber;
-                tran.TransactionDetailsId = (long)model.MeterId;
+                tran.TransactionDetailsId = model.MeterId != null ? (long)model.MeterId : 0;
                 tran.MeterToken1 = response_data != null ? response_data?.PinNumber : string.Empty;
                 tran.MeterToken2 = response_data != null ? response_data?.PinNumber2 : string.Empty;
                 tran.MeterToken3 = response_data != null ? response_data?.PinNumber3 : string.Empty;
@@ -789,9 +814,9 @@ namespace VendTech.BLL.Managers
                 tran.TenderedAmount = response_data != null ? (decimal)response_data?.PowerHubVoucher?.TenderedAmount : new decimal();
                 tran.TransactionAmount = response_data != null ? (decimal)response_data?.PowerHubVoucher?.TransactionAmount : new decimal();
                 var units = response_data != null ? response_data?.PowerHubVoucher?.Units : new double();
-                tran.Units = Convert.ToDecimal(units);
+                tran.Units = units != null ? Convert.ToDecimal(units):0;
                 var costofunits = response_data != null ? response_data?.PowerHubVoucher?.CostOfUnits : string.Empty;
-                tran.CostOfUnits = Convert.ToDecimal(costofunits);
+                tran.CostOfUnits = costofunits != null? Convert.ToDecimal(costofunits): 0;
                 tran.CustomerAddress = response_data != null ? response_data?.PowerHubVoucher?.CustAddress?.ToString() : string.Empty;
                 tran.PlatFormId = Convert.ToInt16(model.PlatformId);
                 tran.Request = vend_request;

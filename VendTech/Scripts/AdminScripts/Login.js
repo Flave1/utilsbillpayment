@@ -38,7 +38,7 @@ var Admin = {
         return false;
     },
     ForgotPassword: function (sender) {
-        debugger
+        
         var email = $("#email").val();
         if (!email) {
             $.ShowMessage($('div.messageAlert'), "Email is required.", MessageType.Error);

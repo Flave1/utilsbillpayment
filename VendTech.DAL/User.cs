@@ -102,6 +102,6 @@ namespace VendTech.DAL
         public virtual UserRole UserRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual User User1 { get; set; } 
     }
 }

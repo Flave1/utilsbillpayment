@@ -21,7 +21,7 @@ $("#IsPassCode").on('change', function (e) {
     }
 });
 function Save() {
-    debugger;
+    
     var input = Math.floor(Math.random() * 90000) + 10000;
     var div = 10000;
     var value = 0;
