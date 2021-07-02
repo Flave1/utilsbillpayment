@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Configuration;
@@ -22,13 +24,17 @@ namespace VendTech.Areas.Api.Controllers
         private readonly ICMSManager _cmsManager;
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
+        private readonly IAgencyManager _agentManager;
+
         public AccountController(IUserManager userManager,
             IBankAccountManager bankAccountManager,
             IErrorLogManager errorLogManager,
             IEmailTemplateManager templateManager,
             IAuthenticateManager authenticateManager,
             ICMSManager cmsManager,
-            IVendorManager vendorManager, IPOSManager posManager)
+            IVendorManager vendorManager,
+            IPOSManager posManager,
+            IAgencyManager agentManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -38,7 +44,9 @@ namespace VendTech.Areas.Api.Controllers
             _cmsManager = cmsManager;
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
+            _agentManager = agentManager;
         }
+
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage Test()
@@ -336,7 +344,11 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetAppUserTypes()
         {
-            var result = Utilities.EnumToList(typeof(AppUserTypeEnum));
+            var data = _agentManager.GetAgentsSelectList();
+            var enumValue = Utilities.EnumToList(typeof(AppUserTypeEnum));
+            var result = new DataResult<List<System.Web.Mvc.SelectListItem>, List<System.Web.Mvc.SelectListItem>>();
+            result.Result1 = data;
+            result.Result2 = enumValue;
             return new JsonContent("App User Types fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
 
