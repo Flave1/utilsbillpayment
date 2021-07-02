@@ -549,6 +549,7 @@ function getUrlParameter(name) {
 
     function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date,valueDate)
     {
+        debugger;
         $("#depositModalTitle").text("Edit Deposit Audit");
         $("#hdnDepositId").val(id);
         $("#hdnUserId").val(userId);
@@ -559,7 +560,7 @@ function getUrlParameter(name) {
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
         //var date =valueDate.split("-");
-        var valueDate = valueDate.replaceAll("-", "/")
+        //var valueDate = valueDate.replaceAll("-", "/")
         //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
         $("#value_date").val(valueDate);
         $("#modal_amount").val(amount);
@@ -567,7 +568,7 @@ function getUrlParameter(name) {
             $("#modal_btn").val("Clear");
         else
             $("#modal_btn").val("Open");
-        var date = date.replaceAll("-", "/");
+        //var date = date.replaceAll("-", "/");
         $("#modal_created").val(date)
         $("#depositModal").modal('show');
       }
