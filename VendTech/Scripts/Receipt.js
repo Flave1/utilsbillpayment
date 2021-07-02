@@ -1,41 +1,20 @@
 ﻿
-function fetchDepsitDetails(token) {
-    debugger;
-     
-    try {
+function onViewDepositDetails(depositId) {
 
+    if (depositId) {
         var inputParam = new Object();
-        inputParam.token_string = token.replace(/ /g, ''); 
-
+        inputParam.token_string = depositId;
         $.ajax({
-            url: baseUrl + '/Meter/GetDepositDetails',
+            url: baseUrl + '/Deposit/GetDepositDetails',
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
-                 
-                if (data.Code === 302) {
-                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                    $("#error_reponse").show();
-                    $("#error_reponse").html(data.Msg);
-                    return false;
-                }
-                if (data.Code === 200) {
 
-                    console.log(data);
-
-           
-                    $("#modalCart2").modal("show");
-                } else {
-
-                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                }
-
+                $('.modal-body').html(data);
+                $("#depositDetailModal").modal("show");
+                debugger
             }
         });
-
-    } catch (e) {
-        console.log(e);
-        DisableAndEnablelinks(false, token);
     }
 }
 
@@ -207,6 +186,20 @@ function Reprint() {
     WinPrint.document.write('<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">');
     WinPrint.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">');
  
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}
+
+function depositReprint() {
+    debugger;
+    $("#re-print_section").hide();
+    var prtContent = document.getElementById("re-printSection");
+    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0'); 
+    WinPrint.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">');
+
     WinPrint.document.write(prtContent.innerHTML);
     WinPrint.document.close();
     WinPrint.focus();

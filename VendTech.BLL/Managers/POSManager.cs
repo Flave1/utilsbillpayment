@@ -92,7 +92,7 @@ namespace VendTech.BLL.Managers
             return query.ToList().OrderBy(p => p.SerialNumber).Select(p => new PosAPiListingModel(p)
            ).ToList();
         }
-        List<SelectListItem> IPOSManager.GetVendorPos(long userId)
+        List<PosSelectItem> IPOSManager.GetVendorPos(long userId)
         {
             var query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false);
             // var query = Context.POS.Where(p => !p.IsDeleted);
@@ -100,13 +100,20 @@ namespace VendTech.BLL.Managers
             if (userId > 0)
                 query = query.Where(p => (p.VendorId != null && p.VendorId == userId));
             var list = query.ToList();
-            return list.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
+            return list.OrderBy(p => p.SerialNumber).Select(p => new PosSelectItem
             {
                 Text = p.SerialNumber.ToUpper(),
-                Value = p.POSId.ToString()
+                Value = p.POSId.ToString(),
+                Percentage = p.CommissionPercentage
             }).ToList();
         }
 
+        public class PosSelectItem
+        {
+            public string Text { get; set; } 
+            public string Value { get; set; }
+            public int? Percentage { get; set; }
+        }
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
         {
             var query = new List<POS>();
@@ -270,6 +277,13 @@ namespace VendTech.BLL.Managers
             if (dbPos == null || dbPos.Balance == null)
                 return 0;
             return dbPos.Balance.Value;
+        }
+        decimal IPOSManager.GetPosPercentage(long posId)
+        {
+            var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);
+            if (dbPos == null)
+                return 0;
+            return dbPos.Commission.Percentage;
         }
         decimal IPOSManager.GetPosCommissionPercentageByUserId(long userId)
         {

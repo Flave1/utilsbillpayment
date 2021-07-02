@@ -23,11 +23,11 @@
         <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
         @if (item.Enabled)
         {
-            <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+            <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
         }
         else
         {
-            <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+            <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);"; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
         }
 
     </td>

@@ -162,24 +162,31 @@ namespace VendTech.BLL.Managers
 
         bool IAuthenticateManager.IsUserPosEnable(long userId)
         {
-            var result = Context.Users.Where(x => x.UserId == userId
+            try
+            {
+                var result = Context.Users.Where(x => x.UserId == userId
             && (x.Status == (int)UserStatusEnum.Active ||
             x.Status == (int)UserStatusEnum.PasswordNotReset ||
             x.Status == (int)UserStatusEnum.Pending))
                 .FirstOrDefault();
-            if (result != null)
-            {
-                bool userAssignedPos = false;
-                if (result.UserRole.Role == UserRoles.Vendor)
-                    userAssignedPos = result.POS.All(p => p.Enabled == false);
-                else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
-                    userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
-                if (userAssignedPos)
+                if (result != null)
                 {
-                    return true;
+                    bool userAssignedPos = false;
+                    if (result.UserRole.Role == UserRoles.Vendor)
+                        userAssignedPos = result.POS.All(p => p.Enabled == false);
+                    else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
+                        userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
+                    if (userAssignedPos)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return true;
+            }
         }
 
         UserModel IAuthenticateManager.GetDetailsbyUser(string email, string password)
@@ -206,9 +213,9 @@ namespace VendTech.BLL.Managers
                 }
                 return result;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw e;
             }
         }
 
@@ -248,7 +255,7 @@ namespace VendTech.BLL.Managers
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

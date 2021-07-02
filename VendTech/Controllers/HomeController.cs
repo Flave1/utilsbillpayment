@@ -122,17 +122,21 @@ namespace VendTech.Controllers
             if (data != null && data.Object != null)
             {
                 JustLoggedin = true;
-                var PermissonAndDetailModel = new PermissonAndDetailModel();
-                PermissonAndDetailModel.UserDetails = data.Object;
-                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
-                CreateCustomAuthorisationCookie(data.Object.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
+
                 if (!userDetails.isemailverified)
                 {
                     data = new ActionOutput<UserDetails>();
                     data.Status = ActionStatus.Successfull;
                     data.Message = "emailNotVerified";
+                    data.Results = new List<string>();
+                    data.Results.Add(userDetails.UserId.ToString());
                     return Json(data, JsonRequestBehavior.AllowGet);
-                }
+                } 
+                var PermissonAndDetailModel = new PermissonAndDetailModel();
+                PermissonAndDetailModel.UserDetails = data.Object;
+                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
+                CreateCustomAuthorisationCookie(data.Object.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
+              
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -235,22 +239,22 @@ namespace VendTech.Controllers
 
 
         [Public]
-        public ActionResult FirstTimeLoginChangePassword()
+        public ActionResult FirstTimeLoginChangePassword(long userId = 0)
         {
 
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             ViewBag.IsFirstTimeLogin = true; ;
             var model = new ResetPasswordModel();
+            model.UserId = userId;
             return View(model);
         }
 
-        [AjaxOnly, HttpPost]
+        [AjaxOnly, HttpPost, Public]
         public JsonResult FirstTimeLoginChangePassword(ResetPasswordModel model)
-        {
-            model.UserId = LOGGEDIN_USER.UserID;
+        { 
             var data = new ActionOutput<UserDetails>();
 
-            var result = _authenticateManager.FirstTimeLoginChangePassword(LOGGEDIN_USER.UserID, model.OldPassword, model.Password);
+            var result = _authenticateManager.FirstTimeLoginChangePassword(model.UserId, model.OldPassword, model.Password);
 
             if (result.Status != ActionStatus.Successfull)
                 return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message });

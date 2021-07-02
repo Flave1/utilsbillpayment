@@ -136,6 +136,7 @@ var Users = {
     },
     RechargeMeter2: function (sender) {
 
+        debugger;
         $("#pay_Now_Btn").css({ backgroundColor: '#56bb96' });
         $("#error_reponse").hide();
         $("#error_reponse").empty();
@@ -158,7 +159,8 @@ var Users = {
             data: $("form#rechargeForm").serialize(),
             type: "POST",
             success: function (data) {
-               
+
+                debugger
                 $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                 $("#pay_Now_Btn").val('PAY NOW');
                 $("#pay_Now_Btn").prop('disabled', false);
@@ -174,7 +176,8 @@ var Users = {
                 if (data.Code === 200) {
                 
                     console.log(data);
-                    
+
+                    $("#sales_date").html(data.Data.CreatedAt)
                     $("#customer_name").html(data.Data.CustomerName);
                     $("#customer_account_number").html(data.Data.AccountNo);
                     $("#customer_address").html(data.Data.Address);

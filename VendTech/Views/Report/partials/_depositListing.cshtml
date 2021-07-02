@@ -5,19 +5,21 @@
     {
         foreach (var item in Model.List)
         {
-    <tr class="odd gradeX">
-        <td style="text-align:right"> @item.CreatedAt</td>
-        <td style="text-align:right"> @item.PosNumber</td>
-        <td style="text-align:left">@item.UserName</td>
-        <td> @item.Type</td>
-        <td> @item.Bank</td>
-        <td style="text-align:center;"> @item.TransactionId</td>
-        <td style="text-align:right"> @item.ChkNoOrSlipId</td>
-        <td style="text-align:right"><strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong></td>
-        <td style="text-align:right"><strong>@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</strong></td>
-        <td style="text-align:right"><strong>@(item.NewBalance == null ? "0" : string.Format("{0:N0}", item.NewBalance))</strong></td>
+<tr class="odd gradeX">
+    <td style="text-align:right"> @item.CreatedAt</td>
+    <td style="text-align:right"> @item.ValueDate</td>
+    <td style="text-align:right"> @item.PosNumber</td>
+    <td style="text-align:left">@item.VendorName</td>
+    <td style="text-align:left">@item.UserName</td>
+    <td> @item.Type</td>
+    <td> @item.Bank</td>
+    <td style="text-align:center;"> @item.TransactionId</td>
+    <td style="text-align:right"> @item.ChkNoOrSlipId</td>
+    <td style="text-align:right"><strong><a href="#" onclick="onViewDepositDetails('@item.DepositId')">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount)) </a></strong></td>
+    <td style="text-align:right"><strong>@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</strong></td>
+    <td style="text-align:right"><strong>@(item.NewBalance == null ? "0" : string.Format("{0:N0}", item.NewBalance))</strong></td>
 
-    </tr>
+</tr>
         }
     }
     else

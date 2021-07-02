@@ -115,7 +115,7 @@ namespace VendTech.Controllers
             var result = _depositManager.GetDepositDetail(Convert.ToInt64(tokenobject.token_string));
             if (result.Object == null)
                 return Json(new { Success = false, Code = 302, Msg = result.Message });
-            return Json(new { Success = true, Code = 200, Msg = "Success", Data = result });
+            return PartialView("_depositReceipt", result.Object);
         }
     }
 }
