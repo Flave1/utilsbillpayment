@@ -464,7 +464,7 @@ namespace VendTech.BLL.Managers
             }
             var newUser = new User();
             newUser.Email = model.Email;
-            newUser.Password = Utilities.EncryptPassword(model.Password);
+            newUser.Password = Utilities.EncryptPassword(model.Password == null ? "" : model.Password);
             newUser.Name = model.FirstName;
             newUser.SurName = model.LastName;
             newUser.UserName = model.UserName;
@@ -479,7 +479,7 @@ namespace VendTech.BLL.Managers
             newUser.CityId = model.City;
             newUser.CompanyName = model.CompanyName;
             newUser.CountryCode = "+232";
-			newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
+            newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
             Context.Users.Add(newUser);
             Context.SaveChanges();
             return ReturnSuccess<long>(newUser.UserId, "User added successfully.");
