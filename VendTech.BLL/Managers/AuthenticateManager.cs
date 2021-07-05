@@ -478,6 +478,8 @@ namespace VendTech.BLL.Managers
             newUser.Address = model.Address;
             newUser.CityId = model.City;
             newUser.CompanyName = model.CompanyName;
+            newUser.CountryCode = "+232";
+			newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
             Context.Users.Add(newUser);
             Context.SaveChanges();
             return ReturnSuccess<long>(newUser.UserId, "User added successfully.");

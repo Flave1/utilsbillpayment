@@ -253,6 +253,7 @@ namespace VendTech.BLL.Models
         public string ReferralCode { get; set; }
         public AppTypeEnum AppType { get; set; }
         public AppUserTypeEnum AppUserType { get; set; }
+        public string Agency { get; set; }
     }
     public class VerifyAccountVerificationCodeMOdel
     {

@@ -46,17 +46,29 @@
     @RenderSection("scripts", required: false)
 
     <script>
-
-        setInterval(function () {
+        setInterval(function () { 
             $.ajax({
                 url: '/Admin/Home/AutoLogout',
                 success: function (data) {
+
+            setInterval(function () {
+                $.ajax({
+                    url: '/Admin/Home/ReturnDealerBalance',
+                    success: function (data) {
+                        
+                         
+                        $("#dealerBal").text(data.result.LastDealerBalance);
+                        $("#transDate").text(data.result.RequestDate);
+                        //if (data.Status != 1) {
+                        //    window.location.href = '/Admin/Home/Index';
+                        //}
                     if (data.Status != 1) {
                         window.location.href = '/Admin/Home/Index';
                     }
                 }
             })
         }, 60000);
+
         setInterval(function () { 
             $.ajax({
                 url: '/Admin/Home/ReturnDealerBalance',
@@ -67,6 +79,12 @@
             })
         }, 3000);
 
+        $(function () {
+
+            
+
+      
+        })
         $(".navbar-default .navbar-brand").live("click", function () {
                 window.location.href='/Admin/Home/Dashboard';
             });
