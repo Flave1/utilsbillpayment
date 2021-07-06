@@ -31,6 +31,10 @@ namespace VendTech.BLL.Managers
             return new ActionOutput { Status = ActionStatus.Successfull, Message = msg, ID = id };
         }
 
+        protected ActionOutput ReturnError(long id, string msg = "")
+        {
+            return new ActionOutput { Status = ActionStatus.Successfull, Message = msg, ID = id };
+        }
         protected ActionOutput ReturnError(string msg = "")
         {
             return new ActionOutput { Status = ActionStatus.Error, Message = msg };

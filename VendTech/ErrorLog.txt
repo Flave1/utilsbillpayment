@@ -6657,8 +6657,194 @@ Exception has been thrown by the target of an invocation.
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The partial view 'GetDepositDetails' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/GetDepositDetails.aspx
+~/Views/Deposit/GetDepositDetails.ascx
+~/Views/Shared/GetDepositDetails.aspx
+~/Views/Shared/GetDepositDetails.ascx
+~/Views/Deposit/GetDepositDetails.cshtml
+~/Views/Deposit/GetDepositDetails.vbhtml
+~/Views/Shared/GetDepositDetails.cshtml
+~/Views/Shared/GetDepositDetails.vbhtml
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(47): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(46): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(46): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(54): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(54): error CS1002: ; expected
+
+
+
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The model item passed into the dictionary is of type 'System.Linq.Enumerable+WhereListIterator`1[VendTech.BLL.Models.WidgetCheckbox]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.WidgetCheckbox]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
 Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
 
+
+
+
+The underlying provider failed on Open.
+
+
+
+The parameters dictionary contains a null entry for parameter 'pos' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult GetPosPercentage(Int64)' in 'VendTech.Areas.Admin.Controllers.ReportController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(87): error CS1061: 'VendTech.BLL.Models.DepositListingModel' does not contain a definition for 'PercentageCommission' and no extension method 'PercentageCommission' accepting a first argument of type 'VendTech.BLL.Models.DepositListingModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+String was not recognized as a valid DateTime.
 
 
 
