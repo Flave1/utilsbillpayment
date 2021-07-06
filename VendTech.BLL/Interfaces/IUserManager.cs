@@ -37,7 +37,7 @@ namespace VendTech.BLL.Interfaces
         /// <returns></returns>
         ActionOutput UpdateProfilePic(long userId, HttpPostedFile image);
         /// 
-        PagingResult<UserListingModel> GetUserPagedList(PagingModel model, bool onlyAppUser = false);
+        PagingResult<UserListingModel> GetUserPagedList(PagingModel model, bool onlyAppUser = false,string status="");
 
         UserDetails GetNotificationUsersCount(long currentUserId);
         IList<Checkbox> GetAllModules(long userId);

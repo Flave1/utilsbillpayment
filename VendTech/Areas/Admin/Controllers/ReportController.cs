@@ -34,7 +34,14 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IPOSManager _posManager;
         #endregion
 
-        public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IVendorManager vendorManager, IAgencyManager agencyManager, IDepositManager depositManager, IMeterManager meterManager, IBankAccountManager bankManager, IPOSManager posManager)
+        public ReportController(IUserManager userManager, 
+            IErrorLogManager errorLogManager, 
+            IVendorManager vendorManager, 
+            IAgencyManager agencyManager, 
+            IDepositManager depositManager, 
+            IMeterManager meterManager, 
+            IBankAccountManager bankManager, 
+            IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;

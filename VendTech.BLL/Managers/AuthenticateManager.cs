@@ -451,8 +451,8 @@ namespace VendTech.BLL.Managers
         }
         ActionOutput<long> IAuthenticateManager.SignUp(SignUpModel model)
         {
-            if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower()))
-                return ReturnError<long>("User already exist with this email.");
+            //if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower()))
+            //    return ReturnError<long>("User already exist with this email.");
             if (Context.Users.Any(p => p.Phone.ToLower() == model.Phone.ToLower()))
                 return ReturnError<long>("User already exist with this phone number.");
             if (!string.IsNullOrEmpty(model.ReferralCode))
@@ -463,25 +463,32 @@ namespace VendTech.BLL.Managers
                 Context.ReferralCodes.Remove(referralCode);
             }
             var newUser = new User();
-            newUser.Email = model.Email;
-            newUser.Password = Utilities.EncryptPassword(model.Password == null ? "" : model.Password);
             newUser.Name = model.FirstName;
+            newUser.CompanyName = model.CompanyName;
             newUser.SurName = model.LastName;
-            newUser.UserName = model.UserName;
-            newUser.IsEmailVerified = false;
-            newUser.Status = (int)UserStatusEnum.Pending;
+            newUser.Email = model.Email.Trim().ToLower();
+            newUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
+            newUser.CreatedAt = DateTime.UtcNow;
             newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+            newUser.IsEmailVerified = false;
+            newUser.Address = model.Address;
+             newUser.UserName = model.UserName;
+            newUser.CountryCode = "+232";
+            newUser.CityId = model.City;
+            newUser.Status = (int)UserStatusEnum.Pending;
+            newUser.CountryId = Convert.ToInt16(model.Country);
+            newUser.Phone = model.Phone;
+            newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
+            newUser.Vendor = $"{model.FirstName} {model.LastName}";
             newUser.AppUserType = (int)model.AppUserType;
             newUser.CreatedAt = DateTime.UtcNow;
             newUser.CountryId = model.Country;
-            newUser.Phone = model.Phone;
-            newUser.Address = model.Address;
-            newUser.CityId = model.City;
-            newUser.CompanyName = model.CompanyName;
-            newUser.CountryCode = "+232";
-            newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
             Context.Users.Add(newUser);
             Context.SaveChanges();
+            
+            newUser.FKVendorId = newUser.UserId;
+            Context.SaveChanges();
+            
             return ReturnSuccess<long>(newUser.UserId, "User added successfully.");
         }
         bool IAuthenticateManager.IsUserNameExists(string userName)

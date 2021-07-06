@@ -19,7 +19,7 @@ namespace VendTech.BLL.Managers
             return "Welcome To Base Project Demo";
         }
 
-        PagingResult<DepositListingModel> IDepositManager.GetDepositPagedList(PagingModel model, bool getForRelease, long vendorId)
+        PagingResult<DepositListingModel> IDepositManager.GetDepositPagedList(PagingModel model, bool getForRelease, long vendorId, string status)
         {
             var result = new PagingResult<DepositListingModel>();
 
@@ -65,6 +65,9 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("STATUS"))
                     query = query.Where(z => ((DepositPaymentStatusEnum)z.Status).ToString().ToLower().Contains(model.Search.ToLower()));
             }
+            else if (!string.IsNullOrEmpty(status))
+                query = query.Where(z => ((DepositPaymentStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
+
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new DepositListingModel(x)).ToList();
@@ -581,6 +584,8 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => p.Deposit.isAudit == false);
             if (model.IsAudit)
                 query = query.Where(p => p.Deposit.isAudit == true);
+
+            query = query.Include(x => x.User);
             var totalrecord = query.ToList().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
