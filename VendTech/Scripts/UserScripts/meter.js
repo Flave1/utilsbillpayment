@@ -201,6 +201,8 @@ var Users = {
                     $("#pos_id").html(data.Data.POS);
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     $("#vendorId").html(data.Data.VendorId);
+
+                    GetLatestRechargesAfterPurchase();
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {
@@ -383,6 +385,19 @@ var Users = {
 
     }
 };
+
+function GetLatestRechargesAfterPurchase() {
+
+    debugger;
+    $.ajax({
+        url: baseUrl + '/Meter/GetLatestRechargesAfterPurchase', 
+        type: "POST",
+        success: function (data) { 
+            $('#datatable-icons').html(data); 
+            debugger
+        }
+    });
+}
 
 
 function Paging(sender) {

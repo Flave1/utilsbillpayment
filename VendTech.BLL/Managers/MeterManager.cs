@@ -408,7 +408,7 @@ namespace VendTech.BLL.Managers
         }
 
         async Task<ReceiptModel> IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
-        {
+        { 
             var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
             var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
             if (user == null)
@@ -500,10 +500,14 @@ namespace VendTech.BLL.Managers
                 if (model.SaveAsNewMeter)
                 {
                      newMeter = StackNewMeterToDbObject(model);
-                     meterId = (this as IMeterManager).SaveMeter(newMeter).ID; 
+                     meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
+                     db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
+                }
+                else
+                {
+                    db_transaction_detail.MeterId = model.MeterId;
                 }
 
-                db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
                 pos.Balance = pos.Balance.Value - model.Amount;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();

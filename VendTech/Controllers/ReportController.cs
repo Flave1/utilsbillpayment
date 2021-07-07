@@ -217,23 +217,36 @@ namespace VendTech.Controllers
                 row22.Controls.Add(tec22);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
 
-                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //TableHeaderCell tec1 = new TableHeaderCell();
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal); 
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 12,
                     Text = "VENDTECH DEPOSIT REPORTS",
-                    HorizontalAlign = HorizontalAlign.Left,
+                    HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
-                };
-                 
+                }; 
                 row1.Controls.Add(tec1);
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
 
-      
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 12,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
+
+
                 //gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE

@@ -35,7 +35,13 @@
         <td style="text-align:center">
             @if (item.Status == DepositPaymentStatusEnum.Released.ToString())
             {
-                <input type="button" id="btn btn-sm btnReverse" onclick="viewReleasedDeposit('@item.UserName', '@item.VendorName', '@item.PosNumber', '@item.Bank', '@item.CreatedAt', '@item.ValueDate', '@item.ChkNoOrSlipId', '@item.IssuingBank', '@item.Payer', '@item.Type', '@string.Format("{0:N0}", item.Amount)', '@string.Format("{0:N0}", item.PercentageAmount)', '@item.DepositId')" style="border: 0.8px solid #ffd800; background:#ffd800; font-weight:bold; color:#ffffff; border-radius:6px;" class="" value="View" />
+            <button type="button" id="btn btn-sm btnReverse" onclick="viewReleasedDeposit('@item.UserName',
+                        '@item.VendorName', '@item.PosNumber', '@item.Bank', '@item.CreatedAt', '@item.ValueDate',
+                        '@item.ChkNoOrSlipId', '@item.IssuingBank', '@item.Payer', '@item.Type', '@string.Format("{0:N0}", item.Amount)',
+                        '@string.Format("{0:N0}", item.PercentageAmount)', '@item.DepositId')"
+                    style="border: 0.8px solid #ffd800; background:#ffd800; font-weight:bold; color:#ffffff; border-radius:6px;">
+                View
+            </button>
             }
             @if (item.Status == DepositPaymentStatusEnum.Reversed.ToString())
             {

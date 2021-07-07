@@ -210,6 +210,22 @@ namespace VendTech.Controllers
             return PartialView("Partials/_userMeterListing", modal);
         }
 
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetLatestRechargesAfterPurchase()
+        {
+            var hostory_model = new ReportSearchModel
+            {
+                SortBy = "CreatedAt",
+                SortOrder = "Desc",
+                PageNo = 1,
+                VendorId = LOGGEDIN_USER.UserID
+            };
+
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var recharges = deposits.List;
+            return PartialView("Partials/_salesListing", recharges);
+        }
+
 
         [HttpPost, AjaxOnly]
         public JsonResult RechargeReturn(RechargeMeterModel model)
