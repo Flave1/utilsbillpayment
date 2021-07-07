@@ -152,6 +152,7 @@ namespace VendTech.Areas.Api.Controllers
             UserModel user = null;
             if (result.Status == ActionStatus.Successfull)
             {
+                var registered_user_password = _userManager.GetUserPasswordbyUserId(result.Object);
                 var code = Utilities.GenerateRandomNo();
                 var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.Object, code.ToString());
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
@@ -163,7 +164,7 @@ namespace VendTech.Areas.Api.Controllers
                 // new code apllied here 
                 body = body.Replace("%USER%", model.FirstName);
                 body = body.Replace("%UserName%", model.Email);
-                body = body.Replace("%Password%", model.Password);
+                body = body.Replace("%Password%", registered_user_password);
                 var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.Object + "'>Verify Now</a>";
 
                 body = body.Replace("%verifylink%", verifybutton);
@@ -177,7 +178,16 @@ namespace VendTech.Areas.Api.Controllers
                     link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.Object + "&token=" + otp + "'>Reset Now</a>";
                 }
                 body = body.Replace("%passwordrestlink%", link);
-                Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+
+                try
+                {
+                    Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                    //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+                }
 
                 //password sent
                 //var emailTemplate_ = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
@@ -188,14 +198,12 @@ namespace VendTech.Areas.Api.Controllers
                 //body_ = body_.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
                 //Utilities.SendEmail(model.Email, emailTemplate_.EmailSubject, body_);
 
-
-
-
                 user = new UserModel();
                 user = _userManager.GetUserDetailsByUserId(result.Object);
             }
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, user).ConvertToHttpResponseOK();
         }
+
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage ResendAccountVerificationOtp(long userId)
@@ -214,6 +222,7 @@ namespace VendTech.Areas.Api.Controllers
             Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
             return new JsonContent("OTP sent successfully.", Status.Success, user).ConvertToHttpResponseOK();
         }
+        
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         public HttpResponseMessage ForgotPassword(string email)
         {

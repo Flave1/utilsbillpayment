@@ -27,11 +27,11 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageDepositRelease()
+        public ActionResult ManageDepositRelease(string status = "")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
-            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
+            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, status);
             return View(deposits);
         }
 
@@ -81,7 +81,7 @@ namespace VendTech.Areas.Admin.Controllers
             var result = _depositManager.ChangeMultipleDepositStatus(model, LOGGEDIN_USER.UserID);
             if (result.Object.Any())
             {
-                foreach(var userId in result.Object)
+                foreach (var userId in result.Object)
                 {
                     var user = _userManager.GetUserDetailsByUserId(userId);
                     var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
@@ -89,7 +89,7 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%USER%", user.FirstName);
                     Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
                 }
-            } 
+            }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
         #endregion

@@ -23,7 +23,13 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         #endregion
 
-        public AppUserController(IUserManager userManager, IAuthenticateManager authenticateManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IAgencyManager agentManager, IVendorManager vendorManager, IPOSManager posManager)
+        public AppUserController(IUserManager userManager, 
+            IAuthenticateManager authenticateManager, 
+            IErrorLogManager errorLogManager, 
+            IEmailTemplateManager templateManager, 
+            IAgencyManager agentManager, 
+            IVendorManager vendorManager, 
+            IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -37,10 +43,10 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageAppUsers()
+        public ActionResult ManageAppUsers(string status="")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
+            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true,status);
             return View(users);
         }
 
@@ -195,7 +201,6 @@ namespace VendTech.Areas.Admin.Controllers
                         //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
                         Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
                     }
-                    
                 }
             } 
             return JsonResult(result);

@@ -234,7 +234,7 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model, bool onlyAppUser)
+        PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model, bool onlyAppUser, string status)
         {
             var result = new PagingResult<UserListingModel>();
             var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
@@ -259,6 +259,8 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("ROLE"))
                     query = query.Where(z => z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
             }
+            else if (!string.IsNullOrWhiteSpace(status))
+                query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new UserListingModel(x)).ToList();
