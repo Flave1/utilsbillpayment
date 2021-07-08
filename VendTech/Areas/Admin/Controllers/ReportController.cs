@@ -245,9 +245,9 @@ namespace VendTech.Areas.Admin.Controllers
 
             };
             gv.DataBind();
-
             if (list.Count > 0)
             {
+
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
@@ -262,6 +262,7 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
                     ColumnSpan = 9,
@@ -285,8 +286,6 @@ namespace VendTech.Areas.Admin.Controllers
                 forbrafterdate.BorderStyle = BorderStyle.None;
                 forbrafterdate.Controls.Add(tecbrafterdate);
                 gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
-
-
 
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
@@ -313,6 +312,7 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
 
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 9,
@@ -327,11 +327,20 @@ namespace VendTech.Areas.Admin.Controllers
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
 
-
-
-
-
-
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
@@ -342,11 +351,11 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[6].Text = "TOKEN"; gv.HeaderRow.Cells[6].ColumnSpan = 2;  //PIN
                 gv.HeaderRow.Cells[7].Text = "AMOUNT"; //AMOUNT
 
-                // R&D on Alignment section
                 foreach (GridViewRow row in gv.Rows)
-                { 
+                {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
+
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
@@ -358,7 +367,7 @@ namespace VendTech.Areas.Admin.Controllers
                         var token = row.Cells[6].Text.ToString();
                         row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 2;
-                    } 
+                    }
                 }
             }
 
@@ -440,18 +449,15 @@ namespace VendTech.Areas.Admin.Controllers
             gv.DataBind();
             if (list.Count > 0)
             {
-
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
                     ColumnSpan = 12,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None,
-
+                    BorderStyle = BorderStyle.None
                 };
                 forbr.BorderStyle = BorderStyle.None;
-                forbr.BorderWidth = Unit.Pixel(0);
                 forbr.Controls.Add(tecbr);
                 gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
 
@@ -463,10 +469,8 @@ namespace VendTech.Areas.Admin.Controllers
                     ColumnSpan = 12,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None,
-
+                    BorderStyle = BorderStyle.None
                 };
-                row3.BorderWidth = Unit.Pixel(0);
                 row3.BorderStyle = BorderStyle.None;
                 row3.Controls.Add(tec3);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row3);
@@ -480,7 +484,6 @@ namespace VendTech.Areas.Admin.Controllers
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
                 };
-                forbrafterdate.BorderWidth = Unit.Pixel(0);
                 forbrafterdate.BorderStyle = BorderStyle.None;
                 forbrafterdate.Controls.Add(tecbrafterdate);
                 gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
@@ -494,7 +497,6 @@ namespace VendTech.Areas.Admin.Controllers
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
                 };
-                row2.BorderWidth = Unit.Pixel(0);
                 row2.BorderStyle = BorderStyle.None;
                 row2.Controls.Add(tec2);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row2);
@@ -507,47 +509,53 @@ namespace VendTech.Areas.Admin.Controllers
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
                 };
-                row22.BorderWidth = Unit.Pixel(0);
                 row22.BorderStyle = BorderStyle.None;
                 row22.Controls.Add(tec22);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
 
-
-
-
-
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 12,
                     Text = "VENDTECH DEPOSIT REPORTS",
-                    HorizontalAlign = HorizontalAlign.Left,
+                    HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
                 };
-
                 row1.Controls.Add(tec1);
-                row1.BorderWidth = Unit.Pixel(0);
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
 
-
-
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 12,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE
                 gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID
                 gv.HeaderRow.Cells[3].Text = "VENDOR"; //VENDOR
-                gv.HeaderRow.Cells[4].Text = "APPROVER NAME"; //USERNAME
-                gv.HeaderRow.Cells[5].Text = "AMOUNT";
-                gv.HeaderRow.Cells[6].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[7].Text = "TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[8].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[9].Text = "REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[10].Text = "NEW BALANCE"; //NEW_BALANCE
+                gv.HeaderRow.Cells[4].Text = "APPROVER"; //USERNAME
+                gv.HeaderRow.Cells[5].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[7].Text = "TRANS-ID"; //TRANSACTION ID
+                gv.HeaderRow.Cells[8].Text = "REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[9].Text = "AMOUNT";
+                gv.HeaderRow.Cells[10].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[11].Text = "NEW BALANCE"; //NEW_BALANCE
+
 
                 foreach (GridViewRow row in gv.Rows)
                 {
@@ -555,16 +563,16 @@ namespace VendTech.Areas.Admin.Controllers
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }
+
+
             if (ExportType == "Excel")
             {
                 // string filename = "DepositReport_" + PrintedDateServer + ".xlsx";
@@ -780,7 +788,7 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     ColumnSpan = 10,
                     Text = "DEPOSIT AUDIT REPORTS",
-                    HorizontalAlign = HorizontalAlign.Left,
+                    HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
                 };
@@ -790,6 +798,21 @@ namespace VendTech.Areas.Admin.Controllers
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
@@ -1005,8 +1028,7 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _depositManager.GetAuditReportExcelData(model).List;
             return View(list);
         }
-
-
+         
         [HttpGet]
         public ActionResult PrintDepositReleaseReport(ReportSearchModel model)
         {

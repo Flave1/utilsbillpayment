@@ -35,7 +35,7 @@
                         <div id="printiddive">
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div style="width:80%; float:left; padding-left:20px;">
                                     <h3><b>VENDTECH DEPOSIT REPORTS</b></h3>
                                     <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
                                     <h5><label>TO DATE: @ViewBag.Todate</label></h5>
@@ -43,42 +43,43 @@
                                     <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
                                     <br />
                                 </div>
+                                <div style="width:19%; float:right">
+                                    <img src='http://vendtechsl.net/Content/images/ventech.png' width="100" alt="LOGO" />
+                                </div>
                             </div>
                             <table class="table table-bordered" id="datatable-icons">
 
                                 <tr>
-                                    <th>
-                                        DATE/TIME
-                                    </th>
-                                    <th>
-                                        POS ID
-                                    </th>
-                                    <th>USER NAME</th>
+                                    <th> DATE/TIME </th>
+                                    <th>VALUE DATE</th>
+                                    <th> POS ID  </th>
+                                    <th>VENDOR</th>
+                                    <th>APPROVER</th>
+                                    <th>DEPOSIT</th>
+                                    <th> BANK</th>
+                                    <th>TRANS ID</th>
+                                    <th> REF #</th>
                                     <th>AMOUNT</th>
-                                    <th>
-                                        %
-                                    </th>
-                                    <th>DEPOSIT TYPE</th>
-                                    <th>
-                                        BANK
-                                    </th>
-                                    <th>DEPOSIT REF #</th>
-                                    <th>NEW BALANCE</th>
+                                    <th> %  </th>
+                                    <th>BALANCE</th>
                                 </tr>
 
                                 @foreach (var items in Model)
                                 {
-                                    <tr>
-                                        <td style="text-align:right">@items.DATE_TIME</td>
-                                        <td style="text-align:right">@items.POSID</td>
-                                        <td>@items.USERNAME</td>
-                                        <td style="text-align:right">@items.AMOUNT</td>
-                                        <td style="text-align:right">@items.PERCENT</td>
-                                        <td style="text-align:right">@items.DEPOSIT_TYPE</td>
-                                        <td style="text-align:right">@items.BANK</td>
-                                        <td style="text-align:right;">@items.DEPOSIT_REF_NO</td>
-                                        <td style="text-align:right">@items.NEW_BALANCE</td>
-                                    </tr>
+                            <tr>
+                                <td style="text-align:right">@items.DATE_TIME</td>
+                                <td style="text-align:right">@items.VALUEDATE</td>
+                                <td style="text-align:right">@items.POSID</td>
+                                <td>@items.VENDOR</td>
+                                <td>@items.USERNAME</td>
+                                <td style="text-align:right">@items.DEPOSIT_TYPE</td>
+                                <td style="text-align:right">@items.BANK</td>
+                                <td style="text-align:right">@items.TRANSACTION_ID</td>
+                                <td style="text-align:right;">@items.DEPOSIT_REF_NO</td>
+                                <td style="text-align:right">@items.AMOUNT</td>
+                                <td style="text-align:right">@items.PERCENT</td>
+                                <td style="text-align:right">@items.NEW_BALANCE</td>
+                            </tr>
                                 }
                             </table>
                         </div>

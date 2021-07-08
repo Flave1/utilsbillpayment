@@ -101,8 +101,8 @@ namespace VendTech.Controllers
                 var userId = userDetails.UserId;
                 data.Object = new UserDetails
                 {
-                    FirstName = userDetails.FirstName,
-                    LastName = userDetails.LastName,
+                    FirstName = userDetails.IsCompany ? userDetails.CompanyName : userDetails.FirstName,
+                    LastName = userDetails.IsCompany ? "" : userDetails.LastName,
                     UserName = userDetails.Email,
                     ProfilePicPath = userDetails.ProfilePicUrl,
                     IsAuthenticated = true,

@@ -234,7 +234,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -444,6 +444,10 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="PassCode" Type="nvarchar" MaxLength="5" />
+          <Property Name="TotalPendingAppUser" Type="int" />
+          <Property Name="TotalPendingDepositRelease" Type="int" />
+          <Property Name="TotalPendingData" Type="int" />
+          <Property Name="IsCompany" Type="bit" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -1800,6 +1804,10 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="UserRole" Relationship="VendTechModel.FK_Users_UserRoles" FromRole="User" ToRole="UserRole" />
           <NavigationProperty Name="Users1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="VendTechModel.FK_Users_Users1" FromRole="User1" ToRole="User" />
+          <Property Name="TotalPendingAppUser" Type="Int32" />
+          <Property Name="TotalPendingDepositRelease" Type="Int32" />
+          <Property Name="TotalPendingData" Type="Int32" />
+          <Property Name="IsCompany" Type="Boolean" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -2723,6 +2731,10 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VendTechModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsCompany" ColumnName="IsCompany" />
+                <ScalarProperty Name="TotalPendingData" ColumnName="TotalPendingData" />
+                <ScalarProperty Name="TotalPendingDepositRelease" ColumnName="TotalPendingDepositRelease" />
+                <ScalarProperty Name="TotalPendingAppUser" ColumnName="TotalPendingAppUser" />
                 <ScalarProperty Name="PassCode" ColumnName="PassCode" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />

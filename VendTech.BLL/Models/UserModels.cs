@@ -102,7 +102,7 @@ namespace VendTech.BLL.Models
         //public long? POSId { get; set; }
         public string POSNumber { get; set; }
         public int Status { get; set; }
-
+        public bool IsCompany { get; set; }
         public bool isemailverified { get; set; } 
 
         public decimal Percentage { get; set; }
@@ -122,7 +122,7 @@ namespace VendTech.BLL.Models
             this.CompanyName = userObj.CompanyName;
             this.isemailverified = userObj.IsEmailVerified;
             this.Status = userObj.Status;
-
+            this.IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
             this.AgentId = userObj.AgentId;

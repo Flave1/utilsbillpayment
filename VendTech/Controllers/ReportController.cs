@@ -247,18 +247,18 @@ namespace VendTech.Controllers
                 gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
 
 
-                //gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE
                 gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID
                 gv.HeaderRow.Cells[3].Text = "VENDOR"; //VENDOR
-                gv.HeaderRow.Cells[4].Text = "APPROVER NAME"; //USERNAME
-                gv.HeaderRow.Cells[5].Text = "AMOUNT";
-                gv.HeaderRow.Cells[6].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[7].Text = "TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[8].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[9].Text = "REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[10].Text = "NEW BALANCE"; //NEW_BALANCE
+                gv.HeaderRow.Cells[4].Text = "APPROVER"; //USERNAME
+                gv.HeaderRow.Cells[5].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[7].Text = "TRANS-ID"; //TRANSACTION ID
+                gv.HeaderRow.Cells[8].Text = "REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[9].Text = "AMOUNT";
+                gv.HeaderRow.Cells[10].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[11].Text = "NEW BALANCE"; //NEW_BALANCE
 
 
                 foreach (GridViewRow row in gv.Rows)
@@ -267,10 +267,9 @@ namespace VendTech.Controllers
                     {
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right; 
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
                     }
@@ -489,11 +488,7 @@ namespace VendTech.Controllers
                 row22.BorderStyle = BorderStyle.None;
                 row22.Controls.Add(tec22);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
-
-
-
-
-
+                 
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
@@ -509,7 +504,22 @@ namespace VendTech.Controllers
                 row1.BorderStyle = BorderStyle.None;
                 row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
                 gv.HeaderRow.Parent.Controls.AddAt(0, row1);
- 
+
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 9,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
+
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
                 gv.HeaderRow.Cells[2].Text = "TRANSACTION ID"; //TRANSACTIONID
@@ -538,6 +548,7 @@ namespace VendTech.Controllers
                     }
                 }
             }
+           
             if (ExportType == "Excel")
             {
                 PrintedDateServer = PrintedDateServer.TrimEnd(' ');

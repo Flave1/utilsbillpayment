@@ -36,7 +36,7 @@
                         <div id="printiddive">
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div style="width:80%; float:left; padding-left:20px;" >
                                     <h3><b>VENDTECH SALES REPORTS</b></h3>
                                     <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
                                     <h5><label>TO DATE: @ViewBag.Todate</label></h5>
@@ -44,26 +44,20 @@
                                     <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
                                     <br />
                                 </div>
+                                <div style="width:19%; float:right">
+                                    <img src='http://vendtechsl.net/Content/images/ventech.png' width="100" alt="LOGO" />
+                                </div>
                             </div>
                             <table class="table table-bordered" id="datatable-icons">
                                 <tr>
-                                    <th>
-                                        DATE/TIME
-                                    </th>
-                                    <th>
-                                        PRODUCT
-                                    </th>
-                                    <th>TOKEN</th>
-                                    <th>TRANSACTION ID</th>
-                                    <th>
-                                        METER #
-                                    </th>
-                                    <th>VENDOR NAME</th>
-                                    <th>
-                                        POS ID
-                                    </th>
+                                    <th>  DATE/TIME </th>
+                                    <th> PRODUCT  </th>
+                                    <th>TRANS ID</th>
+                                    <th> METER # </th>
+                                    <th>VENDOR </th>
+                                    <th> POS ID </th>
+                                    <th> TOKEN</th>
                                     <th>AMOUNT</th>
-
                                 </tr>
 
                                 @foreach (var items in Model)
@@ -71,11 +65,11 @@
                             <tr>
                                 <td style="text-align:right">@items.Date_TIME</td>
                                 <td style="text-align:right">@items.PRODUCT_TYPE</td>
-                                <td style="text-align:right">@VendTech.BLL.Common.Utilities.FormatThisToken(items.PIN)</td>
                                 <td style="text-align:right">@items.TRANSACTIONID</td>
                                 <td style="text-align:right">@items.METER_NO</td>
                                 <td>@items.VENDORNAME</td>
                                 <td style="text-align:right">@items.POSID</td>
+                                <td style="text-align:right">@VendTech.BLL.Common.Utilities.FormatThisToken(items.PIN)</td>
 
                                 <td style="text-align:right">@items.AMOUNT</td>
                             </tr>

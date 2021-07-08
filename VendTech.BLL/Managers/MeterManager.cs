@@ -317,7 +317,7 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.OrderByDescending(d => d.RequestDate).Take(10).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            var query = Context.TransactionDetails.OrderByDescending(d => d.RequestDate).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -330,7 +330,7 @@ namespace VendTech.BLL.Managers
             }
 
 
-            var list = query.ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(10).ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;

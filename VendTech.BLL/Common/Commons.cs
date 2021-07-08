@@ -75,6 +75,7 @@ namespace VendTech.BLL.Models
         public int RemainingDepositRelease { get; set; }
         public string AppUserMessage { get; set; }
         public string DepositReleaseMessage { get; set; }
+        public bool IsCompany { get; set; }
         public UserDetails()
         { }
 

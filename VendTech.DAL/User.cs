@@ -64,6 +64,10 @@ namespace VendTech.DAL
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string PassCode { get; set; }
+        public Nullable<int> TotalPendingAppUser { get; set; }
+        public Nullable<int> TotalPendingDepositRelease { get; set; }
+        public Nullable<int> TotalPendingData { get; set; }
+        public Nullable<bool> IsCompany { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }
@@ -102,6 +106,6 @@ namespace VendTech.DAL
         public virtual UserRole UserRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
-        public virtual User User1 { get; set; } 
+        public virtual User User1 { get; set; }
     }
 }

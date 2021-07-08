@@ -116,7 +116,7 @@
                                                                 <input type="hidden" id="amount" name="Amount">
                                                             </div>
                                                             <div class="col-md-11">
-                                                                <label>PLUS <span id="agentPercentage">@ViewBag.percentage</span>% Commision</label>
+                                                                <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
                                                                 <input class="form-control" type="text" id="percentageAmount" style="font-size: 50px;
                                                                 height: 80px;
                                                                 border-radius: 10px;
@@ -145,7 +145,7 @@
                                                                 <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                                 <th class="sorting" data-sortby="CreatedAt">VALUE DATE</th>
                                                                 <th class="sorting" data-sortby="POS">POS ID</th>
-                                                                <th class="sorting" data-sortby="UserName">USER NAME</th>
+                                                                <th class="sorting" data-sortby="UserName">VENDOR</th>
                                                                 <th class="sorting" data-sortby="PaymentType">TYPE</th>
                                                                 <th class="sorting" data-sortby="BANK">BANK</th>
                                                                 <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
@@ -206,7 +206,7 @@
 
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
             function thousands_separators(num) {
                 var num_parts = num.toString().split(".");
                 num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -259,7 +259,11 @@
 
                 return true;
             }
-            $(document).ready(function(){
+        $(document).ready(function () {
+
+            if ('@ViewBag.percentage' > 0) {
+                $("#commission").show();
+            }
                 $('.tabnav ul li').click(function(){
                     var tab_id = $(this).attr('data-tab');
 
@@ -285,7 +289,7 @@
                   value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate()),
                 });
 
-           
+
                 $("#ValueDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                     format: "dd/MM/yyyy",
@@ -352,7 +356,7 @@
 
                 //    //if ($('#paymentType').val() == "2")
                 //    //{
-                //    //   
+                //    //
                 //    //    $.showmessage($('div.messagealert'), "check bank name is required.",MessageType.Error);
                 //    //    return;
                 //    //}
@@ -381,7 +385,29 @@
                     });
                 }
 
+        }
+
+        $("#posDrp").on("change", function () { 
+            let posId = $("#posDrp").val();
+
+            if (posId) {
+                fetchPosPercentage(posId);
             }
-    </script>
+        })
+        function fetchPosPercentage(posId) {
+
+            $.ajax({
+                url: '/Admin/Report/GetPosPercentage?pos=' + posId,
+                success: function (res) {
+                    if (res.percentage > 0) {
+                        $("#agentPercentage").text(res.percentage);
+                        $("#commission").show();
+                    } else {
+                        $("#commission").hide();
+                    }
+                }
+            });
+        }
+</script>
 }
 

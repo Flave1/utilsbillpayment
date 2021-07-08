@@ -857,6 +857,7 @@ namespace VendTech.BLL.Managers
                 var dbUser = new User();
                 dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
+                dbUser.IsCompany = userDetails.IsCompany;
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
