@@ -361,5 +361,11 @@ namespace VendTech.BLL.Models
     {
         public int Time { get; set; }
     }
+    public class UserLiteDto
+    {
+        public long VendorId { get; set; }
+        public string VendorName { get; set; }
+        public long POSId { get; set; }
+    }
 
 }

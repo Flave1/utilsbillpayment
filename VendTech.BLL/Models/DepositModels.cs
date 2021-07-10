@@ -6,12 +6,13 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
 {
     public class DepositListingModel
-    { 
+    {
         public string UserName { get; set; }
         public string VendorName { get; set; }
         public string ChkNoOrSlipId { get; set; }
@@ -69,7 +70,7 @@ namespace VendTech.BLL.Models
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
         }
-         
+
     }
     public class DepositExcelReportModel
     {
@@ -284,23 +285,31 @@ namespace VendTech.BLL.Models
         public string Price { get; set; }
         public DateTime ValueDate { get; set; }
         public string ValueDateModel { get; set; }
+
         public DepositAuditModel() { }
         public DepositAuditModel(Deposit obj, bool changeStatusForApi = false)
         {
             Id = obj.DepositId;
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
-            DepositBy =  obj.User.Name.Trim() + " " + obj.User.SurName.Trim();
+            DepositBy = obj.POS.User.Vendor.Trim();
             PosId = obj.POS != null ? Convert.ToInt64(obj.POS.SerialNumber) : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString(); GTBank = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            GTBank = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
-            ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate,"dd/MM/yyyy hh:mm",CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
         }
+    }
+
+    public class DepositAuditLiteDto {
+        public SelectList Vendor { get; set; }
+        public SelectList IssuingBank { get; set; }
+        public SelectList DepositType { get; set; }
     }
 }

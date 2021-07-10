@@ -1129,6 +1129,33 @@ namespace VendTech.BLL.Managers
                 return new UserDetails();
             }
         }
+
+        IEnumerable<UserLiteDto> IUserManager.GetVendorNames_API()
+        {
+            var result = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).ToList().Select(x => new UserLiteDto
+            {
+                VendorId = x.UserId,
+                VendorName = x.Vendor
+            });
+            return result;
+        }
+        UserLiteDto IUserManager.GetVendorNamePOSNumber(int posId)
+        {
+            var result = new UserLiteDto();
+            try
+            {
+                result = Context.POS.Where(p => p.POSId == posId).Select(x => new UserLiteDto
+                {
+                    POSId = x.POSId,
+                    VendorName = x.User.Vendor
+                }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return result;
+        }
     }
 
 

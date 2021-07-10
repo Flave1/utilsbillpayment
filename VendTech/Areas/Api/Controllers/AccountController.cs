@@ -189,6 +189,24 @@ namespace VendTech.Areas.Api.Controllers
                     //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
                 }
 
+                //send mail to all admin with this app users permission
+
+                var adminMembers = _userManager.GetAllAdminUsersByAppUserPermission();
+                if (adminMembers.Any())
+                {
+                    foreach (var adminUser in adminMembers)
+                    {
+                        var adminEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivationForAdmin);
+                        if (adminEmailTemplate != null)
+                        {
+                            string _body = adminEmailTemplate.TemplateContent;
+                            _body = _body.Replace("%USER%", adminUser.Name);
+                            //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
+                            Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                        }
+                    }
+                }
+
                 //password sent
                 //var emailTemplate_ = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
                 //string body_ = emailTemplate_.TemplateContent;

@@ -241,11 +241,11 @@
                                                         <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
                                                         <th class="sorting" data-sortby="CREATEDAT">VALUE DATE</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
-                                                        <th class="sorting" data-sortby="DEPOSITBY">DEPOSIT BY</th>
-                                                        <th class="sorting" data-sortby="DEPOSITTYPE">DEPOSIT TYPE</th>
+                                                        <th class="sorting" data-sortby="DEPOSITBY">VENDOR</th>
+                                                        <th class="sorting" data-sortby="DEPOSITTYPE">TYPE</th>
                                                         <th class="sorting" data-sortby="PAYER">PAYER</th>
                                                         <th class="sorting" data-sortby="ISSUINGBANK">PAYER BANK</th>
-                                                        <th class="sorting" data-sortby="DEPOSITREF">DEPOSIT REF #</th>
+                                                        <th class="sorting" data-sortby="DEPOSITREF">REF#</th>
                                                         <th class="sorting" data-sortby="GTBANK">GTBANK #</th>
                                                         <th class="sorting" data-sortby="AMOUNT">AMOUNT</th>
                                                         <th style="width:auto">STATUS</th>
@@ -294,22 +294,23 @@
                     </div>
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <input type="text" style="text-align:center;" name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
                         <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin" })
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @onchange = "getVendor(this)" })
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin">DEPOSIT BY<em>*</em></label>
+                        <label for="short_name" class="col-md-4 control-label margin">VENDOR<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" name="depositby" id="depositby" class="form-control margin" />
+                            @*<input type="text" name="depositby" id="depositby" class="form-control margin" />*@
+                            @Html.DropDownList("Vendor", null, "SELECT VENDOR", new { @id = "depositby", @class = "form-control margin" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -329,13 +330,17 @@
                         </div>
                     </div>
                     <div class=" col-md-12">
-                        <label for="title" class="col-md-4 control-label margin">DEPOSIT REF #<em>*</em></label>
+                        <label for="short_name" class="col-md-4 control-label margin">TYPE<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("DepositType", null, "SELECT TYPE", new { @id = "deposittype", @class = "form-control margin" })
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">REF#<em>*</em></label>
                         <div class="col-md-8">
                             <input type="text" name="depositref" id="depositref" class="form-control margin" />
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">GTBANK #<em>*</em></label>
                         <div class="col-md-8">
@@ -388,7 +393,7 @@ function getUrlParameter(name) {
             $("#value_date").kendoDatePicker({
 
                 max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy",
+                format: "dd/MM/yyyy hh:mm",
                     max: new Date(d.setDate(d.getDate() + 365)),
                     maxDate: new Date, minDate: new Date(2007, 6, 12),
             });
@@ -527,7 +532,7 @@ function getUrlParameter(name) {
                 var d = new Date();
                 $("#FromDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
+                    format: "dd/MM/yyyy hh:mm"
                 });
 
                 var datePicker1 = $("#FromDate").data("kendoDatePicker");
@@ -536,7 +541,7 @@ function getUrlParameter(name) {
                 })
                 $("#ToDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
+                    format: "dd/MM/yyyy hh:mm"
                 });
                 var datePicker2 = $("#ToDate").data("kendoDatePicker");
                 $("#ToDate").click(function () {
@@ -547,18 +552,19 @@ function getUrlParameter(name) {
             }
         });
 
-    function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank, amount,isAudit, userId,date,valueDate)
-    {
-        debugger;
+        function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
+            amount, isAudit, userId, date, valueDate, Type)
+        {
         $("#depositModalTitle").text("Edit Deposit Audit");
         $("#hdnDepositId").val(id);
         $("#hdnUserId").val(userId);
         $("#PosId").find("option:contains("+posid+")").attr("selected","selected");
-        $("#depositby").val(depositby);
+        $("#depositby").find("option:contains(" + depositby + ")").attr("selected", "selected");
         $("#payer").val(payer);
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
+        $("#deposittype").find("option[value='" + Type + "']").attr("selected", "selected");
         //var date =valueDate.split("-");
         //var valueDate = valueDate.replaceAll("-", "/")
         //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
@@ -571,7 +577,26 @@ function getUrlParameter(name) {
         //var date = date.replaceAll("-", "/");
         $("#modal_created").val(date)
         $("#depositModal").modal('show');
-      }
+        }
+
+        function getVendor(th) {
+            $.ajax({
+                url: '/Admin/User/GetVendorName',
+                type: 'POST',
+                data: { posId: $(th).val() },
+                success: function (data) {
+                    $("#PosId").find("option:selected").removeAttr('selected');
+                    if (data != null) {
+                        debugger;
+                        $("#depositby").find("option:contains(" + data.VendorName + ")").attr("selected", "selected");
+                        $("#PosId").find("option[value='" + data.POSId + "']").attr("selected", "selected");
+                    }
+                    else
+                        $("#depositby").find("option:contains(SELECT)").attr("selected", "selected");
+                }
+            });
+        }
+
         function Save(th) {
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
@@ -584,6 +609,8 @@ function getUrlParameter(name) {
             inputParam.DepositId = $("#hdnDepositId").val();
             inputParam.DepositBy = $("#depositby").val();
             inputParam.UserId = $("#hdnUserId").val();
+            inputParam.Type = $("#deposittype").val();
+
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }
@@ -598,6 +625,7 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
+                    debugger;
                     if (data!=null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);

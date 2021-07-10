@@ -34,13 +34,13 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IPOSManager _posManager;
         #endregion
 
-        public ReportController(IUserManager userManager, 
-            IErrorLogManager errorLogManager, 
-            IVendorManager vendorManager, 
-            IAgencyManager agencyManager, 
-            IDepositManager depositManager, 
-            IMeterManager meterManager, 
-            IBankAccountManager bankManager, 
+        public ReportController(IUserManager userManager,
+            IErrorLogManager errorLogManager,
+            IVendorManager vendorManager,
+            IAgencyManager agencyManager,
+            IDepositManager depositManager,
+            IMeterManager meterManager,
+            IBankAccountManager bankManager,
             IPOSManager posManager)
             : base(errorLogManager)
         {
@@ -105,8 +105,17 @@ namespace VendTech.Areas.Admin.Controllers
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "21")
                 {
+                    ViewBag.DepositType = new SelectList(from DepositPaymentTypeEnum e in Enum.GetValues(typeof(DepositPaymentTypeEnum))
+                                                                     select new
+                                                                     {
+                                                                         ID = e.ToString(),
+                                                                         Type = e.ToString()
+                                                                     }, "ID", "Type");
                     ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
+                    ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
+
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
+                    
                     return View("ManageDepositAuditReport", depositAudit);
                 }
                 if (val == "2011")
@@ -157,7 +166,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 100000000; 
+            model.RecordsPerPage = 100000000;
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "17")
@@ -390,7 +399,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Response.Output.Write(objStringWriter.ToString());
                 Response.Flush();
                 Response.End();
-                 
+
             }
             else if (ExportType == "PDF")
             {
@@ -687,7 +696,7 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider); 
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
@@ -1028,7 +1037,7 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _depositManager.GetAuditReportExcelData(model).List;
             return View(list);
         }
-         
+
         [HttpGet]
         public ActionResult PrintDepositReleaseReport(ReportSearchModel model)
         {

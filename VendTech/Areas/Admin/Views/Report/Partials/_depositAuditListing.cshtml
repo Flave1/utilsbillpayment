@@ -20,11 +20,11 @@
             <td>
                 @if (!item.isAudit)
                 {
-                    <a href="javascript:void" id="_sts" style="border-radius:5px" class="btn btn-success" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel')" data-original-short_name="Open" data-original-title="Open" data-toggle="tooltip">Open</a>
+                    <a href="javascript:void" id="_sts" style="border-radius:5px" class="btn btn-success" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel','@item.Type')" data-original-short_name="Open" data-original-title="Open" data-toggle="tooltip">Open</a>
                 }
                 else
                 {
-                    <a href="javascript:void" id="_sts" style="border-radius:5px" class="btn btn-clear" data-original-short_name="Cleared" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel')" data-original-title="Cleared" data-toggle="tooltip">Cleared</a>
+                    <a href="javascript:void" id="_sts" style="border-radius:5px" class="btn btn-clear" data-original-short_name="Cleared" onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel','@item.Type')" data-original-title="Cleared" data-toggle="tooltip">Cleared</a>
                 }
             </td>
         </tr>
