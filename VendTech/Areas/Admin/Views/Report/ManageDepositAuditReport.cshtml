@@ -299,18 +299,18 @@
                         </div>
                     </div>
                     <div class=" col-md-12">
-                        <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
+                        <label for="short_name" class="col-md-4 control-label margin">VENDOR<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @onchange = "getVendor(this)" })
+                            @*<input type="text" name="depositby" id="depositby" class="form-control margin" />*@
+                            @Html.DropDownList("Vendor", null, "SELECT VENDOR", new { @id = "depositby", @class = "form-control margin" })
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin">VENDOR<em>*</em></label>
+                        <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
                         <div class="col-md-8">
-                            @*<input type="text" name="depositby" id="depositby" class="form-control margin" />*@
-                            @Html.DropDownList("Vendor", null, "SELECT VENDOR", new { @id = "depositby", @class = "form-control margin" })
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin",@onchange= "getVendor(this)" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -438,24 +438,24 @@ function getUrlParameter(name) {
                 //alert(frm);
                 //alert(to);
 
-                $("#vendor").on("change", function () {
-                    var vendorId = $("#vendor").val();
-                    $("#pos").empty();
+        $("#depositby").on("change", function () {
+            var vendorId = $("#depositby").val();
+                    $("#PosId").empty();
                     if (vendorId) {
                         $.ajax({
                             url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
                             success: function (res) {
-                                $("#pos").append("<option value=''> Select POS </option>")
+                                $("#PosId").append("<option value=''> Select POS </option>")
                                 if (res.posList != null) {
                                     for (var i = 0; i < res.posList.length; i++) {
-                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                        $("#PosId").append("<option value=" + res.posList[i].Value + " selected>" + res.posList[i].Text + "</option>")
                                     }
                                 }
                             }
                         })
                     }
                     else {
-                        $("#pos").append("<option value=''> SELECT POS</option>")
+                        $("#PosId").append("<option value=''> SELECT POS</option>")
                     }
                 });
 
@@ -587,7 +587,6 @@ function getUrlParameter(name) {
                 success: function (data) {
                     $("#PosId").find("option:selected").removeAttr('selected');
                     if (data != null) {
-                        debugger;
                         $("#depositby").find("option:contains(" + data.VendorName + ")").attr("selected", "selected");
                         $("#PosId").find("option[value='" + data.POSId + "']").attr("selected", "selected");
                     }
