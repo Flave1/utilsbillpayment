@@ -23,7 +23,7 @@
                                     <div class=" col-md-12">
                                         <label for="inputEmail3" class="col-md-2 control-label">TEMPLATE TYPE<em>*</em></label>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(x => x.TemplateType, Model.TemplateTypeList, "Select Template Type", new { @class = "form-control" })
+                                            @Html.DropDownListFor(x => x.TemplateType, Model.TemplateTypeList, "Select Template Type", new { @class = "form-control", @readonly="true" })
                                             @Html.ValidationMessageFor(x=>x.TemplateType)
                                         </div>
                                     </div>
@@ -33,7 +33,7 @@
                                     <div class=" col-md-12">
                                         <label for="inputEmail3" class="col-md-2 control-label">TEMPLATE NAME<em>*</em></label>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.TemplateName, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.TemplateName, new { @class = "form-control", @readonly = "true" })
                                             @Html.ValidationMessageFor(x => x.TemplateName)
                                         </div>
                                     </div>
@@ -71,8 +71,8 @@
                                 <div class="row">
                                     <div class=" col-md-6">
                                         <div class="col-sm-offset-4 col-sm-8">
-                                            <input type="button" class="btn btn-primary" id="addTemplateBtn" value="Submit" />
                                             <a href="@Url.Action("ManageTemplates", "emailtemplate", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            <input type="button" class="btn btn-primary" id="addTemplateBtn" value="Submit" />
                                         </div>
                                     </div>
                                 </div>

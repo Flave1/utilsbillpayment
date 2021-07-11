@@ -22,7 +22,7 @@ namespace VendTech.BLL.Managers
                 query = query.Where(z => z.TemplateName.Contains(model.Search));
             }
             var list = query
-               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+               .Skip(model.PageNo - 1)
                .ToList().Select(x => new TemplateViewModel(x)).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;

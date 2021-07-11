@@ -268,7 +268,7 @@ namespace VendTech.BLL.Common
 
         }
         public static bool SendEmail(string to, string sub, string body)
-        {
+        { 
             try
             {
                 MailMessage mail = new MailMessage();
