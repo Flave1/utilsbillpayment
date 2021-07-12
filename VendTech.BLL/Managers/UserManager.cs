@@ -1132,10 +1132,10 @@ namespace VendTech.BLL.Managers
 
         IEnumerable<UserLiteDto> IUserManager.GetVendorNames_API()
         {
-            var result = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).ToList().Select(x => new UserLiteDto
+            var result = Context.POS.Where(x => x.User != null).ToList().Select(x => new UserLiteDto
             {
-                VendorId = x.UserId,
-                VendorName = x.Vendor
+                VendorId = Convert.ToInt64(x.VendorId),
+                VendorName = x.User?.Vendor
             });
             return result;
         }

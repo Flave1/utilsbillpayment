@@ -1505,13 +1505,6 @@ namespace VendTech.BLL.Managers
             Context.Entry(dbDeposit).State = EntityState.Modified;
             Context.SaveChanges();
 
-            var posDetail = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
-            posDetail.VendorId = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? Convert.ToInt32(depositAuditModel.DepositBy) : dbDeposit.User.UserId;
-
-            Context.POS.Add(posDetail);
-            Context.Entry(posDetail).State = EntityState.Modified;
-            Context.SaveChanges();
-
 
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;
