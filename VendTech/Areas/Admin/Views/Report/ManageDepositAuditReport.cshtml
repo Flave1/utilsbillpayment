@@ -332,7 +332,7 @@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">TYPE<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("DepositType", null, "SELECT TYPE", new { @id = "deposittype", @class = "form-control margin" })
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new {  @id = "deposittype", @class = "form-control margin"  })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -555,6 +555,7 @@ function getUrlParameter(name) {
         function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
             amount, isAudit, userId, date, valueDate, Type)
         {
+            debugger;
         $("#depositModalTitle").text("Edit Deposit Audit");
         $("#hdnDepositId").val(id);
         $("#hdnUserId").val(userId);
@@ -564,7 +565,7 @@ function getUrlParameter(name) {
         $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
         $("#depositref").val(depositref);
         $("#gtbank").val(gtbank);
-        $("#deposittype").find("option[value='" + Type + "']").attr("selected", "selected");
+        $("#deposittype").find("option:contains(" + Type + ")").attr("selected", "selected");
         //var date =valueDate.split("-");
         //var valueDate = valueDate.replaceAll("-", "/")
         //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));

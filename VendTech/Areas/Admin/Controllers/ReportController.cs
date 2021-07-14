@@ -19,6 +19,7 @@ using System.Data;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using ClosedXML.Excel;
+using System.ComponentModel;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -105,12 +106,6 @@ namespace VendTech.Areas.Admin.Controllers
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "21")
                 {
-                    ViewBag.DepositType = new SelectList(from DepositPaymentTypeEnum e in Enum.GetValues(typeof(DepositPaymentTypeEnum))
-                                                                     select new
-                                                                     {
-                                                                         ID = e.ToString(),
-                                                                         Type = e.ToString()
-                                                                     }, "ID", "Type");
                     ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
                     ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
 
@@ -719,7 +714,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -735,7 +730,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -750,7 +745,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -764,7 +759,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -777,7 +772,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -795,7 +790,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "DEPOSIT AUDIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -812,7 +807,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var imgHeader = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
@@ -827,14 +822,14 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
                 gv.HeaderRow.Cells[1].Text = "POS ID";
                 gv.HeaderRow.Cells[2].Text = "GT BANK";
-                gv.HeaderRow.Cells[3].Text = "DEPOSIT BY";
-                gv.HeaderRow.Cells[4].Text = "DEPOSIT TYPE";
+                gv.HeaderRow.Cells[3].Text = "VENDOR";
+                gv.HeaderRow.Cells[4].Text = "TYPE";
                 gv.HeaderRow.Cells[5].Text = "PAYER BANK";
                 gv.HeaderRow.Cells[6].Text = "PAYER";
-                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF#";
+                gv.HeaderRow.Cells[7].Text = "REF#";
                 gv.HeaderRow.Cells[8].Text = "AMOUNT";
                 gv.HeaderRow.Cells[9].Text = "STATUS";
-
+                gv.HeaderRow.Cells[10].Text = "VALUE DATE";
 
                 foreach (GridViewRow row in gv.Rows)
                 {
