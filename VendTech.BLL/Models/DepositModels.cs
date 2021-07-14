@@ -130,19 +130,20 @@ namespace VendTech.BLL.Models
         public string AMOUNT { get; set; }
         public string STATUS { get; set; }
         public string VALUEDATE { get; set; }
+
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            DEPOSIT_BY = obj.User.Name + " " + obj.User.SurName;
+            VALUEDATE = obj.ValueDate;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
-            DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
+            DEPOSIT_BY = obj.User.Vendor;
             DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
-            AMOUNT = string.Format("{0:N0}", obj.Amount);
             PAYER = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
+            DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
+            GTBANK = obj.BankAccount.BankName;
+            AMOUNT = string.Format("{0:N0}", obj.Amount);
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
-            GTBANK = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
-            VALUEDATE = obj.ValueDate;
         }
 
         public DepositAuditExcelReportModel()
@@ -297,7 +298,7 @@ namespace VendTech.BLL.Models
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
             Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
-            GTBank = obj.BankAccount == null ? "GTBANK" + '-' + obj.BankAccount.AccountNumber : obj.BankAccount.BankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3);
+            GTBank = obj.BankAccount.BankName;
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
@@ -307,7 +308,8 @@ namespace VendTech.BLL.Models
         }
     }
 
-    public class DepositAuditLiteDto {
+    public class DepositAuditLiteDto
+    {
         public SelectList Vendor { get; set; }
         public SelectList IssuingBank { get; set; }
         public SelectList DepositType { get; set; }

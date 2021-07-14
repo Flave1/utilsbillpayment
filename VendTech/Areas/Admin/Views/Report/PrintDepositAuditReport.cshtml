@@ -52,12 +52,14 @@
 
                                 <tr>
                                     <th>DATE/TIME</th>
+                                    <th>VALUE DATE</th>
                                     <th>POS ID</th>
-                                    <th>DEPOSIT BY</th>
+                                    <th>VENDOR</th>
+                                    <th>TYPE</th>
                                     <th>PAYER</th>
-                                    <th>ISSUINGBANK</th>
-                                    <th>DEPOSIT REF #</th>
-                                    <th>GTBANK #</th>
+                                    <th>PAYER BANK</th>
+                                    <th>REF#</th>
+                                    <th>GTBANK#</th>
                                     <th>AMOUNT</th>
                                     <th>STATUS</th>
                                 </tr>
@@ -66,8 +68,10 @@
                                 {
                                     <tr>
                                         <td style="text-align:right"> @item.DATE_TIME</td>
+                                        <td style="text-align:right"> @item.VALUEDATE</td>
                                         <td style="text-align:right"> @item.POSID</td>
                                         <td style="text-align:left">@item.DEPOSIT_BY</td>
+                                        <td style="text-align:left">@item.DEPOSIT_TYPE</td>
                                         <td style="text-align:left">@item.PAYER</td>
                                         <td style="text-align:left">@item.ISSUINGBANK</td>
                                         <td style="text-align:left">@item.DEPOSIT_REF_NO</td>

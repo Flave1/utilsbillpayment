@@ -20,6 +20,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using ClosedXML.Excel;
 using System.ComponentModel;
+using Quartz.Util;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -741,7 +742,6 @@ namespace VendTech.Areas.Admin.Controllers
                 row3.Controls.Add(tec3);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row3);
 
-
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
@@ -754,7 +754,6 @@ namespace VendTech.Areas.Admin.Controllers
                 forbrafterdate.BorderStyle = BorderStyle.None;
                 forbrafterdate.Controls.Add(tecbrafterdate);
                 gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
-
 
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
@@ -781,10 +780,6 @@ namespace VendTech.Areas.Admin.Controllers
                 row22.BorderStyle = BorderStyle.None;
                 row22.Controls.Add(tec22);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
-
-
-
-
 
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 //TableHeaderCell tec1 = new TableHeaderCell();
@@ -820,25 +815,39 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
-                gv.HeaderRow.Cells[1].Text = "POS ID";
-                gv.HeaderRow.Cells[2].Text = "GT BANK";
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE";
+                gv.HeaderRow.Cells[2].Text = "POS ID";
                 gv.HeaderRow.Cells[3].Text = "VENDOR";
                 gv.HeaderRow.Cells[4].Text = "TYPE";
-                gv.HeaderRow.Cells[5].Text = "PAYER BANK";
-                gv.HeaderRow.Cells[6].Text = "PAYER";
+                gv.HeaderRow.Cells[5].Text = "PAYER";
+                gv.HeaderRow.Cells[6].Text = "PAYER BANK";
                 gv.HeaderRow.Cells[7].Text = "REF#";
-                gv.HeaderRow.Cells[8].Text = "AMOUNT";
-                gv.HeaderRow.Cells[9].Text = "STATUS";
-                gv.HeaderRow.Cells[10].Text = "VALUE DATE";
+                gv.HeaderRow.Cells[8].Text = "GTBANK#";
+                gv.HeaderRow.Cells[9].Text = "AMOUNT";
+                gv.HeaderRow.Cells[10].Text = "STATUS";
+
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
+                        var data = row.Cells[1].Text;
+                        row.Cells[1].Text = row.Cells[10].Text;
+                        row.Cells[10].Text=row.Cells[9].Text;
+                        row.Cells[9].Text = row.Cells[8].Text;
+                        row.Cells[8].Text = row.Cells[7].Text;
+                        row.Cells[7].Text = row.Cells[6].Text;
+                        row.Cells[6].Text = row.Cells[5].Text;
+                        row.Cells[5].Text = row.Cells[4].Text;
+                        row.Cells[4].Text = row.Cells[3].Text;
+                        row.Cells[3].Text = row.Cells[2].Text;
+                        row.Cells[2].Text = data;
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }
