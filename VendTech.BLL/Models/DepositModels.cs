@@ -40,7 +40,7 @@ namespace VendTech.BLL.Models
                 obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
                 obj.User.Name +" "+ obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
-            VendorName = obj.User.Vendor;
+            VendorName = obj.POS.User.Vendor;
             ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
             Comments = obj.Comments;
@@ -65,7 +65,7 @@ namespace VendTech.BLL.Models
             TransactionId = obj.TransactionId;
             DepositId = obj.DepositId;
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
-            Payer = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
+            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
@@ -91,9 +91,10 @@ namespace VendTech.BLL.Models
         public string NEW_BALANCE { get; set; }
         public DepositExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
+            var approver = obj.DepositLogs.FirstOrDefault(d => d.DepositId == obj.DepositId);
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            VENDOR = obj.User.Vendor;
-            USERNAME = obj.User.Name + " " + obj.User.SurName;
+            VENDOR = obj.POS.User.Vendor;
+            USERNAME = approver.User.Name + " " + approver.User.SurName;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
@@ -171,7 +172,7 @@ namespace VendTech.BLL.Models
             UserName = obj.User.Name + " " + obj.User.SurName;
             PreviousStatus = ((DepositPaymentStatusEnum)obj.PreviousStatus).ToString();
             NewStatus = ((DepositPaymentStatusEnum)obj.NewStatus).ToString();
-            VendorName = obj.Deposit.User.User1 == null ? "" : obj.Deposit.User.User1.Name + " " + obj.Deposit.User.User1.SurName;
+            VendorName = obj.Deposit.POS.User.User1 == null ? "" : obj.Deposit.POS.User.User1.Vendor;
             Amount = obj.Deposit.Amount;
             PercentageAmount = obj.Deposit.PercentageAmount;
             TransactionId = obj.Deposit.TransactionId;

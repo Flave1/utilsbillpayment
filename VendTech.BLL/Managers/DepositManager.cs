@@ -25,15 +25,13 @@ namespace VendTech.BLL.Managers
 
             // model.RecordsPerPage = 2;
             IQueryable<Deposit> query = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending
-            && p.POS.Enabled != false
-            ).OrderBy(model.SortBy + " " + model.SortOrder);
+            && p.POS.Enabled != false).OrderBy(model.SortBy + " " + model.SortOrder);
             {
                 if (vendorId == 0)
                 {
                     //var vendor = Context.POS.Where(p => p.VendorId != null && !p.IsDeleted).FirstOrDefault();
                     //if (vendor != null)
                     //    vendorId = vendor.POSId;
-
                     // this is New
                     //query = query.Where(p=>p.POSId>0 && !p.POS.IsDeleted);
                     // model.PageNo = 1;
