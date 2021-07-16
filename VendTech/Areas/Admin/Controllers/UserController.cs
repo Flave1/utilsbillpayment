@@ -129,6 +129,12 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             return JsonResult(_userManager.ChangeUserStatus(userId, UserStatusEnum.Active));
         }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetVendorName(int posId)
+        {
+            return Json(_userManager.GetVendorNamePOSNumber(posId));
+        }
         #endregion
     }
 }

@@ -19,6 +19,8 @@ using System.Data;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using ClosedXML.Excel;
+using System.ComponentModel;
+using Quartz.Util;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -34,13 +36,13 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IPOSManager _posManager;
         #endregion
 
-        public ReportController(IUserManager userManager, 
-            IErrorLogManager errorLogManager, 
-            IVendorManager vendorManager, 
-            IAgencyManager agencyManager, 
-            IDepositManager depositManager, 
-            IMeterManager meterManager, 
-            IBankAccountManager bankManager, 
+        public ReportController(IUserManager userManager,
+            IErrorLogManager errorLogManager,
+            IVendorManager vendorManager,
+            IAgencyManager agencyManager,
+            IDepositManager depositManager,
+            IMeterManager meterManager,
+            IBankAccountManager bankManager,
             IPOSManager posManager)
             : base(errorLogManager)
         {
@@ -106,7 +108,10 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "21")
                 {
                     ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
+                    ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
+
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
+
                     return View("ManageDepositAuditReport", depositAudit);
                 }
                 if (val == "2011")
@@ -157,7 +162,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            model.RecordsPerPage = 100000000; 
+            model.RecordsPerPage = 100000000;
             var modal = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "17")
@@ -390,7 +395,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Response.Output.Write(objStringWriter.ToString());
                 Response.Flush();
                 Response.End();
-                 
+
             }
             else if (ExportType == "PDF")
             {
@@ -692,7 +697,7 @@ namespace VendTech.Areas.Admin.Controllers
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider); 
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
@@ -704,6 +709,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             var list = _depositManager.GetAuditReportExcelData(model).List;
 
+            
             var gv = new GridView
             {
                 DataSource = list
@@ -715,7 +721,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -731,7 +737,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec3 = new TableHeaderCell();
                 var tec3 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "PRINT DATE:  " + PrintedDateServer,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -742,11 +748,10 @@ namespace VendTech.Areas.Admin.Controllers
                 row3.Controls.Add(tec3);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row3);
 
-
                 GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbrafterdate = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -756,11 +761,10 @@ namespace VendTech.Areas.Admin.Controllers
                 forbrafterdate.Controls.Add(tecbrafterdate);
                 gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
 
-
                 GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec2 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "TO DATE:  " + Todate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -773,7 +777,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec22 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "FROM DATE:  " + fromdate,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -783,15 +787,11 @@ namespace VendTech.Areas.Admin.Controllers
                 row22.Controls.Add(tec22);
                 gv.HeaderRow.Parent.Controls.AddAt(0, row22);
 
-
-
-
-
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "DEPOSIT AUDIT REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -808,7 +808,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var imgHeader = new TableHeaderCell
                 {
-                    ColumnSpan = 10,
+                    ColumnSpan = 11,
                     Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
@@ -821,25 +821,39 @@ namespace VendTech.Areas.Admin.Controllers
 
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
-                gv.HeaderRow.Cells[1].Text = "POS ID";
-                gv.HeaderRow.Cells[2].Text = "GT BANK";
-                gv.HeaderRow.Cells[3].Text = "DEPOSIT BY";
-                gv.HeaderRow.Cells[4].Text = "DEPOSIT TYPE";
-                gv.HeaderRow.Cells[5].Text = "PAYER BANK";
-                gv.HeaderRow.Cells[6].Text = "PAYER";
-                gv.HeaderRow.Cells[7].Text = "DEPOSIT REF#";
-                gv.HeaderRow.Cells[8].Text = "AMOUNT";
-                gv.HeaderRow.Cells[9].Text = "STATUS";
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE";
+                gv.HeaderRow.Cells[2].Text = "POS ID";
+                gv.HeaderRow.Cells[3].Text = "VENDOR";
+                gv.HeaderRow.Cells[4].Text = "TYPE";
+                gv.HeaderRow.Cells[5].Text = "PAYER";
+                gv.HeaderRow.Cells[6].Text = "PAYER BANK";
+                gv.HeaderRow.Cells[7].Text = "REF#";
+                gv.HeaderRow.Cells[8].Text = "GTBANK#";
+                gv.HeaderRow.Cells[9].Text = "AMOUNT";
+                gv.HeaderRow.Cells[10].Text = "STATUS";
 
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
+                        var data = row.Cells[1].Text;
+                        row.Cells[1].Text = row.Cells[10].Text;
+                        row.Cells[10].Text = row.Cells[9].Text;
+                        row.Cells[9].Text = row.Cells[8].Text;
+
+                        var swapPayer = row.Cells[5].Text;
+                        row.Cells[5].Text = row.Cells[6].Text;
+                        row.Cells[6].Text = swapPayer;
+
+                        row.Cells[8].Text = row.Cells[2].Text;
+                        row.Cells[2].Text = data;
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                     }
                 }
             }
@@ -1033,7 +1047,7 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _depositManager.GetAuditReportExcelData(model).List;
             return View(list);
         }
-         
+
         [HttpGet]
         public ActionResult PrintDepositReleaseReport(ReportSearchModel model)
         {

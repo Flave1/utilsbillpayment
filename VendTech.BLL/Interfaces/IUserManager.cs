@@ -85,6 +85,8 @@ namespace VendTech.BLL.Interfaces
         long GetUserId(string phone);
         string GetUserPasswordbyUserId(long userId);
         List<User> GetAllAdminUsersByAppUserPermission();
+        IEnumerable<UserLiteDto> GetVendorNames_API();
+        UserLiteDto GetVendorNamePOSNumber(int posId);
     }
 
 }

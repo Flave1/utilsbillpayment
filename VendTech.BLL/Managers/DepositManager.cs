@@ -537,6 +537,7 @@ namespace VendTech.BLL.Managers
         {
             var result = new PagingResult<DepositAuditModel>();
             var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
@@ -583,7 +584,6 @@ namespace VendTech.BLL.Managers
             if (model.IsAudit)
                 query = query.Where(p => p.Deposit.isAudit == true);
 
-            query = query.Include(x => x.User);
             var totalrecord = query.ToList().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
@@ -1478,6 +1478,7 @@ namespace VendTech.BLL.Managers
 
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
+            CultureInfo provider = CultureInfo.InvariantCulture;
             var posId = new POS();
             var dbDeposit = Context.Deposits.Include(x => x.POS)
                 .Include(x => x.User).Include(x => x.BankAccount)
@@ -1490,33 +1491,35 @@ namespace VendTech.BLL.Managers
             //{
             //    posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
             //}
-            posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
+            posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
-            dbDeposit.POSId = depositAuditModel.PosId != null ? posId.POSId : dbDeposit.POSId;
+            dbDeposit.POSId = posId != null ? posId.POSId : dbDeposit.POSId;
             dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-            var valueDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
-            dbDeposit.ValueDate = valueDate;
+            dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             dbDeposit.isAudit = depositAuditModel.isAudit;
-            dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
-            dbDeposit.User.Name = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(0, depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : depositAuditModel.DepositBy.Length) : dbDeposit.User.Name;
-            dbDeposit.User.SurName = !(string.IsNullOrEmpty(depositAuditModel.DepositBy)) ? depositAuditModel.DepositBy.Substring(depositAuditModel.DepositBy.IndexOf(" ") != -1 ? depositAuditModel.DepositBy.IndexOf(" ") : 0) : dbDeposit.User.SurName;
+            dbDeposit.PaymentType = (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type);
+            dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank : "";
 
             Context.Deposits.Add(dbDeposit);
             Context.Entry(dbDeposit).State = EntityState.Modified;
             Context.SaveChanges();
+            
+
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
-            depositAuditModel.DepositBy = dbDeposit.User.Name + " " + dbDeposit.User.SurName;
+            depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;
             depositAuditModel.IssuingBank = dbDeposit.ChequeBankName != null ?
-                dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty)
+            .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
             depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
-            depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm",
+                CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
             return depositAuditModel;
         }
     }

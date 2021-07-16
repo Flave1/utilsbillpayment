@@ -472,23 +472,23 @@ namespace VendTech.BLL.Managers
             newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
             newUser.IsEmailVerified = false;
             newUser.Address = model.Address;
-             newUser.UserName = model.UserName;
+            newUser.UserName = model.UserName;
             newUser.CountryCode = "+232";
             newUser.CityId = model.City;
             newUser.Status = (int)UserStatusEnum.Pending;
             newUser.CountryId = Convert.ToInt16(model.Country);
             newUser.Phone = model.Phone;
             newUser.AgentId = Convert.ToInt64(model.Agency != null ? model.Agency : "0");
-            newUser.Vendor = $"{model.FirstName} {model.LastName}";
+            newUser.Vendor = !string.IsNullOrEmpty(model.CompanyName) ? model.CompanyName : $"{model.FirstName} {model.LastName}";
             newUser.AppUserType = (int)model.AppUserType;
             newUser.CreatedAt = DateTime.UtcNow;
             newUser.CountryId = model.Country;
             Context.Users.Add(newUser);
             Context.SaveChanges();
-            
+
             newUser.FKVendorId = newUser.UserId;
             Context.SaveChanges();
-            
+
             return ReturnSuccess<long>(newUser.UserId, "User added successfully.");
         }
         bool IAuthenticateManager.IsUserNameExists(string userName)
