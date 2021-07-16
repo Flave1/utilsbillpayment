@@ -59,7 +59,7 @@ namespace VendTech.Areas.Admin.Controllers
         }
         [AjaxOnly, HttpPost]
         public JsonResult SendOTP()
-        {
+        { 
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.SendOTP();
             if (result.Status == ActionStatus.Successfull)

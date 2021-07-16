@@ -35,12 +35,13 @@ namespace VendTech.BLL.Models
         public decimal PercentageCommission { get; set; }
         public POS POS { get; set; } = new POS();
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
-        {
-            VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
+        { 
             Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
-            UserName = obj.User.Name + " " + obj.User.SurName;
+            UserName = obj.DepositLogs.Any() ?
+                obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
+                obj.User.Name +" "+ obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
-            VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
+            VendorName = obj.User.Vendor;
             ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
             Comments = obj.Comments;

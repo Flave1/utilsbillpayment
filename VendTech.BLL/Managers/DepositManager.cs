@@ -1332,7 +1332,11 @@ namespace VendTech.BLL.Managers
                     reversedDeposit.NewBalance = reversedDeposit.NewBalance;
                 }
                 else
-                    reversedDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance - (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
+                {
+                    reversedDeposit.POS.Balance = dbDeposit.POS.Balance == null ? 
+                        (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount))
+                        : (dbDeposit.POS.Balance - (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
+                }
 
                 reversedDeposit.NewBalance = dbDeposit.POS.Balance;
             }

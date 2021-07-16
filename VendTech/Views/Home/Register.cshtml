@@ -55,15 +55,16 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-12">
+                                                <span class="alert-danger text-center" style="margin:auto; ">You can register for PERSONAL or CORPORATE Account</span>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-certificate"></i></span>
                                                     <select class="form-control" id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
-                                                        <option value="Individual">INDIVIDUAL</option>
-                                                        <option value="Company">COMPANY</option>
+                                                        <option value="Individual">PERSONAL ACCOUNT</option>
+                                                        <option value="Company">CORPORATE ACCOUNT</option>
                                                     </select>
                                                     @Html.HiddenFor(model => model.IsCompany, new { @id = "beTrueIfIsCompany" })
                                                     @*@Html.DropDownListFor(m => m.Individual_or_company, new SelectList(Enum.GetValues(typeof(Individual_or_company))),
-                    new { @class = "form-control", @id = "isCompany", @style = "font-weight:bold; text-transform:uppercase; font-size:20px;" })*@
+            new { @class = "form-control", @id = "isCompany", @style = "font-weight:bold; text-transform:uppercase; font-size:20px;" })*@
                                                 </div>
                                             </div>
                                         </div>

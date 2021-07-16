@@ -350,54 +350,65 @@ namespace VendTech.Controllers
             }
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
-            {
-                var registered_user_password = _userManager.GetUserPasswordbyUserId(result.ID);
-                var code = Utilities.GenerateRandomNo();
-                var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.ID, code.ToString());
-                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%firstname%", request.FirstName);
-                body = body.Replace("%lastname%", request.LastName);
-                body = body.Replace("%code%", code.ToString());
-
-                // new code apllied here 
-                body = body.Replace("%USER%", request.FirstName);
-                body = body.Replace("%UserName%", request.Email);
-                body = body.Replace("%Password%", registered_user_password);
-                var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.ID + "'>Verify Now</a>";
-
-                body = body.Replace("%verifylink%", verifybutton);
-                body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
-                body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
-                var link = "";
-                var otp = Utilities.GenerateRandomNo();
-                var result_ = _authenticateManager.ForgotPassword(request.Email, otp.ToString());
-                if (result_.Status == ActionStatus.Successfull)
-                {
-                    link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
-                }
-                body = body.Replace("%passwordrestlink%", link);
-                try
-                {
-                    Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                    //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
-                }
-
-
-                //password sent 
-                //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
-                //string body = emailTemplate.TemplateContent;
-                //body = body.Replace("%UserName%", model.Email);
-                //body = body.Replace("%Password%", model.Password);
-                //body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
-                //body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
-                //Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+            { 
+                sendEmailToRegisteredUser(request, result); 
+                sendEmailToAdminUser(request); 
             }
             return JsonResult(result);
+        }
+
+        void sendEmailToAdminUser(RegisterAPIModel request)
+        {
+            var adminUser = _userManager.GetAllAdminUsersByAppUserPermission();
+            foreach(var admin in adminUser)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewUserEmailToAdmin);
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%AdminUserName%", admin.Name);
+                body = body.Replace("%Name%", request.FirstName);
+                body = body.Replace("%Surname%", request.LastName);
+                body = body.Replace("%Vendor%", request.IsCompany ? request.CompanyName : request.FirstName + " " +request.LastName);
+                Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+            }
+            
+        }
+        void sendEmailToRegisteredUser(RegisterAPIModel request, ActionOutput result)
+        {
+            var registered_user_password = _userManager.GetUserPasswordbyUserId(result.ID);
+            var code = Utilities.GenerateRandomNo();
+            var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.ID, code.ToString());
+            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
+            string body = emailTemplate.TemplateContent;
+            body = body.Replace("%firstname%", request.FirstName);
+            body = body.Replace("%lastname%", request.LastName);
+            body = body.Replace("%code%", code.ToString());
+
+            // new code apllied here 
+            body = body.Replace("%USER%", request.FirstName);
+            body = body.Replace("%UserName%", request.Email);
+            body = body.Replace("%Password%", registered_user_password);
+            var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.ID + "'>Verify Now</a>";
+
+            body = body.Replace("%verifylink%", verifybutton);
+            body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
+            body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
+            var link = "";
+            var otp = Utilities.GenerateRandomNo();
+            var result_ = _authenticateManager.ForgotPassword(request.Email, otp.ToString());
+            if (result_.Status == ActionStatus.Successfull)
+            {
+                link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
+            }
+            body = body.Replace("%passwordrestlink%", link);
+            try
+            {
+                Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
+            }
+            catch (Exception e)
+            {
+                throw e;
+                //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+            }
         }
     }
 }

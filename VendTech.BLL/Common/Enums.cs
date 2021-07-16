@@ -40,6 +40,8 @@ namespace VendTech.BLL.Models
         UserAccountReactivationForAdmin = 9,
         [Description("DepositApprovedNotification")]
         DepositApprovedNotification = 10,
+        [Description("New User Email to Admin")]
+        NewUserEmailToAdmin = 11,
     }
     public enum PosTypeEnum
     {

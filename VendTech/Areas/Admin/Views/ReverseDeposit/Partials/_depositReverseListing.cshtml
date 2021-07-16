@@ -5,36 +5,37 @@
 {
     foreach (var item in Model.List)
     {
-    <tr class="odd gradeX">
-        <td style="text-align:right;"> @item.CreatedAt</td>
-        <td style="text-align:right;"> @item.ValueDate</td>
-        <td style="text-align:right;">@item.PosNumber</td>
-        <td>@item.UserName</td>
-        <td> @item.Type</td>
-        <td style="text-align:right;"> @item.ChkNoOrSlipId</td>
-        <td style="text-align:right;">
-            @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))
-        </td>
-        <td style="text-align:right;">
-            @(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))
-        </td>
-        <td>
-            @item.Status
-        </td>
-        <td style="text-align:center">
-            @if (item.Status == DepositPaymentStatusEnum.Released.ToString())
-            {
-                <input type="checkbox" id="@("reverseChk"+item.DepositId)" class="reverseChkBox" value="@item.DepositId" />
-            }
+<tr class="odd gradeX">
+    <td style="text-align:right;"> @item.CreatedAt</td>
+    <td style="text-align:right;"> @item.ValueDate</td>
+    <td style="text-align:right;">@item.PosNumber</td>
+    <td>@item.VendorName</td>
+    <td>@item.UserName</td>
+    <td> @item.Type</td>
+    <td style="text-align:right;"> @item.ChkNoOrSlipId</td>
+    <td style="text-align:right;">
+        @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))
+    </td>
+    <td style="text-align:right;">
+        @(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))
+    </td>
+    <td>
+        @item.Status
+    </td>
+    <td style="text-align:center">
+        @if (item.Status == DepositPaymentStatusEnum.Released.ToString())
+        {
+            <input type="checkbox" id="@("reverseChk"+item.DepositId)" class="reverseChkBox" value="@item.DepositId" />
+        }
 
-            @if (item.Status == DepositPaymentStatusEnum.Reversed.ToString())
-            {
-                <input type="checkbox" id="@("reverseChk"+item.DepositId)" class="reverseChkBox" disabled />
-            }
-        </td>
-        <td style="text-align:center">
-            @if (item.Status == DepositPaymentStatusEnum.Released.ToString())
-            {
+        @if (item.Status == DepositPaymentStatusEnum.Reversed.ToString())
+        {
+            <input type="checkbox" id="@("reverseChk"+item.DepositId)" class="reverseChkBox" disabled />
+        }
+    </td>
+    <td style="text-align:center">
+        @if (item.Status == DepositPaymentStatusEnum.Released.ToString())
+        {
             <button type="button" id="btn btn-sm btnReverse" onclick="viewReleasedDeposit('@item.UserName',
                         '@item.VendorName', '@item.PosNumber', '@item.Bank', '@item.CreatedAt', '@item.ValueDate',
                         '@item.ChkNoOrSlipId', '@item.IssuingBank', '@item.Payer', '@item.Type', '@string.Format("{0:N0}", item.Amount)',
@@ -42,13 +43,13 @@
                     style="border: 0.8px solid #ffd800; background:#ffd800; font-weight:bold; color:#ffffff; border-radius:6px;">
                 View
             </button>
-            }
-            @if (item.Status == DepositPaymentStatusEnum.Reversed.ToString())
-            {
-                <input type="button" id="btn btn-sm btnReverse" disabled style="border: 0.8px solid #143f17; background:#143f17; font-weight:bold; color:#143f17; border-radius:6px;" class="" value="####" />
-            }
-        </td>
-    </tr>
+        }
+        @if (item.Status == DepositPaymentStatusEnum.Reversed.ToString())
+        {
+            <input type="button" id="btn btn-sm btnReverse" disabled style="border: 0.8px solid #143f17; background:#143f17; font-weight:bold; color:#143f17; border-radius:6px;" class="" value="####" />
+        }
+    </td>
+</tr>
     }
 }
 else
