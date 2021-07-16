@@ -459,6 +459,27 @@ function getUrlParameter(name) {
                     }
                 });
 
+        $("#vendor").on("change", function () {
+            var vendorId = $("#vendor").val();
+            $("#pos").empty();
+            if (vendorId) {
+                $.ajax({
+                    url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                    success: function (res) {
+                        $("#pos").append("<option value=''> Select POS </option>")
+                        if (res.posList != null) {
+                            for (var i = 0; i < res.posList.length; i++) {
+                                $("#pos").append("<option value=" + res.posList[i].Value + " selected>" + res.posList[i].Text + "</option>")
+                            }
+                        }
+                    }
+                })
+            }
+            else {
+                $("#pos").append("<option value=''> SELECT POS</option>")
+            }
+        });
+
                 function downloadURI(imgData, name) {
                     var link = document.createElement("a");
 

@@ -1499,12 +1499,12 @@ namespace VendTech.BLL.Managers
             dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.PaymentType = (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type);
-            dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank.Substring(0, depositAuditModel.GTBank.LastIndexOf("-")) : "";
+            dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank : "";
 
             Context.Deposits.Add(dbDeposit);
             Context.Entry(dbDeposit).State = EntityState.Modified;
             Context.SaveChanges();
-
+            
 
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;

@@ -111,7 +111,7 @@ namespace VendTech.Areas.Admin.Controllers
                     ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
 
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
-                    
+
                     return View("ManageDepositAuditReport", depositAudit);
                 }
                 if (val == "2011")
@@ -704,6 +704,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             var list = _depositManager.GetAuditReportExcelData(model).List;
 
+            
             var gv = new GridView
             {
                 DataSource = list
@@ -833,14 +834,14 @@ namespace VendTech.Areas.Admin.Controllers
                     {
                         var data = row.Cells[1].Text;
                         row.Cells[1].Text = row.Cells[10].Text;
-                        row.Cells[10].Text=row.Cells[9].Text;
+                        row.Cells[10].Text = row.Cells[9].Text;
                         row.Cells[9].Text = row.Cells[8].Text;
-                        row.Cells[8].Text = row.Cells[7].Text;
-                        row.Cells[7].Text = row.Cells[6].Text;
-                        row.Cells[6].Text = row.Cells[5].Text;
-                        row.Cells[5].Text = row.Cells[4].Text;
-                        row.Cells[4].Text = row.Cells[3].Text;
-                        row.Cells[3].Text = row.Cells[2].Text;
+
+                        var swapPayer = row.Cells[5].Text;
+                        row.Cells[5].Text = row.Cells[6].Text;
+                        row.Cells[6].Text = swapPayer;
+
+                        row.Cells[8].Text = row.Cells[2].Text;
                         row.Cells[2].Text = data;
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Right;

@@ -136,7 +136,7 @@ namespace VendTech.BLL.Models
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
             VALUEDATE = obj.ValueDate;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
-            DEPOSIT_BY = obj.User.Vendor;
+            DEPOSIT_BY = obj.POS.User.Vendor;
             DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
             PAYER = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
