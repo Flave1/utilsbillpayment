@@ -182,8 +182,8 @@ namespace VendTech.BLL.Managers
                     total_deposits = new decimal();
                     total_sales = new decimal();
                     var date = DateTime.UtcNow.Date;
-                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Any() ? Context.Deposits.Sum(s => s.Amount) : 0;
-                    total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Any() ? Context.TransactionDetails.Sum(s => s.Amount) : 0;
+                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
+                    total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
 
                     tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
                     if (tDatas.Any())

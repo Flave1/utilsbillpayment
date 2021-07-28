@@ -28,13 +28,13 @@ namespace VendTech.BLL.Managers
             var dbMeter = new Meter();
             if (model.MeterId > 0)
             {
-                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId);
+                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false);
                 if (dbMeter == null)
                     return ReturnError("Meter not exist.");
             }
             else
             {
-                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId);
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false);
                 if (met != null)
                     return ReturnError(met.MeterId, "Same meter number already exist for you.");
             }
@@ -657,7 +657,7 @@ namespace VendTech.BLL.Managers
                             UserName = username,
                             Password = password,
                             System = "SL"
-                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId+5
+                        }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId
                        },
             };
         }
@@ -760,7 +760,7 @@ namespace VendTech.BLL.Managers
                 trans.TransactionDetailsId = (long)model.MeterId;
                 trans.MeterToken1 = response_data?.Content?.VoucherPin?.ToString() ?? string.Empty;
                 trans.Amount = model?.Amount ?? new decimal();
-                trans.TransactionId = model?.TransactionId.ToString();
+                trans.TransactionId = response_data?.Content?.TransactionId.ToString(); //model?.TransactionId.ToString();
                 trans.IsDeleted = false;
                 trans.Status = response_data.Content.Finalised ? (int)RechargeMeterStatusEnum.Success : 0;
                 trans.CreatedAt = DateTime.UtcNow;

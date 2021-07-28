@@ -53,7 +53,7 @@ namespace VendTech.Controllers
         public ActionResult Index()
         {
 
-            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 10);
+            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000);
             return View(meters);
 
         }
@@ -206,7 +206,7 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public ActionResult GetUserMeters(RequestObject tokenobject)
         {
-            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 10); 
+            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 1000000000); 
             return PartialView("Partials/_userMeterListing", modal);
         }
 
@@ -224,6 +224,18 @@ namespace VendTech.Controllers
             var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
             var recharges = deposits.List;
             return PartialView("Partials/_salesListing", recharges);
+        }
+
+
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetPOSBalanceAfterPurchase()
+        {
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            if (posList.Count > 0)
+                ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
+            else
+                ViewBag.walletBalance = 0; 
+            return Json(string.Format("{0:N0}", ViewBag.walletBalance != null ? ViewBag.walletBalance : "0"));
         }
 
 

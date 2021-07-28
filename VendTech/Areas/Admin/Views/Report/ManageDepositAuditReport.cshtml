@@ -295,7 +295,7 @@
                     <div class=" col-md-12">
                         <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
                         <div class="col-md-8">
-                            <input type="text" style="text-align:center;" name="ValueDate" id="value_date" class="form-control margin" />
+                            <input type="date" style="text-align:left;" name="ValueDate" id="value_date" class="form-control margin" />
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -632,6 +632,7 @@ function getUrlParameter(name) {
             inputParam.UserId = $("#hdnUserId").val();
             inputParam.Type = $("#deposittype").val();
 
+            debugger
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }

@@ -235,14 +235,21 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IVendorManager.GetVendorsSelectList(long agentId)
         {
-            IQueryable<User> query = Context.Users.Where(p => p.AgentId != null && p.UserRole.Role == UserRoles.Vendor && p.Status == (int)UserStatusEnum.Active);
-            if (agentId > 0)
-                query = query.Where(p => p.AgentId == agentId);
-            return query.ToList().Select(p => new SelectListItem
+            try
             {
-                Text = p.Vendor.ToUpper(),
-                Value = p.UserId.ToString()
-            }).ToList();
+                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.Status == (int)UserStatusEnum.Active && p.POS.Any());
+                if (agentId > 0)
+                    query = query.Where(p => p.AgentId == agentId);
+                return query.ToList().Select(p =>   new SelectListItem
+                {
+                    Text = p.Vendor.ToUpper(),
+                    Value = p.UserId.ToString()
+                }).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<SelectListItem>();
+            }
         }
 
         List<SelectListItem> IVendorManager.GetPosSelectList()

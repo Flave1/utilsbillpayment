@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static VendTech.BLL.Managers.POSManager;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -31,6 +32,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<POSListingModel> GetUserPosPagingListForApp(int pageNo, int pageSize, long userId);
         UserModel GetUserPosDetailApi(string posSerialNumber);
         decimal GetPosPercentage(long posId);
+        POS GetSinglePos(long pos);
     }
 
 }

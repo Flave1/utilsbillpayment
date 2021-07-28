@@ -18,11 +18,18 @@ namespace VendTech.BLL.Managers
 
         List<CommissionModel> ICommissionManager.GetCommissions()
         {
-            return Context.Commissions.Where(p => !p.IsDeleted).ToList().Select(p => new CommissionModel
+            try
             {
-                CommissionId = p.CommissionId,
-                Value = p.Percentage
-            }).ToList();
+                return Context.Commissions.Where(p => !p.IsDeleted).ToList().Select(p => new CommissionModel
+                {
+                    CommissionId = p.CommissionId,
+                    Value = p.Percentage
+                }).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<CommissionModel>();
+            }
         }
 
         ActionOutput ICommissionManager.SaveCommission(SaveCommissionModel model)
