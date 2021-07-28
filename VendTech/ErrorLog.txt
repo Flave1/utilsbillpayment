@@ -7926,3 +7926,134 @@ Parameter name: length
 
 
 
+One or more errors occurred.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+LINQ to Entities does not recognize the method 'System.Decimal ToDecimal(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'System.Decimal ToDecimal(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+No property or field 'PosId' exists in type 'User'
+
+
+
+No property or field 'PosId' exists in type 'User'
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+No property or field 'POSId' exists in type 'ICollection`1'
+
+
+
+No property or field 'POSId' exists in type 'ICollection`1'
+
+
+
+No property or field 'POSId' exists in type 'ICollection`1'
+
+
+
+startIndex must be less than length of string.
+Parameter name: startIndex
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+The underlying provider failed on Open.
+
+
+
+No property or field 'Balance' exists in type 'User'
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+The underlying provider failed on Open.
+
+
+

@@ -174,17 +174,18 @@ var Users = {
                 }
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code === 200) {
-                
+
+                    debugger;
                     console.log(data);
 
-                    $("#sales_date").html(data.Data.CreatedAt)
+                    $("#sales_date").html(data.Data.TransactionDate);
                     $("#customer_name").html(data.Data.CustomerName);
                     $("#customer_account_number").html(data.Data.AccountNo);
                     $("#customer_address").html(data.Data.Address);
                     $("#meter_number").html(data.Data.DeviceNumber);
                     $("#current_tarrif").html(data.Data.Tarrif);
                     $("#amount_tender").html(data.Data.Amount);
-                    $("#gst").html("0.00");
+                    $("#gst").html(data.Data.Tax);
                     $("#service_charge").html(data.Data.Charges);
                     $("#debit_recovery").html(data.Data.DebitRecovery);
                     $("#cost_of_units").html(data.Data.UnitCost); 
@@ -197,12 +198,14 @@ var Users = {
                     if (data.Data.Pin3.length > 0) $("#pin3_section").show();
                     $("#edsa_serial").html(data.Data.SerialNo);
                     $("#barcode").html(data.Data.DeviceNumber);
-                    $("#vendtech_serial_code").html(data.Data.ReceiptNo);
+                    $("#vendtech_serial_code").html(data.Data.VTECHSerial);
                     $("#pos_id").html(data.Data.POS);
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     $("#vendorId").html(data.Data.VendorId);
 
                     GetLatestRechargesAfterPurchase();
+                    GetPOSBalanceAfterPurchase();
+                    $("#AmountDisplay").val('');
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
                         if (redirectToAddMeter) {
@@ -399,6 +402,18 @@ function GetLatestRechargesAfterPurchase() {
     });
 }
 
+
+function GetPOSBalanceAfterPurchase() {
+    debugger;
+    $.ajax({
+        url: baseUrl + '/Meter/GetPOSBalanceAfterPurchase',
+        type: "POST",
+        success: function (data) {
+            debugger
+            $('#balanceSpan').html('SSL: ' + data);
+        }
+    });
+}
 
 function Paging(sender) {
     var obj = new Object();

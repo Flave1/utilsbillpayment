@@ -22,7 +22,7 @@ namespace VendTech.BLL.Interfaces
         decimal GetPendingDepositTotal();
         ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
         ActionOutput<string> SendOTP();
-        ActionOutput SaveDepositRequest(DepositModel model);
+        ActionOutput<Deposit> SaveDepositRequest(DepositModel model);
         ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);

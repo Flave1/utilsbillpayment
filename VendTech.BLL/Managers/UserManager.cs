@@ -1110,6 +1110,12 @@ namespace VendTech.BLL.Managers
             (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
             (p.Status == (int)UserStatusEnum.Active) && p.UserAssignedModules.Select(f => f.ModuleId).Contains(11)).ToList(); // 11 is the Module key for appUsers
         }
+        List<User> IUserManager.GetAllAdminUsersByDepositRelease()
+        {
+            return Context.Users.Where(p =>
+            (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
+            (p.Status == (int)UserStatusEnum.Active) && p.UserAssignedModules.Select(f => f.ModuleId).Contains(7)).ToList(); // 7 is the Module key for Deposit Release
+        }
 
         UserDetails IUserManager.GetNotificationUsersCount(long currentUserId)
         {

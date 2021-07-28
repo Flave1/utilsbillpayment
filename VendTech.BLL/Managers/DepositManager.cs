@@ -437,7 +437,8 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Amount))
             {
-                query = query.Where(p => p.Deposit.Amount.ToString().Contains(model.Amount.ToLower().Replace(",", "")));
+                var amt = Convert.ToDecimal(model.Amount.ToLower().Replace(",", "")+".00");
+                query = query.Where(p => p.Deposit.Amount == amt);
             }
             if (!string.IsNullOrEmpty(model.IssuingBank))
             {
@@ -587,13 +588,13 @@ namespace VendTech.BLL.Managers
             var totalrecord = query.ToList().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
-                // query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1));
 
-                query = model.SortBy == "CreatedAt" ?
-                    (model.SortOrder == "Desc" ?
-                    query.OrderByDescending(p => p.Deposit.UpdatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage) :
-                    query.OrderBy(p => p.Deposit.UpdatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage)) :
-                    query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                //query = model.SortBy == "CreatedAt" ?
+                //    (model.SortOrder == "Desc" ?
+                //    query.OrderByDescending(p => p.Deposit.UpdatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage) :
+                //    query.OrderBy(p => p.Deposit.UpdatedAt).Skip((model.PageNo - 1)).Take(model.RecordsPerPage)) :
+                //    query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
 
             var list = query
@@ -1441,7 +1442,7 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
         }
 
-        ActionOutput IDepositManager.SaveDepositRequest(DepositModel model)
+        ActionOutput<Deposit> IDepositManager.SaveDepositRequest(DepositModel model)
         {
             //if (model.Amount < Utilities.MinimumDepositAmount || model.Amount > Utilities.MaximumDepositAmount)
             //    return ReturnError("Deposit amount must be between 50 to 500.");
@@ -1473,26 +1474,20 @@ namespace VendTech.BLL.Managers
             dbDeposit.ValueDate = model.ValueDate + " 12:00";//.ToString("dd/MM/yyyy hh:mm");
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges();
-            return ReturnSuccess("Deposit request saved successfully.");
+            return ReturnSuccess<Deposit>(dbDeposit, "Deposit request saved successfully.");
         }
 
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
             var posId = new POS();
-            var dbDeposit = Context.Deposits.Include(x => x.POS)
-                .Include(x => x.User).Include(x => x.BankAccount)
+            //.Include(x => x.POS) .Include(x => x.User).Include(x => x.BankAccount)
+            var dbDeposit = Context.Deposits
                 .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
-            //if (depositAuditModel.PosId != null)
-            //{
-            //    posId = Context.POS.FirstOrDefault(x => x.SerialNumber == Convert.ToString(depositAuditModel.PosId));
-            //}
-            //else
-            //{
-            //    posId = Context.POS.FirstOrDefault(x => x.POSId == dbDeposit.POSId);
-            //}
+
             posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
             dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
+            dbDeposit.UserId = depositAuditModel.UserId;
             dbDeposit.POSId = posId != null ? posId.POSId : dbDeposit.POSId;
             dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
@@ -1500,11 +1495,9 @@ namespace VendTech.BLL.Managers
             dbDeposit.UpdatedAt = DateTime.UtcNow;
             dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             dbDeposit.isAudit = depositAuditModel.isAudit;
-            dbDeposit.PaymentType = (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type);
+            dbDeposit.PaymentType = depositAuditModel.Type != null ? (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type) : (int)DepositPaymentTypeEnum.Cash;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank : "";
 
-            Context.Deposits.Add(dbDeposit);
-            Context.Entry(dbDeposit).State = EntityState.Modified;
             Context.SaveChanges();
             
 

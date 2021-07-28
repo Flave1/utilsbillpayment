@@ -101,7 +101,28 @@ namespace VendTech.Controllers
 
             var result = _depositManager.SaveDepositRequest(model);
 
-            return JsonResult(result);
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            var pos = _posManager.GetSinglePos(result.Object.POSId);
+            if (pos != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+                    if (emailTemplate != null)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%AdminUserName%", admin.Name);
+                        body = body.Replace("%VendorName%", pos.User.Vendor);
+                        body = body.Replace("%POSID%", pos.SerialNumber);
+                        body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+                        body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                        Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                    }
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+            // return JsonResult(result);
         }
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)

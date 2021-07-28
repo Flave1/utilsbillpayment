@@ -87,6 +87,7 @@ namespace VendTech.BLL.Interfaces
         List<User> GetAllAdminUsersByAppUserPermission();
         IEnumerable<UserLiteDto> GetVendorNames_API();
         UserLiteDto GetVendorNamePOSNumber(int posId);
+        List<User> GetAllAdminUsersByDepositRelease();
     }
 
 }

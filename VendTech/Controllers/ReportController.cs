@@ -272,8 +272,8 @@ namespace VendTech.Controllers
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Left; row.Cells[3].ColumnSpan = 2;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[8].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[11].HorizontalAlign = HorizontalAlign.Right;
@@ -538,16 +538,16 @@ namespace VendTech.Controllers
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-           
-                        row.Cells[0].HorizontalAlign = HorizontalAlign.Center; 
-                        row.Cells[1].HorizontalAlign = HorizontalAlign.Center;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Center;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Center;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Center;
-                        row.Cells[5].HorizontalAlign = HorizontalAlign.Center; 
-                        row.Cells[6].HorizontalAlign = HorizontalAlign.Center;
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Center;
-                        var token = row.Cells[6].Text.ToString(); 
+
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        var token = row.Cells[6].Text.ToString();
                         row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 2;
                     }

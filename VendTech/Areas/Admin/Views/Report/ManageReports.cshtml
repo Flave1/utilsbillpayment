@@ -227,15 +227,21 @@
 
 
 
-                $("#vendor").on("change", function () {
+                $("#vendor").on("change", function () { 
                     var vendorId = $("#vendor").val();
                     $("#pos").empty();
                     if (vendorId) {
                         $.ajax({
                             url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
                             success: function (res) {
-                                $("#pos").append("<option value=''> Select POS </option>")
-                                if (res.posList != null) {
+                                //$("#pos").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) { 
+                                    if (res.posList.length > 1) {
+                                        $("#pos").append("<option value=''> -Select POS- </option>")
+                                    }
+                                    if (res.posList.length == 0) {
+                                        $("#pos").append("<option value=''> -NO POS - </option>")
+                                    }
                                     for (var i = 0; i < res.posList.length; i++) {
                                         $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
                                     }

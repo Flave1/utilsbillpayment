@@ -20,7 +20,7 @@ namespace VendTech.BLL.Managers
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
             var result = new PagingResult<POSListingModel>();
-            var query = Context.POS.Where(p => !p.IsDeleted).OrderBy("SerialNumber" + " " + "Asc").AsEnumerable();
+            var query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model.SortBy + " " + model.SortOrder).AsEnumerable();
             //if (agentId > 0)
             //    query = query.Where(p => p.Vendor.AgencyId == agentId);
             if (vendorId > 0)
@@ -167,6 +167,10 @@ namespace VendTech.BLL.Managers
                 };
             }
             return new SavePosModel();
+        }
+        POS IPOSManager.GetSinglePos(long pos)
+        {
+            return Context.POS.Find(pos);
         }
         SavePosModel IPOSManager.GetPosDetails(string passCode)
         {

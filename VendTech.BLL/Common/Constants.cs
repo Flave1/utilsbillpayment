@@ -54,7 +54,7 @@ namespace VendTech.BLL.Models
     }
     public static class AppDefaults
     {
-        public const Int32 PageSize = 10;
+        public const Int32 PageSize = 100;
     
     }
     public static class AppSettings
