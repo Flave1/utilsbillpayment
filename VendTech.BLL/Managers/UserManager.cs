@@ -24,6 +24,7 @@ namespace VendTech.BLL.Managers
         {
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
             if (session != null)
+
             {
                 var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
                 if (session != null &&
