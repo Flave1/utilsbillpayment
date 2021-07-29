@@ -372,7 +372,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage GetAppUserTypes()
         {
             var data = _agentManager.GetAgentsSelectList();
-            var enumValue = Utilities.EnumToList(typeof(AppUserTypeEnum));
+            var enumValue = Utilities.EnumToList(typeof(AppUserTypeEnumApi));
             var result = new DataResult<List<System.Web.Mvc.SelectListItem>, List<System.Web.Mvc.SelectListItem>>();
             result.Result1 = data;
             result.Result2 = enumValue;

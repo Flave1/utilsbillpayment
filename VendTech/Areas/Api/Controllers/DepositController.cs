@@ -34,6 +34,7 @@ namespace VendTech.Areas.Api.Controllers
              model.UserId = LOGGEDIN_USER.UserId;
              //model.TotalAmountWithPercentage = model.Amount;
              model.BankAccountId = 1;
+            model.ValueDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
              var result = _depositManager.SaveDepositRequest(model);
              return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
          }
