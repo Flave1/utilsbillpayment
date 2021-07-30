@@ -237,8 +237,45 @@ namespace VendTech.BLL.Managers
 
         PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model, bool onlyAppUser, string status)
         {
+            model.RecordsPerPage = 10000000;
             var result = new PagingResult<UserListingModel>();
-            var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
+            IQueryable<User> query = null;
+            if (model.SortBy == "POS")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = (from u in Context.Users
+                             join p in Context.POS on u.FKVendorId equals p.VendorId
+                             orderby p.SerialNumber ascending
+                             select u);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = (from u in Context.Users
+                             join p in Context.POS on u.FKVendorId equals p.VendorId
+                             orderby p.SerialNumber descending
+                             select u);
+                }
+            }
+            if (model.SortBy == "Balance")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = (from u in Context.Users
+                             join p in Context.POS on u.FKVendorId equals p.VendorId
+                             orderby p.Balance ascending
+                             select u);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = (from u in Context.Users
+                             join p in Context.POS on u.FKVendorId equals p.VendorId
+                             orderby p.Balance descending
+                             select u);
+                }
+            }
+            else
+                query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
             //Client want to show app user and vendor on the same screen because they both can login from app
             if (onlyAppUser)
                 query = query.Where(p => p.UserRole.Role == UserRoles.AppUser || p.UserRole.Role == UserRoles.Vendor);
