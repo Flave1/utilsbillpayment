@@ -46,7 +46,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageAppUsers(string status="")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true,status);
+            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("Vendor", "Desc"), true,status);
             return View(users);
         }
 

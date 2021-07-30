@@ -244,34 +244,22 @@ namespace VendTech.BLL.Managers
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = (from u in Context.Users
-                             join p in Context.POS on u.FKVendorId equals p.VendorId
-                             orderby p.SerialNumber ascending
-                             select u);
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.POS.FirstOrDefault().SerialNumber);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = (from u in Context.Users
-                             join p in Context.POS on u.FKVendorId equals p.VendorId
-                             orderby p.SerialNumber descending
-                             select u);
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.POS.FirstOrDefault().SerialNumber);
                 }
             }
-            if (model.SortBy == "Balance")
+            else if (model.SortBy == "Balance")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = (from u in Context.Users
-                             join p in Context.POS on u.FKVendorId equals p.VendorId
-                             orderby p.Balance ascending
-                             select u);
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.POS.FirstOrDefault().Balance);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = (from u in Context.Users
-                             join p in Context.POS on u.FKVendorId equals p.VendorId
-                             orderby p.Balance descending
-                             select u);
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.POS.FirstOrDefault().Balance);
                 }
             }
             else

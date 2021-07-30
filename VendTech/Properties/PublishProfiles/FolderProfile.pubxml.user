@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\bin\Release\Publish</_PublishTargetUrl>
-    <History>True|2021-07-30T06:44:22.7719328Z;True|2021-07-28T11:25:23.9147645+01:00;True|2021-07-28T09:25:35.6645394+01:00;True|2021-07-28T09:03:50.5493340+01:00;True|2021-07-24T16:10:54.2770400+01:00;True|2021-07-24T15:16:35.9613057+01:00;True|2021-07-24T14:26:12.2149095+01:00;True|2021-07-23T09:46:21.2336728+01:00;True|2021-07-22T23:41:26.8729067+01:00;True|2021-07-20T15:29:53.2398325+01:00;True|2021-07-18T08:42:38.1446019+01:00;True|2021-07-18T07:57:26.6359133+01:00;True|2021-07-16T09:19:14.1679904+01:00;True|2021-07-16T09:06:17.1879700+01:00;False|2021-07-16T09:05:46.5900974+01:00;True|2021-07-16T08:52:16.7666795+01:00;True|2021-07-13T07:26:24.2503065+01:00;True|2021-07-11T20:40:42.4669902+01:00;True|2021-07-09T09:50:11.8175015+01:00;True|2021-07-08T06:40:10.3160558+01:00;True|2021-07-02T20:09:50.5114471+01:00;True|2021-07-02T13:28:39.9198962+01:00;False|2021-07-02T13:26:24.5328586+01:00;True|2021-06-28T10:24:39.4736554+01:00;True|2021-06-25T18:01:34.0675100+01:00;True|2021-06-25T09:40:29.5891754+01:00;True|2021-06-21T17:32:14.7562313+01:00;True|2021-06-18T07:40:43.9924597+01:00;True|2021-06-17T07:40:37.2457794+01:00;True|2021-06-15T10:22:03.7745410+01:00;True|2021-06-15T10:09:11.5742329+01:00;True|2021-06-12T13:30:39.7610283+01:00;True|2021-06-10T09:21:47.0741821+01:00;True|2021-06-06T19:40:56.8520450+01:00;True|2021-06-05T16:01:12.0085892+01:00;True|2021-06-04T12:34:01.0138441+01:00;True|2021-05-31T06:19:50.5484892+01:00;True|2021-05-31T05:47:55.4716917+01:00;True|2021-05-28T07:23:34.1307689+01:00;True|2021-05-26T07:14:00.1330693+01:00;True|2021-05-05T13:30:37.5453577+01:00;True|2021-05-05T13:27:22.4498271+01:00;True|2021-05-05T09:30:40.6820000+01:00;True|2021-04-29T04:32:10.7255210+01:00;</History>
+    <History>True|2021-07-30T07:18:29.4306212Z;True|2021-07-30T07:44:22.7719328+01:00;True|2021-07-28T11:25:23.9147645+01:00;True|2021-07-28T09:25:35.6645394+01:00;True|2021-07-28T09:03:50.5493340+01:00;True|2021-07-24T16:10:54.2770400+01:00;True|2021-07-24T15:16:35.9613057+01:00;True|2021-07-24T14:26:12.2149095+01:00;True|2021-07-23T09:46:21.2336728+01:00;True|2021-07-22T23:41:26.8729067+01:00;True|2021-07-20T15:29:53.2398325+01:00;True|2021-07-18T08:42:38.1446019+01:00;True|2021-07-18T07:57:26.6359133+01:00;True|2021-07-16T09:19:14.1679904+01:00;True|2021-07-16T09:06:17.1879700+01:00;False|2021-07-16T09:05:46.5900974+01:00;True|2021-07-16T08:52:16.7666795+01:00;True|2021-07-13T07:26:24.2503065+01:00;True|2021-07-11T20:40:42.4669902+01:00;True|2021-07-09T09:50:11.8175015+01:00;True|2021-07-08T06:40:10.3160558+01:00;True|2021-07-02T20:09:50.5114471+01:00;True|2021-07-02T13:28:39.9198962+01:00;False|2021-07-02T13:26:24.5328586+01:00;True|2021-06-28T10:24:39.4736554+01:00;True|2021-06-25T18:01:34.0675100+01:00;True|2021-06-25T09:40:29.5891754+01:00;True|2021-06-21T17:32:14.7562313+01:00;True|2021-06-18T07:40:43.9924597+01:00;True|2021-06-17T07:40:37.2457794+01:00;True|2021-06-15T10:22:03.7745410+01:00;True|2021-06-15T10:09:11.5742329+01:00;True|2021-06-12T13:30:39.7610283+01:00;True|2021-06-10T09:21:47.0741821+01:00;True|2021-06-06T19:40:56.8520450+01:00;True|2021-06-05T16:01:12.0085892+01:00;True|2021-06-04T12:34:01.0138441+01:00;True|2021-05-31T06:19:50.5484892+01:00;True|2021-05-31T05:47:55.4716917+01:00;True|2021-05-28T07:23:34.1307689+01:00;True|2021-05-26T07:14:00.1330693+01:00;True|2021-05-05T13:30:37.5453577+01:00;True|2021-05-05T13:27:22.4498271+01:00;True|2021-05-05T09:30:40.6820000+01:00;True|2021-04-29T04:32:10.7255210+01:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/readme.txt">
@@ -503,37 +503,37 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2021 21:48:34</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>07/30/2021 07:44:20</publishTime>
+      <publishTime>07/30/2021 10:54:38</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>07/30/2021 07:44:20</publishTime>
+      <publishTime>07/30/2021 10:54:38</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
       <publishTime>07/08/2021 06:40:06</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>07/22/2021 23:25:35</publishTime>
+      <publishTime>07/30/2021 08:24:23</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
       <publishTime>07/08/2021 06:40:06</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>07/30/2021 07:44:21</publishTime>
+      <publishTime>07/30/2021 10:54:39</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>07/30/2021 07:44:20</publishTime>
+      <publishTime>07/30/2021 10:54:38</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>07/30/2021 07:44:20</publishTime>
+      <publishTime>07/30/2021 10:54:38</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>07/30/2021 07:44:21</publishTime>
+      <publishTime>07/30/2021 10:54:39</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
@@ -19043,7 +19043,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2020 12:53:15</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>07/30/2021 07:10:31</publishTime>
+      <publishTime>07/30/2021 09:58:52</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19103,7 +19103,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/02/2021 13:24:56</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>07/28/2021 11:25:24</publishTime>
+      <publishTime>07/30/2021 08:45:57</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19424,7 +19424,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/22/2021 23:41:25</publishTime>
+      <publishTime>07/30/2021 08:45:56</publishTime>
     </File>
   </ItemGroup>
 </Project>
