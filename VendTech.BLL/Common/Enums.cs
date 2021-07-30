@@ -114,6 +114,14 @@ namespace VendTech.BLL.Models
         [Description("Company")]
         Company = 20,
     }
+
+    public enum AppUserTypeEnumApi
+    {
+        [Description("Personal Account")]
+        Individual = 10,
+        [Description("Corporate Account")]
+        Company = 20,
+    }
     public enum RechargeMeterStatusEnum
     {
         [Description("Success")]

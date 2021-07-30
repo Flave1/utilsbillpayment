@@ -127,9 +127,9 @@ namespace VendTech.BLL.Models
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
             this.AgentId = userObj.AgentId;
             var userAssignedPos = new POS();
-            if (userObj.UserRole.Role == UserRoles.Vendor.ToUpper())
+            if (userObj.UserRole.Role == UserRoles.Vendor)
                 userAssignedPos = userObj.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
-            else if (userObj.UserRole.Role == UserRoles.AppUser.ToUpper() && userObj.User1 != null)
+            else if (userObj.UserRole.Role == UserRoles.AppUser && userObj.User1 != null)
                 userAssignedPos = userObj.User1.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
             if (userAssignedPos != null && userAssignedPos.POSId > 0)
             {
