@@ -67,6 +67,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('.filter-select option[value="100"]').attr("selected", true);
             //initialize the javascript
             App.init();
             Users.ManageUsers(totalCount);

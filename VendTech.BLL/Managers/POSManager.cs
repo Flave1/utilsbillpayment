@@ -19,10 +19,37 @@ namespace VendTech.BLL.Managers
 
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
+            model.RecordsPerPage = 1000000;
             var result = new PagingResult<POSListingModel>();
-            var query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model.SortBy + " " + model.SortOrder).AsEnumerable();
+            IQueryable<POS> query = null;
             //if (agentId > 0)
             //    query = query.Where(p => p.Vendor.AgencyId == agentId);
+            if (model.SortBy == "VendorId")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = Context.POS.Where(p => !p.IsDeleted).OrderBy(s => s.User.Vendor);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Vendor);
+                }
+            }
+            else if (model.SortBy == "MeterCount")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = Context.POS.Where(p => !p.IsDeleted).OrderBy(s => s.User.Meters.Count());
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
+                }
+            }
+            else
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model.SortBy + " " + model.SortOrder);
+            }
             if (vendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == vendorId);

@@ -46,7 +46,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageAppUsers(string status="")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
-            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("Vendor", "Desc"), true,status);
+            var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("Name", "Asc"), true,status);
             return View(users);
         }
 
@@ -186,7 +186,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
            
              
-            //send mail to all admin with this app users permission
+            //send mail to all admin with  app users permission
 
             var adminMembers = _userManager.GetAllAdminUsersByAppUserPermission();
             if (adminMembers.Any())

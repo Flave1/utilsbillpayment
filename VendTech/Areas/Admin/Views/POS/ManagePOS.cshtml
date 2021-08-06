@@ -31,7 +31,7 @@
                                             <th class="sorting" data-sortby="VendorId">VENDOR NAME</th>
                                             <th class="sorting" data-sortby="Balance">BALANCE</th>
                                             <th class="sorting" data-sortby="SerialNumber">POS SIM#</th>
-                                            <th class="sorting" data-sortby="CreatedAt">SAVED METERS</th>
+                                            <th class="sorting" data-sortby="MeterCount">SAVED METERS</th>
                                             <th class="sorting" data-sortby="VendorType">POS TYPE</th>
                                             <th class="sorting" data-sortby="Enabled">ENABLED</th>
                                             <th>ACTION</th>
@@ -91,6 +91,7 @@
         }
         $(document).ready(function () {
             //initialize the javascript
+            $('.filter-select option[value="100"]').attr("selected", true);
             App.init();
             Users.ManageUsers(totalCount);
         });

@@ -262,6 +262,28 @@ namespace VendTech.BLL.Managers
                     query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.POS.FirstOrDefault().Balance);
                 }
             }
+            else if (model.SortBy == "Vendor")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.Vendor);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.Vendor);
+                }
+            }
+            else if (model.SortBy == "SurName")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.SurName);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.SurName);
+                }
+            }
             else
                 query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
             //Client want to show app user and vendor on the same screen because they both can login from app

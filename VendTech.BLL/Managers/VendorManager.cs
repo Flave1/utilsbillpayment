@@ -237,7 +237,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.Status == (int)UserStatusEnum.Active && p.POS.Any());
+                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.Status == (int)UserStatusEnum.Active).OrderBy(s => s.Vendor);//&& p.POS.Any()
                 if (agentId > 0)
                     query = query.Where(p => p.AgentId == agentId);
                 return query.ToList().Select(p =>   new SelectListItem

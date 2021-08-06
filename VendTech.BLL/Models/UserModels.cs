@@ -58,7 +58,7 @@ namespace VendTech.BLL.Models
             this.Status = (UserStatusEnum)userObj.Status;
             this.Platforms = string.Join(" , ", userObj.UserAssignedPlatforms.ToList().Select(x => x.Platform.Title).ToList());
             this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).ToList().Select(x => x.Module.ModuleName).ToList());
-            this.Vendor = userObj.FKVendorId > 0 ? userObj.User1.Vendor : "";
+            this.Vendor = userObj.FKVendorId > 0 ? userObj.Vendor : "";
             this.LastLoggedIn = userObj.AppLastUsed?.ToString("dd/MM/yyyy hh:mm");
             this.PosBalance = firstPos?.Balance != null ? Convert.ToInt64(firstPos.Balance.Value) : new long();
             this.POSSerialNumber = firstPos != null ? firstPos.SerialNumber : string.Empty;
