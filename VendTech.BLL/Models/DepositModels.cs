@@ -299,7 +299,17 @@ namespace VendTech.BLL.Models
             PosId = obj.POS != null ? Convert.ToInt64(obj.POS.SerialNumber) : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            if (obj.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
+            {
+                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
+
+                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
+            }
+            else
+                Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+
             GTBank = obj.BankAccount.BankName;
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
