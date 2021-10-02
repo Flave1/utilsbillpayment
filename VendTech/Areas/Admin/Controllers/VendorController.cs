@@ -73,7 +73,7 @@ namespace VendTech.Areas.Admin.Controllers
             var result = _vendorManager.SaveVendor(model);
             if (result.Status == ActionStatus.Successfull && isAddCase)
             {
-                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
+                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUserRegistration);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%UserName%", model.Email);
                 body = body.Replace("%Password%", model.Password);

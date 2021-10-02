@@ -528,7 +528,7 @@
     <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
-    <Content Include="Views\Shared\_fetchVoucher.cshtml" />
+    <Content Include="Views\Shared\_voucherReprint.cshtml" />
     <Content Include="Views\Shared\_RequestResponseJSON.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_depositReceipt.cshtml" />

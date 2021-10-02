@@ -55,7 +55,8 @@
                                                 <div class="col-sm-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*" })
+                                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id= "password" })
+                                                        <span style="cursor:pointer;" id="togglePassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
                                                     </div>
                                                     <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
                                                 </div>
@@ -120,6 +121,16 @@
 @section scripts{
     <script src="~/Scripts/UserScripts/login.js"></script>
     <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye / eye slash icon
+            this.classList.toggle('bi-eye');
+        });
         $(function () {
             $("#platformChangeDrp").change(function () {
                 window.location.href = this.value;

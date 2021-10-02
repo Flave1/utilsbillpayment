@@ -29,7 +29,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageTemplates()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Platforms;
-            var templates = _templateManager.GetEmailTemplateList(PagingModel.DefaultModel());
+            var templates = _templateManager.GetEmailTemplateList(new PagingModel { SortBy = "sortOrder", SortOrder = "Asc" });
             return View(templates);
         }
 

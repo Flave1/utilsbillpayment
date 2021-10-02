@@ -23,13 +23,13 @@ namespace VendTech.BLL.Models
         [Description("Forget Password")]
         ForgetPassword = 2,
         [Description("Account Verification")]
-        AccountVerification=4,
+        NewAppUser = 4,
         [Description("Change Password")]
         ChangePassword = 5,
         [Description("DepositOTP")]
         DepositOTP = 1,
-        [Description("NewAppUser")]
-        NewAppUser = 6,
+        [Description("New App User Registration")]
+        NewAppUserRegistration = 6,
         [Description("NewCMSUser")]
         NewCMSUser = 7,
         [Description("GeneratePasscode")]
@@ -44,6 +44,11 @@ namespace VendTech.BLL.Models
         NewUserEmailToAdmin = 11,
         [Description("Deposit Request Notification")]
         DepositRequestNotification = 12,
+        [Description("Uncleared Deposit Notification")]
+        UnclearedDepositNotification = 13,
+
+        [Description("Forgot Passcode")]
+        ForgotPasscode = 14,
     }
     public enum PosTypeEnum
     {
@@ -135,7 +140,9 @@ namespace VendTech.BLL.Models
         [Description("Cheque")]
         Cheque = 2,
         [Description("Purchase Order")]
-        PurchaseOrder = 3
+        PurchaseOrder = 3,
+        [Description("Transfer")]
+        Transfer = 4
     }
     public enum DepositPaymentStatusEnum
     {

@@ -120,6 +120,9 @@
     option {
         font-weight: bold;
     }
+    .Updated{
+        background: #ff6a00;
+    }
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -332,7 +335,7 @@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">TYPE<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new {  @id = "deposittype", @class = "form-control margin"  })
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "deposittype", @class = "form-control margin" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -353,9 +356,17 @@
                             <input type="text" name="amount" id="modal_amount" class="form-control margin text-right" style="font-weight: 1000;font-size: large;" />
                         </div>
                     </div>
+
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">COMMENT<em></em></label>
+                        <div class="col-md-8">
+                            <textarea name="comment" id="modal_comment" class="form-control margin" style="min-height: 200px; max-width: 200px; min-width: 344px "></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <input type="button" class="btn btn-secondary" id="update_btn" value="UPDATE"  onclick="Update(this)">
                 <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)">
             </div>
         </div>
@@ -372,9 +383,15 @@
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
-    <script type="text/javascript">
+<script type="text/javascript">
         var totalCount = "@Model.TotalCount";
 
+
+   
+
+    window.ready = function WindowLoad(event) {
+        alert("Page is loaded");
+    }
 function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
             var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -416,7 +433,6 @@ function getUrlParameter(name) {
                     culture: "en-GB",
                     value: new Date()
                 });
-                debugger;
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);
@@ -574,25 +590,36 @@ function getUrlParameter(name) {
         });
 
         function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
-            amount, isAudit, userId, date, valueDate, Type)
+            amount, isAudit, userId, date, valueDate, Type, comment)
         {
+
             debugger;
-        $("#depositModalTitle").text("Edit Deposit Audit");
-        $("#hdnDepositId").val(id);
-        $("#hdnUserId").val(userId);
-        $("#PosId").find("option:contains("+posid+")").attr("selected","selected");
-        $("#depositby").find("option:contains(" + depositby + ")").attr("selected", "selected");
-        $("#payer").val(payer);
-        $("#issuingbank").find("option[value='"+issuingbank.substr(0, issuingbank.lastIndexOf("-"))+"']").attr("selected","selected");
-        $("#depositref").val(depositref);
-        $("#gtbank").val(gtbank);
-        $("#deposittype").find("option:contains(" + Type + ")").attr("selected", "selected");
-        //var date =valueDate.split("-");
+            
+            
+            comment = escape(comment);
+           
+           // let bytes = new Uint8Array([207, 240, 232, 226, 229, 242, 44, 32, 236, 232, 240, 33]);
+            const decoded = atob(unescape(comment));
+            $("#depositModalTitle").text("Edit Deposit Audit");
+            $("#hdnDepositId").val(id);
+            $("#hdnUserId").val(userId);
+            $("#PosId").find("option:contains(" + posid + ")").attr("selected", "selected");
+            $("#depositby").find("option:contains(" + depositby + ")").attr("selected", "selected");
+            $("#payer").val(payer);
+            $("#issuingbank").find("option[value='" + issuingbank.substr(0, issuingbank.lastIndexOf("-")) + "']").attr("selected", "selected");
+            $("#depositref").val(depositref);
+            $("#gtbank").val(gtbank);
+            $("#deposittype").find("option:contains(" + Type + ")").attr("selected", "selected");
+        //var date =valueDate.split("-");   
         //var valueDate = valueDate.replaceAll("-", "/")
         //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
-        $("#value_date").val(valueDate);
-        $("#modal_amount").val(amount);
+            $("#value_date").val(valueDate);
+            $("#modal_amount").val(amount);
+            $("#modal_comment").val(decoded);
+             
         if (isAudit == "")
+            $("#modal_btn").val("Clear");
+        else if (isAudit == 'Updated')
             $("#modal_btn").val("Clear");
         else
             $("#modal_btn").val("Open");
@@ -618,6 +645,86 @@ function getUrlParameter(name) {
             });
         }
 
+        function Update(th) {
+            debugger
+            var inputParam = new Object();
+            inputParam.ValueDateModel = $("#value_date").val();
+            inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
+            inputParam.PosId = $("#PosId").val();
+            inputParam.IssuingBank = $("#issuingbank").val();
+            inputParam.Payer = $("#payer").val();
+            inputParam.GTBank = $("#gtbank").val();
+            inputParam.DepositRef = $("#depositref").val();
+            inputParam.DepositId = $("#hdnDepositId").val();
+            inputParam.DepositBy = $("#depositby").val();
+            inputParam.UserId = $("#hdnUserId").val();
+            inputParam.Type = $("#deposittype").val();
+            var commnt = $("#modal_comment").val();
+            inputParam.Comment = btoa(commnt);
+
+            debugger
+            if ($(th).val() == "Open") {
+                inputParam.isAudit = false;
+            }
+            else {
+                inputParam.isAudit = true;
+            }
+            //inputParam.FromDate = $("#FromDate").val();
+            //inputParam.ToDate = $("#ToDate").val();
+            //inputParam.Status = $("#status").val();
+            $.ajax({
+                url: '/Admin/Report/UpdatDepositAudit',
+                type: 'POST',
+                data: $.postifyData(inputParam),
+                success: function (data) {
+                    debugger;
+                    if (data != null) {
+                        $("#depositModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
+                        $('tr').each(function (index, value) {
+                            if ($(this).find("#hdnId").val() == data.DepositId) {
+                                $(this).find("#_date").text(data.DateTime);
+                                $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_usr").text(data.DepositBy);
+                                $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_pay").text(data.Payer);
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
+                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
+                                    $(this).find("#_bnk").text(data.IssuingBank);
+                                }
+                                else {
+                                    $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
+                                }
+                                $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("td").find("#_gt").text(data.GTBank);
+                                if (data.Price == "0") {
+                                    $(this).find("#_amt").text(data.Price);
+                                }
+                                else {
+                                    data.Price = data.Price.replace(/\D/g, "")
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                    $(this).find("#_amt")
+                                        .text(data.Price.replace(/\D/g, "")
+                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                }
+                                $(this).find("#_sts").addClass("Updated");
+                                $(this).find("#_sts").text("Updated");
+                                $(this).find("#_sts").prop("onclick", null);
+                                $(this).find("#_sts").click(function () {
+                                    debugger
+                                    editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                        data.Payer, data.IssuingBank, data.DepositRef,
+                                        data.GTBank, data.Price, 'Updated', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
+                                });
+                            }
+                        });
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            });
+        }
+
         function Save(th) {
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
@@ -631,6 +738,9 @@ function getUrlParameter(name) {
             inputParam.DepositBy = $("#depositby").val();
             inputParam.UserId = $("#hdnUserId").val();
             inputParam.Type = $("#deposittype").val();
+            var commnt = $("#modal_comment").val();
+            inputParam.Comment = btoa(commnt);
+           
 
             debugger
             if ($(th).val() == "Open") {
@@ -685,7 +795,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime,data.ValueDateModel);
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime, data.ValueDateModel, data.Comment);
                                     });
                                 }
                                 else {
@@ -696,7 +806,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '', data.UserId, data.DateTime,data.ValueDateModel);
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
                                     });
                                 }
                             }
@@ -708,6 +818,9 @@ function getUrlParameter(name) {
             });
         }
 
+ 
+
+   
         $('#amount').keyup(function(event) {
 
   // skip for arrow keys
@@ -720,7 +833,9 @@ function getUrlParameter(name) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     ;
   });
-});
-    </script>
+        });
+
+    
+</script>
 }
 

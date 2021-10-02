@@ -36,7 +36,10 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);
         PagingResult<DepositListingModel> GetReleasedDepositPagedList(PagingModel model, bool getForRelease, long vendorId = 0);
         ActionOutput ChangeMultipleDepositStatusOnReverse(ReverseDepositModel model, long userId);
-        ActionOutput ReverseDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
+        ActionOutput ReverseDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId);
+        List<Deposit> GetUnclearedDeposits();
+        void UpdateNextReminderDate(Deposit deposit);
+        DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
     }
 
 }

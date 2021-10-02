@@ -16,7 +16,7 @@ namespace VendTech.BLL.Managers
         PagingResult<TemplateViewModel> IEmailTemplateManager.GetEmailTemplateList(PagingModel model)
         {
             var result = new PagingResult<TemplateViewModel>();
-            var query = Context.EmailTemplates.OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.EmailTemplates.Where(s => s.IsActive == true).OrderBy(model.SortBy + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search))
             {
                 query = query.Where(z => z.TemplateName.Contains(model.Search));

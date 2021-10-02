@@ -153,8 +153,8 @@ namespace VendTech.BLL.Managers
 
                 var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
 
-                total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
-                total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
+                total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
+                total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                 if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
                 {
@@ -182,8 +182,8 @@ namespace VendTech.BLL.Managers
                     total_deposits = new decimal();
                     total_sales = new decimal();
                     var date = DateTime.UtcNow.Date;
-                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
-                    total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date).Sum(s => s.Amount);
+                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
+                    total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                     tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
                     if (tDatas.Any())

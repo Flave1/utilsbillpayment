@@ -19,13 +19,17 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         private readonly IMeterManager _meterManager;
         private readonly IDepositManager _depositManager;
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager,IDepositManager depositManager)
+        private readonly IPOSManager _posManager;
+        private readonly IEmailTemplateManager _templateManager;
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager,IDepositManager depositManager, IPOSManager pOSManager, IEmailTemplateManager emailTemplateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
             _authenticateManager = authenticateManager;
             _meterManager = meterManager;
             _depositManager = depositManager;
+            _posManager = pOSManager;
+            _templateManager = emailTemplateManager;
         }
          [HttpPost]
          [ResponseType(typeof(ResponseBase))]
@@ -36,7 +40,35 @@ namespace VendTech.Areas.Api.Controllers
              model.BankAccountId = 1;
             //model.ValueDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
              var result = _depositManager.SaveDepositRequest(model);
-             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
+
+
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            var pos = _posManager.GetSinglePos(result.Object.POSId);
+            if (pos != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+                    if (emailTemplate != null)
+                    {
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%AdminUserName%", admin.Name);
+                            body = body.Replace("%VendorName%", pos.User.Vendor);
+                            body = body.Replace("%POSID%", pos.SerialNumber);
+                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                        }
+
+                    }
+                }
+            }
+
+
+            return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
          }
          [HttpGet]
          [ResponseType(typeof(ResponseBase))]

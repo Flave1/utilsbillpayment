@@ -22,5 +22,9 @@ namespace VendTech.DAL
         public System.DateTime CreatedOn { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public int TemplateType { get; set; }
+        public Nullable<int> sortOrder { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string Desription { get; set; }
+        public string TargetUser { get; set; }
     }
 }

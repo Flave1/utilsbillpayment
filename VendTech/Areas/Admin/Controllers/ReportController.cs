@@ -1069,6 +1069,12 @@ namespace VendTech.Areas.Admin.Controllers
         {
             return Json(_depositManager.SaveDepositAuditRequest(depositAuditModel));
         }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult UpdatDepositAudit(DepositAuditModel depositAuditModel)
+        {
+            return Json(_depositManager.UpdateDepositAuditRequest(depositAuditModel));
+        }
         public System.Data.DataTable ExportToExcel()
         {
             System.Data.DataTable table = new System.Data.DataTable();

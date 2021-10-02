@@ -19,6 +19,9 @@ namespace VendTech.BLL.Models
         public string TemplateContent { get; set; }
         public string EmailSubject { get; set; }
         public TemplateTypes TemplateType { get; set; }
+        public string Description { get; set; }
+        public string TargetUser { get; set; }
+        public DateTime UpdatedOn { get; set; }
         public TemplateViewModel()
         {
 
@@ -29,10 +32,13 @@ namespace VendTech.BLL.Models
             this.TemplateId = emailTemplate.TemplateId;
             this.TemplateName = emailTemplate.TemplateName;
             this.CreatedOn = emailTemplate.CreatedOn;
+            this.UpdatedOn = (DateTime)emailTemplate.UpdatedOn;
             this.TemplateStatus = emailTemplate.TemplateStatus;
             this.TemplateType = (TemplateTypes)emailTemplate.TemplateType;
             this.TemplateContent = emailTemplate.TemplateContent;
             this.EmailSubject = emailTemplate.EmailSubject;
+            this.Description = emailTemplate.Desription;
+            this.TargetUser = emailTemplate.TargetUser;
         }
     }
 

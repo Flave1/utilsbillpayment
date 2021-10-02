@@ -160,6 +160,7 @@
           <Property Name="NewBalance" Type="decimal" Precision="18" Scale="2" />
           <Property Name="isAudit" Type="bit" Nullable="false" />
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
+          <Property Name="NextReminderDate" Type="datetime" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -182,6 +183,10 @@
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="TemplateType" Type="int" Nullable="false" />
+          <Property Name="sortOrder" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Desription" Type="varchar" MaxLength="200" />
+          <Property Name="TargetUser" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ErrorLog">
           <Key>
@@ -1481,6 +1486,7 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <NavigationProperty Name="DepositLogs" Relationship="VendTechModel.FK_DepositLogs_Deposits" FromRole="Deposit" ToRole="DepositLog" />
           <NavigationProperty Name="POS" Relationship="VendTechModel.FK_Deposits_POS" FromRole="Deposit" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_Deposits_Users" FromRole="Deposit" ToRole="User" />
+          <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1504,6 +1510,10 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="TemplateType" Type="Int32" Nullable="false" />
+          <Property Name="sortOrder" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Desription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TargetUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ErrorLog">
           <Key>
@@ -2454,6 +2464,7 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <EntitySetMapping Name="Deposits">
             <EntityTypeMapping TypeName="VendTechModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
+                <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="isAudit" ColumnName="isAudit" />
                 <ScalarProperty Name="NewBalance" ColumnName="NewBalance" />
@@ -2488,6 +2499,10 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <EntitySetMapping Name="EmailTemplates">
             <EntityTypeMapping TypeName="VendTechModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
+                <ScalarProperty Name="TargetUser" ColumnName="TargetUser" />
+                <ScalarProperty Name="Desription" ColumnName="Desription" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
                 <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />

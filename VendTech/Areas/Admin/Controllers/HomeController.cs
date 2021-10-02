@@ -15,6 +15,7 @@ using System.Web.Configuration;
 using System.Reflection;
 using VendTech.DAL;
 using Newtonsoft.Json;
+using System.Linq;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -28,11 +29,12 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         private IDashboardManager _dashboardManager;
         private readonly IMeterManager _meterManager;
+        private readonly IDepositManager _depositManager;
         #endregion
 
 
         // /Admin/Home/OTPVerification/
-        public HomeController(IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
+        public HomeController(IDepositManager depositManager, IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace VendTech.Areas.Admin.Controllers
             _authenticateManager = authenticateManager;
             _dashboardManager = dashboardManager;
             _meterManager = meterManager;
+            _depositManager = depositManager;
         }
 
 
@@ -339,5 +342,37 @@ namespace VendTech.Areas.Admin.Controllers
             
         }
 
+        [HttpGet, Public]
+        public JsonResult CheckForUnClearedDeposits()
+        {
+            try
+            {
+                var uncleardDeposits = _depositManager.GetUnclearedDeposits();
+
+                if (uncleardDeposits.Any())
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UnclearedDepositNotification);
+                    if (emailTemplate.TemplateStatus)
+                    {
+                        foreach(var deposit in uncleardDeposits)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%USER%", deposit.POS.User.Name);
+                            body = body.Replace("%AMOUNT%", deposit.Amount.ToString());
+                            body = body.Replace("%DEPOSITAPPROVEDDATE%", deposit.DepositLogs.FirstOrDefault()?.CreatedAt.ToString("f"));
+                            body = body.Replace("%TODAY%", DateTime.UtcNow.ToString("f"));
+                            Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
+                            _depositManager.UpdateNextReminderDate(deposit);
+                        }
+                    }
+                }
+                return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

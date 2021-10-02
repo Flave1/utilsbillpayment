@@ -198,6 +198,7 @@ namespace VendTech.BLL.Models
         public string Phone { get; set; }
         public string CompanyName { get; set; }
         public string AccountStatus { get; set; }
+        public string Balance { get; set; }
         public ApiResponseUserDetail(User obj)
         {
             Email = obj.Email;
@@ -214,6 +215,8 @@ namespace VendTech.BLL.Models
             Country = obj.Country != null ? obj.Country.Name : "";
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
+            var userBalance = obj.POS.FirstOrDefault(d => d.VendorId == obj.UserId)?.Balance;
+            Balance = string.Format("{0:N0}", userBalance == null?0: userBalance);
         }
     }
     public class AddUserModel : UserModel

@@ -104,6 +104,44 @@ namespace VendTech.Areas.Api.Controllers
             }
         }
 
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        [ActionName("SignInNewpasscode")]
+        public HttpResponseMessage SignInNewpasscode(LoginAPIPassCodeModel model)
+        {
+            if (!ModelState.IsValid)
+                return new JsonContent("Please confirm fields", Status.Failed).ConvertToHttpResponseOK();
+            else
+            {
+                var userDetails = _authenticateManager.SaveAndLoginPassCode(model.PassCode, model.UserId);
+                if (userDetails == null)
+                    return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                else if (userDetails.UserId == 0)
+                    return new JsonContent(model.UserId.ToString(), Status.Failed).ConvertToHttpResponseOK();
+                else
+                {
+                    var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
+                    if (isEnabled)
+                    {
+                        userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
+                        _authenticateManager.AddTokenDevice(model);
+                        if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
+                        {
+                            _authenticateManager.DeleteGenerateToken(userDetails.UserId, userDetails.POSNumber);
+                            return GenerateandSaveToken(userDetails, model);
+                        }
+                        else
+                            return GenerateandSaveToken(userDetails, model);
+                    }
+                    else
+                    {
+                        return new JsonContent("POS IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
+                }
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage Logout()
         {
@@ -155,7 +193,7 @@ namespace VendTech.Areas.Api.Controllers
                 var registered_user_password = _userManager.GetUserPasswordbyUserId(result.Object);
                 var code = Utilities.GenerateRandomNo();
                 var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.Object, code.ToString());
-                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
                 string body = emailTemplate.TemplateContent;
                 body = body.Replace("%firstname%", model.FirstName);
                 body = body.Replace("%lastname%", model.LastName);
@@ -234,7 +272,7 @@ namespace VendTech.Areas.Api.Controllers
             if (user == null)
                 return new JsonContent("User not exist.", Status.Failed, user).ConvertToHttpResponseOK();
             var saveToken = _authenticateManager.SaveAccountVerificationRequest(userId, code.ToString());
-            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.AccountVerification);
+            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
             string body = emailTemplate.TemplateContent;
             body = body.Replace("%code%", code.ToString());
             Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
@@ -261,6 +299,35 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent("Email is required.", Status.Failed).ConvertToHttpResponseOK();
         }
 
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        public HttpResponseMessage ForgotPasscode2(RestPassCodeModel request)
+        { 
+           var otp = Convert.ToString(Utilities.GenerateRandomNo());
+            var user = _userManager.GetUserIdByEmail(request.Email);
+            if(user != null)
+            {
+                var result = _authenticateManager.SaveAccountVerificationRequest(user.UserId, otp);
+                if(result.Status == ActionStatus.Successfull)
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgotPasscode);
+                    if (emailTemplate != null && emailTemplate.TemplateStatus)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%USER%", user.Name);
+                        body = body.Replace("%OTP%", otp);
+                        if (!string.IsNullOrEmpty(user.Email))
+                        {
+                            Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                        }
+                        return new JsonContent(user.UserId.ToString(), Status.Success).ConvertToHttpResponseOK();
+                    }
+                    return new JsonContent("Unable to send otp email", Status.Failed).ConvertToHttpResponseOK();
+                }
+                return new JsonContent("Unable to generate otp", Status.Failed).ConvertToHttpResponseOK(); 
+            } 
+            return new JsonContent("User not found", Status.Failed).ConvertToHttpResponseOK();
+        }
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         public HttpResponseMessage ForgotPasscode(SavePassCodeModel savePassCodeModel)
         {

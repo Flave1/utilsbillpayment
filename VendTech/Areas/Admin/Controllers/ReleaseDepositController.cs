@@ -79,16 +79,24 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.ChangeMultipleDepositStatus(model, LOGGEDIN_USER.UserID);
+            if(result.Status == ActionStatus.Error)
+            {
+                return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+            }
             if (result.Object.Any())
             {
-                foreach (var userId in result.Object)
+                if(model.CancelDepositIds == null)
                 {
-                    var user = _userManager.GetUserDetailsByUserId(userId);
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
-                    string body = emailTemplate.TemplateContent;
-                    body = body.Replace("%USER%", user.FirstName);
-                    Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                    foreach (var userId in result.Object)
+                    {
+                        var user = _userManager.GetUserDetailsByUserId(userId);
+                        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%USER%", user.FirstName);
+                        Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                    }
                 }
+              
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }

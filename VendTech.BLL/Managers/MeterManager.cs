@@ -469,6 +469,7 @@ namespace VendTech.BLL.Managers
             }
             else if (icekloud_response.Status.ToLower() != "success")
             {
+                //Will save to a different table
                 db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
@@ -557,6 +558,12 @@ namespace VendTech.BLL.Managers
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
+            var thisTransactionNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
+            if(thisTransactionNotification != null)
+            {
+                thisTransactionNotification.MarkAsRead = true;
+                Context.SaveChanges();
+            }
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
@@ -918,7 +925,14 @@ namespace VendTech.BLL.Managers
 
         TransactionDetail IMeterManager.GetLastTransaction()
         {
-            return Context.TransactionDetails.OrderByDescending(d => d.TransactionDetailsId).FirstOrDefault() ?? new TransactionDetail();
+            var lstTr = Context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success).OrderByDescending(d => d.RequestDate).FirstOrDefault() ?? null;
+            if (lstTr != null)
+            {
+                lstTr.CurrentDealerBalance = lstTr.CurrentDealerBalance - lstTr.TenderedAmount;
+                return lstTr;
+            }
+            else
+                return new TransactionDetail();
         }
     }
 

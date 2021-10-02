@@ -1231,14 +1231,16 @@ namespace VendTech.BLL.Managers
             dbDeposit.Status = (int)status;
             if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
             {
-                var lastPosReleaseDeposit = Context.Deposits.Where(p => p.POSId == dbDeposit.POSId).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
-                if (lastPosReleaseDeposit != null && lastPosReleaseDeposit.NewBalance != null)
-                    dbDeposit.NewBalance = lastPosReleaseDeposit.NewBalance.Value + dbDeposit.PercentageAmount;
-                else
-                    // new balance same as current POS balance
-                    // dbDeposit.NewBalance = dbDeposit.POS.Balance == null ? (0 + dbDeposit.Amount) : dbDeposit.POS.Balance.Value + dbDeposit.PercentageAmount;
-                    dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                //var lastPosReleaseDeposit = Context.Deposits.Where(p => p.POSId == dbDeposit.POSId).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+                //if (lastPosReleaseDeposit != null && lastPosReleaseDeposit.NewBalance != null)
+                //    dbDeposit.NewBalance = lastPosReleaseDeposit.NewBalance.Value + dbDeposit.PercentageAmount;
+                //else
+                //    // new balance same as current POS balance
+                //    // dbDeposit.NewBalance = dbDeposit.POS.Balance == null ? (0 + dbDeposit.Amount) : dbDeposit.POS.Balance.Value + dbDeposit.PercentageAmount;
+                //    dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
+                //dbDeposit.NewBalance = dbDeposit.POS.Balance;
             }
 
 
@@ -1366,20 +1368,28 @@ namespace VendTech.BLL.Managers
             {
 
                 if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
-                    return ReturnError<List<long>>("Invalid OTP");
+                    return ReturnError<List<long>>("WRONG OTP ENTERED");
                 if (model.CancelDepositIds != null)
                 {
-                    for (int i = 0; i < model.CancelDepositIds.Count; i++)
+                    foreach (var depositId in model.ReleaseDepositIds)
                     {
-                        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.CancelDepositIds[i], DepositPaymentStatusEnum.Rejected, userId).ID);
+                        userIds.Add((this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, userId).ID);
                     }
+                //        for (int i = 0; i < model.CancelDepositIds.Count; i++)
+                //    {
+                //        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.CancelDepositIds[i], DepositPaymentStatusEnum.Rejected, userId).ID);
+                //    }
                 }
                 if (model.ReleaseDepositIds != null)
                 {
-                    for (int i = 0; i < model.ReleaseDepositIds.Count; i++)
+                    foreach(var depositId in model.ReleaseDepositIds)
                     {
-                        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId).ID);
+                        userIds.Add((this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, userId).ID);
                     }
+                    //for (int i = 0; i < model.ReleaseDepositIds.Count; i++)
+                    //{
+                    //    userIds.Add((this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId).ID);
+                    //}
                 }
                 return ReturnSuccess(userIds, "Deposit status updated successfully.");
             }
@@ -1437,6 +1447,13 @@ namespace VendTech.BLL.Managers
         ActionOutput<DepositListingModel> IDepositManager.GetDepositDetail(long depositId)
         {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
+
+            var thisDepositNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.DepositStatusChange && d.RowId == depositId);
+            if (thisDepositNotification != null)
+            {
+                thisDepositNotification.MarkAsRead = true;
+                Context.SaveChanges();
+            }
             if (dbDeposit == null)
                 return ReturnError<DepositListingModel>("Deposit not exist.");
             var data = new DepositListingModel(dbDeposit, true);
@@ -1473,11 +1490,77 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate + " 12:00";//.ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges();
             return ReturnSuccess<Deposit>(dbDeposit, "Deposit request saved successfully.");
         }
 
+        DepositAuditModel IDepositManager.UpdateDepositAuditRequest(DepositAuditModel depositAuditModel)
+        {
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            var posId = new POS();
+            //.Include(x => x.POS) .Include(x => x.User).Include(x => x.BankAccount)
+            var dbDeposit = Context.Deposits
+                .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
+
+            posId = Context.POS.FirstOrDefault(x => x.POSId == depositAuditModel.PosId);
+            dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
+            dbDeposit.UserId = depositAuditModel.UserId;
+            dbDeposit.POSId = posId != null ? posId.POSId : dbDeposit.POSId;
+            dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
+            dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
+            dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
+            dbDeposit.UpdatedAt = DateTime.UtcNow;
+            if (!depositAuditModel.isAudit)
+            {
+
+                dbDeposit.NextReminderDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(15));
+            }
+            else
+            {
+                if (DateTime.UtcNow.Date < dbDeposit.NextReminderDate.Value.Date)
+                {
+                    dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
+                }
+            }
+            
+            dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
+            //dbDeposit.isAudit = depositAuditModel.isAudit;
+            dbDeposit.PaymentType = depositAuditModel.Type != null ? (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type) : (int)DepositPaymentTypeEnum.Cash;
+            dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank : "";
+            dbDeposit.Comments = depositAuditModel.Comment;
+            Context.SaveChanges();
+
+
+            depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;
+            depositAuditModel.IssuingBank = dbDeposit.ChequeBankName != null ?
+            dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty)
+            .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            depositAuditModel.Payer = dbDeposit.NameOnCheque;
+
+            //depositAuditModel.isAudit = !depositAuditModel.isAudit;
+
+            //Get Description filed of enum 
+            if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
+            {
+                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
+
+                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                depositAuditModel.Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
+            }
+            else
+                depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
+
+            depositAuditModel.DepositId = dbDeposit.DepositId;
+            depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
+            depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
+            depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm",
+                CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            return depositAuditModel;
+        }
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
@@ -1495,10 +1578,23 @@ namespace VendTech.BLL.Managers
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
             dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
+
+            var currentDate = DateTime.UtcNow;
+
+            if (depositAuditModel.isAudit)
+            {
+                dbDeposit.NextReminderDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(15));     
+            }
+            else
+            {
+                   dbDeposit.NextReminderDate = DateTime.UtcNow;
+            }
+               
+
             dbDeposit.isAudit = depositAuditModel.isAudit;
             dbDeposit.PaymentType = depositAuditModel.Type != null ? (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type) : (int)DepositPaymentTypeEnum.Cash;
             dbDeposit.BankAccount.BankName = depositAuditModel.GTBank != null ? depositAuditModel.GTBank : "";
-
+            dbDeposit.Comments = depositAuditModel.Comment;
             Context.SaveChanges();
             
 
@@ -1522,12 +1618,28 @@ namespace VendTech.BLL.Managers
             else
                 depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
 
+            depositAuditModel.Comment = dbDeposit.Comments;
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
             depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm",
                 CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
             return depositAuditModel;
+        }
+        
+        List<Deposit> IDepositManager.GetUnclearedDeposits()
+        {
+            var currentDate = DateTime.UtcNow;
+           var result = Context.Deposits.Where(d => d.isAudit == false 
+           && d.NextReminderDate != null
+           && currentDate >=  d.NextReminderDate).ToList();
+            return result;
+        }
+
+        void IDepositManager.UpdateNextReminderDate(Deposit deposit)
+        {
+            deposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
+            Context.SaveChanges();
         }
     }
 }

@@ -96,8 +96,8 @@ namespace VendTech.Controllers
             });
             list.Add(new SelectListItem
             {
-                Text = "SAGENCOM",
-                Value = "SAGENCOM"
+                Text = "SAGEMCOM",
+                Value = "SAGEMCOM"
             });
             ViewBag.meterMakes = list;
             model.Number = number;
@@ -122,8 +122,8 @@ namespace VendTech.Controllers
             });
             list.Add(new SelectListItem
             {
-                Text = "SAGENCOM",
-                Value = "SAGENCOM"
+                Text = "SAGEMCOM",
+                Value = "SAGEMCOM"
             });
             ViewBag.meterMakes = list;
             return View("AddEditMeter",model);
@@ -154,6 +154,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            ViewBag.SelectedTab = SelectedAdminTab.Users;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);

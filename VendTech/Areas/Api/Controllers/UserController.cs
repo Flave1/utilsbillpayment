@@ -130,7 +130,17 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage GetWalletBalance()
         {
             var userDetail = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserId);
-            return new JsonContent("User balance fetched successfully.", Status.Success, new { balance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserId), unReadNotifications = _userManager.GetUnreadNotifications(LOGGEDIN_USER.UserId), accountStatus=userDetail.AccountStatus }).ConvertToHttpResponseOK();
+            var balance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserId);
+            return new JsonContent(
+                "User balance fetched successfully.", 
+                Status.Success, 
+                new {
+                        balance = balance, 
+                        unReadNotifications = _userManager.GetUnreadNotifications(LOGGEDIN_USER.UserId), 
+                        accountStatus=userDetail.AccountStatus ,
+                        stringBalance = string.Format("{0:N0}", balance)
+        }
+                ).ConvertToHttpResponseOK();
         }
 
         [HttpPost]

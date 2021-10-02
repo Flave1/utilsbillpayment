@@ -220,7 +220,7 @@
     @Html.Partial("_voucherReceipt") 
 </div>
 <div class="modal fade" id="modalCart2"> 
-    @Html.Partial("_fetchVoucher") 
+    @Html.Partial("_voucherReprint") 
 </div>
 <div class="modal fade" id="modalCart3">
     @Html.Partial("_RequestResponseJSON")
@@ -240,110 +240,110 @@
 
                 onSelectMeter();
 
-            $(".savebttn").click(function () {
-                if (!$("#Amount").val() || $("#Amount").val() == "0") {
-                    $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
-                    return;
-                } else if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
-                    $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
-                    return;
-                } else {
-                    let meterno = ""
-                    if ($("#MeterNumber").val() == "") {
-                        meterno = $("#meterDrp option:selected").text().split("-")[0]
+                $(".savebttn").click(function () {
+                    if (!$("#Amount").val() || $("#Amount").val() == "0") {
+                        $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
+                        return;
+                    } else if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
+                        $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
+                        return;
                     } else {
-                        meterno = $("#MeterNumber").val();
-                    }
+                        let meterno = ""
+                        if ($("#MeterNumber").val() == "") {
+                            meterno = $("#meterDrp option:selected").text().split("-")[0]
+                        } else {
+                            meterno = $("#MeterNumber").val();
+                        }
 
-                    $("#meterno").html(meterno);
-                    $("#allias").html($("#meterDrp option:selected").text().split("-")[1])
-                    $("#pamount").html(thousands_separators($("#Amount").val()))
-                    $("#form-bp1").modal("show")
-                }
-            })
-
-            $("#AmountDisplay").on('keyup', function (evt) {
-                if ($("#AmountDisplay").val() == "") {
-                    return false;
-                }
-                if (evt.which != 110 ){//not a fullstop
-                    var n = parseFloat($(this).val().replace(/\,/g,''),10);
-                    $(this).val(n.toLocaleString());
-                }
-            });
-        })
-        $(function () {
-            $("#posDrp").on("change", function () {
-                $.ajax({
-                    url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
-                    success: function (res) {
-                        $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                        $("#meterno").html(meterno);
+                        $("#allias").html($("#meterDrp option:selected").text().split("-")[1])
+                        $("#pamount").html(thousands_separators($("#Amount").val()))
+                        $("#form-bp1").modal("show")
                     }
                 })
-            }
-            )
-        })
-        function isNumber(evt) {
-            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-                return false;
 
-            return true;
-        }
-        function onSelectMeter() {
-            if ($("#meterDrp").val()) {
-                $("#MeterNumber").attr("disabled", "disabled");
-                $("#saveMeterChk").attr("disabled", "disabled");
-                $("#saveMeterChk").removeAttr("checked");
-            }
-            else {
-                $("#MeterNumber").removeAttr("disabled");
-                $("#saveMeterChk").removeAttr("disabled");
+                $("#AmountDisplay").on('keyup', function (evt) {
+                    if ($("#AmountDisplay").val() == "") {
+                        return false;
+                    }
+                    if (evt.which != 110 ){//not a fullstop
+                        var n = parseFloat($(this).val().replace(/\,/g,''),10);
+                        $(this).val(n.toLocaleString());
+                    }
+                });
+              })
+                $(function () {
+                    $("#posDrp").on("change", function () {
+                        $.ajax({
+                            url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
+                            success: function (res) {
+                                $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                            }
+                        })
+                    }
+                    )
+                })
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
 
-            }
-        }
-        function onChangeMeterNumber() {
-            var val = $("#MeterNumber").val();
-            if (val && val.length > 0) {
-                $("#meterDrp").attr("disabled", "disabled");
-            }
-            else {
-                $("#meterDrp").removeAttr("disabled");
-            }
-        }
-        function thousands_separators(num) {
-            var num_parts = num.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        }
-        function amountFormatter() {
-            $("#pay_Now_Btn").prop('disabled', false);
-
-            var displayVal = $("#AmountDisplay").val();
-            var val = "";
-            if (displayVal) {
-                var cc = displayVal.replace(/\,/g, "");
-                $("#Amount").val(cc);
-                val = $("#Amount").val();
-
-                var amt_to_display = thousands_separators(val);
-                var wallet_balance = '@(string.Format("{0:N0}", ViewBag.walletBalance))';
-
-                if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
-                    $("#pay_Now_Btn").prop('disabled', true);
-                     $.ShowMessage($('div.messageAlert'), "Walllet balance is insufficient to make purchase.", MessageType.Error);
-                    return false;
+                    return true;
                 }
-                $("#AmountDisplay").val();
-            }
-        }
-        function isNumber(evt) {
-            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-                return false;
+                function onSelectMeter() {
+                    if ($("#meterDrp").val()) {
+                        $("#MeterNumber").attr("disabled", "disabled");
+                        $("#saveMeterChk").attr("disabled", "disabled");
+                        $("#saveMeterChk").removeAttr("checked");
+                    }
+                    else {
+                        $("#MeterNumber").removeAttr("disabled");
+                        $("#saveMeterChk").removeAttr("disabled");
 
-            return true;
-            }
+                    }
+                }
+                function onChangeMeterNumber() {
+                    var val = $("#MeterNumber").val();
+                    if (val && val.length > 0) {
+                        $("#meterDrp").attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#meterDrp").removeAttr("disabled");
+                    }
+                }
+                function thousands_separators(num) {
+                    var num_parts = num.toString().split(".");
+                    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    return num_parts.join(".");
+                }
+                function amountFormatter() {
+                    $("#pay_Now_Btn").prop('disabled', false);
+
+                    var displayVal = $("#AmountDisplay").val();
+                    var val = "";
+                    if (displayVal) {
+                        var cc = displayVal.replace(/\,/g, "");
+                        $("#Amount").val(cc);
+                        val = $("#Amount").val();
+
+                        var amt_to_display = thousands_separators(val);
+                        var wallet_balance = '@(string.Format("{0:N0}", ViewBag.walletBalance))';
+
+                        if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
+                            $("#pay_Now_Btn").prop('disabled', true);
+                             $.ShowMessage($('div.messageAlert'), "Walllet balance is insufficient to make purchase.", MessageType.Error);
+                            return false;
+                        }
+                        $("#AmountDisplay").val();
+                    }
+                }
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                    }
 
             
         </script>

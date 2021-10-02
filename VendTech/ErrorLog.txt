@@ -8117,3 +8117,170 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+Expected "}".
+
+
+
+
+Expected "}".
+
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 FktLiyKYMN001WX_aA1_kgnkNNIlwr7wOS3CnDgOQYpGPg9uCLFwZOKg-8tvN8VKiTXow
+5.7.14 ukaG9JnnfOQ20ajcy9b9BqHBPVhhip9ct53tLHst8pUElyVtUE_-fBnADaWxbGjJ>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 z6sm2437245wmp.1 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 h3yFSD7-7PxZVyBFN6xHAq5rukmeNt-OF22gs4_N87-L1p-SCt12y9CePqLBcBy2XY6dJ
+5.7.14 aG6o9SqdGbXw-PlDGTElZ7dWNyfvPVO9WBye697L5L0vJ84c2rIdDUTApJdSgd8j>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 c2sm4375860wrs.60 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 RoW7pwj5zhmQiJY1HnoG8h587Wvx-mz78TL3MM0ZsutwP29ScL08EC-_dAs_aTu-XhAzJ
+5.7.14 g-1XuL4S4z0fMgFEM2CWXDb6q6KNgFNRFVFiG341JRUmEApBoRi194cmeACeAlWm>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 n10sm3428790wms.3 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 frq_ShEbOXBiU8RTMTNuOFG2m3-CnaJRoxYZwjN6VNG5Pc83-yoaqdYwbNX9VsdXTaq2G
+5.7.14 p6q5RLGeL1dYj3fJirn0CblxSosIfNPjFFLKV68rKFi4uXUPXTuoaXxbU8TREZOp>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 o6sm4579737wru.92 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbu
+5.7.14 3z8hMMwjNuB5r_HfMfWQ4cqJadykp3WpT_7CPDY65cpesJR7BrOjxeyqrIydvPCUDw94r
+5.7.14 YvMQo9G10L7EfHTKjAhcovttMWC-cFH5IlUmMGA-M-WPfT5ehqUHIigEqiBwcJ9Z>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 z7sm3894242wmi.4 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv
+5.7.14 DkINxj0e1lKYorV_V3EXewYW5WEGq2JjkLpEIGFIoFgctU0fOfq8iXGOmSJkl6I9Ae1vR
+5.7.14 fXn1hGa3wOjeovXgwRIEPFSEWihZk5YA2nVMRVXn33KDOK1_6UV3_rJwmEfnIQMb>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 129sm3939374wmz.26 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbs
+5.7.14 Dqze8o3-8ar-GNjbYrHIpBQ9pcJELtkyLnqbzDVuHTynl0vUjVWsMc8DQG5Inp08muCxm
+5.7.14 wc21d8clIx3hj0z9DcIwme3ClvxkOw7R5Us7PK8qTu76U-wmIIyfkULGrZPzhwT7>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 g12sm5639979wri.18 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbt
+5.7.14 -etGuE4DQ7PFij6oHgeKJEMkqzncMY9RgOihbjBMEQ3WHlECHGotRszj5mGXKtNV54hMv
+5.7.14 eMeer7YTaGWJE_tBWjg2wM0IlRmu7FMi7PE5xVHobAjXOpy-3UZUqm-mLfRl2NIS>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 g35sm4409634wmp.9 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbs
+5.7.14 UEyKRkPdDBkrfo_22j8tt9ChW7n5FJvVgyzx7oNOi9y37A3xNCJoqmruYVdR-BtzT7Le9
+5.7.14 Qt68BArqeG_3DUR_taIkAz6wAGCLGD2ewTruqe41IfVmpGcySxhoGdg82gqA_vah>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 x13sm4566302wrq.44 - gsmtp
+
+
+
+534: 5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbs
+5.7.14 0J05qPFfudvO7TbeORp0p4oa93KSqOrO0G3tEVkzQV4-HAuC4CfQ4ZFTYebutLQPtDpqT
+5.7.14 Ok5ID1kVqqOo4G7FKp48uPsIBKznCfTlK-r6mnfkjeZgSr-lnaSJLqHtr_lIy_fZ>
+5.7.14 Please log in via your web browser and then try again.
+5.7.14  Learn more at
+5.7.14  https://support.google.com/mail/answer/78754 b12sm4317379wmd.42 - gsmtp
+
+
+
+Expression expected
+
+
+
+Expression expected
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Exception of type 'System.OutOfMemoryException' was thrown.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+String reference not set to an instance of a String.
+Parameter name: s
+
+
+
+String reference not set to an instance of a String.
+Parameter name: s
+
+
+
+Error in base64EncodeObject reference not set to an instance of an object.
+
+
+
+Error in base64EncodeObject reference not set to an instance of an object.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\Report\ManageDepositAuditReport.cshtml(610): error CS0103: The name 'item' does not exist in the current context
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Object reference not set to an instance of an object.
+
+
+

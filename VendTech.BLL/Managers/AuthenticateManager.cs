@@ -194,7 +194,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var decryptedPass = Utilities.DecryptPassword("VGVtcEphbTE=");
+                var decryptedPass = Utilities.DecryptPassword("dGVzdHZpY3RvcjE=");
                 var result = Context.Users
                     .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
                 && x.Password == encryptPassword
@@ -216,6 +216,48 @@ namespace VendTech.BLL.Managers
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        UserModel IAuthenticateManager.SaveAndLoginPassCode(string passCode, long userId)
+        {
+            try
+            {
+
+                var userModel = new UserModel(); 
+                var userPos = Context.POS.FirstOrDefault(p => p.VendorId == userId); 
+                if (userPos == null) 
+                    return userModel; 
+
+
+                userPos.PassCode = passCode; 
+                Context.SaveChanges();
+
+                userModel = Context.Users.Where(x => x.FKVendorId == userPos.VendorId && (UserRoles.AppUser == x.UserRole.Role
+                       || UserRoles.Vendor == x.UserRole.Role)
+                       && (x.Status == (int)UserStatusEnum.Active
+                       || x.Status == (int)UserStatusEnum.Pending
+                       || x.Status == (int)UserStatusEnum.PasswordNotReset))
+                           .ToList()
+                           .Select(x => new UserModel(x))
+                           .FirstOrDefault();
+                if (userModel != null)
+                {
+                    return userModel;
+                }
+                userModel = Context.Users.Where(x => x.UserId == userPos.VendorId && (UserRoles.AppUser == x.UserRole.Role
+                       || UserRoles.Vendor == x.UserRole.Role)
+                       && (x.Status == (int)UserStatusEnum.Active
+                       || x.Status == (int)UserStatusEnum.Pending
+                       || x.Status == (int)UserStatusEnum.PasswordNotReset))
+                           .ToList()
+                           .Select(x => new UserModel(x))
+                           .FirstOrDefault();
+                            return userModel;  
+                        }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

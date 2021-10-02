@@ -111,13 +111,17 @@ namespace VendTech.Controllers
                     var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
                     if (emailTemplate != null)
                     {
-                        string body = emailTemplate.TemplateContent;
-                        body = body.Replace("%AdminUserName%", admin.Name);
-                        body = body.Replace("%VendorName%", pos.User.Vendor);
-                        body = body.Replace("%POSID%", pos.SerialNumber);
-                        body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                        body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
-                        Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%AdminUserName%", admin.Name);
+                            body = body.Replace("%VendorName%", pos.User.Vendor);
+                            body = body.Replace("%POSID%", pos.SerialNumber);
+                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                        }
+                        
                     }
                 }
             }

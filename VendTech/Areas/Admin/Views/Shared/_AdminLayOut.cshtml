@@ -67,6 +67,16 @@
             })
         }, 3000);
 
+        setInterval(function () {
+            $.ajax({
+                url: '/Admin/Home/CheckForUnClearedDeposits',
+                success: function (data) {
+                    //$("#dealerBal").text(data.result.LastDealerBalance);
+                    //$("#transDate").text(data.result.RequestDate);
+                }
+            })
+        }, 120000);
+
         $(".navbar-default .navbar-brand").live("click", function () {
                 window.location.href='/Admin/Home/Dashboard';
             });

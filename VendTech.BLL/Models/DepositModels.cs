@@ -288,6 +288,7 @@ namespace VendTech.BLL.Models
         public string Price { get; set; }
         public DateTime ValueDate { get; set; }
         public string ValueDateModel { get; set; }
+        public string Comment { get; set; }
 
         public DepositAuditModel() { }
         public DepositAuditModel(Deposit obj, bool changeStatusForApi = false)
@@ -318,6 +319,7 @@ namespace VendTech.BLL.Models
             TransactionId = obj.TransactionId;
             if(obj.ValueDate != " 12:00")
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            Comment = obj.Comments;
         }
     }
 

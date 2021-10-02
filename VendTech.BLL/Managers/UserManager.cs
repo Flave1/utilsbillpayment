@@ -387,6 +387,15 @@ namespace VendTech.BLL.Managers
             return Convert.ToInt64(0);
         }
 
+        User IUserManager.GetUserIdByEmail(string email)
+        {
+            var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
+            if (userDetail != null)
+            {
+                return userDetail;
+            }
+            return null;
+        }
         ActionOutput<UserDetails> IUserManager.AgentLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
@@ -603,8 +612,8 @@ namespace VendTech.BLL.Managers
 
                 RemoveOrAddUserWidgets(user.UserId, userDetails);
 
-                return new ActionOutput
-                {
+                return new ActionOutput{
+                    ID = user.UserId,
                     Status = ActionStatus.Successfull,
                     Message = "User Details Updated Successfully."
                 };
