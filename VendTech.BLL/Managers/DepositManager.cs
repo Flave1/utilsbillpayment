@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -1507,7 +1508,20 @@ namespace VendTech.BLL.Managers
             dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty)
             .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
-            depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
+
+
+            //Get Description filed of enum 
+            if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
+            {
+                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
+
+                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                depositAuditModel.Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
+            }
+            else
+                depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
+
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = Convert.ToInt64(posId.SerialNumber);
