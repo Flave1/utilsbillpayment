@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace VendTech.BLL.Managers
 {
@@ -87,5 +91,6 @@ namespace VendTech.BLL.Managers
             else
                 return null;
         }
+
     }
 }

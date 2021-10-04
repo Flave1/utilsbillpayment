@@ -378,6 +378,6 @@ namespace VendTech.Controllers
             string body = emailTemplate.TemplateContent;
             body = body.Replace("%USER%", request.FirstName);
             Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
-        }
+        } 
     }
 }

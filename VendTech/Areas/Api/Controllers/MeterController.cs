@@ -1,11 +1,17 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
@@ -17,12 +23,14 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IUserManager _userManager;
         private readonly IAuthenticateManager _authenticateManager;
         private readonly IMeterManager _meterManager;
-        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager)
+        private readonly IEmailTemplateManager _emailTemplateManager;
+        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IEmailTemplateManager emailTemplateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
             _authenticateManager = authenticateManager;
             _meterManager = meterManager;
+            _emailTemplateManager = emailTemplateManager;
         }
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
@@ -168,6 +176,50 @@ namespace VendTech.Areas.Api.Controllers
         {
             var result = _meterManager.ReturnVoucherReceipt(tokenobject.Token.Trim());
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
+        }
+
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public  async Task<HttpResponseMessage> SendSmsOnRecharge(ReChargeSMS request)
+        {
+            var td = _meterManager.GetSingleTransaction(Convert.ToInt64(request.TransactionDetailId));
+            if (td == null)
+                return new JsonContent("Not found.", Status.Failed, request).ConvertToHttpResponseOK();
+
+            var requestmsg = new SendSMSRequest
+            {
+                Recipient = request.PhoneNo,
+                Payload = $"UID#:{td.SerialNumber}\n" +
+                            $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
+                            $"POSID:{td.POS.SerialNumber}\n" +
+                            $"Meter:{td.MeterNumber1}\n" +
+                            $"Amt:{string.Format("{0:N0}", td.Amount)}\n" +
+                            $"GST:{string.Format("{0:N0}", td.TaxCharge)}\n" +
+                            $"Chg:{string.Format("{0:N0}", td.ServiceCharge)}\n" +
+                            $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
+                            $"Units:{string.Format("{0:N0}", td.Units)}\n" +
+                            $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
+                            "Tnk VENDTECH"
+            };
+
+            var json = JsonConvert.SerializeObject(requestmsg);
+
+            HttpClient client = new HttpClient();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            client.BaseAddress = new Uri("https://kwiktalk.io");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var res = await client.SendAsync(httpRequest);
+            var stringResult = await res.Content.ReadAsStringAsync();
+
+            if (res.StatusCode != (HttpStatusCode)200)
+            {
+                return new JsonContent("Unable to send sms.", Status.Failed, request).ConvertToHttpResponseOK();
+            }
+            return new JsonContent("Sms successfully sent.", Status.Success, requestmsg.Payload).ConvertToHttpResponseOK();
         }
     }
     public class Tokenobject
