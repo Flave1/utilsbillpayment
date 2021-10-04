@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
@@ -21,7 +25,9 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IEmailTemplateManager _templateManager;
         private readonly IPlatformManager _platformManager;
         private readonly IPOSManager _posManager;
-        public UserController(IUserManager userManager,  IErrorLogManager errorLogManager, IEmailTemplateManager templateManager,IAuthenticateManager authenticateManager,IPlatformManager platformManager,IPOSManager posManager)
+        private readonly ISMSManager _sMSManager;
+        private readonly IMeterManager _meterManager;
+        public UserController(IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IAuthenticateManager authenticateManager, IPlatformManager platformManager, IPOSManager posManager, ISMSManager sMSManager, IMeterManager meterManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -29,6 +35,8 @@ namespace VendTech.Areas.Api.Controllers
             _templateManager = templateManager;
             _platformManager = platformManager;
             _posManager = posManager;
+            _sMSManager = sMSManager;
+            _meterManager = meterManager;
         }
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
@@ -198,5 +206,6 @@ namespace VendTech.Areas.Api.Controllers
             var result = _posManager.GetUserPosPagingListForApp(pageNo,pageSize,LOGGEDIN_USER.UserId);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
+
     }
 }

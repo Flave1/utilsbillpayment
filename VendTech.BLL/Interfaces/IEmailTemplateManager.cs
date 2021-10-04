@@ -29,7 +29,5 @@ namespace VendTech.BLL.Interfaces
         /// <returns></returns>
         AddEditEmailTemplateModel GetEmailTemplateByTemplateId(int templateId);
         TemplateViewModel GetEmailTemplateByTemplateType(TemplateTypes type);
-
-
     }
 }

@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
@@ -35,6 +39,23 @@ namespace VendTech.Areas.Api.Controllers
         {
             _errorLogManager = errorLogManager;
 
+        }
+
+        public async Task<bool> SendSmsAsync(SendSMSRequest model)
+        {
+            try
+            {
+               
+                return true;
+            }
+            catch (HttpRequestException e)
+            {
+                throw e;
+            }
+            catch (Exception x)
+            {
+                throw x;
+            }
         }
     }
 }

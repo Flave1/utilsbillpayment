@@ -134,6 +134,7 @@
     <Compile Include="Interfaces\IPOSManager.cs" />
     <Compile Include="Interfaces\IPlatformManager.cs" />
     <Compile Include="Interfaces\IBankAccountManager.cs" />
+    <Compile Include="Interfaces\ISMSManager.cs" />
     <Compile Include="Interfaces\IVendorManager.cs" />
     <Compile Include="Interfaces\IContactUsManager.cs" />
     <Compile Include="Interfaces\IMeterManager.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Managers\POSManager.cs" />
     <Compile Include="Managers\PlatformManager.cs" />
     <Compile Include="Managers\BankAccountManager.cs" />
+    <Compile Include="Managers\SMSManager.cs" />
     <Compile Include="Managers\VendorManager.cs" />
     <Compile Include="Managers\ContactUsManager.cs" />
     <Compile Include="Managers\MeterManager.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="Models\POSModels.cs" />
     <Compile Include="Models\PushNotificationModels.cs" />
     <Compile Include="Models\SchedulerJob.cs" />
+    <Compile Include="Models\SMSModels.cs" />
     <Compile Include="Models\TokenModels.cs" />
     <Compile Include="Models\TransactionChartData.cs" />
     <Compile Include="Models\UserAssignedModuleModel.cs" />
