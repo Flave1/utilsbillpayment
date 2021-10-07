@@ -27,7 +27,7 @@ namespace VendTech.BLL.Interfaces
         ReceiptModel ReturnVoucherReceipt(string token);
         RequestResponse ReturnRequestANDResponseJSON(string token);
         TransactionDetail GetLastTransaction();
-        TransactionDetail GetSingleTransaction(long transactionDetailId);
+        TransactionDetail GetSingleTransaction(string transactionId);
     }
     
 }

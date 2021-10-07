@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -183,7 +184,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public  async Task<HttpResponseMessage> SendSmsOnRecharge(ReChargeSMS request)
         {
-            var td = _meterManager.GetSingleTransaction(Convert.ToInt64(request.TransactionDetailId));
+            var td = _meterManager.GetSingleTransaction(string.Concat(request.TransactionId.Where(c => !Char.IsWhiteSpace(c))));
             if (td == null)
                 return new JsonContent("Not found.", Status.Failed, request).ConvertToHttpResponseOK();
 
@@ -200,7 +201,7 @@ namespace VendTech.Areas.Api.Controllers
                             $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
                             $"Units:{string.Format("{0:N0}", td.Units)}\n" +
                             $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
-                            "Tnk VENDTECH"
+                            "VENDTECH"
             };
 
             var json = JsonConvert.SerializeObject(requestmsg);
@@ -217,9 +218,9 @@ namespace VendTech.Areas.Api.Controllers
 
             if (res.StatusCode != (HttpStatusCode)200)
             {
-                return new JsonContent("Unable to send sms.", Status.Failed, request).ConvertToHttpResponseOK();
+                return new JsonContent("Unable to send sms.", Status.Failed, stringResult).ConvertToHttpResponseOK();
             }
-            return new JsonContent("Sms successfully sent.", Status.Success, requestmsg.Payload).ConvertToHttpResponseOK();
+            return new JsonContent("Sms successfully sent.", Status.Success, stringResult).ConvertToHttpResponseOK();
         }
     }
     public class Tokenobject

@@ -21,7 +21,7 @@ namespace VendTech.BLL.Models
 
     public class ReChargeSMS
     {
-        public string TransactionDetailId { get; set; }
+        public string TransactionId { get; set; }
         public string PhoneNo { get; set; }
     }
 }

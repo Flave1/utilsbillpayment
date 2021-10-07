@@ -934,9 +934,9 @@ namespace VendTech.BLL.Managers
             else
                 return new TransactionDetail();
         }
-        TransactionDetail IMeterManager.GetSingleTransaction(long transactionDetailId)
+        TransactionDetail IMeterManager.GetSingleTransaction(string transactionId)
         {
-            var lstTr = Context.TransactionDetails.FirstOrDefault(d => d.TransactionDetailsId == transactionDetailId) ?? null;
+            var lstTr = Context.TransactionDetails.FirstOrDefault(d => d.MeterToken1 == transactionId.Trim()) ?? null;
             if (lstTr != null)
             {
                 return lstTr;
