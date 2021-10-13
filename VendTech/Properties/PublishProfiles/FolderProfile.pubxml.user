@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\bin\Release\Publish</_PublishTargetUrl>
-    <History>True|2021-09-24T14:30:31.6916912Z;True|2021-09-24T14:44:48.2227974+01:00;True|2021-09-24T14:32:26.0544605+01:00;True|2021-09-24T13:40:49.0947242+01:00;True|2021-09-24T10:00:53.0047086+01:00;True|2021-09-24T09:28:31.5599668+01:00;True|2021-09-24T09:02:50.2125448+01:00;True|2021-09-24T08:43:43.7834027+01:00;True|2021-09-24T08:28:21.9894424+01:00;True|2021-09-22T13:07:24.7876719+01:00;True|2021-09-15T01:10:15.5845483+01:00;True|2021-09-11T12:14:06.8092437+01:00;True|2021-09-02T07:36:35.9780064+01:00;True|2021-08-27T07:18:44.2970924+01:00;True|2021-08-27T06:54:26.9564049+01:00;True|2021-08-24T02:13:02.7350178+01:00;True|2021-08-22T15:20:19.0065495+01:00;True|2021-08-22T15:10:01.2399553+01:00;True|2021-08-20T08:13:24.6759297+01:00;True|2021-08-20T07:25:13.9598349+01:00;True|2021-08-18T06:29:43.5184205+01:00;True|2021-08-18T06:21:42.7236302+01:00;True|2021-08-14T15:57:54.0257872+01:00;True|2021-08-13T01:47:39.9182157+01:00;True|2021-08-06T06:29:24.9330768+01:00;True|2021-08-06T06:15:12.6555866+01:00;True|2021-08-03T17:52:52.7833748+01:00;True|2021-07-31T16:26:26.8468241+01:00;True|2021-07-30T08:18:29.4306212+01:00;True|2021-07-30T07:44:22.7719328+01:00;True|2021-07-28T11:25:23.9147645+01:00;True|2021-07-28T09:25:35.6645394+01:00;True|2021-07-28T09:03:50.5493340+01:00;True|2021-07-24T16:10:54.2770400+01:00;True|2021-07-24T15:16:35.9613057+01:00;True|2021-07-24T14:26:12.2149095+01:00;True|2021-07-23T09:46:21.2336728+01:00;True|2021-07-22T23:41:26.8729067+01:00;True|2021-07-20T15:29:53.2398325+01:00;True|2021-07-18T08:42:38.1446019+01:00;True|2021-07-18T07:57:26.6359133+01:00;True|2021-07-16T09:19:14.1679904+01:00;True|2021-07-16T09:06:17.1879700+01:00;False|2021-07-16T09:05:46.5900974+01:00;True|2021-07-16T08:52:16.7666795+01:00;True|2021-07-13T07:26:24.2503065+01:00;True|2021-07-11T20:40:42.4669902+01:00;True|2021-07-09T09:50:11.8175015+01:00;True|2021-07-08T06:40:10.3160558+01:00;True|2021-07-02T20:09:50.5114471+01:00;True|2021-07-02T13:28:39.9198962+01:00;False|2021-07-02T13:26:24.5328586+01:00;True|2021-06-28T10:24:39.4736554+01:00;True|2021-06-25T18:01:34.0675100+01:00;True|2021-06-25T09:40:29.5891754+01:00;True|2021-06-21T17:32:14.7562313+01:00;True|2021-06-18T07:40:43.9924597+01:00;True|2021-06-17T07:40:37.2457794+01:00;True|2021-06-15T10:22:03.7745410+01:00;True|2021-06-15T10:09:11.5742329+01:00;True|2021-06-12T13:30:39.7610283+01:00;True|2021-06-10T09:21:47.0741821+01:00;True|2021-06-06T19:40:56.8520450+01:00;True|2021-06-05T16:01:12.0085892+01:00;True|2021-06-04T12:34:01.0138441+01:00;True|2021-05-31T06:19:50.5484892+01:00;True|2021-05-31T05:47:55.4716917+01:00;True|2021-05-28T07:23:34.1307689+01:00;True|2021-05-26T07:14:00.1330693+01:00;True|2021-05-05T13:30:37.5453577+01:00;True|2021-05-05T13:27:22.4498271+01:00;True|2021-05-05T09:30:40.6820000+01:00;True|2021-04-29T04:32:10.7255210+01:00;</History>
+    <History>True|2021-10-12T10:58:12.7684729Z;True|2021-10-09T15:32:19.7819350+01:00;True|2021-10-08T09:26:35.9809203+01:00;True|2021-10-08T09:21:07.8617788+01:00;True|2021-09-24T15:30:31.6916912+01:00;True|2021-09-24T14:44:48.2227974+01:00;True|2021-09-24T14:32:26.0544605+01:00;True|2021-09-24T13:40:49.0947242+01:00;True|2021-09-24T10:00:53.0047086+01:00;True|2021-09-24T09:28:31.5599668+01:00;True|2021-09-24T09:02:50.2125448+01:00;True|2021-09-24T08:43:43.7834027+01:00;True|2021-09-24T08:28:21.9894424+01:00;True|2021-09-22T13:07:24.7876719+01:00;True|2021-09-15T01:10:15.5845483+01:00;True|2021-09-11T12:14:06.8092437+01:00;True|2021-09-02T07:36:35.9780064+01:00;True|2021-08-27T07:18:44.2970924+01:00;True|2021-08-27T06:54:26.9564049+01:00;True|2021-08-24T02:13:02.7350178+01:00;True|2021-08-22T15:20:19.0065495+01:00;True|2021-08-22T15:10:01.2399553+01:00;True|2021-08-20T08:13:24.6759297+01:00;True|2021-08-20T07:25:13.9598349+01:00;True|2021-08-18T06:29:43.5184205+01:00;True|2021-08-18T06:21:42.7236302+01:00;True|2021-08-14T15:57:54.0257872+01:00;True|2021-08-13T01:47:39.9182157+01:00;True|2021-08-06T06:29:24.9330768+01:00;True|2021-08-06T06:15:12.6555866+01:00;True|2021-08-03T17:52:52.7833748+01:00;True|2021-07-31T16:26:26.8468241+01:00;True|2021-07-30T08:18:29.4306212+01:00;True|2021-07-30T07:44:22.7719328+01:00;True|2021-07-28T11:25:23.9147645+01:00;True|2021-07-28T09:25:35.6645394+01:00;True|2021-07-28T09:03:50.5493340+01:00;True|2021-07-24T16:10:54.2770400+01:00;True|2021-07-24T15:16:35.9613057+01:00;True|2021-07-24T14:26:12.2149095+01:00;True|2021-07-23T09:46:21.2336728+01:00;True|2021-07-22T23:41:26.8729067+01:00;True|2021-07-20T15:29:53.2398325+01:00;True|2021-07-18T08:42:38.1446019+01:00;True|2021-07-18T07:57:26.6359133+01:00;True|2021-07-16T09:19:14.1679904+01:00;True|2021-07-16T09:06:17.1879700+01:00;False|2021-07-16T09:05:46.5900974+01:00;True|2021-07-16T08:52:16.7666795+01:00;True|2021-07-13T07:26:24.2503065+01:00;True|2021-07-11T20:40:42.4669902+01:00;True|2021-07-09T09:50:11.8175015+01:00;True|2021-07-08T06:40:10.3160558+01:00;True|2021-07-02T20:09:50.5114471+01:00;True|2021-07-02T13:28:39.9198962+01:00;False|2021-07-02T13:26:24.5328586+01:00;True|2021-06-28T10:24:39.4736554+01:00;True|2021-06-25T18:01:34.0675100+01:00;True|2021-06-25T09:40:29.5891754+01:00;True|2021-06-21T17:32:14.7562313+01:00;True|2021-06-18T07:40:43.9924597+01:00;True|2021-06-17T07:40:37.2457794+01:00;True|2021-06-15T10:22:03.7745410+01:00;True|2021-06-15T10:09:11.5742329+01:00;True|2021-06-12T13:30:39.7610283+01:00;True|2021-06-10T09:21:47.0741821+01:00;True|2021-06-06T19:40:56.8520450+01:00;True|2021-06-05T16:01:12.0085892+01:00;True|2021-06-04T12:34:01.0138441+01:00;True|2021-05-31T06:19:50.5484892+01:00;True|2021-05-31T05:47:55.4716917+01:00;True|2021-05-28T07:23:34.1307689+01:00;True|2021-05-26T07:14:00.1330693+01:00;True|2021-05-05T13:30:37.5453577+01:00;True|2021-05-05T13:27:22.4498271+01:00;True|2021-05-05T09:30:40.6820000+01:00;True|2021-04-29T04:32:10.7255210+01:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/readme.txt">
@@ -143,7 +143,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/26/2021 12:36:06</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/AddEditPos.cshtml">
-      <publishTime>04/14/2021 12:28:03</publishTime>
+      <publishTime>10/08/2021 08:25:46</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>08/06/2021 06:24:17</publishTime>
@@ -155,7 +155,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/13/2021 21:00:38</publishTime>
     </File>
     <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease.cshtml">
-      <publishTime>09/11/2021 16:04:03</publishTime>
+      <publishTime>10/09/2021 15:29:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/ReleaseDeposit/Partials/_depositReleaseListing.cshtml">
       <publishTime>07/11/2021 20:31:04</publishTime>
@@ -503,37 +503,37 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2021 21:48:34</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>09/24/2021 13:40:45</publishTime>
+      <publishTime>10/12/2021 11:58:09</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>09/24/2021 13:40:45</publishTime>
+      <publishTime>10/12/2021 11:58:09</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>08/20/2021 07:25:08</publishTime>
+      <publishTime>10/12/2021 11:58:08</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
       <publishTime>09/22/2021 13:53:30</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
-      <publishTime>08/20/2021 07:25:08</publishTime>
+      <publishTime>10/12/2021 11:58:08</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>09/24/2021 15:30:29</publishTime>
+      <publishTime>10/12/2021 11:58:10</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>09/24/2021 13:40:46</publishTime>
+      <publishTime>10/12/2021 11:58:10</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>02/12/2021 06:06:28</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>09/24/2021 13:40:46</publishTime>
+      <publishTime>10/12/2021 11:58:10</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>09/24/2021 15:30:29</publishTime>
+      <publishTime>10/12/2021 11:58:10</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>12/21/2020 06:51:44</publishTime>
@@ -19055,7 +19055,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/31/2020 12:53:15</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>09/24/2021 15:21:52</publishTime>
+      <publishTime>10/08/2021 08:08:45</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19115,7 +19115,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/02/2021 13:24:56</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
-      <publishTime>09/24/2021 14:44:48</publishTime>
+      <publishTime>10/09/2021 15:32:20</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>12/20/2020 05:44:24</publishTime>
@@ -19439,7 +19439,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2020 05:44:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/24/2021 15:30:29</publishTime>
+      <publishTime>10/12/2021 11:58:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

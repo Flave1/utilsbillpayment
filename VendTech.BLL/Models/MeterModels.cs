@@ -20,10 +20,11 @@ namespace VendTech.BLL.Models
         public string MeterMake { get; set; }
         public string Allias { get; set; }
         public bool isVerified { get; set; }
+        public bool IsSaved { get; set; }
     }
 
     public class MeterAPIListingModel : MeterModel
-    {
+    { 
         public string UserName { get; set; }
         public DateTime CreatedAt { get; set; }
         public MeterAPIListingModel() { }
@@ -46,6 +47,7 @@ namespace VendTech.BLL.Models
 
     public class RechargeMeterModel
     {
+        public bool IsSaved { get; set; }
         public long UserId { get; set; }
         public long? MeterId { get; set; }
         public long? PlatformId { get; set; }

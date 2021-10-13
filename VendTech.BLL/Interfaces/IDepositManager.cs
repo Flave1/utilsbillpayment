@@ -40,6 +40,7 @@ namespace VendTech.BLL.Interfaces
         List<Deposit> GetUnclearedDeposits();
         void UpdateNextReminderDate(Deposit deposit);
         DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
+        List<Deposit> GetListOfDeposits(List<long> depositIds);
     }
 
 }

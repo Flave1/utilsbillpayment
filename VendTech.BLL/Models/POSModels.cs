@@ -40,7 +40,7 @@ namespace VendTech.BLL.Models
             SMSNotificationSales = Convert.ToBoolean(obj.SMSNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
             UserId = obj?.User?.UserId??0;
-            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false)??0;
+            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true)??0;
         } 
     }
     public class PosAPiListingModel
@@ -82,6 +82,13 @@ namespace VendTech.BLL.Models
         public int? Percentage { get; set; }
         public string Email { get; set; }
         public string PassCode { get; set; }
+
+        public bool WebSms { get; set; }
+        public bool PosSms { get; set; } = true;
+        public bool WebPrint { get; set; } = true;
+        public bool PosPrint { get; set; } = true;
+        public bool WebBarcode { get; set; }
+        public bool PosBarcode { get; set; } = true;
     }
 
     public class SavePassCodeModel

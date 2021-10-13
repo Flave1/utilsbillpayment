@@ -134,6 +134,7 @@ namespace VendTech.Controllers
         public JsonResult AddEditMeter(MeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
+            model.IsSaved = true;
             return JsonResult(_meterManager.SaveMeter(model));
         }
 

@@ -37,6 +37,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage SaveMeter(MeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserId;
+            model.IsSaved = true;
             var result = _meterManager.SaveMeter(model);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
@@ -183,7 +184,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public  async Task<HttpResponseMessage> SendSmsOnRecharge(ReChargeSMS request)
         {
-            var td = _meterManager.GetSingleTransaction(Convert.ToInt64(request.TransactionDetailId));
+            var td = _meterManager.GetSingleTransaction(Convert.ToInt64(request.TransactionId));
             if (td == null)
                 return new JsonContent("Not found.", Status.Failed, request).ConvertToHttpResponseOK();
 

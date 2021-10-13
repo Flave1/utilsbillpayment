@@ -43,6 +43,7 @@ namespace VendTech.BLL.Managers
             dbMeter.MeterMake = model.MeterMake;
             dbMeter.Address = model.Address;
             dbMeter.Allias = model.Allias;
+            dbMeter.IsSaved = model.IsSaved;
             dbMeter.IsVerified = model.MeterId > 0 ? model.isVerified : false;
             if (model.MeterId == 0)
             {
@@ -81,7 +82,7 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IMeterManager.GetMetersDropDown(long userID)
         {
-            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID)
+            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true)
                 .Select(p => new SelectListItem
                 {
                     Text = p.Number + " - " + p.Allias ?? string.Empty,
@@ -92,7 +93,7 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterAPIListingModel> IMeterManager.GetMeters(long userID, int pageNo, int pageSize)
         {
             var result = new PagingResult<MeterAPIListingModel>();
-            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID).ToList();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             result.List = list;
@@ -429,6 +430,11 @@ namespace VendTech.BLL.Managers
                 var met = Context.Meters.Find(model.MeterId);
                 model.MeterNumber = met.Number;
             }
+            else
+            {
+                model.IsSaved = false;
+                model.SaveAsNewMeter = true;
+            }
             Platform platf = new Platform();
             if (model.PlatformId == null)
             {
@@ -537,7 +543,8 @@ namespace VendTech.BLL.Managers
                 MeterMake = "",
                 Name = "",
                 UserId = model.UserId,
-                Number = model.MeterNumber
+                Number = model.MeterNumber,
+                IsSaved = model.IsSaved
             };  
         }
 

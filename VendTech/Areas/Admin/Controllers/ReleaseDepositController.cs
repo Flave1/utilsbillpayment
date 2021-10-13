@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -65,12 +73,14 @@ namespace VendTech.Areas.Admin.Controllers
             if (result.Status == ActionStatus.Successfull)
             {
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%otp%", result.Object);
-                body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
-                var currentUser = LOGGEDIN_USER.UserID;
-
-                Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%otp%", result.Object);
+                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                    var currentUser = LOGGEDIN_USER.UserID;
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
@@ -85,20 +95,72 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (result.Object.Any())
             {
-                if(model.CancelDepositIds == null)
-                {
-                    foreach (var userId in result.Object)
-                    {
-                        var user = _userManager.GetUserDetailsByUserId(userId);
-                        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
-                        string body = emailTemplate.TemplateContent;
-                        body = body.Replace("%USER%", user.FirstName);
-                        Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
-                    }
-                }
-              
+                SendEmailOnDeposit(model.ReleaseDepositIds);
+                SendSmsOnDeposit(model.ReleaseDepositIds);
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
+
+        private void  SendEmailOnDeposit(List<long> depositIds)
+        {
+            var deposits = _depositManager.GetListOfDeposits(depositIds);
+            if (deposits.Any())
+            {
+                foreach (var deposit in deposits)
+                {
+                    if (deposit.POS.EmailNotificationDeposit ?? true)
+                    {
+                        var user = _userManager.GetUserDetailsByUserId(deposit.UserId);
+                        if (user != null)
+                        {
+                            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
+                            if (emailTemplate.TemplateStatus)
+                            {
+                                string body = emailTemplate.TemplateContent;
+                                body = body.Replace("%USER%", user.FirstName);
+                                Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void SendSmsOnDeposit(List<long> depositIds)
+        {
+            if (depositIds.Any())
+            {
+                var deposits = _depositManager.GetListOfDeposits(depositIds);
+                if (deposits.Any())
+                {
+                    foreach(var deposit in deposits)
+                    {
+                        if (deposit.POS.SMSNotificationDeposit ?? true)
+                        {
+                            var requestmsg = new SendSMSRequest
+                            {
+                                Recipient = "232" + deposit.POS.Phone,
+                                Payload = $"Greetings {deposit.User.Name} \n" +
+                               $"Your deposit of SLL: {string.Format("{0:N0}", deposit.Amount)} has been approved.\n" +
+                               "Please confirm the amount deposited reflects in your wallet.\n" +
+                               "VENDTECH"
+                                };
+
+                            var json = JsonConvert.SerializeObject(requestmsg);
+
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                            HttpClient client = new HttpClient();
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                            client.BaseAddress = new Uri("https://kwiktalk.io");
+                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+                            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                            var res =  client.SendAsync(httpRequest).Result;
+                            var stringResult = res.Content.ReadAsStringAsync().Result;
+                        }
+                    }
+                }
+            } 
         }
         #endregion
     }

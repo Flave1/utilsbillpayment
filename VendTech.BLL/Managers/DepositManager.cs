@@ -1369,35 +1369,27 @@ namespace VendTech.BLL.Managers
 
                 if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
                     return ReturnError<List<long>>("WRONG OTP ENTERED");
+
                 if (model.CancelDepositIds != null)
                 {
                     foreach (var depositId in model.ReleaseDepositIds)
                     {
                         userIds.Add((this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, userId).ID);
                     }
-                //        for (int i = 0; i < model.CancelDepositIds.Count; i++)
-                //    {
-                //        userIds.Add((this as IDepositManager).ChangeDepositStatus(model.CancelDepositIds[i], DepositPaymentStatusEnum.Rejected, userId).ID);
-                //    }
                 }
                 if (model.ReleaseDepositIds != null)
                 {
-                    foreach(var depositId in model.ReleaseDepositIds)
+                    foreach (var depositId in model.ReleaseDepositIds)
                     {
                         userIds.Add((this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, userId).ID);
                     }
-                    //for (int i = 0; i < model.ReleaseDepositIds.Count; i++)
-                    //{
-                    //    userIds.Add((this as IDepositManager).ChangeDepositStatus(model.ReleaseDepositIds[i], DepositPaymentStatusEnum.Released, userId).ID);
-                    //}
                 }
                 return ReturnSuccess(userIds, "Deposit status updated successfully.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return ReturnError<List<long>>("Error occured while updating entries.");
             }
-
         }
 
         ActionOutput IDepositManager.ChangeMultipleDepositStatusOnReverse(ReverseDepositModel model, long userId)
@@ -1640,6 +1632,11 @@ namespace VendTech.BLL.Managers
         {
             deposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.SaveChanges();
+        }
+
+        List<Deposit> IDepositManager.GetListOfDeposits(List<long> depositIds)
+        {
+            return Context.Deposits.Where(d => depositIds.Contains(d.DepositId)).ToList() ?? new List<Deposit>();
         }
     }
 }
