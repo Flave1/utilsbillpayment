@@ -226,6 +226,7 @@
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="IsVerified" Type="bit" />
           <Property Name="Allias" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsSaved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
@@ -239,7 +240,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -1556,6 +1557,7 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <Property Name="Allias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_Meters_Users" FromRole="Meter" ToRole="User" />
           <NavigationProperty Name="TransactionDetails" Relationship="VendTechModel.FK_TransactionDetails_Meters" FromRole="Meter" ToRole="TransactionDetail" />
+          <Property Name="IsSaved" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
@@ -2542,6 +2544,7 @@ warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a prima
           <EntitySetMapping Name="Meters">
             <EntityTypeMapping TypeName="VendTechModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
+                <ScalarProperty Name="IsSaved" ColumnName="IsSaved" />
                 <ScalarProperty Name="Allias" ColumnName="Allias" />
                 <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />

@@ -38,6 +38,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage SaveMeter(MeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserId;
+            model.IsSaved = true;
             var result = _meterManager.SaveMeter(model);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }

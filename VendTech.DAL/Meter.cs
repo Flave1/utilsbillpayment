@@ -31,6 +31,7 @@ namespace VendTech.DAL
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<bool> IsVerified { get; set; }
         public string Allias { get; set; }
+        public bool IsSaved { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
