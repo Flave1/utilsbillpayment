@@ -190,10 +190,10 @@
                     value: new Date(),
                     change: function () { $("#toSpan").html($("#ToDate").val()) }
                 });
-                $("#fromSpan").html($("#ToDate").val())
-                $("#toSpan").html($("#ToDate").val())
 
+           $("#fromSpan").text($("#FromDate").val())
 
+           $("#toSpan").text($("#ToDate").val())
                 const date = new Date();
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -202,6 +202,9 @@
                 $("#printedDate").text(formattedDate);
                 $("#PrintedDateServer").val(formattedDate);
 
+           $("#fromSpan").text($("#FromDate").val())
+
+           $("#toSpan").text($("#ToDate").val())
 
                 function downloadURI(imgData, name) {
                     var link = document.createElement("a");

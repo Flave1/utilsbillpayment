@@ -433,7 +433,6 @@ namespace VendTech.BLL.Managers
             else
             {
                 model.IsSaved = false;
-                model.SaveAsNewMeter = true;
             }
             Platform platf = new Platform();
             if (model.PlatformId == null)

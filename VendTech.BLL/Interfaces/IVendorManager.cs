@@ -23,6 +23,7 @@ namespace VendTech.BLL.Interfaces
         decimal GetVendorPercentage(long userId);
         long GetVendorIdByAppUserId(long userId);
         SaveVendorModel GetVendorDetailApi(long vendorId);
+        List<SelectListItem> GetVendorsForPOSPageSelectList(long agentId = 0);
     }
 
 }

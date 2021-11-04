@@ -51,7 +51,7 @@ namespace VendTech.BLL.Managers
 
                     if(acquirerTerminals != null && ids2.Count() >0)
                     {
-                        var data = Context.Deposits.Where(d => d.UserId == AcquirerId).Join(Context.TransactionDetails, d =>d.UserId, m=>m.UserId,(d,m)=> new { 
+                        var data = Context.Deposits.Where(d => d.UserId == AcquirerId && d.IsDeleted == false).Join(Context.TransactionDetails, d =>d.UserId, m=>m.UserId,(d,m)=> new { 
                             UserId = d.UserId,DepositAmount = d.Amount, DepositPOSId= d.POSId,RechargeAmount = m.Amount,RechargePOSId = m.POSId,RechargeCreatedAt= m.CreatedAt
                         }).Where(t => ids2.Any(a => a == t.RechargePOSId))
                         .Where(m => m.RechargeCreatedAt != null).Where(m => m.RechargeCreatedAt.Year == DateTime.Now.Year).GroupBy(x => new { mdate = x.RechargeCreatedAt.Month })
@@ -108,7 +108,7 @@ namespace VendTech.BLL.Managers
 
                    // if (acquirerTerminals != null && ids2.Count() > 0)
                     {
-                        var data = Context.Deposits.Join(Context.TransactionDetails, d => d.UserId, m => m.UserId, (d, m) => new {
+                        var data = Context.Deposits.Where(p => p.IsDeleted == false).Join(Context.TransactionDetails, d => d.UserId, m => m.UserId, (d, m) => new {
                             UserId = d.UserId,
                             DepositAmount = d.Amount,
                             DepositPOSId = d.POSId,
@@ -153,7 +153,7 @@ namespace VendTech.BLL.Managers
 
                 var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
 
-                total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
+                total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.IsDeleted == false && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
                 total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                 if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
@@ -182,7 +182,7 @@ namespace VendTech.BLL.Managers
                     total_deposits = new decimal();
                     total_sales = new decimal();
                     var date = DateTime.UtcNow.Date;
-                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
+                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).Sum(s => s.Amount);
                     total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                     tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();

@@ -109,6 +109,11 @@ function ChangeDepositStatus() {
         $.ShowMessage($('div.messageAlert'), "OTP is required", MessageType.Error);
         return;
     }
+
+    $("#btnChangeDepositStatus").css({ backgroundColor: '#56bb96' }); 
+    $("#btnChangeDepositStatus").text('PROCESSING....');
+    $("#btnChangeDepositStatus").prop('disabled', true);
+     
     $.ajaxExt({
         url: baseUrl + '/Admin/ReleaseDeposit/ChangeDepositStatus',
         type: 'POST',
@@ -120,6 +125,9 @@ function ChangeDepositStatus() {
         success: function (results, message) {
             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
             $("#depositReleaseModal").modal('hide');
+            $("#btnChangeDepositStatus").css({ backgroundColor: '#f1cf09' });
+            $("#btnChangeDepositStatus").text('Submit');
+            $("#btnChangeDepositStatus").prop('disabled', false);
             //Paging();
             releaseDepositIds = [];
             cancelDepositIds = [];
@@ -127,8 +135,12 @@ function ChangeDepositStatus() {
                 cancelCkboxClick();
                 releaseChkboxClick();
                 window.location.reload();
-            },1000)
-            
+            },1000)   
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#btnChangeDepositStatus").css({ backgroundColor: '#f1cf09' });
+            $("#btnChangeDepositStatus").text('Submit');
+            $("#btnChangeDepositStatus").prop('disabled', false);
         }
     });
 }

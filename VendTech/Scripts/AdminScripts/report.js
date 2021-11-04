@@ -287,6 +287,8 @@ function Paging(sender) {
             throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
             url: baseUrl + '/Admin/Report/GetReportsPagingList',
             success: function (results, message) {
+
+                debugger
                 $("#btnFilterSearch").val('SEARCH');
                 $("#btnFilterSearch").prop('disabled', false);
                 $('#divResult table:first tbody').html(results[0]);

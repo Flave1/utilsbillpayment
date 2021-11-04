@@ -2,6 +2,7 @@
 @{
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
     var data = ViewBag.Data;
+    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
 }
 <style>
 
@@ -65,7 +66,7 @@
         background-color: #282828;
         height: 62px;
     }
-    }
+    
 </style>
 <!-- Fixed navbar -->
 <div id="timeSetModal" class="modal fade" role="dialog">
@@ -96,7 +97,7 @@
 
     </div>
 </div>
-<div id="head-nav" class="navbar navbar-default navbar-fixed-top" style="height: 62px;">
+<div id="head-nav" class="navbar navbar-default navbar-fixed-top" style="height: 62px; ">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="fa fa-gear"></span> </button>
@@ -107,7 +108,7 @@
             <ul class="nav navbar-nav navbar-right user-nav">
                 <li class="dropdown profile_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img alt="Avatar" class="profilepictureclass" src="@(user.ProfilePicPath!=null?user.ProfilePicPath:Url.Content("/Content/images/avatar2.jpg"))" /><span>@user.FirstName @user.LastName</span> <b class="caret"></b>
+                        <img alt="" class="profilepictureclass" src="@(user.ProfilePicPath!=null?user.ProfilePicPath:Url.Content("/Content/images/avatar2.jpg"))" /><span>@user.FirstName @user.LastName</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("SignOut", "Home")">Sign Out</a></li>
@@ -117,7 +118,7 @@
         </div>
         @if (data != null)
         {
-            <ul class="nav navbar-nav navbar-right user-nav notification-wrap">
+            <ul class="nav navbar-nav navbar-right user-nav notification-wrap" >
                 <li class="dropdown profile_menu">
                     <a href="#" class="dropdown-toggle notification-tab" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profilepictureclass" src="~/Content/images/notification.png" />
@@ -125,18 +126,27 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <h4 class="notification-title">NOTIFICATION CENTER</h4>
-                        <a class="dropdown-item" href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">
-                            @if (!string.IsNullOrEmpty(data.AppUserMessage))
-                            {
-                                <span class="_custom">@data.AppUserMessage <span class="notification-count">@data.RemainingAppUser</span></span>
-                            }
-                        </a>
-                        <a class="dropdown-item" href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">
-                            @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
-                            {
-                                <span class="_custom">@data.DepositReleaseMessage <span class="notification-count">@data.RemainingDepositRelease</span></span>
-                            }
-                        </a>
+
+                        @if (assignerModules.Where(X => X.ControllerName == "24").ToList().Count() > 0)
+                        {
+                            <a class="dropdown-item" href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">
+                                @if (!string.IsNullOrEmpty(data.AppUserMessage))
+                                {
+                                    <span class="_custom">@data.AppUserMessage <span class="notification-count">@data.RemainingAppUser</span></span>
+                                }
+                            </a>
+                        }
+                        @if (assignerModules.Where(X => X.ControllerName == "25").ToList().Count() > 0)
+                        {
+                            <a class="dropdown-item" href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">
+                                @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
+                                {
+                                    <span class="_custom">@data.DepositReleaseMessage <span class="notification-count">@data.RemainingDepositRelease</span></span>
+                                }
+                            </a>
+                        }
+                        
+                        
                     </div>
                 </li>
             </ul>

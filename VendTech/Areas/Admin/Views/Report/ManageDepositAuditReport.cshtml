@@ -419,6 +419,10 @@ function getUrlParameter(name) {
                 datePicker3.open();
             })
 
+            $("#fromSpan").text($("#FromDate").val())
+
+            $("#toSpan").text($("#ToDate").val())
+
 
     if (@Html.Raw(Json.Encode(Model.List)) == null) {
         swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
@@ -569,7 +573,7 @@ function getUrlParameter(name) {
                 var d = new Date();
                 $("#FromDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy hh:mm"
+                    format: "dd/MM/yyyy"
                 });
 
                 var datePicker1 = $("#FromDate").data("kendoDatePicker");
@@ -578,7 +582,7 @@ function getUrlParameter(name) {
                 })
                 $("#ToDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy hh:mm"
+                    format: "dd/MM/yyyy"
                 });
                 var datePicker2 = $("#ToDate").data("kendoDatePicker");
                 $("#ToDate").click(function () {
@@ -593,23 +597,34 @@ function getUrlParameter(name) {
             amount, isAudit, userId, date, valueDate, Type, comment)
         {
 
-            debugger;
             
-            
-            comment = escape(comment);
-           
-           // let bytes = new Uint8Array([207, 240, 232, 226, 229, 242, 44, 32, 236, 232, 240, 33]);
+            const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer"];
+            comment = escape(comment); 
             const decoded = atob(unescape(comment));
+
             $("#depositModalTitle").text("Edit Deposit Audit");
             $("#hdnDepositId").val(id);
             $("#hdnUserId").val(userId);
             $("#PosId").find("option:contains(" + posid + ")").attr("selected", "selected");
             $("#depositby").find("option:contains(" + depositby + ")").attr("selected", "selected");
-            $("#payer").val(payer);
+            if (payer.length < 1) {
+                $("#payer").val($("#depositby option:selected").text());
+            } else {
+                $("#payer").val(payer);
+            }
             $("#issuingbank").find("option[value='" + issuingbank.substr(0, issuingbank.lastIndexOf("-")) + "']").attr("selected", "selected");
+
+            debugger;
+            if ($("#issuingbank").val().length < 1) {
+                $("#issuingbank").val("GTB - (GUARANTEE TRUST BANK)");
+            } 
             $("#depositref").val(depositref);
-            $("#gtbank").val(gtbank);
-            $("#deposittype").find("option:contains(" + Type + ")").attr("selected", "selected");
+            $("#gtbank").val(gtbank); 
+            if (Type.length < 1) {
+                $("#deposittype").val(typeList["Cash"].length);
+            } else { 
+                $("#deposittype").val(typeList.indexOf('Cash'));
+            }
         //var date =valueDate.split("-");   
         //var valueDate = valueDate.replaceAll("-", "/")
         //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
@@ -723,7 +738,8 @@ function getUrlParameter(name) {
                         $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
                 }
             });
-        }
+    }
+     
 
         function Save(th) {
             var inputParam = new Object();

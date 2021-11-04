@@ -120,7 +120,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (id > 0) ViewBag.read = readonlyStr;
 
             ViewBag.PosTypes = Utilities.EnumToList(typeof(PosTypeEnum));
-            ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+            ViewBag.Vendors = _vendorManager.GetVendorsForPOSPageSelectList();
             var commissions = _commissionManager.GetCommissions();
             var drpCommissions = new List<SelectListItem>();
             foreach (var item in commissions)

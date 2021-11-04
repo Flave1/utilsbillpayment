@@ -28,6 +28,7 @@ namespace VendTech.BLL.Models
     public class UserListingModel
     {
         public long UserId { get; set; }
+        public long UserSerialNo { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -53,6 +54,7 @@ namespace VendTech.BLL.Models
             this.LastName = userObj.SurName;
             this.Email = userObj.Email;
             this.UserId = userObj.UserId;
+            this.UserSerialNo = userObj?.UserSerialNo ?? 0;
             this.UserType = userObj.UserRole.Role;
             this.CreatedOn = userObj.CreatedAt;
             this.Status = (UserStatusEnum)userObj.Status;

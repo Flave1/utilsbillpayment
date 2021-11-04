@@ -1,12 +1,12 @@
 ﻿@model PagingResult<UserListingModel>
-
+ 
 
 @if (Model.List != null && Model.List.Count() > 0)
 {
     foreach (var item in Model.List)
     {
 <tr class="odd gradeX">
-    <td>@item.UserId</td>
+    <td>@item.UserSerialNo</td>
     <td>@item.FirstName</td>
     <td> @item.LastName</td>
     <td> @item.Vendor</td>

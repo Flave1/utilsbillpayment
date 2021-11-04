@@ -161,6 +161,7 @@
           <Property Name="isAudit" Type="bit" Nullable="false" />
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
           <Property Name="NextReminderDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -240,7 +241,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtech25nov_2.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -454,6 +455,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="TotalPendingDepositRelease" Type="int" />
           <Property Name="TotalPendingData" Type="int" />
           <Property Name="IsCompany" Type="bit" />
+          <Property Name="UserSerialNo" Type="bigint" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -1488,6 +1490,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <NavigationProperty Name="POS" Relationship="VendTechModel.FK_Deposits_POS" FromRole="Deposit" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="VendTechModel.FK_Deposits_Users" FromRole="Deposit" ToRole="User" />
           <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1820,6 +1823,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <Property Name="TotalPendingDepositRelease" Type="Int32" />
           <Property Name="TotalPendingData" Type="Int32" />
           <Property Name="IsCompany" Type="Boolean" />
+          <Property Name="UserSerialNo" Type="Int64" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -2466,6 +2470,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="Deposits">
             <EntityTypeMapping TypeName="VendTechModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="isAudit" ColumnName="isAudit" />
@@ -2749,6 +2754,7 @@ warning 6002: The table/view 'ph10008834466_db.dbo.Nations' does not have a prim
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VendTechModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserSerialNo" ColumnName="UserSerialNo" />
                 <ScalarProperty Name="IsCompany" ColumnName="IsCompany" />
                 <ScalarProperty Name="TotalPendingData" ColumnName="TotalPendingData" />
                 <ScalarProperty Name="TotalPendingDepositRelease" ColumnName="TotalPendingDepositRelease" />

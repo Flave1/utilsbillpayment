@@ -93,7 +93,7 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             }
-            if (result.Object.Any())
+            if (model.ReleaseDepositIds.Any())
             {
                 SendEmailOnDeposit(model.ReleaseDepositIds);
                 SendSmsOnDeposit(model.ReleaseDepositIds);

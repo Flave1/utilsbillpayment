@@ -60,7 +60,7 @@ namespace VendTech.BLL.Models
         public string MeterToken2 { get; set; }
         public string MeterToken3 { get; set; }
 
-        [MaxLength(11, ErrorMessage = "Meter Number must be of 11 digits"), MinLength(11, ErrorMessage = "Meter Number must be of 11 digits")]
+        //[MaxLength(11, ErrorMessage = "Meter Number must be of 11 digits"), MinLength(11, ErrorMessage = "Meter Number must be of 11 digits")]
         public string MeterNumber { get; set; }
         public bool SaveAsNewMeter { get; set; }
         public long TransactionId { get; set; }

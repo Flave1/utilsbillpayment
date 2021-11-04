@@ -131,15 +131,15 @@ namespace VendTech.BLL.Managers
         {
             if (vendorId > 0)
             {
-                if (Context.Deposits.Where(p => p.POSId == vendorId && p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Count() > 0)
+                if (Context.Deposits.Where(p => p.POSId == vendorId && p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false && p.IsDeleted == false).ToList().Count() > 0)
 
-                    return Context.Deposits.Where(p => p.POSId == vendorId && p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Sum(p => p.PercentageAmount).Value;
+                    return Context.Deposits.Where(p => p.POSId == vendorId && p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false && p.IsDeleted == false).ToList().Sum(p => p.PercentageAmount).Value;
                 return 0;
             }
             else
             {
-                if (Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Count() > 0)
-                    return Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false).ToList().Sum(p => p.PercentageAmount).Value;
+                if (Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false && p.IsDeleted == false).ToList().Count() > 0)
+                    return Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.POS.Enabled != false && p.IsDeleted == false).ToList().Sum(p => p.PercentageAmount).Value;
                 return 0;
             }
 
@@ -159,7 +159,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 user.Status = (int)UserStatusEnum.Deleted;
-                var otherUsers = Context.Users.Where(p => p.FKVendorId == userId).ToList();
+                var otherUsers = Context.Users.Where(p => p.FKVendorId == userId ).ToList();
                 otherUsers.ForEach(x => x.FKVendorId = null);
                 var assignedPos = Context.POS.Where(p => p.VendorId == userId).ToList();
                 assignedPos.ForEach(x => x.VendorId = null);
@@ -237,10 +237,29 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor).OrderBy(s => s.Vendor);//&& p.POS.Any()  && p.Status == (int)UserStatusEnum.Active
+                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
                 if (agentId > 0)
                     query = query.Where(p => p.AgentId == agentId);
                 return query.ToList().Select(p =>   new SelectListItem
+                {
+                    Text = p.Vendor.ToUpper(),
+                    Value = p.UserId.ToString()
+                }).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<SelectListItem>();
+            }
+        }
+
+        List<SelectListItem> IVendorManager.GetVendorsForPOSPageSelectList(long agentId)
+        {
+            try
+            {
+                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor).OrderBy(s => s.Vendor);// && p.POS.Any(d => d.IsDeleted == false) && p.Status == (int)UserStatusEnum.Active
+                if (agentId > 0)
+                    query = query.Where(p => p.AgentId == agentId);
+                return query.ToList().Select(p => new SelectListItem
                 {
                     Text = p.Vendor.ToUpper(),
                     Value = p.UserId.ToString()

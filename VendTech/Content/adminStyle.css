@@ -1791,5 +1791,13 @@ padding: 8px;}
 
 @media (max-width:400px){
 	.dummyimg{height:203px;}
+
+}
+.btn-xs {
+	padding: 2px;
+	text-align: center;
+	margin-top: -5px;
+	font-size: 13px;
+	margin-bottom: -12px;
 }
 .editpro-row .editpro-row50 input[type="checkbox"]{width: auto;height: auto;}

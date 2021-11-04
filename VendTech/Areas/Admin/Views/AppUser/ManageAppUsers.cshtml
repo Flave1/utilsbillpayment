@@ -18,12 +18,12 @@
                     </div>
                     <div class="content">
                         <div class="table-responsive">
-                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc"})
                             <div id="divResult">
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
-                                            <th class="sorting" data-sortby="UserId">USERID</th>
+                                            <th class="sorting" data-sortby="UserSerialNo">USERID</th>
                                             <th class="sorting" data-sortby="Name">FIRST NAME</th>
                                             <th class="sorting" data-sortby="SurName">LAST NAME</th>
                                             <th class="sorting" data-sortby="Vendor">VENDOR NAME</th>
@@ -59,6 +59,8 @@
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
 
+    
+
         var totalCount = "@Model.TotalCount";
     </script>
     <script src="~/Scripts/AdminScripts/appUsers.js"></script>
@@ -67,11 +69,11 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $('#searchField option[value="VENDOR"]').attr("selected", true);
             $('.filter-select option[value="100"]').attr("selected", true);
             //initialize the javascript
             App.init();
-            Users.ManageUsers(totalCount);
+            Users.ManageUsers(totalCount); 
         });
     </script>
 }

@@ -77,6 +77,9 @@ namespace VendTech.BLL.Managers
             if (user.Password != encryptedPassword)
                 return ReturnError<string>("Old password did not match.");
 
+            if(oldPassword == newPassword)
+                return ReturnError<string>("New password must be different from old passowrd.");
+
             user.IsEmailVerified = true;
             user.Password = Utilities.EncryptPassword(newPassword);
             Context.SaveChanges();

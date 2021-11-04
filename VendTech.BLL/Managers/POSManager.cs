@@ -178,8 +178,8 @@ namespace VendTech.BLL.Managers
                 return new SavePosModel()
                 {
                     SerialNumber = dbPos.SerialNumber,
-                    VendorId = dbPos.VendorId,
-                    Phone = dbPos.Phone,
+                    VendorId = dbPos?.VendorId,
+                    Phone = dbPos?.User?.Phone,
                     Type = dbPos.VendorType,
                     POSId = dbPos.POSId,
                     Percentage = dbPos.CommissionPercentage,

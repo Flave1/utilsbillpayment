@@ -172,13 +172,13 @@ namespace VendTech.Areas.Admin.Controllers
                     var AssignModules = ModulesModel.Where(x => x.ControllerName.ToLower() == controller.ToLower()).FirstOrDefault();
                     if (AssignModules == null)
                     {
-                        filter_context.Result = Json(new ActionOutput
-                        {
-                            Status = ActionStatus.Error,
-                            Message = "Access Denied for this module."
-                        }, JsonRequestBehavior.AllowGet);
+                        //filter_context.Result = Json(new ActionOutput
+                        //{
+                        //    Status = ActionStatus.Error,
+                        //    Message = "Access Denied for this module."
+                        //}, JsonRequestBehavior.AllowGet);
 
-                        filter_context.Result = RedirectToAction("AccesDeniedPage", "Home", new { Area = "Admin" });
+                        //filter_context.Result = RedirectToAction("AccesDeniedPage", "Home", new { Area = "Admin" });
                     }
 
                 }

@@ -182,6 +182,7 @@
         var totalCount = "@Model.TotalCount";
         $(document).ready(function () {
 
+            
  
             $("#FromDate").kendoDatePicker({
                 culture: "en-GB",
@@ -191,6 +192,11 @@
                 culture: "en-GB",
                 value: new Date()
             });
+
+            $("#fromSpan").text($("#FromDate").val())
+
+            $("#toSpan").text($("#ToDate").val())
+
                 App.init();
 
                 $("#vendor").on("change", function () {

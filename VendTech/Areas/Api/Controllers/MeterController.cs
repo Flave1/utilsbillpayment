@@ -191,7 +191,7 @@ namespace VendTech.Areas.Api.Controllers
 
             var requestmsg = new SendSMSRequest
             {
-                Recipient = request.PhoneNo,
+                Recipient = $"232{request.PhoneNo}",
                 Payload = $"UID#:{td.SerialNumber}\n" +
                             $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
                             $"POSID:{td.POS.SerialNumber}\n" +

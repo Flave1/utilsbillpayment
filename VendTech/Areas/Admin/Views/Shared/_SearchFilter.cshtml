@@ -4,14 +4,14 @@
         <div class="filter filter-select col-md-2">
             <label class="control-label">SHOW RECORDS</label>
             <span class="select-span">
-            <select class="form-control filter-select input-sm" id="showRecords">
-                <option value="10" selected="selected">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
+                <select class="form-control filter-select input-sm" id="showRecords">
+                    <option value="10" selected="selected">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
 
-            </select>
-          </span>
+                </select>
+            </span>
         </div>
         <div class="filter col-md-3 serch-filter">
             <label class="control-label">SEARCH FIELD</label>
@@ -24,18 +24,18 @@
                     <option value="">SELECT FIELD</option>
                 </select>
             </div>
-        </div>  
-       
+        </div>
+         
         <div class="filter col-md-3 serch-filter">
             <label class="control-label">SEARCH</label>
-           
+
             <div class="input-group serch-input">
                 @Html.HiddenFor(x => x.SortBy)
                 @Html.HiddenFor(x => x.SortOrder)
                 @Html.TextBoxFor(m => m.Search, new { @class = "form-control filter-textbox input-sm", placeholder = "Search" })
             </div>
         </div>
-        
+
         @*<div class="filter col-md-2 pull-right">
             <label class="control-label">search</label>
 

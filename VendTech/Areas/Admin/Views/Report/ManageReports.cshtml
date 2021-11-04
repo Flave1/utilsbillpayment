@@ -218,6 +218,10 @@
                 format : "dd/MM/yyyy"
             });
 
+                $("#fromSpan").text($("#FromDate").val())
+
+                $("#toSpan").text($("#ToDate").val())
+
                 var type = getUrlParameter("type");
                 if (type)
                     $("#reportType").val(type);

@@ -48,7 +48,7 @@ namespace VendTech.BLL.Common
         public static string GetLastDepositTrabsactionId()
         {
             VendTechEntities context = new VendTechEntities();
-            var existing_details = context.Deposits.ToList();
+            var existing_details = context.Deposits.Where(p => p.IsDeleted == false).ToList();
             long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
             max = max + 1;
             return max.ToString();

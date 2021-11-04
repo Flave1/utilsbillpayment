@@ -691,18 +691,36 @@ namespace VendTech.Areas.Admin.Controllers
         //}
 
         public void ExportDepositAuditReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
-        {
+        { 
             string fromdate = "";
             string Todate = "";
             CultureInfo provider = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(FromDate))
             {
-                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                var fromDateSplited = FromDate.Split('/');
+                if(fromDateSplited[0].Length == 1)
+                {
+                    FromDate = $"0{fromDateSplited[0]}/{fromDateSplited[1]}/{fromDateSplited[2]}";
+                }
+                if (fromDateSplited[1].Length == 1)
+                {
+                    FromDate = $"{fromDateSplited[0]}/0{fromDateSplited[1]}/{fromDateSplited[2]}";
+                }
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 fromdate = model.From.Value.ToString("dd/MM/yyyy");
             }
 
             if (!string.IsNullOrEmpty(ToDate))
             {
+                var toDateSplited = ToDate.Split('/');
+                if (toDateSplited[0].Length == 1)
+                {
+                    ToDate = $"0{toDateSplited[0]}/{toDateSplited[1]}/{toDateSplited[2]}";
+                }
+                if (toDateSplited[1].Length == 1)
+                {
+                    ToDate = $"{toDateSplited[0]}/0{toDateSplited[1]}/{toDateSplited[2]}";
+                }
                 model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }

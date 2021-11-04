@@ -26,7 +26,7 @@ namespace VendTech.BLL.Managers
 
             // model.RecordsPerPage = 2;
             IQueryable<Deposit> query = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending
-            && p.POS.Enabled != false).OrderBy(model.SortBy + " " + model.SortOrder);
+            && p.POS.Enabled != false && p.IsDeleted == false).OrderBy(model.SortBy + " " + model.SortOrder);
             {
                 if (vendorId == 0)
                 {
@@ -83,7 +83,7 @@ namespace VendTech.BLL.Managers
 
             // model.RecordsPerPage = 2;
             IQueryable<Deposit> query = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Released || p.Status == (int)DepositPaymentStatusEnum.Reversed && p.POS.Enabled != false
-            ).OrderBy(model.SortBy + " " + model.SortOrder);
+            && p.IsDeleted == false).OrderBy(model.SortBy + " " + model.SortOrder);
             if (!getForRelease)
             {
                 if (vendorId == 0)
@@ -134,7 +134,7 @@ namespace VendTech.BLL.Managers
         PagingResult<DepositListingModel> IDepositManager.GetUserDepositList(int pageNo, int pageSize, long userId)
         {
             var result = new PagingResult<DepositListingModel>();
-            var query = Context.Deposits.Where(p => p.UserId == userId).OrderByDescending(p => p.CreatedAt);
+            var query = Context.Deposits.Where(p => p.UserId == userId && p.IsDeleted == false).OrderByDescending(p => p.CreatedAt);
             result.TotalCount = query.Count();
             var list = query
                .Skip((pageNo - 1) * pageSize).Take(pageSize)
@@ -1209,9 +1209,9 @@ namespace VendTech.BLL.Managers
 
         decimal IDepositManager.GetPendingDepositTotal()
         {
-            var amt = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.PercentageAmount != null).ToList().Sum(p => p.PercentageAmount).Value;
+            var amt = Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.PercentageAmount != null && p.IsDeleted == false).ToList().Sum(p => p.PercentageAmount).Value;
 
-            amt += Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.PercentageAmount == null).ToList().Sum(p => p.Amount);
+            amt += Context.Deposits.Where(p => p.Status == (int)DepositPaymentStatusEnum.Pending && p.PercentageAmount == null && p.IsDeleted == false).ToList().Sum(p => p.Amount);
             return amt;
         }
 
@@ -1229,8 +1229,11 @@ namespace VendTech.BLL.Managers
             dbDepositLog.CreatedAt = DateTime.UtcNow;
             Context.DepositLogs.Add(dbDepositLog);
             dbDeposit.Status = (int)status;
+            dbDeposit.IsDeleted = true;
             if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
             {
+                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.IsDeleted = false;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 //var lastPosReleaseDeposit = Context.Deposits.Where(p => p.POSId == dbDeposit.POSId).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
@@ -1273,7 +1276,7 @@ namespace VendTech.BLL.Managers
                 obj.DeviceType = item.AppType.Value;
                 PushNotification.SendNotification(obj);
             }
-
+             
             return ReturnSuccess(dbDeposit.User.UserId, "Deposit status changed successfully.");
         }
 
@@ -1372,7 +1375,7 @@ namespace VendTech.BLL.Managers
 
                 if (model.CancelDepositIds != null)
                 {
-                    foreach (var depositId in model.ReleaseDepositIds)
+                    foreach (var depositId in model.CancelDepositIds)
                     {
                         userIds.Add((this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, userId).ID);
                     }
@@ -1471,6 +1474,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.Amount = model.Amount;
             dbDeposit.UserId = model.UserId;
             dbDeposit.POSId = model.PosId;
+            dbDeposit.IsDeleted = false;
             dbDeposit.PaymentType = (int)model.DepositType;
             dbDeposit.ChequeBankName = model.ChkBankName;
             dbDeposit.NameOnCheque = model.NameOnCheque;
@@ -1478,7 +1482,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CheckNumberOrSlipId = model.ChkOrSlipNo;
             dbDeposit.Comments = model.Comments;
             dbDeposit.PercentageAmount = model.TotalAmountWithPercentage;
-            dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+            dbDeposit.TransactionId = "0";
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate + " 12:00";//.ToString("dd/MM/yyyy hh:mm");
@@ -1624,7 +1628,7 @@ namespace VendTech.BLL.Managers
             var currentDate = DateTime.UtcNow;
            var result = Context.Deposits.Where(d => d.isAudit == false 
            && d.NextReminderDate != null
-           && currentDate >=  d.NextReminderDate).ToList();
+           && currentDate >=  d.NextReminderDate && d.IsDeleted == false).ToList();
             return result;
         }
 

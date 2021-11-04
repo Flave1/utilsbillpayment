@@ -338,7 +338,7 @@ namespace VendTech.BLL.Managers
         }
 
         ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
-        {
+        { 
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
             var user = Context.Users.FirstOrDefault(p =>
@@ -435,10 +435,12 @@ namespace VendTech.BLL.Managers
             var modules = Context.Modules.Where(c => modulesPermissons.Contains(c.ModuleId)).ToList();
             if (modules.Count() > 0)
             {
-                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList();
+                moduleListModel = modules.Select(x => new ModulesModel(x))
+                    .ToList();
             }
             return moduleListModel;
         }
+         
         public List<SelectListItem> GetAssignedReportModules(long UserId, bool isAdmin)
         {
             if (isAdmin)
@@ -738,14 +740,13 @@ namespace VendTech.BLL.Managers
             }
 
             string myfile = string.Empty;
-            //var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
-            if (false)
+            if (IsEmailUsed(userDetails.Email, userDetails.UserId))
             {
-                //return new ActionOutput
-                //{
-                //    Status = ActionStatus.Error,
-                //    Message = "This email-id already exists for another user."
-                //};
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "This email-id already exists for another user."
+                };
             }
             else
             {
@@ -755,6 +756,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
+                dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.UserType = userDetails.UserType;
                 dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
                 dbUser.Phone = userDetails.Phone;
@@ -811,13 +813,13 @@ namespace VendTech.BLL.Managers
             }
             string myfile = "";
             var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()).FirstOrDefault();
-            if (false)
+            if (IsEmailUsed(userDetails.Email, userDetails.UserId))
             {
-                //return new ActionOutput
-                //{
-                //    Status = ActionStatus.Error,
-                //    Message = "This email-id already exists for another user."
-                //};
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "This email-id already exists for another user."
+                };
             }
 
             else
@@ -830,6 +832,7 @@ namespace VendTech.BLL.Managers
                 dbUser.CreatedAt = DateTime.Now;
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 dbUser.IsEmailVerified = false;
+                dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;
                 //dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
                 dbUser.Status = (int)UserStatusEnum.Pending;
@@ -897,16 +900,14 @@ namespace VendTech.BLL.Managers
                     Message = "User with this phone number already exist"
                 };
             }
-            //var existing_user_by_email = Context.Users.FirstOrDefault(z => z.Email.Trim().ToLower() == userDetails.Email.Trim().ToLower()) ?? null;
-
-            //if (existing_user_by_email != null)
-            //{
-            //    return new ActionOutput
-            //    {
-            //        Status = ActionStatus.Error,
-            //        Message = "This email-id already exists for another user."
-            //    };
-            //} 
+            if (IsEmailUsed(userDetails.Email, 0))
+            {
+                return new ActionOutput
+                {
+                    Status = ActionStatus.Error,
+                    Message = "This email-id already exists for another user."
+                };
+            }
             else
             {
                 //var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
@@ -929,7 +930,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Phone = userDetails.Mobile;
                 dbUser.AgentId = Convert.ToInt64(userDetails.Agency != null ? userDetails.Agency : "0");
                 dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName : $"{userDetails.FirstName} {userDetails.LastName}"; // - {last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
-
+                dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
                 dbUser.FKVendorId = dbUser.UserId;
@@ -1155,10 +1156,10 @@ namespace VendTech.BLL.Managers
 
         bool IsEmailUsed(string email, long userId)
         {
-            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == email.Trim().ToLower() && z.UserId != userId).FirstOrDefault();
+            var existngUser = Context.Users.Where(z => z.Email.Trim().ToLower() == email.Trim().ToLower() && z.UserId != userId && z.Status != (int)UserStatusEnum.Deleted  && z.Status != (int)UserStatusEnum.Declined).FirstOrDefault();
             if (existngUser == null)
                 return false;
-            return false;
+            return true;
         }
 
         List<User> IUserManager.GetAllAdminUsersByAppUserPermission()
@@ -1178,12 +1179,12 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == currentUserId && (x.ModuleId == 6 || x.ModuleId == 10));
+                var notificationDetail = Context.UserAssignedModules.Where(x => x.UserId == currentUserId && (x.ModuleId == 6 || x.ModuleId == 11));
                 var modelUser = new UserDetails();
-                modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 10) != null ? "NEW APP USERS APPROVAL" : string.Empty;
+                modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 11) != null ? "NEW APP USERS APPROVAL" : string.Empty;
                 modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
                 modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
-                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending).Count() : 0;
+                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending && x.IsDeleted == false).Count() : 0;
 
                 return modelUser;
             }
