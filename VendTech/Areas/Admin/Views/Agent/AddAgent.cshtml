@@ -1,6 +1,6 @@
-﻿@model AddAgentModel
+﻿@model VendTech.BLL.Models.SaveAgentModel
 @{
-    ViewBag.Title = Model.AgentId > 0 ? "Edit Agent Details" : "Add Agent Details";
+    ViewBag.Title = Model.AgencyId > 0 ? "Edit Agent Details" : "Add Agent Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
 
@@ -18,11 +18,11 @@
                     </div>
                     <div class="content people-form-cs">
                         <form class="form-horizontal" role="form" id="UserForm">
-                            @Html.HiddenFor(x => x.AgentId)
+                            @Html.HiddenFor(x => x.AgencyId)
                             <div class="form-group">
                                 <div class="row">
                                     <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">AGENCY NAME<em>*</em></label>
+                                        <label for="inputEmail3" class="col-md-12 control-label" style=" text-align:left">AGENCY NAME<em>*</em></label>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(x => x.AgencyName, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(x => x.AgencyName)
@@ -30,39 +30,9 @@
                                     </div>
 
                                 </div>
-                                @*<div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">REP FIRST NAME</label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.FirstName)
-                                        </div>
-                                    </div>
-
-                                </div>
                                 <div class="row">
                                     <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">REP LAST NAME</label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.LastName)
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">REP EMAIL</label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Email)
-                                        </div>
-                                    </div>
-
-                                </div>*@
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">COMPANY</label>
+                                        <label for="inputEmail3" class="col-md-12 control-label" style="text-align:left">COMPANY</label>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(x => x.Company, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(x => x.Company)
@@ -70,68 +40,42 @@
                                     </div>
 
                                 </div>
-                                @*<div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">PASSWORD</label>
-                                        <div class="col-md-8">
-                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Password)
-                                        </div>
-                                    </div>
 
-                                </div>
                                 <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">RETYPE PASSWORD</label>
+                                    <div class="col-md-12">
+                                        <label for="inputEmail3" class="col-md-12">SELECT ADMINISTRATOR</label>
                                         <div class="col-md-8">
-                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                                        </div>
-                                    </div>
-
-                                </div>*@
-                                @*<div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-2 control-label">CELL PHONE<em>*</em></label>
-                                        <div class="col-md-1">
-                                            <select name="CountryCode" class="form-control">
-                                                <option value="+232">+232</option>
+                                            <select class="form-control " name="Admin" id="Admin">
+                                                <option value="">SELECT ADMIN</option>
                                             </select>
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                            </div>
                                         </div>
-
-                                    </div>*@
-                                    @*<div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">AGENT TYPE</label>
-                                            <div class="col-md-3">
-                                                @Html.DropDownListFor(x => x.AgentType, new SelectList(ViewBag.AgentTypes, "value", "text"), null, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(x => x.AgentType)
-                                            </div>
-                                        </div>
-
+                                  
                                     </div>
-                                    <div class="row">
-                                        <div class=" col-md-12">
-                                            <label for="inputEmail3" class="col-md-2 control-label">%</label>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(x => x.Percentage, new SelectList(ViewBag.commissions, "value", "text"), null, new { @class = "form-control" })
-                                            </div>
-                                        </div>
+                                </div>
 
-                                    </div>*@
-                                    <div class="row">
-                                        <div class=" col-md-6">
-                                            <div class="col-sm-offset-4 col-sm-8">
-                                                <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a> 
-                                                <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="inputEmail3" class="col-md-12">AGENCY COMMISION</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control " name="Percentage" id="Percentage">
+                                                <option value="">COMMISSION</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+
+
+
+
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-12 col-sm-8">
+                                            <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -144,12 +88,38 @@
     <script src="~/Scripts/AdminScripts/agency.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
+            loadAllUser()
+            loadAllCommissions()
             App.init();
-            if ('@Model.AgentId' != '0') {
-                $("#Password").val('@Model.Password');
-                $("#ConfirmPassword").val('@Model.Password');
-            }
         });
+
+
+        function loadAllUser() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Users));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#Admin").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
+                }
+                var val = $("#Admin").val('@Model.Admin');
+            }
+        }
+
+
+
+        function loadAllCommissions() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Commisions));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#Percentage").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
+                }
+                var val = $("#Percentage").val('@Model.Percentage');
+                  if ('@Model.Percentage' == 0) {
+                    $('#Percentage option[value="2"]').attr("selected", true);
+                }
+            }
+        }
+
     </script>
 }
