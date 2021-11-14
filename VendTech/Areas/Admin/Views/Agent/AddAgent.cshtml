@@ -30,7 +30,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
+                                @*<div class="row">
                                     <div class=" col-md-12">
                                         <label for="inputEmail3" class="col-md-12 control-label" style="text-align:left">COMPANY</label>
                                         <div class="col-md-8">
@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div>*@
 
                                 <div class="row">
                                     <div class="col-md-12">
@@ -101,7 +101,7 @@
                 for (var i = 0; i < array.length; i++) {
                     $("#Admin").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
                 }
-                var val = $("#Admin").val('@Model.Admin');
+                var val = $("#Admin").val('@Model.Representative');
             }
         }
 

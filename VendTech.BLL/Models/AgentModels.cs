@@ -12,12 +12,14 @@ namespace VendTech.BLL.Models
     {
         public long AgencyId { get; set; }
         public string AgencyName { get; set; }
+        public string Admin { get; set; }
         public string AgentType { get; set; }
         public decimal Percentage { get; set; }
         public AgencyListingModel(Agency obj)
         {
             AgencyId = obj.AgencyId;
             AgencyName = obj.AgencyName;
+            Admin = obj?.User?.Name + " " + obj?.User?.SurName;
             //AgentType = ((AgentTypeEnum)obj.AgentType).ToString();
             Percentage = obj?.Commission?.Percentage?? 0;
         }
