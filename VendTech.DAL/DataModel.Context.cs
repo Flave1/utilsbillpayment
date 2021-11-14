@@ -13,10 +13,10 @@ namespace VendTech.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class VendTechEntities : DbContext
+    public partial class VendtechEntities : DbContext
     {
-        public VendTechEntities()
-            : base("name=VendTechEntities")
+        public VendtechEntities()
+            : base("name=VendtechEntities")
         {
         }
     
@@ -49,6 +49,7 @@ namespace VendTech.DAL
         public virtual DbSet<POS> POS { get; set; }
         public virtual DbSet<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         public virtual DbSet<ReferralCode> ReferralCodes { get; set; }
+        public virtual DbSet<StanTable> StanTables { get; set; }
         public virtual DbSet<TokensManager> TokensManagers { get; set; }
         public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
         public virtual DbSet<UserAssignedModule> UserAssignedModules { get; set; }
@@ -58,7 +59,6 @@ namespace VendTech.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
-        public virtual DbSet<StanTable> StanTables { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
     }
 }

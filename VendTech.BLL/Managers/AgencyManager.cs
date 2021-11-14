@@ -93,16 +93,9 @@ namespace VendTech.BLL.Managers
                 //    };
                 //}
             }
-            agent.REPEmail = model.Email;
-            agent.REPName = model.FirstName;
-            agent.REPLastName = model.LastName;
-            agent.Phone = model.Phone;
-            agent.CountryCode = model.CountryCode;
+
             //agent.Password = Utilities.EncryptPassword(model.Password);
-            agent.AgentType = 10;
-            agent.Company = model.Company;
-            agent.AgencyName = model.AgencyName;
-            agent.CommissionPercentage = 1;
+    
             agent.CreatedAt = DateTime.UtcNow;
             if (model.AgentId == 0)
             {
@@ -115,7 +108,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IAgencyManager.GetAgentsSelectList()
         {
-            return Context.Agencies.Where(p=>p.Status==(int)AgencyStatusEnum.Active).ToList().Select(p => new SelectListItem
+            return Context.Agencies.Where(p=>p.Status==(int)AgencyStatusEnum.Active).ToList().OrderBy(d => d.AgencyName).Select(p => new SelectListItem
             {
                 Text = p.AgencyName,
                 Value = p.AgencyId.ToString()

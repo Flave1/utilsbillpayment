@@ -399,14 +399,11 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AgentLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            var user = Context.Agencies.SingleOrDefault(p => p.Password == encryptPassword && p.REPEmail.ToLower() == model.UserName.ToLower());
+            var user = Context.Agencies.SingleOrDefault();
             if (user == null)
                 return null;
             var modelUser = new UserDetails
             {
-                FirstName = user.REPName,
-                LastName = user.REPLastName,
-                UserEmail = user.REPEmail,
                 UserID = user.AgencyId
             };
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");

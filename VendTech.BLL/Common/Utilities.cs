@@ -38,7 +38,7 @@ namespace VendTech.BLL.Common
 
         public static string GetLastMeterRechardeId()
         {
-            VendTechEntities context = new VendTechEntities();
+            VendtechEntities context = new VendtechEntities();
             var existing_details = context.TransactionDetails.ToList();
             long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
             max = max + 1;
@@ -47,7 +47,7 @@ namespace VendTech.BLL.Common
 
         public static string GetLastDepositTrabsactionId()
         {
-            VendTechEntities context = new VendTechEntities();
+            VendtechEntities context = new VendtechEntities();
             var existing_details = context.Deposits.Where(p => p.IsDeleted == false).ToList();
             long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
             max = max + 1;
@@ -57,7 +57,7 @@ namespace VendTech.BLL.Common
         private static string GenerateTransStanNo()
         {
             string transRef = "";
-            VendTechEntities context = new VendTechEntities();
+            VendtechEntities context = new VendtechEntities();
             StanTable stanTable = null;
             stanTable = context.StanTables.FirstOrDefault();
             if (stanTable == null)
@@ -79,7 +79,7 @@ namespace VendTech.BLL.Common
 
         public static int GetUserRoleIntValue(string role)
         {
-            var db = new VendTechEntities();
+            var db = new VendtechEntities();
             var record = db.UserRoles.FirstOrDefault(p => p.Role == role);
             if (record == null)
                 return 0;

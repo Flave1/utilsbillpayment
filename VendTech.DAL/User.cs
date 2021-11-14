@@ -18,6 +18,7 @@ namespace VendTech.DAL
         public User()
         {
             this.AccountVerificationOTPs = new HashSet<AccountVerificationOTP>();
+            this.Agencies = new HashSet<Agency>();
             this.ContactUs = new HashSet<ContactU>();
             this.DepositLogs = new HashSet<DepositLog>();
             this.Deposits = new HashSet<Deposit>();
@@ -72,6 +73,8 @@ namespace VendTech.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Agency> Agencies { get; set; }
         public virtual Agency Agency { get; set; }
         public virtual City City { get; set; }
         public virtual Commission Commission { get; set; }

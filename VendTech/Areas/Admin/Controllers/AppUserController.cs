@@ -65,6 +65,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.UserTypes = _userManager.GetUserRolesSelectList();
             ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
             ViewBag.Pos = _posManager.GetPOSSelectList();
             ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };
             ViewBag.SelectedTab = SelectedAdminTab.Users;
@@ -140,6 +141,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult EditUser(long userId)
         {
             ViewBag.UserTypes = _userManager.GetUserRolesSelectList();
+            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var userModel = new AddUserModel();
             ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };

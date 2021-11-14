@@ -411,7 +411,7 @@ namespace VendTech.BLL.Managers
             int second = 3;
             try
             {
-                var db = new VendTechEntities();
+                var db = new VendtechEntities();
 
                 var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
                 if (record != null)
