@@ -55,7 +55,7 @@ namespace VendTech.Areas.Admin.Controllers
         //}
 
         [HttpPost]
-        public ActionResult AddAgent(AddAgentModel model)
+        public ActionResult AddAgent(SaveAgentModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             return JsonResult(_agencyManager.AddAgent(model));
@@ -64,15 +64,9 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult AddAgent(long? id = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            var model = new AddAgentModel();
-            var commissions = _commissionManager.GetCommissions();
-            var drpCommissions = new List<SelectListItem>();
-            foreach (var item in commissions)
-            {
-                drpCommissions.Add(new SelectListItem { Text = item.Value.ToString(), Value = item.CommissionId.ToString() });
-            }
-            ViewBag.AgentTypes = Utilities.EnumToList(typeof(AgentTypeEnum));
-            ViewBag.commissions = drpCommissions;
+            var model = new SaveAgentModel();
+            ViewBag.Users = _userManager.GetAppUsersSelectList();
+            ViewBag.Commisions = _commissionManager.GetCommissionSelectList();
             if (id.HasValue && id > 0)
             {
                 model = _agencyManager.GetAgentDetail(id.Value);
