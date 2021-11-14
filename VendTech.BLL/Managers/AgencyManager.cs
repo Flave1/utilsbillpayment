@@ -20,18 +20,18 @@ namespace VendTech.BLL.Managers
         PagingResult<AgencyListingModel> IAgencyManager.GetAgenciesPagedList(PagingModel model)
         {
             var result = new PagingResult<AgencyListingModel>();
-            var query = Context.Agencies.Where(p=>p.Status==(int)AgencyStatusEnum.Active).OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy(model.SortBy + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
-                    //query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()) || z.Company.ToLower().Contains(model.Search.ToLower()) || ((AgentTypeEnum)z.AgentType).ToString().ToLower().Contains(model.Search.ToLower()) || z.Commission.Percentage.ToString().Contains(model.Search));
-                    if (model.SearchField.Equals("AGENCY"))
-                        query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                    else if (model.SearchField.Equals("COMPANY"))
-                        query = query.Where(z => z.Company.ToLower().Contains(model.Search.ToLower()));
-                    //else if (model.SearchField.Equals("AGENT"))
-                    //    query = query.Where(z => ((AgentTypeEnum)z.AgentType).ToString().ToLower().Equals(model.Search.ToLower()));
-                    //else if (model.SearchField.Equals("%"))
-                    //    query = query.Where(z=>z.Commission.Percentage.ToString().Contains(model.Search));
+                //query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()) || z.Company.ToLower().Contains(model.Search.ToLower()) || ((AgentTypeEnum)z.AgentType).ToString().ToLower().Contains(model.Search.ToLower()) || z.Commission.Percentage.ToString().Contains(model.Search));
+                if (model.SearchField.Equals("AGENCY"))
+                    query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                //else if (model.SearchField.Equals("COMPANY"))
+                //    query = query.Where(z => z.Company.ToLower().Contains(model.Search.ToLower()));
+                //else if (model.SearchField.Equals("AGENT"))
+                //    query = query.Where(z => ((AgentTypeEnum)z.AgentType).ToString().ToLower().Equals(model.Search.ToLower()));
+                //else if (model.SearchField.Equals("%"))
+                //    query = query.Where(z=>z.Commission.Percentage.ToString().Contains(model.Search));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
@@ -43,61 +43,63 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        AddAgentModel IAgencyManager.GetAgentDetail(long agentId)
+        PagingResult<AgentListingModel> IAgencyManager.GetAgentsPagedList(PagingModel model, long agency)
+        {
+            var result = new PagingResult<AgentListingModel>();
+            model.RecordsPerPage = 10000000;
+            IQueryable<POS> query = null;
+
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.Vendor.AgencyId == agency).OrderBy(model.SortBy + " " + model.SortOrder);
+            //f.age == agent && 
+
+            if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
+            {
+                if (model.SearchField.Equals("AGENCY"))
+                    query = query.Where(z => z.User.Vendor.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("COMPANY"))
+                    query = query.Where(z => z.User.CompanyName.ToLower().Contains(model.Search.ToLower()));
+            }
+            var list = query
+               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+               .ToList().Select(x => new AgentListingModel(x)).ToList();
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "User List";
+            result.TotalCount = query.Count();
+            return result;
+        }
+
+        SaveAgentModel IAgencyManager.GetAgentDetail(long agentId)
         {
             var agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == agentId);
             if (agent == null)
                 return null;
-            return new AddAgentModel()
+            return new SaveAgentModel()
             {
                 AgencyName = agent.AgencyName,
-                AgentId = agent.AgencyId,
+                AgencyId = agent.AgencyId,
                 AgentType = agent.AgentType,
-                FirstName = agent.REPName,
-                LastName = agent.REPLastName,
-                //Password = Utilities.DecryptPassword(agent.Password),
-                //ConfirmPassword = Utilities.DecryptPassword(agent.Password),
                 Percentage = agent.CommissionPercentage,
-                Phone = agent.Phone,
                 Company = agent.Company,
-                Email = agent.REPEmail
+                Admin = agent.Admin
             };
         }
-        ActionOutput IAgencyManager.AddAgent(AddAgentModel model)
+        ActionOutput IAgencyManager.AddAgent(SaveAgentModel model)
         {
             var agent = new Agency();
-            if (model.AgentId > 0)
+            if (model.AgencyId > 0)
             {
-                agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == model.AgentId);
+                agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == model.AgencyId);
                 if (agent == null)
                     return ReturnError("Agent not exist");
-                //var existngUser = Context.Agencies.Where(z => z.REPEmail.Trim().ToLower() == model.Email.Trim().ToLower() && z.AgencyId != model.AgentId).FirstOrDefault();
-                //if (existngUser != null)
-                //{
-                //    return new ActionOutput
-                //    {
-                //        Status = ActionStatus.Error,
-                //        Message = "This email-id already exists for another agent."
-                //    };
-                //}
             }
-            else
-            {
-                //var existngUser = Context.Agencies.Where(z => z.REPEmail.Trim().ToLower() == model.Email.Trim().ToLower()).FirstOrDefault();
-                //if (existngUser != null)
-                //{
-                //    return new ActionOutput
-                //    {
-                //        Status = ActionStatus.Error,
-                //        Message = "This email-id already exists for another agent."
-                //    };
-                //}
-            }
-
-            //agent.Password = Utilities.EncryptPassword(model.Password);
-    
+            agent.AgentType = 10;
+            agent.Company = model.Company;
+            agent.AgencyName = model.AgencyName;
+            agent.CommissionPercentage = model.Percentage;
             agent.CreatedAt = DateTime.UtcNow;
-            if (model.AgentId == 0)
+            agent.Admin = model.Admin;
+            if (model.AgencyId == 0)
             {
                 agent.Status = (int)AgencyStatusEnum.Active;
                 Context.Agencies.Add(agent);
@@ -108,7 +110,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IAgencyManager.GetAgentsSelectList()
         {
-            return Context.Agencies.Where(p=>p.Status==(int)AgencyStatusEnum.Active).ToList().OrderBy(d => d.AgencyName).Select(p => new SelectListItem
+            return Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).ToList().Select(p => new SelectListItem
             {
                 Text = p.AgencyName,
                 Value = p.AgencyId.ToString()
