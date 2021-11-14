@@ -19,7 +19,7 @@ namespace VendTech.BLL.Models
             AgencyId = obj.AgencyId;
             AgencyName = obj.AgencyName;
             //AgentType = ((AgentTypeEnum)obj.AgentType).ToString();
-            Percentage = obj.Commission.Percentage;
+            Percentage = obj?.Commission?.Percentage?? 0;
         }
     }
 
@@ -42,6 +42,8 @@ namespace VendTech.BLL.Models
             TodaySales = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date).Select(d => d.Amount)?.Sum() ?? 0;
             Balance = obj?.Balance ?? 0;
         }
+
+    }
         public class AddAgentModel : SaveAgentModel
         {
 
@@ -64,6 +66,7 @@ namespace VendTech.BLL.Models
             public string CountryCode { get; set; }
             public int AgentType { get; set; }
             public int Percentage { get; set; }
-        }
-    }
+        public long? Representative { get; set; }
+        public long AgencyId { get; internal set; }
+    } 
 }

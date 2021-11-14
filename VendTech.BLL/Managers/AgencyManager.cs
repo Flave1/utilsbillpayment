@@ -49,13 +49,13 @@ namespace VendTech.BLL.Managers
             model.RecordsPerPage = 10000000;
             IQueryable<POS> query = null;
 
-            query = Context.POS.Where(f => f.IsDeleted == false && f.User.Vendor.AgencyId == agency).OrderBy(model.SortBy + " " + model.SortOrder);
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy(model.SortBy + " " + model.SortOrder);
             //f.age == agent && 
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))
-                    query = query.Where(z => z.User.Vendor.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("COMPANY"))
                     query = query.Where(z => z.User.CompanyName.ToLower().Contains(model.Search.ToLower()));
             }
@@ -69,19 +69,18 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        SaveAgentModel IAgencyManager.GetAgentDetail(long agentId)
+        AddAgentModel IAgencyManager.GetAgentDetail(long agentId)
         {
             var agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == agentId);
             if (agent == null)
                 return null;
-            return new SaveAgentModel()
+            return new AddAgentModel()
             {
                 AgencyName = agent.AgencyName,
                 AgencyId = agent.AgencyId,
                 AgentType = agent.AgentType,
-                Percentage = agent.CommissionPercentage,
-                Company = agent.Company,
-                Admin = agent.Admin
+                Percentage = (int)agent.CommissionId, 
+                Representative = agent.Representative
             };
         }
         ActionOutput IAgencyManager.AddAgent(SaveAgentModel model)
@@ -93,12 +92,11 @@ namespace VendTech.BLL.Managers
                 if (agent == null)
                     return ReturnError("Agent not exist");
             }
-            agent.AgentType = 10;
-            agent.Company = model.Company;
+            agent.AgentType = 10; 
             agent.AgencyName = model.AgencyName;
-            agent.CommissionPercentage = model.Percentage;
+            agent.CommissionId = model.Percentage;
             agent.CreatedAt = DateTime.UtcNow;
-            agent.Admin = model.Admin;
+            agent.Representative = model.Representative;
             if (model.AgencyId == 0)
             {
                 agent.Status = (int)AgencyStatusEnum.Active;
