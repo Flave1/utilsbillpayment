@@ -1,0 +1,76 @@
+﻿@model PagingResult<AgentListingModel>
+@{
+    ViewBag.Title = "Manage Agents";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Agents</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    @*<div class="header noborder">
+                        <h3 > <a href="@Url.Action("AddAgent", "Agent", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+                    </div>*@
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting" data-sortby="SerialNumber">POS ID</th>
+                                            <th class="sorting" data-sortby="CreatedAt">AGENCY NAME</th>
+                                            <th class="sorting" data-sortby="CreatedAt">CELL PHONE</th>
+                                            <th class="sorting" data-sortby="CreatedAt">AGENT NAME</th> 
+                                            <th class="sorting" data-sortby="CreatedAt">ENABLED</th>
+                                            <th class="sorting" data-sortby="CreatedAt">TODAY'S SALES</th>
+                                            <th class="sorting" data-sortby="Balance">BALANCE</th>  
+                                            <th class="sorting" data-sortby="CreatedAt">ACTION</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("Partials/_agencyListing", Model)
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        @*@Html.Partial("_Paging")*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/agency.js"></script>
+
+
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["AGENCY NAME", "COMPANY"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            //initialize the javascript
+            $('#searchField option[value="AGENCY"]').attr("selected", true);
+            App.init();
+            Users.ManageUsers(totalCount);
+        });
+    </script>
+}
+
