@@ -74,14 +74,16 @@ namespace VendTech.BLL.Managers
             var agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == agentId);
             if (agent == null)
                 return null;
-            return new AddAgentModel()
-            {
+            var ag = new AddAgentModel()
+            { 
                 AgencyName = agent.AgencyName,
                 AgencyId = agent.AgencyId,
                 AgentType = agent.AgentType,
-                Percentage = (int)agent.CommissionId, 
-                Representative = agent.Representative
+                Percentage = agent?.CommissionId??0, 
+                Representative = agent?.Representative
             };
+
+            return ag;
         }
         ActionOutput IAgencyManager.AddAgent(SaveAgentModel model)
         {

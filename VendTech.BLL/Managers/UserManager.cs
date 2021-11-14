@@ -525,7 +525,7 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user == null)
                 return null;
-            return new AddUserModel
+            var us =  new AddUserModel
             {
                 Password = Utilities.DecryptPassword(user.Password),
                 ConfirmPassword = Utilities.DecryptPassword(user.Password),
@@ -538,10 +538,12 @@ namespace VendTech.BLL.Managers
                 CompanyName = user.CompanyName,
                 VendorId = user.FKVendorId,
                 Address = user.Address,
+                AgentId  = user.AgentId,
                 ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
                 //POSId=user.FKPOSId,
                 AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
             };
+            return us;
         }
         ActionOutput IUserManager.UpdateAppUserDetails(AddUserModel userDetails)
         {
@@ -573,6 +575,7 @@ namespace VendTech.BLL.Managers
                 user.Phone = userDetails.Phone;
                 user.CountryCode = userDetails.CountryCode;
                 user.Address = userDetails.Address;
+                user.AgentId = userDetails.AgentId;
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
@@ -658,7 +661,7 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IUserManager.GetAppUsersSelectList()
         {
-            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserRole.Role == UserRoles.AppUser).ToList().Select(p => new SelectListItem
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType != 2).ToList().Select(p => new SelectListItem
             {
                 Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
                 Value = p.UserId.ToString().ToUpper()

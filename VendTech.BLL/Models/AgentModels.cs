@@ -55,8 +55,7 @@ namespace VendTech.BLL.Models
 
         public class SaveAgentModel
         {
-            public string Company { get; set; }
-            public long AgentId { get; set; }
+            public string Company { get; set; } 
             [Required(ErrorMessage = "Required")]
             public string AgencyName { get; set; }
             [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
@@ -69,6 +68,6 @@ namespace VendTech.BLL.Models
             public int AgentType { get; set; }
             public int Percentage { get; set; }
         public long? Representative { get; set; }
-        public long AgencyId { get; internal set; }
+        public long AgencyId { get;  set; }
     } 
 }
