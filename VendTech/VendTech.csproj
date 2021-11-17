@@ -420,6 +420,7 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
+    <Content Include="Scripts\UserScripts\agency.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>

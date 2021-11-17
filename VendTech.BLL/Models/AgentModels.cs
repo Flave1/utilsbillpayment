@@ -34,15 +34,17 @@ namespace VendTech.BLL.Models
         public bool Enabled { get; set; }
         public decimal TodaySales { get; set; }
         public decimal Balance { get; set; }
+        public string Vendor { get; set; }
         public AgentListingModel(POS obj)
         {
             POSID = obj.SerialNumber;
             AgencyName = obj?.User?.Agency?.AgencyName;
-            CellPhone = obj.Phone;
+            CellPhone = "+232" + obj.Phone;
             AgentName = $"{obj?.User?.Name} {obj?.User?.SurName}";
             Enabled = (bool)obj.Enabled;
             TodaySales = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date).Select(d => d.Amount)?.Sum() ?? 0;
             Balance = obj?.Balance ?? 0;
+            Vendor = obj.User.Name + " " + obj.User.SurName;
         }
 
     }

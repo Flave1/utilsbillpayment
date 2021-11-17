@@ -73,7 +73,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput DeleteUser(long userId);
         ActionOutput DeclineUser(long userId);
         ActionOutput ChangeUserStatus(long userId, UserStatusEnum status);
-        ActionOutput<UserDetails> AdminLogin(LoginModal model);
+        ActionOutput<UserDetailForAdmin> AdminLogin(LoginModal model);
         ActionOutput<UserDetails> AgentLogin(LoginModal model);
         ActionOutput<UserDetails> VendorLogin(LoginModal model);
         IList<ModulesModel> GetAllModulesAtAuthentication(long userId);

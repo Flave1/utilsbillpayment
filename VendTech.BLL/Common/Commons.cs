@@ -76,12 +76,35 @@ namespace VendTech.BLL.Models
         public string AppUserMessage { get; set; }
         public string DepositReleaseMessage { get; set; }
         public bool IsCompany { get; set; }
+        public long AgencyId { get; set; }
         public UserDetails()
+        { }
+    }
+
+    public class UserDetailForAdmin
+    {
+        public long UserID { get; set; }
+        public string UserType { get; set; }
+        public String FirstName { get; set; }
+        public String UserName { get; set; }
+        public String LastName { get; set; }
+        public String UserEmail { get; set; }
+        public DateTime? LastActivityTime { get; set; }
+        public bool IsAuthenticated { get; set; }
+        public bool IsEmailVerified { get; set; }
+        public int Status { get; set; }
+
+        public string ProfilePicPath { get; set; }
+        public int RemainingAppUser { get; set; }
+        public int RemainingDepositRelease { get; set; }
+        public string AppUserMessage { get; set; }
+        public string DepositReleaseMessage { get; set; }
+        public bool IsCompany { get; set; }
+        public UserDetailForAdmin()
         { }
 
 
     }
-
     public class ExceptionModal
     {
         public Exception Exception { get; set; }

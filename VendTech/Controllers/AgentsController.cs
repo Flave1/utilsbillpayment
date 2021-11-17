@@ -31,17 +31,17 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             if(LOGGEDIN_USER.AgencyId > 0)
             {
-                var users = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), LOGGEDIN_USER.AgencyId);
+                var users = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
                 return View(users);
             }
             return View(new PagingResult<AgentListingModel>());
         }
 
         [AjaxOnly, HttpPost]
-        public JsonResult GetUsersPagingList(PagingModel model)
+        public JsonResult GetAgentsPagedList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            var modal = _agencyManager.GetAgenciesPagedList(model);
+            var modal = _agencyManager.GetAgentsPagedList(model, LOGGEDIN_USER.AgencyId);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_agencyListing", modal));
             resultString.Add(modal.TotalCount.ToString());

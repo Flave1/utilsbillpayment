@@ -71,7 +71,7 @@ namespace VendTech.Controllers
             ViewBag.WalletHistory = deposits.List;
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             if (posId == 0 && posList.Count > 0)
             {

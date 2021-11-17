@@ -24,7 +24,8 @@ namespace VendTech.BLL.Models
         public bool EmailNotificationDeposit { get; set; }
         public bool SMSNotificationDeposit { get; set; }
         public long UserId { get; set; } 
-        public int POSCount { get; set; } 
+        public int POSCount { get; set; }
+        public decimal? Percentage { get; set; } = 0;
         public POSListingModel(POS obj)
         {
             POSId = obj.POSId;
@@ -41,6 +42,7 @@ namespace VendTech.BLL.Models
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
             UserId = obj?.User?.UserId??0;
             POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true)??0;
+            Percentage = obj.Commission.Percentage;
         } 
     }
     public class PosAPiListingModel

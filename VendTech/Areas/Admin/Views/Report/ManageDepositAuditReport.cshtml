@@ -528,7 +528,7 @@ function getUrlParameter(name) {
 
                 $("#btnExport").click(function (e) {
 
-                    debugger;
+                    
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
@@ -539,7 +539,7 @@ function getUrlParameter(name) {
                         $("#frmDt").val('');
 
                     }
-                    debugger;
+                    
                     if (to) {
                         var dtVal = to.split("/");
                         $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
@@ -614,7 +614,7 @@ function getUrlParameter(name) {
             }
             $("#issuingbank").find("option[value='" + issuingbank.substr(0, issuingbank.lastIndexOf("-")) + "']").attr("selected", "selected");
 
-            debugger;
+            
             if ($("#issuingbank").val().length < 1) {
                 $("#issuingbank").val("GTB - (GUARANTEE TRUST BANK)");
             } 
@@ -661,7 +661,7 @@ function getUrlParameter(name) {
         }
 
         function Update(th) {
-            debugger
+            
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
@@ -677,7 +677,7 @@ function getUrlParameter(name) {
             var commnt = $("#modal_comment").val();
             inputParam.Comment = btoa(commnt);
 
-            debugger
+            
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }
@@ -692,7 +692,7 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    debugger;
+                    
                     if (data != null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
@@ -726,7 +726,7 @@ function getUrlParameter(name) {
                                 $(this).find("#_sts").text("Updated");
                                 $(this).find("#_sts").prop("onclick", null);
                                 $(this).find("#_sts").click(function () {
-                                    debugger
+                                    
                                     editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                         data.Payer, data.IssuingBank, data.DepositRef,
                                         data.GTBank, data.Price, 'Updated', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
@@ -758,7 +758,7 @@ function getUrlParameter(name) {
             inputParam.Comment = btoa(commnt);
            
 
-            debugger
+            
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }
@@ -773,7 +773,7 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    debugger;
+                    
                     if (data!=null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);

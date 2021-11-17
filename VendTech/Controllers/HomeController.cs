@@ -107,6 +107,7 @@ namespace VendTech.Controllers
                     ProfilePicPath = userDetails.ProfilePicUrl,
                     IsAuthenticated = true,
                     UserID = userId,
+                    AgencyId = userDetails?.AgentId??0,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = UserRoles.AppUser,
                     IsEmailVerified = userDetails.isemailverified,
@@ -166,7 +167,7 @@ namespace VendTech.Controllers
 
             DashboardViewModel dashBoard = new DashboardViewModel();
             dashBoard.currentUser = new UserModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);

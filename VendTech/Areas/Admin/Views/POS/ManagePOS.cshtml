@@ -28,7 +28,8 @@
                                     <thead>
                                         <tr>
                                             <th class="sorting" data-sortby="POSId">POS ID</th>
-                                            <th class="sorting" data-sortby="VendorId">VENDOR NAME</th>
+                                            <th class="sorting" data-sortby="VendorId">VENDOR NAME</th> 
+                                            <th class="sorting" data-sortby="COMMISSION">COMMISSION %</th>
                                             <th class="sorting" data-sortby="SerialNumber">POS SIM #</th>
                                             <th class="sorting" data-sortby="MeterCount">SAVED METERS</th>
                                             <th class="sorting" data-sortby="VendorType">POS TYPE</th>
@@ -85,10 +86,10 @@
 
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["POS ID", "VENDOR NAME", "POS SIM #", "POS TYPE", "ENABLED"];
+        var searchFields = ["POS ID", "VENDOR NAME", "POS SIM #", "POS TYPE", "ENABLED", "COMMISSION"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
-            debugger
+            
         }
 
         $(document).ready(function () {
@@ -100,7 +101,7 @@
         });
 
         function onSavedMeterClicked(userId, vendor, posid) {
-            debugger;
+            
 
             if (userId) {
                 var inputParam = new Object();
@@ -115,7 +116,7 @@
                         $("#posId").text(posid);
                         $('.modal-body').html(data);
                         $("#myModal2").modal("show");
-                        debugger
+                        
                     }
                 });
             }

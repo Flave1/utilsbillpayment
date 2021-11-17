@@ -1,6 +1,6 @@
 ﻿@model AddAgentModel
 @{
-    ViewBag.Title = Model.AgentId > 0 ? "Edit Agent Details" : "Add Agent Details";
+    ViewBag.Title = Model.AgencyId > 0 ? "Edit Agent Details" : "Add Agent Details";
     Layout = "~/Views/Shared/_LayOut.cshtml";
 }
 
@@ -18,7 +18,7 @@
                     </div>
                     <div class="content people-form-cs">
                         <form class="form-horizontal" role="form" id="UserForm">
-                            @Html.HiddenFor(x => x.AgentId)
+                            @Html.HiddenFor(x => x.AgencyId)
                             <div class="form-group">
                                 <div class="row">
                                     <div class=" col-md-12">

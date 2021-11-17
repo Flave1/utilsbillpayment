@@ -337,7 +337,7 @@ namespace VendTech.BLL.Managers
             return Context.Notifications.Where(p => p.UserId == userId && !p.MarkAsRead).Count();
         }
 
-        ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
+        ActionOutput<UserDetailForAdmin> IUserManager.AdminLogin(LoginModal model)
         { 
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
@@ -348,7 +348,7 @@ namespace VendTech.BLL.Managers
              p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
-            var modelUser = new UserDetails
+            var modelUser = new UserDetailForAdmin
             {
                 FirstName = user.Name,
                 LastName = user.SurName,
@@ -357,7 +357,7 @@ namespace VendTech.BLL.Managers
                 UserType = user.UserRole.Role,
                 ProfilePicPath = user.ProfilePic
             };
-            return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
+            return ReturnSuccess<UserDetailForAdmin>(modelUser, "User logged in successfully.");
         }
 
 

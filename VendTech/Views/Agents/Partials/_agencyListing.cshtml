@@ -8,15 +8,16 @@
     foreach (var item in Model.List)
     {
 <tr class="odd gradeX">
-    <td>@item.POSID</td>
     <td>@item.AgencyName</td>
+    <td>@item.Vendor</td>
+    <td>@item.POSID</td>
     <td> @item.CellPhone</td>
     <td> @item.AgentName</td>
+    <td style="color:green; text-align:right;"> <strong>@item.TodaySales</strong> </td>
+    <td style="color:green; text-align:right;"> <strong>@item.Balance</strong> </td>
     <td> @item.Enabled</td>
-    <td> <strong style="color:green;">@item.TodaySales</strong> </td>
-    <td> <strong style="color:green;">@item.Balance</strong> </td>
     <td>
-        <a class="btn btn-success btn-xs" href="#" data-original-title="Diable" data-toggle="tooltip">Disable</a> 
+        <a class="btn btn-success btn-xs" href="#" data-original-title="Diable" data-toggle="tooltip">Disable</a>
     </td>
 </tr>
     }

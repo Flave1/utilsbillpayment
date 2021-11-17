@@ -71,7 +71,7 @@ namespace VendTech.Controllers
 
 
 
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<DepositListingModel>();
             deposits = _depositManager.GetReportsPagedList(model);
@@ -343,7 +343,7 @@ namespace VendTech.Controllers
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<MeterRechargeApiListingModel>();
             deposits = _meterManager.GetUserMeterRechargesReport(model);

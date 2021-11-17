@@ -305,4 +305,12 @@
 @section scripts{
     <script src="~/Scripts/AdminScripts/pos.js"></script>
     <script src="~/Scripts/AdminScripts/passcode.js"></script>
+    <script>
+
+        $(document).ready(function () {
+           if ('@Model.Percentage' == '0') {
+                $('#Percentage option[value="1"]').attr("selected", true);
+            }
+        });
+    </script>
 }

@@ -14,8 +14,8 @@
             <div class="col-md-12">
                 <div class="block-flat">
                     @*<div class="header noborder">
-                        <h3 > <a href="@Url.Action("AddAgent", "Agent", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
-                    </div>*@
+                            <h3 > <a href="@Url.Action("AddAgent", "Agent", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+                        </div>*@
                     <div class="content">
                         <div class="table-responsive">
                             @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
@@ -23,14 +23,15 @@
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
-                                            <th class="sorting" data-sortby="SerialNumber">POS ID</th>
-                                            <th class="sorting" data-sortby="CreatedAt">AGENCY NAME</th>
-                                            <th class="sorting" data-sortby="CreatedAt">CELL PHONE</th>
-                                            <th class="sorting" data-sortby="CreatedAt">AGENT NAME</th> 
-                                            <th class="sorting" data-sortby="CreatedAt">ENABLED</th>
-                                            <th class="sorting" data-sortby="CreatedAt">TODAY'S SALES</th>
-                                            <th class="sorting" data-sortby="Balance">BALANCE</th>  
-                                            <th class="sorting" data-sortby="CreatedAt">ACTION</th>
+                                            <th class="sorting" data-sortby="AGENCY">AGENCY </th>
+                                            <th class="sorting" data-sortby="VENDOR">VENDOR</th>
+                                            <th class="sorting" data-sortby="POSID">POS ID</th>
+                                            <th class="sorting" data-sortby="PHONE">CELL PHONE</th>
+                                            <th class="sorting" data-sortby="AGENT">AGENT NAME</th>
+                                            <th class="sorting" data-sortby="SALES">TODAY'S SALES</th>
+                                            <th class="sorting" data-sortby="BALANCE">BALANCE</th>
+                                            <th class="sorting" data-sortby="ENABLED">ENABLED</th>
+                                            <th class="sorting">ACTION</th>
 
                                         </tr>
                                     </thead>
@@ -54,14 +55,14 @@
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
-    </script>
-    <script src="~/Scripts/AdminScripts/agency.js"></script>
+    </script> 
+    <script src="~/Scripts/UserScripts/agency.js"></script>
 
 
 
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["AGENCY NAME", "COMPANY"];
+        var searchFields = ["AGENCY", "VENDOR", "POSID", "PHONE", "AGENT", "ENABLED", "TODAY'S SALES", "BALANCE"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
@@ -69,7 +70,7 @@
             //initialize the javascript
             $('#searchField option[value="AGENCY"]').attr("selected", true);
             App.init();
-            Users.ManageUsers(totalCount);
+            Vendors.ManageUsers(totalCount);
         });
     </script>
 }

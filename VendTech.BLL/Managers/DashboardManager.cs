@@ -140,7 +140,7 @@ namespace VendTech.BLL.Managers
         }
 
 
-        public DashboardViewModel getDashboardData(long userId)
+        public DashboardViewModel getDashboardData(long userId, long agentId)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        posCount = user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
+                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(userId),
                         transactionChartData = tDatas
                     };

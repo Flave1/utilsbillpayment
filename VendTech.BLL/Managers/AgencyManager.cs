@@ -23,15 +23,8 @@ namespace VendTech.BLL.Managers
             var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy(model.SortBy + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
-                //query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()) || z.Company.ToLower().Contains(model.Search.ToLower()) || ((AgentTypeEnum)z.AgentType).ToString().ToLower().Contains(model.Search.ToLower()) || z.Commission.Percentage.ToString().Contains(model.Search));
                 if (model.SearchField.Equals("AGENCY"))
                     query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                //else if (model.SearchField.Equals("COMPANY"))
-                //    query = query.Where(z => z.Company.ToLower().Contains(model.Search.ToLower()));
-                //else if (model.SearchField.Equals("AGENT"))
-                //    query = query.Where(z => ((AgentTypeEnum)z.AgentType).ToString().ToLower().Equals(model.Search.ToLower()));
-                //else if (model.SearchField.Equals("%"))
-                //    query = query.Where(z=>z.Commission.Percentage.ToString().Contains(model.Search));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
@@ -49,15 +42,54 @@ namespace VendTech.BLL.Managers
             model.RecordsPerPage = 10000000;
             IQueryable<POS> query = null;
 
-            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy(model.SortBy + " " + model.SortOrder);
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+
+            if (model.SortBy.Equals("AGENCY"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            }
+            if (model.SortBy.Equals("VENDOR"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Name" + " " + model.SortOrder);
+            }
+            if (model.SortBy.Equals("POSID"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("SerialNumber" + " " + model.SortOrder);
+            }
+            if (model.SortBy.Equals("PHONE"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Phone" + " " + model.SortOrder);
+            }
+            if (model.SortBy.Equals("AGENT"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Name" + " " + model.SortOrder);
+            }
+            if (model.SortBy.Equals("ENABLED"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("Enabled" + " " + model.SortOrder);
+            } 
+            if (model.SortBy.Equals("BALANCE"))
+            {
+                query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("Balance" + " " + model.SortOrder);
+            }
             //f.age == agent && 
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))
                     query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("COMPANY"))
-                    query = query.Where(z => z.User.CompanyName.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("VENDOR"))
+                    query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("POSID"))
+                    query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("PHONE"))
+                    query = query.Where(z => z.User.Phone.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("AGENT"))
+                    query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("ENABLED"))
+                    query = query.Where(z => z.Enabled == Convert.ToBoolean(model.Search));
+                else if (model.SearchField.Equals("BALANCE"))
+                    query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.ToLower()));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)

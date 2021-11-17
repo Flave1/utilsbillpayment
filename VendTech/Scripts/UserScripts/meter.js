@@ -100,7 +100,7 @@ var Users = {
             $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
             return;
         }
-        debugger
+        
         var redirectToAddMeter = $("#saveMeterChk").prop("checked");
         $("#pay_Now_Btn").val('PROCESSING....');
         $("#pay_Now_Btn").prop('disabled', true);
@@ -136,7 +136,7 @@ var Users = {
     },
     RechargeMeter2: function (sender) {
 
-        debugger;
+        
         $("#pay_Now_Btn").css({ backgroundColor: '#56bb96' });
         $("#error_reponse").hide();
         $("#error_reponse").empty();
@@ -151,7 +151,7 @@ var Users = {
             $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
             return;
         }
-        debugger
+        
         var redirectToAddMeter = $("#saveMeterChk").prop("checked");
 
         $.ajax({
@@ -160,7 +160,7 @@ var Users = {
             type: "POST",
             success: function (data) {
 
-                debugger
+                
                 $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                 $("#pay_Now_Btn").val('PAY NOW');
                 $("#pay_Now_Btn").prop('disabled', false);
@@ -175,7 +175,7 @@ var Users = {
                 //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
                 if (data.Code === 200) {
 
-                    debugger;
+                    
                     console.log(data);
 
                     $("#sales_date").html(data.Data.TransactionDate);
@@ -262,7 +262,7 @@ var Users = {
             success: function (results, message) {
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () {
-                    debugger
+                    
                     window.location.href = baseUrl + '/Admin/AppUser/ManageAppUsers';
                 }, 1500);
             }
@@ -391,25 +391,25 @@ var Users = {
 
 function GetLatestRechargesAfterPurchase() {
 
-    debugger;
+    
     $.ajax({
         url: baseUrl + '/Meter/GetLatestRechargesAfterPurchase', 
         type: "POST",
         success: function (data) { 
             $('#datatable-icons').html(data); 
-            debugger
+            
         }
     });
 }
 
 
 function GetPOSBalanceAfterPurchase() {
-    debugger;
+    
     $.ajax({
         url: baseUrl + '/Meter/GetPOSBalanceAfterPurchase',
         type: "POST",
         success: function (data) {
-            debugger
+            
             $('#balanceSpan').html('SSL: ' + data);
         }
     });

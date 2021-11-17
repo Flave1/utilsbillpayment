@@ -35,6 +35,10 @@ namespace VendTech.BLL.Managers
                     query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Vendor);
                 }
             }
+            if (model.SortBy == "COMMISSION")
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("Commission.Percentage" + " " + model.SortOrder);
+            }
             else if (model.SortBy == "MeterCount")
             {
                 if (model.SortOrder == "Asc")
@@ -64,6 +68,9 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
+
+                if (model.SearchField.Equals("COMMISSION"))
+                    query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("VENDOR"))
                     query = query.Where(z => z.User.Vendor.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("CELL"))
@@ -141,19 +148,26 @@ namespace VendTech.BLL.Managers
             public string Value { get; set; }
             public int? Percentage { get; set; }
         }
-        List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
+
+        List<SelectListItem> IPOSManager.GetPOSSelectList(long userId, long agentId)
         {
-            var query = new List<POS>();
-            //var query = Context.POS.Where(p => !p.IsDeleted);
+            var query = new List<POS>(); 
             var userPos = new List<POS>();
             if (userId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
-            }
-            else
+                if (user != null)
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
+            }else
                 query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
 
+
+
+
+            if (agentId > 0)
+            {
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted).ToList();
+            }
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
                 Text = p.SerialNumber.ToUpper(),

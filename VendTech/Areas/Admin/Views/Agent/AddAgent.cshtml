@@ -88,6 +88,8 @@
     <script src="~/Scripts/AdminScripts/agency.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            
+          
             loadAllUser()
             loadAllCommissions()
             App.init();
@@ -116,7 +118,7 @@
                 }
                 var val = $("#Percentage").val('@Model.Percentage');
                   if ('@Model.Percentage' == 0) {
-                    $('#Percentage option[value="2"]').attr("selected", true);
+                    $('#Percentage option[value="1"]').attr("selected", true);
                 }
             }
         }
