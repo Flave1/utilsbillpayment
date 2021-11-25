@@ -209,7 +209,7 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
-        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReport(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
             var result = new PagingResult<MeterRechargeApiListingModel>();
@@ -230,8 +230,8 @@ namespace VendTech.BLL.Managers
                 {
                     if (user.Status == (int)UserStatusEnum.Active)
                     {
-                        posIds = Context.POS.Where(p => p.VendorId != null
-                        && p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                        //posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
+                          posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                     }
                     else
                     {
@@ -515,13 +515,29 @@ namespace VendTech.BLL.Managers
                 }
 
                 pos.Balance = pos.Balance.Value - model.Amount;
+                if(pos?.CommissionPercentage != null)
+                {
+                   var percentage = model.Amount * pos.Commission.Percentage / 100;
+                    pos.Balance = pos.Balance + percentage;
+                }
+
+                if(pos?.User?.Agency != null)
+                {
+                    var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == pos.User.Agency.Representative);
+                    if(agentPos != null)
+                    {
+                        var percentage = pos.User.Agency.Commission.Percentage * model.Amount / 100;
+                        agentPos.Balance = agentPos.Balance + percentage;
+                    } 
+                }
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
 
                 Push_notification_to_user(user, model, db_transaction_detail.TransactionDetailsId);
 
                 var receipt = Build_receipt_model_from_dbtransaction_detail(db_transaction_detail);
-                receipt.ShouldShowSmsButton = (bool)db_transaction_detail.POS.SMSNotificationDeposit;
+                receipt.ShouldShowSmsButton = (bool)db_transaction_detail.POS.WebSms;
+                receipt.ShouldShowPrintButton = (bool)db_transaction_detail.POS.WebPrint;
                 return receipt;
             }
             catch (Exception e)
@@ -912,7 +928,10 @@ namespace VendTech.BLL.Managers
             if (transaction_by_token != null)
             {
                 var receipt = Build_receipt_model_from_dbtransaction_detail(transaction_by_token);
-                receipt.ShouldShowSmsButton = (bool)transaction_by_token.POS.SMSNotificationDeposit;
+                receipt.ShouldShowSmsButton = (bool)transaction_by_token.POS.WebSms;
+                receipt.ShouldShowPrintButton = (bool)transaction_by_token.POS.WebPrint;
+                receipt.mobileShowSmsButton = (bool)transaction_by_token.POS.PosSms;
+                receipt.mobileShowPrintButton = (bool)transaction_by_token.POS.PosPrint;
                 return receipt;
             }
             return new ReceiptModel { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };

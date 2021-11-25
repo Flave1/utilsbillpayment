@@ -26,6 +26,12 @@ namespace VendTech.BLL.Models
         public long UserId { get; set; } 
         public int POSCount { get; set; }
         public decimal? Percentage { get; set; } = 0;
+        public bool WebSms { get; set; }
+        public bool PosSms { get; set; }
+        public bool PosPrint { get; set; }
+        public bool WebPrint { get; set; }
+        public bool WebBarcode { get; set; }
+        public bool PosBarcode { get; set; }
         public POSListingModel(POS obj)
         {
             POSId = obj.POSId;
@@ -43,6 +49,12 @@ namespace VendTech.BLL.Models
             UserId = obj?.User?.UserId??0;
             POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true)??0;
             Percentage = obj.Commission.Percentage;
+            WebSms = obj?.WebSms ?? false;
+            PosSms = obj?.PosSms ?? false;
+            PosPrint = obj?.PosPrint ?? false;
+            WebPrint = obj?.WebPrint ?? false;
+            WebBarcode = obj?.WebBarcode ?? false;
+            PosBarcode = obj?.PosBarcode ?? false;
         } 
     }
     public class PosAPiListingModel
@@ -86,11 +98,11 @@ namespace VendTech.BLL.Models
         public string PassCode { get; set; }
 
         public bool WebSms { get; set; }
-        public bool PosSms { get; set; } = true;
-        public bool WebPrint { get; set; } = true;
-        public bool PosPrint { get; set; } = true;
+        public bool PosSms { get; set; }
+        public bool WebPrint { get; set; }
+        public bool PosPrint { get; set; }
         public bool WebBarcode { get; set; }
-        public bool PosBarcode { get; set; } = true;
+        public bool PosBarcode { get; set; }
     }
 
     public class SavePassCodeModel

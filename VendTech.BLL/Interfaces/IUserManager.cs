@@ -76,7 +76,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<UserDetailForAdmin> AdminLogin(LoginModal model);
         ActionOutput<UserDetails> AgentLogin(LoginModal model);
         ActionOutput<UserDetails> VendorLogin(LoginModal model);
-        IList<ModulesModel> GetAllModulesAtAuthentication(long userId);
+        IList<ModulesModel> GetAllModulesAtAuthentication(long userId); 
+        decimal GetUserWalletBalance(User user, long agent = 0);
         decimal GetUserWalletBalance(long userId);
         int GetUnreadNotifications(long userId);
         List<SelectListItem> GetAssignedReportModules(long UserId, bool isAdmin);

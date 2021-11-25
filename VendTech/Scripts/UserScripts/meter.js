@@ -147,6 +147,7 @@ var Users = {
             $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
             return;
         }
+         
         if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
             $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
             return;
@@ -201,6 +202,7 @@ var Users = {
                     $("#vendtech_serial_code").html(data.Data.VTECHSerial);
                     $("#pos_id").html(data.Data.POS);
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
+                    if (data.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(data.Data.VendorId);
 
                     GetLatestRechargesAfterPurchase();

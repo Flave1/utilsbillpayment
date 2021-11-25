@@ -27,24 +27,27 @@ namespace VendTech.BLL.Models
 
     public class AgentListingModel
     {
-        public string POSID { get; set; }
+        public long POSID { get; set; }
+        public string SerialNumber { get; set; }
         public string AgencyName { get; set; }
         public string CellPhone { get; set; }
         public string AgentName { get; set; }
         public bool Enabled { get; set; }
-        public decimal TodaySales { get; set; }
-        public decimal Balance { get; set; }
+        public string TodaySales { get; set; }
+        public string Balance { get; set; }  
         public string Vendor { get; set; }
         public AgentListingModel(POS obj)
         {
-            POSID = obj.SerialNumber;
+            var sale = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date).Select(d => d.Amount)?.Sum() ?? 0;
+            POSID = obj.POSId;
+            SerialNumber = obj.SerialNumber;
             AgencyName = obj?.User?.Agency?.AgencyName;
             CellPhone = "+232" + obj.Phone;
             AgentName = $"{obj?.User?.Name} {obj?.User?.SurName}";
             Enabled = (bool)obj.Enabled;
-            TodaySales = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date).Select(d => d.Amount)?.Sum() ?? 0;
-            Balance = obj?.Balance ?? 0;
-            Vendor = obj.User.Name + " " + obj.User.SurName;
+            TodaySales = string.Format("{0:N0}", sale) ;
+            Balance = string.Format("{0:N0}", obj?.Balance ?? 0);
+            Vendor = obj?.User?.Vendor;
         }
 
     }

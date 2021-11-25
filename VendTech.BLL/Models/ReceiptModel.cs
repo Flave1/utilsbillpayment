@@ -39,6 +39,9 @@ namespace VendTech.BLL.Models
         public string EDSASerial { get; set; }
         public string VTECHSerial { get; set; }
         public bool ShouldShowSmsButton { get; set; }
+        public bool ShouldShowPrintButton { get; set; }
+        public bool mobileShowSmsButton { get; set; }
+        public bool mobileShowPrintButton { get; set; }
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
     }
 

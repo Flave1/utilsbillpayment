@@ -204,7 +204,13 @@ namespace VendTech.BLL.Managers
                     SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                     CountryCode = dbPos.CountryCode,
                     PassCode = dbPos.PassCode,
-                    Email = email
+                    Email = email,
+                    WebSms = dbPos?.WebSms ?? false,
+                    PosSms = dbPos?.PosSms ?? false,
+                    PosPrint = dbPos?.PosPrint ?? false,
+                    WebPrint = dbPos?.WebPrint ?? false,
+                    WebBarcode = dbPos?.WebBarcode ?? false,
+                    PosBarcode = dbPos?.PosBarcode ?? false,
                 };
             }
             return new SavePosModel();
@@ -234,7 +240,13 @@ namespace VendTech.BLL.Managers
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                 CountryCode = dbPos.CountryCode,
                 PassCode = dbPos.PassCode,
-                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
+                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email,
+                WebSms = dbPos?.WebSms ?? false,
+                PosSms = dbPos?.PosSms ?? false,
+                PosPrint = dbPos?.PosPrint ?? false,
+                WebPrint = dbPos?.WebPrint ?? false,
+                WebBarcode = dbPos?.WebBarcode ?? false,
+                PosBarcode = dbPos?.PosBarcode ?? false,
             };
         }
 
@@ -393,6 +405,12 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
+            dbPos.WebSms = model.WebSms;
+            dbPos.PosSms = model.PosSms;
+            dbPos.PosPrint = model.PosPrint;
+            dbPos.WebPrint = model.WebPrint;
+            dbPos.WebBarcode = model.WebBarcode;
+            dbPos.PosBarcode = model.PosBarcode;
 
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);

@@ -81,5 +81,17 @@ namespace VendTech.Controllers
 
         }
 
+        [AjaxOnly, HttpPost]
+        public JsonResult EnablePOS(int id)
+        {
+            return JsonResult(_posManager.ChangePOSStatus(id, true));
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult DisablePOS(int id)
+        {
+            return JsonResult(_posManager.ChangePOSStatus(id, false));
+        }
+
     }
 }

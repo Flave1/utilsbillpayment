@@ -23,12 +23,70 @@
         return Users.SearchUsers($(this));
     });
 
+    $("a.disablePOS").live("click", function () {
+        return disablePOS($(this));
+    });
+    $("a.enablePOS").live("click", function () {
+        return enablePOS($(this));
+    });
+
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');
         $('#searchField').val('');
         return Users.SearchUsers($(this));
     });
 });
+
+
+function enablePOS(sender) {
+    debugger
+    $.ConfirmBox("", "Are you sure to enable this POS?", null, true, "Yes", true, null, function () {
+        $.ajaxExt({
+            url: baseUrl + '/POS/EnablePOS',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            button: $(sender),
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: { id: $(sender).attr("data-id") },
+            success: function (results, message) {
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+    });
+}
+
+
+
+function disablePOS(sender) {
+    debugger
+    $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
+        $.ajaxExt({
+            url: baseUrl + '/POS/DisablePOS',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            button: $(sender),
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: { id: $(sender).attr("data-id") },
+            success: function (results, message) {
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+    });
+}
+
+
 
 var Vendors = {
     SortUsers: function (sender) {

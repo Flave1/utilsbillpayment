@@ -99,6 +99,16 @@ namespace VendTech.Controllers
         { 
             model.UserId = LOGGEDIN_USER.UserID;
 
+            if (model.ContinueDepoit == 0)
+            {
+                var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
+                if (pendingDeposits > 0)
+                {
+                    return JsonResult(new ActionOutput { Message = string.Format("{0:N0}", pendingDeposits), Status = ActionStatus.Successfull });
+                }
+            }
+
+
             var result = _depositManager.SaveDepositRequest(model);
 
             var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();

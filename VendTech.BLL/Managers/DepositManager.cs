@@ -176,7 +176,7 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        PagingResult<DepositListingModel> IDepositManager.GetReportsPagedList(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<DepositListingModel> IDepositManager.GetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
             IQueryable<DepositLog> query = null;
@@ -207,7 +207,7 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) && p.Enabled == true).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
@@ -1455,6 +1455,16 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
         }
 
+        decimal IDepositManager.ReturnPendingDepositsTotalAmount(DepositModel model)
+        {
+            var deposits = Context.Deposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Pending && d.POSId == model.PosId).Select(d => d.Amount);
+            if (deposits.Any())
+            {
+                return deposits.Sum();
+            }
+            return 0;
+        }
+
         ActionOutput<Deposit> IDepositManager.SaveDepositRequest(DepositModel model)
         {
             //if (model.Amount < Utilities.MinimumDepositAmount || model.Amount > Utilities.MaximumDepositAmount)
@@ -1489,7 +1499,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges();
-            return ReturnSuccess<Deposit>(dbDeposit, "Deposit request saved successfully.");
+            return ReturnSuccess<Deposit>(dbDeposit, "Deposit request saved successfully.");//PLEASE DO NOT CHANGE STRING VALUE
         }
 
         DepositAuditModel IDepositManager.UpdateDepositAuditRequest(DepositAuditModel depositAuditModel)

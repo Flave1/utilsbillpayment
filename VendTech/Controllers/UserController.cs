@@ -70,7 +70,7 @@ namespace VendTech.Controllers
                 var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
                 model.Image = (HttpPostedFile)constructorInfo
                            .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
-            }
+            } 
             return JsonResult(_userManager.UpdateUserProfile(LOGGEDIN_USER.UserID, model));
         }
     }

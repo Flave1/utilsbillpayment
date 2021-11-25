@@ -92,7 +92,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 10;
             var modal = new PagingResult<DepositListingModel>();
 
-            modal = _depositManager.GetReportsPagedList(model);
+            modal = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_depositListing", modal));
             //resultString.Add(modal.TotalCount.ToString());
@@ -361,7 +361,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<MeterRechargeApiListingModel>();
 
-            modal = _meterManager.GetUserMeterRechargesReport(model);
+            modal = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
 
 
             //List<string> resultString = new List<string>();

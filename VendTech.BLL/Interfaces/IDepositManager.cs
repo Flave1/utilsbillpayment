@@ -26,7 +26,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
-        PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
+        PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         PagingResult<DepositAuditModel> GetAuditReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
         DepositAuditModel SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
@@ -41,6 +41,7 @@ namespace VendTech.BLL.Interfaces
         void UpdateNextReminderDate(Deposit deposit);
         DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
         List<Deposit> GetListOfDeposits(List<long> depositIds);
+        decimal ReturnPendingDepositsTotalAmount(DepositModel model);
     }
 
 }

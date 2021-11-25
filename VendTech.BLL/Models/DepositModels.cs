@@ -206,6 +206,7 @@ namespace VendTech.BLL.Models
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
         public string ValueDate { get; set; }
+        public long ContinueDepoit { get; set; } = 0;
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
     }

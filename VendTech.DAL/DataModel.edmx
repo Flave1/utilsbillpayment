@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -295,6 +295,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsPassCode" Type="bit" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="250" />
           <Property Name="PassCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="WebSms" Type="bit" />
+          <Property Name="PosSms" Type="bit" />
+          <Property Name="PosPrint" Type="bit" />
+          <Property Name="WebPrint" Type="bit" />
+          <Property Name="WebBarcode" Type="bit" />
+          <Property Name="PosBarcode" Type="bit" />
         </EntityType>
         <EntityType Name="POSAssignedPlatforms">
           <Key>
@@ -1135,8 +1141,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1452,6 +1457,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
+          <Property Name="WebSms" Type="Boolean" />
+          <Property Name="PosSms" Type="Boolean" />
+          <Property Name="PosPrint" Type="Boolean" />
+          <Property Name="WebPrint" Type="Boolean" />
+          <Property Name="WebBarcode" Type="Boolean" />
+          <Property Name="PosBarcode" Type="Boolean" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -2621,6 +2632,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VendtechModel.POS">
               <MappingFragment StoreEntitySet="POS">
+                <ScalarProperty Name="PosBarcode" ColumnName="PosBarcode" />
+                <ScalarProperty Name="WebBarcode" ColumnName="WebBarcode" />
+                <ScalarProperty Name="WebPrint" ColumnName="WebPrint" />
+                <ScalarProperty Name="PosPrint" ColumnName="PosPrint" />
+                <ScalarProperty Name="PosSms" ColumnName="PosSms" />
+                <ScalarProperty Name="WebSms" ColumnName="WebSms" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />

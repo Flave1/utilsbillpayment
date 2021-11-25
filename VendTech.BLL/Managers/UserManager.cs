@@ -760,7 +760,7 @@ namespace VendTech.BLL.Managers
                 dbUser.UserType = userDetails.UserType;
                 dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
                 dbUser.Phone = userDetails.Phone;
-                dbUser.CountryCode = userDetails.CountryCode;
+                dbUser.CountryCode = userDetails.CountryCode; 
                 if (userDetails.Image != null)
                 {
                     var ext = Path.GetExtension(userDetails.Image.FileName); //getting the extension(ex-.jpg)  
@@ -1057,6 +1057,38 @@ namespace VendTech.BLL.Managers
                 var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
                 if (user == null)
                     return 0;
+                if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
+                {
+                    var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else if (user.UserRole.Role != UserRoles.AppUser)
+                {
+                    var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception)
+            {
+                return new decimal();
+            }
+        }
+
+        decimal IUserManager.GetUserWalletBalance(User user, long agentId)
+        {
+            try
+            { 
+                if (user == null)
+                    return 0;
+                if(agentId > 0)
+                {
+                    var posTotalBalance = Context.POS.Where(p => p.User.AgentId == agentId && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
                 if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
                 {
                     var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);

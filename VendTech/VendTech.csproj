@@ -403,7 +403,6 @@
     <Content Include="Areas\Admin\Views\AppUser\Partials\_platformsListing.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\AddUser.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_platformsListing.cshtml" />
-    <Content Include="Areas\Admin\Views\Deposit\ManageDeposits - Copy.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html2canvas.min.js" />

@@ -84,6 +84,7 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             return JsonResult(_agencyManager.DeleteAgency(agentId));
         }
+
         #endregion
     }
 }
