@@ -1455,6 +1455,15 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
         }
 
+        decimal IDepositManager.ReturnPendingDepositsTotalAmount(DepositModel model)
+        {
+            var deposits = Context.Deposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Pending && d.POSId == model.PosId).Select(d => d.Amount);
+            if (deposits.Any())
+            {
+                return deposits.Sum();
+            }
+            return 0;
+        }
         ActionOutput<Deposit> IDepositManager.SaveDepositRequest(DepositModel model)
         {
             //if (model.Amount < Utilities.MinimumDepositAmount || model.Amount > Utilities.MaximumDepositAmount)

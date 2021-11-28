@@ -41,6 +41,7 @@ namespace VendTech.BLL.Interfaces
         void UpdateNextReminderDate(Deposit deposit);
         DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
         List<Deposit> GetListOfDeposits(List<long> depositIds);
+        decimal ReturnPendingDepositsTotalAmount(DepositModel model);
     }
 
 }
