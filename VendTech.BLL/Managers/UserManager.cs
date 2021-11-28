@@ -661,7 +661,16 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IUserManager.GetAppUsersSelectList()
         {
-            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType != 2).ToList().Select(p => new SelectListItem
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType != 2).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
+            {
+                Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
+                Value = p.UserId.ToString().ToUpper()
+            }).ToList();
+        }
+
+        List<SelectListItem> IUserManager.GetAgentSelectList()
+        {
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType == 2 || p.UserType == 9).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
             {
                 Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
                 Value = p.UserId.ToString().ToUpper()

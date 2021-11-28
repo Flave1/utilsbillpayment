@@ -65,7 +65,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             var model = new SaveAgentModel();
-            ViewBag.Users = _userManager.GetAppUsersSelectList();
+            ViewBag.Users = _userManager.GetAgentSelectList();
             ViewBag.Commisions = _commissionManager.GetCommissionSelectList();
             if (id.HasValue && id > 0)
             {

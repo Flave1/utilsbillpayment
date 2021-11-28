@@ -515,21 +515,7 @@ namespace VendTech.BLL.Managers
                 }
 
                 pos.Balance = pos.Balance.Value - model.Amount;
-                if(pos?.CommissionPercentage != null)
-                {
-                   var percentage = model.Amount * pos.Commission.Percentage / 100;
-                    pos.Balance = pos.Balance + percentage;
-                }
-
-                if(pos?.User?.Agency != null)
-                {
-                    var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == pos.User.Agency.Representative);
-                    if(agentPos != null)
-                    {
-                        var percentage = pos.User.Agency.Commission.Percentage * model.Amount / 100;
-                        agentPos.Balance = agentPos.Balance + percentage;
-                    } 
-                }
+                
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
 

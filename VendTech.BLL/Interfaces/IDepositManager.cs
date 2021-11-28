@@ -30,7 +30,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositAuditModel> GetAuditReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
         DepositAuditModel SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
-        PagingResult<DepositListingModel> GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin = false);
+        PagingResult<DepositListingModel> GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);
@@ -42,6 +42,7 @@ namespace VendTech.BLL.Interfaces
         DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
         List<Deposit> GetListOfDeposits(List<long> depositIds);
         decimal ReturnPendingDepositsTotalAmount(DepositModel model);
+        void TakeCommision(long posId, decimal amt);
     }
 
 }

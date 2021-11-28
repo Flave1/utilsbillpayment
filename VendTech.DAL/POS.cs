@@ -46,6 +46,7 @@ namespace VendTech.DAL
         public Nullable<bool> WebPrint { get; set; }
         public Nullable<bool> WebBarcode { get; set; }
         public Nullable<bool> PosBarcode { get; set; }
+        public bool IsAdmin { get; set; }
     
         public virtual Commission Commission { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

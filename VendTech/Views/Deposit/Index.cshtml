@@ -405,7 +405,8 @@
 
         function reDeposit(sender, ContinueDepoit, amt) { 
             $("#ContinueDepoit").val(ContinueDepoit);
-            $.ConfirmBox("PENDING DEPOSIT ALERT", "YOU HAVE DEPOSITS WAITING APPROVAL! \n SLL: " + amt + "\n DO YOU WANT TO PROCEED", null, true, "Yes", true, null, function () {
+            $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n THIS WILL ADD TO YOUR DEPOSIT AMOUNT \n\n DO YOU WANT TO PROCEED?", null, true, "Yes", true, null, function () {
+
                 $.ajaxExt({
                     url: baseUrl + '/Deposit/AddDeposit',
                     type: 'POST',
@@ -430,6 +431,7 @@
                     }
                 });
             });
+            $(".sweet-alert h2").css("color", "red");
             $("#btnAdd").val('ADD BALANCE');
             $("#btnAdd").prop('disabled', false);
         }

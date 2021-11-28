@@ -67,7 +67,7 @@ namespace VendTech.Controllers
             };
 
             var deposits = new PagingResult<DepositListingModel>();
-            deposits = _depositManager.GetReportsPagedHistoryList(history_model);
+            deposits = _depositManager.GetReportsPagedHistoryList(history_model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.WalletHistory = deposits.List;
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");

@@ -281,7 +281,7 @@ namespace VendTech.BLL.Managers
             //    Text = p.Vendor,
             //    Value = p.UserId.ToString()
             //}).ToList();
-            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
+            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
             {
                 Text = x.SerialNumber.ToUpper(),
                 Value = x.POSId.ToString()

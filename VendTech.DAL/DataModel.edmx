@@ -301,6 +301,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="WebPrint" Type="bit" />
           <Property Name="WebBarcode" Type="bit" />
           <Property Name="PosBarcode" Type="bit" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="POSAssignedPlatforms">
           <Key>
@@ -1463,6 +1464,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="WebPrint" Type="Boolean" />
           <Property Name="WebBarcode" Type="Boolean" />
           <Property Name="PosBarcode" Type="Boolean" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -2632,6 +2634,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VendtechModel.POS">
               <MappingFragment StoreEntitySet="POS">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="PosBarcode" ColumnName="PosBarcode" />
                 <ScalarProperty Name="WebBarcode" ColumnName="WebBarcode" />
                 <ScalarProperty Name="WebPrint" ColumnName="WebPrint" />

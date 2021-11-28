@@ -157,16 +157,16 @@ namespace VendTech.BLL.Managers
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
                 if (user != null)
-                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted) && !p.IsAdmin).ToList();
             }else
-                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList();
 
 
 
 
             if (agentId > 0)
             {
-                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted).ToList();
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin).ToList();
             }
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {

@@ -791,7 +791,7 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        PagingResult<DepositListingModel> IDepositManager.GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<DepositListingModel> IDepositManager.GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             var result = new PagingResult<DepositListingModel>();
 
@@ -814,7 +814,7 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
@@ -1465,6 +1465,26 @@ namespace VendTech.BLL.Managers
             return 0;
         }
 
+        void IDepositManager.TakeCommision(long posId, decimal amt)
+        {
+            var pos = Context.POS.FirstOrDefault(d => d.POSId == posId);
+            if (pos?.CommissionPercentage != null)
+            {
+                var percentage = amt * pos.Commission.Percentage / 100;
+                pos.Balance = pos.Balance + percentage;
+            }
+
+            if (pos?.User?.Agency != null)
+            {
+                var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == pos.User.Agency.Representative);
+                if (agentPos != null)
+                {
+                    var percentage = pos.User.Agency.Commission.Percentage * amt / 100;
+                    agentPos.Balance  = agentPos.Balance == null ? percentage: agentPos.Balance + percentage;
+                }
+            }
+        }
+
         ActionOutput<Deposit> IDepositManager.SaveDepositRequest(DepositModel model)
         {
             //if (model.Amount < Utilities.MinimumDepositAmount || model.Amount > Utilities.MaximumDepositAmount)
@@ -1480,6 +1500,9 @@ namespace VendTech.BLL.Managers
                 if (userAssignedPos != null)
                     model.PosId = userAssignedPos.POSId;
             }
+
+            (this as IDepositManager).TakeCommision(model.PosId, model.Amount);
+
             var dbDeposit = new Deposit();
             dbDeposit.Amount = model.Amount;
             dbDeposit.UserId = model.UserId;

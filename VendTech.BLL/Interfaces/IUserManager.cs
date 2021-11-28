@@ -89,7 +89,8 @@ namespace VendTech.BLL.Interfaces
         IEnumerable<UserLiteDto> GetVendorNames_API();
         UserLiteDto GetVendorNamePOSNumber(int posId);
         List<User> GetAllAdminUsersByDepositRelease();
-        User GetUserIdByEmail(string email); 
+        User GetUserIdByEmail(string email);
+        List<SelectListItem> GetAgentSelectList();
     }
 
 }
