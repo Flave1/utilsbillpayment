@@ -505,9 +505,11 @@ namespace VendTech.BLL.Managers
                 long meterId = 0;
                 if (model.SaveAsNewMeter)
                 {
-                     newMeter = StackNewMeterToDbObject(model);
-                     meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
-                     db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
+                    newMeter = StackNewMeterToDbObject(model);
+                    newMeter.IsSaved = true;
+                    meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
+                    db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
+
                 }
                 else
                 {
