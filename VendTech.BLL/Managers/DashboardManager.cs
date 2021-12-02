@@ -153,7 +153,7 @@ namespace VendTech.BLL.Managers
                 var total_deposits = new decimal();
                 var total_sales = new decimal();
 
-                var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId).Select(e => e.POSId).ToList() : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
+                var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId && !p.IsAdmin).Select(e => e.POSId).ToList() : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin).Select(e => e.POSId).ToList();
 
                 total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.IsDeleted == false && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
                 total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
@@ -173,7 +173,7 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
+                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId && !p.IsAdmin).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
@@ -200,7 +200,7 @@ namespace VendTech.BLL.Managers
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
                         userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor && u.Status == (int)UserStatusEnum.Active).Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true).Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.IsAdmin).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
@@ -212,7 +212,7 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
+                        posCount = user.POS.Where(p => !p.IsDeleted && !p.IsAdmin).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };

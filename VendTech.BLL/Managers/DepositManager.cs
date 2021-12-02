@@ -1230,8 +1230,12 @@ namespace VendTech.BLL.Managers
             Context.DepositLogs.Add(dbDepositLog);
             dbDeposit.Status = (int)status;
             dbDeposit.IsDeleted = true;
+             
+
             if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
             {
+                (this as IDepositManager).TakeCommision(dbDeposit.POSId, dbDeposit.Amount);
+
                 dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
                 dbDeposit.IsDeleted = false;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
@@ -1499,9 +1503,7 @@ namespace VendTech.BLL.Managers
                     userAssignedPos = user.User1.POS.FirstOrDefault();
                 if (userAssignedPos != null)
                     model.PosId = userAssignedPos.POSId;
-            }
-
-            (this as IDepositManager).TakeCommision(model.PosId, model.Amount);
+            } 
 
             var dbDeposit = new Deposit();
             dbDeposit.Amount = model.Amount;

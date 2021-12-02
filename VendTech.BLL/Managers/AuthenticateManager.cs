@@ -515,7 +515,7 @@ namespace VendTech.BLL.Managers
             newUser.Email = model.Email.Trim().ToLower();
             newUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
             newUser.CreatedAt = DateTime.UtcNow;
-            newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+            newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
             newUser.IsEmailVerified = false;
             newUser.Address = model.Address;
             newUser.UserName = model.UserName;

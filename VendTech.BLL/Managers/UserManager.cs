@@ -839,7 +839,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
                 dbUser.IsEmailVerified = false;
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;

@@ -422,7 +422,7 @@ function getUrlParameter(name) {
             $("#fromSpan").text($("#FromDate").val())
 
             $("#toSpan").text($("#ToDate").val())
-
+            $("#printedDate").text($("#ToDate").val())
 
     if (@Html.Raw(Json.Encode(Model.List)) == null) {
         swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
