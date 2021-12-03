@@ -28,19 +28,23 @@
                     <div class="content people-form-cs">
                         <form class="form-horizontal" role="form" id="UserForm">
                             <div class="row" style="margin:10px;">
-                                @Html.HiddenFor(x => x.VendorId)
+                              @*  @Html.HiddenFor(x => x.VendorId)*@
+                                <div class="row">
+                                    <div class="col-md-6" >
+                                        <label for="inputEmail3" style="width: 100%;">SELECT USER ACCOUNT</label>
+                                        @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Users, "value", "text"), null, new { @class = "form-control field1" })
+                                        @Html.ValidationMessageFor(x => x.VendorId)
+                                    </div>
+                                </div>
 
                                 <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3">VENDOR NAME <em>* </em></label>
+                                    <div class="col-md-6"> 
+                                            <label for="inputEmail3" style="width:100%;">VENDOR NAME <em>* </em></label>
                                             @Html.TextBoxFor(x => x.Vendor, new { @class = "form-control  field1" })
-                                            @Html.ValidationMessageFor(x => x.Vendor)
-                                        </div> 
-                                    </div> 
-
+                                            @Html.ValidationMessageFor(x => x.Vendor) 
+                                    </div>
                                 </div>
-                                 
+
                                 <div class="row">
 
                                     <div class="col-md-8" style="text-align:right;">
@@ -72,8 +76,8 @@
             }
            
             $("#Country").change(onCountryChange);  
-            loadAllCountries();
-            loadAllCities();
+            //loadAllCountries();
+            //loadAllCities();
              
 
             $("input[type=button]#saveProfileBtn").live("click", function () {

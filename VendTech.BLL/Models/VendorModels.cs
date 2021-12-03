@@ -35,30 +35,23 @@ namespace VendTech.BLL.Models
     }
 
  public class SaveVendorModel
- {
-        [Required(ErrorMessage = "Required")]
-        public string Name { get; set; }
-        [Required(ErrorMessage = "Required")]
-        public string SurName { get; set; }
-        [Required(ErrorMessage = "Required")]
+ { 
+        public string Name { get; set; } 
+        public string SurName { get; set; } 
         public string Vendor { get; set; }
 
         public string Address { get; set; }
-
-        public string Email { get; set; }
-        [Required(ErrorMessage = "Required")]
+        public long UserId { get; set; }
+        public string Email { get; set; } 
         [MaxLength(10)]
         public string Phone { get; set; }
         public string CountryCode { get; set; }
         public long AgencyId { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public long VendorId { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Password should be minimum of 6 and maximum of 20 characters.")]
+        public long VendorId { get; set; } 
         public string Password { get; set; }
-        public decimal AgentPercentage { get; set; }
-        [Compare("Password", ErrorMessage = "Password and Confirm Password does not match")]
+        public decimal AgentPercentage { get; set; } 
         public string ConfirmPassword { get; set; }
         public int? VendorType { get; set; }
         public int? Percentage { get; set; }
