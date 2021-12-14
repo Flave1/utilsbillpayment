@@ -232,6 +232,7 @@ namespace VendTech.BLL.Models
         public long ContinueDepoit { get; set; } = 0;
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
+        public int ContinueDepoit { get; set; }
     }
     public class ReleaseDepositModel
     {
