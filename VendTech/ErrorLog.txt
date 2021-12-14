@@ -8391,3 +8391,32 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\ChequeBanks\ManageChequeBanks.cshtml(41): error CS1061: 'VendTech.BLL.Models.ChequeBankModel' does not contain a definition for 'AccountName' and no extension method 'AccountName' accepting a first argument of type 'VendTech.BLL.Models.ChequeBankModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+The view 'EditChequeBanks' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/ChequeBanks/EditChequeBanks.aspx
+~/Areas/Admin/Views/ChequeBanks/EditChequeBanks.ascx
+~/Areas/Admin/Views/Shared/EditChequeBanks.aspx
+~/Areas/Admin/Views/Shared/EditChequeBanks.ascx
+~/Views/ChequeBanks/EditChequeBanks.aspx
+~/Views/ChequeBanks/EditChequeBanks.ascx
+~/Views/Shared/EditChequeBanks.aspx
+~/Views/Shared/EditChequeBanks.ascx
+~/Areas/Admin/Views/ChequeBanks/EditChequeBanks.cshtml
+~/Areas/Admin/Views/ChequeBanks/EditChequeBanks.vbhtml
+~/Areas/Admin/Views/Shared/EditChequeBanks.cshtml
+~/Areas/Admin/Views/Shared/EditChequeBanks.vbhtml
+~/Views/ChequeBanks/EditChequeBanks.cshtml
+~/Views/ChequeBanks/EditChequeBanks.vbhtml
+~/Views/Shared/EditChequeBanks.cshtml
+~/Views/Shared/EditChequeBanks.vbhtml
+
+
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditChequeBanks(Int64)' in 'VendTech.Areas.Admin.Controllers.ChequeBanksController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+

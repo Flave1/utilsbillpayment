@@ -86,7 +86,7 @@
                                     <li><a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><span>Manage Products</span></a></li>
                                 }
 
-                                @if (user.UserType != UserRoles.AppUser  && assignerModules.Where(X => X.ControllerName == "13").ToList().Count() > 0)
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "13").ToList().Count() > 0)
                                 {
                                     <li><a href="@Url.Action("ManageCommissions", "Commission", new { area = "Admin" })"><span>Manage Commission</span></a></li>
                                 }
@@ -94,15 +94,21 @@
                                 {
                                     <li><a href="@Url.Action("ManageBankAccounts", "BankAccount", new { area = "Admin" })"><span>Manage Bank Accounts</span></a></li>
                                 }
-                                @if (user.UserType != UserRoles.AppUser  && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li> 
+                                    <li><a href="@Url.Action("ManageChequeBanks", "ChequeBanks", new { area = "Admin" })"><span>Manage Payee Banks</span></a></li>
+                                }
+
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
+                                {
+                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
+
                                 }
                                 @if (user.UserType != UserRoles.AppUser)
                                 {
                                     <li>
-                                        <li><a href="javascript:void(0)" onclick="showTimeSetModal()">Timeout Settings</a></li>
-                                        </li>
+                                    <li><a href="javascript:void(0)" onclick="showTimeSetModal()">Timeout Settings</a></li>
+</li>
                                         <li>
                                         <li><a href="@Url.Action("CMSManager", "cms", new { area = "Admin" })">CMS Manager</a></li>
                                         </li>

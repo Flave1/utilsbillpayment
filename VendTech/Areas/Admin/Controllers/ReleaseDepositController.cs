@@ -39,7 +39,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
-            var deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, status);
+            var deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, status);
             return View(deposits);
         }
 
@@ -93,7 +93,7 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             }
-            if (model.ReleaseDepositIds.Any())
+            if (model.ReleaseDepositIds != null && model.ReleaseDepositIds.Any())
             {
                 SendEmailOnDeposit(model.ReleaseDepositIds);
                 SendSmsOnDeposit(model.ReleaseDepositIds);

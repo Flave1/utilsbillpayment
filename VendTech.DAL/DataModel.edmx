@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -260,6 +260,31 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="RowId" Type="bigint" />
           <Property Name="MarkAsRead" Type="bit" Nullable="false" />
           <Property Name="SentOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PendingDeposits">
+          <Key>
+            <PropertyRef Name="PendingDepositId" />
+          </Key>
+          <Property Name="PendingDepositId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="POSId" Type="bigint" Nullable="false" />
+          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaymentType" Type="int" Nullable="false" />
+          <Property Name="CheckNumberOrSlipId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PercentageAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ChequeBankName" Type="nvarchar(max)" />
+          <Property Name="NameOnCheque" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="PendingBankAccountId" Type="int" Nullable="false" />
+          <Property Name="NewBalance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="isAudit" Type="bit" Nullable="false" />
+          <Property Name="ValueDate" Type="varchar" MaxLength="200" />
+          <Property Name="NextReminderDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -670,6 +695,30 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PendingDeposits_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_POS_Commissions">
           <End Role="Commissions" Type="Self.Commissions" Multiplicity="0..1" />
           <End Role="POS" Type="Self.POS" Multiplicity="*" />
@@ -967,6 +1016,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Meters" EntityType="Self.Meters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
@@ -1048,6 +1098,14 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_POS" Association="Self.FK_PendingDeposits_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_Users" Association="Self.FK_PendingDeposits_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
           </AssociationSet>
           <AssociationSet Name="FK_POS_Commissions" Association="Self.FK_POS_Commissions">
             <End Role="Commissions" EntitySet="Commissions" />
@@ -1142,7 +1200,8 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1416,6 +1475,33 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="SentOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_Notifications_Users" FromRole="Notifications" ToRole="Users" />
         </EntityType>
+        <EntityType Name="PendingDeposit">
+          <Key>
+            <PropertyRef Name="PendingDepositId" />
+          </Key>
+          <Property Name="PendingDepositId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="POSId" Type="Int64" Nullable="false" />
+          <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentType" Type="Int32" Nullable="false" />
+          <Property Name="CheckNumberOrSlipId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PercentageAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ChequeBankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameOnCheque" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="PendingBankAccountId" Type="Int32" Nullable="false" />
+          <Property Name="NewBalance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isAudit" Type="Boolean" Nullable="false" />
+          <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="POS" Relationship="Self.FK_PendingDeposits_POS" FromRole="PendingDeposits" ToRole="POS" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PendingDeposits_Users" FromRole="PendingDeposits" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Platform">
           <Key>
             <PropertyRef Name="PlatformId" />
@@ -1453,11 +1539,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsPassCode" Type="Boolean" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="PassCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Commission" Relationship="Self.FK_POS_Commissions" FromRole="POS" ToRole="Commissions" />
-          <NavigationProperty Name="Deposits" Relationship="Self.FK_Deposits_POS" FromRole="POS" ToRole="Deposits" />
-          <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
-          <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
-          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
           <Property Name="WebSms" Type="Boolean" />
           <Property Name="PosSms" Type="Boolean" />
           <Property Name="PosPrint" Type="Boolean" />
@@ -1465,6 +1546,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="WebBarcode" Type="Boolean" />
           <Property Name="PosBarcode" Type="Boolean" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Commission" Relationship="Self.FK_POS_Commissions" FromRole="POS" ToRole="Commissions" />
+          <NavigationProperty Name="Deposits" Relationship="Self.FK_Deposits_POS" FromRole="POS" ToRole="Deposits" />
+          <NavigationProperty Name="PendingDeposits" Relationship="Self.FK_PendingDeposits_POS" FromRole="POS" ToRole="PendingDeposits" />
+          <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
+          <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
+          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -1654,6 +1741,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="ForgotPasswordRequests" Relationship="Self.FK_ForgotPasswordRequests_Users" FromRole="Users" ToRole="ForgotPasswordRequests" />
           <NavigationProperty Name="Meters" Relationship="Self.FK_Meters_Users" FromRole="Users" ToRole="Meters" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_Users" FromRole="Users" ToRole="Notifications" />
+          <NavigationProperty Name="PendingDeposits" Relationship="Self.FK_PendingDeposits_Users" FromRole="Users" ToRole="PendingDeposits" />
           <NavigationProperty Name="POS" Relationship="Self.FK_POS_Vendors" FromRole="Users" ToRole="POS" />
           <NavigationProperty Name="ReferralCodes" Relationship="Self.FK_ReferralCodes_Users" FromRole="Users" ToRole="ReferralCodes" />
           <NavigationProperty Name="TokensManagers" Relationship="Self.FK_TokensManager_Users" FromRole="Users" ToRole="TokensManager" />
@@ -1981,6 +2069,30 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PendingDeposits_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_POSAssignedPlatforms_Platform">
           <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
           <End Role="POSAssignedPlatforms" Type="Self.POSAssignedPlatform" Multiplicity="*" />
@@ -2182,6 +2294,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Meters" EntityType="Self.Meter" />
           <EntitySet Name="Modules" EntityType="Self.Module" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposit" />
           <EntitySet Name="Platforms" EntityType="Self.Platform" />
           <EntitySet Name="POS" EntityType="Self.POS" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatform" />
@@ -2288,6 +2401,14 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_POS" Association="Self.FK_PendingDeposits_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_Users" Association="Self.FK_PendingDeposits_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
           </AssociationSet>
           <AssociationSet Name="FK_POSAssignedPlatforms_Platform" Association="Self.FK_POSAssignedPlatforms_Platform">
             <End Role="Platform" EntitySet="Platforms" />
@@ -2618,6 +2739,32 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PendingDeposits">
+            <EntityTypeMapping TypeName="VendtechModel.PendingDeposit">
+              <MappingFragment StoreEntitySet="PendingDeposits">
+                <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="POSId" ColumnName="POSId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="CheckNumberOrSlipId" ColumnName="CheckNumberOrSlipId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ChequeBankName" ColumnName="ChequeBankName" />
+                <ScalarProperty Name="NameOnCheque" ColumnName="NameOnCheque" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="PendingBankAccountId" ColumnName="PendingBankAccountId" />
+                <ScalarProperty Name="NewBalance" ColumnName="NewBalance" />
+                <ScalarProperty Name="isAudit" ColumnName="isAudit" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+                <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
             <EntityTypeMapping TypeName="VendtechModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
@@ -2634,13 +2781,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VendtechModel.POS">
               <MappingFragment StoreEntitySet="POS">
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="PosBarcode" ColumnName="PosBarcode" />
-                <ScalarProperty Name="WebBarcode" ColumnName="WebBarcode" />
-                <ScalarProperty Name="WebPrint" ColumnName="WebPrint" />
-                <ScalarProperty Name="PosPrint" ColumnName="PosPrint" />
-                <ScalarProperty Name="PosSms" ColumnName="PosSms" />
-                <ScalarProperty Name="WebSms" ColumnName="WebSms" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
@@ -2659,6 +2799,13 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="IsPassCode" ColumnName="IsPassCode" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PassCode" ColumnName="PassCode" />
+                <ScalarProperty Name="WebSms" ColumnName="WebSms" />
+                <ScalarProperty Name="PosSms" ColumnName="PosSms" />
+                <ScalarProperty Name="PosPrint" ColumnName="PosPrint" />
+                <ScalarProperty Name="WebPrint" ColumnName="WebPrint" />
+                <ScalarProperty Name="WebBarcode" ColumnName="WebBarcode" />
+                <ScalarProperty Name="PosBarcode" ColumnName="PosBarcode" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

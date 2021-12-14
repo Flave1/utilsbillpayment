@@ -18,11 +18,12 @@ namespace VendTech.BLL.Interfaces
         /// <param name="model"></param>
         /// <returns></returns>
         PagingResult<DepositListingModel> GetDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0,string status="");
+        PagingResult<DepositListingModel> GetAllPendingDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0, string status = "");
         PagingResult<DepositLogListingModel> GetDepositLogsPagedList(PagingModel model);
         decimal GetPendingDepositTotal();
         ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
         ActionOutput<string> SendOTP();
-        ActionOutput<Deposit> SaveDepositRequest(DepositModel model);
+        ActionOutput<PendingDeposit> SaveDepositRequest(DepositModel model);
         ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
         ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
@@ -43,6 +44,7 @@ namespace VendTech.BLL.Interfaces
         List<Deposit> GetListOfDeposits(List<long> depositIds);
         decimal ReturnPendingDepositsTotalAmount(DepositModel model);
         void TakeCommision(long posId, decimal amt);
+        Deposit SaveApprovedDeposit(PendingDeposit model);
     }
 
 }

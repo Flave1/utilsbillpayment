@@ -15,7 +15,10 @@ namespace VendTech.BLL.Interfaces
         IEnumerable<CheqbankList> GetBankNames_API();
         ActionOutput SaveBankAccount(BankAccountModel model);
         ActionOutput Delete(int id);
-
+        List<ChequeBankModel> GetChequeBanks();
+        ChequeBankModel GetChequeBankDetail(long id);
+        ActionOutput SaveChequeBank(ChequeBankModel model);
+        ActionOutput DeleteChequeBank(int id);
     }
     
 }

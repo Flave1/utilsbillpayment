@@ -114,6 +114,7 @@ namespace VendTech.BLL.Models
         public string Email { get; set; }
         public string PassCode { get; set; }
         public string PosNumber { get; set; }
+        public string Name { get; set; }
     }
     public class RestPassCodeModel
     {  

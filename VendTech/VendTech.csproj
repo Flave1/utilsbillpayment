@@ -224,6 +224,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -294,6 +295,7 @@
     <Content Include="Images\ProfileImages\d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg" />
     <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
     <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
+    <Content Include="Scripts\AdminScripts\checkbank.js" />
     <Content Include="Scripts\AdminScripts\cmsPages.js" />
     <Content Include="Scripts\AdminScripts\depositReverse.js" />
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
@@ -421,6 +423,9 @@
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
     <Content Include="Scripts\UserScripts\agency.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\ManageChequeBanks.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

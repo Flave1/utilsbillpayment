@@ -42,6 +42,7 @@ namespace VendTech.BLL.Models
         public bool ShouldShowPrintButton { get; set; }
         public bool mobileShowSmsButton { get; set; }
         public bool mobileShowPrintButton { get; set; }
+        public decimal CurrentBallance { get; set; }
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
     }
 

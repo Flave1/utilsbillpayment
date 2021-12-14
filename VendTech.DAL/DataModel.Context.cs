@@ -45,6 +45,7 @@ namespace VendTech.DAL
         public virtual DbSet<Meter> Meters { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<PendingDeposit> PendingDeposits { get; set; }
         public virtual DbSet<Platform> Platforms { get; set; }
         public virtual DbSet<POS> POS { get; set; }
         public virtual DbSet<POSAssignedPlatform> POSAssignedPlatforms { get; set; }

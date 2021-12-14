@@ -26,6 +26,7 @@ namespace VendTech.DAL
             this.ForgotPasswordRequests = new HashSet<ForgotPasswordRequest>();
             this.Meters = new HashSet<Meter>();
             this.Notifications = new HashSet<Notification>();
+            this.PendingDeposits = new HashSet<PendingDeposit>();
             this.POS = new HashSet<POS>();
             this.ReferralCodes = new HashSet<ReferralCode>();
             this.TokensManagers = new HashSet<TokensManager>();
@@ -93,6 +94,8 @@ namespace VendTech.DAL
         public virtual ICollection<Meter> Meters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PendingDeposit> PendingDeposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POS> POS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

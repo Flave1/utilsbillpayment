@@ -1225,7 +1225,7 @@ namespace VendTech.BLL.Managers
                 modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 11) != null ? "NEW APP USERS APPROVAL" : string.Empty;
                 modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
                 modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
-                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending && x.IsDeleted == false).Count() : 0;
+                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.PendingDeposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending && x.IsDeleted == false).Count() : 0;
 
                 return modelUser;
             }

@@ -420,6 +420,7 @@
                     button: $(sender),
                     throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                     success: function (results, message) {
+                        $(".sweet-alert h2").css("color", "green");
                         $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                         setTimeout(function () {
                             window.location.reload();

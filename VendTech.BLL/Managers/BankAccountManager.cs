@@ -86,7 +86,7 @@ namespace VendTech.BLL.Managers
         }
         //ActionOutput IBankAccountManager.DeleteBankAccount(int bankAccountId)
         //{
-          
+
         //     var   bank = Context.BankAccounts.FirstOrDefault(p => p.BankAccountId == bankAccountId);
         //        if (bank == null)
         //            return ReturnError("Account not exist");
@@ -99,6 +99,68 @@ namespace VendTech.BLL.Managers
         //    Context.SaveChanges();
         //    return ReturnSuccess(msg);
         //}
+
+        List<ChequeBankModel> IBankAccountManager.GetChequeBanks()
+        {
+            return Context.ChequeBanks.Where(p => p.isDeleted == false).ToList().Select(x => new ChequeBankModel
+            {
+                ChequeBanktId = x.id,
+                BankName = x.BankName,
+                BBAN = x.BankCode,
+                IsActive = x.isactive,
+                CreatedOn = x.Createdon
+            }).ToList();
+        }
+
+
+        ChequeBankModel IBankAccountManager.GetChequeBankDetail(long id)
+        {
+            var bank = Context.ChequeBanks.FirstOrDefault(p => p.id == id);
+            if (bank == null)
+                return null;
+            var result = new ChequeBankModel();
+            result.BankName = bank.BankName;
+            result.ChequeBanktId = bank.id;
+            result.BBAN = bank.BankCode;
+            result.IsActive = bank.isactive;
+            result.CreatedOn = bank.Createdon;
+            return result;
+        }
+
+        ActionOutput IBankAccountManager.SaveChequeBank(ChequeBankModel model)
+        {
+            var msg = "Bank account updated successfully.";
+            var bank = new ChequeBank();
+            if (model.ChequeBanktId > 0)
+            {
+                bank = Context.ChequeBanks.FirstOrDefault(p => p.id == model.ChequeBanktId);
+                if (bank == null)
+                    return ReturnError("Account not exist");
+            }
+            bank.BankName = model.BankName; 
+            bank.BankCode = model.BBAN;
+            if (model.ChequeBanktId == 0)
+            {
+                bank.isactive = true;
+                bank.isDeleted = false;
+                bank.Createdon = DateTime.UtcNow;
+                bank.id = Context.ChequeBanks.Max(d => d.id)+1;
+                Context.ChequeBanks.Add(bank);
+                msg = "Bank added successfully.";
+            }
+            Context.SaveChanges();
+            return ReturnSuccess(msg);
+        }
+
+        ActionOutput IBankAccountManager.DeleteChequeBank(int id)
+        {
+            var bank = Context.ChequeBanks.FirstOrDefault(p => p.id == id);
+            if (bank == null)
+                return ReturnError("Bank not exist");
+            bank.isDeleted = true;
+            Context.SaveChanges();
+            return ReturnSuccess("Bank deleted successfully.");
+        }
     }
 
 

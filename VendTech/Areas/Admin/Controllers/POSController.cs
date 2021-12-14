@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VendTech.Attributes;
@@ -96,6 +101,33 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
                 }
+
+
+
+                var requestmsg = new SendSMSRequest
+                {
+                    Recipient = $"232{savePassCodeModel.Phone}",
+                    Payload = $"Greetings {name}\n" +
+                           $"A new login passcode was generated for your account.\n" +
+                           $"Please use the below 5 digits code to to login to the mobile app.\n" +
+                           $"{savePassCodeModel.PassCode}\n" +
+                           $"Thank you"
+                };
+
+                var json = JsonConvert.SerializeObject(requestmsg);
+
+                HttpClient client = new HttpClient();
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                client.BaseAddress = new Uri("https://kwiktalk.io");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var res = client.SendAsync(httpRequest).Result;
+                var stringResult =  res.Content.ReadAsStringAsync().Result;
+
+                if (res.StatusCode != (HttpStatusCode)200) { }
+
             }
             ViewBag.SelectedTab = SelectedAdminTab.POS;
             if (isEmailed)
@@ -158,6 +190,8 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(_posManager.ChangePOSStatus(id, false));
         }
 
+
+ 
         #endregion
     }
 }
