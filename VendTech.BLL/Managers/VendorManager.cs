@@ -194,42 +194,8 @@ namespace VendTech.BLL.Managers
                 }
             }
 
-            //if(string.IsNullOrEmpty(model.City) || string.IsNullOrEmpty(model.Country))
-            //{
-            //    return new ActionOutput
-            //    {
-            //        Status = ActionStatus.Error,
-            //        Message = "Country and City required "
-            //    };
-            //}
-
-            //if (Context.Users.Any(p => p.Email.ToLower() == model.Email.ToLower() && p.UserId != model.VendorId))
-            //    return ReturnError("This email is already exist with another user");
-
-            vendor.Email = model.Email;
-            vendor.Name = model.Name;
-            vendor.SurName = model.SurName;
-            vendor.Phone = model.Phone;
-            vendor.CountryCode = model.CountryCode;
-            vendor.Password = Utilities.EncryptPassword(model.Password);
-            vendor.AgentId = model.AgencyId;
-            vendor.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
-            vendor.CreatedAt = DateTime.UtcNow;
-            vendor.Status = model.VendorId == 0 ? (int)UserStatusEnum.Pending : vendor.Status;
-            vendor.VendorCommissionPercentage = model.Percentage;
-            vendor.VendorType = model.VendorType;
             vendor.Vendor = model.Vendor;
-            //vendor.CityId = Convert.ToInt32(model.City);
-            //vendor.CountryId = Convert.ToInt32(model.Country);
-            vendor.Address = model.Address;
-            //if (model.POSId.HasValue && model.POSId > 0)
-            //    vendor.FKPOSId = model.POSId;
-            //else
-            //    vendor.FKPOSId = null;
-            if (model.VendorId == 0)
-                Context.Users.Add(vendor);
-            Context.SaveChanges();
-            vendor.FKVendorId = vendor.UserId;
+
             Context.SaveChanges();
             return ReturnSuccess("Vendor saved successfully.");
         }
@@ -281,7 +247,7 @@ namespace VendTech.BLL.Managers
             //    Text = p.Vendor,
             //    Value = p.UserId.ToString()
             //}).ToList();
-            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
+            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
             {
                 Text = x.SerialNumber.ToUpper(),
                 Value = x.POSId.ToString()

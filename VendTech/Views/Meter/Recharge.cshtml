@@ -248,6 +248,19 @@
                         $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
                         return;
                     } else {
+
+
+                        const amtPay = +$("#Amount").val().replace(",", "");
+
+                        if (amtPay < 30000) {
+                            $.ShowMessage($('div.messageAlert'), "PLEASE TENDER 30,000 & ABOVE", MessageType.Error);
+                            $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
+                            $("#pay_Now_Btn").val('PAY NOW');
+                            $("#pay_Now_Btn").prop('disabled', false);
+                            return;
+                        }
+
+
                         let meterno = ""
                         if ($("#MeterNumber").val() == "") {
                             meterno = $("#meterDrp option:selected").text().split("-")[0]

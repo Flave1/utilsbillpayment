@@ -31,7 +31,7 @@ var Admin = {
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {
-            debugger
+            
                 if (message === "emailNotVerified")
                 {
                     window.location.href = `/Home/FirstTimeLoginChangePassword?userid=${results}`;

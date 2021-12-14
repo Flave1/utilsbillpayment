@@ -39,6 +39,16 @@ namespace VendTech.Areas.Api.Controllers
              //model.TotalAmountWithPercentage = model.Amount;
              model.BankAccountId = 1;
             //model.ValueDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
+
+            if(model.ContinueDepoit == 0)
+            {
+                var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
+                if(pendingDeposits > 0)
+                {
+                    return new JsonContent( string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
+                }
+            }
+
              var result = _depositManager.SaveDepositRequest(model);
 
 

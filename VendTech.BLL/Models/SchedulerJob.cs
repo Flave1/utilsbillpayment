@@ -12,7 +12,7 @@ namespace VendTech.BLL.Models
     {
         public void Execute(IJobExecutionContext context)
         {
-            using (var db = new VendTechEntities())
+            using (var db = new VendtechEntities())
             {
                 try
                 {

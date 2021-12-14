@@ -73,7 +73,7 @@ namespace VendTech.Areas.Admin.Controllers
             // This is commented because client want all  POS on page load;
             //if (posId.HasValue && posId.Value > 0)
             //{
-            deposits = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: posId.HasValue ? posId.Value : 0);
+            deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: posId.HasValue ? posId.Value : 0);
             //}
             return View(deposits);
         }

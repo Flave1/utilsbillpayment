@@ -288,7 +288,7 @@ function Paging(sender) {
             url: baseUrl + '/Admin/Report/GetReportsPagingList',
             success: function (results, message) {
 
-                debugger
+                
                 $("#btnFilterSearch").val('SEARCH');
                 $("#btnFilterSearch").prop('disabled', false);
                 $('#divResult table:first tbody').html(results[0]);

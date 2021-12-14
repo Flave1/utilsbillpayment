@@ -71,7 +71,7 @@ namespace VendTech.Controllers
 
 
 
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<DepositListingModel>();
             deposits = _depositManager.GetReportsPagedList(model);
@@ -92,7 +92,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 10;
             var modal = new PagingResult<DepositListingModel>();
 
-            modal = _depositManager.GetReportsPagedList(model);
+            modal = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_depositListing", modal));
             //resultString.Add(modal.TotalCount.ToString());
@@ -343,7 +343,7 @@ namespace VendTech.Controllers
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<MeterRechargeApiListingModel>();
             deposits = _meterManager.GetUserMeterRechargesReport(model);
@@ -361,7 +361,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<MeterRechargeApiListingModel>();
 
-            modal = _meterManager.GetUserMeterRechargesReport(model);
+            modal = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
 
 
             //List<string> resultString = new List<string>();

@@ -35,6 +35,10 @@ namespace VendTech.BLL.Managers
                     query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Vendor);
                 }
             }
+            if (model.SortBy == "COMMISSION")
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("Commission.Percentage" + " " + model.SortOrder);
+            }
             else if (model.SortBy == "MeterCount")
             {
                 if (model.SortOrder == "Asc")
@@ -64,6 +68,9 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
+
+                if (model.SearchField.Equals("COMMISSION"))
+                    query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("VENDOR"))
                     query = query.Where(z => z.User.Vendor.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("CELL"))
@@ -141,19 +148,26 @@ namespace VendTech.BLL.Managers
             public string Value { get; set; }
             public int? Percentage { get; set; }
         }
-        List<SelectListItem> IPOSManager.GetPOSSelectList(long userId)
+
+        List<SelectListItem> IPOSManager.GetPOSSelectList(long userId, long agentId)
         {
-            var query = new List<POS>();
-            //var query = Context.POS.Where(p => !p.IsDeleted);
+            var query = new List<POS>(); 
             var userPos = new List<POS>();
             if (userId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
-                if (user != null) query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted)).ToList();
-            }
-            else
-                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false).ToList();
+                if (user != null)
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted) && !p.IsAdmin).ToList();
+            }else
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList();
 
+
+
+
+            if (agentId > 0)
+            {
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin).ToList();
+            }
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
                 Text = p.SerialNumber.ToUpper(),
@@ -190,7 +204,13 @@ namespace VendTech.BLL.Managers
                     SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                     CountryCode = dbPos.CountryCode,
                     PassCode = dbPos.PassCode,
-                    Email = email
+                    Email = email,
+                    WebSms = dbPos?.WebSms ?? false,
+                    PosSms = dbPos?.PosSms ?? false,
+                    PosPrint = dbPos?.PosPrint ?? false,
+                    WebPrint = dbPos?.WebPrint ?? false,
+                    WebBarcode = dbPos?.WebBarcode ?? false,
+                    PosBarcode = dbPos?.PosBarcode ?? false,
                 };
             }
             return new SavePosModel();
@@ -220,7 +240,13 @@ namespace VendTech.BLL.Managers
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
                 CountryCode = dbPos.CountryCode,
                 PassCode = dbPos.PassCode,
-                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email
+                Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email,
+                WebSms = dbPos?.WebSms ?? false,
+                PosSms = dbPos?.PosSms ?? false,
+                PosPrint = dbPos?.PosPrint ?? false,
+                WebPrint = dbPos?.WebPrint ?? false,
+                WebBarcode = dbPos?.WebBarcode ?? false,
+                PosBarcode = dbPos?.PosBarcode ?? false,
             };
         }
 
@@ -379,6 +405,12 @@ namespace VendTech.BLL.Managers
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
+            dbPos.WebSms = model.WebSms;
+            dbPos.PosSms = model.PosSms;
+            dbPos.PosPrint = model.PosPrint;
+            dbPos.WebPrint = model.WebPrint;
+            dbPos.WebBarcode = model.WebBarcode;
+            dbPos.PosBarcode = model.PosBarcode;
 
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);

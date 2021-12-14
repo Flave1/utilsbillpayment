@@ -10,6 +10,7 @@ using VendTech.DAL;
 using VendTech.BLL.Common;
 using System.Web;
 using System.IO;
+using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
 {
@@ -76,7 +77,16 @@ namespace VendTech.BLL.Managers
             }
         }
 
-      
+
+        List<SelectListItem> ICommissionManager.GetCommissionSelectList()
+        {
+            return Context.Commissions.Where(d => d.IsDeleted == false).ToList().Select(p => new SelectListItem
+            {
+                Text = p.Percentage.ToString().ToUpper(),
+                Value = p.CommissionId.ToString().ToUpper()
+            }).ToList();
+        }
+
     }
 
 

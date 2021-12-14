@@ -9,12 +9,11 @@
     {
         <tr class="odd gradeX">
             <td>@item.AgencyName</td>
-            <td> @item.Company</td>
-            @*<td>
-                @item.AgentType
+            <td> @item.Admin</td>
+            <td>
+                @item.Percentage
             </td>
-
-            <td style="text-align:right;">@item.Percentage</td>*@
+             
             <td><a class="btn btn-primary btn-xs" href="@Url.Action("AddAgent", "Agent", new { area = "Admin", id = @item.AgencyId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
                 @if (user.UserType == UserRoles.Admin)
                 {

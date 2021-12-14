@@ -18,6 +18,7 @@ namespace VendTech.DAL
         public User()
         {
             this.AccountVerificationOTPs = new HashSet<AccountVerificationOTP>();
+            this.Agencies = new HashSet<Agency>();
             this.ContactUs = new HashSet<ContactU>();
             this.DepositLogs = new HashSet<DepositLog>();
             this.Deposits = new HashSet<Deposit>();
@@ -25,6 +26,7 @@ namespace VendTech.DAL
             this.ForgotPasswordRequests = new HashSet<ForgotPasswordRequest>();
             this.Meters = new HashSet<Meter>();
             this.Notifications = new HashSet<Notification>();
+            this.PendingDeposits = new HashSet<PendingDeposit>();
             this.POS = new HashSet<POS>();
             this.ReferralCodes = new HashSet<ReferralCode>();
             this.TokensManagers = new HashSet<TokensManager>();
@@ -72,6 +74,8 @@ namespace VendTech.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Agency> Agencies { get; set; }
         public virtual Agency Agency { get; set; }
         public virtual City City { get; set; }
         public virtual Commission Commission { get; set; }
@@ -90,6 +94,8 @@ namespace VendTech.DAL
         public virtual ICollection<Meter> Meters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PendingDeposit> PendingDeposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POS> POS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

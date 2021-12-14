@@ -66,8 +66,6 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddEditVendor(SaveVendorModel model)
         {
-
-
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             bool isAddCase = model.VendorId == 0;
             var result = _vendorManager.SaveVendor(model);
@@ -96,7 +94,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             ViewBag.countries = countryDrpData;
             ViewBag.Cities = _authenticateManager.GetCities();
-
+            ViewBag.Users = _userManager.GetAppUsersSelectList();
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
             var model = new SaveVendorModel();
             ViewBag.Agents = _agentManager.GetAgentsSelectList();

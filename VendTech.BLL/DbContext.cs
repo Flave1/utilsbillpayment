@@ -13,7 +13,7 @@ namespace VendTech.BLL
         /// protected, so it only visible for inherited class
         /// </summary>
         [ThreadStatic]
-        protected static VendTechEntities Context;
+        protected static VendtechEntities Context;
 
         /// <summary>
         /// Initialize Db Context
@@ -22,7 +22,7 @@ namespace VendTech.BLL
         {
             if (Context == null)
             {
-                Context = new VendTechEntities();
+                Context = new VendtechEntities();
             }
         }
 
@@ -46,7 +46,7 @@ namespace VendTech.BLL
         public void ReinitiateContext()
         {
             Dispose();
-            Context = new VendTechEntities();
+            Context = new VendtechEntities();
         }
     }
 }

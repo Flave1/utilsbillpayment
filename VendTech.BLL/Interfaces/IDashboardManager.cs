@@ -13,6 +13,6 @@ namespace VendTech.BLL.Interfaces
         decimal GetSalesTotal();
         decimal GetWalletBalance();
         int GetPOSCount();
-        DashboardViewModel getDashboardData(long userId);
+        DashboardViewModel getDashboardData(long userId, long agentId  = 0);
     }
 }

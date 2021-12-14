@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace VendTech.BLL.Models
 {
-  public  class BankAccountModel
+    public class BankAccountModel
     {
-      [Required]
+        [Required]
         public string BankName { get; set; }
-      [Required]
-      public string AccountName { get; set; }
-      [Required]
-      public string AccountNumber { get; set; }
-      [Required]
-      public string BBAN { get; set; }
+        [Required]
+        public string AccountName { get; set; }
+        [Required]
+        public string AccountNumber { get; set; }
+        [Required]
+        public string BBAN { get; set; }
         public int BankAccountId { get; set; }
     }
-
     public  class CheqbankList
     {
     
@@ -27,5 +26,17 @@ namespace VendTech.BLL.Models
         public string BankName { get; set; }
         public string BankCode { get; set; }
     
+    }
+
+    public class ChequeBankModel
+    {
+        public int ChequeBanktId { get; set; }
+        [Required]
+        public string BankName { get; set; } 
+        [Required]
+        public string BBAN { get; set; } 
+        public bool? IsActive { get; set; }
+
+        public DateTime? CreatedOn { get; set; } 
     }
 }

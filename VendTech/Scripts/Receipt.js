@@ -12,7 +12,7 @@ function onViewDepositDetails(depositId) {
 
                 $('.modal-body').html(data);
                 $("#depositDetailModal").modal("show");
-                debugger
+                
             }
         });
     }
@@ -79,7 +79,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchVoucherDetailsByToken(token) {
-    debugger;
+    debugger
     DisableAndEnablelinks(true, token);
     $("#re-print_section").show();
     try {
@@ -105,7 +105,7 @@ function fetchVoucherDetailsByToken(token) {
                 if (data.Code === 200) {
 
                     console.log(data);
-
+                    debugger
                     $("#re-customer_name").html(data.Data.CustomerName);
                     $("#re-customer_account_number").html(data.Data.AccountNo);
                     $("#re-customer_address").html(data.Data.Address);
@@ -130,6 +130,7 @@ function fetchVoucherDetailsByToken(token) {
                     $("#re-sales_date").html(data.Data.TransactionDate);
                     $("#re-vendorId").html(data.Data.VendorId);
                     if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
+                    if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
                     $("#modalCart2").modal("show"); 
                 } else {
 
@@ -194,7 +195,7 @@ function Reprint() {
 }
 
 function depositReprint() {
-    debugger;
+    
     $("#re-print_section").hide();
     var prtContent = document.getElementById("re-printSection");
     var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0'); 

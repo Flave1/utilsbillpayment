@@ -28,98 +28,20 @@
                     <div class="content people-form-cs">
                         <form class="form-horizontal" role="form" id="UserForm">
                             <div class="row" style="margin:10px;">
-                                @Html.HiddenFor(x => x.VendorId)
+                              @*  @Html.HiddenFor(x => x.VendorId)*@
+                                <div class="row">
+                                    <div class="col-md-6" >
+                                        <label for="inputEmail3" style="width: 100%;">SELECT USER ACCOUNT</label>
+                                        @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Users, "value", "text"), null, new { @class = "form-control field1" })
+                                        @Html.ValidationMessageFor(x => x.VendorId)
+                                    </div>
+                                </div>
 
                                 <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3">VENDOR NAME <em>* </em></label>
+                                    <div class="col-md-6"> 
+                                            <label for="inputEmail3" style="width:100%;">VENDOR NAME <em>* </em></label>
                                             @Html.TextBoxFor(x => x.Vendor, new { @class = "form-control  field1" })
-                                            @Html.ValidationMessageFor(x => x.Vendor)
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class=" row ">
-                                            <label for="inputEmail3" class="col-md-3">REP FIRST NAME<em>*</em></label>
-                                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.Name)
-                                        </div>
-                                    </div>
-
-                                    <div class=" col-md-7">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3 ">REP LAST NAME<em>*</em></label>
-                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.SurName)
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="row " style="width:30%;">
-                                            <label for="inputEmail3" class="col-md-3 ">VENDOR EMAIL</label>
-                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.Email)
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="row">
-                                            <label for="address" class="col-md-12 ">VENDOR ADDRESS</label>
-                                            @Html.TextBoxFor(x => x.Address, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.Email)
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3">COUNTRY</label>
-                                            <select class="form-control field1" name="Country" id="Country">
-                                                <option value="">SELECT COUNTRY</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3">CITY</label>
-                                            <select id="City" name="City" class="form-control field1">
-                                                <option value="">SELECT CITY</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <label for="inputEmail3" class="col-md-12">CELL PHONE<em>*</em></label>
-                                    <div class="col-md-1">
-                                        <select name="CountryCode" class="form-control">
-                                            <option value="+232">+232</option>
-                                        </select>
-                                    </div>
-                                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control field1" })
-                                    @Html.ValidationMessageFor(x => x.Phone)
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label for="inputEmail3" style="width:100%;">AGENCY NAME</label>
-                                        @Html.DropDownListFor(x => x.AgencyId, new SelectList(ViewBag.Agents, "value", "text"), null, new { @class = "form-control field1" })
-                                        @Html.ValidationMessageFor(x => x.AgencyId)
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-3">PASSWORD<em>*</em></label>
-                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.Password)
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-3">
-                                        <div class="row">
-                                            <label for="inputEmail3" class="col-md-12 ">RETYPE PASSWORD<em>*</em></label>
-                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control field1" })
-                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                                        </div>
+                                            @Html.ValidationMessageFor(x => x.Vendor) 
                                     </div>
                                 </div>
 
@@ -154,8 +76,8 @@
             }
            
             $("#Country").change(onCountryChange);  
-            loadAllCountries();
-            loadAllCities();
+            //loadAllCountries();
+            //loadAllCities();
              
 
             $("input[type=button]#saveProfileBtn").live("click", function () {

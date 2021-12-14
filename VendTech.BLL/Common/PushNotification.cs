@@ -123,7 +123,7 @@ namespace VendTech.BLL.Common
 
         public static bool SaveNotificationToDB(PushNotificationModel model, int status)
         {
-            var db = new VendTechEntities();
+            var db = new VendtechEntities();
             var dbNotification = new Notification();
             dbNotification.SentOn = DateTime.UtcNow;
             dbNotification.UserId = model.UserId;

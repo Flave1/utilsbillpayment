@@ -67,11 +67,11 @@ namespace VendTech.Controllers
             };
 
             var deposits = new PagingResult<DepositListingModel>();
-            deposits = _depositManager.GetReportsPagedHistoryList(history_model);
+            deposits = _depositManager.GetReportsPagedHistoryList(history_model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.WalletHistory = deposits.List;
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             if (posId == 0 && posList.Count > 0)
             {
@@ -107,6 +107,8 @@ namespace VendTech.Controllers
                     return JsonResult(new ActionOutput { Message = string.Format("{0:N0}", pendingDeposits), Status = ActionStatus.Successfull });
                 }
             }
+
+
             var result = _depositManager.SaveDepositRequest(model);
 
             var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();

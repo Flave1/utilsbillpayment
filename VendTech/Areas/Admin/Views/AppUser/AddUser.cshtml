@@ -91,6 +91,14 @@
                                             @Html.ValidationMessageFor(x => x.VendorId)
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">AGENCY NAME</label>
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(x => x.AgentId, new SelectList(ViewBag.Agencies, "value", "text"), "Select Agency", new { @class = "form-control" })
+                                            @*<span class="help-block">If you select a vendor, then this user will assign to Vendor.</span>*@
+                                            @Html.ValidationMessageFor(x => x.AgentId)
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="col-md-4">

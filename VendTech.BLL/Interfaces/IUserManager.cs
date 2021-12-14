@@ -73,10 +73,11 @@ namespace VendTech.BLL.Interfaces
         ActionOutput DeleteUser(long userId);
         ActionOutput DeclineUser(long userId);
         ActionOutput ChangeUserStatus(long userId, UserStatusEnum status);
-        ActionOutput<UserDetails> AdminLogin(LoginModal model);
+        ActionOutput<UserDetailForAdmin> AdminLogin(LoginModal model);
         ActionOutput<UserDetails> AgentLogin(LoginModal model);
         ActionOutput<UserDetails> VendorLogin(LoginModal model);
-        IList<ModulesModel> GetAllModulesAtAuthentication(long userId);
+        IList<ModulesModel> GetAllModulesAtAuthentication(long userId); 
+        decimal GetUserWalletBalance(User user, long agent = 0);
         decimal GetUserWalletBalance(long userId);
         int GetUnreadNotifications(long userId);
         List<SelectListItem> GetAssignedReportModules(long UserId, bool isAdmin);
@@ -88,7 +89,8 @@ namespace VendTech.BLL.Interfaces
         IEnumerable<UserLiteDto> GetVendorNames_API();
         UserLiteDto GetVendorNamePOSNumber(int posId);
         List<User> GetAllAdminUsersByDepositRelease();
-        User GetUserIdByEmail(string email); 
+        User GetUserIdByEmail(string email);
+        List<SelectListItem> GetAgentSelectList();
     }
 
 }

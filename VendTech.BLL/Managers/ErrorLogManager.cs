@@ -12,7 +12,7 @@ namespace VendTech.BLL.Managers
     {
         string IErrorLogManager.LogExceptionToDatabase(Exception exc)
         {
-            var context = new VendTechEntities();
+            var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
             errorObj.Message = exc.Message;
             errorObj.StackTrace = exc.StackTrace;

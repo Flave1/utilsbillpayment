@@ -337,7 +337,7 @@ namespace VendTech.BLL.Managers
             return Context.Notifications.Where(p => p.UserId == userId && !p.MarkAsRead).Count();
         }
 
-        ActionOutput<UserDetails> IUserManager.AdminLogin(LoginModal model)
+        ActionOutput<UserDetailForAdmin> IUserManager.AdminLogin(LoginModal model)
         { 
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
             string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
@@ -348,7 +348,7 @@ namespace VendTech.BLL.Managers
              p.Email.ToLower() == model.UserName.ToLower());
             if (user == null)
                 return null;
-            var modelUser = new UserDetails
+            var modelUser = new UserDetailForAdmin
             {
                 FirstName = user.Name,
                 LastName = user.SurName,
@@ -357,7 +357,7 @@ namespace VendTech.BLL.Managers
                 UserType = user.UserRole.Role,
                 ProfilePicPath = user.ProfilePic
             };
-            return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
+            return ReturnSuccess<UserDetailForAdmin>(modelUser, "User logged in successfully.");
         }
 
 
@@ -399,14 +399,11 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetails> IUserManager.AgentLogin(LoginModal model)
         {
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            var user = Context.Agencies.SingleOrDefault(p => p.Password == encryptPassword && p.REPEmail.ToLower() == model.UserName.ToLower());
+            var user = Context.Agencies.SingleOrDefault();
             if (user == null)
                 return null;
             var modelUser = new UserDetails
             {
-                FirstName = user.REPName,
-                LastName = user.REPLastName,
-                UserEmail = user.REPEmail,
                 UserID = user.AgencyId
             };
             return ReturnSuccess<UserDetails>(modelUser, "User logged in successfully.");
@@ -528,7 +525,7 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user == null)
                 return null;
-            return new AddUserModel
+            var us =  new AddUserModel
             {
                 Password = Utilities.DecryptPassword(user.Password),
                 ConfirmPassword = Utilities.DecryptPassword(user.Password),
@@ -541,10 +538,12 @@ namespace VendTech.BLL.Managers
                 CompanyName = user.CompanyName,
                 VendorId = user.FKVendorId,
                 Address = user.Address,
+                AgentId  = user.AgentId,
                 ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
                 //POSId=user.FKPOSId,
                 AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
             };
+            return us;
         }
         ActionOutput IUserManager.UpdateAppUserDetails(AddUserModel userDetails)
         {
@@ -576,6 +575,7 @@ namespace VendTech.BLL.Managers
                 user.Phone = userDetails.Phone;
                 user.CountryCode = userDetails.CountryCode;
                 user.Address = userDetails.Address;
+                user.AgentId = userDetails.AgentId;
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
@@ -661,7 +661,16 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IUserManager.GetAppUsersSelectList()
         {
-            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserRole.Role == UserRoles.AppUser).ToList().Select(p => new SelectListItem
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType != 2).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
+            {
+                Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
+                Value = p.UserId.ToString().ToUpper()
+            }).ToList();
+        }
+
+        List<SelectListItem> IUserManager.GetAgentSelectList()
+        {
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType == 2 || p.UserType == 9).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
             {
                 Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
                 Value = p.UserId.ToString().ToUpper()
@@ -760,7 +769,7 @@ namespace VendTech.BLL.Managers
                 dbUser.UserType = userDetails.UserType;
                 dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
                 dbUser.Phone = userDetails.Phone;
-                dbUser.CountryCode = userDetails.CountryCode;
+                dbUser.CountryCode = userDetails.CountryCode; 
                 if (userDetails.Image != null)
                 {
                     var ext = Path.GetExtension(userDetails.Image.FileName); //getting the extension(ex-.jpg)  
@@ -830,7 +839,7 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
                 dbUser.IsEmailVerified = false;
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;
@@ -1078,6 +1087,38 @@ namespace VendTech.BLL.Managers
             }
         }
 
+        decimal IUserManager.GetUserWalletBalance(User user, long agentId)
+        {
+            try
+            { 
+                if (user == null)
+                    return 0;
+                if(agentId > 0)
+                {
+                    var posTotalBalance = Context.POS.Where(p => p.User.AgentId == agentId && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
+                {
+                    var posTotalBalance = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId) && p.Balance != null && !p.IsDeleted && p.Enabled != false).ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else if (user.UserRole.Role != UserRoles.AppUser)
+                {
+                    var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
+                    return posTotalBalance.Value;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception)
+            {
+                return new decimal();
+            }
+        }
+
         bool RemoveORAddUserPermissions(long userId, AddUserModel model)
         {
             var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
@@ -1184,7 +1225,7 @@ namespace VendTech.BLL.Managers
                 modelUser.AppUserMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 11) != null ? "NEW APP USERS APPROVAL" : string.Empty;
                 modelUser.DepositReleaseMessage = notificationDetail.FirstOrDefault(x => x.ModuleId == 6) != null ? "NEW DEPOSITS RELEASE" : string.Empty;
                 modelUser.RemainingAppUser = !string.IsNullOrEmpty(modelUser.AppUserMessage) ? Context.Users.Where(x => (x.UserRole.Role == UserRoles.AppUser || x.UserRole.Role == UserRoles.Vendor) && x.Status == (int)UserStatusEnum.Pending).Count() : 0;
-                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.Deposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending && x.IsDeleted == false).Count() : 0;
+                modelUser.RemainingDepositRelease = !string.IsNullOrEmpty(modelUser.DepositReleaseMessage) ? Context.PendingDeposits.Where(x => x.Status == (int)DepositPaymentStatusEnum.Pending && x.IsDeleted == false).Count() : 0;
 
                 return modelUser;
             }

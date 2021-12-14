@@ -25,8 +25,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput ChangePOSStatus(int posId, bool value);
         decimal GetPosCommissionPercentage(long posId);
         decimal GetPosBalance(long posId);
-        decimal GetPosCommissionPercentageByUserId(long userId);
-        List<SelectListItem> GetPOSSelectList(long userId = 0);
+        decimal GetPosCommissionPercentageByUserId(long userId); 
+        List<SelectListItem> GetPOSSelectList(long userId = 0, long agentId = 0);
         List<PosSelectItem> GetVendorPos(long userId);
         List<PosAPiListingModel> GetPOSSelectListForApi(long userId = 0);
         PagingResult<POSListingModel> GetUserPosPagingListForApp(int pageNo, int pageSize, long userId);

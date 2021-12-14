@@ -107,6 +107,7 @@ namespace VendTech.Controllers
                     ProfilePicPath = userDetails.ProfilePicUrl,
                     IsAuthenticated = true,
                     UserID = userId,
+                    AgencyId = userDetails?.AgentId??0,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = UserRoles.AppUser,
                     IsEmailVerified = userDetails.isemailverified,
@@ -166,7 +167,7 @@ namespace VendTech.Controllers
 
             DashboardViewModel dashBoard = new DashboardViewModel();
             dashBoard.currentUser = new UserModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
@@ -348,6 +349,7 @@ namespace VendTech.Controllers
             {
                 return Json(new ActionOutput { Status = ActionStatus.Error, Message = "Name must not be empty" });
             }
+            request.Agency = "20"; //20 is id for default vendtech agency ////// DO NOT CHANGE
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
             { 

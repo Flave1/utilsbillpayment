@@ -128,6 +128,9 @@
     <Compile Include="Notification.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PendingDeposit.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Platform.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

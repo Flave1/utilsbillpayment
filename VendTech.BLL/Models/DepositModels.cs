@@ -72,6 +72,29 @@ namespace VendTech.BLL.Models
             PercentageCommission = obj.POS.Commission.Percentage;
         }
 
+        public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
+        {
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            UserName = "";
+            PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
+            VendorName = obj.POS.User.Vendor;
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            Comments = obj.Comments;
+            // Bank = obj.PendingBankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
+            Status = "Pending";
+            Amount = obj.Amount;
+            NewBalance = obj.NewBalance == null ? obj.Amount : obj.NewBalance.Value;
+            PercentageAmount = obj.PercentageAmount;
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            TransactionId = obj.TransactionId;
+            DepositId = obj.PendingDepositId;
+            //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
+            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
+            IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
+            PercentageCommission = obj.POS.Commission.Percentage;
+        }
     }
     public class DepositExcelReportModel
     {
@@ -206,6 +229,7 @@ namespace VendTech.BLL.Models
         public decimal TotalAmountWithPercentage { get; set; }
         public string Comments { get; set; }
         public string ValueDate { get; set; }
+        public long ContinueDepoit { get; set; } = 0;
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
         public int ContinueDepoit { get; set; }

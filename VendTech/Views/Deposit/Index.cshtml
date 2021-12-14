@@ -174,7 +174,7 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script> 
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script type="text/javascript">
         var totalCount = "@Model.TotalCount";
@@ -358,11 +358,11 @@
                         showThrobber: true,
                         button: $(sender),
                         throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                        success: function (results, message) {
-                            if (message != "Deposit request saved successfully.") {
+                        success: function (results, message) { 
+                            if (message != "Deposit request saved successfully.") { 
                                 reDeposit(sender, 2, message);
                                 $("#btnAdd").val('ADD BALANCE');
-                                $("#btnAdd").prop('disabled', false);
+                                $("#btnAdd").prop('disabled', false); 
                                 return;
                             }
                             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
@@ -403,7 +403,7 @@
         }
 
 
-        function reDeposit(sender, ContinueDepoit, amt) {
+        function reDeposit(sender, ContinueDepoit, amt) { 
             $("#ContinueDepoit").val(ContinueDepoit);
             $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n THIS WILL ADD TO YOUR DEPOSIT AMOUNT \n\n DO YOU WANT TO PROCEED?", null, true, "Yes", true, null, function () {
 
@@ -420,6 +420,7 @@
                     button: $(sender),
                     throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                     success: function (results, message) {
+                        $(".sweet-alert h2").css("color", "green");
                         $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                         setTimeout(function () {
                             window.location.reload();

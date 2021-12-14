@@ -23,20 +23,14 @@ namespace VendTech.DAL
     
         public long AgencyId { get; set; }
         public string AgencyName { get; set; }
-        public string REPName { get; set; }
-        public string REPLastName { get; set; }
-        public string REPEmail { get; set; }
-        public string Company { get; set; }
-        public string Password { get; set; }
-        public string CountryCode { get; set; }
-        public string Phone { get; set; }
         public int AgentType { get; set; }
-        public Nullable<decimal> Percentage { get; set; }
-        public int CommissionPercentage { get; set; }
         public Nullable<int> Status { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public Nullable<int> CommissionId { get; set; }
+        public Nullable<long> Representative { get; set; }
     
         public virtual Commission Commission { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

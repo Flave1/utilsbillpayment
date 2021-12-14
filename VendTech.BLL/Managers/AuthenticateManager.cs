@@ -152,7 +152,6 @@ namespace VendTech.BLL.Managers
                 .FirstOrDefault();
             if (result != null && result.POS.Any())
             {
-
                 if (result.UserRole.Role == UserRoles.Vendor)
                     userAssignedPos = result.POS.All(p => p.Enabled == false);
                 else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
@@ -197,7 +196,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var decryptedPass = Utilities.DecryptPassword("dGVzdHZpY3RvcjE=");
+                var decryptedPass = Utilities.DecryptPassword("VGVtcEFDUzE=");
                 var result = Context.Users
                     .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
                 && x.Password == encryptPassword
@@ -213,6 +212,8 @@ namespace VendTech.BLL.Managers
                 {
                     Context.Users.FirstOrDefault(d => d.UserId == result.UserId).AppLastUsed = DateTime.UtcNow;
                     Context.SaveChanges();
+
+                    result.AgentId = Context.Agencies.FirstOrDefault(f => f.Representative == result.UserId)?.AgencyId ?? 0;
                 }
                 return result;
             }
@@ -411,7 +412,7 @@ namespace VendTech.BLL.Managers
             int second = 3;
             try
             {
-                var db = new VendTechEntities();
+                var db = new VendtechEntities();
 
                 var record = db.AppSettings.FirstOrDefault(p => p.Name == AppSettings.LogoutTime);
                 if (record != null)
@@ -514,7 +515,7 @@ namespace VendTech.BLL.Managers
             newUser.Email = model.Email.Trim().ToLower();
             newUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
             newUser.CreatedAt = DateTime.UtcNow;
-            newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+            newUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
             newUser.IsEmailVerified = false;
             newUser.Address = model.Address;
             newUser.UserName = model.UserName;

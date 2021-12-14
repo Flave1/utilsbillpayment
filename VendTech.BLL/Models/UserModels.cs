@@ -343,6 +343,11 @@ namespace VendTech.BLL.Models
         public UserDetails UserDetails { get; set; }
         public IList<ModulesModel> ModulesModelList { get; set; }
     }
+    public class PermissonAndDetailModelForAdmin
+    {
+        public UserDetailForAdmin UserDetails { get; set; }
+        public IList<ModulesModel> ModulesModelList { get; set; }
+    }
 
     public class ModulesModel
     {

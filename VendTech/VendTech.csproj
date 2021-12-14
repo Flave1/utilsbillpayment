@@ -224,6 +224,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Areas\Vendor\Controllers\HomeController.cs" />
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
+    <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\AppUserBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\POSController.cs" />
@@ -293,6 +295,7 @@
     <Content Include="Images\ProfileImages\d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg" />
     <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
     <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
+    <Content Include="Scripts\AdminScripts\checkbank.js" />
     <Content Include="Scripts\AdminScripts\cmsPages.js" />
     <Content Include="Scripts\AdminScripts\depositReverse.js" />
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
@@ -402,7 +405,6 @@
     <Content Include="Areas\Admin\Views\AppUser\Partials\_platformsListing.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\AddUser.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_platformsListing.cshtml" />
-    <Content Include="Areas\Admin\Views\Deposit\ManageDeposits - Copy.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html2canvas.min.js" />
@@ -419,7 +421,11 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
+    <Content Include="Scripts\UserScripts\agency.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
+    <Content Include="Areas\Admin\Views\ChequeBanks\ManageChequeBanks.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -532,6 +538,9 @@
     <Content Include="Views\Shared\_RequestResponseJSON.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_depositReceipt.cshtml" />
+    <Content Include="Views\Agents\AddAgent.cshtml" />
+    <Content Include="Views\Agents\ManageAgents.cshtml" />
+    <Content Include="Views\Agents\Partials\_agencyListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

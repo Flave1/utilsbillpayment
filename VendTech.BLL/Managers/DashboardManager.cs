@@ -140,39 +140,41 @@ namespace VendTech.BLL.Managers
         }
 
 
-        public DashboardViewModel getDashboardData(long userId)
+        public DashboardViewModel getDashboardData(long userId, long agentId)
         {
             try
             {
                 if (userId == 0) return new DashboardViewModel();
                 var user = Context.Users.Find(userId);
                 if(user == null) return new DashboardViewModel();
+
+
                 List<TransactionChartData> tDatas = new List<TransactionChartData>();
                 var total_deposits = new decimal();
                 var total_sales = new decimal();
 
-                var current_user_pos_ids = Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId).Select(e => e.POSId).ToList();
+                var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId && !p.IsAdmin).Select(e => e.POSId).ToList() : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin).Select(e => e.POSId).ToList();
 
                 total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.IsDeleted == false && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
                 total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                 if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
                 {
-                    tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
-                    if (tDatas.Any())
-                    {
-                        for (int x = 0; x < tDatas.Count; x++)
-                        {
-                            tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
-                        }
-                    }
+                    //tDatas = getChartDataByAcquirer("", userId).OrderByDescending(a => a?.mdate).ToList();
+                    //if (tDatas.Any())
+                    //{
+                    //    for (int x = 0; x < tDatas.Count; x++)
+                    //    {
+                    //        tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
+                    //    }
+                    //}
 
                     return new DashboardViewModel
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        posCount = user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId && !p.IsAdmin).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true).ToList().Count,
+                        walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
 
@@ -185,21 +187,21 @@ namespace VendTech.BLL.Managers
                     total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).Sum(s => s.Amount);
                     total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
-                    tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
-                    if (tDatas.Any())
-                    {
-                        for (int x = 0; x < tDatas.Count; x++)
-                        {
-                            tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
-                        }
-                    }
+                    //tDatas = getChartDataByAdmin("").OrderByDescending(a => a?.mdate).ToList();
+                    //if (tDatas.Any())
+                    //{
+                    //    for (int x = 0; x < tDatas.Count; x++)
+                    //    {
+                    //        tDatas[x].mdate = DateTime.Now.Year.ToString() + "-" + tDatas[x].mdate;//getAbbreviatedName(Int16.Parse(tDatas[x].mdate));
+                    //    }
+                    //}
                     return new DashboardViewModel
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
                         userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor && u.Status == (int)UserStatusEnum.Active).Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true).Count(),
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.IsAdmin).Count(),
+                        walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
                 }
@@ -210,8 +212,8 @@ namespace VendTech.BLL.Managers
                     {
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
-                        posCount = user.POS.Where(p => !p.IsDeleted).ToList().Count,
-                        walletBalance = _userManager.GetUserWalletBalance(userId),
+                        posCount = user.POS.Where(p => !p.IsDeleted && !p.IsAdmin).ToList().Count,
+                        walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
                 }

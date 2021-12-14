@@ -76,7 +76,7 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 data.Status = ActionStatus.Successfull;
                 var userId = data.Object.UserID;
-                data.Object = new UserDetails
+                data.Object = new UserDetailForAdmin
                 {
                     FirstName = data.Object.FirstName,
                     LastName = data.Object.LastName,
@@ -90,14 +90,14 @@ namespace VendTech.Areas.Admin.Controllers
             }
             else
             {
-                data = new ActionOutput<UserDetails>();
+                data = new ActionOutput<UserDetailForAdmin>();
                 data.Status = ActionStatus.Error;
                 data.Message = "Invalid Credentials.";
             }
             if (data.Status == ActionStatus.Successfull)
             {
                 JustLoggedin = true;
-                var PermissonAndDetailModel = new PermissonAndDetailModel();
+                var PermissonAndDetailModel = new PermissonAndDetailModelForAdmin();
                 PermissonAndDetailModel.UserDetails = data.Object; 
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID).Where(e => e.ControllerName != "19" && e.ControllerName != "20" && e.ControllerName != "1" && e.ControllerName != "23" && e.ControllerName != "18").ToList(); 
                 CreateCustomAuthorisationCookie(model.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
