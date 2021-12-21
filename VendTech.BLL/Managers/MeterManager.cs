@@ -526,6 +526,8 @@ namespace VendTech.BLL.Managers
                 var receipt = Build_receipt_model_from_dbtransaction_detail(db_transaction_detail);
                 receipt.ShouldShowSmsButton = (bool)db_transaction_detail.POS.WebSms;
                 receipt.ShouldShowPrintButton = (bool)db_transaction_detail.POS.WebPrint;
+                receipt.mobileShowSmsButton = (bool)db_transaction_detail.POS.PosSms;
+                receipt.mobileShowPrintButton = (bool)db_transaction_detail.POS.PosPrint;
                 receipt.CurrentBallance = db_transaction_detail?.POS?.Balance??0;
                 return receipt;
             }
