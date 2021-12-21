@@ -1,0 +1,325 @@
+﻿@model PagingResult<BalanceSheetListingModel>
+@{
+
+    ViewBag.Title = "Manage Balance Sheet Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml"; }
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h4><b>Manage Balance Sheet Report</b></h4>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <style>
+                        input {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        select {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        label {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+
+                        option {
+                            font-weight: bold;
+                        }
+                    </style>
+
+                    <div class="content">
+                        <div class="table-responsive">
+                            <div id="divResult">
+                                <div class="topsec">
+                                    <h2 style="width:20%">Balance Sheet Report</h2>
+                                    @*<label>Sales Report</label>*@
+                                    <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
+                                    <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                                    <label>
+                                        Export:
+                                        <select name="PrintType" id="PrintType">
+                                            <option value="Excel">Excel</option>
+                                            <option value="PDF">PDF</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        <button type="button" id="btnExport">Export</button>
+                                    </label>
+                                    <label>
+                                        <button type="button" id="btnprint">Print</button>
+                                    </label>
+                                </div>
+
+                                <div class="blwsec">
+                                    @using (Html.BeginForm("ExportBalanceSheetReportTo", "Report", FormMethod.Post, new { @id = "salesForm" }))
+                                    {
+                                        <div class="blwsec-left">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:31% !important;">Vendor:</label>
+                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "SELECT VENDOR", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "vendor" })
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
+                                            </div>
+
+                                            <hr style="background:#d0cbcb; height:1px;" />
+
+                                            <div class="form-group row">
+                                                <label style="width:100%;">TRANSACTION PERIOD</label>
+                                                <div style="width: 49%; float: left; ">
+                                                    <label>From:</label>
+                                                    <input type="text" name="FromDate" id="FromDate">
+                                                    <input type="hidden" id="frmDt" />
+                                                </div>
+
+                                                <div style="width: 49%; float: right; ">
+                                                    <label>To:</label>
+                                                    <input type="text" name="ToDate" id="ToDate">
+                                                    <input type="hidden" id="toDt" />
+                                                </div>
+                                            </div>
+                                            <hr style="        background: #d0cbcb !important;
+        height: 1px;
+" />
+                                            <div class="form-group row">
+                                                <label>Report</label>
+                                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control" })
+                                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                                            </div>
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            @*<div class="form-group row">
+                                                <label style="width:30%;  float:left;">Meter #:</label>
+                                                <input name="Meter" type="text" id="meterNo" style="width:65%; float:right;" class="form-control">
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;  float:left;">VT Trans ID:</label>
+                                                <input name="TransactionId" type="text" id="tranId" style="width:65%; float:right;" class="form-control">
+                                            </div>*@
+                                            <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
+                                        </div>
+                                    }
+
+                                    <div class="blwsec-right">
+                                        <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
+                                            <table class="table table-bordered" id="datatable-icons">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                                                        <th class="sorting" data-sortby="TransactionType">TYPE</th>
+                                                        <th class="sorting" data-sortby="Receipt">RECEIPT</th>
+                                                        <th class="sorting" data-sortby="Reference">REF #</th>
+                                                        <th class="sorting" data-sortby="DAMOUNT">DEPOSITS</th>
+                                                        <th class="sorting" data-sortby="SAMOUNT">SALES</th>
+                                                        <th class="sorting" data-sortby="BALANCE">BALANCE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("Partials/_balanceSheetReportListing", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @*@Html.Partial("_Paging")*@
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCart2">
+    @Html.Partial("_voucherReprint")
+</div>
+<div class="modal fade" id="modalCart3">
+    @Html.Partial("_RequestResponseJSON")
+</div>
+
+@section scripts{
+
+
+
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/AdminScripts/balanceSheetReport.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+
+    <script src="~/Scripts/Receipt.js"></script>
+
+    <!-- dev URL -->
+    <script src="https://rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script>
+
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+        $(document).ready(function () {
+
+
+
+            $("#FromDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date()
+            });
+            $("#ToDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date()
+            });
+
+            $("#fromSpan").text($("#FromDate").val())
+
+            $("#toSpan").text($("#ToDate").val())
+            $("#printedDate").text($("#ToDate").val())
+
+            debugger
+             
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+
+
+            var type = params.type
+            if (type)
+                $("#reportType").val(type);
+
+                App.init();
+
+                $("#vendor").on("change", function () {
+                var vendorId = $("#vendor").val();
+                $("#pos").empty();
+                if (vendorId) {
+                $.ajax({
+                url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                    success: function (res) {
+                        if (res.posList.length > 1) {
+                            $("#pos").append("<option value=''> -Select POS- </option>")
+                        }
+                        if (res.posList.length == 0) {
+                            $("#pos").append("<option value=''> -NO POS - </option>")
+                        }
+                if (res.posList != null) {
+                for (var i = 0; i < res.posList.length; i++) {
+                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                }
+                }
+                }
+                })
+                }
+                else {
+                $("#pos").append("<option value=''> SELECT POS</option>")
+                }
+                });
+
+
+            function downloadURI(imgData, name) {
+                var link = document.createElement("a");
+
+
+                var pdf = new jsPDF();
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth-20, pdfHeight-20);
+
+                //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
+                pdf.save(name);
+                //link.download = name;
+                //link.href = uri;
+                //document.body.appendChild(link);
+                //link.click();
+            }
+
+
+
+            $('#PrintType').on("change", function () {
+                $('#ExportType').val($(this).val());
+            });
+
+
+            $("#btnExport").click(function (e) {
+                //var element = $(".exportdata")[0];
+                //html2canvas(element).then(function (canvas) {
+
+                //    var myImage = canvas.toDataURL();
+
+                //    downloadURI(myImage, "Report.pdf");
+                //});
+                ////window.open('data:application/vnd.ms-excel,' + $('.exportdata').html());
+                //e.preventDefault();
+                var frm = $("#FromDate").val();
+                var to = $("#ToDate").val();
+                if (frm) {
+                    var dtVal = frm.split("/");
+                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                }
+                else {
+                    $("#frmDt").val('');
+
+                }
+                if (to) {
+                    var dtVal = to.split("/");
+                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                }
+                else {
+                    $("#toDt").val('');
+                }
+
+                $('#salesForm').attr('action', '/Admin/Report/ExportBalanceSheetReportTo');
+                $("#salesForm").attr("method", "Post");
+                $("#salesForm").submit();
+            })
+
+            $('#btnprint').click(function (e) {
+
+                $('#salesForm').attr('action', '/Admin/Report/PrintSalesReport');
+                $("#salesForm").attr("method", "get");
+                $("#salesForm").submit();
+            });
+
+            Deposits.ManageDeposits(totalCount);
+            var d = new Date();
+            $("#FromDate").kendoDatePicker({
+                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                format: "dd/MM/yyyy"
+            });
+            var datePicker1 = $("#FromDate").data("kendoDatePicker");
+            $("#FromDate").click(function () {
+                datePicker1.open();
+            })
+            $("#ToDate").kendoDatePicker({
+                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                format: "dd/MM/yyyy"
+            });
+            var datePicker2 = $("#ToDate").data("kendoDatePicker");
+            $("#ToDate").click(function () {
+                datePicker2.open();
+            })
+        });
+    </script>
+
+
+}
+

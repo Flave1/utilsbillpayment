@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using VendTech.BLL.Models;
 using VendTech.DAL;
 
@@ -45,6 +46,7 @@ namespace VendTech.BLL.Interfaces
         decimal ReturnPendingDepositsTotalAmount(DepositModel model);
         void TakeCommision(long posId, decimal amt);
         Deposit SaveApprovedDeposit(PendingDeposit model);
+        IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
     }
 
 }

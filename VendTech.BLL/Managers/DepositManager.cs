@@ -1780,5 +1780,198 @@ namespace VendTech.BLL.Managers
         {
             return Context.Deposits.Where(d => depositIds.Contains(d.DepositId)).ToList() ?? new List<Deposit>();
         }
+
+
+        IQueryable<BalanceSheetListingModel> IDepositManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
+        {
+            model.RecordsPerPage = 100;
+            IQueryable<BalanceSheetListingModel> query = null;
+            if (model.IsInitialLoad)
+            {
+                query = from a in Context.Deposits
+                        where DbFunctions.TruncateTime(a.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)
+                        select new BalanceSheetListingModel
+                        {
+                            DateTime = a.CreatedAt,
+                            Receipt = a.DepositId.ToString(),
+                            Reference = a.POS.User.Vendor,
+                            TransactionId = a.TransactionId,
+                            TransactionType = "Deposit",
+                            DepositAmount = a.Amount, /*string.Format("{N:0}", a.Amount),*/
+                            SaleAmount = 0,
+                            Balance = 0,
+                            POSId = a.POSId
+                        };
+            }
+            else
+            {
+                query = from a in Context.Deposits
+                        select new BalanceSheetListingModel
+                        {
+                            DateTime = a.CreatedAt,
+                            Receipt = a.DepositId.ToString(),
+                            Reference = a.POS.User.Vendor,
+                            TransactionId = a.TransactionId,
+                            TransactionType = "Deposit",
+                            DepositAmount = a.Amount, /*string.Format("{N:0}", a.Amount),*/
+                            SaleAmount = 0,
+                            Balance = 0,
+                            POSId = a.POSId
+                        };
+            }
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.DateTime) >= DbFunctions.TruncateTime(model.From));
+            }
+
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.DateTime) <= DbFunctions.TruncateTime(model.To));
+            }
+
+            if (model.VendorId.HasValue && model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                query = query.Where(p => posIds.Contains(p.POSId??0));
+            }
+
+            if (model.PosId.HasValue && model.PosId > 0)
+            {
+                query = query.Where(p => p.POSId == model.PosId);
+            }
+            //if (model.Bank.HasValue && model.Bank > 0)
+            //{
+            //    query = query.Where(p => p.Deposit.BankAccountId == model.Bank);
+            //}
+            //if (model.DepositType.HasValue && model.DepositType > 0)
+            //{
+            //    query = query.Where(p => p.Deposit.PaymentType == model.DepositType);
+            //}
+            //if (!string.IsNullOrEmpty(model.RefNumber))
+            //{
+            //    query = query.Where(p => p.Deposit.CheckNumberOrSlipId.ToLower().Contains(model.RefNumber.ToLower()));
+            //}
+            //if (!string.IsNullOrEmpty(model.TransactionId))
+            //{
+            //    query = query.Where(p => p.Deposit.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            //}
+            //if (!string.IsNullOrEmpty(model.Meter))
+            //{
+            //    query = query.Where(p => p.Deposit.m);
+            //}
+
+            //var totalrecoed = query.ToList().Count();
+            if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "TransactionId" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
+            {
+                // query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                if (model.SortBy == "CreatedAt")
+                {
+                    if (model.SortOrder == "Desc")
+                    {
+                        query = query.OrderByDescending(p => p.DateTime).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(p => p.DateTime).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                    }
+                }
+                else
+                {
+                    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+                }
+            }
+
+            return query;
+            //var list = query.ToList().Select(x => new BalanceSheetListingModel(x.Deposit)).ToList();
+
+            //if (model.SortBy == "CreatedAt" || model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
+            //{
+            //    if (model.SortBy == "UserName")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.UserName).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.UserName).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "TransactionId")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.PercentageAmount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.PercentageAmount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "PercentageAmount")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.PercentageAmount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.PercentageAmount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "PaymentType")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.Type).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.Type).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "BANK")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.Bank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.Bank).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "CheckNumberOrSlipId")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.ChkNoOrSlipId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.ChkNoOrSlipId).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "Status")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.Status).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.Status).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "Amount")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.Amount).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "NewBalance")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.NewBalance).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.NewBalance).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //    if (model.SortBy == "POS")
+            //    {
+            //        if (model.SortOrder == "Asc")
+            //            list = list.OrderBy(p => p.PosNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //        else
+            //            list = list.OrderByDescending(p => p.PosNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+            //    }
+            //}
+
+            //result.List = query.ToList();
+
+
+            //result.Status = ActionStatus.Successfull;
+            //result.Message = "Deposit Logs List";
+            //result.TotalCount = totalrecoed;
+            //return result;
+
+          
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace VendTech.BLL.Interfaces
         RequestResponse ReturnRequestANDResponseJSON(string token);
         TransactionDetail GetLastTransaction();
         TransactionDetail GetSingleTransaction(string transactionId);
+        IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
     }
     
 }

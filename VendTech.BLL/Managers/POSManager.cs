@@ -17,6 +17,15 @@ namespace VendTech.BLL.Managers
     public class POSManager : BaseManager, IPOSManager
     {
 
+        KeyValuePair<string, string> IPOSManager.GetVendorDetail(long posId)
+        {
+            var pos = Context.POS.FirstOrDefault(d => d.POSId == posId);
+            if(pos != null)
+            {
+                return new KeyValuePair<string, string>(pos.SerialNumber, pos.User.Vendor);
+            }
+            return new KeyValuePair<string, string>();
+        }
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
             model.RecordsPerPage = 1000000;
