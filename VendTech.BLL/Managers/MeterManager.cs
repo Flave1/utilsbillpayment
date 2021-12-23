@@ -974,9 +974,8 @@ namespace VendTech.BLL.Managers
                         where DbFunctions.TruncateTime(a.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && a.Finalised == true
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt, /*string.Format("{N:0}", a.Amount),*/
-                            Receipt = a.ReceiptNumber,
-                            Reference = a.POS.SerialNumber,
+                            DateTime = a.CreatedAt,  
+                            Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
                             TransactionType = "Sales",
                             DepositAmount = 0,
@@ -992,11 +991,10 @@ namespace VendTech.BLL.Managers
                         where a.Finalised == true
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt, /*string.Format("{N:0}", a.Amount),*/
-                            Receipt = a.ReceiptNumber,
-                            Reference = a.POS.SerialNumber,
+                            DateTime = a.CreatedAt,  
+                            Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
-                            TransactionType = "Sales",
+                            TransactionType = "EDSA",
                             DepositAmount = 0,
                             SaleAmount = a.Amount,
                             Balance = 0,

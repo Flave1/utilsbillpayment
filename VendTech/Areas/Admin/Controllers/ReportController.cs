@@ -762,8 +762,7 @@ namespace VendTech.Areas.Admin.Controllers
             { 
                 BALANCE = a.Balance,
                 DATE_TIME = a.DateTime.ToString("dd/MM/yyyy hh:mm"),
-                DEPOSITAMOUNT =  a.DepositAmount,
-                RECEIPT = a.Receipt,
+                DEPOSITAMOUNT =  a.DepositAmount, 
                 REFERENCE = a.Reference,
                 SALEAMOUNT = a.SaleAmount,
                 TRANSACTIONID = a.TransactionId,
@@ -778,65 +777,6 @@ namespace VendTech.Areas.Admin.Controllers
             gv.DataBind();
             if (list.Count > 0)
             {
-
-                //GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //var tecbr = new TableHeaderCell
-                //{
-                //    ColumnSpan = 8,
-                //    Text = null,
-                //    HorizontalAlign = HorizontalAlign.Left,
-                //    BorderStyle = BorderStyle.None
-                //};
-                //forbr.BorderStyle = BorderStyle.None;
-                //forbr.Controls.Add(tecbr);
-                //gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
-
-                //GridViewRow row6 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //var tb = list.Select(d => d.SALEAMOUNT).Sum() - list.Select(d => d.DEPOSITAMOUNT).Sum();
-                //var tec6 = new TableHeaderCell
-                //{
-                //    ColumnSpan = 8,
-                //    Text = tb > 0 ? "BALANCE:  " + string.Format("{0:N0}", tb) : "BALANCE:  0",
-                //    HorizontalAlign = HorizontalAlign.Right,
-                //    BorderStyle = BorderStyle.None, 
-                //    BorderColor = System.Drawing.Color.Red
-                //};
-                //row6.BorderStyle = BorderStyle.None;
-                //row6.Controls.Add(tec6);
-                //gv.HeaderRow.Parent.Controls.AddAt(0, row6);
-
-
-
-                //OPENING BALANCE
-                //GridViewRow row4 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //var td = list.Select(d => d.DEPOSITAMOUNT).Sum();
-                //var tec4 = new TableHeaderCell
-                //{
-                //    ColumnSpan = 4, 
-                //    Text = td > 0 ? "OPENING BAL:  " + string.Format("{0:N0}", td) : "OPENING BAL: 0",
-                //    HorizontalAlign = HorizontalAlign.Right,
-                //    BorderStyle = BorderStyle.Solid
-                //}; 
-                //row4.Controls.Add(tec4);
-                //gv.HeaderRow.Parent.Controls.AddAt(0, row4);
-
-
-/*
-                //IMAGE
-                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var imgHeader = new TableHeaderCell
-                {
-                    ColumnSpan = 4,  
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style=''/>",
-                    HorizontalAlign = HorizontalAlign.Center,
-                    BorderStyle = BorderStyle.None,
-                    BorderWidth = Unit.Pixel(20),
-                };
-                imgRow.Controls.Add(imgHeader);
-                imgRow.BorderStyle = BorderStyle.Dotted;
-                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
-                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);*/
-
 
                 //DETAILS
                 GridViewRow detailRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal); 
@@ -868,16 +808,16 @@ namespace VendTech.Areas.Admin.Controllers
                 detailRow.Controls.Add(imgHeader);
 
                 // openingClosingHeader
-                var td = list.Select(d => d.DEPOSITAMOUNT).Sum();
-                var ts = list.Select(d => d.SALEAMOUNT).Sum();
-                var openingBal = td > 0 ? "OPENING BAL:  " + string.Format("{0:N0}", td) : "OPENING BAL: 0";
-                var cloingBal = ts > 0 ? "CLOSING BAL:  " + string.Format("{0:N0}", ts) : "CLOSING BAL:  0";
+                var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
+                var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
+                var openingBal = openBal > 0 ? "OPENING BAL:  " + string.Format("{0:N0}", openBal) : "OPENING BAL: 0";
+                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + string.Format("{0:N0}", closeBal) : "CLOSING BAL:  0";
                 var openingClosingHeader = new TableHeaderCell
                 {
-                    ColumnSpan = 3,
+                    ColumnSpan = 2,
                     Text = "<br />"+
                     openingBal +
-                     "<br />" + cloingBal,
+                     "<br />" + closingBal,
                     HorizontalAlign = HorizontalAlign.Right,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -892,7 +832,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow emptyRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal); 
                 var space = new TableHeaderCell
                 {
-                    ColumnSpan = 8,
+                    ColumnSpan = 7,
                     Text = "",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -906,7 +846,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 8,
+                    ColumnSpan = 7,
                     Text = "VENDTECH BALANCE SHEET REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -923,16 +863,17 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "TRANS ID"; //TRANSACTION ID
-                gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE
-                gv.HeaderRow.Cells[3].Text = "RECEIPT"; //RECEIPT
-                gv.HeaderRow.Cells[4].Text = "REF #"; //REFERENCE
-                gv.HeaderRow.Cells[5].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
-                gv.HeaderRow.Cells[6].Text = "SALES"; //SALES AMOUNT  
-                gv.HeaderRow.Cells[7].Text = "BALANCE"; //BALANCE
+                gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE 
+                gv.HeaderRow.Cells[3].Text = "REFERENCE"; //REFERENCE
+                gv.HeaderRow.Cells[4].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
+                gv.HeaderRow.Cells[5].Text = "SALES"; //SALES AMOUNT  
+                gv.HeaderRow.Cells[6].Text = "BALANCE"; //BALANCE
 
                 decimal balance = 0;
                 foreach (GridViewRow row in gv.Rows)
-                { 
+                {
+                    decimal saleAmount = 0;
+                    decimal depositAmount = 0;
                     if (row.RowType == DataControlRowType.DataRow)
                     {
 
@@ -942,24 +883,38 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;  
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
-                        balance = Convert.ToDecimal(row.Cells[6].Text) - balance + Convert.ToDecimal(row.Cells[5].Text);
-                        row.Cells[5].Text = string.Format("{0:N0}", row.Cells[5].Text);
-                        row.Cells[6].Text = string.Format("{0:N0}", row.Cells[6].Text);
-                        row.Cells[7].Text = string.Format("{0:N0}", balance); 
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+
+                        saleAmount = Convert.ToDecimal(row.Cells[5].Text);
+                        depositAmount = Convert.ToDecimal(row.Cells[4].Text);
+                        balance = balance + depositAmount - saleAmount;
+
+                        row.Cells[4].Text = string.Format("{0:N0}",  depositAmount);
+                        row.Cells[5].Text = string.Format("{0:N0}", saleAmount);
+                        row.Cells[6].Text = string.Format("{0:N0}", balance); 
                         if(row.Cells[2].Text == "Deposit")
                         {
-                            row.BackColor = Color.LightGray;
+                            row.Cells[0].BackColor = Color.LightGray;
+                            row.Cells[1].BackColor = Color.LightGray;
+                            row.Cells[2].BackColor = Color.LightGray;
+                            row.Cells[3].BackColor = Color.LightGray;
+                            row.Cells[4].BackColor = Color.LightGray;
+                            row.Cells[5].BackColor = Color.LightGray;
+                            row.Cells[6].BackColor = Color.LightGray; 
                         }
-                        
+
+                        if (row.Cells[2].Text == "EDSA")
+                        {
+                            row.Cells[5].ForeColor = Color.Red;  
+                        }
+
+                        if (row.Cells[4].Text == "0.00")
+                        {
+                            row.Cells[4].Text = "";
+                        }
                         if (row.Cells[5].Text == "0.00")
                         {
                             row.Cells[5].Text = "";
-                        }
-                        if (row.Cells[6].Text == "0.00")
-                        {
-                            row.Cells[6].Text = "";
                         }
                     }
                 }
@@ -1368,6 +1323,42 @@ namespace VendTech.Areas.Admin.Controllers
             return View(list);
         }
 
+        public ActionResult PrintBalancesheetReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            ViewBag.Pritdatetime = PrintedDateServer; //BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+            }
+
+            ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");
+            ViewBag.Todate = model.To == null ? "" : model.To.Value.ToString("dd/MM/yyyy");
+          
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+
+            decimal balance = 0;
+            KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
+            ViewBag.pos = GetVendorDetail.Key;
+            ViewBag.vendor = GetVendorDetail.Value;
+         
+           var list = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            ViewBag.openBal = string.Format("{0:N0}", depositsBS.FirstOrDefault().DepositAmount);
+            ViewBag.closeBal = string.Format("{0:N0}", depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum());
+            foreach (var item in list)
+            {
+                balance = balance + item.DepositAmount - item.SaleAmount;
+                item.Balance = balance;
+            }
+
+            return View(list);
+        }
         [HttpGet]
         public ActionResult PrintDepositReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
         {

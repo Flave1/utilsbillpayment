@@ -1792,12 +1792,11 @@ namespace VendTech.BLL.Managers
                         where DbFunctions.TruncateTime(a.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt,
-                            Receipt = a.DepositId.ToString(),
-                            Reference = a.POS.User.Vendor,
+                            DateTime = a.CreatedAt, 
+                            Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
-                            DepositAmount = a.Amount, /*string.Format("{N:0}", a.Amount),*/
+                            DepositAmount = a.Amount,
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId
@@ -1808,9 +1807,8 @@ namespace VendTech.BLL.Managers
                 query = from a in Context.Deposits
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt,
-                            Receipt = a.DepositId.ToString(),
-                            Reference = a.POS.User.Vendor,
+                            DateTime = a.CreatedAt, 
+                            Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
                             DepositAmount = a.Amount, /*string.Format("{N:0}", a.Amount),*/

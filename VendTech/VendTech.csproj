@@ -429,6 +429,7 @@
     <Content Include="Areas\Admin\Views\ChequeBanks\ManageChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\Report\BalanceSheetReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_balanceSheetReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\PrintBalancesheetReport.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

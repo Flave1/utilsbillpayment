@@ -15,8 +15,7 @@ namespace VendTech.BLL.Models
     {
         public string DATE_TIME { get; set; }
         public string TRANSACTIONID { get; set; }
-        public string TYPE { get; set; }
-        public string RECEIPT { get; set; }
+        public string TYPE { get; set; } 
         public string REFERENCE { get; set; }
         public decimal DEPOSITAMOUNT { get; set; }
         public decimal SALEAMOUNT { get; set; }
@@ -31,8 +30,7 @@ namespace VendTech.BLL.Models
     {
         public DateTime DateTime { get; set; }
         public string TransactionId { get; set; }
-        public string TransactionType { get; set; }
-        public string Receipt { get; set; }
+        public string TransactionType { get; set; } 
         public string Reference { get; set; }
         public decimal DepositAmount { get; set; } = 0;
         public decimal SaleAmount { get; set; } = 0;

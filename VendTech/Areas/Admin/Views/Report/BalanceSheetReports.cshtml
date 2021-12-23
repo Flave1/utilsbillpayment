@@ -84,7 +84,7 @@
                                                 <div style="width: 49%; float: left; ">
                                                     <label>From:</label>
                                                     <input type="text" name="FromDate" id="FromDate">
-                                                    <input type="hidden" id="frmDt" />
+                                                    <input type="hidden" id="frmDt" /> 
                                                 </div>
 
                                                 <div style="width: 49%; float: right; ">
@@ -120,14 +120,13 @@
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
-                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
-                                                        <th class="sorting" data-sortby="TransactionType">TYPE</th>
-                                                        <th class="sorting" data-sortby="Receipt">RECEIPT</th>
-                                                        <th class="sorting" data-sortby="Reference">REF #</th>
-                                                        <th class="sorting" data-sortby="DAMOUNT">DEPOSITS</th>
-                                                        <th class="sorting" data-sortby="SAMOUNT">SALES</th>
-                                                        <th class="sorting" data-sortby="BALANCE">BALANCE</th>
+                                                        <th  data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th  data-sortby="TransactionId">TRANS ID</th>
+                                                        <th  data-sortby="TransactionType">TYPE</th>
+                                                        <th  data-sortby="Reference">REF #</th>
+                                                        <th  data-sortby="DAMOUNT">DEPOSITS</th>
+                                                        <th  data-sortby="SAMOUNT">SALES</th>
+                                                        <th  data-sortby="BALANCE">BALANCE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -294,7 +293,7 @@
 
             $('#btnprint').click(function (e) {
 
-                $('#salesForm').attr('action', '/Admin/Report/PrintSalesReport');
+                $('#salesForm').attr('action', '/Admin/Report/PrintBalancesheetReport');
                 $("#salesForm").attr("method", "get");
                 $("#salesForm").submit();
             });

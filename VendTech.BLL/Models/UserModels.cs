@@ -101,6 +101,7 @@ namespace VendTech.BLL.Models
         public List<int> SelectedPlatforms { get; set; }
         public long? AgentId { get; set; }
         public long? VendorId { get; set; }
+        public string Vendor { get; set; }
         //public long? POSId { get; set; }
         public string POSNumber { get; set; }
         public int Status { get; set; }
@@ -124,6 +125,7 @@ namespace VendTech.BLL.Models
             this.CompanyName = userObj.CompanyName;
             this.isemailverified = userObj.IsEmailVerified;
             this.Status = userObj.Status;
+            this.Vendor = userObj.Vendor;
             this.IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();

@@ -158,8 +158,8 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID);
-            ViewBag.userPos = posList;
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
 
             var hostory_model = new ReportSearchModel
