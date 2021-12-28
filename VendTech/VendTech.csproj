@@ -423,6 +423,7 @@
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
     <Content Include="Scripts\UserScripts\agency.js" />
+    <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
@@ -545,6 +546,8 @@
     <Content Include="Views\Agents\AddAgent.cshtml" />
     <Content Include="Views\Agents\ManageAgents.cshtml" />
     <Content Include="Views\Agents\Partials\_agencyListing.cshtml" />
+    <Content Include="Views\Report\partials\_balanceSheetReportListing.cshtml" />
+    <Content Include="Views\Report\BalanceSheetReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

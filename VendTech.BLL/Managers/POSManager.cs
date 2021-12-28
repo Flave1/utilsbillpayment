@@ -169,9 +169,7 @@ namespace VendTech.BLL.Managers
                     query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted) && !p.IsAdmin).ToList();
             }else
                 query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList();
-
-
-
+             
 
             if (agentId > 0)
             {

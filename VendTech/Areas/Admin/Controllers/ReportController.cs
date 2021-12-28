@@ -108,22 +108,21 @@ namespace VendTech.Areas.Admin.Controllers
                 }
                 if (val == "27")
                 {
-                    var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
-                    var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+                    //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
+                    //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
                      
-                    balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
-                    decimal balance = 0;
-                    foreach (var item in balanceSheet.List)
-                    { 
-                        balance = item.SaleAmount - balance + item.DepositAmount;
-                        item.Balance = balance;
-                        item.DateTime = Convert.ToDateTime(item.DateTime.ToString("dd/MM/yyyy hh:mm"));
-                    }
-                    balanceSheet.Status = ActionStatus.Successfull;
-                    balanceSheet.Message = "Balance Sheet List";
-                    balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count(); 
+                    //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+                    //decimal balance = 0;
+                    //foreach (var item in balanceSheet.List)
+                    //{ 
+                    //    balance = item.SaleAmount - balance + item.DepositAmount;
+                    //    item.Balance = balance;
+                    //}
+                    //balanceSheet.Status = ActionStatus.Successfull;
+                    //balanceSheet.Message = "Balance Sheet List";
+                    //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count(); 
 
-                    return View("BalanceSheetReports", balanceSheet);
+                    return View("BalanceSheetReports", new PagingResult<BalanceSheetListingModel>());
                 }
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "21")
@@ -1332,6 +1331,7 @@ namespace VendTech.Areas.Admin.Controllers
                 model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
             }
 
+
             if (!string.IsNullOrEmpty(ToDate))
             {
                 model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
@@ -1443,5 +1443,6 @@ namespace VendTech.Areas.Admin.Controllers
             table.Rows.Add(6, "Devesh", "M", 92, 87, 78, 73, 75, 72);
             return table;
         }
+         
     }
 }

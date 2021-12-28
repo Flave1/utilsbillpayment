@@ -19,7 +19,7 @@
                         {
                             <img alt="" @*src="~/Content/images/avatar2.jpg"*@ class="profilepictureclass" src="@(user.ProfilePicPath!=null?user.ProfilePicPath:@Url.Content("~/Content/images/avatar2.jpg"))" />
                         }
-                        <span style="text-transform:uppercase">@user.VendorName</span> <b class="caret"></b>
+                        <span style="text-transform:uppercase; font-size:30px; font-weight: bold;">@user.VendorName</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="divider"></li>
