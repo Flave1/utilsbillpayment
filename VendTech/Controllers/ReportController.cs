@@ -458,8 +458,8 @@ namespace VendTech.Controllers
 
             model.VendorId = LOGGEDIN_USER.UserID;
             var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
-            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
 
 
             KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
