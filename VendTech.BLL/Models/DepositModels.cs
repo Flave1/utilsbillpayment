@@ -11,6 +11,32 @@ using VendTech.DAL;
 
 namespace VendTech.BLL.Models
 {
+    public class BalanceSheetReportExcelModel
+    {
+        public string DATE_TIME { get; set; }
+        public string TRANSACTIONID { get; set; }
+        public string TYPE { get; set; } 
+        public string REFERENCE { get; set; }
+        public decimal DEPOSITAMOUNT { get; set; }
+        public decimal SALEAMOUNT { get; set; }
+        public decimal BALANCE { get; set; } 
+    }
+    public class BalanceSheetModel
+    {
+        public List<BalanceSheetListingModel> Sales { get; set; }
+        public List<BalanceSheetListingModel> Deposits { get; set; }
+    }
+    public class BalanceSheetListingModel
+    {
+        public DateTime DateTime { get; set; }
+        public string TransactionId { get; set; }
+        public string TransactionType { get; set; } 
+        public string Reference { get; set; }
+        public decimal DepositAmount { get; set; } = 0;
+        public decimal SaleAmount { get; set; } = 0;
+        public decimal Balance { get; set; } = 0; 
+        public long? POSId { get; set; }
+    }
     public class DepositListingModel
     {
         public string UserName { get; set; }
@@ -232,7 +258,6 @@ namespace VendTech.BLL.Models
         public long ContinueDepoit { get; set; } = 0;
 
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
-        public int ContinueDepoit { get; set; }
     }
     public class ReleaseDepositModel
     {

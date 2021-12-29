@@ -14,6 +14,7 @@ namespace VendTech.BLL.Interfaces
     public interface IPOSManager
     {
         PagingResult<POSListingModel> GetPOSPagedList(PagingModel model, long agentId = 0, long vendorId = 0, bool callForGetVendorPos = false);
+        KeyValuePair<string, string> GetVendorDetail(long posId);
         SavePosModel GetPosDetail(long posId);
         SavePosModel GetPosDetails(string passCode);
         UserModel GetUserPosDetails(string posSerialNumber);

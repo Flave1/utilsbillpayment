@@ -8420,3 +8420,1231 @@ Parameter name: parameters
 
 
 
+LINQ to Entities does not recognize the method 'System.String Format(System.String, System.Object)' method, and this method cannot be translated into a store expression.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.BalanceSheetListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The type 'VendTech.BLL.Models.BalanceSheetListingModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The type 'VendTech.BLL.Models.BalanceSheetListingModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.BalanceSheetListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Input string was not in a correct format.
+
+
+
+The specified type member 'Date' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Date' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+Input string was not in a correct format.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\Report\PrintBalancesheetReport.cshtml(73): error CS0103: The name 'item' does not exist in the current context
+
+
+
+Non-invocable member 'System.Collections.Generic.List<System.Web.Mvc.SelectListItem>.Count' cannot be used like a method.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+Non-invocable member 'System.Collections.Generic.List<System.Web.Mvc.SelectListItem>.Count' cannot be used like a method.
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+A potentially dangerous Request.QueryString value was detected from the client (errorMessage="...neric.List<System.Web.Mvc.Sele...").
+
+
+
+The view 'BalanceSheetReport' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/BalanceSheetReport.aspx
+~/Views/Report/BalanceSheetReport.ascx
+~/Views/Shared/BalanceSheetReport.aspx
+~/Views/Shared/BalanceSheetReport.ascx
+~/Views/Report/BalanceSheetReport.cshtml
+~/Views/Report/BalanceSheetReport.vbhtml
+~/Views/Shared/BalanceSheetReport.cshtml
+~/Views/Shared/BalanceSheetReport.vbhtml
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
