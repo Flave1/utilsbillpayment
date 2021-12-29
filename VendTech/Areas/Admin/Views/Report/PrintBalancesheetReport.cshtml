@@ -1,0 +1,177 @@
+﻿@model List<BalanceSheetListingModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+    
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Balance Sheet Reports</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Sales Reports</h3>
+                    </div>
+                    <div class="content" id="printid">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6 ">
+                                <button class="btn btn-primary pull-right " onclick="printPageArea()" id="Printid">Print</button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-danger pull-right " onclick="goBack()" id="gobackbtnid">Go Back</button>
+                            </div>
+
+                        </div>
+                       
+                        <div id="printiddive">
+
+                            <div class="row" style="display: flex;">
+                                <div style="width:35%;  padding-left:20px;">
+                                    <h3><b>VENDTECH BALANCE SHEET REPORTS</b></h3>
+                                    <h5><label>POS ID:  @ViewBag.pos</label></h5>
+                                    <h5><label>VENDOR:  @ViewBag.vendor</label></h5>
+
+                                    <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
+                                    <h5><label>TO DATE: @ViewBag.Todate</label></h5>
+                                    <br />
+                                    <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
+                                    <br />
+                                </div>
+                                <div style="width:35%; ">
+                                    <img src='http://vendtechsl.net/Content/images/ventech.png' width="100" alt="LOGO" />
+                                </div>
+                                <div style="width:30%; padding-top:100px;"> 
+                                    <h5><label>OPENING BAL:  @ViewBag.openBal</label></h5>
+                                    <h5><label>CLOSING BAL: @ViewBag.closeBal</label></h5>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" id="datatable-icons">
+                                <tr>
+                                    <th>  DATE/TIME </th>
+                                    <th>TRANS ID</th>
+                                    <th> TYPE  </th>
+                                    <th> REFERENCE </th>
+                                    <th>DEPOSIT </th>
+                                    <th> SALES </th>
+                                    <th> BALANCE</th> 
+                                </tr>
+
+                                @foreach (var items in Model)
+                                {
+                            <tr>
+                                <td style="text-align:right">@items.DateTime</td>
+                                <td style="text-align:right">@items.TransactionId</td>
+                                <td style="text-align:right">@items.TransactionType</td>
+                                <td style="text-align:right">@items.Reference</td>
+                                <td style="text-align:right;">
+                                    @if (items.DepositAmount == 0)
+                                    {
+                                        <span>-</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@string.Format("{0:N0}", items.DepositAmount)</span>
+                                    }
+                                </td>
+                                <td style="text-align:right;">
+                                    @if (items.SaleAmount == 0)
+                                    {
+                                        <span>-</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@string.Format("{0:N0}", items.SaleAmount)</span>
+                                    }
+                                </td>
+                                <td style="text-align:right;">
+                                    @if (items.Balance == 0)
+                                    {
+                                        <span>-</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@string.Format("{0:N0}", items.Balance)</span>
+                                    }
+                                </td>
+                            </tr>
+                                }
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    @@media print {
+    #Header, #Footer { display: none !important; }
+}
+    /*thead {
+        display: table-row;
+    }*/
+
+</style>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+           
+            //$('#hideid').hide();
+            //$("#Printid").click();
+
+            // printPageArea();
+
+            var i = 0;
+            setTimeout(function () {
+                if (i == 0) {
+                    printPageArea();
+                    i++;
+                }
+
+            }, 1000);
+
+        });
+
+        //function printPageArea() {
+        //    //var printContent = document.getElementById("printid");
+        //    //var WinPrint = window.open('', '', 'width=900,height=650');
+        //    //WinPrint.document.write(printContent.innerHTML);
+        //    //WinPrint.document.close();
+        //    //WinPrint.focus();
+        //    //WinPrint.print();
+        //    //WinPrint.close();
+        //    window.print();
+        //}
+
+        function printPageArea() {
+
+            var printContents = document.getElementById("printiddive").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        }
+
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+}

@@ -1,0 +1,53 @@
+﻿@model PagingResult<BalanceSheetListingModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td style="text-align:right;"> @item.DateTime.ToString("dd/MM/yyyy hh:mm")</td>
+            <td style="text-align:right;"> @item.TransactionId</td>
+            <td style="text-align:left; text-transform:uppercase"> @item.TransactionType</td>
+            <td style="text-align:right;"> @item.Reference</td>
+            <td style="text-align:right;">
+                @if (item.DepositAmount == 0)
+                { 
+                    <span>-</span>
+                }
+                else
+                {
+                    <span>@string.Format("{0:N0}", item.DepositAmount)</span>
+                }
+            </td>
+            <td style="text-align:right;">
+                @if (item.SaleAmount == 0)
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    <span>@string.Format("{0:N0}", item.SaleAmount)</span>
+                }
+            </td>
+            <td style="text-align:right;">
+                @if (item.Balance == 0)
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    <span>@string.Format("{0:N0}", item.Balance)</span>
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="9" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+    </tr>
+}
+
+

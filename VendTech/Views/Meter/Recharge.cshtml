@@ -63,14 +63,32 @@
                             <div class="tabcont-row current">
                                 <div class="row">
                                     <div class="col-md-4" style=" border-right:2px solid #f6eded;">
-                                        <br />
                                         <form id="rechargeForm" style="box-shadow:0 0 1px #8f7e7e; border:none; ">
                                             <div class="row">
                                                 <div class="row padded">
-                                                    <div class=" col-md-4">
-                                                        <label class="control-label">SELECT POS ID</label>
-                                                        @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
-                                                    </div>
+                                                    @{
+                                                        var pos = (List<SelectListItem>)ViewBag.userPos;
+                                                    }
+                                                    @if (pos.Count > 1)
+                                                    {
+                                                        <div class=" col-md-4">
+                                                            <label class="control-label">SELECT POS ID</label>
+                                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class=" col-md-12">
+                                                            <label class="control-label" style="font-weight:bold; font-size:40px">POS ID: @pos.FirstOrDefault().Text</label>
+                                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+
+                                                        </div>
+                                                        <br />
+                                                        <br />
+                                                        <br />
+
+                                                    }
+
                                                     <div class="form-group col-md-8">
                                                         <label class="control-label ">SELECT SAVED METER</label>
                                                         @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
@@ -241,6 +259,7 @@
                 onSelectMeter();
 
                 $(".savebttn").click(function () {
+
                     if (!$("#Amount").val() || $("#Amount").val() == "0") {
                         $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
                         return;
@@ -260,12 +279,18 @@
                             return;
                         }
 
+                        debugger
 
                         let meterno = ""
                         if ($("#MeterNumber").val() == "") {
-                            meterno = $("#meterDrp option:selected").text().split("-")[0]
+                            meterno = $("#meterDrp option:selected").text().split("-")[0].trim()
                         } else {
                             meterno = $("#MeterNumber").val();
+                        }
+                        console.log(meterno.length);
+                        if (meterno.length != 11) {
+                            $.ShowMessage($('div.messageAlert'), "Please enter a valid meter number.", MessageType.Error);
+                            return;
                         }
 
                         $("#meterno").html(meterno);

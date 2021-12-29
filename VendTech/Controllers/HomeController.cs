@@ -111,7 +111,8 @@ namespace VendTech.Controllers
                     LastActivityTime = DateTime.UtcNow,
                     UserType = UserRoles.AppUser,
                     IsEmailVerified = userDetails.isemailverified,
-                    Status = userDetails.Status
+                    Status = userDetails.Status,
+                    VendorName = userDetails.Vendor
                 };
             }
             else

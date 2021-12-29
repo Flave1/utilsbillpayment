@@ -300,6 +300,7 @@
     <Content Include="Scripts\AdminScripts\depositReverse.js" />
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
     <Content Include="Scripts\AdminScripts\passcode.js" />
+    <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
@@ -422,10 +423,14 @@
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
     <Content Include="Scripts\UserScripts\agency.js" />
+    <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\ManageChequeBanks.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\BalanceSheetReports.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_balanceSheetReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\PrintBalancesheetReport.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -541,6 +546,8 @@
     <Content Include="Views\Agents\AddAgent.cshtml" />
     <Content Include="Views\Agents\ManageAgents.cshtml" />
     <Content Include="Views\Agents\Partials\_agencyListing.cshtml" />
+    <Content Include="Views\Report\partials\_balanceSheetReportListing.cshtml" />
+    <Content Include="Views\Report\BalanceSheetReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

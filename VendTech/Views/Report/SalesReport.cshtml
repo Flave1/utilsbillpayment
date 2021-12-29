@@ -104,6 +104,10 @@
                                                     {
                                                         <option value="1">DEPOSIT REPORT</option>
                                                     }
+                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "BALANCE SHEET REPORT"))
+                                                    {
+                                                        <option value="3">BALANCE SHEET REPORT</option>
+                                                    }
                                                 </select>
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
@@ -252,6 +256,8 @@
                 var val = $("#rpt").val();
                 if (val == 1)
                     window.location.href = '/Report/DepositReport';
+                else if (val == 3)
+                    window.location.href = '/Report/BalanceSheetReport';
                 else
                     window.location.href = '/Report/SalesReport';
             }

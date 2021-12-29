@@ -18,6 +18,7 @@ using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
 using VendTech.Areas.Admin.Controllers;
+using System.Drawing;
 #endregion
 
 namespace VendTech.Controllers
@@ -351,6 +352,66 @@ namespace VendTech.Controllers
             return View(deposits);
 
         }
+
+
+
+        public ActionResult BalanceSheetReport()
+        {
+            ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            var model = new ReportSearchModel
+            {
+                SortBy = "CreatedAt",
+                SortOrder = "Desc",
+                VendorId = LOGGEDIN_USER.UserID,
+                IsInitialLoad = true
+
+            };
+            var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+            ViewBag.AssignedReports = assignedReportModule;
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+
+
+            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+
+            //ViewBag.Vendors = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
+            ViewBag.userPos = posList;
+
+
+            ViewBag.SelectedTab = SelectedAdminTab.Reports;
+            return View(balanceSheet);
+
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetBalanceSheetReportsPagingList(ReportSearchModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            model.RecordsPerPage = 1000000000; 
+
+            model.VendorId = LOGGEDIN_USER.UserID;
+            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+
+            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+            decimal balance = 0;
+            foreach (var item in balanceSheet.List)
+            {
+                balance = balance + item.DepositAmount - item.SaleAmount;
+                item.Balance = balance;
+            }
+
+            balanceSheet.Status = ActionStatus.Successfull;
+            balanceSheet.Message = "Balance Sheet List";
+            balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
+
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
+           };
+            return JsonResult(resultString);
+        }
+
+
         [AjaxOnly, HttpPost]
         public JsonResult GetSalesReportPagingList(ReportSearchModel model)
         {
@@ -377,6 +438,288 @@ namespace VendTech.Controllers
             return JsonResult(resultString);
         }
 
+        public void ExportBalanceSheetReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            PrintedDateServer = PrintedDateServer.TrimEnd(' ');
+            string fromdate = "";
+            string Todate = "";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                fromdate = model.From.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                Todate = model.To.Value.ToString("dd/MM/yyyy");
+            }
+
+            model.VendorId = LOGGEDIN_USER.UserID;
+            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+
+
+            KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
+
+            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
+
+            var list = balanceSheet.List.Select(a => new BalanceSheetReportExcelModel
+            {
+                BALANCE = a.Balance,
+                DATE_TIME = a.DateTime.ToString("dd/MM/yyyy hh:mm"),
+                DEPOSITAMOUNT = a.DepositAmount,
+                REFERENCE = a.Reference,
+                SALEAMOUNT = a.SaleAmount,
+                TRANSACTIONID = a.TransactionId,
+                TYPE = a.TransactionType
+            }).ToList();
+
+            var gv = new GridView
+            {
+                DataSource = list,
+
+            };
+            gv.DataBind();
+            if (list.Count > 0)
+            {
+
+                //DETAILS
+                GridViewRow detailRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                gv.HeaderRow.Parent.Controls.AddAt(0, detailRow);
+                var detail = new TableHeaderCell
+                {
+                    ColumnSpan = 3,
+                    Text = "POS ID:  " + GetVendorDetail.Key +
+                    "<br /><br />VENDOR:  " + GetVendorDetail.Value +
+                    "<br /><br />FROM DATE:  " + fromdate +
+                    "<br />TO DATE:  " + Todate +
+                    "<br />PRINTED DATE:  " + PrintedDateServer,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                detailRow.Controls.Add(detail);
+
+
+                //IMAGE
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 2,
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='110' height='110' />",
+                    HorizontalAlign = HorizontalAlign.Right,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                detailRow.Controls.Add(imgHeader);
+
+                // openingClosingHeader
+                var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
+                var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
+                var openingBal = openBal > 0 ? "OPENING BAL:  " + string.Format("{0:N0}", openBal) : "OPENING BAL: 0";
+                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + string.Format("{0:N0}", closeBal) : "CLOSING BAL:  0";
+                var openingClosingHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 2,
+                    Text = "<br />" +
+                    openingBal +
+                     "<br />" + closingBal,
+                    HorizontalAlign = HorizontalAlign.Right,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                detailRow.Controls.Add(openingClosingHeader);
+
+
+
+
+
+
+                GridViewRow emptyRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var space = new TableHeaderCell
+                {
+                    ColumnSpan = 7,
+                    Text = "",
+                    HorizontalAlign = HorizontalAlign.Center,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+
+                };
+                emptyRow.Controls.Add(space);
+                emptyRow.BorderStyle = BorderStyle.None;
+                gv.HeaderRow.Parent.Controls.AddAt(0, emptyRow);
+
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec1 = new TableHeaderCell
+                {
+                    ColumnSpan = 7,
+                    Text = "VENDTECH BALANCE SHEET REPORTS",
+                    HorizontalAlign = HorizontalAlign.Center,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+
+                };
+                row1.Controls.Add(tec1);
+                row1.BorderStyle = BorderStyle.None;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                row1.Style.Add(HtmlTextWriterStyle.FontWeight, "bold");
+                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+
+
+
+                gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
+                gv.HeaderRow.Cells[1].Text = "TRANS ID"; //TRANSACTION ID
+                gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE 
+                gv.HeaderRow.Cells[3].Text = "REFERENCE"; //REFERENCE
+                gv.HeaderRow.Cells[4].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
+                gv.HeaderRow.Cells[5].Text = "SALES"; //SALES AMOUNT  
+                gv.HeaderRow.Cells[6].Text = "BALANCE"; //BALANCE
+
+                decimal balance = 0;
+                foreach (GridViewRow row in gv.Rows)
+                {
+                    decimal saleAmount = 0;
+                    decimal depositAmount = 0;
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+
+                        saleAmount = Convert.ToDecimal(row.Cells[5].Text);
+                        depositAmount = Convert.ToDecimal(row.Cells[4].Text);
+                        balance = balance + depositAmount - saleAmount;
+
+                        row.Cells[4].Text = string.Format("{0:N0}", depositAmount);
+                        row.Cells[5].Text = string.Format("{0:N0}", saleAmount);
+                        row.Cells[6].Text = string.Format("{0:N0}", balance);
+                        if (row.Cells[2].Text == "Deposit")
+                        {
+                            row.Cells[0].BackColor = Color.LightGray;
+                            row.Cells[1].BackColor = Color.LightGray;
+                            row.Cells[2].BackColor = Color.LightGray;
+                            row.Cells[3].BackColor = Color.LightGray;
+                            row.Cells[4].BackColor = Color.LightGray;
+                            row.Cells[5].BackColor = Color.LightGray;
+                            row.Cells[6].BackColor = Color.LightGray;
+                        }
+
+                        if (row.Cells[2].Text == "EDSA")
+                        {
+                            row.Cells[5].ForeColor = Color.Red;
+                        }
+
+                        if (row.Cells[4].Text == "0.00")
+                        {
+                            row.Cells[4].Text = "";
+                        }
+                        if (row.Cells[5].Text == "0.00")
+                        {
+                            row.Cells[5].Text = "";
+                        }
+                    }
+                }
+            }
+
+
+            if (ExportType == "Excel")
+            {
+
+                string filename = "BalanceSheetReport_" + PrintedDateServer + ".xls";
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                //Response.ContentType = "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.AppendHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+
+            }
+            else if (ExportType == "PDF")
+            {
+                string filename = "BalanceSheetReport_" + PrintedDateServer + ".pdf";
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment;filename=\"" + filename + "\"");
+
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                gv.RenderControl(hw);
+                StringReader sr = new StringReader(sw.ToString());
+                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
+                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                pdfDoc.Open();
+                htmlparser.Parse(sr);
+                pdfDoc.Close();
+                Response.Write(pdfDoc);
+                Response.End();
+                gv.AllowPaging = true;
+
+                //Response.Charset = "";
+                //StringWriter objStringWriter = new StringWriter();
+                //HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                //gv.RenderControl(objHtmlTextWriter);
+                //Response.Output.Write(objStringWriter.ToString());
+                //Response.Flush();
+                //Response.End();
+            }
+
+        }
+
+        public ActionResult PrintBalancesheetReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            ViewBag.Pritdatetime = PrintedDateServer; //BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.From = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+            }
+
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.To = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+            }
+
+            ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");
+            ViewBag.Todate = model.To == null ? "" : model.To.Value.ToString("dd/MM/yyyy");
+
+            model.VendorId = LOGGEDIN_USER.UserID;
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+
+            decimal balance = 0;
+            KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
+            ViewBag.pos = GetVendorDetail.Key;
+            ViewBag.vendor = GetVendorDetail.Value;
+
+            var list = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            ViewBag.openBal = string.Format("{0:N0}", depositsBS.FirstOrDefault().DepositAmount);
+            ViewBag.closeBal = string.Format("{0:N0}", depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum());
+            foreach (var item in list)
+            {
+                balance = balance + item.DepositAmount - item.SaleAmount;
+                item.Balance = balance;
+            }
+
+            return View(list);
+        }
 
         public void ExportSalesReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {

@@ -132,4 +132,6 @@ namespace VendTech.BLL.Models
         public string PIN { get; set; }
         public string AMOUNT { get; set; }
     }
+
+  
 }
