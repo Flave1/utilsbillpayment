@@ -209,6 +209,7 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
+        
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
@@ -315,6 +316,83 @@ namespace VendTech.BLL.Managers
 
         }
 
+        PagingResult<GSTRechargeApiListingModel> IMeterManager.GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
+        {
+            model.RecordsPerPage = 10000000;
+            var result = new PagingResult<GSTRechargeApiListingModel>();
+
+            IQueryable<TransactionDetail> query = null;
+            if (!model.IsInitialLoad)
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+            else
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
+
+            if (model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                {
+                    if (user.Status == (int)UserStatusEnum.Active)
+                    {
+                        //posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
+                        posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                    }
+                    else
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).Select(p => p.POSId).ToList();
+                    }
+                }
+                query = query.Where(p => posIds.Contains(p.POSId.Value));
+            }
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+            }
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To));
+            }
+            if (model.PosId > 0)
+            {
+                query = query.Where(p => p.POSId == model.PosId);
+            }
+            if (!string.IsNullOrEmpty(model.Meter))
+            {
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+            }
+            if (!string.IsNullOrEmpty(model.TransactionId))
+            {
+                query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            }
+            result.TotalCount = query.Count();
+
+
+            //if (model.SortBy != "VendorName" && model.SortBy != "MeterNumber" && model.SortBy != "POS")
+            //{
+            //    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+            //}
+
+            var list = query.ToList().Select(x => new GSTRechargeApiListingModel(x)).ToList();
+
+            if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
+            { 
+                if (model.SortBy == "MeterNumber")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                } 
+            }
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meter recharges fetched successfully.";
+            return result;
+
+        }
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();

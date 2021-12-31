@@ -119,6 +119,32 @@ namespace VendTech.BLL.Models
             RechargePin = x.MeterToken1;
         }
     }
+
+    public class GSTRechargeApiListingModel
+    { 
+        public string CreatedAt { get; set; } 
+        public string TransactionId { get; set; }   
+        public string Receipt { get; set; }
+        public string MeterNumber { get; set; }    
+        public string ServiceCharge { get; set; }
+        public decimal Gst { get; set; }
+        public double UnitsCost { get; set; }
+        public decimal Tarrif { get; set; }
+        public double Units { get; set; } 
+        public GSTRechargeApiListingModel() { }
+        public GSTRechargeApiListingModel(TransactionDetail x)
+        {  
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            MeterNumber = x.MeterNumber1; 
+            TransactionId = x.TransactionId;
+            Receipt = x.ReceiptNumber;
+            ServiceCharge = x.SerialNumber;
+            Gst = x.TaxCharge;
+            UnitsCost = Convert.ToDouble(x.CostOfUnits);
+            Tarrif = Convert.ToDecimal(x.Tariff);
+            Units = Convert.ToDouble(x.Units);
+        }
+    }
     public class SalesReportExcelModel
     {
         public string Date_TIME { get; set; }
@@ -133,5 +159,18 @@ namespace VendTech.BLL.Models
         public string AMOUNT { get; set; }
     }
 
-  
+    //public class GSTSalesReportExcelModel
+    //{
+    //    public string MeterNumber { get; set; }
+    //    public decimal Amount { get; set; }
+    //    public string CreatedAt { get; set; }
+    //    public string TransactionId { get; set; }
+    //    public string Receipt { get; set; }
+    //    public string ServiceCharge { get; set; }
+    //    public decimal Gst { get; set; }
+    //    public decimal UnitsCost { get; set; }
+    //    public decimal Tarrif { get; set; }
+    //    public decimal Units { get; set; } 
+    //}
+
 }

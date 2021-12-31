@@ -1,0 +1,29 @@
+﻿@model PagingResult<GSTRechargeApiListingModel>
+
+  
+@if (Model.List != null && Model.List.Count() > 0)
+    {
+        foreach (var item in Model.List)
+        {
+<tr class="odd gradeX">
+    <td style="text-align:right;"> @item.CreatedAt</td>
+    <td style="text-align:right;"> @item.TransactionId</td>
+    <td style="text-align:right;"> @item.Receipt</td>
+    <td style="text-align:right;"> @item.MeterNumber</td> 
+    <td style="text-align:right;"> <strong> @(item.ServiceCharge == null ? "0" : string.Format("{0:N0}", item.ServiceCharge))</strong></td>
+    <td style="text-align:right;"> <strong> @(item.Gst == null ? "0" : string.Format("{0:N0}", item.Gst))</strong></td>
+    <td style="text-align:right;"> <strong> @item.UnitsCost</strong></td>
+    <td style="text-align:right;"> <strong> @(item.Tarrif == null ? "0" : string.Format("{0:N0}", item.Tarrif))</strong></td>
+    <td style="text-align:right;"> <strong> @item.Units</strong></td>
+
+</tr>
+        } 
+    }
+    else
+    {
+        <tr class="odd gradeX">
+            <td colspan="9" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+        </tr>
+    }
+
+

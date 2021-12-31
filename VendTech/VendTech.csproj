@@ -301,6 +301,7 @@
     <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
     <Content Include="Scripts\AdminScripts\passcode.js" />
     <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
+    <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
@@ -431,6 +432,9 @@
     <Content Include="Areas\Admin\Views\Report\BalanceSheetReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_balanceSheetReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\PrintBalancesheetReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ManageGSTSalesReports.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_gstSalesReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\PrintGSTSalesReport.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
