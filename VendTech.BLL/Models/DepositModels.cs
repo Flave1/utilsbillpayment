@@ -37,6 +37,17 @@ namespace VendTech.BLL.Models
         public decimal Balance { get; set; } = 0; 
         public long? POSId { get; set; }
     }
+
+    public class DashboardBalanceSheetModel
+    {  
+        public string Vendor { get; set; }
+        public decimal DepositAmount { get; set; } = 0;
+        public decimal SaleAmount { get; set; } = 0;
+        public decimal Balance { get; set; } = 0;
+        public decimal POSBalance { get; set; } = 0;
+        public string Status { get; set; }
+        public long UserId { get; set; }
+    }
     public class DepositListingModel
     {
         public string UserName { get; set; }

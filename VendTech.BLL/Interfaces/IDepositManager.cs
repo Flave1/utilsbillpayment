@@ -47,6 +47,7 @@ namespace VendTech.BLL.Interfaces
         void TakeCommision(long posId, decimal amt);
         Deposit SaveApprovedDeposit(PendingDeposit model);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
+        IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
     }
 
 }

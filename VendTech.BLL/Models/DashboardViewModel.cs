@@ -18,5 +18,7 @@ namespace VendTech.BLL.Models
         public List<TransactionChartData> transactionChartData { get; set; }
         public UserModel currentUser { get; set; }
 
+        public PagingResult<DashboardBalanceSheetModel> Bs { get; set; } = new PagingResult<DashboardBalanceSheetModel>();
+
     }
 }

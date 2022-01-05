@@ -153,20 +153,13 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetDepositReleaseReportList(PagingModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            var modal = _depositManager.GetDepositPagedList(model, true);
-            //List<string> resultString = new List<string>();
-
-            //resultString.Add(RenderRazorViewToString("Partials/_depositReleaseListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
-            //return JsonResult(resultString);           
+            var modal = _depositManager.GetDepositPagedList(model, true);          
 
             var resultString = new List<string>
             {
                 RenderRazorViewToString("Partials/_depositReleaseListing", modal),
                 modal.TotalCount.ToString()
-            };
-            //resultString.Add(RenderRazorViewToString("Partials/_depositReleaseListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
+            }; 
             return JsonResult(resultString);
         }
         [AjaxOnly, HttpPost]
@@ -179,6 +172,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (model.ReportType == "17")
             {
                 modal = _depositManager.GetReportsPagedList(model, true);
+
             }
             if (model.ReportType == "21")
             {
@@ -207,18 +201,12 @@ namespace VendTech.Areas.Admin.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult GetSalesReportsPagingList(ReportSearchModel model)
         {
-            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            //model.SortBy = "CreatedAt";
-            //model.SortOrder = "Desc";
-
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
             var modal = _meterManager.GetUserMeterRechargesReport(model, true);
 
-            //List<string> resultString = new List<string>();
-            //resultString.Add(RenderRazorViewToString("Partials/_salesReportListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
 
-
+            var sum = modal.List.Select(d => d.Amount).Sum(); 
             var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
            };
             return JsonResult(resultString);
@@ -228,8 +216,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetBalanceSheetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
-            model.RecordsPerPage = 1000000000;
-           // var modal = _meterManager.GetUserMeterRechargesReport(model, true);
+            model.RecordsPerPage = 1000000000; 
 
             var balanceSheet = new PagingResult<BalanceSheetListingModel>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
@@ -1005,7 +992,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tecbr = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = null,
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None
@@ -1020,7 +1007,7 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Parent.Controls.AddAt(0, detailRow);
                 var detail = new TableHeaderCell
                 {
-                    ColumnSpan = 6,
+                    ColumnSpan = 7,
                     Text =  "FROM DATE:  " + fromdate +
                     "<br /> TO DATE:  " + Todate +
                     "<br /> PRINT DATE:  " + PrintedDateServer,
@@ -1048,7 +1035,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //TableHeaderCell tec1 = new TableHeaderCell();
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 9,
+                    ColumnSpan = 10,
                     Text = "VENDTECH SALES GST (15%) REPORT",
                     HorizontalAlign = HorizontalAlign.Left,
                     BorderStyle = BorderStyle.None,
@@ -1066,11 +1053,12 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[1].Text = "TRANS ID"; //TRANSACTIONID
                 gv.HeaderRow.Cells[2].Text = "RECEIPT"; //RECEIPT
                 gv.HeaderRow.Cells[3].Text = "METER No"; //METER_NO
-                gv.HeaderRow.Cells[4].Text = "SERVICE CHARGE"; //SERVICE CHARGE
-                gv.HeaderRow.Cells[5].Text = "GST (15)"; //GST (15) 
-                gv.HeaderRow.Cells[6].Text = "UNITS COST"; //UNITS COST
-                gv.HeaderRow.Cells[7].Text = "TARIFF"; //TARIFF
-                gv.HeaderRow.Cells[8].Text = "UNITS"; //UNITS 
+                gv.HeaderRow.Cells[4].Text = "AMOUNT"; //AMOUNT
+                gv.HeaderRow.Cells[5].Text = "SERVICE CHARGE"; //SERVICE CHARGE
+                gv.HeaderRow.Cells[6].Text = "GST (15)"; //GST (15) 
+                gv.HeaderRow.Cells[7].Text = "UNITS COST"; //UNITS COST
+                gv.HeaderRow.Cells[8].Text = "TARIFF"; //TARIFF
+                gv.HeaderRow.Cells[9].Text = "UNITS"; //UNITS 
 
                 foreach (GridViewRow row in gv.Rows)
                 {
@@ -1088,7 +1076,9 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[4].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[4].Text));
                         row.Cells[5].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[5].Text)); 
-                        row.Cells[7].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[7].Text)); 
+                        row.Cells[7].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[7].Text));
+                        row.Cells[8].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[8].Text));
+                        row.Cells[6].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[6].Text));
                     }
                 }
             }

@@ -1039,8 +1039,6 @@ namespace VendTech.BLL.Managers
                 return null;
         }
 
-
-
         IQueryable<BalanceSheetListingModel> IMeterManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 999999999;
@@ -1055,7 +1053,7 @@ namespace VendTech.BLL.Managers
                             DateTime = a.CreatedAt,  
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
-                            TransactionType = "Sales",
+                            TransactionType = "EDSA",
                             DepositAmount = 0,
                             SaleAmount = a.Amount,
                             Balance = 0,
@@ -1151,9 +1149,17 @@ namespace VendTech.BLL.Managers
             return query; 
         }
 
-
-    }
-
-
-
+        IQueryable<DashboardBalanceSheetModel> IMeterManager.GetDashboardBalanceSheetReports()
+        {
+           return  Context.TransactionDetails.Where(d => d.Finalised == true).GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel {
+            SaleAmount = f.Sum(d => d.Amount),
+            Vendor = f.FirstOrDefault().User.Vendor,
+            UserId = f.FirstOrDefault().UserId, 
+            Balance = 0,
+            DepositAmount = 0,
+            Status = "",
+            POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
+           }); 
+        } 
+    } 
 }

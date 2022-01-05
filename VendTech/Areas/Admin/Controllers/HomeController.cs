@@ -16,6 +16,7 @@ using System.Reflection;
 using VendTech.DAL;
 using Newtonsoft.Json;
 using System.Linq;
+using static VendTech.Controllers.MeterController;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -30,11 +31,12 @@ namespace VendTech.Areas.Admin.Controllers
         private IDashboardManager _dashboardManager;
         private readonly IMeterManager _meterManager;
         private readonly IDepositManager _depositManager;
+        private readonly IPOSManager _posManager;
         #endregion
 
 
         // /Admin/Home/OTPVerification/
-        public HomeController(IDepositManager depositManager, IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
+        public HomeController(IDepositManager depositManager, IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -44,6 +46,7 @@ namespace VendTech.Areas.Admin.Controllers
             _dashboardManager = dashboardManager;
             _meterManager = meterManager;
             _depositManager = depositManager;
+            _posManager = posManager;
         }
 
 
@@ -375,5 +378,39 @@ namespace VendTech.Areas.Admin.Controllers
             }
 
         }
+
+
+        [HttpGet, Public]
+        public ActionResult GetVendorBalanceSheetReports(RequestObject tokenobject)
+        {
+            var result = new PagingResult<DashboardBalanceSheetModel>();
+
+            try
+            {
+                var sales = _meterManager.GetDashboardBalanceSheetReports();
+                var deps = _depositManager.GetDashboardBalanceSheetReports();
+
+                result.List = (from a in sales
+                               join b in deps on a.UserId equals b.UserId
+                               select new DashboardBalanceSheetModel
+                               {
+                                   SaleAmount = a.SaleAmount,
+                                   Vendor = a.Vendor,
+                                   UserId = a.UserId,
+                                   Balance = b.DepositAmount - a.SaleAmount,
+                                   DepositAmount = b.DepositAmount,
+                                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
+                                   POSBalance = b.POSBalance
+                               }).OrderBy(s => s.Balance).Take(19).ToList();
+                result.Status = ActionStatus.Successfull;
+                result.Message = "Successfully.";
+                return PartialView("Partials/_BSReportListing", result);
+            }
+            catch (Exception)
+            {
+                return PartialView("Partials/_BSReportListing", result);
+            }
+        }
+
     }
 }

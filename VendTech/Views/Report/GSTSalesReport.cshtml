@@ -1,4 +1,4 @@
-﻿@model PagingResult<MeterRechargeApiListingModel>
+﻿@model PagingResult<GSTRechargeApiListingModel>
 @{ ViewBag.Title = "Manage Reports";
     Layout = "~/Views/Shared/_LayOut.cshtml"; }
 
@@ -37,7 +37,7 @@
         }
     </style>
     <div class="page-head">
-        <h3><b>Manage Sales Report</b></h3>
+        <h3><b>Manage GST Sales Report</b></h3>
 
     </div>
     <div class="cl-mcont">
@@ -48,7 +48,7 @@
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2>SALES REPORTS</h2>
+                                    <h2>GST Sales REPORTS</h2>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
                                     <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
                                     <label>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="blwsec">
                                     <div class="blwsec-left">
-                                        <form action="Report/ExportSalesReportTo" method="post" id="salesform">
+                                        <form action="Report/ExportGSTSalesReportTo" method="post" id="GSTSalesform">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
 
@@ -108,16 +108,15 @@
                                                     {
                                                         <option value="3">BALANCE SHEET REPORT</option>
                                                     }
-
                                                     @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "GST SALES REPORT"))
                                                     {
-                                                         <option value="4">GST SALES REPORT</option>
+                                                        <option value="2" selected="selected">GST SALES REPORT</option>
                                                     }
                                                 </select>
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
 
-                                            <div class="form-group row">
+                                            @*<div class="form-group row">
                                                 <label style="width:30%;  float:left;">Meter #:</label>
                                                 <input style="width:65%; float:right;" type="text" id="meterNo" name="Meter" class="form-control">
                                             </div>
@@ -126,7 +125,7 @@
                                             <div class="form-group row">
                                                 <label style="width:30%;  float:left;">VT Trans ID:</label>
                                                 <input style="width:65%; float:right;" type="text" id="tranId" name="TransactionId" class="form-control">
-                                            </div>
+                                            </div>*@
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
                                     </div>
@@ -139,17 +138,19 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th>PRODUCT</th>
                                                         <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
-                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
-                                                        <th class="sorting" data-sortby="VendorName">VENDOR </th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th> 
-                                                        <th>TOKEN</th>
+                                                        <th class="sorting" data-sortby="MeterNumber">RECEIPT ID</th>
+                                                        <th class="sorting" data-sortby="MeterNumber">METER No</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="VendorName">SERVICE CHARGE</th>
+                                                        <th class="sorting" data-sortby="POS">GST (15%)</th>
+                                                        <th class="sorting" data-sortby="POS">UNITS COST</th>
+                                                        <th class="sorting" data-sortby="POS">TARRIFF</th>
+                                                        <th class="sorting" data-sortby="POS">UNITS</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @Html.Partial("Partials/_salesListing", Model)
+                                                    @Html.Partial("Partials/_gstSalesListing", Model)
                                                 </tbody>
                                             </table>
                                         </div>
@@ -178,7 +179,7 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Scripts/UserScripts/salesReport.js"></script>
+    <script src="~/Scripts/UserScripts/gstSalesReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -257,17 +258,17 @@
 
             
 
-        function changeReport() {
-            var val = $("#rpt").val();
-            if (val == 1)
-                window.location.href = '/Report/DepositReport';
-            else if (val == 3)
-                window.location.href = '/Report/BalanceSheetReport';
-            else if (val == 4)
-                window.location.href = '/Report/GSTSalesReport';
-            else
-                window.location.href = '/Report/SalesReport';
-        }
+            function changeReport() {
+                var val = $("#rpt").val();
+                if (val == 1)
+                    window.location.href = '/Report/DepositReport';
+                else if (val == 3)
+                    window.location.href = '/Report/BalanceSheetReport';
+                else if (val == 4)
+                    window.location.href = '/Report/GSTSalesReport';
+                else
+                    window.location.href = '/Report/SalesReport';
+            }
 
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());
@@ -295,16 +296,16 @@
                 else {
                     $("#toDt").val('');
                 }
-                $('#salesform').attr('action', '/Report/ExportSalesReportTo');
-                $("#salesform").attr("method", "Post");
-                $("#salesform").submit();
+                $('#GSTSalesform').attr('action', '/Report/ExportGSTSalesReportTo');
+                $("#GSTSalesform").attr("method", "Post");
+                $("#GSTSalesform").submit();
             })
 
         $('#btnprint').click(function (e) {
 
-                $('#salesform').attr('action', '/Report/PrintSalesReport');
-                $("#salesform").attr("method", "get");
-                $("#salesform").submit();
+                $('#GSTSalesform').attr('action', '/Report/PrintGSTSalesReport');
+                $("#GSTSalesform").attr("method", "get");
+                $("#GSTSalesform").submit();
             });
 
     </script>

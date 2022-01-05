@@ -58,23 +58,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
                 <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
             </div>
 
             <div class="modal-body">
-            </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>*@
+            </div> 
         </div>
     </div>
 </div>
 
-@*<div class="modal fade" id="modalCart">
-        @Html.Partial("Partials/_userMeterListing", new )
-    </div>*@
+
+  
+
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -88,8 +84,7 @@
         $("#searchField").show();
         var searchFields = ["POS ID", "VENDOR NAME", "POS SIM #", "POS TYPE", "ENABLED", "COMMISSION"];
         for (var i = 0; i < searchFields.length; i++) {
-            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
-            
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>") 
         }
 
         $(document).ready(function () {

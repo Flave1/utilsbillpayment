@@ -12,7 +12,7 @@
 
     @if (user.UserType != UserRoles.AppUser)
     {
-        <div class="cl-mcont">
+        <div class="cl-mcont" style="margin-bottom:0;">
 
             <div class="row">
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
@@ -109,6 +109,17 @@
                 }
 
             </div>
+            
+            <div class="row">
+
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-6" id="bsListing">
+                    @Html.Partial("Partials/_BSReportListing", Model.Bs)
+                </div>
+
+            </div>
         </div>
     }
     else
@@ -121,10 +132,27 @@
         @*<script src="~/Content/assets/lib/jquery/jquery.min.js" type="text/javascript"></script>*@
 
         <script type="text/javascript">
+
+
+            setInterval(function () {
+
+
+                $.ajax({
+                    url: '/Admin/Home/GetVendorBalanceSheetReports',
+                    success: function (data) {
+                        $('#bsListing').html(data);
+                    }
+                })
+
+            }, 3100)
+
+
             $(document).ready(function () {
+
+               
                 //initialize the javascript
-                App.init();
-                App.dashBoard();
+                App.init(); 
+                App.dashBoard(); 
             });
         </script>
         <script>

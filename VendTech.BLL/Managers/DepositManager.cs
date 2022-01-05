@@ -1798,7 +1798,7 @@ namespace VendTech.BLL.Managers
                             Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
-                            DepositAmount = a.Amount,
+                            DepositAmount = a.NewBalance == null ? a.Amount : a.NewBalance.Value,
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId
@@ -1813,7 +1813,7 @@ namespace VendTech.BLL.Managers
                             Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
-                            DepositAmount = a.Amount, /*string.Format("{N:0}", a.Amount),*/
+                            DepositAmount = a.NewBalance == null ? a.Amount : a.NewBalance.Value,
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId
@@ -1887,6 +1887,20 @@ namespace VendTech.BLL.Managers
                 }
             } 
             return query; 
+        }
+
+        IQueryable<DashboardBalanceSheetModel> IDepositManager.GetDashboardBalanceSheetReports()
+        {
+            return Context.Deposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Released).GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel
+            {
+                SaleAmount = 0,
+                Vendor = f.FirstOrDefault().User.Vendor,
+                UserId = f.FirstOrDefault().UserId,
+                Balance = 0,
+                DepositAmount = f.Sum(d => d.NewBalance == null ? d.Amount : d.NewBalance.Value),
+                Status = "",
+                POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
+            });
         }
     }
 }

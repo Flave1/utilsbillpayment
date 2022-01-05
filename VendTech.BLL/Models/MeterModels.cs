@@ -126,11 +126,12 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }   
         public string Receipt { get; set; }
         public string MeterNumber { get; set; }    
-        public string ServiceCharge { get; set; }
+        public decimal Amount { get; set; }
+        public decimal ServiceCharge { get; set; }
         public decimal Gst { get; set; }
-        public double UnitsCost { get; set; }
+        public decimal UnitsCost { get; set; }
         public decimal Tarrif { get; set; }
-        public double Units { get; set; } 
+        public double Units { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
         {  
@@ -138,11 +139,12 @@ namespace VendTech.BLL.Models
             MeterNumber = x.MeterNumber1; 
             TransactionId = x.TransactionId;
             Receipt = x.ReceiptNumber;
-            ServiceCharge = x.SerialNumber;
+            ServiceCharge = Convert.ToDecimal(x.ServiceCharge); ;
             Gst = x.TaxCharge;
-            UnitsCost = Convert.ToDouble(x.CostOfUnits);
+            UnitsCost = Convert.ToDecimal(x.CostOfUnits);
             Tarrif = Convert.ToDecimal(x.Tariff);
             Units = Convert.ToDouble(x.Units);
+            Amount = x.Amount;
         }
     }
     public class SalesReportExcelModel

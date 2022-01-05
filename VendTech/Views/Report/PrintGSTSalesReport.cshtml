@@ -1,7 +1,6 @@
 ﻿@model List<GSTRechargeApiListingModel>
 @{
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
-    
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
@@ -9,7 +8,7 @@
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
     <div class="page-head">
-        <h2>GST SALES Reports</h2>
+        <h2>GST GST Sales Reports</h2>
 
     </div>
     <div class="cl-mcont">
@@ -17,7 +16,7 @@
             <div class="col-md-12">
                 <div class="block-flat">
                     <div class="header">
-                        <h3>GST SALES Reports</h3>
+                        <h3>GST Sales Reports</h3>
                     </div>
                     <div class="content" id="printid">
                         <div class="row">
@@ -36,8 +35,8 @@
                         <div id="printiddive">
 
                             <div class="row">
-                                <div style="width:80%; float:left; padding-left:20px;" >
-                                    <h3><b>VENDTECH SALES GST (15%) REPORT</b></h3>
+                                <div style="width:80%; float:left; padding-left:20px;">
+                                    <h3><b>VENDTECH GST (15%) Sales REPORTS</b></h3>
                                     <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
                                     <h5><label>TO DATE: @ViewBag.Todate</label></h5>
                                     <br />
@@ -48,38 +47,39 @@
                                     <img src='http://vendtechsl.net/Content/images/ventech.png' width="100" alt="LOGO" />
                                 </div>
                             </div>
-                                <table class="table table-bordered" id="datatable-icons">
-                                        <tr>
-                                            <th data-sortby="CreatedAt">DATE/TIME</th>
-                                            <th data-sortby="TransactionId">TRANS ID</th>
-                                            <th data-sortby="MeterNumber">RECEIPT ID</th>
-                                            <th data-sortby="MeterNumber">METER No</th>
-                                            <th data-sortby="Amount">AMOUNT</th>
-                                            <th data-sortby="VendorName">SERVICE CHARGE</th>
-                                            <th data-sortby="POS">GST (15%)</th>
-                                            <th data-sortby="POS">UNITS COST</th>
-                                            <th data-sortby="POS">TARRIFF</th>
-                                            <th data-sortby="POS">UNITS</th>
-                                        </tr>
+                            <table class="table table-bordered" id="datatable-icons">
 
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr class="odd gradeX">
-                                            <td style="text-align:right;"> @item.CreatedAt</td>
-                                            <td style="text-align:right;"> @item.TransactionId</td>
-                                            <td style="text-align:right;"> @item.Receipt</td>
-                                            <td style="text-align:right;"> @item.MeterNumber</td>
-                                            <td style="text-align:right;"> <strong> @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong></td>
-                                            <td style="text-align:right;"> <strong> @(item.ServiceCharge == null ? "0" : string.Format("{0:N0}", item.ServiceCharge))</strong></td>
-                                            <td style="text-align:right;"> <strong> @(item.Gst == null ? "0" : string.Format("{0:N0}", item.Gst))</strong></td>
-                                            <td style="text-align:right;"> <strong> @(item.UnitsCost == null ? "0" : string.Format("{0:N0}", item.UnitsCost))</strong></td>
-                                            <td style="text-align:right;"> <strong> @(item.Tarrif == null ? "0" : string.Format("{0:N0}", item.Tarrif))</strong></td>
-                                            <td style="text-align:right;"> <strong> @item.Units</strong></td>
-                                        </tr>
-                                    }
+                                <tr>
+                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                    <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                                    <th class="sorting" data-sortby="MeterNumber">RECEIPT ID</th>
+                                    <th class="sorting" data-sortby="MeterNumber">METER No</th>
+                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                    <th class="sorting" data-sortby="VendorName">SERVICE CHARGE</th>
+                                    <th class="sorting" data-sortby="POS">GST (15%)</th>
+                                    <th class="sorting" data-sortby="POS">UNITS COST</th>
+                                    <th class="sorting" data-sortby="POS">TARRIFF</th>
+                                    <th class="sorting" data-sortby="POS">UNITS</th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td style="text-align:right;"> @item.CreatedAt</td>
+                                        <td style="text-align:right;"> @item.TransactionId</td>
+                                        <td style="text-align:right;"> @item.Receipt</td>
+                                        <td style="text-align:right;"> @item.MeterNumber</td>
+                                        <td style="text-align:right;"> <strong> @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong></td>
+                                        <td style="text-align:right;"> <strong> @(item.ServiceCharge == null ? "0" : string.Format("{0:N0}", item.ServiceCharge))</strong></td>
+                                        <td style="text-align:right;"> <strong> @(item.Gst == null ? "0" : string.Format("{0:N0}", item.Gst))</strong></td>
+                                        <td style="text-align:right;"> <strong> @(item.UnitsCost == null ? "0" : string.Format("{0:N0}", item.UnitsCost))</strong></td>
+                                        <td style="text-align:right;"> <strong> @(item.Tarrif == null ? "0" : string.Format("{0:N0}", item.Tarrif))</strong></td>
+                                        <td style="text-align:right;"> <strong> @item.Units</strong></td>
+                                    </tr>
+                                }
 
 
-                                </table>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -87,27 +87,17 @@
         </div>
     </div>
 </div>
-
-
 <style>
     @@media print {
-    #Header, #Footer { display: none !important; }
-}
-    /*thead {
-        display: table-row;
-    }*/
-
+        #Header, #Footer {
+            display: none !important;
+        }
+    }
 </style>
 
 @section scripts{
     <script>
         $(document).ready(function () {
-           
-            //$('#hideid').hide();
-            //$("#Printid").click();
-
-            // printPageArea();
-
             var i = 0;
             setTimeout(function () {
                 if (i == 0) {
