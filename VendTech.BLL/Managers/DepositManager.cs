@@ -1798,7 +1798,7 @@ namespace VendTech.BLL.Managers
                             Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
-                            DepositAmount = a.NewBalance == null ? a.Amount : a.NewBalance.Value,
+                            DepositAmount = a.PercentageAmount ?? 0,
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId
@@ -1813,7 +1813,7 @@ namespace VendTech.BLL.Managers
                             Reference = a.CheckNumberOrSlipId,
                             TransactionId = a.TransactionId,
                             TransactionType = "Deposit",
-                            DepositAmount = a.NewBalance == null ? a.Amount : a.NewBalance.Value,
+                            DepositAmount = a.PercentageAmount ?? 0,
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId
@@ -1891,13 +1891,13 @@ namespace VendTech.BLL.Managers
 
         IQueryable<DashboardBalanceSheetModel> IDepositManager.GetDashboardBalanceSheetReports()
         {
-            return Context.Deposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Released).GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel
+            return Context.Deposits.GroupBy(f => f.POSId).Select(f => new DashboardBalanceSheetModel
             {
                 SaleAmount = 0,
                 Vendor = f.FirstOrDefault().User.Vendor,
                 UserId = f.FirstOrDefault().UserId,
                 Balance = 0,
-                DepositAmount = f.Sum(d => d.NewBalance == null ? d.Amount : d.NewBalance.Value),
+                DepositAmount = f.Sum(d => d.PercentageAmount ?? 0),
                 Status = "",
                 POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
             });

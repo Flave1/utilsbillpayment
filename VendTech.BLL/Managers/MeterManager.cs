@@ -1151,7 +1151,7 @@ namespace VendTech.BLL.Managers
 
         IQueryable<DashboardBalanceSheetModel> IMeterManager.GetDashboardBalanceSheetReports()
         {
-           return  Context.TransactionDetails.Where(d => d.Finalised == true).GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel {
+           return  Context.TransactionDetails.Where(d => d.Finalised == true).GroupBy(f => f.POSId).Select(f => new DashboardBalanceSheetModel {
             SaleAmount = f.Sum(d => d.Amount),
             Vendor = f.FirstOrDefault().User.Vendor,
             UserId = f.FirstOrDefault().UserId, 
