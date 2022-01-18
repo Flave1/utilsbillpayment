@@ -1891,7 +1891,7 @@ namespace VendTech.BLL.Managers
 
         IQueryable<DashboardBalanceSheetModel> IDepositManager.GetDashboardBalanceSheetReports()
         {
-            return Context.Deposits.GroupBy(f => f.POSId).Select(f => new DashboardBalanceSheetModel
+            return Context.Deposits.GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel
             {
                 SaleAmount = 0,
                 Vendor = f.FirstOrDefault().User.Vendor,
