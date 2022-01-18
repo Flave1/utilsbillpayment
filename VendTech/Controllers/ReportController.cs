@@ -78,6 +78,10 @@ namespace VendTech.Controllers
             deposits = _depositManager.GetReportsPagedList(model);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+
+            var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+            ViewBag.AssignedReports = assignedReportModule;
+
             var bankAccounts = _bankAccountMananger.GetBankAccounts();
             ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
             return View(deposits);

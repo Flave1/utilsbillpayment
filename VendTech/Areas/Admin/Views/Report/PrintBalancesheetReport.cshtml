@@ -63,47 +63,50 @@
                                     <th> REFERENCE </th>
                                     <th>DEPOSIT </th>
                                     <th> SALES </th>
-                                    <th> BALANCE</th> 
+                                    <th> BALANCE</th>
                                 </tr>
 
-                                @foreach (var items in Model)
+                                @foreach (var item in Model)
                                 {
-                            <tr>
-                                <td style="text-align:right">@items.DateTime</td>
-                                <td style="text-align:right">@items.TransactionId</td>
-                                <td style="text-align:right">@items.TransactionType</td>
-                                <td style="text-align:right">@items.Reference</td>
-                                <td style="text-align:right;">
-                                    @if (items.DepositAmount == 0)
-                                    {
-                                        <span>-</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@string.Format("{0:N0}", items.DepositAmount)</span>
-                                    }
-                                </td>
-                                <td style="text-align:right;">
-                                    @if (items.SaleAmount == 0)
-                                    {
-                                        <span>-</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@string.Format("{0:N0}", items.SaleAmount)</span>
-                                    }
-                                </td>
-                                <td style="text-align:right;">
-                                    @if (items.Balance == 0)
-                                    {
-                                        <span>-</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@string.Format("{0:N0}", items.Balance)</span>
-                                    }
-                                </td>
-                            </tr>
+                                    var deposit = item.TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
+                                    <tr class="odd gradeX">
+                                        <td style='text-align: right; @deposit'> @item.DateTime.ToString("dd/MM/yyyy hh:mm")</td>
+                                        <td style="text-align:right; @deposit"> @item.TransactionId</td>
+                                        <td style="text-align:left; text-transform:uppercase; @deposit">
+                                            @item.TransactionType
+                                        </td>
+                                        <td style="text-align:right; @deposit"> @item.Reference</td>
+                                        <td style="text-align:right; @deposit">
+                                            @if (item.DepositAmount == 0)
+                                            {
+                                                <span>-</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="@deposit">@string.Format("{0:N0}", item.DepositAmount)</span>
+                                            }
+                                        </td>
+                                        <td style="text-align:right;">
+                                            @if (item.SaleAmount == 0)
+                                            {
+                                                <span>-</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="@deposit">@string.Format("{0:N0}", item.SaleAmount)</span>
+                                            }
+                                        </td>
+                                        <td style="text-align:right;">
+                                            @if (item.Balance == 0)
+                                            {
+                                                <span>-</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="@deposit">@string.Format("{0:N0}", item.Balance)</span>
+                                            }
+                                        </td>
+                                    </tr>
                                 }
 
 
