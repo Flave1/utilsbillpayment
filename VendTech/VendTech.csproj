@@ -425,6 +425,7 @@
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
     <Content Include="Scripts\UserScripts\agency.js" />
     <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
+    <Content Include="Scripts\UserScripts\AgentRevenueReport.js" />
     <Content Include="Scripts\UserScripts\gstSalesReport.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
@@ -557,6 +558,8 @@
     <Content Include="Views\Report\PrintGSTSalesReport.cshtml" />
     <Content Include="Views\Report\partials\_gstSalesListing.cshtml" />
     <Content Include="Views\Report\GSTSalesReport.cshtml" />
+    <Content Include="Views\Report\AgentRevenueReport.cshtml" />
+    <Content Include="Views\Report\partials\_agentRevenueListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

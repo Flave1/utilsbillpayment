@@ -78,7 +78,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<UserDetails> VendorLogin(LoginModal model);
         IList<ModulesModel> GetAllModulesAtAuthentication(long userId); 
         decimal GetUserWalletBalance(User user, long agent = 0);
-        decimal GetUserWalletBalance(long userId);
+        decimal GetUserWalletBalance(long userId, long agent = 0);
         int GetUnreadNotifications(long userId);
         List<SelectListItem> GetAssignedReportModules(long UserId, bool isAdmin);
         IList<WidgetCheckbox> GetAllWidgets(long userId);

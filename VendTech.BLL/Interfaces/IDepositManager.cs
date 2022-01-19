@@ -44,10 +44,11 @@ namespace VendTech.BLL.Interfaces
         DepositAuditModel UpdateDepositAuditRequest(DepositAuditModel depositAuditModel);
         List<Deposit> GetListOfDeposits(List<long> depositIds);
         decimal ReturnPendingDepositsTotalAmount(DepositModel model);
-        void TakeCommision(long posId, decimal amt);
+        decimal TakeCommisionsAndReturnAgentsCommision(long posId, decimal amt);
         Deposit SaveApprovedDeposit(PendingDeposit model);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
+        PagingResult<AgentRevenueListingModel> GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin= false, long agentId = 0);
     }
 
 }

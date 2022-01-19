@@ -1,7 +1,8 @@
-﻿@model PagingResult<BalanceSheetListingModel>
-@{ ViewBag.Title = "Manage Reports";
-    Layout = "~/Views/Shared/_LayOut.cshtml"; }
-
+﻿@model PagingResult<AgentRevenueListingModel>
+@{
+    ViewBag.Title = "Manage Reports";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
 
 @{
     var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
@@ -9,7 +10,6 @@
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
-<link href="~/Content/pos_receipt.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
     <style>
         input {
@@ -30,27 +30,26 @@
         option {
             font-weight: bold;
         }
-
-
-        div.dataTables_filter > label::before {
-            content: "Quick Search :";
-        }
     </style>
     <div class="page-head">
-        <h3><b>Manage Balance Sheet Report</b></h3>
+        <h3><b>Manage Deposit Report</b></h3>
 
     </div>
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat">
+                    @*<div class="header">
+                            <h3>DEPOSIT REPORTS</h3>
+                        </div>*@
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
                                 <div class="topsec">
-                                    <h2 style="width:20%">BALANCE SHEET REPORTS</h2>
-                                    <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
-                                    <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                                    <h2>AGENT REVENUE REPORTS</h2>
+                                    @*<label>Deposit Report</label>*@
+                                    <label>From: <span id="fromSpan">_</span> &nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
+                                    <label>Printed on: <span id="printedDate"> @ViewBag.Pritdatetime</span></label>
                                     <label>
                                         Export:
                                         <select name="PrintType" id="PrintType">
@@ -61,35 +60,37 @@
 
                                     <label>
                                         <button type="button" id="btnExport">Export</button>
+
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
+
                                 </div>
                                 <div class="blwsec">
                                     <div class="blwsec-left">
-                                        <form action="Report/ExportBalanceSheetReportTo" method="post" id="salesform">
+                                        <form action="/Report/ExportAgentRevenueReportTo" method="post" id="depositsForm">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
 
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
 
-
                                             @{
                                                 var pos = (List<SelectListItem>)ViewBag.userPos;
                                             }
                                             @if (pos.Count > 1)
                                             {
-                                                <div class=" col-md-4">
-                                                    <label class="control-label">SELECT POS ID</label>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-md-2" style=" width:20% !important;">POS:</label>
+                                                    @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @style = " width:70% !important;", @class = "form-control col-md-6", @id = "pos" })
+
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class=" col-md-12">
-                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span> 
+                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
                                                     @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
                                                 </div>
@@ -99,23 +100,21 @@
 
                                             }
 
-
                                             <hr style="background:#d0cbcb; height:1px;" />
-                                            <div class="row">
+                                            <div class="form-group  row">
                                                 <label style="width:100%;">TRANSACTION PERIOD</label>
                                                 <div style="width: 49%; float: left; ">
                                                     <label>FROM:</label>
                                                     <input type="text" value="" id="FromDate" name="FromDate">
                                                 </div>
-                                                <div style="width: 49%; float: right;">
+                                                <div style="width: 49%; float: right; ">
                                                     <label>TO:</label>
                                                     <input type="text" value="" id="ToDate" name="ToDate">
                                                 </div>
                                             </div>
 
-                                            <hr style="background: #d0cbcb; height: 1px; " />
-
-                                            <div class="form-group row">
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group  row">
                                                 <label>REPORT</label>
                                                 <select id="rpt" onchange="changeReport()" class="form-control">
                                                     @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "SALES REPORT"))
@@ -142,28 +141,37 @@
                                                 </select>
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="form-group  row">
+                                                <label style="width:30%;">TYPE:</label>
+                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
+
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;">REF #</label>
+                                                <input style="width:65%; float:right;" , type="text" id="refNumber" name="refNumber" class="form-control">
+                                            </div>
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
+
                                     </div>
-
-
-
                                     <div class="blwsec-right">
                                         <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th data-sortby="TransactionId">TRANS ID</th>
-                                                        <th data-sortby="TransactionType">TYPE</th>
-                                                        <th data-sortby="Reference">REF #</th>
-                                                        <th data-sortby="DAMOUNT">DEPOSITS</th>
-                                                        <th data-sortby="SAMOUNT">SALES</th>
-                                                        <th data-sortby="BALANCE">BALANCE</th>
+                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th> 
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
+                                                        <th class="sorting" data-sortby="Vendor">VENDOR</th> 
+                                                        <th class="sorting" data-sortby="PaymentType">TYPE</th> 
+                                                        <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
+                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                                        <th class="sorting" data-sortby="PercentageAmount">VENDOR @@ 1%</th>
+                                                        <th class="sorting" data-sortby="NewBalance">AGENT @@ 0.5%</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @Html.Partial("Partials/_balanceSheetReportListing", Model)
+                                                    @Html.Partial("Partials/_agentRevenueListing", Model)
                                                 </tbody>
                                             </table>
                                         </div>
@@ -184,36 +192,30 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalCart2">
-    @Html.Partial("_voucherReprint")
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
 </div>
-<div class="modal fade" id="modalCart3">
-    @Html.Partial("_RequestResponseJSON")
-</div>
+
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Scripts/UserScripts/balanceSheetReport.js"></script>
+    <script src="~/Scripts/UserScripts/AgentRevenueReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
-
-    <script src="~/Scripts/Receipt.js"></script>
-
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+    <script src="~/Scripts/Receipt.js"></script>
     <script type="text/javascript">
             var totalCount = "@Model.TotalCount";
 
-            $(document).ready(function () {
-                //initialize the javascript
+       $(document).ready(function () {
 
+           $("#rpt").val(5)
+           //initialize the javascript
                 App.init();
-
-                $("#rpt").val(3)
-
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
                     value: new Date(),
@@ -224,8 +226,10 @@
                     value: new Date(),
                     change: function () { $("#toSpan").html($("#ToDate").val()) }
                 });
-                $("#fromSpan").html($("#ToDate").val())
-                $("#toSpan").html($("#ToDate").val())
+
+           $("#fromSpan").text($("#FromDate").val())
+
+           $("#toSpan").text($("#ToDate").val())
                 const date = new Date();
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -233,24 +237,26 @@
                 // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
                 $("#printedDate").text(formattedDate);
                 $("#PrintedDateServer").val(formattedDate);
+
+           $("#fromSpan").text($("#FromDate").val())
+
+           $("#toSpan").text($("#ToDate").val())
+
                 function downloadURI(imgData, name) {
                     var link = document.createElement("a");
-
-
                     var pdf = new jsPDF();
-
                     const imgProps = pdf.getImageProperties(imgData);
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                     pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
 
+                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
                     pdf.save(name);
-
                 }
 
-                Deposits.ManageDeposits(totalCount);
+               Deposits.ManageDeposits(totalCount);
+       });
 
-            });
 
         var d = new Date();
         $("#FromDate").kendoDatePicker({
@@ -260,17 +266,15 @@
         var datePicker1 = $("#FromDate").data("kendoDatePicker");
         $("#FromDate").click(function () {
             datePicker1.open();
-        })
+        });
         $("#ToDate").kendoDatePicker({
             max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
             format: "dd/MM/yyyy"
         });
-        var datePicker2 = $("#ToDate").data("kendoDatePicker");
+                var datePicker2 = $("#ToDate").data("kendoDatePicker");
         $("#ToDate").click(function () {
             datePicker2.open();
-        })
-
-
+        });
 
 
         function changeReport() {
@@ -288,15 +292,14 @@
         }
 
 
+
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());
             });
 
 
 
-        $("#btnExport").click(function (e) {
-
-
+            $("#btnExport").click(function (e) {
                 var frm = $("#FromDate").val();
                 var to = $("#ToDate").val();
                 if (frm) {
@@ -314,17 +317,22 @@
                 else {
                     $("#toDt").val('');
                 }
-            $('#salesform').attr('action', '/Report/ExportBalanceSheetReportTo');
-                $("#salesform").attr("method", "Post");
-                $("#salesform").submit();
+
+
+
+                $('#depositsForm').attr('action', '/Report/ExportAgentRevenueReportTo');
+                $("#depositsForm").attr("method", "Post");
+                $("#depositsForm").submit();
             })
 
-        $('#btnprint').click(function (e) {
+            $('#btnprint').click(function (e) {
 
-            $('#salesform').attr('action', '/Report/PrintBalancesheetReport');
-                $("#salesform").attr("method", "get");
-                $("#salesform").submit();
+                $('#depositsForm').attr('action', '/Report/PrintDepositReport');
+                $("#depositsForm").attr("method", "get");
+                $("#depositsForm").submit();
             });
+
+
 
     </script>
 }

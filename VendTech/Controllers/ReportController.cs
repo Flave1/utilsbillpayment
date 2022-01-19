@@ -87,31 +87,8 @@ namespace VendTech.Controllers
             return View(deposits);
 
         }
-        [AjaxOnly, HttpPost]
-        public JsonResult GetDepositReportPagingList(ReportSearchModel model)
-        {
-            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            //model.SortBy = "CreatedAt";
-            //model.SortOrder = "Desc";
-            model.VendorId = LOGGEDIN_USER.UserID;
-            model.RecordsPerPage = 10;
-            var modal = new PagingResult<DepositListingModel>();
-
-            modal = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
-            //List<string> resultString = new List<string>();
-            //resultString.Add(RenderRazorViewToString("Partials/_depositListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
-
-
-
-            var resultString = new List<string> {
-                RenderRazorViewToString("Partials/_depositListing", modal),
-                modal.TotalCount.ToString()
-            };
-
-            return JsonResult(resultString);
-        }
-
+       
+    
         public void ExportDepositReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -404,6 +381,77 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             return View(balanceSheet);
 
+        }
+
+
+        public ActionResult AgentRevenueReport()
+        {
+            ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            var model = new ReportSearchModel
+            {
+                SortBy = "CreatedAt",
+                SortOrder = "Desc",
+                VendorId = LOGGEDIN_USER.UserID,
+                IsInitialLoad = true,
+            };
+
+
+
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            ViewBag.userPos = posList;
+            var deposits = new PagingResult<AgentRevenueListingModel>();
+            deposits = _depositManager.GetAgentRevenueReportsPagedList(model);
+            ViewBag.SelectedTab = SelectedAdminTab.Reports;
+            ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+
+            var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+            ViewBag.AssignedReports = assignedReportModule;
+
+            //var bankAccounts = _bankAccountMananger.GetBankAccounts();
+            //ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+            return View(deposits);
+
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetDepositReportPagingList(ReportSearchModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            //model.SortBy = "CreatedAt";
+            //model.SortOrder = "Desc";
+            model.VendorId = LOGGEDIN_USER.UserID;
+            model.RecordsPerPage = 10;
+            var modal = new PagingResult<DepositListingModel>();
+
+            modal = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            //List<string> resultString = new List<string>();
+            //resultString.Add(RenderRazorViewToString("Partials/_depositListing", modal));
+            //resultString.Add(modal.TotalCount.ToString());
+
+
+
+            var resultString = new List<string> {
+                RenderRazorViewToString("Partials/_depositListing", modal),
+                modal.TotalCount.ToString()
+            };
+
+            return JsonResult(resultString);
+        }
+        [AjaxOnly, HttpPost]
+        public JsonResult GetAgentRevenueReportPagingList(ReportSearchModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
+            model.VendorId = LOGGEDIN_USER.UserID;
+            model.RecordsPerPage = 10;
+            var modal = new PagingResult<AgentRevenueListingModel>();
+
+            modal = _depositManager.GetAgentRevenueReportsPagedList(model, false, LOGGEDIN_USER.AgencyId); 
+            var resultString = new List<string> {
+                RenderRazorViewToString("Partials/_agentRevenueListing", modal),
+                modal.TotalCount.ToString()
+            };
+
+            return JsonResult(resultString);
         }
 
         [AjaxOnly, HttpPost]

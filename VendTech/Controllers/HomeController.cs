@@ -161,8 +161,9 @@ namespace VendTech.Controllers
                 SignOut();
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID ?? 0)?.POSNumber;
+            ViewBag.ShowRevenueWidg = _dashboardManager.IsUserAnAgent(LOGGEDIN_USER.UserID); 
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
@@ -350,7 +351,7 @@ namespace VendTech.Controllers
             {
                 return Json(new ActionOutput { Status = ActionStatus.Error, Message = "Name must not be empty" });
             }
-            request.Agency = "20"; //20 is id for default vendtech agency ////// DO NOT CHANGE
+           // request.Agency = "20"; //20 is id for default vendtech agency ////// DO NOT CHANGE
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
             { 

@@ -134,6 +134,10 @@
                                                     {
                                                         <option value="4">GST SALES REPORT</option>
                                                     }
+                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "AGENTS REVENUE REPORT"))
+                                                    {
+                                                        <option value="5">AGENTS REVENUE REPORT</option>
+                                                    }
                                                 </select>
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
@@ -218,6 +222,7 @@
             $(document).ready(function () {
                 //initialize the javascript
 
+                $("#rpt").val(4)
                 App.init();
 
                 $("#FromDate").kendoDatePicker({
@@ -280,17 +285,21 @@
 
             
 
-            function changeReport() {
-                var val = $("#rpt").val();
-                if (val == 1)
-                    window.location.href = '/Report/DepositReport';
-                else if (val == 3)
-                    window.location.href = '/Report/BalanceSheetReport';
-                else if (val == 4)
-                    window.location.href = '/Report/GSTSalesReport';
-                else
-                    window.location.href = '/Report/SalesReport';
-            }
+
+        function changeReport() {
+            var val = $("#rpt").val();
+            if (val == 1)
+                window.location.href = '/Report/DepositReport';
+            else if (val == 3)
+                window.location.href = '/Report/BalanceSheetReport';
+            else if (val == 4)
+                window.location.href = '/Report/GSTSalesReport';
+            else if (val == 5)
+                window.location.href = '/Report/AgentRevenueReport';
+            else
+                window.location.href = '/Report/SalesReport';
+        }
+
 
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());

@@ -390,4 +390,43 @@ namespace VendTech.BLL.Models
         public SelectList IssuingBank { get; set; }
         public SelectList DepositType { get; set; }
     }
+
+    public class AgentRevenueListingModel
+    {
+        public string UserName { get; set; }
+        public string VendorName { get; set; }
+        public string ChkNoOrSlipId { get; set; }
+        public string Type { get; set; } 
+        public string PosNumber { get; set; }
+        public string CreatedAt { get; set; }
+        public string TransactionId { get; set; }
+        public decimal Amount { get; set; } 
+        public decimal? AgentPercentageAmount { get; set; } 
+        public decimal? VendorPercentageAmount { get; set; }
+        public decimal? AgentPercentage { get; set; }
+
+        public decimal? VendorPercentage { get; set; }
+        public long DepositId { get; set; }   
+        public AgentRevenueListingModel(Deposit obj)
+        {
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            UserName = obj.DepositLogs.Any() ?
+                obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
+                obj.User.Name + " " + obj.User.SurName;
+            PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
+            VendorName = obj.POS.User.Vendor;
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            TransactionId = obj.TransactionId;
+            DepositId = obj.DepositId;
+            Amount = obj.Amount;
+            AgentPercentageAmount = obj.AgencyCommission;
+            VendorPercentageAmount = obj.PercentageAmount;
+            VendorPercentage = obj?.User?.Commission?.Percentage;
+            AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
+        }
+
+       
+    }
 }

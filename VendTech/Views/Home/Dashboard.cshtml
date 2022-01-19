@@ -69,13 +69,29 @@
 
 
             <div class="row">
+                @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
+                {
+                    <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="widget widget-tile">
+                            @*<div id="spark1" class="chart sparkline"></div>*@
+                            <div class="data-info">
+                                <div class="desc">Current agency revenue </div>
+                                <div class="value">
+                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
+                                        SSL @string.Format("{0:N0}", Model.revenue)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
                         <div class="widget widget-tile">
                             @*<div id="spark1" class="chart sparkline"></div>*@
                             <div class="data-info">
-                                <div class="desc">Current wallet ballance</div>
+                                <div class="desc">Current wallet </div>
                                 <div class="value">
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
                                         SSL @string.Format("{0:N0}", ViewBag.walletBalance)
