@@ -96,10 +96,15 @@ namespace VendTech.Controllers
         }
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
-        { 
-            model.UserId = LOGGEDIN_USER.UserID;
+        {
+            // model.UserId = LOGGEDIN_USER.UserID;
 
-            if (model.ContinueDepoit == 0)
+            if (model.PosId == 0)
+            {
+                return JsonResult(new ActionOutput { Message = "POS NOT Required", Status = ActionStatus.Error });
+            }
+
+                if (model.ContinueDepoit == 0)
             {
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)

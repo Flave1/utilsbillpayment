@@ -89,229 +89,7 @@ namespace VendTech.Controllers
         }
        
     
-        public void ExportDepositReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
-        {
-            string fromdate = "";
-            string Todate = "";
-            CultureInfo provider = CultureInfo.InvariantCulture;
-            if (!string.IsNullOrEmpty(FromDate))
-            {
-                model.FromDate = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
-                fromdate = model.FromDate.Value.ToString("dd/MM/yyyy");
-            }
-
-            if (!string.IsNullOrEmpty(ToDate))
-            {
-                model.ToDate = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
-                Todate = model.ToDate.Value.ToString("dd/MM/yyyy");
-            }
-
-            var newfilters = new ReportSearchModel
-            {
-
-                VendorId = LOGGEDIN_USER.UserID,
-                RecordsPerPage = 500000,
-                PosId = model.POS,
-                Meter = model.Meter,
-                DepositType = model.DepositType,
-                Bank = model.BANK,
-                From = model.FromDate,
-                To = model.ToDate,
-                TransactionId = model.TransactionId,
-                SortBy = model.SortBy,
-                SortOrder = model.SortOrder,
-                RefNumber = model.refNumber,
-                ReportType = model.ReportType,
-                PageNo = model.PageNo,
-            };
-
-
-            var list = _depositManager.GetReportsExcelDeposituser(newfilters, false).List;
-            var gv = new GridView
-            {
-                DataSource = list
-            };
-
-            gv.DataBind();
-            if (list.Count > 0)
-            { 
-                GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var tecbr = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = null,
-                    HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None
-                };
-                forbr.BorderStyle = BorderStyle.None;
-                forbr.Controls.Add(tecbr);
-                gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
-
-
-                GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                //TableHeaderCell tec3 = new TableHeaderCell();
-                var tec3 = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = "PRINT DATE:  " + PrintedDateServer,
-                    HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None
-                };
-                row3.BorderStyle = BorderStyle.None;
-                row3.Controls.Add(tec3);
-                gv.HeaderRow.Parent.Controls.AddAt(0, row3);
-
-
-                GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var tecbrafterdate = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = null,
-                    HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None
-                };
-                forbrafterdate.BorderStyle = BorderStyle.None;
-                forbrafterdate.Controls.Add(tecbrafterdate);
-                gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
-
-
-                GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var tec2 = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = "TO DATE:  " + Todate,
-                    HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None,
-                };
-                row2.BorderStyle = BorderStyle.None;
-                row2.Controls.Add(tec2);
-                gv.HeaderRow.Parent.Controls.AddAt(0, row2);
-
-                GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var tec22 = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = "FROM DATE:  " + fromdate,
-                    HorizontalAlign = HorizontalAlign.Left,
-                    BorderStyle = BorderStyle.None,
-                };
-                row22.BorderStyle = BorderStyle.None;
-                row22.Controls.Add(tec22);
-                gv.HeaderRow.Parent.Controls.AddAt(0, row22);
-
-                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal); 
-                var tec1 = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = "VENDTECH DEPOSIT REPORTS",
-                    HorizontalAlign = HorizontalAlign.Center,
-                    BorderStyle = BorderStyle.None,
-                    BorderWidth = Unit.Pixel(20),
-                }; 
-                row1.Controls.Add(tec1);
-                row1.BorderStyle = BorderStyle.None;
-                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
-                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
-
-                //img
-                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
-                var imgHeader = new TableHeaderCell
-                {
-                    ColumnSpan = 13,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
-                    HorizontalAlign = HorizontalAlign.NotSet,
-                    BorderStyle = BorderStyle.None,
-                    BorderWidth = Unit.Pixel(20),
-                };
-                imgRow.Controls.Add(imgHeader);
-                imgRow.BorderStyle = BorderStyle.Dotted;
-                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
-                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
-
-
-                gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
-                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE
-                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID
-                gv.HeaderRow.Cells[3].Text = "VENDOR"; gv.HeaderRow.Cells[3].ColumnSpan = 2; //VENDOR
-                gv.HeaderRow.Cells[4].Text = "APPROVER"; //USERNAME
-                gv.HeaderRow.Cells[5].Text = "TYPE"; //DEPOSIT_TYPE
-                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
-                gv.HeaderRow.Cells[7].Text = "TRANS-ID"; //TRANSACTION ID
-                gv.HeaderRow.Cells[8].Text = "REF #"; //DEPOSIT_REF_NO
-                gv.HeaderRow.Cells[9].Text = "AMOUNT";
-                gv.HeaderRow.Cells[10].Text = "%"; //PERCENT
-                gv.HeaderRow.Cells[11].Text = "BALANCE"; //NEW_BALANCE
-
-
-                foreach (GridViewRow row in gv.Rows)
-                {
-                    if (row.RowType == DataControlRowType.DataRow)
-                    {
-                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[5].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left; row.Cells[3].ColumnSpan = 2;
-                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
-                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[11].HorizontalAlign = HorizontalAlign.Right;
-                    }
-                }
-            }
-
-
-            if (ExportType == "Excel")
-            {
-                string filename = "DepositReport_" + PrintedDateServer + ".xls";
-                Response.ClearContent();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
-                Response.ContentType = "application/ms-excel";
-                Response.Charset = "";
-                StringWriter objStringWriter = new StringWriter();
-                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
-                gv.RenderControl(objHtmlTextWriter);
-
-                //string style = @"<style> .textmode { mso-number-format:\@; } </style>";
-                //Response.Write(style);
-                Response.Output.Write(objStringWriter.ToString());
-                Response.Flush();
-                Response.End();
- 
-            }
-            else if (ExportType == "PDF")
-            {
-                string filename = "DepositReport_" + PrintedDateServer + ".pdf";
-                Response.ContentType = "application/pdf";
-                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                StringWriter sw = new StringWriter();
-                HtmlTextWriter hw = new HtmlTextWriter(sw);
-                gv.RenderControl(hw);
-                gv.HeaderRow.Style.Add("width", "15%");
-                gv.HeaderRow.Style.Add("font-size", "10px");
-                gv.Style.Add("text-decoration", "none");
-                gv.Style.Add("font-family", "Arial, Helvetica, sans-serif;");
-                gv.Style.Add("font-size", "8px");
-
-                StringReader sr = new StringReader(sw.ToString());
-                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
-                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-                pdfDoc.Open();
-                htmlparser.Parse(sr);
-                pdfDoc.Close();
-                Response.Write(pdfDoc);
-                Response.End();
-                gv.AllowPaging = true;
-            }
-        }
-
-
+    
         public ActionResult SalesReport()
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
@@ -394,9 +172,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID,
                 IsInitialLoad = true,
             };
-
-
-
+             
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<AgentRevenueListingModel>();
@@ -817,6 +593,447 @@ namespace VendTech.Controllers
 
             return View(list);
         }
+
+        public void ExportDepositReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            string fromdate = "";
+            string Todate = "";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.FromDate = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                fromdate = model.FromDate.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.ToDate = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                Todate = model.ToDate.Value.ToString("dd/MM/yyyy");
+            }
+
+            var newfilters = new ReportSearchModel
+            {
+
+                VendorId = LOGGEDIN_USER.UserID,
+                RecordsPerPage = 500000,
+                PosId = model.POS,
+                Meter = model.Meter,
+                DepositType = model.DepositType,
+                Bank = model.BANK,
+                From = model.FromDate,
+                To = model.ToDate,
+                TransactionId = model.TransactionId,
+                SortBy = model.SortBy,
+                SortOrder = model.SortOrder,
+                RefNumber = model.refNumber,
+                ReportType = model.ReportType,
+                PageNo = model.PageNo,
+            };
+
+
+            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
+            var gv = new GridView
+            {
+                DataSource = list
+            };
+
+            gv.DataBind();
+            if (list.Count > 0)
+            {
+                GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbr = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbr.BorderStyle = BorderStyle.None;
+                forbr.Controls.Add(tecbr);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
+
+
+                GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec3 = new TableHeaderCell();
+                var tec3 = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = "PRINT DATE:  " + PrintedDateServer,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                row3.BorderStyle = BorderStyle.None;
+                row3.Controls.Add(tec3);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row3);
+
+
+                GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbrafterdate = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbrafterdate.BorderStyle = BorderStyle.None;
+                forbrafterdate.Controls.Add(tecbrafterdate);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
+
+
+                GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec2 = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = "TO DATE:  " + Todate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row2.BorderStyle = BorderStyle.None;
+                row2.Controls.Add(tec2);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row2);
+
+                GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec22 = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = "FROM DATE:  " + fromdate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row22.BorderStyle = BorderStyle.None;
+                row22.Controls.Add(tec22);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row22);
+
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec1 = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = "VENDTECH DEPOSIT REPORTS",
+                    HorizontalAlign = HorizontalAlign.Center,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                row1.Controls.Add(tec1);
+                row1.BorderStyle = BorderStyle.None;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 13,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
+
+
+                gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
+                gv.HeaderRow.Cells[1].Text = "VALUE DATE"; //VALUE DATE
+                gv.HeaderRow.Cells[2].Text = "POS ID"; //POSID
+                gv.HeaderRow.Cells[3].Text = "VENDOR"; gv.HeaderRow.Cells[3].ColumnSpan = 2; //VENDOR
+                gv.HeaderRow.Cells[4].Text = "APPROVER"; //USERNAME
+                gv.HeaderRow.Cells[5].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[6].Text = "BANK"; //BANK
+                gv.HeaderRow.Cells[7].Text = "TRANS-ID"; //TRANSACTION ID
+                gv.HeaderRow.Cells[8].Text = "REF #"; //DEPOSIT_REF_NO
+                gv.HeaderRow.Cells[9].Text = "AMOUNT";
+                gv.HeaderRow.Cells[10].Text = "%"; //PERCENT
+                gv.HeaderRow.Cells[11].Text = "BALANCE"; //NEW_BALANCE
+
+
+                foreach (GridViewRow row in gv.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left; row.Cells[3].ColumnSpan = 2;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[10].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[11].HorizontalAlign = HorizontalAlign.Right;
+                    }
+                }
+            }
+
+
+            if (ExportType == "Excel")
+            {
+                string filename = "DepositReport_" + PrintedDateServer + ".xls";
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+
+                //string style = @"<style> .textmode { mso-number-format:\@; } </style>";
+                //Response.Write(style);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+
+            }
+            else if (ExportType == "PDF")
+            {
+                string filename = "DepositReport_" + PrintedDateServer + ".pdf";
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                gv.RenderControl(hw);
+                gv.HeaderRow.Style.Add("width", "15%");
+                gv.HeaderRow.Style.Add("font-size", "10px");
+                gv.Style.Add("text-decoration", "none");
+                gv.Style.Add("font-family", "Arial, Helvetica, sans-serif;");
+                gv.Style.Add("font-size", "8px");
+
+                StringReader sr = new StringReader(sw.ToString());
+                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
+                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                pdfDoc.Open();
+                htmlparser.Parse(sr);
+                pdfDoc.Close();
+                Response.Write(pdfDoc);
+                Response.End();
+                gv.AllowPaging = true;
+            }
+        }
+
+
+
+        public void ExportAgentRevenueReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            string fromdate = "";
+            string Todate = "";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.FromDate = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+                fromdate = model.FromDate.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.ToDate = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+                Todate = model.ToDate.Value.ToString("dd/MM/yyyy");
+            }
+
+            var newfilters = new ReportSearchModel
+            {
+
+                VendorId = LOGGEDIN_USER.UserID,
+                RecordsPerPage = 500000,
+                PosId = model.POS,
+                Meter = model.Meter,
+                DepositType = model.DepositType,
+                Bank = model.BANK,
+                From = model.FromDate,
+                To = model.ToDate,
+                TransactionId = model.TransactionId,
+                SortBy = model.SortBy,
+                SortOrder = model.SortOrder,
+                RefNumber = model.refNumber,
+                ReportType = model.ReportType,
+                PageNo = model.PageNo,
+            };
+
+
+            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
+            var gv = new GridView
+            {
+                DataSource = list
+            };
+
+            gv.DataBind();
+            if (list.Count > 0)
+            {
+                GridViewRow forbr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbr = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbr.BorderStyle = BorderStyle.None;
+                forbr.Controls.Add(tecbr);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbr);
+
+
+                GridViewRow row3 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                //TableHeaderCell tec3 = new TableHeaderCell();
+                var tec3 = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "PRINT DATE:  " + PrintedDateServer,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                row3.BorderStyle = BorderStyle.None;
+                row3.Controls.Add(tec3);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row3);
+
+
+                GridViewRow forbrafterdate = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tecbrafterdate = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = null,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None
+                };
+                forbrafterdate.BorderStyle = BorderStyle.None;
+                forbrafterdate.Controls.Add(tecbrafterdate);
+                gv.HeaderRow.Parent.Controls.AddAt(0, forbrafterdate);
+
+
+                GridViewRow row2 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec2 = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "TO DATE:  " + Todate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row2.BorderStyle = BorderStyle.None;
+                row2.Controls.Add(tec2);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row2);
+
+                GridViewRow row22 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec22 = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "FROM DATE:  " + fromdate,
+                    HorizontalAlign = HorizontalAlign.Left,
+                    BorderStyle = BorderStyle.None,
+                };
+                row22.BorderStyle = BorderStyle.None;
+                row22.Controls.Add(tec22);
+                gv.HeaderRow.Parent.Controls.AddAt(0, row22);
+
+                GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var tec1 = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "VENDTECH DEPOSIT REPORTS",
+                    HorizontalAlign = HorizontalAlign.Center,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                row1.Controls.Add(tec1);
+                row1.BorderStyle = BorderStyle.None;
+                row1.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, row1);
+
+                //img
+                GridViewRow imgRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
+                var imgHeader = new TableHeaderCell
+                {
+                    ColumnSpan = 10,
+                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    HorizontalAlign = HorizontalAlign.NotSet,
+                    BorderStyle = BorderStyle.None,
+                    BorderWidth = Unit.Pixel(20),
+                };
+                imgRow.Controls.Add(imgHeader);
+                imgRow.BorderStyle = BorderStyle.Dotted;
+                imgRow.Style.Add(HtmlTextWriterStyle.FontSize, "large");
+                gv.HeaderRow.Parent.Controls.AddAt(0, imgRow);
+
+
+                gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
+                gv.HeaderRow.Cells[1].Text = "POS ID"; //POSID
+                gv.HeaderRow.Cells[2].Text = "VENDOR"; gv.HeaderRow.Cells[2].ColumnSpan = 2; //VENDOR 
+                gv.HeaderRow.Cells[3].Text = "TYPE"; //DEPOSIT_TYPE
+                gv.HeaderRow.Cells[4].Text = "TRANS-ID"; //TRANSACTION ID
+                gv.HeaderRow.Cells[5].Text = "REF #"; //DEPOSIT_REF_NO 
+                gv.HeaderRow.Cells[6].Text = "AMOUNT"; //AMOUNT
+                gv.HeaderRow.Cells[7].Text = "VENDOR @ 1%"; //VENDOR @ 1%
+                gv.HeaderRow.Cells[8].Text = "AGENT @@ 0.5%"; //AGENT @@ 0.5%
+
+
+                foreach (GridViewRow row in gv.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[2].ColumnSpan = 2;
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
+                    }
+                }
+            }
+
+
+            if (ExportType == "Excel")
+            {
+                string filename = "AgentReventReport_" + PrintedDateServer + ".xls";
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+                 
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+
+            }
+            else if (ExportType == "PDF")
+            {
+                string filename = "AgentReventReport_" + PrintedDateServer + ".pdf";
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                gv.RenderControl(hw);
+                gv.HeaderRow.Style.Add("width", "15%");
+                gv.HeaderRow.Style.Add("font-size", "10px");
+                gv.Style.Add("text-decoration", "none");
+                gv.Style.Add("font-family", "Arial, Helvetica, sans-serif;");
+                gv.Style.Add("font-size", "8px");
+
+                StringReader sr = new StringReader(sw.ToString());
+                Document pdfDoc = new Document(PageSize.A2, 7f, 7f, 7f, 0f);
+                HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                pdfDoc.Open();
+                htmlparser.Parse(sr);
+                pdfDoc.Close();
+                Response.Write(pdfDoc);
+                Response.End();
+                gv.AllowPaging = true;
+            }
+        }
+
+
 
         public void ExportSalesReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {

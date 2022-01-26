@@ -92,7 +92,8 @@ namespace VendTech.Areas.Admin.Controllers
             if(result.Status == ActionStatus.Error)
             {
                 return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
-            }
+            } 
+
             if (model.ReleaseDepositIds != null && model.ReleaseDepositIds.Any())
             {
                 SendEmailOnDeposit(model.ReleaseDepositIds);
@@ -159,6 +160,7 @@ namespace VendTech.Areas.Admin.Controllers
                             var stringResult = res.Content.ReadAsStringAsync().Result;
                         }
                     }
+                    _depositManager.DeletePendingDeposits(deposits);
                 }
             } 
         }

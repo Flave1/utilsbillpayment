@@ -496,13 +496,29 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Message = "User does not exist";
                 return response;
             }
-            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-            if (pos.Balance == null || pos.Balance.Value < model.Amount)
+            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId); 
+
+            if (pos == null)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
+                return response;
+            }
+            if (pos.Balance == null)
             {
                 response.ReceiptStatus.Status = "unsuccessful";
                 response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
                 return response;
             }
+
+
+            if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+                return response;
+            }
+ 
             if (model.MeterId != null)
             {
                 var met = Context.Meters.Find(model.MeterId);
@@ -594,8 +610,8 @@ namespace VendTech.BLL.Managers
                     db_transaction_detail.MeterId = model.MeterId;
                 }
 
-                pos.Balance = pos.Balance.Value - model.Amount;
-                
+                pos.Balance = pos.Balance ?? 0 - model.Amount;
+                db_transaction_detail.CurrentVendorBalance = pos.Balance??0;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
 

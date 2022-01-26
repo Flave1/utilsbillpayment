@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Threading.Tasks;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
@@ -977,6 +978,106 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
+        PagingResult<AgencyRevenueExcelReportModel> IDepositManager.GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin)
+        {
+            var result = new PagingResult<AgencyRevenueExcelReportModel>();
+            var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+
+            }
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To));
+            }
+
+            if (model.VendorId.HasValue && model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                query = query.Where(p => posIds.Contains(p.Deposit.POSId));
+            }
+            if (model.PosId.HasValue && model.PosId > 0)
+            {
+                query = query.Where(p => p.Deposit.POSId == model.PosId);
+            }
+            if (model.Bank.HasValue && model.Bank > 0)
+            {
+                query = query.Where(p => p.Deposit.BankAccountId == model.Bank);
+            }
+            if (model.DepositType.HasValue && model.DepositType > 0)
+            {
+                query = query.Where(p => p.Deposit.PaymentType == model.DepositType);
+            }
+            if (!string.IsNullOrEmpty(model.RefNumber))
+            {
+                query = query.Where(p => p.Deposit.CheckNumberOrSlipId.ToLower().Contains(model.RefNumber.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(model.TransactionId))
+            {
+                query = query.Where(p => p.Deposit.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            }
+            //if (!string.IsNullOrEmpty(model.Meter))
+            //{
+            //    query = query.Where(p => p.Deposit.m);
+            //}
+            if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
+            {
+                query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+            }
+
+
+
+            var list = query
+               .ToList().Select(x => new AgencyRevenueExcelReportModel(x.Deposit)).ToList();
+            if (model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
+            {
+              
+                if (model.SortBy == "PaymentType")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.DEPOSIT_TYPE).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.DEPOSIT_TYPE).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                } 
+                if (model.SortBy == "CheckNumberOrSlipId")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.DEPOSIT_REF_NO).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.DEPOSIT_REF_NO).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                }
+
+                if (model.SortBy == "Amount")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.AMOUNT).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.AMOUNT).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                }
+            }
+
+
+            // if data will not available so pass blank single data
+            if (list.Count == 0)
+            {
+                var testdata = new AgencyRevenueExcelReportModel();
+                list = new List<AgencyRevenueExcelReportModel>();
+                list.Add(testdata);
+            }
+
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Deposit Logs List";
+            result.TotalCount = query.Count();
+            return result;
+        }
+
         PagingResult<DepositListingModel> IDepositManager.GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             var result = new PagingResult<DepositListingModel>();
@@ -1424,23 +1525,21 @@ namespace VendTech.BLL.Managers
                     dbDeposit.IsDeleted = true;
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
-                    {
-                        dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
-
+                    { 
                         dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+
+                        //VENDOR COMMISSION
+                        var vendorPercentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
+                        dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? vendorPercentage : dbDeposit.POS.Balance + vendorPercentage + dbDeposit.Amount;
+                         
+
                         dbDeposit.IsDeleted = false;
-                        dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
                         dbDeposit.NewBalance = dbDeposit.POS.Balance;
-                        //var lastPosReleaseDeposit = Context.Deposits.Where(p => p.POSId == dbDeposit.POSId).OrderByDescending(p => p.CreatedAt).FirstOrDefault();
-                        //if (lastPosReleaseDeposit != null && lastPosReleaseDeposit.NewBalance != null)
-                        //    dbDeposit.NewBalance = lastPosReleaseDeposit.NewBalance.Value + dbDeposit.PercentageAmount;
-                        //else
-                        //    // new balance same as current POS balance
-                        //    // dbDeposit.NewBalance = dbDeposit.POS.Balance == null ? (0 + dbDeposit.Amount) : dbDeposit.POS.Balance.Value + dbDeposit.PercentageAmount;
-                        //    dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
-                        //dbDeposit.NewBalance = dbDeposit.POS.Balance;
                     }
-                    Context.PendingDeposits.Remove(dbpendingDeposit);
+                    dbpendingDeposit.ApprovedDepId = dbDeposit.DepositId; 
+                    Context.SaveChanges();
+
+                    dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
                     Context.SaveChanges();
                     //Send push to all devices where this user logged in when admin released deposit
                     var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
@@ -1671,38 +1770,29 @@ namespace VendTech.BLL.Managers
         decimal IDepositManager.TakeCommisionsAndReturnAgentsCommision(long posId, decimal amt)
         {
             decimal agentsCommission = 0;
-            var pos = Context.POS.FirstOrDefault(d => d.POSId == posId);
-            if (pos?.CommissionPercentage != null)
+            var vendorPos = Context.POS.FirstOrDefault(d => d.POSId == posId);
+            var agencyAdminPOS = Context.POS.FirstOrDefault(d => d.VendorId == vendorPos.User.Agency.Representative);
+            if (agencyAdminPOS != null)
             {
-                var percentage = amt * pos.Commission.Percentage / 100;
-                pos.Balance = pos.Balance + percentage;
-            }
-
-            if (pos?.User?.Agency != null)
-            {
-                var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == pos.User.Agency.Representative);
-                if (agentPos != null)
-                {
-                    agentsCommission = pos?.User?.Agency?.Commission?.Percentage ?? 0* amt / 100;
-                    agentPos.Balance  = agentPos.Balance == null ? agentsCommission : agentPos.Balance + agentsCommission;
-                }
+                var percentage = amt * vendorPos?.User?.Agency?.Commission?.Percentage / 100;
+                agencyAdminPOS.Balance = agencyAdminPOS.Balance == null ? percentage : agencyAdminPOS.Balance + percentage;
+                agentsCommission = percentage ?? 0;
             }
             return agentsCommission;
         }
 
         ActionOutput<PendingDeposit> IDepositManager.SaveDepositRequest(DepositModel model)
         {
-            if (model.PosId == 0)
+            var userAssignedPos = new POS();
+          
+
+            userAssignedPos = Context.POS.FirstOrDefault(d => d.POSId == model.PosId) ?? null;
+            if (userAssignedPos == null)
             {
-                var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
-                var userAssignedPos = new POS();
-                if (user.UserRole.Role == UserRoles.Vendor)
-                    userAssignedPos = user.POS.FirstOrDefault();
-                else if (user.UserRole.Role == UserRoles.AppUser && user.User1 != null)
-                    userAssignedPos = user.User1.POS.FirstOrDefault();
-                if (userAssignedPos != null)
-                    model.PosId = userAssignedPos.POSId;
-            } 
+                throw new ArgumentException("POS ID NOT FOUND");
+            }
+            model.PosId = userAssignedPos.POSId;
+            model.UserId = userAssignedPos.VendorId ?? 0;
 
             var dbDeposit = new PendingDeposit();
             dbDeposit.Amount = model.Amount;
@@ -1908,10 +1998,17 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
         }
 
-        List<Deposit> IDepositManager.GetListOfDeposits(List<long> depositIds)
+        List<PendingDeposit> IDepositManager.GetListOfDeposits(List<long> depositIds)
         {
-            return Context.Deposits.Where(d => depositIds.Contains(d.DepositId)).ToList() ?? new List<Deposit>();
+            return Context.PendingDeposits.Where(d => depositIds.Contains(d.PendingDepositId)).ToList() ?? new List<PendingDeposit>();
         }
+
+        void IDepositManager.DeletePendingDeposits(List<PendingDeposit> deposits)
+        {
+            Context.PendingDeposits.RemoveRange(deposits);
+            Context.SaveChanges();
+        }
+
 
 
         IQueryable<BalanceSheetListingModel> IDepositManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)

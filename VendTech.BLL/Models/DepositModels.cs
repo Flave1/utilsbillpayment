@@ -173,6 +173,36 @@ namespace VendTech.BLL.Models
         }
     }
 
+    public class AgencyRevenueExcelReportModel
+    { 
+        public string DATE_TIME { get; set; } 
+        public string POSID { get; set; }
+        public string VENDOR { get; set; } 
+        public string DEPOSIT_TYPE { get; set; }  
+        public string TRANSACTION_ID { get; set; }
+        public string DEPOSIT_REF_NO { get; set; }
+        public string AMOUNT { get; set; } 
+        public string VENDORPERCENT { get; set; }
+        public string AGENTPERCENT { get; set; }
+        public AgencyRevenueExcelReportModel(Deposit obj, bool changeStatusForApi = false)
+        {
+            var approver = obj.DepositLogs.FirstOrDefault(d => d.DepositId == obj.DepositId);
+            DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
+            VENDOR = obj.POS.User.Vendor; 
+            POSID = obj.POS != null ? obj.POS.SerialNumber : "";
+            DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
+            DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString(); 
+            AMOUNT = string.Format("{0:N0}", obj.Amount); 
+            TRANSACTION_ID = obj?.TransactionId;  
+            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount);
+            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission);
+        }
+
+        public AgencyRevenueExcelReportModel()
+        {
+        }
+    }
+
     public class DepositAuditExcelReportModel
     {
         [DisplayName("Date/Time")]
@@ -382,7 +412,7 @@ namespace VendTech.BLL.Models
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
             Comment = obj.Comments;
         }
-    }
+    } 
 
     public class DepositAuditLiteDto
     {
