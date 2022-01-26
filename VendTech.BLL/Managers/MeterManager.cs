@@ -610,8 +610,8 @@ namespace VendTech.BLL.Managers
                     db_transaction_detail.MeterId = model.MeterId;
                 }
 
-                pos.Balance = pos.Balance ?? 0 - model.Amount;
-                db_transaction_detail.CurrentVendorBalance = pos.Balance??0;
+                pos.Balance = (pos.Balance - model.Amount);
+                db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
 
