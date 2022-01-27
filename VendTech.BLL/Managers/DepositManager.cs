@@ -1525,22 +1525,17 @@ namespace VendTech.BLL.Managers
                     dbDeposit.IsDeleted = true;
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
-                    { 
+                    {
+                        dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
+
                         dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
-
-                        //VENDOR COMMISSION
-                        var vendorPercentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
-                        dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? vendorPercentage : dbDeposit.POS.Balance + vendorPercentage + dbDeposit.Amount;
-                         
-
                         dbDeposit.IsDeleted = false;
-                        dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                        dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
+                        dbDeposit.NewBalance = dbDeposit.POS.Balance; 
                     }
                     dbpendingDeposit.ApprovedDepId = dbDeposit.DepositId; 
                     Context.SaveChanges();
-
-                    dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
-                    Context.SaveChanges();
+                     
                     //Send push to all devices where this user logged in when admin released deposit
                     var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                     var obj = new PushNotificationModel();
@@ -1770,13 +1765,22 @@ namespace VendTech.BLL.Managers
         decimal IDepositManager.TakeCommisionsAndReturnAgentsCommision(long posId, decimal amt)
         {
             decimal agentsCommission = 0;
-            var vendorPos = Context.POS.FirstOrDefault(d => d.POSId == posId);
-            var agencyAdminPOS = Context.POS.FirstOrDefault(d => d.VendorId == vendorPos.User.Agency.Representative);
-            if (agencyAdminPOS != null)
+            var pos = Context.POS.FirstOrDefault(d => d.POSId == posId);
+            if (pos?.CommissionPercentage != null)
             {
-                var percentage = amt * vendorPos?.User?.Agency?.Commission?.Percentage / 100;
-                agencyAdminPOS.Balance = agencyAdminPOS.Balance == null ? percentage : agencyAdminPOS.Balance + percentage;
-                agentsCommission = percentage ?? 0;
+                var percentage = amt * pos.Commission.Percentage / 100;
+                pos.Balance = pos.Balance + percentage;
+            }
+
+            if (pos.User.Agency != null)
+            {
+                var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == pos.User.Agency.Representative);
+                if (agentPos != null)
+                {
+                    var percentage = (amt * pos.User.Agency.Commission.Percentage) / 100;
+                    agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
+                    agentsCommission = percentage;
+                }
             }
             return agentsCommission;
         }
