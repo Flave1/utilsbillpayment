@@ -151,6 +151,22 @@ namespace VendTech.BLL.Managers
             }).ToList();
         }
 
+        List<PosSelectItem> IPOSManager.GetAgencyPos(long userId)
+        {
+            var query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.SerialNumber.StartsWith("AGT"));
+            // var query = Context.POS.Where(p => !p.IsDeleted);
+            var userPos = new List<POS>();
+            if (userId > 0)
+                query = query.Where(p => (p.User != null && p.User.AgentId == userId));
+            var list = query.ToList();
+            return list.OrderBy(p => p.SerialNumber).Select(p => new PosSelectItem
+            {
+                Text = p.SerialNumber.ToUpper(),
+                Value = p.POSId.ToString(),
+                Percentage = p.CommissionPercentage
+            }).ToList();
+        }
+
         public class PosSelectItem
         {
             public string Text { get; set; } 

@@ -91,6 +91,7 @@ namespace VendTech.BLL.Interfaces
         List<User> GetAllAdminUsersByDepositRelease();
         User GetUserIdByEmail(string email);
         List<SelectListItem> GetAgentSelectList();
+        UserLogo GetUserLogo(long userId);
     }
 
 }

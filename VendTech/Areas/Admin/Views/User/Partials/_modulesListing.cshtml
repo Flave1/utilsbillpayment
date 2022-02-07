@@ -107,6 +107,7 @@
                                     chkbox.ModuleName == "Platform Settings" ? "more-platformOption" :
                                     chkbox.ModuleName == "Manage Deposits" ? "more-depositOptions" :
                                      chkbox.ModuleName == "Notification Center" ? "more-notificationOption" :
+                                     chkbox.ModuleName == "Manage Agents" ? "more-option" :
                                     "" )" type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
                         @if (chkbox.ModuleName == "Users")
                         {
@@ -144,7 +145,7 @@
                                 }
 
                             </span>
-                        } 
+                        }
                         @if (chkbox.ModuleName == "Notification Center")
                         {
                             <span class="more-notificationOptionspan">
@@ -152,6 +153,17 @@
                                 {
                                     <p><input type="checkbox" name="SelectedModules" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
                                 }
+                            </span>
+                        }
+
+                        @if (chkbox.ModuleName.ToLower() == "Manage Agents".ToLower())
+                        {
+                            <span class="more-optionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID).OrderBy(d => d.ModuleName)))
+                                {
+                                    <p><input type="checkbox" name="SelectedModules" class="selectAgent" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+                                }
+
                             </span>
                         }
                     </td>

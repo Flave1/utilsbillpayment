@@ -302,6 +302,7 @@
     <Content Include="Scripts\AdminScripts\passcode.js" />
     <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
     <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
+    <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
@@ -438,6 +439,8 @@
     <Content Include="Areas\Admin\Views\Report\Partials\_gstSalesReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\PrintGSTSalesReport.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReports.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_agentsRevenueReportListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -511,7 +514,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index__.cshtml" />
     <Content Include="Views\Shared\_beforeLoginUserLayout.cshtml" />
     <Content Include="Views\Shared\_FunctionCallMessage.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />

@@ -88,7 +88,7 @@ namespace VendTech.Areas.Admin.Controllers
                     UserID = userId,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = data.Object.UserType,
-                    ProfilePicPath = data.Object.ProfilePicPath
+                   // ProfilePicPath = data.Object.ProfilePicPath
                 };
             }
             else
@@ -415,5 +415,20 @@ namespace VendTech.Areas.Admin.Controllers
             }
         }
 
+
+        [HttpGet, Public]
+        public JsonResult ReturnUserImageLogo()
+        {
+            try
+            {
+                var logo = _userManager.GetUserLogo(LOGGEDIN_USER.UserID); 
+                return Json(new { result = string.IsNullOrEmpty(logo.Image) ? "" : Utilities.DomainUrl + logo.Image }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
     }
 }

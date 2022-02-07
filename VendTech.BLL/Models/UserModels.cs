@@ -380,4 +380,9 @@ namespace VendTech.BLL.Models
         public long POSId { get; set; }
     }
 
+    public class UserLogo
+    {
+        public string Image { get; set; } 
+    }
+
 }

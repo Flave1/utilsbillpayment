@@ -69,6 +69,16 @@
 
         setInterval(function () {
             $.ajax({
+                url: '/Admin/Home/ReturnDealerBalance',
+                success: function (data) {
+                    $("#dealerBal").text(data.result.LastDealerBalance);
+                    $("#transDate").text(data.result.RequestDate);
+                }
+            })
+        }, 3000);
+
+        setInterval(function () {
+            $.ajax({
                 url: '/Admin/Home/CheckForUnClearedDeposits',
                 success: function (data) {
                     //$("#dealerBal").text(data.result.LastDealerBalance);
@@ -76,6 +86,16 @@
                 }
             })
         }, 120000);
+
+        setTimeout(function () {
+            $.ajax({
+                url: '/Admin/Home/ReturnUserImageLogo',
+                success: function (data) {
+                    $("#image").attr({ "src": data.result });
+                    console.log('logo', data.result)
+                }
+            })
+        }, 1000);
 
      
 

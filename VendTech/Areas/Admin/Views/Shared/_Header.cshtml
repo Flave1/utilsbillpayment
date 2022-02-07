@@ -108,7 +108,8 @@
             <ul class="nav navbar-nav navbar-right user-nav">
                 <li class="dropdown profile_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img alt="" class="profilepictureclass" src="@(user.ProfilePicPath!=null?user.ProfilePicPath:Url.Content("/Content/images/avatar2.jpg"))" /><span>@user.FirstName @user.LastName</span> <b class="caret"></b>
+                        @*@(user.ProfilePicPath!=null?user.ProfilePicPath:Url.Content("/Content/images/avatar2.jpg"))*@
+                        <img alt="" class="profilepictureclass" src="" id="image" /><span>@user.FirstName @user.LastName</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("SignOut", "Home")">Sign Out</a></li>

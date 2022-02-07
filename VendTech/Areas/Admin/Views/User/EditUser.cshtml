@@ -171,6 +171,21 @@
             //    $("input[name='SelectedModules']").prop("checked", true);
             //    $("input[name='SelectedModules1']").prop("checked", true);
             //}
+
+
+
+            var toggleSelectAgent = document.querySelector('.selectAgent');
+            $('#10').hide()
+            setTimeout(function () {
+                toggleSelectAgent.addEventListener('change', function (e) {
+                    if (this.checked) {
+                        $('#10').show()
+                    } else {
+                        $('#10').hide()
+                    }
+                })
+            }, 500)
+
         });
         function chanegUserRole() {
             var val = $("#UserType").val();

@@ -334,6 +334,7 @@ namespace VendTech.BLL.Models
             }
         }
         public long? VendorId { get; set; }
+        public long? AgencyId { get; set; }
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
         public long? PosId { get; set; }
@@ -388,7 +389,7 @@ namespace VendTech.BLL.Models
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
             DepositBy = obj.POS.User.Vendor.Trim();
-            PosId = obj.POS != null ? Convert.ToInt64(obj.POS.SerialNumber) : 0;
+            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
             if (obj.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
@@ -408,8 +409,8 @@ namespace VendTech.BLL.Models
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
-            if(obj.ValueDate != " 12:00")
-                ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            //if(obj.ValueDate != " 12:00")
+            //    ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
             Comment = obj.Comments;
         }
     } 
@@ -429,7 +430,7 @@ namespace VendTech.BLL.Models
         public string Type { get; set; } 
         public string PosNumber { get; set; }
         public string CreatedAt { get; set; }
-        public string TransactionId { get; set; }
+        public string TransactionId { get; set; } 
         public decimal Amount { get; set; } 
         public decimal? AgentPercentageAmount { get; set; } 
         public decimal? VendorPercentageAmount { get; set; }

@@ -219,6 +219,7 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.VendorId = LOGGEDIN_USER.UserID;
             model.RecordsPerPage = 10;
+            model.AgencyId = LOGGEDIN_USER.AgencyId;
             var modal = new PagingResult<AgentRevenueListingModel>();
 
             modal = _depositManager.GetAgentRevenueReportsPagedList(model, false, LOGGEDIN_USER.AgencyId); 

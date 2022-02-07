@@ -483,6 +483,11 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
+            if(model.AgencyId.HasValue && model.AgencyId > 0)
+            {
+                query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
+            }
+
             if (model.PosId.HasValue && model.PosId > 0)
             {
                 query = query.Where(p => p.Deposit.POSId == model.PosId);
@@ -1526,12 +1531,35 @@ namespace VendTech.BLL.Managers
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
                     {
-                        dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
+                        //dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
+                         
+                        if (dbDeposit.POS?.CommissionPercentage != null)
+                        {
+                            var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
+                            dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage + dbDeposit.Amount;
+                        }
+                        else
+                        {
+                            dbDeposit.POS.Balance = dbDeposit.POS.Balance + dbDeposit.Amount;
+                        }
+
+                        if (dbDeposit.POS.User.Agency != null)
+                        {
+                            var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == dbDeposit.POS.User.Agency.Representative);
+                            if (agentPos != null)
+                            {
+                                var percentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
+                                agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
+                                dbDeposit.AgencyCommission = percentage;
+                            }
+                        }
+                        dbDeposit.NewBalance = dbDeposit.POS.Balance; 
 
                         dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
                         dbDeposit.IsDeleted = false;
-                        dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? (0 + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount)) : (dbDeposit.POS.Balance + (dbDeposit.PercentageAmount == null || dbDeposit.PercentageAmount == 0 ? dbDeposit.Amount : dbDeposit.PercentageAmount));
-                        dbDeposit.NewBalance = dbDeposit.POS.Balance; 
+
+                       
+                       
                     }
                     dbpendingDeposit.ApprovedDepId = dbDeposit.DepositId; 
                     Context.SaveChanges();
@@ -1809,7 +1837,8 @@ namespace VendTech.BLL.Managers
             dbDeposit.PendingBankAccountId = model.BankAccountId;
             dbDeposit.CheckNumberOrSlipId = model.ChkOrSlipNo;
             dbDeposit.Comments = model.Comments;
-            dbDeposit.PercentageAmount = model.TotalAmountWithPercentage;
+            var percentage = dbDeposit.Amount * userAssignedPos.Commission.Percentage / 100;
+            dbDeposit.PercentageAmount = dbDeposit.Amount + percentage;
             dbDeposit.TransactionId = "0";
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;

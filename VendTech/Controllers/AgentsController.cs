@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using VendTech.Areas.Admin.Controllers;
 using VendTech.Attributes;
@@ -70,7 +71,7 @@ namespace VendTech.Controllers
             if (id.HasValue && id > 0)
             {
                 model = _agencyManager.GetAgentDetail(id.Value);
-            }
+            } 
             return View(model);
         }
         public ActionResult GetAgentPercentage(long vendorId)
@@ -80,7 +81,8 @@ namespace VendTech.Controllers
 
         [AjaxOnly, HttpPost]
         public JsonResult DeleteAgent(long agentId)
-        {
+        { 
+
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             return JsonResult(_agencyManager.DeleteAgency(agentId));
         }

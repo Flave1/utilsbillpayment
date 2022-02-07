@@ -9873,3 +9873,29 @@ POS ID NOT FOUND
 
 
 
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.AgentRevenueListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositListingModel]'.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\AppUser\EditUser.cshtml(53): error CS1003: Syntax error, ',' expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\AppUser\EditUser.cshtml(53): error CS1003: Syntax error, ',' expected
+
+
+
+Value cannot be null.
+Parameter name: entities
+
+
+
+POS ID NOT FOUND
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+

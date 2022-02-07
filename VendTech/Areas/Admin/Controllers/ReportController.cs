@@ -115,6 +115,12 @@ namespace VendTech.Areas.Admin.Controllers
                     var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
                     return View("ManageGSTSalesReports", recharges);
                 }
+                if (val == "29")
+                {
+                    ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                    var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
+                    return View("ManageAgentsRevenueReports", recharges);
+                }
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "21")
                 {
@@ -139,6 +145,13 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult GetVendorPosSelectList(long userId)
         {
             var posList = _posManager.GetVendorPos(userId);
+            return Json(new { posList }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetAgencyPosSelectList(long userId)
+        {
+            var posList = _posManager.GetAgencyPos(userId);
             return Json(new { posList }, JsonRequestBehavior.AllowGet);
         }
 
@@ -189,6 +202,7 @@ namespace VendTech.Areas.Admin.Controllers
             };
                 return JsonResult(resultString);
             }
+
             if (model.ReportType == "21")
             {
                 var resultString = new List<string> {
@@ -211,6 +225,23 @@ namespace VendTech.Areas.Admin.Controllers
            };
             return JsonResult(resultString);
         }
+
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetAgentRevenueReportsPagedList(ReportSearchModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            model.RecordsPerPage = 1000000000;
+            var result = _depositManager.GetAgentRevenueReportsPagedList(model, true);
+
+
+            var sum = result.List.Select(d => d.Amount).Sum();
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_agentsRevenueReportListing", result), result.TotalCount.ToString()
+           };
+            return JsonResult(resultString);
+        }
+
+
 
         [AjaxOnly, HttpPost]
         public JsonResult GetBalanceSheetReportsPagingList(ReportSearchModel model)

@@ -355,7 +355,7 @@ namespace VendTech.BLL.Managers
                 UserEmail = user.Email,
                 UserID = user.UserId,
                 UserType = user.UserRole.Role,
-                ProfilePicPath = user.ProfilePic
+                //ProfilePicPath = user.ProfilePic
             };
             return ReturnSuccess<UserDetailForAdmin>(modelUser, "User logged in successfully.");
         }
@@ -442,13 +442,13 @@ namespace VendTech.BLL.Managers
         {
             if (isAdmin)
             {
-                return Context.Modules.Where(p => p.SubMenuOf == 9).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
+                return Context.Modules.Where(p => p.SubMenuOf == 9 || p.SubMenuOf == 26 && p.ModuleId != 30).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
                 {
                     Text = p.ModuleName,
                     Value = p.ModuleId.ToString()
                 }).ToList();
             }
-            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 9).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
+            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 9 || p.Module.SubMenuOf == 26 && p.ModuleId != 30).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
             {
                 Text = p.Module.ModuleName,
                 Value = p.Module.ModuleId.ToString()
@@ -670,7 +670,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IUserManager.GetAgentSelectList()
         {
-            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType == 2 || p.UserType == 9).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
+            return Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.UserType == 2 || p.UserType == 9 || p.UserAssignedModules.Select(s => s.ModuleId).Any(e => e == 26)).OrderBy(d => d.Name).ToList().Select(p => new SelectListItem
             {
                 Text = p.Name.ToUpper() + " " + p.SurName.ToUpper(),
                 Value = p.UserId.ToString().ToUpper()
@@ -1267,6 +1267,13 @@ namespace VendTech.BLL.Managers
             }
             return result;
         }
+
+        UserLogo IUserManager.GetUserLogo(long userId)
+        {
+            return new UserLogo { Image = Context.Users.FirstOrDefault(d => d.UserId == userId).ProfilePic };
+        }
+
+
     }
 
 

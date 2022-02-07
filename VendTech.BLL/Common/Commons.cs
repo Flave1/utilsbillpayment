@@ -95,7 +95,7 @@ namespace VendTech.BLL.Models
         public bool IsEmailVerified { get; set; }
         public int Status { get; set; }
 
-        public string ProfilePicPath { get; set; }
+        //public string ProfilePicPath { get; set; }
         public int RemainingAppUser { get; set; }
         public int RemainingDepositRelease { get; set; }
         public string AppUserMessage { get; set; }

@@ -43,31 +43,34 @@
                                             @Html.ValidationMessageFor(x => x.Email)
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
+                                        <div class="col-sm-12">
+                                            <div class="input-group">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password" })
+                                                <span style="cursor:pointer; background:white" id="togglePassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
+                                            </div>
+                                            <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+                                        <div class="col-sm-12">
+                                            <div class="input-group">
+                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Password*", @id = "confirmPassword" })
+                                                <span style="cursor: pointer; background: white" id="toggleConfirmPassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
+                                            </div>
+                                            <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
                                         <div class="col-md-12">
                                             @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(x => x.Address)
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">
-                                            PASSWORD<em>*</em>
-
-                                        </label>
-                                        <div class="col-md-12">
-                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Password)
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD<em>*</em></label>
-                                        <div class="col-md-12">
-                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                                                @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
-                                            </reset>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -87,7 +90,7 @@
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">VENDOR NAME</label>
                                         <div class="col-md-12">
                                             @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "form-control" })
-                                            <span class="help-block">If you select a vendor, then this user will assign to Vendor.</span>
+                                            <span class="help-block">If you select a vendor, then this user will be assigned to this Vendor.</span>
                                             @Html.ValidationMessageFor(x => x.VendorId)
                                         </div>
                                     </div>
@@ -150,6 +153,43 @@
 @section scripts{
     <script src="~/Scripts/AdminScripts/appUsers.js"></script>
     <script type="text/javascript">
+
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const confirmPassword = document.querySelector('#confirmPassword');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye / eye slash icon
+            this.classList.toggle('bi-eye');
+        });
+
+        toggleConfirmPassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            // toggle the eye / eye slash icon
+            this.classList.toggle('bi-eye');
+        });
+
+        var toggleSelectAgent = document.querySelector('.selectAgent');
+        $('#10').hide()
+        setTimeout(function () {
+            toggleSelectAgent.addEventListener('change', function (e) {
+                if (this.checked) {
+                    $('#10').show()
+                } else {
+                    $('#10').hide()
+                }
+            })
+        }, 500)
+
+
         $(document).ready(function () {
             App.init();
         });

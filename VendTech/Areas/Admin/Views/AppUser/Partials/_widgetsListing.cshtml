@@ -22,20 +22,19 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Assign</th>
-
-
+                <th>Assign</th> 
             </tr>
         </thead>
         <tbody>
             @foreach (var chkbox in Model.Where(e => e.Id != 5 & e.Id != 8))
             {
-<tr class="odd gradeX">
-    <td><label> @chkbox.Title</label></td>
-    <td>
-        <input type="checkbox" id="@chkbox.Id" name="SelectedWidgets" value="@chkbox.Id" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
-    </td>
-</tr>            }
+                <tr class="odd gradeX">
+                    <td><label> @chkbox.Title</label></td>
+                    <td>
+                        <input type="checkbox" id="@chkbox.Id" name="SelectedWidgets" value="@chkbox.Id" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+                    </td>
+                </tr> 
+            }
         </tbody>
     </table>
 </div>

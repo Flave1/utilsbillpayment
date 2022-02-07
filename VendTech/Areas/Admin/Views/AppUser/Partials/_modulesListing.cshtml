@@ -49,7 +49,7 @@
                 <tr class="odd gradeX">
                     <td><label> @chkbox.ModuleName</label></td>
                     <td>
-                        <input class="@(chkbox.ModuleName == "Manage Reports" ? "more-option" : chkbox.ModuleName == "Users" ? "more-userOption" : chkbox.ModuleName == "Platform Settings" ? "more-platformOption" : "")" type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+                        <input class="@(chkbox.ModuleName == "Manage Reports" ? "more-option" : chkbox.ModuleName == "Users" ? "more-userOption" : chkbox.ModuleName == "Platform Settings" ? "more-platformOption": chkbox.ModuleName == "Manage Agents" ? "more-option" : "")" type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
                         @if (chkbox.ModuleName == "Users")
                         {
                             <span class="more-userOptionspan">
@@ -74,6 +74,17 @@
                                 @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID)))
                                 {
                                     <p><input type="checkbox" name="SelectedModules" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+                                }
+
+                            </span>
+                        }
+
+                        @if (chkbox.ModuleName.ToLower() == "Manage Agents".ToLower())
+                        {
+                            <span class="more-optionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID).OrderBy(d => d.ModuleName)))
+                                {
+                                    <p><input type="checkbox" name="SelectedModules" class="selectAgent" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
                                 }
 
                             </span>

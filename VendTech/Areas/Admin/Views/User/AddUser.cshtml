@@ -145,5 +145,19 @@
         //    }
 
         //}
+
+
+        var toggleSelectAgent = document.querySelector('.selectAgent');
+        $('#10').hide()
+        setTimeout(function () {
+            toggleSelectAgent.addEventListener('change', function (e) {
+                if (this.checked) {
+                    $('#10').show()
+                } else {
+                    $('#10').hide()
+                }
+            })
+        }, 500)
+
     </script>
 }
