@@ -1,0 +1,135 @@
+﻿@model List<AgencyRevenueExcelReportModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Deposit Reports</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Deposit Reports</h3>
+                    </div>
+                    <div class="content">
+                        <div class="row" id="hideid">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6 ">
+                                <button class="btn btn-primary pull-right " onclick="printPageArea()" id="Printid">Print</button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-danger pull-right " onclick="goBack()" id="gobackbtnid">Go Back</button>
+                            </div>
+
+                        </div>
+                     
+                        <div id="printiddive">
+
+                            <div class="row">
+                                <div style="width:80%; float:left; padding-left:20px;">
+                                    <h3><b>VENDTECH AGENCY REVENUE REPORTS</b></h3>
+                                    <h5><label>FROM DATE:  @ViewBag.fromdate</label></h5>
+                                    <h5><label>TO DATE: @ViewBag.Todate</label></h5>
+                                    <br />
+                                    <h5><label>PRINT DATE: <span> @ViewBag.Pritdatetime </span></label></h5>
+                                    <br />
+                                </div>
+                                <div style="width:19%; float:right">
+                                    <img src='http://vendtechsl.net/Content/images/ventech.png' width="100" alt="LOGO" />
+                                </div>
+                            </div>
+                            <table class="table table-bordered" id="datatable-icons">
+
+                                <tr>
+                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                    <th class="sorting" data-sortby="POS">POS ID</th>
+                                    <th class="sorting" data-sortby="Vendor">VENDOR</th>
+                                    <th class="sorting" data-sortby="PaymentType">TYPE</th>
+                                    <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
+                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                    <th class="sorting" data-sortby="PercentageAmount">VENDOR @@ 1%</th>
+                                    <th class="sorting" data-sortby="NewBalance">AGENT @@ 0.5%</th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                            <tr class="odd gradeX">
+                                <td style="text-align:right"> @item.DATE_TIME</td>
+                                <td style="text-align:right"> @item.POSID</td>
+                                <td style="text-align:left">@item.VENDOR</td>
+                                <td> @item.DEPOSIT_TYPE</td>
+                                <td style="text-align:center;"> @item.TRANSACTION_ID</td>
+                                <td style="text-align:right"> @item.DEPOSIT_REF_NO</td>
+                                <td style="text-align:right"><strong><a href="#">@(item.AMOUNT == null ? "0" : string.Format("{0:N0}", item.AMOUNT)) </a></strong></td>
+                                <td style="text-align:right"><strong>@(item.VENDORPERCENT == null ? "0" : string.Format("{0:N0}", item.VENDORPERCENT))</strong></td>
+                                <td style="text-align:right"><strong>@(item.AGENTPERCENT == null ? "0" : string.Format("{0:N0}", item.AGENTPERCENT))</strong></td>
+
+                            </tr>
+
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    @@media print {
+        #Header, #Footer {
+            display: none !important;
+        }
+    }
+</style>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+           
+            //$('#hideid').hide();
+            //$("#Printid").click();
+
+            // printPageArea();
+
+            var i = 0;
+            setTimeout(function () {
+                if (i == 0) {
+                    printPageArea();
+                    i++;
+                }
+
+            }, 1000);
+
+        });
+
+
+
+        function printPageArea() {
+
+            var printContents = document.getElementById("printiddive").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        }
+
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+}

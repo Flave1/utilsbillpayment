@@ -74,10 +74,33 @@
 
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
-                                                @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;", @id = "pos" })
-                                            </div>
+
+
+
+
+                                            @{
+                                                var pos = (List<SelectListItem>)ViewBag.userPos;
+                                            }
+                                            @if (pos.Count > 1)
+                                            {
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
+                                                    @Html.DropDownList("POS", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;", @id = "posDrp" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                        <div class=" col-md-12">
+                                            <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+
+                                        </div>
+                                                <br />
+                                                <br />
+                                                <br />
+
+                                            }
+
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="row">
                                                 <label style="width:100%;">TRANSACTION PERIOD</label>
@@ -95,22 +118,9 @@
 
                                             <div class="form-group row">
                                                 <label>REPORT</label>
-                                                <select id="rpt" onchange="changeReport()" class="form-control">
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "SALES REPORT"))
-                                                    {
-                                                        <option value="2" selected="selected">SALES REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "DEPOSITS REPORT"))
-                                                    {
-                                                        <option value="1">DEPOSIT REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "BALANCE SHEET REPORT"))
-                                                    {
-                                                        <option value="3">BALANCE SHEET REPORT</option>
-                                                    }
-                                                </select>
+                                                @Html.Partial("partials/_assignedReports", assigned_platforms)
                                             </div>
-                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <hr style="background:#d0cbcb; height:1px;" /> 
 
                                             <div class="form-group row">
                                                 <label style="width:30%;  float:left;">Meter #:</label>
@@ -252,15 +262,20 @@
 
             
 
-            function changeReport() {
-                var val = $("#rpt").val();
-                if (val == 1)
-                    window.location.href = '/Report/DepositReport';
-                else if (val == 3)
-                    window.location.href = '/Report/BalanceSheetReport';
-                else
-                    window.location.href = '/Report/SalesReport';
-            }
+
+        function changeReport() {
+            var val = $("#rpt").val();
+            if (val == 1)
+                window.location.href = '/Report/DepositReport';
+            else if (val == 3)
+                window.location.href = '/Report/BalanceSheetReport';
+            else if (val == 4)
+                window.location.href = '/Report/GSTSalesReport';
+            else if (val == 5)
+                window.location.href = '/Report/AgentRevenueReport';
+            else
+                window.location.href = '/Report/SalesReport';
+        }
 
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());

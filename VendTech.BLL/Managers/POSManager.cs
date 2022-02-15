@@ -137,11 +137,27 @@ namespace VendTech.BLL.Managers
         }
         List<PosSelectItem> IPOSManager.GetVendorPos(long userId)
         {
-            var query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false);
+            var query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.SerialNumber.StartsWith("AGT"));
             // var query = Context.POS.Where(p => !p.IsDeleted);
             var userPos = new List<POS>();
             if (userId > 0)
                 query = query.Where(p => (p.VendorId != null && p.VendorId == userId));
+            var list = query.ToList();
+            return list.OrderBy(p => p.SerialNumber).Select(p => new PosSelectItem
+            {
+                Text = p.SerialNumber.ToUpper(),
+                Value = p.POSId.ToString(),
+                Percentage = p.CommissionPercentage
+            }).ToList();
+        }
+
+        List<PosSelectItem> IPOSManager.GetAgencyPos(long userId)
+        {
+            var query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.SerialNumber.StartsWith("AGT"));
+            // var query = Context.POS.Where(p => !p.IsDeleted);
+            var userPos = new List<POS>();
+            if (userId > 0)
+                query = query.Where(p => (p.User != null && p.User.AgentId == userId));
             var list = query.ToList();
             return list.OrderBy(p => p.SerialNumber).Select(p => new PosSelectItem
             {
@@ -166,14 +182,14 @@ namespace VendTech.BLL.Managers
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
                 if (user != null)
-                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted) && !p.IsAdmin).ToList();
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted && !p.SerialNumber.StartsWith("AGT")) && !p.IsAdmin).ToList();
             }else
-                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList();
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
              
 
             if (agentId > 0)
             {
-                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin).ToList();
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
             }
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
@@ -398,6 +414,13 @@ namespace VendTech.BLL.Managers
                 dbPos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
                 if (dbPos == null)
                     return ReturnError("Pos not exist");
+            }
+            else
+            {
+                if(Context.POS.Any(d => d.SerialNumber.Contains(model.SerialNumber)))
+                {
+                    return ReturnError("POS with same ID already exist");
+                }
             }
             dbPos.SerialNumber = model.SerialNumber;
             dbPos.VendorId = model.VendorId != null ? model.VendorId : dbPos.VendorId;

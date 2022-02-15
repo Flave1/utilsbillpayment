@@ -142,7 +142,9 @@ namespace VendTech.BLL.Models
         [Description("Purchase Order")]
         PurchaseOrder = 3,
         [Description("Transfer")]
-        Transfer = 4
+        Transfer = 4,
+        [Description("Cash/Cheque")]
+        Cash_Cheque = 5
     }
     public enum DepositPaymentStatusEnum
     {

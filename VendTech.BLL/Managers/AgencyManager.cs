@@ -42,7 +42,7 @@ namespace VendTech.BLL.Managers
             model.RecordsPerPage = 10000000;
             IQueryable<POS> query = null;
 
-            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency && !f.IsAdmin).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency && !f.IsAdmin && !f.SerialNumber.StartsWith("AGT")).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
 
             if (model.SortBy.Equals("AGENCY"))
             {
@@ -142,7 +142,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IAgencyManager.GetAgentsSelectList()
         {
-            return Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).ToList().Select(p => new SelectListItem
+            return Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active && p.AgencyId != 20).ToList().Select(p => new SelectListItem
             {
                 Text = p.AgencyName,
                 Value = p.AgencyId.ToString()

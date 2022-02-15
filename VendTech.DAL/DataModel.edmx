@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -155,6 +155,7 @@
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -285,6 +286,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDepId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -414,6 +416,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="DateAndTimeSold" Type="varchar(max)" />
           <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
           <Property Name="DateAndTimeLinked" Type="varchar(max)" />
+          <Property Name="CurrentVendorBalance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
@@ -995,7 +998,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VendtechModelStoreContainer">
+        <EntityContainer Name="DataModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
@@ -1204,7 +1207,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1371,6 +1374,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="BankAccount" Relationship="Self.FK_Deposits_BankAccounts" FromRole="Deposits" ToRole="BankAccounts" />
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Deposits" FromRole="Deposits" ToRole="DepositLogs" />
           <NavigationProperty Name="POS" Relationship="Self.FK_Deposits_POS" FromRole="Deposits" ToRole="POS" />
@@ -1499,6 +1503,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDepId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="POS" Relationship="Self.FK_PendingDeposits_POS" FromRole="PendingDeposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_PendingDeposits_Users" FromRole="PendingDeposits" ToRole="Users" />
         </EntityType>
@@ -1643,6 +1648,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="DateAndTimeSold" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAndTimeFinalised" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAndTimeLinked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentVendorBalance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <NavigationProperty Name="Meter" Relationship="Self.FK_TransactionDetails_Meters" FromRole="TransactionDetails" ToRole="Meters" />
           <NavigationProperty Name="Platform" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="TransactionDetails" ToRole="Platform" />
           <NavigationProperty Name="POS" Relationship="Self.FK_TransactionDetails_POS" FromRole="TransactionDetails" ToRole="POS" />
@@ -2476,9 +2482,9 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VendtechModelStoreContainer" CdmEntityContainer="VendtechEntities">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="VendtechEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.AccountVerificationOTP">
+            <EntityTypeMapping TypeName="DataModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">
                 <ScalarProperty Name="AccountVerificationOTPId" ColumnName="AccountVerificationOTPId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2488,7 +2494,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Agencies">
-            <EntityTypeMapping TypeName="VendtechModel.Agency">
+            <EntityTypeMapping TypeName="DataModel.Agency">
               <MappingFragment StoreEntitySet="Agency">
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="AgencyName" ColumnName="AgencyName" />
@@ -2501,7 +2507,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AppSettings">
-            <EntityTypeMapping TypeName="VendtechModel.AppSetting">
+            <EntityTypeMapping TypeName="DataModel.AppSetting">
               <MappingFragment StoreEntitySet="AppSettings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2510,7 +2516,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BankAccounts">
-            <EntityTypeMapping TypeName="VendtechModel.BankAccount">
+            <EntityTypeMapping TypeName="DataModel.BankAccount">
               <MappingFragment StoreEntitySet="BankAccounts">
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -2523,7 +2529,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
-            <EntityTypeMapping TypeName="VendtechModel.ChequeBank">
+            <EntityTypeMapping TypeName="DataModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BankCode" ColumnName="BankCode" />
@@ -2535,7 +2541,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
-            <EntityTypeMapping TypeName="VendtechModel.City">
+            <EntityTypeMapping TypeName="DataModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2546,7 +2552,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CMSPages">
-            <EntityTypeMapping TypeName="VendtechModel.CMSPage">
+            <EntityTypeMapping TypeName="DataModel.CMSPage">
               <MappingFragment StoreEntitySet="CMSPages">
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
@@ -2561,7 +2567,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commissions">
-            <EntityTypeMapping TypeName="VendtechModel.Commission">
+            <EntityTypeMapping TypeName="DataModel.Commission">
               <MappingFragment StoreEntitySet="Commissions">
                 <ScalarProperty Name="CommissionId" ColumnName="CommissionId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -2571,7 +2577,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="VendtechModel.ContactU">
+            <EntityTypeMapping TypeName="DataModel.ContactU">
               <MappingFragment StoreEntitySet="ContactUs">
                 <ScalarProperty Name="ContactUsId" ColumnName="ContactUsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2584,7 +2590,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="VendtechModel.Country">
+            <EntityTypeMapping TypeName="DataModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2594,7 +2600,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositLogs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositLog">
+            <EntityTypeMapping TypeName="DataModel.DepositLog">
               <MappingFragment StoreEntitySet="DepositLogs">
                 <ScalarProperty Name="DepositLogId" ColumnName="DepositLogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2606,7 +2612,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositOTP">
+            <EntityTypeMapping TypeName="DataModel.DepositOTP">
               <MappingFragment StoreEntitySet="DepositOTP">
                 <ScalarProperty Name="DepositOTPId" ColumnName="DepositOTPId" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
@@ -2616,7 +2622,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deposits">
-            <EntityTypeMapping TypeName="VendtechModel.Deposit">
+            <EntityTypeMapping TypeName="DataModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2638,11 +2644,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailConfirmationRequests">
-            <EntityTypeMapping TypeName="VendtechModel.EmailConfirmationRequest">
+            <EntityTypeMapping TypeName="DataModel.EmailConfirmationRequest">
               <MappingFragment StoreEntitySet="EmailConfirmationRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2652,7 +2659,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailTemplates">
-            <EntityTypeMapping TypeName="VendtechModel.EmailTemplate">
+            <EntityTypeMapping TypeName="DataModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
@@ -2670,7 +2677,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ErrorLogs">
-            <EntityTypeMapping TypeName="VendtechModel.ErrorLog">
+            <EntityTypeMapping TypeName="DataModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
@@ -2685,7 +2692,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForgotPasswordRequests">
-            <EntityTypeMapping TypeName="VendtechModel.ForgotPasswordRequest">
+            <EntityTypeMapping TypeName="DataModel.ForgotPasswordRequest">
               <MappingFragment StoreEntitySet="ForgotPasswordRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2695,7 +2702,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meters">
-            <EntityTypeMapping TypeName="VendtechModel.Meter">
+            <EntityTypeMapping TypeName="DataModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
                 <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2713,7 +2720,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="VendtechModel.Module">
+            <EntityTypeMapping TypeName="DataModel.Module">
               <MappingFragment StoreEntitySet="Modules">
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
@@ -2725,7 +2732,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="VendtechModel.Notification">
+            <EntityTypeMapping TypeName="DataModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2740,7 +2747,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PendingDeposits">
-            <EntityTypeMapping TypeName="VendtechModel.PendingDeposit">
+            <EntityTypeMapping TypeName="DataModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2762,11 +2769,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ApprovedDepId" ColumnName="ApprovedDepId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
-            <EntityTypeMapping TypeName="VendtechModel.Platform">
+            <EntityTypeMapping TypeName="DataModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -2779,7 +2787,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POS">
-            <EntityTypeMapping TypeName="VendtechModel.POS">
+            <EntityTypeMapping TypeName="DataModel.POS">
               <MappingFragment StoreEntitySet="POS">
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
@@ -2810,7 +2818,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POSAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.POSAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.POSAssignedPlatform">
               <MappingFragment StoreEntitySet="POSAssignedPlatforms">
                 <ScalarProperty Name="AssignPOSPlatformId" ColumnName="AssignPOSPlatformId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -2820,7 +2828,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReferralCodes">
-            <EntityTypeMapping TypeName="VendtechModel.ReferralCode">
+            <EntityTypeMapping TypeName="DataModel.ReferralCode">
               <MappingFragment StoreEntitySet="ReferralCodes">
                 <ScalarProperty Name="ReferralCodeId" ColumnName="ReferralCodeId" />
                 <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
@@ -2831,7 +2839,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StanTables">
-            <EntityTypeMapping TypeName="VendtechModel.StanTable">
+            <EntityTypeMapping TypeName="DataModel.StanTable">
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
@@ -2839,7 +2847,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
-            <EntityTypeMapping TypeName="VendtechModel.TokensManager">
+            <EntityTypeMapping TypeName="DataModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2853,7 +2861,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="VendtechModel.TransactionDetail">
+            <EntityTypeMapping TypeName="DataModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2898,11 +2906,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
                 <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
                 <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
+                <ScalarProperty Name="CurrentVendorBalance" ColumnName="CurrentVendorBalance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedModule">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2912,7 +2921,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedPlatform">
               <MappingFragment StoreEntitySet="UserAssignedPlatforms">
                 <ScalarProperty Name="AssignUserPlatformId" ColumnName="AssignUserPlatformId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2922,7 +2931,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedWidgets">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedWidget">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2932,7 +2941,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="VendtechModel.UserRole">
+            <EntityTypeMapping TypeName="DataModel.UserRole">
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -2941,7 +2950,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VendtechModel.User">
+            <EntityTypeMapping TypeName="DataModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2981,7 +2990,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="VendtechModel.Vendor">
+            <EntityTypeMapping TypeName="DataModel.Vendor">
               <MappingFragment StoreEntitySet="Vendors">
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2998,7 +3007,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="VendtechModel.Widget">
+            <EntityTypeMapping TypeName="DataModel.Widget">
               <MappingFragment StoreEntitySet="Widgets">
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3009,7 +3018,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nations">
-            <EntityTypeMapping TypeName="VendtechModel.Nation">
+            <EntityTypeMapping TypeName="DataModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />

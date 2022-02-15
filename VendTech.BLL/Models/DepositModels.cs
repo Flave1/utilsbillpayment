@@ -37,6 +37,17 @@ namespace VendTech.BLL.Models
         public decimal Balance { get; set; } = 0; 
         public long? POSId { get; set; }
     }
+
+    public class DashboardBalanceSheetModel
+    {  
+        public string Vendor { get; set; }
+        public decimal DepositAmount { get; set; } = 0;
+        public decimal SaleAmount { get; set; } = 0;
+        public decimal Balance { get; set; } = 0;
+        public decimal POSBalance { get; set; } = 0;
+        public string Status { get; set; }
+        public long UserId { get; set; }
+    }
     public class DepositListingModel
     {
         public string UserName { get; set; }
@@ -158,6 +169,36 @@ namespace VendTech.BLL.Models
         }
 
         public DepositExcelReportModel()
+        {
+        }
+    }
+
+    public class AgencyRevenueExcelReportModel
+    { 
+        public string DATE_TIME { get; set; } 
+        public string POSID { get; set; }
+        public string VENDOR { get; set; } 
+        public string DEPOSIT_TYPE { get; set; }  
+        public string TRANSACTION_ID { get; set; }
+        public string DEPOSIT_REF_NO { get; set; }
+        public string AMOUNT { get; set; } 
+        public string VENDORPERCENT { get; set; }
+        public string AGENTPERCENT { get; set; }
+        public AgencyRevenueExcelReportModel(Deposit obj, bool changeStatusForApi = false)
+        {
+            var approver = obj.DepositLogs.FirstOrDefault(d => d.DepositId == obj.DepositId);
+            DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
+            VENDOR = obj.POS.User.Vendor; 
+            POSID = obj.POS != null ? obj.POS.SerialNumber : "";
+            DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
+            DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString(); 
+            AMOUNT = string.Format("{0:N0}", obj.Amount); 
+            TRANSACTION_ID = obj?.TransactionId;  
+            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount);
+            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission);
+        }
+
+        public AgencyRevenueExcelReportModel()
         {
         }
     }
@@ -293,6 +334,7 @@ namespace VendTech.BLL.Models
             }
         }
         public long? VendorId { get; set; }
+        public long? AgencyId { get; set; }
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
         public long? PosId { get; set; }
@@ -347,7 +389,7 @@ namespace VendTech.BLL.Models
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
             DepositBy = obj.POS.User.Vendor.Trim();
-            PosId = obj.POS != null ? Convert.ToInt64(obj.POS.SerialNumber) : 0;
+            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
             if (obj.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
@@ -357,6 +399,9 @@ namespace VendTech.BLL.Models
                 var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
                 Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
+            }else if(obj.PaymentType == (int)DepositPaymentTypeEnum.Cash_Cheque)
+            {
+                Type = "Cash/Cheque";
             }
             else
                 Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
@@ -367,16 +412,55 @@ namespace VendTech.BLL.Models
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
-            if(obj.ValueDate != " 12:00")
-                ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            if (obj.ValueDate != " 12:00")
+                ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             Comment = obj.Comments;
         }
-    }
+    } 
 
     public class DepositAuditLiteDto
     {
         public SelectList Vendor { get; set; }
         public SelectList IssuingBank { get; set; }
         public SelectList DepositType { get; set; }
+    }
+
+    public class AgentRevenueListingModel
+    {
+        public string UserName { get; set; }
+        public string VendorName { get; set; }
+        public string ChkNoOrSlipId { get; set; }
+        public string Type { get; set; } 
+        public string PosNumber { get; set; }
+        public string CreatedAt { get; set; }
+        public string TransactionId { get; set; } 
+        public decimal Amount { get; set; } 
+        public decimal? AgentPercentageAmount { get; set; } 
+        public decimal? VendorPercentageAmount { get; set; }
+        public decimal? AgentPercentage { get; set; }
+
+        public decimal? VendorPercentage { get; set; }
+        public long DepositId { get; set; }   
+        public AgentRevenueListingModel(Deposit obj)
+        {
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            UserName = obj.DepositLogs.Any() ?
+                obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
+                obj.User.Name + " " + obj.User.SurName;
+            PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
+            VendorName = obj.POS.User.Vendor;
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
+            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            TransactionId = obj.TransactionId;
+            DepositId = obj.DepositId;
+            Amount = obj.Amount;
+            AgentPercentageAmount = obj.AgencyCommission;
+            VendorPercentageAmount = obj.PercentageAmount;
+            VendorPercentage = obj?.User?.Commission?.Percentage;
+            AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
+        }
+
+       
     }
 }

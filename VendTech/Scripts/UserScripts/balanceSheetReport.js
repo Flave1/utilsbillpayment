@@ -111,7 +111,7 @@ function Paging(sender) {
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
 
-    if (!$("#pos").val() || $("#pos").val() == "0") {
+    if (!$("#posDrp").val() || $("#posDrp").val() == "0") {
         $.ShowMessage($('div.messageAlert'), "POS required to process request", MessageType.Error);
         return;
     }

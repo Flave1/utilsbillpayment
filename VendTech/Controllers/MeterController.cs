@@ -99,6 +99,18 @@ namespace VendTech.Controllers
                 Text = "SAGEMCOM",
                 Value = "SAGEMCOM"
             });
+
+            list.Add(new SelectListItem
+            {
+                Text = "APATOR",
+                Value = "APATOR"
+            });
+            list.Add(new SelectListItem
+            {
+                Text = "CLOU",
+                Value = "CLOU"
+            });
+           
             ViewBag.meterMakes = list;
             model.Number = number;
             return View(model);
@@ -125,6 +137,17 @@ namespace VendTech.Controllers
                 Text = "SAGEMCOM",
                 Value = "SAGEMCOM"
             });
+            list.Add(new SelectListItem
+            {
+                Text = "APATOR",
+                Value = "APATOR"
+            });
+            list.Add(new SelectListItem
+            {
+                Text = "CLOU",
+                Value = "CLOU"
+            });
+
             ViewBag.meterMakes = list;
             return View("AddEditMeter",model);
 

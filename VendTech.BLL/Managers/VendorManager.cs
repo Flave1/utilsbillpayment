@@ -20,7 +20,7 @@ namespace VendTech.BLL.Managers
         PagingResult<VendorListingModel> IVendorManager.GetVendorsPagedList(PagingModel model, long agentId)
         {
             var result = new PagingResult<VendorListingModel>();
-            var query = Context.Users.Where(p => p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.Users.Where(p => p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).OrderBy(model.SortBy + " " + model.SortOrder);
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
@@ -247,7 +247,7 @@ namespace VendTech.BLL.Managers
             //    Text = p.Vendor,
             //    Value = p.UserId.ToString()
             //}).ToList();
-            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
+            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
             {
                 Text = x.SerialNumber.ToUpper(),
                 Value = x.POSId.ToString()

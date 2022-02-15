@@ -14,5 +14,6 @@ namespace VendTech.BLL.Interfaces
         decimal GetWalletBalance();
         int GetPOSCount();
         DashboardViewModel getDashboardData(long userId, long agentId  = 0);
+        bool IsUserAnAgent(long userId = 0);
     }
 }

@@ -9648,3 +9648,266 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.GSTRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.GSTRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The partial view 'Partials/_gstSalesReportListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/Partials/_gstSalesReportListing.aspx
+~/Views/Report/Partials/_gstSalesReportListing.ascx
+~/Views/Shared/Partials/_gstSalesReportListing.aspx
+~/Views/Shared/Partials/_gstSalesReportListing.ascx
+~/Views/Report/Partials/_gstSalesReportListing.cshtml
+~/Views/Report/Partials/_gstSalesReportListing.vbhtml
+~/Views/Shared/Partials/_gstSalesReportListing.cshtml
+~/Views/Shared/Partials/_gstSalesReportListing.vbhtml
+
+
+
+The underlying provider failed on Open.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The method 'First' can only be used as a final query operation. Consider using the method 'FirstOrDefault' in this instance instead.
+
+
+
+The type 'VendTech.BLL.Models.DashboardBalanceSheetModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The type 'VendTech.BLL.Models.DashboardBalanceSheetModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The type 'VendTech.BLL.Models.DashboardBalanceSheetModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The type 'VendTech.BLL.Models.DashboardBalanceSheetModel' appears in two structurally incompatible initializations within a single LINQ to Entities query. A type can be initialized in two places in the same query, but only if the same properties are set in both places and those properties are set in the same order.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml(43): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml(43): error CS1002: ; expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml(43): error CS1002: ; expected
+
+
+
+The partial view 'Partials/_BSReportListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/Home/Partials/_BSReportListing.aspx
+~/Areas/Admin/Views/Home/Partials/_BSReportListing.ascx
+~/Areas/Admin/Views/Shared/Partials/_BSReportListing.aspx
+~/Areas/Admin/Views/Shared/Partials/_BSReportListing.ascx
+~/Views/Home/Partials/_BSReportListing.aspx
+~/Views/Home/Partials/_BSReportListing.ascx
+~/Views/Shared/Partials/_BSReportListing.aspx
+~/Views/Shared/Partials/_BSReportListing.ascx
+~/Areas/Admin/Views/Home/Partials/_BSReportListing.cshtml
+~/Areas/Admin/Views/Home/Partials/_BSReportListing.vbhtml
+~/Areas/Admin/Views/Shared/Partials/_BSReportListing.cshtml
+~/Areas/Admin/Views/Shared/Partials/_BSReportListing.vbhtml
+~/Views/Home/Partials/_BSReportListing.cshtml
+~/Views/Home/Partials/_BSReportListing.vbhtml
+~/Views/Shared/Partials/_BSReportListing.cshtml
+~/Views/Shared/Partials/_BSReportListing.vbhtml
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+A second operation started on this context before a previous asynchronous operation completed. Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context. Any instance members are not guaranteed to be thread safe.
+
+
+
+The view 'PrintBalancesheetReport' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/PrintBalancesheetReport.aspx
+~/Views/Report/PrintBalancesheetReport.ascx
+~/Views/Shared/PrintBalancesheetReport.aspx
+~/Views/Shared/PrintBalancesheetReport.ascx
+~/Views/Report/PrintBalancesheetReport.cshtml
+~/Views/Report/PrintBalancesheetReport.vbhtml
+~/Views/Shared/PrintBalancesheetReport.cshtml
+~/Views/Shared/PrintBalancesheetReport.vbhtml
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.AgentRevenueListingModel]'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+POS ID NOT FOUND
+
+
+
+POS ID NOT FOUND
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.AgentRevenueListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositListingModel]'.
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\AppUser\EditUser.cshtml(53): error CS1003: Syntax error, ',' expected
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Areas\Admin\Views\AppUser\EditUser.cshtml(53): error CS1003: Syntax error, ',' expected
+
+
+
+Value cannot be null.
+Parameter name: entities
+
+
+
+POS ID NOT FOUND
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The partial view '_Partials/_assignedReports' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/_Partials/_assignedReports.aspx
+~/Views/Report/_Partials/_assignedReports.ascx
+~/Views/Shared/_Partials/_assignedReports.aspx
+~/Views/Shared/_Partials/_assignedReports.ascx
+~/Views/Report/_Partials/_assignedReports.cshtml
+~/Views/Report/_Partials/_assignedReports.vbhtml
+~/Views/Shared/_Partials/_assignedReports.cshtml
+~/Views/Shared/_Partials/_assignedReports.vbhtml
+
+
+

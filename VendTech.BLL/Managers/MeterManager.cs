@@ -209,6 +209,7 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
+        
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
@@ -315,6 +316,83 @@ namespace VendTech.BLL.Managers
 
         }
 
+        PagingResult<GSTRechargeApiListingModel> IMeterManager.GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
+        {
+            model.RecordsPerPage = 10000000;
+            var result = new PagingResult<GSTRechargeApiListingModel>();
+
+            IQueryable<TransactionDetail> query = null;
+            if (!model.IsInitialLoad)
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+            else
+                query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
+
+            if (model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                {
+                    if (user.Status == (int)UserStatusEnum.Active)
+                    {
+                        //posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
+                        posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                    }
+                    else
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).Select(p => p.POSId).ToList();
+                    }
+                }
+                query = query.Where(p => posIds.Contains(p.POSId.Value));
+            }
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+            }
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To));
+            }
+            if (model.PosId > 0)
+            {
+                query = query.Where(p => p.POSId == model.PosId);
+            }
+            if (!string.IsNullOrEmpty(model.Meter))
+            {
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+            }
+            if (!string.IsNullOrEmpty(model.TransactionId))
+            {
+                query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            }
+            result.TotalCount = query.Count();
+
+
+            //if (model.SortBy != "VendorName" && model.SortBy != "MeterNumber" && model.SortBy != "POS")
+            //{
+            //    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
+            //}
+
+            var list = query.ToList().Select(x => new GSTRechargeApiListingModel(x)).ToList();
+
+            if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
+            { 
+                if (model.SortBy == "MeterNumber")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                } 
+            }
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meter recharges fetched successfully.";
+            return result;
+
+        }
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
@@ -418,13 +496,29 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Message = "User does not exist";
                 return response;
             }
-            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-            if (pos.Balance == null || pos.Balance.Value < model.Amount)
+            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId); 
+
+            if (pos == null)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
+                return response;
+            }
+            if (pos.Balance == null)
             {
                 response.ReceiptStatus.Status = "unsuccessful";
                 response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
                 return response;
             }
+
+
+            if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+                return response;
+            }
+ 
             if (model.MeterId != null)
             {
                 var met = Context.Meters.Find(model.MeterId);
@@ -516,8 +610,8 @@ namespace VendTech.BLL.Managers
                     db_transaction_detail.MeterId = model.MeterId;
                 }
 
-                pos.Balance = pos.Balance.Value - model.Amount;
-                
+                pos.Balance = (pos.Balance - model.Amount);
+                db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 Context.SaveChanges();
 
@@ -961,8 +1055,6 @@ namespace VendTech.BLL.Managers
                 return null;
         }
 
-
-
         IQueryable<BalanceSheetListingModel> IMeterManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 999999999;
@@ -977,7 +1069,7 @@ namespace VendTech.BLL.Managers
                             DateTime = a.CreatedAt,  
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
-                            TransactionType = "Sales",
+                            TransactionType = "EDSA",
                             DepositAmount = 0,
                             SaleAmount = a.Amount,
                             Balance = 0,
@@ -1073,9 +1165,17 @@ namespace VendTech.BLL.Managers
             return query; 
         }
 
-
-    }
-
-
-
+        IQueryable<DashboardBalanceSheetModel> IMeterManager.GetDashboardBalanceSheetReports()
+        {
+           return  Context.TransactionDetails.Where(d => d.Finalised == true).GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel {
+            SaleAmount = f.Sum(d => d.Amount),
+            Vendor = f.FirstOrDefault().User.Vendor,
+            UserId = f.FirstOrDefault().UserId, 
+            Balance = 0,
+            DepositAmount = 0,
+            Status = "",
+            POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
+           }); 
+        } 
+    } 
 }

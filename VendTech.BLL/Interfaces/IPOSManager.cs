@@ -34,6 +34,7 @@ namespace VendTech.BLL.Interfaces
         UserModel GetUserPosDetailApi(string posSerialNumber);
         decimal GetPosPercentage(long posId);
         POS GetSinglePos(long pos);
+        List<PosSelectItem> GetAgencyPos(long userId);
     }
 
 }

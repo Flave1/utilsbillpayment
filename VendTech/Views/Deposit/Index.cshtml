@@ -56,19 +56,32 @@
                         <div class="container-fluid" style="background:white; ">
 
                             <div class="row">
-                                <div class="col-md-3 current" id="tab-1" style=" border-right:1px solid #f4e8e8 ;">
+                                <div class="col-md-2 current" id="tab-1" style=" border-right:1px solid #f4e8e8 ;">
                                     <form style="padding-left:11px;">
 
                                         <div class="row">
-                                            <div class="form-group row">
-                                                <div class="col-md-11">
-                                                    <label>Select POS ID</label>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "Select POS ID", new { @class = "form-control col-md-6 input", @id = "posDrp" })
-                                                    @Html.ValidationMessageFor(Model => Model.PosId)
+                                            @{
+                                                var pos = (List<SelectListItem>)ViewBag.userPos;
+                                            }
+                                            @if (pos.Count > 1)
+                                            {
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
+                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;  font-weight:bold; font-size:14px;", @id = "posDrp" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class=" col-md-12">
+                                                    <label class="control-label" style="font-weight:bold; font-size:40px">POS ID: @pos.FirstOrDefault().Text</label>
+                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
                                                 </div>
+                                                <br />
+                                                <br />
+                                                <br />
 
-                                            </div>
+                                            }
                                             <div class="form-group row">
                                                 <div class="col-md-6">
                                                     <label>CHX/CASH</label>
@@ -94,8 +107,8 @@
 
                                             <div class="form-group row">
                                                 <div class="col-md-11">
-                                                    <label>CHX # or SLIP ID</label>
-                                                    <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" class="form-control input" style="width:100% !important;">
+                                                    <label>Cheque # or Deposit Slip #</label>
+                                                    <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" value="0" class="form-control input" style="width: 100% !important; text-align: right; color:red; font-weight:bold">
                                                 </div>
                                             </div>
 
@@ -110,7 +123,7 @@
                                             <div class="form-group row">
                                                 <div class="col-md-11">
                                                     <label>Deposit Amount</label>
-                                                    <input type="text" style="font-size: 24px; border-radius:10px; border:1px solid #808080; font-weight:bold; color: #000000 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
+                                                    <input type="text" value="" style="font-size: 24px; text-align:right; border-radius:10px; border:1px solid #808080; font-weight:bold; color: #000000 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
                                                     <input type="hidden" id="amount" name="Amount">
                                                 </div>
                                                 <div class="col-md-11">
@@ -121,6 +134,7 @@
                                                                 border: none;
                                                                 font-weight: bolder;
                                                                 background: #ffffff;
+                                                                text-align:right;
                                                                 color: #ff0000 !important;" readonly />
                                                     <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                                                 </div>
@@ -128,7 +142,7 @@
                                             </div>
 
                                             <div class="editpro-row submt " style="padding-right : 20px;">
-                                                <input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD BALANCE">
+                                                <input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">
                                             </div>
                                         </div>
 

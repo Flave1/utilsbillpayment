@@ -78,11 +78,11 @@
                                                     }
                                                     else
                                                     {
-                                                        <div class=" col-md-12">
-                                                            <label class="control-label" style="font-weight:bold; font-size:40px">POS ID: @pos.FirstOrDefault().Text</label>
-                                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+                                                <div class=" col-md-12">
+                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
-                                                        </div>
+                                                </div>
                                                         <br />
                                                         <br />
                                                         <br />

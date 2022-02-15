@@ -294,7 +294,7 @@ namespace VendTech.BLL.Common
                 //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
                 //SmtpServer.EnableSsl = true;
                 //mail.IsBodyHtml = true;
-                //SmtpServer.Send(mail);
+                //SmtpServer.Send(mail); 
                 return true;
             }
             catch (Exception x)

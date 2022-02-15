@@ -16,6 +16,7 @@ using System.Reflection;
 using VendTech.DAL;
 using Newtonsoft.Json;
 using System.Linq;
+using static VendTech.Controllers.MeterController;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -30,11 +31,12 @@ namespace VendTech.Areas.Admin.Controllers
         private IDashboardManager _dashboardManager;
         private readonly IMeterManager _meterManager;
         private readonly IDepositManager _depositManager;
+        private readonly IPOSManager _posManager;
         #endregion
 
 
         // /Admin/Home/OTPVerification/
-        public HomeController(IDepositManager depositManager, IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager)
+        public HomeController(IDepositManager depositManager, IMeterManager meterManager, IUserManager userManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICMSManager cmsManager, IAuthenticateManager authenticateManager, IDashboardManager dashboardManager, IPOSManager posManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -44,6 +46,7 @@ namespace VendTech.Areas.Admin.Controllers
             _dashboardManager = dashboardManager;
             _meterManager = meterManager;
             _depositManager = depositManager;
+            _posManager = posManager;
         }
 
 
@@ -85,7 +88,7 @@ namespace VendTech.Areas.Admin.Controllers
                     UserID = userId,
                     LastActivityTime = DateTime.UtcNow,
                     UserType = data.Object.UserType,
-                    ProfilePicPath = data.Object.ProfilePicPath
+                   // ProfilePicPath = data.Object.ProfilePicPath
                 };
             }
             else
@@ -99,7 +102,8 @@ namespace VendTech.Areas.Admin.Controllers
                 JustLoggedin = true;
                 var PermissonAndDetailModel = new PermissonAndDetailModelForAdmin();
                 PermissonAndDetailModel.UserDetails = data.Object; 
-                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID).Where(e => e.ControllerName != "19" && e.ControllerName != "20" && e.ControllerName != "1" && e.ControllerName != "23" && e.ControllerName != "18" && e.ControllerName != "27").ToList(); 
+                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID)
+                    .Where(e => e.ControllerName != "19" && e.ControllerName != "20" && e.ControllerName != "1" && e.ControllerName != "23" && e.ControllerName != "18" && e.ControllerName != "27").ToList(); 
                 CreateCustomAuthorisationCookie(model.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
             }
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -357,10 +361,13 @@ namespace VendTech.Areas.Admin.Controllers
                         foreach(var deposit in uncleardDeposits)
                         {
                             string body = emailTemplate.TemplateContent;
-                            body = body.Replace("%USER%", deposit.POS.User.Name);
+                            body = body.Replace("%USER%", deposit.POS.User.Name +" "+ deposit.POS.User.SurName);
+                            body = body.Replace("%POSID%", deposit.POS.SerialNumber);
+                            body = body.Replace("%VENDOR%", deposit.User.Vendor);
                             body = body.Replace("%AMOUNT%", deposit.Amount.ToString());
                             body = body.Replace("%DEPOSITAPPROVEDDATE%", deposit.DepositLogs.FirstOrDefault()?.CreatedAt.ToString("f"));
                             body = body.Replace("%TODAY%", DateTime.UtcNow.ToString("f"));
+                            //Utilities.SendEmail(deposit.User.Email, emailTemplate.EmailSubject, body); 
                             Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                             _depositManager.UpdateNextReminderDate(deposit);
                         }
@@ -369,6 +376,55 @@ namespace VendTech.Areas.Admin.Controllers
                 return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+
+        [HttpGet, Public]
+        public ActionResult GetVendorBalanceSheetReports(RequestObject tokenobject)
+        {
+            var result = new PagingResult<DashboardBalanceSheetModel>();
+
+            try
+            {
+                var sales = _meterManager.GetDashboardBalanceSheetReports();
+                var deps = _depositManager.GetDashboardBalanceSheetReports();
+
+                result.List = (from a in sales
+                               join b in deps on a.UserId equals b.UserId
+                               select new DashboardBalanceSheetModel
+                               {
+                                   SaleAmount = a.SaleAmount,
+                                   Vendor = a.Vendor,
+                                   UserId = a.UserId,
+                                   Balance = b.DepositAmount - a.SaleAmount,
+                                   DepositAmount = b.DepositAmount,
+                                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
+                                   POSBalance = b.POSBalance
+                               }).OrderBy(s => s.Balance).Take(19).ToList();
+                result.Status = ActionStatus.Successfull;
+                result.Message = "Successfully.";
+                return PartialView("Partials/_BSReportListing", result);
+            }
+            catch (Exception)
+            {
+                return PartialView("Partials/_BSReportListing", result);
+            }
+        }
+
+
+        [HttpGet, Public]
+        public JsonResult ReturnUserImageLogo()
+        {
+            try
+            {
+                var logo = _userManager.GetUserLogo(LOGGEDIN_USER.UserID); 
+                return Json(new { result = string.IsNullOrEmpty(logo.Image) ? "" : Utilities.DomainUrl + logo.Image }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
             {
                 return null;
             }
