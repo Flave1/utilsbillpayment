@@ -43,7 +43,7 @@
 
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                          
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
@@ -51,7 +51,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                                         <div class="form-group">
                                             <div class="col-sm-12">
@@ -209,8 +209,7 @@
 
             $("#Country").change(onCountryChange);  
               onCountryChange();
-            loadAllCountries();
-            loadAllAgencies();
+            loadAllCountries(); 
 
             $("input[type=button]#saveProfileBtn").live("click", function () {
                 return UpdateProfile($(this));
@@ -221,7 +220,7 @@
           });
 
 
-        function loadAllAgencies() {
+        @*function loadAllAgencies() {
             var array = @Html.Raw(Json.Encode( ViewBag.Agencies));
             if (array.length > 0)
             { 
@@ -229,7 +228,7 @@
                             $("#Agency").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
                         } 
             }
-        }
+        }*@
 
         function loadAllCountries() {
             var array = @Html.Raw(Json.Encode(ViewBag.countries));

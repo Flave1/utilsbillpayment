@@ -309,7 +309,7 @@ namespace VendTech.BLL.Common
                 SmtpClient SmtpServer = new SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                mail.To.Add("favouremmanuel433@gmail.com");
+                mail.To.Add(to);
                 mail.Subject = sub;
                 mail.Body = body;
 

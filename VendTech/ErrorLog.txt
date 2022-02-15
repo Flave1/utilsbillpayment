@@ -9899,3 +9899,15 @@ Parameter name: parameters
 
 
 
+The partial view '_Partials/_assignedReports' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/_Partials/_assignedReports.aspx
+~/Views/Report/_Partials/_assignedReports.ascx
+~/Views/Shared/_Partials/_assignedReports.aspx
+~/Views/Shared/_Partials/_assignedReports.ascx
+~/Views/Report/_Partials/_assignedReports.cshtml
+~/Views/Report/_Partials/_assignedReports.vbhtml
+~/Views/Shared/_Partials/_assignedReports.cshtml
+~/Views/Shared/_Partials/_assignedReports.vbhtml
+
+
+

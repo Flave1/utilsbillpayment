@@ -116,29 +116,7 @@
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="form-group  row">
                                                 <label>REPORT</label>
-                                                <select id="rpt" onchange="changeReport()" class="form-control">
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "SALES REPORT"))
-                                                    {
-                                                        <option value="2" selected="selected">SALES REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "DEPOSITS REPORT"))
-                                                    {
-                                                        <option value="1">DEPOSIT REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "BALANCE SHEET REPORT"))
-                                                    {
-                                                        <option value="3">BALANCE SHEET REPORT</option>
-                                                    }
-
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "GST SALES REPORT"))
-                                                    {
-                                                        <option value="4">GST SALES REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "AGENTS REVENUE REPORT"))
-                                                    {
-                                                        <option value="5">AGENTS REVENUE REPORT</option>
-                                                    }
-                                                </select>
+                                               @Html.Partial("partials/_assignedReports", assigned_platforms)
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="form-group  row">
@@ -167,7 +145,7 @@
                                                         <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                         <th class="sorting" data-sortby="PercentageAmount">VENDOR @@ 1%</th>
-                                                        <th class="sorting" data-sortby="NewBalance">AGENT @@ 0.5%</th>
+                                                        <th class="sorting" data-sortby="NewBalance">AGENCY @@ 0.5%</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -327,7 +305,7 @@
 
             $('#btnprint').click(function (e) {
 
-                $('#depositsForm').attr('action', '/Report/PrintDepositReport');
+                $('#depositsForm').attr('action', '/Report/PrintAgencyRevenueReport');
                 $("#depositsForm").attr("method", "get");
                 $("#depositsForm").submit();
             });

@@ -58,12 +58,12 @@
                                         </select>
                                     </label>
 
-                                    @*<label>
+                                    <label>
                                         <button type="button" id="btnExport">Export</button>
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
-                                    </label>*@
+                                    </label>
                                 </div>
                                 <div class="blwsec">
                                     @using (Html.BeginForm("ExportAgentsRevenueReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
@@ -312,13 +312,13 @@
                         $("#toDt").val('');
                     }
 
-                    $('#depositsForm').attr('action', '/Admin/Report/ExportAgentsRevenueReportTo');
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportAgentRevenueReportTo');
                     $("#depositsForm").attr("method", "Post");
                     $("#depositsForm").submit();
                 })
 
                 $('#btnprint').click(function (e) {
-                    $('#depositsForm').attr('action', '/Admin/Report/PrintAgentsRevenueReport');
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintAgencyRevenueReport');
                     $("#depositsForm").attr("method", "get");
                     $("#depositsForm").submit();
                 });

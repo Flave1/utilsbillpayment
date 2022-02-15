@@ -142,7 +142,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IAgencyManager.GetAgentsSelectList()
         {
-            return Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).ToList().Select(p => new SelectListItem
+            return Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active && p.AgencyId != 20).ToList().Select(p => new SelectListItem
             {
                 Text = p.AgencyName,
                 Value = p.AgencyId.ToString()

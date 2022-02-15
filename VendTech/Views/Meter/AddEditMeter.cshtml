@@ -20,14 +20,14 @@
 
                                 <div class="editpro-row">
                                     <div class="editpro-row50">
-                                        <label>Meter # <sup style="color:#e4c200;">*</sup></label>
+                                        <label>Meter # <sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:11 DIGITS METER NUMBER)</span></label>
                                         @Html.TextBoxFor(m => m.Number)
                                         @Html.ValidationMessageFor(x => x.Number)
 
 
                                     </div>
                                     <div class="editpro-row50">
-                                        <label>Name on Meter <sup style="color:#e4c200;">*</sup></label>
+                                        <label>Name on Meter <sup style="color:red !important;">*</sup></label>
                                         @Html.TextBoxFor(m => m.Name)
                                         @Html.ValidationMessageFor(x => x.Name)
 
@@ -36,7 +36,7 @@
 
                                     </div>
                                     <div class="editpro-row50">
-                                        <label>ALIAS <sup style="color:#e4c200;">*</sup></label>
+                                        <label>ALIAS <sup style="color:red;">*</sup><span style="font-size:11px !important">(EG:HOME/OFFICE/SHOP METER)</span></label>
                                         @Html.TextBoxFor(m => m.Allias)
                                         @Html.ValidationMessageFor(x => x.Allias)
 
@@ -54,7 +54,7 @@
 
                                     </div>
                                     <div class="editpro-row50">
-                                        <label>Meter Make</label>
+                                        <label>Meter Make <span style="font-size:11px !important"> (NOT REQUIRED IF YOU DO NOT KNOW)</span></label>
                                         @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { })
                                         @Html.ValidationMessageFor(x => x.MeterMake)
 

@@ -118,29 +118,7 @@
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="form-group  row">
                                                 <label>REPORT</label>
-                                                <select id="rpt" onchange="changeReport()" class="form-control">
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "SALES REPORT"))
-                                                    {
-                                                        <option value="2" selected="selected">SALES REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "DEPOSITS REPORT"))
-                                                    {
-                                                        <option value="1">DEPOSIT REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "BALANCE SHEET REPORT"))
-                                                    {
-                                                        <option value="3">BALANCE SHEET REPORT</option>
-                                                    }
-
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "GST SALES REPORT"))
-                                                    {
-                                                        <option value="4">GST SALES REPORT</option>
-                                                    }
-                                                    @if (assigned_platforms.Count() > 0 && assigned_platforms.Any(e => e.Text == "AGENTS REVENUE REPORT"))
-                                                    {
-                                                        <option value="5">AGENTS REVENUE REPORT</option>
-                                                    }
-                                                </select>
+                                                @Html.Partial("partials/_assignedReports", assigned_platforms)
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="form-group  row">
@@ -224,7 +202,8 @@
        $(document).ready(function () {
 
            //initialize the javascript
-                App.init();
+           App.init();
+           $("#rpt").val(1)
                 $("#FromDate").kendoDatePicker({
                     culture: "en-GB",
                     value: new Date(),

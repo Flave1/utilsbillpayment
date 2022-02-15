@@ -399,6 +399,9 @@ namespace VendTech.BLL.Models
                 var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
                 Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
+            }else if(obj.PaymentType == (int)DepositPaymentTypeEnum.Cash_Cheque)
+            {
+                Type = "Cash/Cheque";
             }
             else
                 Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
@@ -409,8 +412,8 @@ namespace VendTech.BLL.Models
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
-            //if(obj.ValueDate != " 12:00")
-            //    ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : System.DateTime.ParseExact(obj.ValueDate, "dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            if (obj.ValueDate != " 12:00")
+                ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             Comment = obj.Comments;
         }
     } 

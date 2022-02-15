@@ -367,7 +367,7 @@ namespace VendTech.Areas.Admin.Controllers
                             body = body.Replace("%AMOUNT%", deposit.Amount.ToString());
                             body = body.Replace("%DEPOSITAPPROVEDDATE%", deposit.DepositLogs.FirstOrDefault()?.CreatedAt.ToString("f"));
                             body = body.Replace("%TODAY%", DateTime.UtcNow.ToString("f"));
-                            Utilities.SendEmail(deposit.User.Email, emailTemplate.EmailSubject, body); 
+                            //Utilities.SendEmail(deposit.User.Email, emailTemplate.EmailSubject, body); 
                             Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                             _depositManager.UpdateNextReminderDate(deposit);
                         }

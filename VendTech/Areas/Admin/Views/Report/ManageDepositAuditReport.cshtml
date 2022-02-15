@@ -249,7 +249,7 @@
                                                         <th class="sorting" data-sortby="PAYER">PAYER</th>
                                                         <th class="sorting" data-sortby="ISSUINGBANK">PAYER BANK</th>
                                                         <th class="sorting" data-sortby="DEPOSITREF">REF#</th>
-                                                        <th class="sorting" data-sortby="GTBANK">GTBANK #</th>
+                                                        <th class="sorting" data-sortby="GTBANK">BANKED #</th>
                                                         <th class="sorting" data-sortby="AMOUNT">AMOUNT</th>
                                                         <th style="width:auto">STATUS</th>
                                                     </tr>
@@ -344,10 +344,16 @@
                             <input type="text" name="depositref" id="depositref" class="form-control margin" />
                         </div>
                     </div>
-                    <div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin">GTBANK #<em>*</em></label>
+                    @*<div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin"> #<em>*</em></label>
                         <div class="col-md-8">
                             <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
+                        </div>
+                    </div>*@
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">BANKED #<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("gtbank", new SelectList(ViewBag.banked, "value", "text"), "Select Type", new { @id = "gtbank", @class = "form-control margin" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -355,6 +361,7 @@
                         <div class="col-md-8">
                             <input type="text" name="amount" id="modal_amount" class="form-control margin text-right" style="font-weight: 1000;font-size: large;" />
                         </div>
+
                     </div>
 
                     <div class=" col-md-12">
@@ -453,10 +460,7 @@ function getUrlParameter(name) {
                 //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
                 //$("#FromDate").data("kendoDatePicker").value(todayDate);
                 //$("#ToDate").data("kendoDatePicker").value(todayDate);
-
-
-                //alert(frm);
-                //alert(to);
+         
 
         $("#depositby").on("change", function () {
             var vendorId = $("#depositby").val();
@@ -595,10 +599,9 @@ function getUrlParameter(name) {
 
         function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
             amount, isAudit, userId, date, valueDate, Type, comment)
-        {
-
+        { 
             
-            const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer"];
+            const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer", "Cash/Cheque"];
             comment = escape(comment); 
             const decoded = atob(unescape(comment));
 
@@ -700,6 +703,7 @@ function getUrlParameter(name) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);
                                 $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_gt").text(data.GTBank);
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_pay").text(data.Payer);
@@ -773,7 +777,7 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    
+                    console.log('data', data)
                     if (data!=null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
@@ -783,6 +787,7 @@ function getUrlParameter(name) {
                                 $(this).find("#_pos").text(data.PosId);
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_gt").text(data.GTBank);
                                 $(this).find("#_pay").text(data.Payer);
                                 $(this).find("#_valuedate").text(data.ValueDateModel);
                                 if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
@@ -808,10 +813,10 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").addClass("btn-clear");
                                     $(this).find("#_sts").text("Cleared");
                                     $(this).find("#_sts").prop("onclick", null);
-                                    $(this).find("#_sts").click(function () {
+                                    $(this).find("#_sts").click(function () { 
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
-                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime, data.ValueDateModel, data.Comment);
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
                                     });
                                 }
                                 else {

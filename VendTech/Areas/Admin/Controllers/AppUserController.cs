@@ -88,7 +88,7 @@ namespace VendTech.Areas.Admin.Controllers
                 model.Image = (HttpPostedFile)constructorInfo
                            .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
             }
-
+            model.AgentId = 20; //20 is id for default vendtech agency ////// DO NOT CHANGE
             var result = _userManager.AddAppUserDetails(model);
             if (result.Status == ActionStatus.Successfull)
             {
@@ -183,6 +183,7 @@ namespace VendTech.Areas.Admin.Controllers
                            .Invoke(new object[] { file.FileName, file.ContentType, file.InputStream });
             }
             model.IsRe_Approval = true;
+            model.AgentId = 20; //20 is id for default vendtech agency ////// DO NOT CHANGE
             var result = _userManager.UpdateAppUserDetails(model);
 
             //send mail to activated user

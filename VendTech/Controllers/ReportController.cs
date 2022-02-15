@@ -75,7 +75,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<DepositListingModel>();
-            deposits = _depositManager.GetReportsPagedList(model);
+            deposits = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
 
@@ -98,7 +98,8 @@ namespace VendTech.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true
+                IsInitialLoad = true,
+                AgencyId = LOGGEDIN_USER.AgencyId
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -106,7 +107,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<MeterRechargeApiListingModel>();
-            deposits = _meterManager.GetUserMeterRechargesReport(model);
+            deposits = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             return View(deposits);
 
@@ -120,7 +121,8 @@ namespace VendTech.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true
+                IsInitialLoad = true,
+                AgencyId = LOGGEDIN_USER.AgencyId
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -128,7 +130,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var sales = new PagingResult<GSTRechargeApiListingModel>();
-            sales = _meterManager.GetUserGSTRechargesReport(model, false);
+            sales = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             return View(sales);
 
@@ -142,7 +144,8 @@ namespace VendTech.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true
+                IsInitialLoad = true,
+                AgencyId = LOGGEDIN_USER.AgencyId
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -171,12 +174,13 @@ namespace VendTech.Controllers
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
                 IsInitialLoad = true,
+                AgencyId = LOGGEDIN_USER.AgencyId
             };
              
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var deposits = new PagingResult<AgentRevenueListingModel>();
-            deposits = _depositManager.GetAgentRevenueReportsPagedList(model);
+            deposits = _depositManager.GetAgentRevenueReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
 
@@ -1598,6 +1602,51 @@ namespace VendTech.Controllers
 
 
             var list = _depositManager.GetReportsExcelDeposituser(newfilters, false).List;
+            return View(list);
+        }
+        [HttpGet]
+        public ActionResult PrintAgencyRevenueReport(ReportSearchModeluser model, string FromDate, string ToDate, string PrintedDateServer)
+        {
+            PrintedDateServer = PrintedDateServer.TrimEnd('\0');
+            ViewBag.Pritdatetime = PrintedDateServer;
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            if (!string.IsNullOrEmpty(FromDate))
+            {
+                model.FromDate = DateTime.ParseExact(FromDate, "dd/MM/yyyy", provider);
+            }
+
+            if (!string.IsNullOrEmpty(ToDate))
+            {
+                model.ToDate = DateTime.ParseExact(ToDate, "dd/MM/yyyy", provider);
+            }
+
+
+            var newfilters = new ReportSearchModel
+            { 
+                VendorId = LOGGEDIN_USER.UserID,
+                RecordsPerPage = 500000,
+                PosId = model.POS,
+                Meter = model.Meter,
+                AgencyId = LOGGEDIN_USER.AgencyId,
+                DepositType = model.DepositType,
+                Bank = model.BANK,
+                From = model.FromDate,
+                To = model.ToDate,
+                TransactionId = model.TransactionId,
+                SortBy = model.SortBy,
+                SortOrder = model.SortOrder,
+                RefNumber = model.refNumber,
+                ReportType = model.ReportType,
+                PageNo = model.PageNo,
+            };
+
+
+
+            ViewBag.fromdate = newfilters.From == null ? "" : newfilters.From.Value.ToString("dd/MM/yyyy");
+            ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
+
+
+            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
             return View(list);
         }
 

@@ -415,6 +415,13 @@ namespace VendTech.BLL.Managers
                 if (dbPos == null)
                     return ReturnError("Pos not exist");
             }
+            else
+            {
+                if(Context.POS.Any(d => d.SerialNumber.Contains(model.SerialNumber)))
+                {
+                    return ReturnError("POS with same ID already exist");
+                }
+            }
             dbPos.SerialNumber = model.SerialNumber;
             dbPos.VendorId = model.VendorId != null ? model.VendorId : dbPos.VendorId;
             dbPos.VendorType = model.Type;

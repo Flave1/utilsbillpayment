@@ -441,6 +441,7 @@
     <Content Include="Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_agentsRevenueReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\PrintAgencyRevenueReport.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -562,6 +563,8 @@
     <Content Include="Views\Report\GSTSalesReport.cshtml" />
     <Content Include="Views\Report\AgentRevenueReport.cshtml" />
     <Content Include="Views\Report\partials\_agentRevenueListing.cshtml" />
+    <Content Include="Views\Report\PrintAgencyRevenueReport.cshtml" />
+    <Content Include="Views\Report\partials\_assignedReports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
