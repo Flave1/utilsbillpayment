@@ -195,6 +195,20 @@ namespace VendTech.Areas.Admin.Controllers
             var posList = _posManager.GetVendorPos(userId);
             return Json(new { posList }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet, Public]
+        public ActionResult GetVendorHistoryReports(long vendor)
+        {
+            try
+            { 
+                var deposits = _depositManager.GetLastTenDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendor);
+                return PartialView("Partials/_depositListing", deposits);
+            }
+            catch (Exception)
+            {
+                return PartialView("Partials/_depositListing", new PagingResult<DepositListingModel>());
+            }
+        }
         #endregion
     }
 }

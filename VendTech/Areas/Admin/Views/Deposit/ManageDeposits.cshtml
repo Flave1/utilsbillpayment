@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="manage-desposit-row">
                                         <label>CHX # OR SLIP ID</label>
-                                        <input type="number" id="ChkOrSlipNo" name="ChkOrSlipNo">
+                                        <input type="number" id="ChkOrSlipNo" value="0" name="ChkOrSlipNo" style="color:red; text-align:right; font-weight:bold">
                                     </div>
                                     <div class="manage-desposit-row">
                                         <label>DEPOSIT AMOUNT</label>
@@ -116,7 +116,7 @@
                                             <th>STATUS</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="hsListing">
                                         @Html.Partial("Partials/_depositListing", Model)
                                     </tbody>
 
@@ -258,11 +258,14 @@
             $("#vendor").on("change", function () {
                  
                 var vendorId = $("#vendor").val();
+                Last10Deposits(vendorId) 
                 $("#pos").empty();
                 if (vendorId) {
                     $.ajax({
                         url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
                         success: function (res) { 
+
+                          
                             if (res.posList != null) {
                                 if (res.posList.length > 1) {
                                     $("#pos").append("<option value=''> -Select POS- </option>")
@@ -321,6 +324,19 @@
                     }
                 }
             });
+        }
+
+
+        function Last10Deposits(vendor) {
+             
+            $.ajax({
+                url: '/Admin/Deposit/GetVendorHistoryReports?vendor=' + vendor,
+                success: function (res) {
+                    console.log("res", res)
+                    $('#hsListing').html(res);
+                }
+            })
+
         }
     </script>
 }

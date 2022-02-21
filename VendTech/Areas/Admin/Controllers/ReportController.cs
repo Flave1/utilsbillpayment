@@ -147,7 +147,10 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult GetVendorPosSelectList(long userId)
         {
             var posList = _posManager.GetVendorPos(userId);
-            return Json(new { posList }, JsonRequestBehavior.AllowGet);
+
+            var deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: userId > 0 ? userId : 0); 
+            return Json(new { posList = posList, history = deposits }, JsonRequestBehavior.AllowGet); 
+            //return Json(new { posList }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

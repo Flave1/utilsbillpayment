@@ -21,6 +21,32 @@ namespace VendTech.BLL.Managers
             return "Welcome To Base Project Demo";
         }
 
+        PagingResult<DepositListingModel> IDepositManager.GetLastTenDepositPagedList(PagingModel model, long userId)
+        {
+            var result = new PagingResult<DepositListingModel>();
+
+            // model.RecordsPerPage = 2;
+            IQueryable<DepositLog> query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released || p.NewStatus == (int)DepositPaymentStatusEnum.Pending).OrderBy(model.SortBy + " " + model.SortOrder);
+            IQueryable<PendingDeposit> query2 = Context.PendingDeposits.OrderByDescending(p => p.CreatedAt).Take(10);
+
+            if (userId == 0)
+            {
+            }
+            else
+            {
+                query = query.Where(p => p.Deposit.UserId == userId); 
+                query2 = query2.Where(p => p.UserId == userId);
+            }
+
+            var list = query.ToList().Select(x => new DepositListingModel(x.Deposit)).ToList(); 
+            var list2 = query2.ToList().Select(x => new DepositListingModel(x)).ToList();
+
+            result.List = list2.Concat(list).Take(10).ToList();
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Deposits List";
+            result.TotalCount = query.Count();
+            return result;
+        }
         PagingResult<DepositListingModel> IDepositManager.GetAllPendingDepositPagedList(PagingModel model, bool getForRelease, long vendorId, string status)
         {
             var result = new PagingResult<DepositListingModel>();
@@ -1881,7 +1907,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = model.CreatedAt;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate;// + //" 12:00";//.ToString("dd/MM/yyyy hh:mm");
-            dbDeposit.NextReminderDate = DateTime.UtcNow.AddMinutes(10);
+            dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges(); 
             return dbDeposit;
@@ -1984,11 +2010,10 @@ namespace VendTech.BLL.Managers
             {
                 dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             } 
-
-            var currentDate = DateTime.UtcNow;
+             
 
             if (dbDeposit.NextReminderDate == null) 
-                dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddMinutes(10); 
+                dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15); 
             else 
                 dbDeposit.NextReminderDate = null; 
 
@@ -2042,7 +2067,7 @@ namespace VendTech.BLL.Managers
 
         void IDepositManager.UpdateNextReminderDate(Deposit deposit)
         {
-            deposit.NextReminderDate = DateTime.UtcNow.AddMinutes(10);
+            deposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.SaveChanges();
         }
 

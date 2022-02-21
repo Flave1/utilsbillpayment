@@ -67,15 +67,15 @@
             })
         }, 3000);
 
-        setInterval(function () {
-            $.ajax({
-                url: '/Admin/Home/ReturnDealerBalance',
-                success: function (data) {
-                    $("#dealerBal").text(data.result.LastDealerBalance);
-                    $("#transDate").text(data.result.RequestDate);
-                }
-            })
-        }, 3000);
+        //setInterval(function () {
+        //    $.ajax({
+        //        url: '/Admin/Home/ReturnDealerBalance',
+        //        success: function (data) {
+        //            $("#dealerBal").text(data.result.LastDealerBalance);
+        //            $("#transDate").text(data.result.RequestDate);
+        //        }
+        //    })
+        //}, 3000);
 
         setInterval(function () {
             $.ajax({

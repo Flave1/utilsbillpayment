@@ -364,7 +364,7 @@ namespace VendTech.Areas.Admin.Controllers
                             body = body.Replace("%USER%", deposit.POS.User.Name +" "+ deposit.POS.User.SurName);
                             body = body.Replace("%POSID%", deposit.POS.SerialNumber);
                             body = body.Replace("%VENDOR%", deposit.User.Vendor);
-                            body = body.Replace("%AMOUNT%", deposit.Amount.ToString());
+                            body = body.Replace("%AMOUNT%", string.Format("{0:0N}", deposit.Amount));
                             body = body.Replace("%DEPOSITAPPROVEDDATE%", deposit.DepositLogs.FirstOrDefault()?.CreatedAt.ToString("f"));
                             body = body.Replace("%TODAY%", DateTime.UtcNow.ToString("f"));
                             //Utilities.SendEmail(deposit.User.Email, emailTemplate.EmailSubject, body); 
