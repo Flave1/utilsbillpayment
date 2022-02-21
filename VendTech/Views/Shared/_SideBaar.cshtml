@@ -15,7 +15,7 @@
                     @*<li><a href="@Url.Action("Dashboard", "Home")"><i class="fa fa-columns"></i><span>Dashboard</span></a></li>*@
                     @if (assignerModules.Where(X => X.ControllerName == "26").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
-                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Agents ? "active" : "")" href="@Url.Action("ManageAgents", "Agents")"><i class="fa fa-table"></i><span>Manage Agents</span></a></li>
+                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Agents ? "active" : "")" href="@Url.Action("ManageAgents", "Agents")"><i class="fa fa-table"></i><span>Manage Vendors</span></a></li>
                     }
                     @if (assignerModules.Where(X => X.ControllerName == "19").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {

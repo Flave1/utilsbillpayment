@@ -89,11 +89,11 @@ function Paging(sender) {
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
-    obj.RecordsPerPage = paging.pageSize;
+    obj.RecordsPerPage = paging.pageSize; 
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
-    obj.PosId = $('#pos').val();
+    obj.PosId = $('#posDrp').val();
 
     debugger
     obj.VendorId = $('#vendor').val();

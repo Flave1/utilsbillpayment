@@ -53,7 +53,7 @@ namespace VendTech.Controllers
         /// Index View 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(long posId = 0)
+        public ActionResult Index(string posId = "")
         {
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
@@ -73,15 +73,15 @@ namespace VendTech.Controllers
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
-            if (posId == 0 && posList.Count > 0)
+            if (posId == "" && posList.Count > 0)
             {
-                posId = Convert.ToInt64(posList[0].Value);
+                //posId = Convert.ToInt64(posList[0].Value);
                 ViewBag.posId = posId;
             }
-            if (posId > 0)
+            if (!string.IsNullOrEmpty(posId))
             {
-                ViewBag.Percentage = _posManager.GetPosCommissionPercentage(posId);
-                ViewBag.balance = _posManager.GetPosBalance(posId);
+                ViewBag.Percentage = _posManager.GetPosCommissionPercentage(long.Parse(posId));
+                ViewBag.balance = _posManager.GetPosBalance(long.Parse(posId));
             }
             else
             {

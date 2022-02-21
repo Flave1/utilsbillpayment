@@ -38,7 +38,7 @@ namespace VendTech.BLL.Models
         public string Vendor { get; set; }
         public AgentListingModel(POS obj)
         {
-            var sale = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date).Select(d => d.Amount)?.Sum() ?? 0;
+            var sale = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date && f.Finalised == true).Select(d => d.Amount)?.Sum() ?? 0;
             POSID = obj.POSId;
             SerialNumber = obj.SerialNumber;
             AgencyName = obj?.User?.Agency?.AgencyName;

@@ -19,6 +19,7 @@ namespace VendTech.BLL.Interfaces
         /// <param name="model"></param>
         /// <returns></returns>
         PagingResult<DepositListingModel> GetDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0,string status="");
+        PagingResult<DepositListingModel> GetLastTenDepositPagedList(PagingModel model, long posId = 0);
         PagingResult<DepositListingModel> GetAllPendingDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0, string status = "");
         PagingResult<DepositLogListingModel> GetDepositLogsPagedList(PagingModel model);
         decimal GetPendingDepositTotal();

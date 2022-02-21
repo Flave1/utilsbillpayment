@@ -353,7 +353,7 @@ namespace VendTech.BLL.Managers
         }
         decimal IPOSManager.GetPosBalance(long posId)
         {
-            var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId);
+            var dbPos = Context.POS.FirstOrDefault(p => p.POSId == posId && !p.SerialNumber.StartsWith("AGT"));
             if (dbPos == null || dbPos.Balance == null)
                 return 0;
             return dbPos.Balance.Value;

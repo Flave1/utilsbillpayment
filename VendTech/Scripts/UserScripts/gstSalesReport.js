@@ -93,7 +93,7 @@ function Paging(sender) {
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
-    obj.PosId = $('#pos').val();
+    obj.PosId = $('#posDrp').val();
     obj.VendorId = $('#vendor').val();
     obj.From = $('#FromDate').val();
     if (obj.From) {

@@ -50,13 +50,13 @@
             <div class="col-md-21">
                 <div class="block-flat">
                     <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                        <span id="balanceSpan" style="color:#00a2e8;">SSL: @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>
+                        @*<span id="balanceSpan" style="color:#00a2e8;">SSL: @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>*@
                     </div>
                     <div class="contarea meterpage">
                         <div class="container-fluid" style="background:white; ">
 
                             <div class="row">
-                                <div class="col-md-2 current" id="tab-1" style=" border-right:1px solid #f4e8e8 ;">
+                                <div class="col-md-5 col-lg-4 current" id="tab-1" style=" border-right:1px solid #f4e8e8 ;">
                                     <form style="padding-left:11px;">
 
                                         <div class="row">
@@ -128,7 +128,7 @@
                                                 </div>
                                                 <div class="col-md-11">
                                                     <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
-                                                    <input class="form-control" type="text" id="percentageAmount" style="font-size: 50px;
+                                                    <input class="form-control" type="text" id="percentageAmount" style="font-size: 45px;
                                                                 height: 80px;
                                                                 border-radius: 10px;
                                                                 border: none;
@@ -148,7 +148,7 @@
 
                                     </form>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-7 col-lg-8">
                                     <h4>Latest deposit history</h4>
                                     <div class="exportdata">
                                         <table class="table table-bordered" id="datatable-icons">
@@ -196,7 +196,7 @@
 
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
             function thousands_separators(num) {
                 var num_parts = num.toString().split(".");
                 num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -295,7 +295,13 @@
 
                 //initialize the javascript
                 if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
-                    $("#posDrp").val('@ViewBag.posId');
+
+                    var posEd = '@ViewBag.posId';
+                    if (posEd < 1) { 
+                        $("#posDrp").val(' ');
+                    } else {
+                        $("#posDrp").val('@ViewBag.posId');
+                    }
                 }
                 App.init();
                 $('.addDepositBtn').live("click", function () {
@@ -372,11 +378,11 @@
                         showThrobber: true,
                         button: $(sender),
                         throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                        success: function (results, message) { 
-                            if (message != "Deposit request saved successfully.") { 
+                        success: function (results, message) {
+                            if (message != "Deposit request saved successfully.") {
                                 reDeposit(sender, 2, message);
                                 $("#btnAdd").val('ADD BALANCE');
-                                $("#btnAdd").prop('disabled', false); 
+                                $("#btnAdd").prop('disabled', false);
                                 return;
                             }
                             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
@@ -417,10 +423,10 @@
         }
 
 
-        function reDeposit(sender, ContinueDepoit, amt) { 
-            $("#ContinueDepoit").val(0); 
+        function reDeposit(sender, ContinueDepoit, amt) {
+            $("#ContinueDepoit").val(0);
             $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
-              
+
                 $.ajaxExt({
                     url: baseUrl + '/Deposit/AddDeposit',
                     type: 'POST',
@@ -451,6 +457,6 @@
             $("#btnAdd").val('ADD BALANCE');
             $("#btnAdd").prop('disabled', false);
         }
-    </script>
+</script>
 }
 
