@@ -9931,3 +9931,15 @@ The underlying provider failed on Open.
 
 
 
+The underlying provider failed on Open.
+
+
+
+LINQ to Entities does not recognize the method 'Boolean ToBoolean(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'Boolean ToBoolean(System.String)' method, and this method cannot be translated into a store expression.
+
+
+

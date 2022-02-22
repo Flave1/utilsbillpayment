@@ -1,16 +1,16 @@
 ﻿$(document).ready(function () {
     $("input[type=button]#addUserBtn").live("click", function () {
-        return Users.AddUser($(this));
+        return Vendors.AddUser($(this));
     });
     $("input[type=button]#editUserBtn").live("click", function () {
-        return Users.UpdateUser($(this));
+        return Vendors.UpdateUser($(this));
     });
     $("a.deleteUser").live("click", function () {
         return Users.DeleteUser($(this));
     });
 
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return Users.ManageUsers($(this));
+        return Vendors.ManageUsers($(this));
     });
     $("select#showRecords").on("change", function () {
         return Users.ShowRecords($(this));
@@ -19,8 +19,8 @@
         
         return Vendors.SortUsers($(this));
     });
-    $("#btnFilterSearch").live("click", function () {
-        return Users.SearchUsers($(this));
+    $("#btnFilterSearch").live("click", function () { 
+        return Vendors.SearchUsers($(this));
     });
 
     $("a.disablePOS").live("click", function () {
@@ -33,7 +33,7 @@
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');
         $('#searchField').val('');
-        return Users.SearchUsers($(this));
+        return Vendors.SearchUsers($(this));
     });
 });
 

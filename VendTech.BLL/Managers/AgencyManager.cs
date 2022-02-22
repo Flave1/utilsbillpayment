@@ -75,10 +75,8 @@ namespace VendTech.BLL.Managers
             //f.age == agent && 
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
-            {
-                if (model.SearchField.Equals("AGENCY"))
-                    query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("VENDOR"))
+            { 
+                if (model.SearchField.Equals("VENDOR"))
                     query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("POSID"))
                     query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
@@ -87,13 +85,20 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("AGENT"))
                     query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("ENABLED"))
-                    query = query.Where(z => z.Enabled == Convert.ToBoolean(model.Search));
+                {
+                    var ena = Convert.ToBoolean(model.Search.ToLower());
+                    query = query.Where(z => z.Enabled == ena);
+
+                }
                 else if (model.SearchField.Equals("BALANCE"))
-                    query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.Replace(",","").ToLower()));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new AgentListingModel(x)).ToList();
+
+            if (model.SearchField.Equals("TODAY'S"))
+                list = list.Where(z => z.TodaySales.Contains(model.Search.ToLower())).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "User List";
