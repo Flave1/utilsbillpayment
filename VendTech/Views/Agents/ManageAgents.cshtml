@@ -62,13 +62,13 @@
 
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["VENDOR", "POSID", "PHONE", "ENABLED", "TODAY'S SALES", "BALANCE"];
+        var searchFields = ["AGENCY", "VENDOR", "POSID", "PHONE", "AGENT", "ENABLED", "TODAY'S SALES", "BALANCE"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
         $(document).ready(function () {
             //initialize the javascript
-            $('#searchField option[value="VENDOR"]').attr("selected", true);
+            $('#searchField option[value="AGENCY"]').attr("selected", true);
             App.init();
             Vendors.ManageUsers(totalCount);
         });
