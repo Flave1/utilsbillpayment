@@ -179,20 +179,12 @@
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/report.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="~/Scripts/Receipt.js"></script>
-
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
-
-
-
-
-
-
+     
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
 
@@ -207,87 +199,15 @@
                 swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
             }
             else {
-                 $("#FromDate").kendoDatePicker({
-                culture: "en-GB",
-                  value: new Date(),
-                  format : "dd/MM/yyyy"
-            });
-            $("#ToDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date(),
-                format : "dd/MM/yyyy"
-            });
 
-                $("#fromSpan").text($("#FromDate").val())
-
-                $("#toSpan").text($("#ToDate").val())
-
-                var type = getUrlParameter("type");
-                if (type)
-                    $("#reportType").val(type);
-                App.init();
-                //initialize the javascript
-
-
-
-
-                $("#vendor").on("change", function () { 
-                    var vendorId = $("#vendor").val();
-                    $("#pos").empty();
-                    if (vendorId) {
-                        $.ajax({
-                            url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-                            success: function (res) {
-                                //$("#pos").append("<option value=''> Select POS </option>")
-                                if (res.posList != null) { 
-                                    if (res.posList.length > 1) {
-                                        $("#pos").append("<option value=''> -Select POS- </option>")
-                                    }
-                                    if (res.posList.length == 0) {
-                                        $("#pos").append("<option value=''> -NO POS - </option>")
-                                    }
-                                    for (var i = 0; i < res.posList.length; i++) {
-                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
-                                    }
-                                }
-                            }
-                        })
-                    }
-                    else {
-                        $("#pos").append("<option value=''> SELECT POS</option>")
-                    }
-                });
-
-
+                App.init(); 
                 const date = new Date();
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-        // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-                debugger
-        $("#printedDate").text(formattedDate);
-        $("#PrintedDateServer").val(formattedDate);
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", ""); 
 
-        function downloadURI(imgData, name) {
-                var link = document.createElement("a");
-
-
-                var pdf = new jsPDF();
-
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth-20, pdfHeight-20);
-
-                //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-                pdf.save(name);
-                //link.download = name;
-                //link.href = uri;
-                //document.body.appendChild(link);
-                //link.click();
-
-        }
-
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
 
 
                 $('#PrintType').on("change", function () {
@@ -326,28 +246,9 @@
                     $("#depositsForm").submit();
                 });
 
-
-                Deposits.ManageDeposits(totalCount);
-           var d = new Date();
-            $("#FromDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker1 = $("#FromDate").data("kendoDatePicker");
-            $("#FromDate").click(function () {
-                datePicker1.open();
-            })
-            $("#ToDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker2 = $("#ToDate").data("kendoDatePicker");
-            $("#ToDate").click(function () {
-                datePicker2.open();
-            })
             }
         });
-     
+
     </script>
 }
 

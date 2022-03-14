@@ -324,6 +324,7 @@ namespace VendTech.BLL.Models
     {
         public ReportSearchModel()
         {
+            Meter = "";
             if (PageNo <= 1)
             {
                 PageNo = 1;
@@ -337,12 +338,12 @@ namespace VendTech.BLL.Models
         public long? AgencyId { get; set; }
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
-        public long? PosId { get; set; }
-        public DateTime? From { get; set; }
-        public DateTime? To { get; set; }
-        public string Meter { get; set; }
+        public long? PosId { get; set; } = 0;
+        public DateTime? From { get; set; } = null;
+        public DateTime? To { get; set; } = null;
+        public string Meter { get; set; } = "";
         public string RefNumber { get; set; }
-        public string TransactionId { get; set; }
+        public string TransactionId { get; set; } = "";
         public string RechargeToken { get; set; }
         public int? Bank { get; set; }
         public int? DepositType { get; set; }
@@ -355,7 +356,7 @@ namespace VendTech.BLL.Models
         public string Amount { get; set; }
         public bool IsAudit { get; set; }
         public string Status { get; set; }
-        public bool IsInitialLoad { get; set; } = false;
+        public bool IsInitialLoad { get; set; } = false; 
     }
 
     public class DepositAuditModel

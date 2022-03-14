@@ -303,6 +303,7 @@
     <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
     <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
     <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
+    <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
@@ -428,6 +429,7 @@
     <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Scripts\UserScripts\AgentRevenueReport.js" />
     <Content Include="Scripts\UserScripts\gstSalesReport.js" />
+    <Content Include="Scripts\UserScripts\reportFilter.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
@@ -442,6 +444,7 @@
     <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_agentsRevenueReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\PrintAgencyRevenueReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Partials\_salesListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

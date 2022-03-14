@@ -21,5 +21,7 @@ namespace VendTech.BLL.Models
 
         public PagingResult<DashboardBalanceSheetModel> Bs { get; set; } = new PagingResult<DashboardBalanceSheetModel>();
 
+        public PagingResult<MeterRechargeApiListingModel> s { get; set; } = new PagingResult<MeterRechargeApiListingModel>();
+
     }
 }

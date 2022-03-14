@@ -28,6 +28,10 @@ namespace VendTech.BLL.Managers
         }
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
+            if(model.SortBy == null)
+            {
+                model.SortBy = "SerialNumber";
+            }
             model.RecordsPerPage = 1000000;
             var result = new PagingResult<POSListingModel>();
             IQueryable<POS> query = null;
@@ -46,7 +50,11 @@ namespace VendTech.BLL.Managers
             }
             if (model.SortBy == "COMMISSION")
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("Commission.Percentage" + " " + model.SortOrder);
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(r => r.Commission.Percentage + " " + model.SortOrder);
+            }
+            if (model.SortBy == "Number")
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
             }
             else if (model.SortBy == "MeterCount")
             {
@@ -59,9 +67,18 @@ namespace VendTech.BLL.Managers
                     query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
                 }
             }
+
+            else if (model.SortBy == "POSId")
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("SerialNumber" + " " + model.SortOrder);
+            }
+            else if (model.SortBy == "Agency")
+            {
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            }
             else
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model.SortBy + " " + model.SortOrder);
+                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
             }
             if (vendorId > 0)
             {
@@ -78,20 +95,27 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
 
+                if (model.SearchField.Equals("AGENCY"))
+                    query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+
                 if (model.SearchField.Equals("COMMISSION"))
                     query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("VENDOR"))
                     query = query.Where(z => z.User.Vendor.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("CELL"))
-                    query = query.Where(z => z.Phone.Contains(model.Search));
-                else if (model.SearchField.Equals("POS"))
-                    query = query.Where(z => ((PosTypeEnum)z.VendorType).ToString().ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("POS_SIM"))
+                    query = query.Where(z => z.Phone.Contains(model.Search)); 
                 else if (model.SearchField.Equals("ENABLED"))
                     query = query.Where(z => z.Enabled.ToString().ToLower().Contains(model.Search.ToLower()));
             }
-            var list = query
-               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+            var list = query.Where(r => r.Enabled == model.IsActive).Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
+
+            if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
+            {
+                if (model.SearchField.Equals("POS_TYPE"))
+                    list = list.Where(z => z.VendorType.ToLower().Contains(model.Search.ToLower())).ToList();
+            }
+
 
             result.List = list;
             result.Status = ActionStatus.Successfull;

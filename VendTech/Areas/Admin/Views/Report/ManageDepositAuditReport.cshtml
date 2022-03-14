@@ -120,7 +120,8 @@
     option {
         font-weight: bold;
     }
-    .Updated{
+
+    .Updated {
         background: #ff6a00;
     }
 </style>
@@ -313,7 +314,7 @@
                     <div class=" col-md-12">
                         <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin",@onchange= "getVendor(this)" })
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @onchange = "getVendor(this)" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -345,11 +346,11 @@
                         </div>
                     </div>
                     @*<div class=" col-md-12">
-                        <label for="short_name" class="col-md-4 control-label margin"> #<em>*</em></label>
-                        <div class="col-md-8">
-                            <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
-                        </div>
-                    </div>*@
+                            <label for="short_name" class="col-md-4 control-label margin"> #<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
+                            </div>
+                        </div>*@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">BANKED #<em>*</em></label>
                         <div class="col-md-8">
@@ -361,7 +362,6 @@
                         <div class="col-md-8">
                             <input type="text" name="amount" id="modal_amount" class="form-control margin text-right" style="font-weight: 1000;font-size: large;" />
                         </div>
-
                     </div>
 
                     <div class=" col-md-12">
@@ -373,7 +373,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-secondary" id="update_btn" value="UPDATE"  onclick="Update(this)">
+                <input type="button" class="btn btn-secondary" id="update_btn" value="UPDATE" onclick="Update(this)">
                 <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)">
             </div>
         </div>
@@ -384,6 +384,7 @@
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/report.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -392,78 +393,27 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
 <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
-
-
-   
-
-    window.ready = function WindowLoad(event) {
-        alert("Page is loaded");
-    }
-function getUrlParameter(name) {
+     
+        function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
             var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
             var results = regex.exec(location.search);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
-        $(document).ready(function () {
-             var d = new Date();
-            $("#value_date").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date(d.getFullYear(), d.getMonth() + 2, d.getDate())
-             });
+         $(document).ready(function () {
 
 
-            $("#value_date").kendoDatePicker({
+            if (@Html.Raw(Json.Encode(Model.List)) == null) {
+                swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
+            }
+            else {
+                $("#status").find("option[value='1']").attr("selected", "selected");
 
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy hh:mm",
-                    max: new Date(d.setDate(d.getDate() + 365)),
-                    maxDate: new Date, minDate: new Date(2007, 6, 12),
-            });
-            var datePicker3 = $("#value_date").data("kendoDatePicker");
-            $("#value_date").click(function () {
-                datePicker3.open();
-            })
-
-            $("#fromSpan").text($("#FromDate").val())
-
-            $("#toSpan").text($("#ToDate").val())
-            $("#printedDate").text($("#ToDate").val())
-
-    if (@Html.Raw(Json.Encode(Model.List)) == null) {
-        swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
-    }
-    else {
-        $("#status").find("option[value='1']").attr("selected","selected");
-                $("#FromDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date()
-                });
-                $("#ToDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date()
-                });
-                var type = getUrlParameter("type");
-                if (type)
-                    $("#reportType").val(type);
                 App.init();
 
-                        //initialize the javascript
-                //console.log("soon will show details");
-                //var frm = $.datepicker.formatDate("dd-mm-yy", new Date());
-                //var to = $.datepicker.formatDate("dd-mm-yy", new Date());
-
-
-                ////$("#FromDate").val(frm);
-                ////$("#ToDate").val(to);
-                //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
-                //$("#FromDate").data("kendoDatePicker").value(todayDate);
-                //$("#ToDate").data("kendoDatePicker").value(todayDate);
-         
-
-        $("#depositby").on("change", function () {
-            var vendorId = $("#depositby").val();
+                $("#depositby").on("change", function () {
+                    var vendorId = $("#depositby").val();
                     $("#PosId").empty();
                     if (vendorId) {
                         $.ajax({
@@ -483,56 +433,13 @@ function getUrlParameter(name) {
                     }
                 });
 
-        $("#vendor").on("change", function () {
-            var vendorId = $("#vendor").val();
-            $("#pos").empty();
-            if (vendorId) {
-                $.ajax({
-                    url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-                    success: function (res) {
-                        $("#pos").append("<option value=''> Select POS </option>")
-                        if (res.posList != null) {
-                            for (var i = 0; i < res.posList.length; i++) {
-                                $("#pos").append("<option value=" + res.posList[i].Value + " selected>" + res.posList[i].Text + "</option>")
-                            }
-                        }
-                    }
-                })
-            }
-            else {
-                $("#pos").append("<option value=''> SELECT POS</option>")
-            }
-        });
-
-                function downloadURI(imgData, name) {
-                    var link = document.createElement("a");
-
-
-                    var pdf = new jsPDF();
-
-                    const imgProps = pdf.getImageProperties(imgData);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-
-                    //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-                    pdf.save(name);
-                    //link.download = name;
-                    //link.href = uri;
-                    //document.body.appendChild(link);
-                    //link.click();
-
-                }
-
-
-
                 $('#PrintType').on("change", function () {
                     $('#ExportType').val($(this).val());
                 });
 
                 $("#btnExport").click(function (e) {
 
-                    
+
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
@@ -543,7 +450,7 @@ function getUrlParameter(name) {
                         $("#frmDt").val('');
 
                     }
-                    
+
                     if (to) {
                         var dtVal = to.split("/");
                         $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
@@ -555,10 +462,9 @@ function getUrlParameter(name) {
                         $('#IsAudit').val(false);
                     else if ($("#status").val() === "2")
                         $('#IsAudit').val(true);
-                    else
-                    {
-                         $('#hdnStatus').val("Status");
-                         $('#IsAudit').val(false);
+                    else {
+                        $('#hdnStatus').val("Status");
+                        $('#IsAudit').val(false);
                     }
 
                     $('#depositsForm').attr('action', '/Admin/Report/ExportDepositAuditReportTo');
@@ -571,38 +477,14 @@ function getUrlParameter(name) {
                     $("#depositsForm").attr("method", "get");
                     $("#depositsForm").submit();
                 });
-
-
-                Deposits.ManageDeposits(totalCount);
-                var d = new Date();
-                $("#FromDate").kendoDatePicker({
-                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
-                });
-
-                var datePicker1 = $("#FromDate").data("kendoDatePicker");
-                $("#FromDate").click(function () {
-                    datePicker1.open();
-                })
-                $("#ToDate").kendoDatePicker({
-                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                    format: "dd/MM/yyyy"
-                });
-                var datePicker2 = $("#ToDate").data("kendoDatePicker");
-                $("#ToDate").click(function () {
-                    datePicker2.open();
-                })
-                //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/dd/yyyy');
-                //$("#ToDate").data("kendoDatePicker").value(todayDate);
-            }
-        });
+                    }
+         });
 
         function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
-            amount, isAudit, userId, date, valueDate, Type, comment)
-        { 
-            
+            amount, isAudit, userId, date, valueDate, Type, comment) {
+
             const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer", "Cash/Cheque"];
-            comment = escape(comment); 
+            comment = escape(comment);
             const decoded = atob(unescape(comment));
 
             $("#depositModalTitle").text("Edit Deposit Audit");
@@ -617,33 +499,31 @@ function getUrlParameter(name) {
             }
             $("#issuingbank").find("option[value='" + issuingbank.substr(0, issuingbank.lastIndexOf("-")) + "']").attr("selected", "selected");
 
-            
+
             if ($("#issuingbank").val().length < 1) {
                 $("#issuingbank").val("GTB - (GUARANTEE TRUST BANK)");
-            } 
+            }
             $("#depositref").val(depositref);
-            $("#gtbank").val(gtbank); 
+            $("#gtbank").val(gtbank);
             if (Type.length < 1) {
                 $("#deposittype").val(typeList["Cash"].length);
-            } else { 
+            } else {
                 $("#deposittype").val(typeList.indexOf('Cash'));
             }
-        //var date =valueDate.split("-");   
-        //var valueDate = valueDate.replaceAll("-", "/")
-        //$("#value_date").val(date[0] + "/" + date[1] + "/" + date[2].substring(0,date[2].indexOf(' ')));
+
             $("#value_date").val(valueDate);
             $("#modal_amount").val(amount);
             $("#modal_comment").val(decoded);
-             
-        if (isAudit == "")
-            $("#modal_btn").val("Clear");
-        else if (isAudit == 'Updated')
-            $("#modal_btn").val("Clear");
-        else
-            $("#modal_btn").val("Open");
-        //var date = date.replaceAll("-", "/");
-        $("#modal_created").val(date)
-        $("#depositModal").modal('show');
+
+            if (isAudit == "")
+                $("#modal_btn").val("Clear");
+            else if (isAudit == 'Updated')
+                $("#modal_btn").val("Clear");
+            else
+                $("#modal_btn").val("Open");
+            //var date = date.replaceAll("-", "/");
+            $("#modal_created").val(date)
+            $("#depositModal").modal('show');
         }
 
         function getVendor(th) {
@@ -664,7 +544,7 @@ function getUrlParameter(name) {
         }
 
         function Update(th) {
-            
+
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
@@ -680,7 +560,7 @@ function getUrlParameter(name) {
             var commnt = $("#modal_comment").val();
             inputParam.Comment = btoa(commnt);
 
-            
+
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }
@@ -695,7 +575,7 @@ function getUrlParameter(name) {
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    
+
                     if (data != null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
@@ -730,7 +610,7 @@ function getUrlParameter(name) {
                                 $(this).find("#_sts").text("Updated");
                                 $(this).find("#_sts").prop("onclick", null);
                                 $(this).find("#_sts").click(function () {
-                                    
+
                                     editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                         data.Payer, data.IssuingBank, data.DepositRef,
                                         data.GTBank, data.Price, 'Updated', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
@@ -742,13 +622,12 @@ function getUrlParameter(name) {
                         $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
                 }
             });
-    }
-     
+        }
 
         function Save(th) {
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
-            inputParam.Amount = $("#modal_amount").val().replace(/\,/g,'');
+            inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
             inputParam.Payer = $("#payer").val();
@@ -760,9 +639,9 @@ function getUrlParameter(name) {
             inputParam.Type = $("#deposittype").val();
             var commnt = $("#modal_comment").val();
             inputParam.Comment = btoa(commnt);
-           
 
-            
+
+
             if ($(th).val() == "Open") {
                 inputParam.isAudit = false;
             }
@@ -778,10 +657,10 @@ function getUrlParameter(name) {
                 data: $.postifyData(inputParam),
                 success: function (data) {
                     console.log('data', data)
-                    if (data!=null) {
+                    if (data != null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
-                        $('tr').each(function(index, value) {
+                        $('tr').each(function (index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);
                                 $(this).find("#_pos").text(data.PosId);
@@ -790,13 +669,13 @@ function getUrlParameter(name) {
                                 $(this).find("#_gt").text(data.GTBank);
                                 $(this).find("#_pay").text(data.Payer);
                                 $(this).find("#_valuedate").text(data.ValueDateModel);
-                                if (data.IssuingBank!=null && data.IssuingBank.indexOf('-') == -1) {
+                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
                                     $(this).find("#_bnk").text(data.IssuingBank);
                                 }
                                 else {
                                     $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
                                 }
-                        $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("#_ref").text(data.DepositRef);
                                 $(this).find("td").find("#_gt").text(data.GTBank);
                                 if (data.Price == "0") {
                                     $(this).find("#_amt").text(data.Price);
@@ -813,7 +692,7 @@ function getUrlParameter(name) {
                                     $(this).find("#_sts").addClass("btn-clear");
                                     $(this).find("#_sts").text("Cleared");
                                     $(this).find("#_sts").prop("onclick", null);
-                                    $(this).find("#_sts").click(function () { 
+                                    $(this).find("#_sts").click(function () {
                                         editDeposit(data.DepositId, data.PosId, data.DepositBy,
                                             data.Payer, data.IssuingBank, data.DepositRef,
                                             data.GTBank, data.Price, '2', data.UserId, data.DateTime, data.ValueDateModel, data.Type, data.Comment);
@@ -831,7 +710,7 @@ function getUrlParameter(name) {
                                     });
                                 }
                             }
-});
+                        });
                     }
                     else
                         $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
@@ -839,24 +718,21 @@ function getUrlParameter(name) {
             });
         }
 
- 
+        $('#amount').keyup(function (event) {
 
-   
-        $('#amount').keyup(function(event) {
+            // skip for arrow keys
+            if (event.which >= 37 && event.which <= 40) return;
 
-  // skip for arrow keys
-  if(event.which >= 37 && event.which <= 40) return;
-
-  // format number
-  $(this).val(function(index, value) {
-    return value
-    .replace(/\D/g, "")
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    ;
-  });
+            // format number
+            $(this).val(function (index, value) {
+                return value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    ;
+            });
         });
 
-    
+
 </script>
 }
 

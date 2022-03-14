@@ -1,8 +1,9 @@
 ﻿@model DepositListingModel
+ 
 
 <div class="modal-dialog modal-md">
-    <div class="modal-content modal-md" >
-        <div class="modal-body" >
+    <div class="modal-content modal-md">
+        <div class="modal-body">
 
             <div class="" id="re-printSection">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -44,7 +45,16 @@
                         </tr>
                         <tr>
                             <td>Payer</td>
-                            <td>@Model.Payer</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.Payer))
+                                {
+                                    <span>@Model.Payer</span>
+                                }
+                                else
+                                {
+                                    <span> @Model.VendorName</span>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td>Payer bank</td>
@@ -82,29 +92,20 @@
                             <td>Amount</td>
                             <td>@string.Format("{0:N0}", Model.Amount)</td>
                         </tr>
-                        <tr>
-                            <td>COMMISSION @@ %1</td>
-                            <td>@string.Format("{0:N0}", (Model.Amount) * Model.PercentageCommission / 100)</td>
-                        </tr>
+                        @if (Model.PercentageCommission.ToString() != "0.00")
+                        {
+                            <tr>
 
+                                <td>COMMISSION @@ %1</td>
+                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
+                            </tr>
+
+                        }
                         <tr>
                             <td>TOTAL DEPOSIT AMOUNT</td>
-                            <td>@string.Format("{0:N0}", (Model.Amount) * Model.PercentageCommission / 100 + Model.Amount)</td>
+                            <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
                         </tr>
 
-                        @*<tr>
-                    <td>Name on cheque</td>
-                    <td>
-                        @if (string.IsNullOrEmpty(Model.Payer))
-                        {
-                            <span>N/A</span>
-                        }
-                        else
-                        {
-                            <span>@Model.Payer</span>
-                        }
-                    </td>
-                </tr>*@
                     </tbody>
                 </table>
 
@@ -115,15 +116,21 @@
                         <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
                     </div>
                 </div>
-
+                <div class="row modal-footer" style="display:flex;"> 
+                    <div class="col-md-5 pull-right" style="margin-left:30px; text-align:left">
+                        <span> NOTE: This is an official stamped receipt</span>
+                    </div>
+                    <div class="col-md-4 pull-right" style="text-align: left;">
+                        <img src="~/Content/images/vtech-receipt.png" width="100" />
+                    </div>
+                    <div class="col-md-3 pull-right" id="print_section" style="text-align:right">
+                        <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
+                    </div>
+                </div>
             </div>
-            <div class="row modal-footer">
-                <div class="row" id="print_section" style="padding: 0; margin: 0px;">
-                    <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
-                </div> 
-            </div>
+           
         </div>
-      
+
     </div>
 
-</div> 
+</div>

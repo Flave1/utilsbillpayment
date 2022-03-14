@@ -298,6 +298,9 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("FIRST"))
                     query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
+
+                else if (model.SearchField.Equals("POSID"))
+                    query = query.Where(z => z.POS.FirstOrDefault().SerialNumber.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("LAST"))
                     query = query.Where(z => z.SurName.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("STATUS"))

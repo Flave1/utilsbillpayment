@@ -67,7 +67,7 @@ namespace VendTech.BLL.Managers
             if (model.SortBy.Equals("ENABLED"))
             {
                 query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("Enabled" + " " + model.SortOrder);
-            } 
+            }
             if (model.SortBy.Equals("BALANCE"))
             {
                 query = query.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("Balance" + " " + model.SortOrder);
@@ -76,24 +76,34 @@ namespace VendTech.BLL.Managers
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
-                if (model.SearchField.Equals("AGENCY"))
-                    query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("VENDOR"))
+               
+                 if (model.SearchField.Equals("AGENT"))
                     query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("POSID"))
                     query = query.Where(z => z.SerialNumber.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("PHONE"))
-                    query = query.Where(z => z.User.Phone.ToLower().Contains(model.Search.ToLower()));
-                else if (model.SearchField.Equals("AGENT"))
-                    query = query.Where(z => z.User.Name.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("CELL"))
+                    query = query.Where(z => z.User.Phone.ToLower().Contains(model.Search.ToLower())); 
                 else if (model.SearchField.Equals("ENABLED"))
-                    query = query.Where(z => z.Enabled == Convert.ToBoolean(model.Search));
+                {
+                    var ena = Convert.ToBoolean(model.Search.ToLower());
+                    query = query.Where(z => z.Enabled == ena);
+
+                }
                 else if (model.SearchField.Equals("BALANCE"))
-                    query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.Replace(",", "").ToLower()));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new AgentListingModel(x)).ToList();
+
+            if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
+            {
+                if (model.SearchField.Equals("TODAY'S"))
+                    list = list.Where(z => z.TodaySales.Contains(model.Search.ToLower())).ToList();
+                else if (model.SearchField.Equals("VENDOR"))
+                    list = list.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower())).ToList();
+            }
+          
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "User List";
@@ -107,11 +117,11 @@ namespace VendTech.BLL.Managers
             if (agent == null)
                 return null;
             var ag = new AddAgentModel()
-            { 
+            {
                 AgencyName = agent.AgencyName,
                 AgencyId = agent.AgencyId,
                 AgentType = agent.AgentType,
-                Percentage = agent?.CommissionId??0, 
+                Percentage = agent?.CommissionId ?? 0,
                 Representative = agent?.Representative
             };
 
@@ -126,7 +136,17 @@ namespace VendTech.BLL.Managers
                 if (agent == null)
                     return ReturnError("Agent not exist");
             }
-            agent.AgentType = 10; 
+
+            if(model.Representative > 0)
+            {
+                var repUserAccount = Context.Users.FirstOrDefault(we => we.UserId == model.Representative);
+                if(repUserAccount != null)
+                {
+                    repUserAccount.UserType = 9; // AGENCY ADMIN
+                }
+            }
+
+            agent.AgentType = 10;
             agent.AgencyName = model.AgencyName;
             agent.CommissionId = model.Percentage;
             agent.CreatedAt = DateTime.UtcNow;

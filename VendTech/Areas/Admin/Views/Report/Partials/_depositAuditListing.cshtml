@@ -12,7 +12,17 @@
             <td style="text-align:right" id="_pos">@item.PosId</td>
             <td style="text-align:left" id="_usr">@item.DepositBy</td>
             <td style="text-align:left" id="_typ">@item.Type</td>
-            <td style="text-align:left" id="_pay">@item.Payer</td>
+            <td style="text-align:left" id="_pay">
+                @if (!string.IsNullOrEmpty(item.Payer))
+                {
+                    <span>@item.Payer</span>
+                }
+                else
+                {
+                    <span>@item.VendorName</span>
+                    }
+
+                    </td>
             <td style="text-align:left" id="_bnk">@(!string.IsNullOrEmpty(item.IssuingBank) ? item.IssuingBank.Substring(0, item.IssuingBank.IndexOf("-")) : "")</td>
             <td style="text-align:right" id="_ref">@item.DepositRef</td>
             <td style="text-align:left" id="_gt">@item.GTBank</td>

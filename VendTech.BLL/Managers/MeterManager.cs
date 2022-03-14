@@ -395,6 +395,10 @@ namespace VendTech.BLL.Managers
         }
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
         {
+            if(model.RecordsPerPage != 20)
+            {
+                model.RecordsPerPage = 10;
+            }
             var result = new PagingResult<MeterRechargeApiListingModel>();
             var query = Context.TransactionDetails.OrderByDescending(d => d.RequestDate).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
@@ -409,7 +413,7 @@ namespace VendTech.BLL.Managers
             }
 
 
-            var list = query.Take(10).ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(model.RecordsPerPage).ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
