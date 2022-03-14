@@ -8,8 +8,24 @@
         return Deposits.ShowRecords($(this));
     });
     $("#reportType").on("change", function () {
-        var val = $("#reportType").val();
-        window.location.href = "/Admin/Report/ManageReports?type=" + val;
+        var type = $("#reportType").val();
+        var vendorId = $('#vendor').val();
+        var pos = $('#pos').val();
+        var meterNo = $('#meterNo').val();
+        var transactionId = $('#tranId').val();
+
+        var From = $('#FromDate').val();
+        if (From) {
+            var val = From.split("/");
+            From = val[1] + "/" + val[0] + "/" + val[2];
+        }
+        var To = $('#ToDate').val();
+        if (To) {
+            var val = To.split("/");
+            To = val[1] + "/" + val[0] + "/" + val[2];
+        }
+
+        window.location.href = "/Admin/Report/ManageReports?type=" + type + "&vendorId=" + vendorId + "&pos=" + pos + "&meter=" + meterNo + "&transactionId=" + transactionId + "&from=" + From + "&to=" + To;
     });
     $('.sorting').live("click", function () {
         return Deposits.SortDeposits($(this));

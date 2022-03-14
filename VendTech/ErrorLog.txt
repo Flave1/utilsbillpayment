@@ -9931,3 +9931,199 @@ The underlying provider failed on Open.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult ResetPassword(Int64, System.String)' in 'VendTech.Areas.Admin.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult ResetPassword(Int64, System.String)' in 'VendTech.Controllers.HomeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: index
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: index
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]'.
+
+
+
+No property or field 'Asc' exists in type 'POS'
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+The underlying provider failed on Open.
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+DbSortClause expressions must have a type that is order comparable.
+Parameter name: key
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(95): error CS0019: Operator '!=' cannot be applied to operands of type 'decimal' and 'double'
+
+
+
+c:\Users\Flave\Desktop\Devs\Vendtech\vendtech\VendTech\Views\Shared\_depositReceipt.cshtml(95): error CS0019: Operator '!=' cannot be applied to operands of type 'decimal' and 'double'
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult2`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+The underlying provider failed on Open.
+
+
+

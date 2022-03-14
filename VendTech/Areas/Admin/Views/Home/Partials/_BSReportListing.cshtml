@@ -50,19 +50,19 @@
                     }
                 </td>
                 <td style="font-weight:bold"> @item.Vendor </td>
-                <td style="font-weight:bold">@string.Format("{0:N0}", item.DepositAmount)</td>
-                <td style="font-weight:bold">@string.Format("{0:N0}", item.SaleAmount)</td>
-                <td>
+                <td style="font-weight:bold; text-align:right;">@string.Format("{0:N0}", item.DepositAmount)</td>
+                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.SaleAmount)</td>
+                <td style="text-align:right">
                     @if (item.Status == "red")
                     {
-                        <span style="color: red; font-weight: bold;">@string.Format("{0:N0}", item.Balance)</span>
+                        <span style="color: red; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
                     }
                     else
                     {
-                        <span style="color:black;font-weight:bold;">@string.Format("{0:N0}", item.Balance)</span>
+                        <span style="color: black; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
                     }
                 </td>
-                <td style="font-weight:bold">@string.Format("{0:N0}", item.POSBalance)</td>
+                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.POSBalance)</td>
 
 
             </tr>

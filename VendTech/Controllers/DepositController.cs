@@ -55,6 +55,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Index(string posId = "")
         {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));

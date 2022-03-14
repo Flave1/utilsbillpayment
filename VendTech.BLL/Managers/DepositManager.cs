@@ -273,15 +273,7 @@ namespace VendTech.BLL.Managers
                     || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
                     && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
 
-            if (model.From != null)
-            {
-                query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
-            }
-
-            if (model.To != null)
-            {
-                query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) <= DbFunctions.TruncateTime(model.To));
-            }
+         
 
             if (model.VendorId.HasValue && model.VendorId > 0)
             {
@@ -292,6 +284,16 @@ namespace VendTech.BLL.Managers
                 else
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
+            }
+
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+            }
+
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) <= DbFunctions.TruncateTime(model.To));
             }
 
             if (model.PosId.HasValue && model.PosId > 0)
@@ -1117,7 +1119,7 @@ namespace VendTech.BLL.Managers
         {
             var result = new PagingResult<DepositListingModel>();
 
-            var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+            var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released).Take(15);
 
             if (model.From != null)
             {
@@ -1249,7 +1251,7 @@ namespace VendTech.BLL.Managers
                         list = list.OrderByDescending(p => p.PosNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
             }
-            result.List = list.Take(15).ToList();
+            result.List = list.ToList();
 
 
             result.Status = ActionStatus.Successfull;
@@ -1264,23 +1266,29 @@ namespace VendTech.BLL.Managers
         {
             var result = new PagingResult<DepositExcelReportModel>();
             var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+
+   
+             query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed);
+        
+
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) >= DbFunctions.TruncateTime(model.From));
-
             }
+
             if (model.To != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.Deposit.CreatedAt) <= DbFunctions.TruncateTime(model.To));
-
             }
+
             if (model.VendorId.HasValue && model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
-                var posList = new List<long>();
-                posList = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.UserId)).AsEnumerable().Select(p => p.POSId).ToList();
-                query = query.Where(p => posList.Contains(p.Deposit.POSId));
+                var posIds = new List<long>();
+                posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == model.AgencyId && p.Enabled == true).Select(p => p.POSId).ToList();
+                query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
+
             if (model.PosId.HasValue && model.PosId > 0)
             {
                 query = query.Where(p => p.Deposit.POSId == model.PosId);

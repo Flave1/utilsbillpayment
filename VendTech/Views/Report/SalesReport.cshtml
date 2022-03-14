@@ -46,7 +46,7 @@
                 <div class="block-flat">
                     <div class="content">
                         <div class="table-responsive">
-                            <div id="divResult" >
+                            <div id="divResult">
                                 <div class="topsec">
                                     <h2>SALES REPORTS</h2>
                                     <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
@@ -67,7 +67,7 @@
                                     </label>
                                 </div>
                                 <div class="blwsec">
-                                    <div class="blwsec-left" >
+                                    <div class="blwsec-left">
                                         <form action="Report/ExportSalesReportTo" method="post" id="salesform">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
@@ -90,11 +90,11 @@
                                             }
                                             else
                                             {
-                                        <div class=" col-md-12">
-                                            <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
-                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+                                                <div class=" col-md-12">
+                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
-                                        </div>
+                                                </div>
                                                 <br />
                                                 <br />
                                                 <br />
@@ -120,7 +120,7 @@
                                                 <label>REPORT</label>
                                                 @Html.Partial("partials/_assignedReports", assigned_platforms)
                                             </div>
-                                            <hr style="background:#d0cbcb; height:1px;" /> 
+                                            <hr style="background:#d0cbcb; height:1px;" />
 
                                             <div class="form-group row">
                                                 <label style="width:30%;  float:left;">Meter #:</label>
@@ -148,7 +148,7 @@
                                                         <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
                                                         <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                         <th class="sorting" data-sortby="VendorName">VENDOR </th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th> 
+                                                        <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th>TOKEN</th>
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     </tr>
@@ -184,6 +184,7 @@
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/UserScripts/salesReport.js"></script>
+    <script src="~/Scripts/UserScripts/reportFilter.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -195,125 +196,44 @@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
     <script type="text/javascript">
-            var totalCount = "@Model.TotalCount";
+    var totalCount = "@Model.TotalCount";
 
-            $(document).ready(function () {
-                //initialize the javascript
-
-                App.init();
-
-                $("#FromDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date(),
-                    change: function () { $("#fromSpan").html($("#FromDate").val()) }
-                });
-                $("#ToDate").kendoDatePicker({
-                    culture: "en-GB",
-                    value: new Date(),
-                    change: function () { $("#toSpan").html($("#ToDate").val()) }
-                });
-                $("#fromSpan").html($("#ToDate").val())
-                $("#toSpan").html($("#ToDate").val())
-                const date = new Date();
-                const formattedDate = date.toLocaleDateString('en-GB', {
-                    day: '2-digit', month: '2-digit', year: 'numeric'
-                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-                $("#printedDate").text(formattedDate);
-                $("#PrintedDateServer").val(formattedDate);
-                function downloadURI(imgData, name) {
-                    var link = document.createElement("a");
-
-
-                    var pdf = new jsPDF();
-
-                    const imgProps = pdf.getImageProperties(imgData);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-
-                    pdf.save(name);
-
-                }
-
-                Deposits.ManageDeposits(totalCount);
-
-            });
-
-        var d = new Date();
-        $("#FromDate").kendoDatePicker({
-            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-            format: "dd/MM/yyyy"
+        $(document).ready(function () { 
+            App.init(); 
         });
-        var datePicker1 = $("#FromDate").data("kendoDatePicker");
-        $("#FromDate").click(function () {
-            datePicker1.open();
-        })
-        $("#ToDate").kendoDatePicker({
-            max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-            format: "dd/MM/yyyy"
+
+        $('#PrintType').on("change", function () {
+            $('#ExportType').val($(this).val());
         });
-        var datePicker2 = $("#ToDate").data("kendoDatePicker");
-        $("#ToDate").click(function () {
-            datePicker2.open();
-        })
-
-
-
-            
-
-
-        function changeReport() {
-            var val = $("#rpt").val();
-            if (val == 1)
-                window.location.href = '/Report/DepositReport';
-            else if (val == 3)
-                window.location.href = '/Report/BalanceSheetReport';
-            else if (val == 4)
-                window.location.href = '/Report/GSTSalesReport';
-            else if (val == 5)
-                window.location.href = '/Report/AgentRevenueReport';
-            else
-                window.location.href = '/Report/SalesReport';
-        }
-
-            $('#PrintType').on("change", function () {
-                $('#ExportType').val($(this).val());
-            });
-
-
 
         $("#btnExport").click(function (e) {
+            var frm = $("#FromDate").val();
+            var to = $("#ToDate").val();
+            if (frm) {
+                var dtVal = frm.split("/");
+                $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+            }
+            else {
+                $("#frmDt").val('');
 
-           
-                var frm = $("#FromDate").val();
-                var to = $("#ToDate").val();
-                if (frm) {
-                    var dtVal = frm.split("/");
-                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#frmDt").val('');
-
-                }
-                if (to) {
-                    var dtVal = to.split("/");
-                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
-                else {
-                    $("#toDt").val('');
-                }
-                $('#salesform').attr('action', '/Report/ExportSalesReportTo');
-                $("#salesform").attr("method", "Post");
-                $("#salesform").submit();
-            })
+            }
+            if (to) {
+                var dtVal = to.split("/");
+                $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+            }
+            else {
+                $("#toDt").val('');
+            }
+            $('#salesform').attr('action', '/Report/ExportSalesReportTo');
+            $("#salesform").attr("method", "Post");
+            $("#salesform").submit();
+        })
 
         $('#btnprint').click(function (e) {
-
-                $('#salesform').attr('action', '/Report/PrintSalesReport');
-                $("#salesform").attr("method", "get");
-                $("#salesform").submit();
-            });
+            $('#salesform').attr('action', '/Report/PrintSalesReport');
+            $("#salesform").attr("method", "get");
+            $("#salesform").submit();
+        });
 
     </script>
 }

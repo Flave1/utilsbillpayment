@@ -100,7 +100,7 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }
         public long MeterRechargeId { get; set; }
         public long? MeterId { get; set; }
-        public long TransactionDetailsId { get; set; }
+        public long TransactionDetailsId { get; set; } 
         public MeterRechargeApiListingModel() { }
         public MeterRechargeApiListingModel(TransactionDetail x)
         {

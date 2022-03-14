@@ -36,10 +36,7 @@
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
-                <div class="block-flat">
-                    @*<div class="header text-center">
-                            <h4 align="center"><b>ADMIN - MANAGE RESPORTS</b></h4>
-                        </div>*@
+                <div class="block-flat"> 
 
                     <div class="content">
                         <div class="table-responsive">
@@ -71,6 +68,7 @@
                                         <div class="blwsec-left">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                                            <input type="hidden" id="vendor"/>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-md-2" style=" width:31% !important;">Agency:</label>
                                                 @Html.DropDownList("AgencyId", new SelectList(ViewBag.Agencies, "value", "text"), "Select Agency", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "agency" })
@@ -105,23 +103,9 @@
                                                 <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                                 <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
                                             </div>
-                                            <hr style="background:#d0cbcb; height:1px;" />
-                                            @*<div class="form-group row">
-                                                <label style="width:30%;">BANK:</label>
-                                                @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @style = "width:65%; float:right;", @class = "form-control", @id = "bank" })
-                                            </div>
-                                            <div class="form-group row">
-                                                <label style="width:30%;">DEPOSIT TYPE:</label>
-                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @style = "width:65%; float:right;", @class = "form-control", @id = "depositType" })
-
-                                            </div>
-                                            <div class="form-group row">
-                                                <label style="width:30%;">REF #</label>
-                                                <input name="RefNumber" type="text" id="refNumber" style="width:65%; float:right;" class="form-control">
-                                            </div>*@
+                                            <hr style="background:#d0cbcb; height:1px;" /> 
                                             <div>
-                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
-                                                @*<input type="reset" class="btn btn-danger" value="Reset" id="ResetButton" />*@
+                                                <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" /> 
                                             </div>
 
 
@@ -176,6 +160,7 @@
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/agencyRevenueReport.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -204,30 +189,7 @@
                 swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
             }
             else {
-                 $("#FromDate").kendoDatePicker({
-                culture: "en-GB",
-                  value: new Date(),
-                  format : "dd/MM/yyyy"
-            });
-            $("#ToDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date(),
-                format : "dd/MM/yyyy"
-            });
-
-                $("#fromSpan").text($("#FromDate").val())
-
-                $("#toSpan").text($("#ToDate").val())
-
-                var type = getUrlParameter("type");
-                if (type)
-                    $("#reportType").val(type);
                 App.init();
-                //initialize the javascript
-
-
-
-
                 $("#agency").on("change", function () {
                     var agencyId = $("#agency").val();
                     $("#pos").empty();
@@ -257,42 +219,19 @@
 
 
                 const date = new Date();
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
-        // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
                 debugger
-        $("#printedDate").text(formattedDate);
-        $("#PrintedDateServer").val(formattedDate);
-
-        function downloadURI(imgData, name) {
-                var link = document.createElement("a");
-
-
-                var pdf = new jsPDF();
-
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth-20, pdfHeight-20);
-
-                //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-                pdf.save(name);
-                //link.download = name;
-                //link.href = uri;
-                //document.body.appendChild(link);
-                //link.click();
-
-        }
-
-
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
 
                 $('#PrintType').on("change", function () {
                     $('#ExportType').val($(this).val());
                 });
 
                 $("#btnExport").click(function (e) {
-
 
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
@@ -322,26 +261,6 @@
                     $("#depositsForm").attr("method", "get");
                     $("#depositsForm").submit();
                 });
-
-
-                Deposits.ManageDeposits(totalCount);
-           var d = new Date();
-            $("#FromDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker1 = $("#FromDate").data("kendoDatePicker");
-            $("#FromDate").click(function () {
-                datePicker1.open();
-            })
-            $("#ToDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker2 = $("#ToDate").data("kendoDatePicker");
-            $("#ToDate").click(function () {
-                datePicker2.open();
-            })
             }
         });
 

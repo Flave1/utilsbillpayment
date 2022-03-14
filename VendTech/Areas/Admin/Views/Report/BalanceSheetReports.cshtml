@@ -84,7 +84,7 @@
                                                 <div style="width: 49%; float: left; ">
                                                     <label>From:</label>
                                                     <input type="text" name="FromDate" id="FromDate">
-                                                    <input type="hidden" id="frmDt" /> 
+                                                    <input type="hidden" id="frmDt" />
                                                 </div>
 
                                                 <div style="width: 49%; float: right; ">
@@ -104,13 +104,13 @@
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             @*<div class="form-group row">
-                                                <label style="width:30%;  float:left;">Meter #:</label>
-                                                <input name="Meter" type="text" id="meterNo" style="width:65%; float:right;" class="form-control">
-                                            </div>
-                                            <div class="form-group  row">
-                                                <label style="width:30%;  float:left;">VT Trans ID:</label>
-                                                <input name="TransactionId" type="text" id="tranId" style="width:65%; float:right;" class="form-control">
-                                            </div>*@
+                                                    <label style="width:30%;  float:left;">Meter #:</label>
+                                                    <input name="Meter" type="text" id="meterNo" style="width:65%; float:right;" class="form-control">
+                                                </div>
+                                                <div class="form-group  row">
+                                                    <label style="width:30%;  float:left;">VT Trans ID:</label>
+                                                    <input name="TransactionId" type="text" id="tranId" style="width:65%; float:right;" class="form-control">
+                                                </div>*@
                                             <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
                                         </div>
                                     }
@@ -120,13 +120,13 @@
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
                                                     <tr>
-                                                        <th  data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th  data-sortby="TransactionId">TRANS ID</th>
-                                                        <th  data-sortby="TransactionType">TYPE</th>
-                                                        <th  data-sortby="Reference">REF #</th>
-                                                        <th  data-sortby="DAMOUNT">DEPOSITS</th>
-                                                        <th  data-sortby="SAMOUNT">SALES</th>
-                                                        <th  data-sortby="BALANCE">BALANCE</th>
+                                                        <th data-sortby="CreatedAt">DATE/TIME</th>
+                                                        <th data-sortby="TransactionId">TRANS ID</th>
+                                                        <th data-sortby="TransactionType">TYPE</th>
+                                                        <th data-sortby="Reference">REF #</th>
+                                                        <th data-sortby="DAMOUNT">DEPOSITS</th>
+                                                        <th data-sortby="SAMOUNT">SALES</th>
+                                                        <th data-sortby="BALANCE">BALANCE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -163,6 +163,7 @@
     <script type="text/javascript">
     </script>
     <script src="~/Scripts/AdminScripts/balanceSheetReport.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
@@ -177,97 +178,13 @@
         var totalCount = "@Model.TotalCount";
         $(document).ready(function () {
 
-
-
-            $("#FromDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date()
-            });
-            $("#ToDate").kendoDatePicker({
-                culture: "en-GB",
-                value: new Date()
-            });
-
-            $("#fromSpan").text($("#FromDate").val())
-
-            $("#toSpan").text($("#ToDate").val())
-            $("#printedDate").text($("#ToDate").val())
-
-            debugger
-             
-            const urlSearchParams = new URLSearchParams(window.location.search);
-            const params = Object.fromEntries(urlSearchParams.entries());
-
-
-            var type = params.type
-            if (type)
-                $("#reportType").val(type);
-
-                App.init();
-
-                $("#vendor").on("change", function () {
-                var vendorId = $("#vendor").val();
-                $("#pos").empty();
-                if (vendorId) {
-                $.ajax({
-                url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
-                    success: function (res) {
-                        if (res.posList.length > 1) {
-                            $("#pos").append("<option value=''> -Select POS- </option>")
-                        }
-                        if (res.posList.length == 0) {
-                            $("#pos").append("<option value=''> -NO POS - </option>")
-                        }
-                if (res.posList != null) {
-                for (var i = 0; i < res.posList.length; i++) {
-                $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
-                }
-                }
-                }
-                })
-                }
-                else {
-                $("#pos").append("<option value=''> SELECT POS</option>")
-                }
-                });
-
-
-            function downloadURI(imgData, name) {
-                var link = document.createElement("a");
-
-
-                var pdf = new jsPDF();
-
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth-20, pdfHeight-20);
-
-                //pdf.addImage(uri, 'JPEG', 0, 0,width,height);
-                pdf.save(name);
-                //link.download = name;
-                //link.href = uri;
-                //document.body.appendChild(link);
-                //link.click();
-            }
-
-
+            App.init();
 
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());
             });
 
-
             $("#btnExport").click(function (e) {
-                //var element = $(".exportdata")[0];
-                //html2canvas(element).then(function (canvas) {
-
-                //    var myImage = canvas.toDataURL();
-
-                //    downloadURI(myImage, "Report.pdf");
-                //});
-                ////window.open('data:application/vnd.ms-excel,' + $('.exportdata').html());
-                //e.preventDefault();
                 var frm = $("#FromDate").val();
                 var to = $("#ToDate").val();
                 if (frm) {
@@ -297,25 +214,6 @@
                 $("#salesForm").attr("method", "get");
                 $("#salesForm").submit();
             });
-
-            Deposits.ManageDeposits(totalCount);
-            var d = new Date();
-            $("#FromDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker1 = $("#FromDate").data("kendoDatePicker");
-            $("#FromDate").click(function () {
-                datePicker1.open();
-            })
-            $("#ToDate").kendoDatePicker({
-                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-                format: "dd/MM/yyyy"
-            });
-            var datePicker2 = $("#ToDate").data("kendoDatePicker");
-            $("#ToDate").click(function () {
-                datePicker2.open();
-            })
         });
     </script>
 
