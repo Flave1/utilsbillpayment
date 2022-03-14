@@ -1119,7 +1119,7 @@ namespace VendTech.BLL.Managers
         {
             var result = new PagingResult<DepositListingModel>();
 
-            var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released).Take(15);
+            var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
 
             if (model.From != null)
             {
@@ -1138,7 +1138,7 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
@@ -1183,7 +1183,7 @@ namespace VendTech.BLL.Managers
                 }
             }
 
-            var list = query
+            var list = query.Take(10)
                .ToList().Select(x => new DepositListingModel(x.Deposit)).ToList();
             if (model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
             {

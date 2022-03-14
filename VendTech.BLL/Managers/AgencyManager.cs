@@ -136,6 +136,16 @@ namespace VendTech.BLL.Managers
                 if (agent == null)
                     return ReturnError("Agent not exist");
             }
+
+            if(model.Representative > 0)
+            {
+                var repUserAccount = Context.Users.FirstOrDefault(we => we.UserId == model.Representative);
+                if(repUserAccount != null)
+                {
+                    repUserAccount.UserType = 9; // AGENCY ADMIN
+                }
+            }
+
             agent.AgentType = 10;
             agent.AgencyName = model.AgencyName;
             agent.CommissionId = model.Percentage;
