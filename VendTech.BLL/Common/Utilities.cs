@@ -404,6 +404,52 @@ namespace VendTech.BLL.Common
                 return false;
             }
         }
-   
+
+
+        public static string SHA256(string message, string secret)
+        {
+            Encoding encoding = Encoding.UTF8;
+            using (HMACSHA256 hmac = new HMACSHA256(encoding.GetBytes(secret)))
+            {
+                var msg = encoding.GetBytes(message);
+                var hashMsg = hmac.ComputeHash(msg);
+                var value =  BitConverter.ToString(hashMsg).ToLower().Replace("-", string.Empty);// _SHA256(hashMsg);
+                return value;
+            }
+        }
+
+        //public static string SHA256(string bytes, string key)
+        //{
+        //    string message = bytes; //xml document in a string
+
+        //    UTF8Encoding encoding = new UTF8Encoding();
+
+        //    byte[] keyByte = encoding.GetBytes(key);
+
+        //    HMACSHA256 hmacsha256 = new HMACSHA256(keyByte);
+
+        //    byte[] messageBytes = encoding.GetBytes(message);
+
+        //    byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+
+        //    var tempHash = _SHA256(hashmessage);
+        //    return tempHash;
+        //}
+
+        public static string _SHA256(byte[] buff)
+        {
+            string sbinary = "";
+
+            for (int i = 0; i < buff.Length; i++)
+            {
+                sbinary += buff[i].ToString("X2"); // hex format
+            }
+            return (sbinary);
+
+        }
+
+
+
+
     }
 }

@@ -353,7 +353,42 @@
 
     
             else {
+
                 $("#ContinueDepoit").val(0);
+                if ($("#paymentType").val() == 4) {
+
+                    $.ajaxExt({
+                        url: baseUrl + '/Deposit/SmartIFrame',
+                        type: 'POST',
+                        validate: true,
+                        showErrorMessage: true,
+                        messageControl: $('div.messageAlert'),
+                        formToValidate: $(sender).parents("form:first"),
+                        formToPost: $(sender).parents("form:first"),
+                        isAjaxForm: true,
+                        showThrobber: true,
+                        button: $(sender),
+                        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                        success: function (results, message) {
+                            if (message != "Deposit request saved successfully.") {
+                                reDeposit(sender, 2, message);
+                                $("#btnAdd").val('ADD BALANCE');
+                                $("#btnAdd").prop('disabled', false);
+                                return;
+                            }
+                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                            setTimeout(function () {
+                                window.location.href = "https://www.vendtechsl.com/home/dashboard"
+                            }, 1500);
+
+                        },
+                        error: function (results, message) {
+                            $("#btnAdd").val('ADD BALANCE');
+                            $("#btnAdd").prop('disabled', false);
+                        }
+                    });
+
+                } else {
                     $.ajaxExt({
                         url: baseUrl + '/Deposit/AddDeposit',
                         type: 'POST',
@@ -375,7 +410,7 @@
                             }
                             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                             setTimeout(function () {
-                                window.location.href="https://www.vendtechsl.com/home/dashboard"
+                                window.location.href = "https://www.vendtechsl.com/home/dashboard"
                             }, 1500);
 
                         },
@@ -384,6 +419,10 @@
                             $("#btnAdd").prop('disabled', false);
                         }
                     });
+                }
+
+
+                
                 }
 
         }
