@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -261,6 +261,17 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="RowId" Type="bigint" />
           <Property Name="MarkAsRead" Type="bit" Nullable="false" />
           <Property Name="SentOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="PaymentTypeId" />
+          </Key>
+          <Property Name="PaymentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="CreatedAt" Type="date" />
+          <Property Name="UpdatedAt" Type="date" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PendingDeposits">
           <Key>
@@ -614,6 +625,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Deposits_PaymentType">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="Deposits">
+              <PropertyRef Name="PaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Deposits_POS">
           <End Role="POS" Type="Self.POS" Multiplicity="1" />
           <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
@@ -695,6 +718,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Principal>
             <Dependent Role="Notifications">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_PaymentType">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="PaymentType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1019,6 +1054,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Meters" EntityType="Self.Meters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
@@ -1074,6 +1110,10 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="BankAccounts" EntitySet="BankAccounts" />
             <End Role="Deposits" EntitySet="Deposits" />
           </AssociationSet>
+          <AssociationSet Name="FK_Deposits_PaymentType" Association="Self.FK_Deposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="Deposits" EntitySet="Deposits" />
+          </AssociationSet>
           <AssociationSet Name="FK_Deposits_POS" Association="Self.FK_Deposits_POS">
             <End Role="POS" EntitySet="POS" />
             <End Role="Deposits" EntitySet="Deposits" />
@@ -1101,6 +1141,10 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_PaymentType" Association="Self.FK_PendingDeposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
           </AssociationSet>
           <AssociationSet Name="FK_PendingDeposits_POS" Association="Self.FK_PendingDeposits_POS">
             <End Role="POS" EntitySet="POS" />
@@ -1203,8 +1247,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1379,6 +1422,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Deposits" FromRole="Deposits" ToRole="DepositLogs" />
           <NavigationProperty Name="POS" Relationship="Self.FK_Deposits_POS" FromRole="Deposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_Deposits_Users" FromRole="Deposits" ToRole="Users" />
+          <NavigationProperty Name="PaymentType1" Relationship="DataModel.FK_Deposits_PaymentType" FromRole="Deposit" ToRole="PaymentType" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1506,6 +1550,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="ApprovedDepId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="POS" Relationship="Self.FK_PendingDeposits_POS" FromRole="PendingDeposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_PendingDeposits_Users" FromRole="PendingDeposits" ToRole="Users" />
+          <NavigationProperty Name="PaymentType1" Relationship="DataModel.FK_PendingDeposits_PaymentType" FromRole="PendingDeposit" ToRole="PaymentType" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -2476,7 +2521,53 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="PaymentTypes" EntityType="DataModel.PaymentType" />
+          <AssociationSet Name="FK_Deposits_PaymentType" Association="DataModel.FK_Deposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Deposit" EntitySet="Deposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_PaymentType" Association="DataModel.FK_PendingDeposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="PendingDeposit" EntitySet="PendingDeposits" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="PaymentTypeId" />
+          </Key>
+          <Property Name="PaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="0" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Deposits" Relationship="DataModel.FK_Deposits_PaymentType" FromRole="PaymentType" ToRole="Deposit" />
+          <NavigationProperty Name="PendingDeposits" Relationship="DataModel.FK_PendingDeposits_PaymentType" FromRole="PaymentType" ToRole="PendingDeposit" />
+        </EntityType>
+        <Association Name="FK_Deposits_PaymentType">
+          <End Type="DataModel.PaymentType" Role="PaymentType" Multiplicity="1" />
+          <End Type="DataModel.Deposit" Role="Deposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="Deposit">
+              <PropertyRef Name="PaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_PaymentType">
+          <End Type="DataModel.PaymentType" Role="PaymentType" Multiplicity="1" />
+          <End Type="DataModel.PendingDeposit" Role="PendingDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="PendingDeposit">
+              <PropertyRef Name="PaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3024,6 +3115,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="isd_code" ColumnName="isd_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="DataModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

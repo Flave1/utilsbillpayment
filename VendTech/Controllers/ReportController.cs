@@ -38,11 +38,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IPOSManager _posManager;
         private readonly IBankAccountManager _bankAccountMananger;
+        private readonly IPaymentTypeManager _paymentTypeManager;
 
 
         #endregion
 
-        public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IPOSManager posManager, IBankAccountManager bankAccountManager)
+        public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IPOSManager posManager, IBankAccountManager bankAccountManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -53,6 +54,7 @@ namespace VendTech.Controllers
             _vendorManager = vendorManager;
             _posManager = posManager;
             _bankAccountMananger = bankAccountManager;
+            _paymentTypeManager = paymentTypeManager;
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace VendTech.Controllers
             var deposits = new PagingResult<DepositListingModel>();
             deposits = _depositManager.GetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
-            ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
@@ -182,7 +184,7 @@ namespace VendTech.Controllers
             var deposits = new PagingResult<AgentRevenueListingModel>();
             deposits = _depositManager.GetAgentRevenueReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
-            ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;

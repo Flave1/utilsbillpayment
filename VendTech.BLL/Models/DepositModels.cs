@@ -73,14 +73,13 @@ namespace VendTech.BLL.Models
         public POS POS { get; set; } = new POS();
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         { 
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            Type = obj.PaymentType1.Name;
             UserName = obj.DepositLogs.Any() ?
                 obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
                 obj.User.Name +" "+ obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
             Comments = obj.Comments;
             Bank = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             if (!changeStatusForApi)
@@ -111,12 +110,11 @@ namespace VendTech.BLL.Models
 
         public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
         {
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            Type = obj.PaymentType1.Name;
             UserName = "";
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
             Comments = obj.Comments;
             // Bank = obj.PendingBankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             Status = "Pending";
@@ -158,7 +156,7 @@ namespace VendTech.BLL.Models
             USERNAME = approver.User.Name + " " + approver.User.SurName;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
-            DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            DEPOSIT_TYPE = obj.PaymentType1.Name;
             BANK = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             AMOUNT = string.Format("{0:N0}", obj.Amount);
             NEW_BALANCE = obj.NewBalance == null ? string.Format("{0:N0}", obj.Amount) : string.Format("{0:N0}", obj.NewBalance.Value);
@@ -191,7 +189,7 @@ namespace VendTech.BLL.Models
             VENDOR = obj.POS.User.Vendor; 
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
-            DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString(); 
+            DEPOSIT_TYPE = obj.PaymentType1.Name;
             AMOUNT = string.Format("{0:N0}", obj.Amount); 
             TRANSACTION_ID = obj?.TransactionId;  
             VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount);
@@ -229,7 +227,7 @@ namespace VendTech.BLL.Models
             VALUEDATE = obj.ValueDate;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_BY = obj.POS.User.Vendor;
-            DEPOSIT_TYPE = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            DEPOSIT_TYPE = obj.PaymentType1.Name;
             PAYER = obj.NameOnCheque == null ? "" : obj.NameOnCheque;
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
@@ -284,7 +282,7 @@ namespace VendTech.BLL.Models
         [Required(ErrorMessage = "Please select POS ID")]
         public long PosId { get; set; }
         public int BankAccountId { get; set; }
-        public DepositPaymentTypeEnum DepositType { get; set; }
+        public int DepositType { get; set; }
         [Required(ErrorMessage = "Cheque Or Slip No is required")]
         public string ChkOrSlipNo { get; set; }
         public string ChkBankName { get; set; }
@@ -298,6 +296,7 @@ namespace VendTech.BLL.Models
         public string ValueDate { get; set; }
         public long ContinueDepoit { get; set; } = 0;
 
+        public string SmartKorporResponse { get; set; } = "";
         public List<DepositListingModel> History { get; set; } = new List<DepositListingModel>();
     }
     public class ReleaseDepositModel
@@ -392,19 +391,8 @@ namespace VendTech.BLL.Models
             PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
-            if (obj.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
-            {
-                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
-
-                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-                Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
-            }else if(obj.PaymentType == (int)DepositPaymentTypeEnum.Cash_Cheque)
-            {
-                Type = "Cash/Cheque";
-            }
-            else
-                Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+             
+            Type = obj.PaymentType1.Name;
 
             GTBank = obj.BankAccount.BankName;
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
@@ -443,14 +431,13 @@ namespace VendTech.BLL.Models
         public long DepositId { get; set; }   
         public AgentRevenueListingModel(Deposit obj)
         {
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            Type = obj.PaymentType1.Name;
             UserName = obj.DepositLogs.Any() ?
                 obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
                 obj.User.Name + " " + obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
-            Type = ((DepositPaymentTypeEnum)obj.PaymentType).ToString();
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
             DepositId = obj.DepositId;

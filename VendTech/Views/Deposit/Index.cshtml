@@ -84,7 +84,7 @@
                                             }
                                             <div class="form-group row">
                                                 <div class="col-md-6">
-                                                    <label>CHX/CASH</label>
+                                                    <label>PAYMENT TYPE</label>
                                                     @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control input", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
                                                 </div>
                                                 <div class="col-md-4 chkBankDiv" style="display: none ">
@@ -180,6 +180,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="smartkorpor" style="display:none;">
+    @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
 </div>
 
 
@@ -335,8 +339,7 @@
     function AddDeposit(sender) {
             debugger
         $("#btnAdd").val('PROCESSING....');
-        $("#btnAdd").prop('disabled', true);
-            console.log($("#ValueDate").val())
+        $("#btnAdd").prop('disabled', true); 
             if (!$("#amount").val() || $("#amount").val() == "0")
             {
                 $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);

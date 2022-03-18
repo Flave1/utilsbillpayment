@@ -133,19 +133,19 @@ namespace VendTech.BLL.Models
         Success = 1,
 
     }
-    public enum DepositPaymentTypeEnum
-    {
-        [Description("Cash")]
-        Cash = 1,
-        [Description("Cheque")]
-        Cheque = 2,
-        [Description("Purchase Order")]
-        PurchaseOrder = 3,
-        [Description("Transfer")]
-        Transfer = 4,
-        [Description("Cash/Cheque")]
-        Cash_Cheque = 5
-    }
+    //public enum DepositPaymentTypeEnum
+    //{
+    //    [Description("Cash")]
+    //    Cash = 1,
+    //    [Description("Cheque")]
+    //    Cheque = 2,
+    //    [Description("Purchase Order")]
+    //    PurchaseOrder = 3,
+    //    [Description("Transfer")]
+    //    Transfer = 4,
+    //    [Description("Cash/Cheque")]
+    //    Cash_Cheque = 5
+    //}
     public enum DepositPaymentStatusEnum
     {
         [Description("Pending")]

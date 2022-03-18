@@ -128,6 +128,7 @@
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="Interfaces\IPaymentTypeManager.cs" />
     <Compile Include="Interfaces\IDashboardManager.cs" />
     <Compile Include="Interfaces\IRoleManager.cs" />
     <Compile Include="Interfaces\ICommissionManager.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Interfaces\IAuthenticateManager.cs" />
     <Compile Include="Interfaces\IAgencyManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\PaymentTypeManager.cs" />
     <Compile Include="Managers\DashboardManager.cs" />
     <Compile Include="Managers\RoleManager.cs" />
     <Compile Include="Managers\CommissionManager.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DataResult.cs" />
     <Compile Include="Models\IcekloudModels.cs" />
+    <Compile Include="Models\PaymentTypeModel.cs" />
     <Compile Include="Models\ReceiptModel.cs" />
     <Compile Include="Models\ReportSearchModeluser.cs" />
     <Compile Include="Models\RoleModels.cs" />

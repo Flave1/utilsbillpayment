@@ -129,7 +129,7 @@ var Users = {
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                setTimeout(function () {
+                setTimeout(function () { 
                     window.location.href = baseUrl + '/Admin/POS/ManagePOS';
                 }, 1500);
 

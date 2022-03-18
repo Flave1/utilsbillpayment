@@ -9943,3 +9943,48 @@ LINQ to Entities does not recognize the method 'Boolean ToBoolean(System.String)
 
 
 
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.PaymentTypeModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.PaymentTypeModel]'.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult DeletePaymentType(Int32)' in 'VendTech.Areas.Admin.Controllers.PaymentTypeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult DeletePaymentType(Int32)' in 'VendTech.Areas.Admin.Controllers.PaymentTypeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult DeletePaymentType(Int32)' in 'VendTech.Areas.Admin.Controllers.PaymentTypeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult DeletePaymentType(Int32)' in 'VendTech.Areas.Admin.Controllers.PaymentTypeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+

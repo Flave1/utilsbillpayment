@@ -81,6 +81,9 @@
         <AssociationConnector Association="DataModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Users_UserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Users_Users1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DataModel.PaymentType" Width="1.5" PointX="0.75" PointY="7.75" />
+        <AssociationConnector Association="DataModel.FK_Deposits_PaymentType" />
+        <AssociationConnector Association="DataModel.FK_PendingDeposits_PaymentType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -31,11 +31,12 @@ namespace VendTech.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         private readonly IEmailTemplateManager _templateManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
 
 
         #endregion
 
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IEmailTemplateManager templateManager)
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IEmailTemplateManager templateManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -47,6 +48,7 @@ namespace VendTech.Controllers
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
             _templateManager = templateManager;
+            _paymentTypeManager = paymentTypeManager;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace VendTech.Controllers
         {
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 
             var history_model = new ReportSearchModel
             {

@@ -81,7 +81,7 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.POS.SerialNumber.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("PAYMENT"))
-                    query = query.Where(z => ((DepositPaymentTypeEnum)z.PaymentType).ToString().ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.PaymentType1.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("CHEQUE"))
                     query = query.Where(z => z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()) || z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("AMOUNT"))
@@ -137,7 +137,7 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.POS.SerialNumber.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("PAYMENT"))
-                    query = query.Where(z => ((DepositPaymentTypeEnum)z.PaymentType).ToString().ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z =>z.PaymentType1.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("CHEQUE"))
                     query = query.Where(z => z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()) || z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("AMOUNT"))
@@ -196,7 +196,7 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("POS"))
                     query = query.Where(z => z.POS.SerialNumber.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("PAYMENT"))
-                    query = query.Where(z => ((DepositPaymentTypeEnum)z.PaymentType).ToString().ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.PaymentType1.Name.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("CHEQUE"))
                     query = query.Where(z => z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()) || z.CheckNumberOrSlipId.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("AMOUNT"))
@@ -1946,7 +1946,7 @@ namespace VendTech.BLL.Managers
             }
             //dbDeposit.isAudit = depositAuditModel.isAudit;
 
-            dbDeposit.PaymentType = depositAuditModel.Type != null ? (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type) : (int)DepositPaymentTypeEnum.Cash;
+            dbDeposit.PaymentType = depositAuditModel.Type != null ?  int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
             
             dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
             dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
@@ -1963,19 +1963,8 @@ namespace VendTech.BLL.Managers
             //depositAuditModel.isAudit = !depositAuditModel.isAudit;
 
             //Get Description filed of enum 
-            if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
-            {
-                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
-
-                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-                depositAuditModel.Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
-            }else if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.Cash_Cheque)
-            {
-                depositAuditModel.Type = "Cash/Cheque";
-            }
-            else
-                depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
+             
+            depositAuditModel.Type = dbDeposit.PaymentType.ToString();
 
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
@@ -2018,7 +2007,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.NextReminderDate = null; 
 
             dbDeposit.isAudit = depositAuditModel.isAudit;
-            dbDeposit.PaymentType = depositAuditModel.Type != null ? (int)Enum.Parse(typeof(DepositPaymentTypeEnum), depositAuditModel.Type) : (int)DepositPaymentTypeEnum.Cash;
+            dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
             dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
             dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
             Context.SaveChanges();
@@ -2030,23 +2019,8 @@ namespace VendTech.BLL.Managers
             dbDeposit.ChequeBankName + '-' + dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty)
             .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
-
-
-            //Get Description filed of enum 
-            if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.PurchaseOrder)
-            {
-                var fieldInfo = DepositPaymentTypeEnum.PurchaseOrder.GetType().GetField(DepositPaymentTypeEnum.PurchaseOrder.ToString());
-
-                var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-                depositAuditModel.Type = descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : DepositPaymentTypeEnum.PurchaseOrder.ToString();
-            }
-            else if (dbDeposit.PaymentType == (int)DepositPaymentTypeEnum.Cash_Cheque)
-            {
-                depositAuditModel.Type = "Cash/Cheque";
-            }
-            else
-                depositAuditModel.Type = ((DepositPaymentTypeEnum)dbDeposit.PaymentType).ToString();
+             
+            depositAuditModel.Type = dbDeposit.PaymentType.ToString();
 
             depositAuditModel.Comment = dbDeposit.Comments;
             depositAuditModel.DepositId = dbDeposit.DepositId;
