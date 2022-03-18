@@ -19,9 +19,10 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IVendorManager _vendorManager;
         private readonly IPOSManager _posManager;
         private readonly IBankAccountManager _bankAccountManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
         #endregion
 
-        public DepositController(IUserManager userManager, ICommissionManager commissionManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IDepositManager depositManager, IVendorManager vendor, IBankAccountManager bankAccountManager, IPOSManager posManager)
+        public DepositController(IUserManager userManager, ICommissionManager commissionManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, IDepositManager depositManager, IVendorManager vendor, IBankAccountManager bankAccountManager, IPOSManager posManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -31,6 +32,7 @@ namespace VendTech.Areas.Admin.Controllers
             _vendorManager = vendor;
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
+            _paymentTypeManager = paymentTypeManager;
         }
 
         #region User Management
@@ -39,7 +41,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageDeposits(long? posId = null, long? vendorId = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
             var vendors = _vendorManager.GetVendorsSelectList();
             var user = new SaveVendorModel();
             if (posId.HasValue)
@@ -155,7 +157,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.commissions = drpCommissions;
 
             ViewBag.AppUsers = _userManager.GetAppUsersSelectList();
-            ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
             return View(model);
         }
         [AjaxOnly, HttpPost]
