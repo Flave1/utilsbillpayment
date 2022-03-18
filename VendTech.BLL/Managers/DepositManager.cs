@@ -2076,6 +2076,8 @@ namespace VendTech.BLL.Managers
             var secureHash = Utilities.SHA256($"{apiClientID}{amt}{serviceId}{clientIDNumber}{currency}{billRefNumber}{billDesc}{clientName}{key}{secret}");
 
 
+
+
             var body = new
             {
                 apiClientID = apiClientID,
@@ -2092,6 +2094,7 @@ namespace VendTech.BLL.Managers
                 notificationURL = notificationURL,
                 amountExpected = amt
             };
+            //var client = new 
             return (object)body;
         }
 

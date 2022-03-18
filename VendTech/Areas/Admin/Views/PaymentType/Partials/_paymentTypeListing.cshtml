@@ -1,0 +1,38 @@
+﻿﻿@model PagingResult<PaymentTypeModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    var i = 0;
+    foreach (var item in Model.List)
+    {
+        i = i + 1;
+
+        <tr class="odd gradeX">
+            <td style="text-align:right;">@i</td>
+            <td style="text-align:left;"> @item.Name</td>
+            <td style="text-align:left;">@item.Active</td>
+            <td style="text-align:right;"> @item.CreatedAt</td>
+            <td style="text-align:right;"> @item.UpdatedAt</td>
+            <td>
+                <a class="btn btn-primary btn-xs" style="padding-left:10px; padding-right:10px; border:none;" href="@Url.Action("AddEditPaymentType", "PaymentType", new { area = "Admin", id = @item.PaymentTypeId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                <a data-id="@item.PaymentTypeId" class="btn btn-danger btn-xs deleteItem" style=" border:none;" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                @if (item.Active)
+                {
+                    <a data-id="@item.PaymentTypeId" class="btn btn-success btn-xs  disableItem" href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+                }
+                else
+                {
+                    <a data-id="@item.PaymentTypeId" class="btn btn-warning btn-xs enableItem" href="javascript:void(0);" ; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+                }
+
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="5">No Records Found</td>
+    </tr>
+}

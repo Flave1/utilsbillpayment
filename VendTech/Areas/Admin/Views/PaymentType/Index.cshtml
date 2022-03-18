@@ -1,0 +1,105 @@
+﻿﻿@model PagingResult<PaymentTypeModel>
+@{
+    ViewBag.Title = "Manage Payment types";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+    .notActive {
+        color: black;
+        background: grey
+    }
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Payment types</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3>
+                            <a href="@Url.Action("AddEditPaymentType", "PaymentType", new { area = "Admin", id=0 })" class="btn btn-primary pull-right" title="Add Payment types">
+                                <i class="fa fa-exchange "></i><super><i class="fa fa-plus"></i></super>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc"})
+
+                            <div id="divResult"> 
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >NAME</th>
+                                            <th >ACTIVE</th>
+                                            <th >CREATED ON</th>
+                                            <th >UPDATED ON</th> 
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>  
+                                    <tbody >
+                                        @Html.Partial("Partials/_paymentTypeListing", Model)
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @*@Html.Partial("_Paging")*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+
+
+
+  
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/paymentType.js"></script>
+
+
+    <script type="text/javascript">
+ 
+        $("#searchRow").hide()
+        //var searchFields = ["Payment types ID", "VENDOR NAME", "AGENCY", "Payment types_SIM #", "COMMISSION", "Payment types_TYPE" ];
+        //for (var i = 0; i < searchFields.length; i++) {
+        //    $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>") 
+        //}
+
+        $(document).ready(function () { 
+        //    //initialize the javascript 
+        //    $('#searchField option[value="VENDOR"]').attr("selected", true);
+        //    $('.filter-select option[value="100"]').attr("selected", true);
+           App.init(); 
+        });
+         
+    </script>
+}
+
