@@ -11,10 +11,6 @@ using VendTech.BLL.Models;
 using VendTech.BLL.Common;
 using VendTech.Areas.Admin.Controllers;
 using static VendTech.Controllers.MeterController;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Net;
 #endregion
 
 namespace VendTech.Controllers
@@ -154,69 +150,6 @@ namespace VendTech.Controllers
             return Json(new { bankAccount = _bankAccountManager.GetBankAccountDetail(bankAccountId) }, JsonRequestBehavior.AllowGet);
         }
 
-        [AjaxOnly, HttpPost]
-        public async Task<JsonResult> SmartIFrame(DepositModel model)
-        {
-            var apiClientID = 7;
-            var serviceID = 33;
-            var clientIDNumber = 24599543;
-            var currency = "SLL";
-            var billRefNumber = "123ABC";
-            var billDesc = "SOME SORT OF DECSRIPTION";
-            var clientName = "VICTOR BLELL";
-            var key = "LUFMz+8Z/CMEGi+z";
-            var secret = "0mXfFg1ueMwnZqY4ewPmbjZeJBmhGzjn";
-            var clientMSISDN = 12345678;
-            var clientEmail = "favouremmanuel433@gmail.com";
-            var callBackURLOnSuccess = "http://localhost:56549/SmartKorporMotification";
-            var notificationURL = callBackURLOnSuccess;
-
-            var data_string = apiClientID + "" + model.Amount + "" + serviceID + "" + clientIDNumber + "" + currency + "" + billRefNumber + "" + billDesc + "" + clientName + "" + secret;
-            var hash = Utilities.SHA256(data_string, key);
-            var secureHash = Utilities.Base64Encode(hash);
-
-            var formContent = new FormUrlEncodedContent(new[]
-            { 
-                new KeyValuePair<string, string>("apiClientID", apiClientID.ToString()),
-                new KeyValuePair<string, string>("secureHash", secureHash),
-                new KeyValuePair<string, string>("billDesc", billDesc),
-                new KeyValuePair<string, string>("billRefNumber", billRefNumber),
-                new KeyValuePair<string, string>("currency", currency),
-                new KeyValuePair<string, string>("serviceID", serviceID.ToString()),
-                new KeyValuePair<string, string>("clientMSISDN", clientMSISDN.ToString()),
-                new KeyValuePair<string, string>("clientName", clientName),
-                new KeyValuePair<string, string>("clientIDNumber", clientIDNumber.ToString()),
-                new KeyValuePair<string, string>("clientEmail", clientEmail),
-                new KeyValuePair<string, string>("callBackURLOnSuccess", callBackURLOnSuccess),
-                new KeyValuePair<string, string>("notificationURL", notificationURL),
-                new KeyValuePair<string, string>("amountExpected", model.Amount.ToString()),
-            });
-
-            try
-            {
-
-                 
-                var client = new HttpClient(); 
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                var response = await client.PostAsync("https://app.smartkorpor.com/PaymentAPI/invoice/checkout", formContent);
-
-                var stringContent = await response.Content.ReadAsStringAsync();
-
-                return JsonResult(new ActionOutput { Message = stringContent, Status = ActionStatus.Successfull });
-            }
-            catch (Exception ed)
-            {
-
-                throw;
-            }
-        }
-
-
-        public ActionResult SmartKorporMotification(string response = "")
-        {
-            return View(response);
-        }
-
         [AjaxOnly, HttpPost, Public]
         public ActionResult GetDepositDetails(RequestObject tokenobject)
         {
@@ -227,22 +160,3 @@ namespace VendTech.Controllers
         }
     }
 }
-
-
-
-//var body = new SmKorporRequest
-//{
-//    apiClientID = apiClientID,
-//    secureHash = secureHash,
-//    billDesc = billDesc,
-//    billRefNumber = billRefNumber,
-//    currency = currency,
-//    serviceID = serviceId,
-//    clientMSISDN = clientMSISDN,
-//    clientName = clientName,
-//    clientIDNumber = clientIDNumber,
-//    clientEmail = clientEmail,
-//    callBackURLOnSuccess = callBackURLOnSuccess,
-//    notificationURL = notificationURL,
-//    amountExpected = model.Amount
-//};
