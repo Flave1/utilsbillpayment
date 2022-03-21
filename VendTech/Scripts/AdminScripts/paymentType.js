@@ -1,53 +1,53 @@
 ﻿$(document).ready(function () {
-    $("input[type=button]#addUserBtn").live("click", function () {
-        return AdminPOS.AddUser($(this));
+    $("input[type=button]#editAddBtn").live("click", function () {
+        return PaymentType.EditAdd($(this));
     });
     $("input[type=button]#editUserBtn").live("click", function () {
-        return AdminPOS.UpdateUser($(this));
+        return PaymentType.EditAdd($(this));
     });
-    $("a.deleteUser").live("click", function () {
-        return AdminPOS.DeleteUser($(this));
+    $("a.deleteItem").live("click", function () {
+        return PaymentType.Delete($(this));
     });
 
-    $("a.disablePOS").live("click", function () {
-        return disablePOS($(this));
+    $("a.enableItem").live("click", function () {
+        return enableItem($(this));
     });
-    $("a.enablePOS").live("click", function () {
-        return enablePOS($(this));
+    $("a.disableItem").live("click", function () {
+        return disableItem($(this));
     });
 
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return AdminPOS.ManageUsers($(this));
+        return PaymentType.ManagePaymentType($(this));
     });
     $("select#showRecords").on("change", function () {
-        return AdminPOS.ShowRecords($(this));
+        return PaymentType.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return AdminPOS.SortUsers($(this));
+        return PaymentType.SortUsers($(this));
     });
     //$("#btnFilterSearch").live("click", function () {
-    //    return AdminPOS.SearchUsers($(this));
+    //    return PaymentType.SearchUsers($(this));
     //});
 
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');
-        return AdminPOS.SearchUsers($(this));
+        return PaymentType.SearchUsers($(this));
     });
     $("#btnFilterSearch").live("click", function () {
-        return AdminPOS.SearchUsers($(this));
+        return PaymentType.SearchUsers($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
-        return AdminPOS.SearchUsers($(this));
+        return PaymentType.SearchUsers($(this));
     });
 
-    function disablePOS(sender) {
+    function disableItem(sender) {
         
-        $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
+        $.ConfirmBox("", "Are you sure to disable this item?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
-                url: baseUrl + '/Admin/POS/DisablePOS',
+                url: baseUrl + '/Admin/PaymentType/DeactivatePaymentType',
                 type: 'POST',
                 validate: false,
                 showErrorMessage: true,
@@ -58,8 +58,9 @@
                 data: { id: $(sender).attr("data-id") },
                 success: function (results, message) {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    setTimeout(function () {
-                        window.location.reload();
+                    Paging();
+                    setTimeout(function () { 
+                        //window.location.reload();
                     }, 2000);
                 }
             });
@@ -67,10 +68,10 @@
     }
 
 
-    function enablePOS(sender) {
-        $.ConfirmBox("", "Are you sure to enable this POS?", null, true, "Yes", true, null, function () {
+    function enableItem(sender) {
+        $.ConfirmBox("", "Are you sure to enable this item?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
-                url: baseUrl + '/Admin/POS/EnablePOS',
+                url: baseUrl + '/Admin/PaymentType/ActivatePaymentType',
                 type: 'POST',
                 validate: false,
                 showErrorMessage: true,
@@ -81,8 +82,9 @@
                 data: { id: $(sender).attr("data-id") },
                 success: function (results, message) {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    Paging();
                     setTimeout(function () {
-                        window.location.reload();
+                        //window.location.reload();
                     }, 2000);
                 }
             });
@@ -90,7 +92,7 @@
     }
 });
 
-var AdminPOS = {
+var PaymentType = {
     SortUsers: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
@@ -114,9 +116,9 @@ var AdminPOS = {
             Paging();
         }
     },
-    AddUser: function (sender) {
+    EditAdd: function (sender) {
         $.ajaxExt({
-            url: baseUrl + '/Admin/POS/AddEditPos',
+            url: baseUrl + '/Admin/PaymentType/SavePaymentType',
             type: 'POST',
             validate: true,
             showErrorMessage: true,
@@ -127,44 +129,20 @@ var AdminPOS = {
             showThrobber: true,
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-            success: function (results, message) {
+            success: function (results, message) {  
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                setTimeout(function () { 
-                    window.location.href = baseUrl + '/Admin/POS/ManagePOS';
+                setTimeout(function () {
+                    window.location.href = baseUrl + '/Admin/PaymentType/Index';
                 }, 1500);
 
             }
         });
      
-    },
-    UpdateUser: function (sender) {
-        $.ajaxExt({
-            url: baseUrl + '/Admin/User/UpdateUserDetails',
-            type: 'POST',
-            validate: true,
-            showErrorMessage: true,
-            messageControl: $('div.messageAlert'),
-            formToValidate: $(sender).parents("form:first"),
-            formToPost: $(sender).parents("form:first"),
-            isAjaxForm: true,
-            showThrobber: true,
-            button: $(sender),
-            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-            success: function (results, message) {
-                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                setTimeout(function () {
-                    window.location.href = baseUrl + '/Admin/User/ManageUsers';
-                }, 1500);
-            }
-        });
-    
-    },
-
-    DeleteUser: function (sender) {
-        
+    }, 
+    Delete: function (sender) { 
         $.ConfirmBox("", "Are you sure to delete this record?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
-                url: baseUrl + '/Admin/POS/DeletePos',
+                url: baseUrl + '/Admin/PaymentType/DeletePaymentType',
                 type: 'POST',
                 validate: false,
                 showErrorMessage: true,
@@ -172,35 +150,31 @@ var AdminPOS = {
                 showThrobber: true,
                 button: $(sender),
                 throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                data: { posId: $(sender).attr("data-userid") },
-                success: function (results, message) {
+                data: { id: $(sender).attr("data-id") },
+                success: function (results, message) { 
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                     Paging();
                 }
             }); 
         });
-    },
-
-    ManageUsers: function (totalCount) {
+    }, 
+    ManagePaymentType: function (totalCount) {
         var totalRecords = 0;
         totalRecords = parseInt(totalCount);
         //alert(totalRecords);
         PageNumbering(totalRecords);
-    },
-
-    SearchUsers: function (sender) {
+    }, 
+    SearchPaymentTypes: function (sender) {
         paging.startIndex = 1;
         Paging(sender);
 
-    },
-
-    ShowRecords: function (sender) {
-
+    }, 
+    ShowRecords: function (sender) { 
         paging.startIndex = 1;
         paging.pageSize = parseInt($(sender).find('option:selected').val());
-        Paging(sender);
-
-    }
+        Paging(sender); 
+    },
+     
 };
 
 function Paging(sender) {
@@ -220,7 +194,7 @@ function Paging(sender) {
         messageControl: null,
         showThrobber: false,
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
-        url: baseUrl + '/Admin/POS/GetUsersPagingList',
+        url: baseUrl + '/Admin/PaymentType/GetPaymentTypes',
         success: function (results, message) {
             $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);

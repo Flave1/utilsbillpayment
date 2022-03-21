@@ -31,11 +31,12 @@ namespace VendTech.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         private readonly IEmailTemplateManager _templateManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
 
 
         #endregion
 
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IEmailTemplateManager templateManager)
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IEmailTemplateManager templateManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -47,6 +48,7 @@ namespace VendTech.Controllers
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
             _templateManager = templateManager;
+            _paymentTypeManager = paymentTypeManager;
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var model = new DepositModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            ViewBag.DepositTypes = Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 
             var history_model = new ReportSearchModel
             {
@@ -115,33 +117,37 @@ namespace VendTech.Controllers
             }
 
 
-            var result = _depositManager.SaveDepositRequest(model);
 
-            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+            var obj = _depositManager.SK(model.Amount);
+            return Json(new { result = obj });
 
-            var pos = _posManager.GetSinglePos(result.Object.POSId);
-            if (pos != null)
-            {
-                foreach (var admin in adminUsers)
-                {
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
-                    if (emailTemplate != null)
-                    {
-                        if (emailTemplate.TemplateStatus)
-                        {
-                            string body = emailTemplate.TemplateContent;
-                            body = body.Replace("%AdminUserName%", admin.Name);
-                            body = body.Replace("%VendorName%", pos.User.Vendor);
-                            body = body.Replace("%POSID%", pos.SerialNumber);
-                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
-                            Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
-                        }
-                        
-                    }
-                }
-            }
-            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+            //var result = _depositManager.SaveDepositRequest(model);
+
+            //var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            //var pos = _posManager.GetSinglePos(result.Object.POSId);
+            //if (pos != null)
+            //{
+            //    foreach (var admin in adminUsers)
+            //    {
+            //        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+            //        if (emailTemplate != null)
+            //        {
+            //            if (emailTemplate.TemplateStatus)
+            //            {
+            //                string body = emailTemplate.TemplateContent;
+            //                body = body.Replace("%AdminUserName%", admin.Name);
+            //                body = body.Replace("%VendorName%", pos.User.Vendor);
+            //                body = body.Replace("%POSID%", pos.SerialNumber);
+            //                body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+            //                body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+            //                Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+            //            }
+
+            //        }
+            //    }
+            //}
+            //return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             // return JsonResult(result);
         }
         [AjaxOnly]
