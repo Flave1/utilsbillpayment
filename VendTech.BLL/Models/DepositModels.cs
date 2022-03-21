@@ -276,8 +276,6 @@ namespace VendTech.BLL.Models
         }
     }
 
-
-
     public class DepositModel
     {
 
@@ -466,24 +464,4 @@ namespace VendTech.BLL.Models
 
        
     }
-
-
-
-    public class SmKorporRequest
-    {
-       public int apiClientID { get; set; }
-       public string secureHash { get; set; }
-        public string billDesc { get; set; }
-        public string billRefNumber { get; set; }
-        public string currency { get; set; }
-        public int serviceID { get; set; }
-        public int clientMSISDN { get; set; }
-        public string clientName { get; set; }
-        public int clientIDNumber { get; set; }
-        public string clientEmail { get; set; }
-        public string callBackURLOnSuccess { get; set; }
-        public string notificationURL { get; set; }
-        public decimal amountExpected { get; set; }
-    }
-
 }
