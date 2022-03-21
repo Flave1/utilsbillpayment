@@ -568,6 +568,7 @@
     <Content Include="Views\Report\partials\_agentRevenueListing.cshtml" />
     <Content Include="Views\Report\PrintAgencyRevenueReport.cshtml" />
     <Content Include="Views\Report\partials\_assignedReports.cshtml" />
+    <Content Include="Views\Shared\_smartKorporIframe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
