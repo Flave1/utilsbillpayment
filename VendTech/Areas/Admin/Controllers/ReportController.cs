@@ -35,6 +35,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
         #endregion
 
         public ReportController(IUserManager userManager,
@@ -44,7 +45,7 @@ namespace VendTech.Areas.Admin.Controllers
             IDepositManager depositManager,
             IMeterManager meterManager,
             IBankAccountManager bankManager,
-            IPOSManager posManager)
+            IPOSManager posManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -54,6 +55,7 @@ namespace VendTech.Areas.Admin.Controllers
             _meterManager = meterManager;
             _bankAccountManager = bankManager;
             _posManager = posManager;
+            _paymentTypeManager = paymentTypeManager;
         }
 
         #region Report
@@ -68,7 +70,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
 
-            ViewBag.DepositTypes = BLL.Common.Utilities.EnumToList(typeof(DepositPaymentTypeEnum));
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             var model = new ReportSearchModel
             {

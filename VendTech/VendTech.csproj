@@ -226,6 +226,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PaymentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommissionController.cs" />
@@ -303,6 +304,8 @@
     <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
     <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
     <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
+    <Content Include="Scripts\AdminScripts\paymentType.js" />
+    <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
@@ -442,6 +445,9 @@
     <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_agentsRevenueReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\PrintAgencyRevenueReport.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentType\AddEditPaymentType.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentType\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentType\Partials\_paymentTypeListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
