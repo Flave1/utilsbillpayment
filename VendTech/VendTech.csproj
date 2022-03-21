@@ -303,8 +303,8 @@
     <Content Include="Scripts\AdminScripts\passcode.js" />
     <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
     <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
-    <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" /> 
-    <Content Include="Scripts\AdminScripts\paymentType.js" /> 
+    <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
+    <Content Include="Scripts\AdminScripts\paymentType.js" />
     <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
@@ -445,10 +445,11 @@
     <Content Include="Areas\Admin\Views\Home\Partials\_BSReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_agentsRevenueReportListing.cshtml" />
-    <Content Include="Areas\Admin\Views\Report\PrintAgencyRevenueReport.cshtml" /> 
+    <Content Include="Areas\Admin\Views\Report\PrintAgencyRevenueReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Partials\_salesListing.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentType\AddEditPaymentType.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentType\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\PaymentType\Partials\_paymentTypeListing.cshtml" /> 
+    <Content Include="Areas\Admin\Views\PaymentType\Partials\_paymentTypeListing.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
