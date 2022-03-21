@@ -52,7 +52,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-
+            ViewBag.SelectedTab = SelectedAdminTab.Meters;
             var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000);
             return View(meters);
 
@@ -80,6 +80,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult AddEditMeter(string number="")
         {
+            ViewBag.SelectedTab = SelectedAdminTab.Meters;
             MeterModel model = new MeterModel();
             //if (meterId.HasValue && meterId > 0)
             //    model = _meterManager.GetMeterDetail(meterId.Value);

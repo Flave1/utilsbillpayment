@@ -111,13 +111,14 @@
             </div>
             
             <div class="row">
-
-                <div class="col-md-6">
-
+                <div class="col-md-6" id="saleListing">
+                    @Html.Partial("Partials/_salesListing", Model.s)
                 </div>
                 <div class="col-md-6" id="bsListing">
+
                     @Html.Partial("Partials/_BSReportListing", Model.Bs)
                 </div>
+
 
             </div>
         </div>
@@ -140,11 +141,19 @@
                 $.ajax({
                     url: '/Admin/Home/GetVendorBalanceSheetReports',
                     success: function (data) {
-                        $('#bsListing').html(data);
+                        console.log('data', data)
+                        $('#bsListing').html(data); 
                     }
                 })
 
-            }, 3100)
+                $.ajax({
+                    url: '/Admin/Home/GetSalesHistory',
+                    success: function (data) { 
+                        $('#saleListing').html(data);
+                    }
+                })
+
+            }, 5000)
 
 
             $(document).ready(function () {

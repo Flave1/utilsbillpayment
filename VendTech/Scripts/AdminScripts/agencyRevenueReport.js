@@ -7,12 +7,7 @@
     $("select#showRecords").on("change", function () {
         return Deposits.ShowRecords($(this));
     });
-
-    $("#reportType").on("change", function () {
-        var val = $("#reportType").val();
-        window.location.href = "/Admin/Report/ManageReports?type=" + val;
-    });
-
+     
     $('.sorting').live("click", function () {
         return Deposits.SortDeposits($(this));
     });

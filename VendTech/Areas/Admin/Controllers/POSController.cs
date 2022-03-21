@@ -51,7 +51,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManagePOS()
         {
             ViewBag.SelectedTab = SelectedAdminTab.POS;
-            var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("VendorId", "Desc"));
+            var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("SerialNumber", "Desc"));
             return View(users);
         }
 

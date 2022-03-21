@@ -68,6 +68,8 @@
         }
         $(document).ready(function () {
             //initialize the javascript
+            $('#searchField option[value="vendorname"]').attr("selected", true);
+            $('.filter-select option[value="100"]').attr("selected", true);
             App.init();
             Users.ManageUsers(totalCount);
         });

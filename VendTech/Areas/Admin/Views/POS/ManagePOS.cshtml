@@ -3,6 +3,26 @@
     ViewBag.Title = "Manage POS";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+    .notActive {
+        color: black;
+        background: grey
+    }
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
 
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -24,21 +44,33 @@
                             @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc"})
 
                             <div id="divResult">
+                                <input id="IsActive" value="true" hidden/>
+                                <div style='text-align: center; width:20%; height:40px; display:flex; '>
+                                    <button id="true"  
+                                            style="width: 49%; border: none;"  class="isActive"
+                                            onclick="openTab('true')">ACTIVE POS</button>
+                                    <button id="false" 
+                                            style="width: 49%; border:none;"  class="notActive"
+                                            onclick="openTab('false')">INACTIVE POS</button> 
+                                </div>
+
+             
+                                
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
                                             <th class="sorting" data-sortby="POSId">POS ID</th>
-                                            <th class="sorting" data-sortby="VendorId">VENDOR NAME</th> 
+                                            <th class="sorting" data-sortby="VendorId">VENDOR NAME</th>
+                                            <th class="sorting" data-sortby="Agency">AGENCY</th>
                                             <th class="sorting" data-sortby="COMMISSION">COMMISSION %</th>
-                                            <th class="sorting" data-sortby="SerialNumber">POS SIM #</th>
+                                            <th class="sorting" data-sortby="Number">POS SIM #</th>
                                             <th class="sorting" data-sortby="MeterCount">SAVED METERS</th>
                                             <th class="sorting" data-sortby="VendorType">POS TYPE</th>
-                                            <th class="sorting" data-sortby="Enabled">ENABLED</th>
                                             <th class="sorting" data-sortby="Balance">BALANCE</th>
                                             <th>ACTION</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
+                                    </thead>  
+                                    <tbody >
                                         @Html.Partial("Partials/_posListing", Model)
                                     </tbody>
                                 </table>
@@ -69,6 +101,8 @@
 </div>
 
 
+
+
   
 
 
@@ -81,13 +115,25 @@
 
 
     <script type="text/javascript">
+        function openTab(status) {
+
+           
+
+            var otherTabStatus = status === 'true' ? 'false' : 'true';
+            document.getElementById(status).className = 'isActive';
+            document.getElementById(otherTabStatus).className = 'notActive';
+
+            $('#IsActive').val(status === 'true' ? true : false);
+            
+            return AdminPOS.SortUsers($(this));
+        }
         $("#searchField").show();
-        var searchFields = ["POS ID", "VENDOR NAME", "POS SIM #", "POS TYPE", "ENABLED", "COMMISSION"];
+        var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE" ];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>") 
         }
 
-        $(document).ready(function () {
+        $(document).ready(function () { 
             //initialize the javascript 
             $('#searchField option[value="VENDOR"]').attr("selected", true);
             $('.filter-select option[value="100"]').attr("selected", true);

@@ -1,12 +1,12 @@
 ﻿$(document).ready(function () {
     $("input[type=button]#addUserBtn").live("click", function () {
-        return Users.AddUser($(this));
+        return AdminPOS.AddUser($(this));
     });
     $("input[type=button]#editUserBtn").live("click", function () {
-        return Users.UpdateUser($(this));
+        return AdminPOS.UpdateUser($(this));
     });
     $("a.deleteUser").live("click", function () {
-        return Users.DeleteUser($(this));
+        return AdminPOS.DeleteUser($(this));
     });
 
     $("a.disablePOS").live("click", function () {
@@ -17,30 +17,30 @@
     });
 
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return Users.ManageUsers($(this));
+        return AdminPOS.ManageUsers($(this));
     });
     $("select#showRecords").on("change", function () {
-        return Users.ShowRecords($(this));
+        return AdminPOS.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return Users.SortUsers($(this));
+        return AdminPOS.SortUsers($(this));
     });
-    $("#btnFilterSearch").live("click", function () {
-        return Users.SearchUsers($(this));
-    });
+    //$("#btnFilterSearch").live("click", function () {
+    //    return AdminPOS.SearchUsers($(this));
+    //});
 
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');
-        return Users.SearchUsers($(this));
+        return AdminPOS.SearchUsers($(this));
     });
     $("#btnFilterSearch").live("click", function () {
-        return Users.SearchUsers($(this));
+        return AdminPOS.SearchUsers($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
-        return Users.SearchUsers($(this));
+        return AdminPOS.SearchUsers($(this));
     });
 
     function disablePOS(sender) {
@@ -90,7 +90,7 @@
     }
 });
 
-var Users = {
+var AdminPOS = {
     SortUsers: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
@@ -177,7 +177,7 @@ var Users = {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                     Paging();
                 }
-            });
+            }); 
         });
     },
 
@@ -211,6 +211,7 @@ function Paging(sender) {
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
+    obj.IsActive = $('#IsActive').val();
     $.ajaxExt({
         type: "POST",
         validate: false,

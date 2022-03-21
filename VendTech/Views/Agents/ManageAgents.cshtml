@@ -55,20 +55,21 @@
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
-    </script> 
+    </script>
     <script src="~/Scripts/UserScripts/agency.js"></script>
 
 
 
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["AGENCY", "VENDOR", "POSID", "PHONE", "AGENT", "ENABLED", "TODAY'S SALES", "BALANCE"];
+        var searchFields = ["VENDOR", "POSID", "AGENT NAME", "CELL PHONE", "ENABLED"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
         $(document).ready(function () {
             //initialize the javascript
-            $('#searchField option[value="AGENCY"]').attr("selected", true);
+            $('#searchField option[value="VENDOR"]').attr("selected", true);
+            $('.filter-select option[value="100"]').attr('selected', true)
             App.init();
             Vendors.ManageUsers(totalCount);
         });

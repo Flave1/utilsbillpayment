@@ -27,8 +27,7 @@ namespace VendTech.BLL.Models
         public int TotalCount { get; set; }
         public ActionStatus Status { get; set; }
         public String Message { get; set; }
-    }
-
+    } 
     public class PagingModel
     {
         public int PageNo { get; set; }
@@ -50,6 +49,7 @@ namespace VendTech.BLL.Models
         public string Search { get; set; }
         public string SearchField { get; set; }
         public string VendorId { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public static PagingModel DefaultModel(string sortBy = "CreatedOn", string sortOder = "Asc")
         {

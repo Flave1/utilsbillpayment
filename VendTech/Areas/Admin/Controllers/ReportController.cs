@@ -61,7 +61,7 @@ namespace VendTech.Areas.Admin.Controllers
         #region Report
 
         [HttpGet]
-        public ActionResult ManageReports(int type = 0)
+        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
 
@@ -69,19 +69,25 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.PosId = _vendorManager.GetPosSelectList();
             ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
-
+ 
             ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
-            ViewBag.SelectedTab = SelectedAdminTab.Reports;
+            ViewBag.SelectedTab = SelectedAdminTab.Reports; 
+ 
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 PageNo = 1,
+                VendorId = vendorId,
+                PosId = pos,
+                Meter = meter,
+                TransactionId = transactionId,
+                From = from,
+                To = to
             };
-            model.IsInitialLoad = true;
+
             var deposits = new PagingResult<DepositListingModel>();
-            var depositAudit = new PagingResult<DepositAuditModel>();
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var depositAudit = new PagingResult<DepositAuditModel>(); 
 
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
@@ -105,12 +111,31 @@ namespace VendTech.Areas.Admin.Controllers
                 /// This Is Used For Fetching SALES REPORT
                 if (val == "16")
                 {
+                    model.IsInitialLoad = true;
                     var recharges = _meterManager.GetUserMeterRechargesReport(model, true);
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
-                {  
-                    return View("BalanceSheetReports", new PagingResult<BalanceSheetListingModel>());
+                {
+
+                    var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+                    //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
+                    //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+
+                    //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+                    //decimal balance = 0;
+                    //foreach (var item in balanceSheet.List)
+                    //{
+                    //    balance = balance + item.DepositAmount - item.SaleAmount;
+                    //    item.Balance = balance;
+                    //}
+
+                    //balanceSheet.Status = ActionStatus.Successfull;
+                    //balanceSheet.Message = "Balance Sheet List";
+                    //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
+
+                    return View("BalanceSheetReports", balanceSheet);
                 }
                 if (val == "28")
                 {

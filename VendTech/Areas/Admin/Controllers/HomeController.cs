@@ -404,7 +404,7 @@ namespace VendTech.Areas.Admin.Controllers
                                    DepositAmount = b.DepositAmount,
                                    Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
                                    POSBalance = b.POSBalance
-                               }).OrderBy(s => s.Balance).Take(19).ToList();
+                               }).OrderBy(s => s.Balance).Take(5).ToList();
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";
                 return PartialView("Partials/_BSReportListing", result);
@@ -412,6 +412,25 @@ namespace VendTech.Areas.Admin.Controllers
             catch (Exception)
             {
                 return PartialView("Partials/_BSReportListing", result);
+            }
+        }
+
+        [HttpGet, Public]
+        public ActionResult GetSalesHistory()
+        {
+            var result = new PagingResult<MeterRechargeApiListingModel>();
+
+            try
+            { 
+               result = _meterManager.GetUserMeterRechargesHistory(new ReportSearchModel { RecordsPerPage = 10 }, true);
+                 
+                result.Status = ActionStatus.Successfull;
+                result.Message = "Successfully.";
+                return PartialView("Partials/_salesListing", result);
+            }
+            catch (Exception)
+            {
+                return PartialView("Partials/_salesListing", result);
             }
         }
 

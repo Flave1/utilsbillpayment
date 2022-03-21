@@ -13,6 +13,8 @@ namespace VendTech.BLL.Models
     {
         public long POSId { get; set; }
         public string VendorName { get; set; }
+
+        public string Agency { get; set; }
         public string SerialNumber { get; set; }
         public string Phone { get; set; }
         public string VendorType { get; set; }
@@ -55,6 +57,7 @@ namespace VendTech.BLL.Models
             WebPrint = obj?.WebPrint ?? false;
             WebBarcode = obj?.WebBarcode ?? false;
             PosBarcode = obj?.PosBarcode ?? false;
+            Agency = obj?.User?.Agency?.AgencyName;
         } 
     }
     public class PosAPiListingModel

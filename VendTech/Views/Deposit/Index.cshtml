@@ -166,7 +166,7 @@
                                                     <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="depositListing">
                                                 @Html.Partial("Partials/_depositListing", walletHistory)
                                             </tbody>
                                         </table>
@@ -337,7 +337,6 @@
         }
 
     function AddDeposit(sender) {
-            debugger
         $("#btnAdd").val('PROCESSING....');
         $("#btnAdd").prop('disabled', true); 
             if (!$("#amount").val() || $("#amount").val() == "0")
@@ -355,18 +354,7 @@
                     return;
                 }
 
-                //else if (!$("#chkbankname").val())
-                //{
-                //    $.showmessage($('div.messagealert'), "Cheque bank name is required.", MessageType.Error);
-
-                //    //if ($('#paymentType').val() == "2")
-                //    //{
-                //    //
-                //    //    $.showmessage($('div.messagealert'), "check bank name is required.",MessageType.Error);
-                //    //    return;
-                //    //}
-                //return;
-                //}
+    
             else {
                 $("#ContinueDepoit").val(0);
                     $.ajaxExt({
@@ -390,7 +378,7 @@
                             }
                             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                             setTimeout(function () {
-                                window.location.reload();
+                                window.location.href="https://www.vendtechsl.com/home/dashboard"
                             }, 1500);
 
                         },

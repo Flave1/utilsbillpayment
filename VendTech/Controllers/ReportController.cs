@@ -61,7 +61,7 @@ namespace VendTech.Controllers
         /// Index View 
         /// </summary>
         /// <returns></returns>
-        public ActionResult DepositReport()
+        public ActionResult DepositReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
             var model = new ReportSearchModel
@@ -69,7 +69,12 @@ namespace VendTech.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true,
+                IsInitialLoad = from == null ? true : false,
+                PosId = pos,
+                Meter = meter,
+                TransactionId = transactionId,
+                From = from,
+                To = to
             };
 
 
@@ -85,46 +90,57 @@ namespace VendTech.Controllers
             ViewBag.AssignedReports = assignedReportModule;
 
             var bankAccounts = _bankAccountMananger.GetBankAccounts();
-            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList(); 
             return View(deposits);
 
         }
        
     
     
-        public ActionResult SalesReport()
+        public ActionResult SalesReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
+            ViewBag.SelectedTab = SelectedAdminTab.Reports;
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true,
-                AgencyId = LOGGEDIN_USER.AgencyId
+                IsInitialLoad = from == null?  true : false,
+                AgencyId = LOGGEDIN_USER.AgencyId, 
+                PosId = pos,
+                Meter = meter == "undefined" ? "" : meter,
+                TransactionId = transactionId == "undefined" ? "" : transactionId,
+                From = from,
+                To = to
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
-            var deposits = new PagingResult<MeterRechargeApiListingModel>();
-            deposits = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
-            ViewBag.SelectedTab = SelectedAdminTab.Reports;
-            return View(deposits);
+            var sales = new PagingResult<MeterRechargeApiListingModel>();
+            sales = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
+            ViewBag.SelectedTab = SelectedAdminTab.Reports; 
+            return View(sales);
 
         }
 
-        public ActionResult GSTSalesReport()
+        public ActionResult GSTSalesReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
-                VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true,
-                AgencyId = LOGGEDIN_USER.AgencyId
+                VendorId = LOGGEDIN_USER.UserID, 
+                IsInitialLoad = false,
+                AgencyId = LOGGEDIN_USER.AgencyId,
+                PosId = pos,
+                Meter = meter,
+                TransactionId = transactionId,
+                From = from,
+                To = to
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -138,24 +154,46 @@ namespace VendTech.Controllers
 
         }
 
-        public ActionResult BalanceSheetReport()
+        public ActionResult BalanceSheetReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
+
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
-                IsInitialLoad = true,
-                AgencyId = LOGGEDIN_USER.AgencyId
+                IsInitialLoad = false,
+                AgencyId = LOGGEDIN_USER.AgencyId,
+                PosId = pos,
+                Meter = meter,
+                TransactionId = transactionId,
+                From = from,
+                To = to
 
             };
+            model.RecordsPerPage = 1000000000;
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
 
 
             var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+            //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
+
+            //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+            //decimal balance = 0;
+            //foreach (var item in balanceSheet.List)
+            //{
+            //    balance = balance + item.DepositAmount - item.SaleAmount;
+            //    item.Balance = balance;
+            //}
+
+            //balanceSheet.Status = ActionStatus.Successfull;
+            //balanceSheet.Message = "Balance Sheet List";
+            //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
             //ViewBag.Vendors = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
             ViewBag.userPos = posList;
@@ -167,7 +205,7 @@ namespace VendTech.Controllers
         }
 
 
-        public ActionResult AgentRevenueReport()
+        public ActionResult AgentRevenueReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
             var model = new ReportSearchModel
@@ -176,7 +214,12 @@ namespace VendTech.Controllers
                 SortOrder = "Desc",
                 VendorId = LOGGEDIN_USER.UserID,
                 IsInitialLoad = true,
-                AgencyId = LOGGEDIN_USER.AgencyId
+                AgencyId = LOGGEDIN_USER.AgencyId,
+                PosId = pos,
+                Meter = meter,
+                TransactionId = transactionId,
+                From = from,
+                To = to
             };
              
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
@@ -304,12 +347,7 @@ namespace VendTech.Controllers
             var modal = new PagingResult<GSTRechargeApiListingModel>();
 
             modal = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
-
-
-            //List<string> resultString = new List<string>();
-            //resultString.Add(RenderRazorViewToString("Partials/_salesListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
-
+             
 
             var resultString = new List<string> {
               RenderRazorViewToString("Partials/_gstSalesListing", modal),
@@ -638,7 +676,7 @@ namespace VendTech.Controllers
             };
 
 
-            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
+            var list = _depositManager.GetReportExcelData(newfilters).List;
             var gv = new GridView
             {
                 DataSource = list

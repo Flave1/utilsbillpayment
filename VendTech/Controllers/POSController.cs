@@ -48,6 +48,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult ManagePos()
         {
+            ViewBag.SelectedTab = SelectedAdminTab.POS;
             var vendorId = _vendorManager.GetVendorIdByAppUserId(LOGGEDIN_USER.UserID);
             var vendor = _vendorManager.GetVendorDetail(vendorId);
             var users = new PagingResult<POSListingModel>();
