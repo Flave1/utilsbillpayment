@@ -29,6 +29,7 @@ namespace VendTech.DAL
         public System.DateTime CreatedAt { get; set; }
         public string ShortName { get; set; }
         public string Logo { get; set; }
+        public decimal MinimumAmount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }

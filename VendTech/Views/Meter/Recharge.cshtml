@@ -268,11 +268,11 @@
                         return;
                     } else {
 
-
+                        const minVend =  '@string.Format("{0:N0}", ViewBag.MinumumVend)';
                         const amtPay = +$("#Amount").val().replace(",", "");
 
-                        if (amtPay < 30000) {
-                            $.ShowMessage($('div.messageAlert'), "PLEASE TENDER 30,000 & ABOVE", MessageType.Error);
+                        if (amtPay < '@ViewBag.MinumumVend') {
+                            $.ShowMessage($('div.messageAlert'), "PLEASE TENDER " + minVend + " & ABOVE", MessageType.Error);
                             $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                             $("#pay_Now_Btn").val('PAY NOW');
                             $("#pay_Now_Btn").prop('disabled', false);
@@ -383,7 +383,7 @@
                     return true;
                     }
 
-            
+
         </script>
     }
     <style type="text/css">
