@@ -268,7 +268,7 @@
                         return;
                     } else {
 
-                        const minVend =  '@string.Format("{0:N0}", ViewBag.MinumumVend)';
+                        const minVend = '@(string.Format("{0:N0}", ViewBag.MinumumVend))'; 
                         const amtPay = +$("#Amount").val().replace(",", "");
 
                         if (amtPay < '@ViewBag.MinumumVend') {
@@ -279,7 +279,6 @@
                             return;
                         }
 
-                        debugger
 
                         let meterno = ""
                         if ($("#MeterNumber").val() == "") {
