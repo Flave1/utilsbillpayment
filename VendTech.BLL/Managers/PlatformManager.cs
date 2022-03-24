@@ -25,6 +25,7 @@ namespace VendTech.BLL.Managers
                 ShortName = p.ShortName,
                 Title = p.Title,
                 Enabled = p.Enabled,
+                MinimumAmount = p.MinimumAmount,
                 Logo = string.IsNullOrEmpty(p.Logo) ? "" : Utilities.DomainUrl + p.Logo
             }).ToList();
             return platforms;
@@ -96,6 +97,7 @@ namespace VendTech.BLL.Managers
 
             dbPlatform.Title = model.Title; 
             dbPlatform.ShortName = model.ShortName;
+            dbPlatform.MinimumAmount = model.MinimumAmount;
             if (model.Id == null || model.Id == 0)
             {
                 dbPlatform.CreatedAt = DateTime.UtcNow;
@@ -152,6 +154,24 @@ namespace VendTech.BLL.Managers
                 };
             }
         }
+
+        PlatformModel IPlatformManager.GetSinglePlatform(long platformId)
+        {
+            try
+            { 
+                return Context.Platforms.Where(d => d.PlatformId == platformId 
+                && d.IsDeleted == false 
+                && d.Enabled == true)
+                    .Select(d => new PlatformModel { Enabled = d.Enabled, MinimumAmount = d.MinimumAmount, Title = d.Title })
+                    .FirstOrDefault();
+                 
+            }
+            catch (Exception)
+            {
+                return new PlatformModel();
+            }  
+        }
+
     }
 
 

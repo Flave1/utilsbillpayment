@@ -182,6 +182,7 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
+            ViewBag.MinumumVend = _platformManager.GetSinglePlatform(1).MinimumAmount; //1 is not to be changed
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);

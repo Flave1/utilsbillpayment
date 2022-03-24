@@ -28,6 +28,7 @@
                                             @*<th>Service Status</th>*@
                                             <th>CODE</th>
                                             <th>TITLE</th>
+                                            <th>MINIMUM ANOUNT</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>
@@ -36,11 +37,12 @@
                                         {
                                             foreach (var item in Model)
                                             {
-                                        <tr class="odd gradeX"> 
+                                        <tr class="odd gradeX">
                                             <td>@item.ShortName</td>
                                             <td>@item.Title</td>
+                                            <td style="text-align:right;">@string.Format("{0:N0}", item.MinimumAmount)</td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo', '@item.MinimumAmount')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
                                                 @if (item.Enabled)
                                                 {
@@ -100,13 +102,20 @@
                                 <input type="text" name="title" id="title" class="form-control" />
                             </div>
                         </div>
+                        <br /><br />  <br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">MINIMUM AMOUNT<em>*</em></label>
+                            <div class="col-md-4">
+                                <input type="text" name="MinimumAmount" id="minAmount" class="form-control" />
+                            </div>
+                        </div>
                         <br /><br /><br />
                         <div class="col-md-12">
                             <label for="title" class="col-md-4 control-label">LOGO</label>
                             <div class="col-md-8">
                                 <img id="previewImg" style="height:50px; border:2px solid #d2c6c6;  width:40%;" class="dummyimg" src="" />
                                 <input class="pull-right" style="width:52%; " type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
-                            </div> 
+                            </div>
 
                         </div>
 

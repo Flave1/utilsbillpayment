@@ -310,6 +310,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="ShortName" Type="varchar" MaxLength="15" />
           <Property Name="Logo" Type="varchar" MaxLength="200" />
+          <Property Name="MinimumAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -1566,6 +1567,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetails" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="Self.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatforms" />
+          <Property Name="MinimumAmount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -2867,6 +2869,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="Platforms">
             <EntityTypeMapping TypeName="DataModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
+                <ScalarProperty Name="MinimumAmount" ColumnName="MinimumAmount" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />

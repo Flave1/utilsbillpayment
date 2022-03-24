@@ -15,6 +15,7 @@ function addPlatform() {
     $("#hdnPlatformId").val('');
     $("#short_name").val('');
     $("#title").val('');
+    $("#minAmount").val('');
     $("#platformModal").modal('show');
 }
 
@@ -43,11 +44,12 @@ function previewFile(input) {
     }
 }
 
-function editPlatform(title, id, short_name, logo) {
+function editPlatform(title, id, short_name, logo, minAmount) {
    
     $("#platformModalTitle").text("Edit Product");
     $("#hdnPlatformId").val(id);
     $("#short_name").val(short_name);
+    $("#minAmount").val(minAmount);
     $("#title").val(title); 
     $("#ImagefromWeb").val(logo.fileName);
     $("#previewImg").attr("src", logo);
