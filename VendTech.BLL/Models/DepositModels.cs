@@ -283,7 +283,7 @@ namespace VendTech.BLL.Models
         public long PosId { get; set; }
         public int BankAccountId { get; set; }
         public int DepositType { get; set; }
-        [Required(ErrorMessage = "Cheque Or Slip No is required")]
+        //[Required(ErrorMessage = "Cheque Or Slip No is required")]
         public string ChkOrSlipNo { get; set; }
         public string ChkBankName { get; set; }
         public string NameOnCheque { get; set; }

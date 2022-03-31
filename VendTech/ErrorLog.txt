@@ -22,3 +22,7 @@ The view 'Smartkorpornotification' or its master was not found or no view engine
 
 
 
+Object reference not set to an instance of an object.
+
+
+

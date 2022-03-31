@@ -109,10 +109,9 @@ namespace VendTech.Controllers
             if (model.PosId == 0)
             {
                 return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
-            }
-
+            } 
                 if (model.ContinueDepoit == 0)
-            {
+            { 
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
                 {
@@ -162,21 +161,23 @@ namespace VendTech.Controllers
                 return Json(new { Success = false, Code = 302, Msg = result.Message });
             return PartialView("_depositReceipt", result.Object);
         }
-         
-        [HttpGet, Public]
+
+        [AjaxOnly, HttpPost]
         public async Task<ActionResult> SmartIFrame(DepositModel model = null)
         {
+            var pos = _posManager.GetPosDetail(model.PosId);
+            var vendor = _vendorManager.GetVendorDetail(pos.VendorId??0);
             var apiClientID = 7;
             var serviceID = 33;
-            var clientIDNumber = Utilities.GenerateByAnyLength(8);
+            var clientIDNumber =vendor.VendorId;
             var currency = "SLL";
-            var billRefNumber = "123ABC";
-            var billDesc = "SOME SORT OF DECSRIPTION";
-            var clientName = "VICTOR BLELL";
+            var billRefNumber = Utilities.GenerateByAnyLength(8).ToUpper();// "123ABC";
+            var billDesc = $"{vendor.Name} 's deposit for a sum amount of {model.Amount}";
+            var clientName = vendor.Name + " " + vendor.SurName;
             var key = "LUFMz+8Z/CMEGi+z";
             var secret = "0mXfFg1ueMwnZqY4ewPmbjZeJBmhGzjn";
-            var clientMSISDN = Utilities.GenerateByAnyLength(9);
-            var clientEmail = "favouremmanuel433@gmail.com";
+            var clientMSISDN = DateTime.UtcNow.Year +""+ "" + DateTime.UtcNow.Day + "" + DateTime.UtcNow.Month + ""+ DateTime.UtcNow.Second + "" +DateTime.UtcNow.Minute;
+            var clientEmail = vendor.Email;
             var callBackURLOnSuccess = "http://vendtechsl.net/api/Deposit/Smartkorpornotification";
             var notificationURL = callBackURLOnSuccess;
 
@@ -211,7 +212,7 @@ namespace VendTech.Controllers
 
                 var stringContent = await response.Content.ReadAsStringAsync();
 
-                return PartialView("_smartKorporIframe", stringContent);
+                return JsonResult(new ActionOutput { Message = stringContent, Status = ActionStatus.Successfull });
             }
             catch (Exception ed)
             {
