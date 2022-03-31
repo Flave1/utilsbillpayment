@@ -212,10 +212,15 @@ namespace VendTech.BLL.Common
 
         public static int GenerateFiveRandomNo()
         {
+            var result = 0;
             int _min = 10000;
             int _max = 99999;
             Random _rdm = new Random();
-            return _rdm.Next(_min, _max);
+            result = _rdm.Next(_min, _max);
+            var db = new VendtechEntities();
+            if (db.POS.Any(e => e.PassCode == result.ToString())) 
+                GenerateFiveRandomNo(); 
+            return result;
         }
 
         public static string Encrypt(string clearText)
@@ -309,6 +314,7 @@ namespace VendTech.BLL.Common
                 SmtpClient SmtpServer = new SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
+                //"favouremmanuel433@gmail.com"
                 mail.To.Add(to);
                 mail.Subject = sub;
                 mail.Body = body;

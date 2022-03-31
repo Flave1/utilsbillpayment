@@ -100,11 +100,10 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
         {
-            // model.UserId = LOGGEDIN_USER.UserID;
-
+            // model.UserId = LOGGEDIN_USER.UserID; 
             if (model.PosId == 0)
             {
-                return JsonResult(new ActionOutput { Message = "POS NOT Required", Status = ActionStatus.Error });
+                return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
             }
 
                 if (model.ContinueDepoit == 0)
@@ -115,40 +114,34 @@ namespace VendTech.Controllers
                     return JsonResult(new ActionOutput { Message = string.Format("{0:N0}", pendingDeposits), Status = ActionStatus.Successfull });
                 }
             }
+                 
+            var result = _depositManager.SaveDepositRequest(model);
 
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
 
+            var pos = _posManager.GetSinglePos(result.Object.POSId);
+            if (pos != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+                    if (emailTemplate != null)
+                    {
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%AdminUserName%", admin.Name);
+                            body = body.Replace("%VendorName%", pos.User.Vendor);
+                            body = body.Replace("%POSID%", pos.SerialNumber);
+                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                        }
 
-            var obj = _depositManager.SK(model.Amount);
-            return Json(new { result = obj });
-
-            //var result = _depositManager.SaveDepositRequest(model);
-
-            //var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
-
-            //var pos = _posManager.GetSinglePos(result.Object.POSId);
-            //if (pos != null)
-            //{
-            //    foreach (var admin in adminUsers)
-            //    {
-            //        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
-            //        if (emailTemplate != null)
-            //        {
-            //            if (emailTemplate.TemplateStatus)
-            //            {
-            //                string body = emailTemplate.TemplateContent;
-            //                body = body.Replace("%AdminUserName%", admin.Name);
-            //                body = body.Replace("%VendorName%", pos.User.Vendor);
-            //                body = body.Replace("%POSID%", pos.SerialNumber);
-            //                body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-            //                body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
-            //                Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
-            //            }
-
-            //        }
-            //    }
-            //}
-            //return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
-            // return JsonResult(result);
+                    }
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)

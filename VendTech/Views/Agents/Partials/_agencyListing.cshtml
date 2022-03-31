@@ -10,14 +10,13 @@
         <tr class="odd gradeX">
             <td>@item.AgencyName</td>
             <td>@item.Vendor</td>
-            <td style="text-align:right;">@item.SerialNumber</td>
+            <td style="text-align:right;"><a style="cursor:pointer;" onclick="GeneratePasscode('@item.POSID', '@item.VendorEmail', '@item.CellPhone', '@item.VendorId')">@item.SerialNumber</a></td>
             <td style="text-align:right;"> @item.CellPhone</td>
             <td> @item.AgentName</td>
             <td style="color:green; text-align:right;"> <strong>@item.TodaySales</strong> </td>
             <td style="color:green; text-align:right;"> <strong>@item.Balance</strong> </td>
             <td> @item.Enabled</td>
-            <td>
-                @*<a class="btn btn-success btn-xs" href="#" data-original-title="Diable" data-toggle="tooltip">Disable</a>*@
+            <td> 
                 @if (item.Enabled)
                 {
                     <a data-id="@item.POSID" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
