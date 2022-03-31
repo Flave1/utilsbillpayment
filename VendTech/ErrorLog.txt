@@ -1,0 +1,24 @@
+The view 'Smartkorpornotification' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/Smartkorpornotification.aspx
+~/Views/Deposit/Smartkorpornotification.ascx
+~/Views/Shared/Smartkorpornotification.aspx
+~/Views/Shared/Smartkorpornotification.ascx
+~/Views/Deposit/Smartkorpornotification.cshtml
+~/Views/Deposit/Smartkorpornotification.vbhtml
+~/Views/Shared/Smartkorpornotification.cshtml
+~/Views/Shared/Smartkorpornotification.vbhtml
+
+
+
+The view 'Smartkorpornotification' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Deposit/Smartkorpornotification.aspx
+~/Views/Deposit/Smartkorpornotification.ascx
+~/Views/Shared/Smartkorpornotification.aspx
+~/Views/Shared/Smartkorpornotification.ascx
+~/Views/Deposit/Smartkorpornotification.cshtml
+~/Views/Deposit/Smartkorpornotification.vbhtml
+~/Views/Shared/Smartkorpornotification.cshtml
+~/Views/Shared/Smartkorpornotification.vbhtml
+
+
+

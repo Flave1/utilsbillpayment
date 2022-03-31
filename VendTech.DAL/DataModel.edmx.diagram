@@ -84,6 +84,7 @@
         <EntityTypeShape EntityType="DataModel.PaymentType" Width="1.5" PointX="0.75" PointY="7.75" />
         <AssociationConnector Association="DataModel.FK_Deposits_PaymentType" />
         <AssociationConnector Association="DataModel.FK_PendingDeposits_PaymentType" />
+        <EntityTypeShape EntityType="DataModel.SmartKorpor" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

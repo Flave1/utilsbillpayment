@@ -212,15 +212,10 @@ namespace VendTech.BLL.Common
 
         public static int GenerateFiveRandomNo()
         {
-            var result = 0;
             int _min = 10000;
             int _max = 99999;
             Random _rdm = new Random();
-            result = _rdm.Next(_min, _max);
-            var db = new VendtechEntities();
-            if (db.POS.Any(e => e.PassCode == result.ToString())) 
-                GenerateFiveRandomNo(); 
-            return result;
+            return _rdm.Next(_min, _max);
         }
 
         public static string Encrypt(string clearText)
@@ -307,14 +302,13 @@ namespace VendTech.BLL.Common
 
         }
         public static bool SendEmail(string to, string sub, string body)
-        { 
+        {
             try
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                //"favouremmanuel433@gmail.com"
                 mail.To.Add(to);
                 mail.Subject = sub;
                 mail.Body = body;
@@ -323,7 +317,7 @@ namespace VendTech.BLL.Common
                 ////SmtpServer.Port = 587;
                 ////SmtpServer.UseDefaultCredentials = false;
                 ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-               // SmtpServer.EnableSsl = true;
+                // SmtpServer.EnableSsl = true;
                 mail.IsBodyHtml = true;
 
                 SmtpServer.Send(mail);
@@ -362,7 +356,7 @@ namespace VendTech.BLL.Common
                               select t).ToArray();
             return string.Join("", getNumbers.Take(20));// getNumbers.Split(',').Select(Int32.Parse).ToList();// getNumbers;
         }
-          
+
         public static string FormatThisToken(string token_item)
         {
             if (token_item != null && token_item.Length >= 2 && token_item.Length <= 12)
@@ -370,12 +364,12 @@ namespace VendTech.BLL.Common
             else if (token_item != null && token_item.Length >= 12 && token_item.Length <= 16)
                 token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ");
             else if (token_item != null && token_item.Length >= 16 && token_item.Length <= 21)
-                token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " "); 
+                token_item = token_item.Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
 
 
             return token_item;
         }
-       
+
         public async static Task<bool> Execute(string email, string subject, string message)
         {
             try
@@ -411,17 +405,51 @@ namespace VendTech.BLL.Common
             }
         }
 
-        public static string SHA256(string randomString)
+
+        public static string SHA256(string message, string secret)
         {
-            var crypt = new SHA256Managed();
-            string hash = String.Empty;
-            byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(randomString));
-            foreach (byte theByte in crypto)
+            Encoding encoding = Encoding.UTF8;
+            using (HMACSHA256 hmac = new HMACSHA256(encoding.GetBytes(secret)))
             {
-                hash += theByte.ToString("x2");
+                var msg = encoding.GetBytes(message);
+                var hashMsg = hmac.ComputeHash(msg);
+                var value = BitConverter.ToString(hashMsg).ToLower().Replace("-", string.Empty);// _SHA256(hashMsg);
+                return value;
             }
-            return hash;
         }
+
+        //public static string SHA256(string bytes, string key)
+        //{
+        //    string message = bytes; //xml document in a string
+
+        //    UTF8Encoding encoding = new UTF8Encoding();
+
+        //    byte[] keyByte = encoding.GetBytes(key);
+
+        //    HMACSHA256 hmacsha256 = new HMACSHA256(keyByte);
+
+        //    byte[] messageBytes = encoding.GetBytes(message);
+
+        //    byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+
+        //    var tempHash = _SHA256(hashmessage);
+        //    return tempHash;
+        //}
+
+        public static string _SHA256(byte[] buff)
+        {
+            string sbinary = "";
+
+            for (int i = 0; i < buff.Length; i++)
+            {
+                sbinary += buff[i].ToString("X2"); // hex format
+            }
+            return (sbinary);
+
+        }
+
+
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -2064,48 +2065,7 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
         }
 
-
-        object IDepositManager.SK(decimal amt)
-        {
-
-            var apiClientID = 33;
-            var serviceId = 7;
-            var clientIDNumber = 123;
-            var currency = "SLL";
-            var billRefNumber = "123ABC";
-            var billDesc = "Any goes here";
-            var clientName = "Emma Flave";
-            var key = "LUFMz+8Z/CMEGi+z";
-            var secret = "0mXfFg1ueMwnZqY4ewPmbjZeJBmhGzjn";
-            var clientMSISDN = 12345678;
-            var clientEmail = "favouremmanuel433@gmail.com";
-            var callBackURLOnSuccess = "www.vendtechsl.com";
-            var notificationURL = "";
-            var secureHash = Utilities.SHA256($"{apiClientID}{amt}{serviceId}{clientIDNumber}{currency}{billRefNumber}{billDesc}{clientName}{key}{secret}");
-
-
-
-
-            var body = new
-            {
-                apiClientID = apiClientID,
-                secureHash = secureHash,
-                billDesc = billDesc,
-                billRefNumber = billRefNumber,
-                currency = currency,
-                serviceID = serviceId,
-                clientMSISDN = clientMSISDN,
-                clientName = clientName,
-                clientIDNumber = clientIDNumber,
-                clientEmail = clientEmail,
-                callBackURLOnSuccess = callBackURLOnSuccess,
-                notificationURL = notificationURL,
-                amountExpected = amt
-            };
-            //var client = new 
-            return (object)body;
-        }
-
+         
         IQueryable<BalanceSheetListingModel> IDepositManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 999999999;
@@ -2225,6 +2185,18 @@ namespace VendTech.BLL.Managers
                 Status = "",
                 POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
             });
+        }
+        
+        void IDepositManager.SaveSmartKorpor(object res)
+        {
+            var last = Context.SmartKorpors.Max(d => d.ResponseId) + 1;
+            var item = new SmartKorpor
+            {
+                ResponseId =Convert.ToInt32(last),
+                Response = JsonConvert.SerializeObject(res)
+            };
+            Context.SmartKorpors.Add(item);
+            Context.SaveChanges();
         }
     }
 }

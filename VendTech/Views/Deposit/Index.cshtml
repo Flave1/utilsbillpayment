@@ -65,21 +65,21 @@
                                             }
                                             @if (pos.Count > 1)
                                             {
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;  font-weight:bold; font-size:14px;", @id = "posDrp" })
-                                                </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;  font-weight:bold; font-size:14px;", @id = "posDrp" })
+                                            </div>
                                             }
                                             else
                                             {
-                                                <div class=" col-md-12">
-                                                    <label class="control-label" style="font-weight:bold; font-size:40px">POS ID: @pos.FirstOrDefault().Text</label>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+                                            <div class=" col-md-12">
+                                                <label class="control-label" style="font-weight:bold; font-size:40px">POS ID: @pos.FirstOrDefault().Text</label>
+                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
-                                                </div>
-                                                <br />
-                                                <br />
-                                                <br />
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <br />
 
                                             }
                                             <div class="form-group row">
@@ -172,7 +172,9 @@
                                         </table>
                                     </div>
                                 </div>
-
+                                <div id="smKpIframe" style="display:none">
+                                    @Html.Partial("_smartKorporIframe", "")
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -183,16 +185,15 @@
 </div>
 
 @*<div id="smartkorpor" style="display:none;">
-    @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
-</div>*@
-
+        @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
+    </div>*@
 
 
 
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script> 
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script type="text/javascript">
         var totalCount = "@Model.TotalCount";
@@ -200,8 +201,9 @@
 
 
 
-<script type="text/javascript">
-            function thousands_separators(num) {
+    <script type="text/javascript">
+
+             function thousands_separators(num) {
                 var num_parts = num.toString().split(".");
                 num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return num_parts.join(".");
@@ -301,7 +303,7 @@
                 if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
 
                     var posEd = '@ViewBag.posId';
-                    if (posEd < 1) { 
+                    if (posEd < 1) {
                         $("#posDrp").val(' ');
                     } else {
                         $("#posDrp").val('@ViewBag.posId');
@@ -337,63 +339,71 @@
         }
 
     function AddDeposit(sender) {
-        $("#btnAdd").val('PROCESSING....');
-        $("#btnAdd").prop('disabled', true); 
-            if (!$("#amount").val() || $("#amount").val() == "0")
-            {
-                $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    return;
-            } 
-            else if (!$("#posDrp").val()) {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
-                return;
-            }
-            else if (!$("#ChkOrSlipNo").val())
-            {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
-                    return;
-            }else {
-                $("#ContinueDepoit").val(0);
-                    $.ajaxExt({
-                        url: baseUrl + '/Deposit/AddDeposit',
-                        type: 'POST',
-                        validate: true,
-                        showErrorMessage: true,
-                        messageControl: $('div.messageAlert'),
-                        formToValidate: $(sender).parents("form:first"),
-                        formToPost: $(sender).parents("form:first"),
-                        isAjaxForm: true,
-                        showThrobber: true,
-                        button: $(sender),
-                        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                        success: function (results, message) {
-                            if (message != "Deposit request saved successfully.") {
-                                reDeposit(sender, 2, message);
-                                $("#btnAdd").val('ADD BALANCE');
-                                $("#btnAdd").prop('disabled', false);
-                                return;
-                            }
-                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                            setTimeout(function () {
-                                window.location.href = baseUrl + '/Deposit/Index'
-                            }, 1500);
-
-                        },
-                        error: function (results, message) {
-                            $("#btnAdd").val('ADD BALANCE');
-                            $("#btnAdd").prop('disabled', false);
-                        }
-                    });
-                }
-
+        intialilizer.setSubmitButton(false);
+        if (!$("#amount").val() || $("#amount").val() == "0") {
+            $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
+            $("#btnAdd").val('ADD BALANCE');
+            $("#btnAdd").prop('disabled', false);
+            return;
         }
+        else if (!$("#posDrp").val()) {
+            $("#btnAdd").val('ADD BALANCE');
+            $("#btnAdd").prop('disabled', false);
+            $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
+            return;
+        }
+        else if (!$("#ChkOrSlipNo").val()) {
+            $("#btnAdd").val('ADD BALANCE');
+            $("#btnAdd").prop('disabled', false);
+            $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
+            return;
+        }
+        else {
+            $("#ContinueDepoit").val(0);
+            const paymenttype = $("#paymentType").val();
+            if (paymenttype === "10") {
 
+                $.ajax({
+                    url: '/Deposit/SmartIFrame',
+                    success: function (data) {
+                        intialilizer.setSubmitButton(true);
+                        console.log('data', data)
+                        $('#bsListing').html(data);
+                    }
+                })
+
+            } else {
+                $.ajaxExt({
+                    url: baseUrl + '/Deposit/AddDeposit',
+                    type: 'POST',
+                    validate: true,
+                    showErrorMessage: true,
+                    messageControl: $('div.messageAlert'),
+                    formToValidate: $(sender).parents("form:first"),
+                    formToPost: $(sender).parents("form:first"),
+                    isAjaxForm: true,
+                    showThrobber: true,
+                    button: $(sender),
+                    throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                    success: function (results, message) {
+                        if (message != "Deposit request saved successfully.") {
+                            reDeposit(sender, 2, message);
+                            intialilizer.setSubmitButton(true);
+                            return;
+                        }
+                        $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                        setTimeout(function () {
+                            window.location.href = baseUrl + '/Deposit/Index'
+                        }, 1500);
+
+                    },
+                    error: function (results, message) {
+                        intialilizer.setSubmitButton(true);
+                    }
+                });
+            }
+        }
+    }
         $("#posDrp").on("change", function () {
             let posId = $("#posDrp").val();
 
@@ -401,6 +411,7 @@
                 fetchPosPercentage(posId);
             }
         })
+
         function fetchPosPercentage(posId) {
 
             $.ajax({
@@ -415,7 +426,6 @@
                 }
             });
         }
-
 
         function reDeposit(sender, ContinueDepoit, amt) {
             $("#ContinueDepoit").val(0);
@@ -434,6 +444,7 @@
                     button: $(sender),
                     throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                     success: function (results, message) {
+                        intialilizer.setSubmitButton(true);
                         $(".sweet-alert h2").css("color", "green");
                         $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                         setTimeout(function () {
@@ -441,8 +452,7 @@
                         }, 1500);
                     },
                     error: function (results, message) {
-                        $("#btnAdd").val('ADD BALANCE');
-                        $("#btnAdd").prop('disabled', false);
+                        intialilizer.setSubmitButton(true);
                     }
                 });
             });
@@ -451,6 +461,18 @@
             $("#btnAdd").val('ADD BALANCE');
             $("#btnAdd").prop('disabled', false);
         }
-</script>
+
+    var intialilizer = {
+        setSubmitButton: function (enable) {
+            if (!enable) {
+                $("#btnAdd").val('PROCESSING....');
+                $("#btnAdd").prop('disabled', true);
+            } else {
+                $("#btnAdd").val('ADD DEPOSIT');
+                $("#btnAdd").prop('disabled', false);
+            }
+        }
+    }
+    </script>
 }
 

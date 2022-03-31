@@ -1,11 +1,13 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
@@ -188,5 +190,15 @@ namespace VendTech.Areas.Api.Controllers
             var result = _paymentTypeManager.GetPaymentTypeSelectList();
             return new JsonContent("Payment types fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
         }
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization] 
+        [ResponseType(typeof(ResponseBase))]
+        [ActionName("Smartkorpornotification")]
+        public HttpResponseMessage Smartkorpornotification(object response)
+        {  
+            _depositManager.SaveSmartKorpor(response);
+            return new JsonContent("success", Status.Success).ConvertToHttpResponseOK();
+        }
+
     }
 }

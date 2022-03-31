@@ -361,6 +361,13 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsUsed" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="SmartKorpor">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="int" Nullable="false" />
+          <Property Name="Response" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="StanTable">
           <Key>
             <PropertyRef Name="Id" />
@@ -1061,6 +1068,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartKorpor" EntityType="Self.SmartKorpor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
@@ -2532,6 +2540,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="PaymentType" EntitySet="PaymentTypes" />
             <End Role="PendingDeposit" EntitySet="PendingDeposits" />
           </AssociationSet>
+          <EntitySet Name="SmartKorpors" EntityType="DataModel.SmartKorpor" />
         </EntityContainer>
         <EntityType Name="PaymentType">
           <Key>
@@ -2570,6 +2579,13 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SmartKorpor">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="Int32" Nullable="false" />
+          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3130,6 +3146,14 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartKorpors">
+            <EntityTypeMapping TypeName="DataModel.SmartKorpor">
+              <MappingFragment StoreEntitySet="SmartKorpor">
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

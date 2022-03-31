@@ -147,6 +147,9 @@
     <Compile Include="ReferralCode.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SmartKorpor.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="StanTable.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

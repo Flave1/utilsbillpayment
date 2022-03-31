@@ -11,6 +11,11 @@ using VendTech.BLL.Models;
 using VendTech.BLL.Common;
 using VendTech.Areas.Admin.Controllers;
 using static VendTech.Controllers.MeterController;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.Net;
+using Newtonsoft.Json;
 #endregion
 
 namespace VendTech.Controllers
@@ -157,5 +162,65 @@ namespace VendTech.Controllers
                 return Json(new { Success = false, Code = 302, Msg = result.Message });
             return PartialView("_depositReceipt", result.Object);
         }
+         
+        [HttpGet, Public]
+        public async Task<ActionResult> SmartIFrame(DepositModel model = null)
+        {
+            var apiClientID = 7;
+            var serviceID = 33;
+            var clientIDNumber = Utilities.GenerateByAnyLength(8);
+            var currency = "SLL";
+            var billRefNumber = "123ABC";
+            var billDesc = "SOME SORT OF DECSRIPTION";
+            var clientName = "VICTOR BLELL";
+            var key = "LUFMz+8Z/CMEGi+z";
+            var secret = "0mXfFg1ueMwnZqY4ewPmbjZeJBmhGzjn";
+            var clientMSISDN = Utilities.GenerateByAnyLength(9);
+            var clientEmail = "favouremmanuel433@gmail.com";
+            var callBackURLOnSuccess = "http://vendtechsl.net/api/Deposit/Smartkorpornotification";
+            var notificationURL = callBackURLOnSuccess;
+
+            var data_string = apiClientID + "" + model.Amount + "" + serviceID + "" + clientIDNumber + "" + currency + "" + billRefNumber + "" + billDesc + "" + clientName + "" + secret;
+            var hash = Utilities.SHA256(data_string, key);
+            var secureHash = Utilities.Base64Encode(hash);
+
+            var formContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("apiClientID", apiClientID.ToString()),
+                new KeyValuePair<string, string>("secureHash", secureHash),
+                new KeyValuePair<string, string>("billDesc", billDesc),
+                new KeyValuePair<string, string>("billRefNumber", billRefNumber),
+                new KeyValuePair<string, string>("currency", currency),
+                new KeyValuePair<string, string>("serviceID", serviceID.ToString()),
+                new KeyValuePair<string, string>("clientMSISDN", clientMSISDN.ToString()),
+                new KeyValuePair<string, string>("clientName", clientName),
+                new KeyValuePair<string, string>("clientIDNumber", clientIDNumber.ToString()),
+                new KeyValuePair<string, string>("clientEmail", clientEmail),
+                new KeyValuePair<string, string>("callBackURLOnSuccess", callBackURLOnSuccess),
+                new KeyValuePair<string, string>("notificationURL", notificationURL),
+                new KeyValuePair<string, string>("amountExpected", model.Amount.ToString()),
+            });
+
+            try
+            {
+
+
+                var client = new HttpClient();
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var response = await client.PostAsync("https://app.smartkorpor.com/PaymentAPI/invoice/checkout", formContent);
+
+                var stringContent = await response.Content.ReadAsStringAsync();
+
+                return PartialView("_smartKorporIframe", stringContent);
+            }
+            catch (Exception ed)
+            {
+                throw;
+            }
+        }
+
+      
+
+
     }
 }

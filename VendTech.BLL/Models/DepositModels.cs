@@ -15,11 +15,11 @@ namespace VendTech.BLL.Models
     {
         public string DATE_TIME { get; set; }
         public string TRANSACTIONID { get; set; }
-        public string TYPE { get; set; } 
+        public string TYPE { get; set; }
         public string REFERENCE { get; set; }
         public decimal DEPOSITAMOUNT { get; set; }
         public decimal SALEAMOUNT { get; set; }
-        public decimal BALANCE { get; set; } 
+        public decimal BALANCE { get; set; }
     }
     public class BalanceSheetModel
     {
@@ -30,16 +30,16 @@ namespace VendTech.BLL.Models
     {
         public DateTime DateTime { get; set; }
         public string TransactionId { get; set; }
-        public string TransactionType { get; set; } 
+        public string TransactionType { get; set; }
         public string Reference { get; set; }
         public decimal DepositAmount { get; set; } = 0;
         public decimal SaleAmount { get; set; } = 0;
-        public decimal Balance { get; set; } = 0; 
+        public decimal Balance { get; set; } = 0;
         public long? POSId { get; set; }
     }
 
     public class DashboardBalanceSheetModel
-    {  
+    {
         public string Vendor { get; set; }
         public decimal DepositAmount { get; set; } = 0;
         public decimal SaleAmount { get; set; } = 0;
@@ -72,14 +72,14 @@ namespace VendTech.BLL.Models
         public decimal PercentageCommission { get; set; }
         public POS POS { get; set; } = new POS();
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
-        { 
+        {
             Type = obj.PaymentType1.Name;
             UserName = obj.DepositLogs.Any() ?
                 obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
-                obj.User.Name +" "+ obj.User.SurName;
+                obj.User.Name + " " + obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Comments = obj.Comments;
             Bank = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             if (!changeStatusForApi)
@@ -114,7 +114,7 @@ namespace VendTech.BLL.Models
             UserName = "";
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Comments = obj.Comments;
             // Bank = obj.PendingBankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             Status = "Pending";
@@ -172,26 +172,26 @@ namespace VendTech.BLL.Models
     }
 
     public class AgencyRevenueExcelReportModel
-    { 
-        public string DATE_TIME { get; set; } 
+    {
+        public string DATE_TIME { get; set; }
         public string POSID { get; set; }
-        public string VENDOR { get; set; } 
-        public string DEPOSIT_TYPE { get; set; }  
+        public string VENDOR { get; set; }
+        public string DEPOSIT_TYPE { get; set; }
         public string TRANSACTION_ID { get; set; }
         public string DEPOSIT_REF_NO { get; set; }
-        public string AMOUNT { get; set; } 
+        public string AMOUNT { get; set; }
         public string VENDORPERCENT { get; set; }
         public string AGENTPERCENT { get; set; }
         public AgencyRevenueExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             var approver = obj.DepositLogs.FirstOrDefault(d => d.DepositId == obj.DepositId);
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            VENDOR = obj.POS.User.Vendor; 
+            VENDOR = obj.POS.User.Vendor;
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
-            AMOUNT = string.Format("{0:N0}", obj.Amount); 
-            TRANSACTION_ID = obj?.TransactionId;  
+            AMOUNT = string.Format("{0:N0}", obj.Amount);
+            TRANSACTION_ID = obj?.TransactionId;
             VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount);
             AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission);
         }
@@ -355,7 +355,7 @@ namespace VendTech.BLL.Models
         public string Amount { get; set; }
         public bool IsAudit { get; set; }
         public string Status { get; set; }
-        public bool IsInitialLoad { get; set; } = false; 
+        public bool IsInitialLoad { get; set; } = false;
     }
 
     public class DepositAuditModel
@@ -389,10 +389,10 @@ namespace VendTech.BLL.Models
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
             DepositBy = obj.POS.User.Vendor.Trim();
-            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
+            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ? Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
-             
+
             Type = obj.PaymentType1.Name;
 
             GTBank = obj.BankAccount.BankName;
@@ -405,7 +405,7 @@ namespace VendTech.BLL.Models
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             Comment = obj.Comments;
         }
-    } 
+    }
 
     public class DepositAuditLiteDto
     {
@@ -419,17 +419,17 @@ namespace VendTech.BLL.Models
         public string UserName { get; set; }
         public string VendorName { get; set; }
         public string ChkNoOrSlipId { get; set; }
-        public string Type { get; set; } 
+        public string Type { get; set; }
         public string PosNumber { get; set; }
         public string CreatedAt { get; set; }
-        public string TransactionId { get; set; } 
-        public decimal Amount { get; set; } 
-        public decimal? AgentPercentageAmount { get; set; } 
+        public string TransactionId { get; set; }
+        public decimal Amount { get; set; }
+        public decimal? AgentPercentageAmount { get; set; }
         public decimal? VendorPercentageAmount { get; set; }
         public decimal? AgentPercentage { get; set; }
 
         public decimal? VendorPercentage { get; set; }
-        public long DepositId { get; set; }   
+        public long DepositId { get; set; }
         public AgentRevenueListingModel(Deposit obj)
         {
             Type = obj.PaymentType1.Name;
@@ -438,7 +438,7 @@ namespace VendTech.BLL.Models
                 obj.User.Name + " " + obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
             TransactionId = obj.TransactionId;
             DepositId = obj.DepositId;
@@ -449,6 +449,19 @@ namespace VendTech.BLL.Models
             AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
         }
 
-       
+
     }
+
+
+    //public class SmartkorporResponse
+    //{
+    //    public SmartkorporResponse() { }
+    //    public SmartkorporResponse(SmartKorpor db) { }
+
+    //    public string payment_channel { get; set; }
+    //    public string client_invoice_ref  { get; set; }
+    //    public string payment_reference { get; set; }
+
+    //}
+
 }

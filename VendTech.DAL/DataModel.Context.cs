@@ -62,5 +62,6 @@ namespace VendTech.DAL
         public virtual DbSet<Widget> Widgets { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
+        public virtual DbSet<SmartKorpor> SmartKorpors { get; set; }
     }
 }
