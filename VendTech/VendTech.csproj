@@ -431,6 +431,7 @@
     <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Scripts\UserScripts\AgentRevenueReport.js" />
     <Content Include="Scripts\UserScripts\gstSalesReport.js" />
+    <Content Include="Scripts\UserScripts\passcode.js" />
     <Content Include="Scripts\UserScripts\reportFilter.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />

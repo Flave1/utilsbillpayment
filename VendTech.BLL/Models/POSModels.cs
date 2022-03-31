@@ -119,6 +119,15 @@ namespace VendTech.BLL.Models
         public string PosNumber { get; set; }
         public string Name { get; set; }
     }
+
+    public class GeneratePasscode
+    {
+        public long POSId { get; set; } 
+        public string CountryCode { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public long VendorId { get; set; }
+    }
     public class RestPassCodeModel
     {  
         public string Email { get; set; } 

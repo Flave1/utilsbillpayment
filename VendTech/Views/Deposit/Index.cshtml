@@ -345,17 +345,20 @@
                 $("#btnAdd").val('ADD BALANCE');
                 $("#btnAdd").prop('disabled', false);
                     return;
-                }
-                else if (!$("#ChkOrSlipNo").val())
+            } 
+            else if (!$("#posDrp").val()) {
+                $("#btnAdd").val('ADD BALANCE');
+                $("#btnAdd").prop('disabled', false);
+                $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
+                return;
+            }
+            else if (!$("#ChkOrSlipNo").val())
             {
                 $("#btnAdd").val('ADD BALANCE');
                 $("#btnAdd").prop('disabled', false);
                     $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
                     return;
-                }
-
-    
-            else {
+            }else {
                 $("#ContinueDepoit").val(0);
                     $.ajaxExt({
                         url: baseUrl + '/Deposit/AddDeposit',
@@ -378,7 +381,7 @@
                             }
                             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                             setTimeout(function () {
-                                window.location.href="https://www.vendtechsl.com/home/dashboard"
+                                window.location.href = baseUrl + '/Deposit/Index'
                             }, 1500);
 
                         },

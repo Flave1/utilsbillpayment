@@ -3,7 +3,27 @@
     ViewBag.Title = "Manage Agents";
     Layout = "~/Views/Shared/_LayOut.cshtml";
 }
+<style> 
 
+    .custom {
+        width: 40px;
+        height: 38px;
+        border-color: #95a2a2;
+        line-height: 50px;
+        text-align: center;
+        font-size: 24px;
+        border-radius: 5px;
+    }
+
+    ._passcode{
+        margin:auto;
+        text-align:center
+    }
+
+    ._passcode .form-control {
+        font-size: 40px;
+    }
+</style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h2>Manage Vendors</h2>
@@ -51,12 +71,80 @@
 </div>
 
 
+<div id="passcodeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Manage PassCode</h4>
+            </div> 
+            <div class="modal-body">
+
+                <div class="row ">
+                    <div class=" col-md-12 _passcode">
+                        <div class="col-md-2">
+                            <input type="hidden" id="POSId" class="form-control" />
+                            <input type="hidden" id="vendorId" class="form-control" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="password" name="passcode" readonly id="dig-2" data-next="dig-3" data-previous="dig-1" class="form-control margin custom" placeholder="*" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="password" name="passcode" readonly id="dig-3" data-next="dig-4" data-previous="dig-2" class="form-control margin custom" placeholder="*" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="password" name="passcode" readonly id="dig-4" data-next="dig-5" data-previous="dig-3" class="form-control margin custom" placeholder="*" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="password" name="passcode" readonly id="dig-5" data-previous="dig-4" class="form-control margin custom" placeholder="*" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="password" name="passcode" readonly id="dig-5" data-previous="dig-4" class="form-control margin custom" placeholder="*" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class=" col-md-4">
+                        <label for="short_name" class="col-md-4 control-label margin">CELL#<em>*</em></label>
+                    </div>
+                    <div class=" col-md-7">
+                        <div class="col-md-4"> 
+                            <select name="CountryCode" id="modal_countryCode" class="form-control">
+                                <option value="+232">+232</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="Phone" id="modal_Phone" value="" class="form-control margin" />
+                            <span id="phNumber" style="color:red;display:none">Phone Number is Required!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class=" col-md-4">
+                        <label for="short_name" class="control-label margin">SEND TO EMAIL:</label>
+                    </div>
+                    <div class=" col-md-7">
+                        <input type="text" readonly name="Email" id="Email" class="form-control" style="margin-left: 9px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="SubmitGeneratePasscode()" value="Generate Passcode & Send">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
     </script>
     <script src="~/Scripts/UserScripts/agency.js"></script>
+    <script src="~/Scripts/UserScripts/passcode.js"></script>
 
 
 

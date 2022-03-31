@@ -36,6 +36,8 @@ namespace VendTech.BLL.Models
         public string TodaySales { get; set; }
         public string Balance { get; set; }  
         public string Vendor { get; set; }
+        public long VendorId { get; set; }
+        public string VendorEmail { get; set; }
         public AgentListingModel(POS obj)
         {
             var sale = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date && f.Finalised == true).Select(d => d.Amount)?.Sum() ?? 0;
@@ -48,6 +50,8 @@ namespace VendTech.BLL.Models
             TodaySales = string.Format("{0:N0}", sale) ;
             Balance = string.Format("{0:N0}", obj?.Balance ?? 0);
             Vendor = obj?.User?.Vendor;
+            VendorId = obj.User.UserId;
+            VendorEmail = obj?.User?.Email;
         }
 
     }

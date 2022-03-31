@@ -21,7 +21,8 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IDepositManager _depositManager;
         private readonly IPOSManager _posManager;
         private readonly IEmailTemplateManager _templateManager;
-        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager,IDepositManager depositManager, IPOSManager pOSManager, IEmailTemplateManager emailTemplateManager)
+        private readonly IPaymentTypeManager _paymentTypeManager;
+        public DepositController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IDepositManager depositManager, IPOSManager pOSManager, IEmailTemplateManager emailTemplateManager, IPaymentTypeManager paymentTypeManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -30,8 +31,9 @@ namespace VendTech.Areas.Api.Controllers
             _depositManager = depositManager;
             _posManager = pOSManager;
             _templateManager = emailTemplateManager;
+            _paymentTypeManager = paymentTypeManager;
         }
-         [HttpPost]
+        [HttpPost]
          [ResponseType(typeof(ResponseBase))]
          public HttpResponseMessage SaveDepositRequest(DepositModel model)
          {
@@ -178,5 +180,13 @@ namespace VendTech.Areas.Api.Controllers
              domain = domain + folderName+"/" + name;
              return new JsonContent("Pdf link fetched successfully", Status.Success, new { path = domain }).ConvertToHttpResponseOK();
          }
+
+        [HttpGet]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetPaymentTypes()
+        {
+            var result = _paymentTypeManager.GetPaymentTypeSelectList();
+            return new JsonContent("Payment types fetched successfully.", Status.Success, result).ConvertToHttpResponseOK();
+        }
     }
 }
