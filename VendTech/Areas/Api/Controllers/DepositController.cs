@@ -33,25 +33,26 @@ namespace VendTech.Areas.Api.Controllers
             _templateManager = emailTemplateManager;
             _paymentTypeManager = paymentTypeManager;
         }
+
         [HttpPost]
-         [ResponseType(typeof(ResponseBase))]
-         public HttpResponseMessage SaveDepositRequest(DepositModel model)
-         {
-             model.UserId = LOGGEDIN_USER.UserId;
-             //model.TotalAmountWithPercentage = model.Amount;
-             model.BankAccountId = 1;
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage SaveDepositRequest(DepositModel model)
+        {
+            model.UserId = LOGGEDIN_USER.UserId;
+            //model.TotalAmountWithPercentage = model.Amount;
+            model.BankAccountId = 1;
             //model.ValueDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
 
-            if(model.ContinueDepoit == 0)
+            if (model.ContinueDepoit == 0)
             {
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
-                if(pendingDeposits > 0)
+                if (pendingDeposits > 0)
                 {
-                    return new JsonContent( string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
+                    return new JsonContent(string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
                 }
             }
 
-             var result = _depositManager.SaveDepositRequest(model);
+            var result = _depositManager.SaveDepositRequest(model);
 
 
             var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
@@ -81,8 +82,63 @@ namespace VendTech.Areas.Api.Controllers
 
 
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
-         }
-         [HttpGet]
+        }
+
+
+        [HttpPost]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage SaveDepositRequestTemp(DepositModel model)
+        {
+            model.UserId = LOGGEDIN_USER.UserId;
+            //model.TotalAmountWithPercentage = model.Amount;
+            model.BankAccountId = 1;
+            //model.ValueDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
+
+            if (model.ContinueDepoit == 0)
+            {
+                var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
+                if (pendingDeposits > 0)
+                {
+                    return new JsonContent(string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
+                }
+            }
+
+            var result = _depositManager.SaveDepositRequest(model);
+
+
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            var pos = _posManager.GetSinglePos(result.Object.POSId);
+            if (pos != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+                    if (emailTemplate != null)
+                    {
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%AdminUserName%", admin.Name);
+                            body = body.Replace("%VendorName%", pos.User.Vendor);
+                            body = body.Replace("%POSID%", pos.SerialNumber);
+                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
+                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                        }
+
+                    }
+                }
+            }
+
+
+            return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
+        }
+
+
+
+
+        [HttpGet]
          [ResponseType(typeof(ResponseBase))]
          public HttpResponseMessage GetDeposits(int pageNo,int pageSize)
          {            
