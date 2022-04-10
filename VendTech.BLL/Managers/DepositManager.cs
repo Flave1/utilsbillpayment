@@ -2028,7 +2028,7 @@ namespace VendTech.BLL.Managers
             .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
              
-            depositAuditModel.Type = dbDeposit.PaymentType.ToString();
+            depositAuditModel.Type = Context.PaymentTypes.FirstOrDefault(ee => ee.PaymentTypeId == dbDeposit.PaymentType).Name;
 
             depositAuditModel.Comment = dbDeposit.Comments;
             depositAuditModel.DepositId = dbDeposit.DepositId;
