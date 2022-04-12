@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VendTech</RootNamespace>
     <AssemblyName>VendTech</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>56547</IISExpressSSLPort>
@@ -274,109 +274,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.5.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
-    <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\BouncyCastle.Crypto.dll" />
-    <Content Include="bin\BouncyCastle.Crypto.xml" />
-    <Content Include="bin\Castle.Core.dll" />
-    <Content Include="bin\ClosedXML.dll" />
-    <Content Include="bin\ClosedXML.pdb" />
-    <Content Include="bin\ClosedXML.xml" />
-    <Content Include="bin\Common.Logging.Core.dll" />
-    <Content Include="bin\Common.Logging.Core.pdb" />
-    <Content Include="bin\Common.Logging.Core.xml" />
-    <Content Include="bin\Common.Logging.dll" />
-    <Content Include="bin\Common.Logging.pdb" />
-    <Content Include="bin\Common.Logging.xml" />
-    <Content Include="bin\DocumentFormat.OpenXml.dll" />
-    <Content Include="bin\DocumentFormat.OpenXml.xml" />
-    <Content Include="bin\EntityFramework.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
-    <Content Include="bin\ExcelNumberFormat.dll" />
-    <Content Include="bin\ExcelNumberFormat.xml" />
-    <Content Include="bin\IronXL.dll" />
-    <Content Include="bin\IronXL.xml" />
-    <Content Include="bin\itextsharp.dll" />
-    <Content Include="bin\itextsharp.xml" />
-    <Content Include="bin\itextsharp.xmlworker.dll" />
-    <Content Include="bin\JWT.dll" />
-    <Content Include="bin\MailKit.dll" />
-    <Content Include="bin\MailKit.pdb" />
-    <Content Include="bin\MailKit.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\MimeKit.dll" />
-    <Content Include="bin\MimeKit.pdb" />
-    <Content Include="bin\MimeKit.xml" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\Ninject.dll" />
-    <Content Include="bin\Ninject.Extensions.Conventions.dll" />
-    <Content Include="bin\Ninject.Extensions.Conventions.xml" />
-    <Content Include="bin\Ninject.Extensions.Factory.dll" />
-    <Content Include="bin\Ninject.Extensions.Factory.xml" />
-    <Content Include="bin\Ninject.MVC.dll" />
-    <Content Include="bin\Ninject.Web.Common.dll" />
-    <Content Include="bin\Ninject.Web.Common.WebHost.dll" />
-    <Content Include="bin\Ninject.Web.Common.WebHost.xml" />
-    <Content Include="bin\Ninject.Web.Common.xml" />
-    <Content Include="bin\Ninject.Web.Mvc.dll" />
-    <Content Include="bin\Ninject.Web.Mvc.xml" />
-    <Content Include="bin\Ninject.Web.WebApi.dll" />
-    <Content Include="bin\Ninject.Web.WebApi.WebHost.dll" />
-    <Content Include="bin\Ninject.Web.WebApi.WebHost.xml" />
-    <Content Include="bin\Ninject.Web.WebApi.xml" />
-    <Content Include="bin\Ninject.WebApi.DependencyResolver.dll" />
-    <Content Include="bin\Ninject.xml" />
-    <Content Include="bin\Quartz.dll" />
-    <Content Include="bin\Quartz.pdb" />
-    <Content Include="bin\Quartz.xml" />
-    <Content Include="bin\System.Buffers.dll" />
-    <Content Include="bin\System.Buffers.xml" />
-    <Content Include="bin\System.Linq.Dynamic.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.xml" />
-    <Content Include="bin\System.Web.Http.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Optimization.dll" />
-    <Content Include="bin\System.Web.Optimization.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\Twilio.dll" />
-    <Content Include="bin\Twilio.xml" />
-    <Content Include="bin\VendTech.BLL.dll" />
-    <Content Include="bin\VendTech.BLL.pdb" />
-    <Content Include="bin\VendTech.DAL.dll" />
-    <Content Include="bin\VendTech.DAL.pdb" />
-    <Content Include="bin\VendTech.dll" />
-    <Content Include="bin\VendTech.Framework.dll" />
-    <Content Include="bin\VendTech.Framework.pdb" />
-    <Content Include="bin\VendTech.pdb" />
-    <Content Include="bin\WebActivatorEx.dll" />
-    <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\adminStyle.css" />
     <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\assets\css\style.min.css" />
@@ -6571,10 +6473,6 @@
     <Content Include="Content\themes\jquery.vectormaps\jvectormap.jquery.json" />
     <Content Include="Content\themes\jquery.vectormaps\README.md" />
     <Content Include="Content\themes\skycons\README.md" />
-    <Content Include="bin\VendTech.BLL.dll.config" />
-    <Content Include="bin\VendTech.DAL.dll.config" />
-    <Content Include="bin\VendTech.dll.config" />
-    <Content Include="bin\VendTech.Framework.dll.config" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
