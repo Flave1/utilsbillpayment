@@ -13,6 +13,8 @@
     <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <![endif]-->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
@@ -26,9 +28,7 @@
 
         @if (user.UserType != UserRoles.AppUser)
         {
-
             @RenderBody()
-
         }
         else
         {
@@ -39,10 +39,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/extendedjs")
+    @*@Scripts.Render("~/bundles/extendedjs")
     @Scripts.Render("~/bundles/themeSpecific")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/custom")
+    @Scripts.Render("~/bundles/custom")*@
     @RenderSection("scripts", required: false)
 
     <script>
@@ -66,16 +66,6 @@
                 }
             })
         }, 3000);
-
-        //setInterval(function () {
-        //    $.ajax({
-        //        url: '/Admin/Home/ReturnDealerBalance',
-        //        success: function (data) {
-        //            $("#dealerBal").text(data.result.LastDealerBalance);
-        //            $("#transDate").text(data.result.RequestDate);
-        //        }
-        //    })
-        //}, 3000);
 
         setInterval(function () {
             $.ajax({

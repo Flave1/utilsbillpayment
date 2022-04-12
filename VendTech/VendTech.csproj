@@ -5566,6 +5566,7 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\UserScripts\agency.js" />
     <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Scripts\UserScripts\AgentRevenueReport.js" />
@@ -6578,9 +6579,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.table2excel.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -6672,7 +6670,6 @@
     <Content Include="Views\POS\partials\_posListing.cshtml" />
     <Content Include="Views\Report\PrintDepositReport.cshtml" />
     <Content Include="Views\Report\PrintSalesReport.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Meter\Utility.cshtml" />
@@ -6751,9 +6748,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56549</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56511/</IISUrl>
+          <IISUrl>http://localhost:56549/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:56511/</IISAppRootUrl>
+          <IISAppRootUrl>http://localhost:56549/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
