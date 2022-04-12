@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -176,7 +177,15 @@ namespace VendTech.Controllers
                 });
             }
 
-          
+             
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult FetchVendors(FetchItemsModel request)
+        {
+            var vendorList = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
+     
+            return PartialView("Transfer/_vendorsListing", vendorList);
         }
 
         #endregion

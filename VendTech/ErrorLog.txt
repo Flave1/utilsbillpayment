@@ -1,0 +1,24 @@
+The partial view 'Partials/_vendorsListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Agents/Partials/_vendorsListing.aspx
+~/Views/Agents/Partials/_vendorsListing.ascx
+~/Views/Shared/Partials/_vendorsListing.aspx
+~/Views/Shared/Partials/_vendorsListing.ascx
+~/Views/Agents/Partials/_vendorsListing.cshtml
+~/Views/Agents/Partials/_vendorsListing.vbhtml
+~/Views/Shared/Partials/_vendorsListing.cshtml
+~/Views/Shared/Partials/_vendorsListing.vbhtml
+
+
+
+The partial view 'Partials/_vendorsListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Agents/Partials/_vendorsListing.aspx
+~/Views/Agents/Partials/_vendorsListing.ascx
+~/Views/Shared/Partials/_vendorsListing.aspx
+~/Views/Shared/Partials/_vendorsListing.ascx
+~/Views/Agents/Partials/_vendorsListing.cshtml
+~/Views/Agents/Partials/_vendorsListing.vbhtml
+~/Views/Shared/Partials/_vendorsListing.cshtml
+~/Views/Shared/Partials/_vendorsListing.vbhtml
+
+
+

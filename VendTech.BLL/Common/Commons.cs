@@ -123,5 +123,9 @@ namespace VendTech.BLL.Models
         public bool DatabaseLogStatus { get; set; }
     }
 
+    public class FetchItemsModel
+    {
+        public string Id { get; set; }
+    }
 
 }
