@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VendTech</RootNamespace>
     <AssemblyName>VendTech</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>56547</IISExpressSSLPort>
@@ -486,7 +486,6 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ForotPassword.cshtml" />

@@ -119,22 +119,7 @@ namespace VendTech.Areas.Admin.Controllers
                 {
 
                     var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-                    //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
-                    //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
-
-                    //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
-
-                    //decimal balance = 0;
-                    //foreach (var item in balanceSheet.List)
-                    //{
-                    //    balance = balance + item.DepositAmount - item.SaleAmount;
-                    //    item.Balance = balance;
-                    //}
-
-                    //balanceSheet.Status = ActionStatus.Successfull;
-                    //balanceSheet.Message = "Balance Sheet List";
-                    //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
-
+                 
                     return View("BalanceSheetReports", balanceSheet);
                 }
                 if (val == "28")
@@ -223,9 +208,6 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 depositAuditModel = _depositManager.GetAuditReportsPagedList(model, true);
             }
-            //List<string> resultString = new List<string>();
-            //resultString.Add(RenderRazorViewToString("Partials/_reportListing", modal));
-            //resultString.Add(modal.TotalCount.ToString());
             if (model.ReportType == "17")
             {
                 var resultString = new List<string> {

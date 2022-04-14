@@ -23,6 +23,7 @@ textarea {
 
 .transferFromOverlay {
     width: calc(100vw - 2px);
+    height: 100vh;
     position: fixed;
     background-color: gray;
     background-color: rgba(150,150,150,.5);

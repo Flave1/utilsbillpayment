@@ -2179,7 +2179,6 @@ namespace VendTech.BLL.Managers
             {
                 //Substracts Sender Balance
                 var frompos = Context.POS.FirstOrDefault(er => er.POSId == fromPos);
-                frompos.Balance = frompos.Balance - dbDeposit.Amount;
 
                 var toPos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
@@ -2234,6 +2233,64 @@ namespace VendTech.BLL.Managers
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        void IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId)
+        {
+            try
+            {
+                var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+                dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
+                dbDeposit.POS = pos;
+                dbDeposit.UserId = pos?.VendorId ?? 0;
+                dbDeposit.CheckNumberOrSlipId = "0";
+                dbDeposit.Comments = "";
+                dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
+                dbDeposit.NameOnCheque = pos.User.Vendor;
+                dbDeposit.BankAccountId = 1;
+                dbDeposit.isAudit = false;
+                //Adds to  Reciever Balance
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
+                dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.IsDeleted = false;
+                Context.Deposits.Add(dbDeposit);
+                Context.SaveChanges();
+
+                //Creating Log entry in deposit logs table
+                var dbDepositLog = new DepositLog();
+                dbDepositLog.UserId = currentUserId;
+                dbDepositLog.DepositId = dbDeposit.DepositId;
+                dbDepositLog.PreviousStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.NewStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.CreatedAt = DateTime.UtcNow;
+                Context.DepositLogs.Add(dbDepositLog);
+                Context.SaveChanges();
+
+                //Send push to all devices where this user logged in when admin released deposit
+                var deviceTokens = pos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
+                var obj = new PushNotificationModel();
+                obj.UserId = dbDeposit.UserId;
+                obj.Id = dbDeposit.DepositId;
+                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+
+                obj.Title = $"Account Debited";
+                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+
+                obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
+                foreach (var item in deviceTokens)
+                {
+                    obj.DeviceToken = item.DeviceToken;
+                    obj.DeviceType = item.AppType.Value;
+                    PushNotification.SendNotification(obj);
+                }
+                var result = new Dictionary<string, string>();
+                result.Add(string.Format("{0:N0}", pos.Balance), string.Format("{0:N0}", dbDeposit.POS.Balance));
+            }
+            catch (Exception e)
+            {
             }
         }
 
