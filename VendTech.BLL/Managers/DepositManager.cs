@@ -2173,7 +2173,7 @@ namespace VendTech.BLL.Managers
             });
         }
 
-        IDictionary<string, string> IDepositManager.CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos)
+        string  IDepositManager.CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos)
         {
             try
             {
@@ -2226,9 +2226,7 @@ namespace VendTech.BLL.Managers
                     obj.DeviceType = item.AppType.Value;
                     PushNotification.SendNotification(obj);
                 }
-                var result = new Dictionary<string, string>();
-                result.Add(string.Format("{0:N0}", frompos.Balance), string.Format("{0:N0}", dbDeposit.POS.Balance));
-                return result;
+                return string.Format("{0:N0}", dbDeposit.POS.Balance);
             }
             catch (Exception e)
             {
@@ -2236,7 +2234,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        void IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId)
+        string IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId)
         {
             try
             {
@@ -2250,7 +2248,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.NameOnCheque = pos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
-                //Adds to  Reciever Balance
+
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
@@ -2286,11 +2284,11 @@ namespace VendTech.BLL.Managers
                     obj.DeviceType = item.AppType.Value;
                     PushNotification.SendNotification(obj);
                 }
-                var result = new Dictionary<string, string>();
-                result.Add(string.Format("{0:N0}", pos.Balance), string.Format("{0:N0}", dbDeposit.POS.Balance));
+                return string.Format("{0:N0}", dbDeposit.POS.Balance);
             }
             catch (Exception e)
             {
+                throw e;
             }
         }
 

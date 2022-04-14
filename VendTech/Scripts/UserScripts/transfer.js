@@ -168,8 +168,8 @@ var transferHandler = {
                     transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
                     $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
                 },
-                error: function (error) {
-                    $.ShowMessage($('div.messageAlert'), error, MessageType.Error);
+                error: function (res) {
+                    $.ShowMessage($('div.messageAlert'), res.error, MessageType.Error);
                 }
             });
 
@@ -190,7 +190,7 @@ var transferHandler = {
             if (vendor.SerialNumber === transferHandler.transferTo.SerialNumber) {
                 vendor.Balance = toBalance;
             }
-            $('#amtToTransfer').val();
+            $('#amtToTransfer').val(0);
             $('#transFromVendor').html(`TRANSFER CASH FROM ${transferHandler.transferFrom.Vendor} : <a> ${fromBalance} </a>`);
         });
 

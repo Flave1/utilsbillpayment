@@ -205,20 +205,20 @@ namespace VendTech.Controllers
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = request.Amount,
                 };
-                var result = _depositManager.CreateDepositTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId);
+                var to = _depositManager.CreateDepositTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId);
                 var depositDr = new Deposit
                 {
                     Amount = Decimal.Negate(request.Amount),
-                    POSId = request.ToPosId,
+                    POSId = request.FromPosId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = Decimal.Negate(request.Amount),
                 };
-                _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
+                var from = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
 
                 SendEmailOnDeposit(request.FromPosId, request.ToPosId);
                 SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
-                return Json(new { message = "You Successfuly transfered cash", currentFromVendorBalance = result.Keys.First(), currentToVendorBalance = result.Values.First() });
+                return Json(new { message = "You Successfuly transfered cash", currentFromVendorBalance = from, currentToVendorBalance = to });
             }
             catch (Exception e)
             {
