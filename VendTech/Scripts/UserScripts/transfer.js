@@ -40,7 +40,7 @@ var transferHandler = {
     },
 
     initializeTransferFromVendors: function () {
-        debugger
+    
         let table = '<table class="table table-bordered" style="width:80%; margin:auto;">';
         table += `<tr><th>VENDOR NAME</th><th>POS ID</th><th>BALANCE</th></tr>`;
         console.log('data', transferHandler.allAgencyVendors[0]);
@@ -59,11 +59,11 @@ var transferHandler = {
 
     returnButton: function (serial) {
         return `<button class="transferEllbtn">
-                    <div class="dropdown show" >
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="optionMenue_${serial}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             select
                         </a>
-                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding:20px;">
+                       <ul class="dropdown-menu" aria-labelledby="optionMenue_${serial}" style="padding:20px;">
                             <li class="dropdown-item"> <a class="flatBtn" id="transfer_${serial}">Transfer</a> </li>
                             <li class="dropdown-item"> <a class="flatBtn" >View Account</a> </li>
                         </ul>

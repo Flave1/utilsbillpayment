@@ -1,0 +1,1056 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\bin\app.publish\</_PublishTargetUrl>
+    <History>False|2022-04-14T08:08:40.0639549Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="App_Readme/readme.txt">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/AddAgent.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/ManageAgents.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/Partials/_agencyListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/EditUser.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/ManageAppUsers.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_appUserListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_modulesListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_platformsListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_widgetsListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/ViewUser.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/AddBankAccount.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/EditBankAccount.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/ManageBankAccounts.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/AddChequeBanks.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/EditChequeBanks.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/ManageChequeBanks.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/CMSManager.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/EditPageContent.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/Partials/_pageListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Commission/ManageCommissions.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/AddDeposit.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/DepositLogs.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/ManageDeposits.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/Partials/_depositLogListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/AddTemplate.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/ManageTemplates.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/Partials/_templateListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/AboutUs.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/AccesDeniedPage.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ChangePassword.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ContactUs.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Error.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/FAQ.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ForgotPassword.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ForotPassword.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Index.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/OTPVerification.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_BSReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/PrivacyPolicy.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ResetPassword.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/TermsAndConditions.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/AddEditPaymentType.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/Index.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/Partials/_paymentTypeListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Platform/ManagePlatforms.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/AddEditPos.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_platformsListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_posListing.cshtml">
+      <publishTime>04/11/2022 12:42:09</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/Partials/_depositReleaseListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/BalanceSheetReports.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/DepositReleaseReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageAgentsRevenueReports.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageGSTSalesReports.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageSalesReports.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_agentsRevenueReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_balanceSheetReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_depositAuditListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_depositReleaseListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_gstSalesReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_reportListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_salesReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintAgencyRevenueReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintBalancesheetReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositAuditReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositReleaseReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintGSTSalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintSalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReverseDeposit/ManageDepositReverse.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReverseDeposit/Partials/_depositReverseListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/ManageRoles.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
+      <publishTime>04/14/2022 03:22:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml">
+      <publishTime>04/14/2022 03:22:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_FunctionCallMessage.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_Header.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_Paging.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_SearchFilter.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_SideBaar.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/AddUser.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/EditUser.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/ManageUsers.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/Partials/_modulesListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/Partials/_platformsListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/Partials/_userListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/Partials/_widgetsListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/AddEditVendor.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/Detail.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/ManageVendors.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/Partials/_posListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/Partials/_vendorListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/Pos.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/web.config">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Home/Index.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/POS/AddEditPos.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/POS/ManagePOS.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/POS/Partials/_posListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_AgentLayOut.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_beforeLoginAdminLayout.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_FunctionCallMessage.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_Header.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_Paging.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_SearchFilter.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Shared/_SideBaar.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Vendor/AddEditVendor.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Vendor/ManageAgentVendors.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/Vendor/Partials/_vendorListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Agent/Views/web.config">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Audit/Views/web.config">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Home/Index.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/POS/ManageVendorPOS.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/POS/Partials/_posListing.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_beforeLoginAdminLayout.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_FunctionCallMessage.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_Header.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_Paging.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_SearchFilter.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_SideBaar.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/Shared/_VendorLayOut.cshtml">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="Areas/Vendor/Views/web.config">
+      <publishTime>04/11/2022 12:42:10</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="bin/BouncyCastle.Crypto.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/Castle.Core.dll">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="bin/ClosedXML.dll">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="bin/ClosedXML.pdb">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.Core.dll">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.Core.pdb">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.dll">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.pdb">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/DocumentFormat.OpenXml.dll">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>04/11/2022 12:42:31</publishTime>
+    </File>
+    <File Include="bin/ExcelNumberFormat.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/IronXL.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>04/11/2022 12:42:37</publishTime>
+    </File>
+    <File Include="bin/itextsharp.xmlworker.dll">
+      <publishTime>04/11/2022 12:42:37</publishTime>
+    </File>
+    <File Include="bin/JWT.dll">
+      <publishTime>05/15/2015 11:15:52</publishTime>
+    </File>
+    <File Include="bin/MailKit.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/MailKit.pdb">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/MimeKit.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/MimeKit.pdb">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/Ninject.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.Extensions.Conventions.dll">
+      <publishTime>04/11/2022 12:42:38</publishTime>
+    </File>
+    <File Include="bin/Ninject.Extensions.Factory.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.MVC.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.Web.Common.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.Web.Common.WebHost.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.Web.Mvc.dll">
+      <publishTime>04/11/2022 12:42:34</publishTime>
+    </File>
+    <File Include="bin/Ninject.Web.WebApi.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/Ninject.Web.WebApi.WebHost.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/Ninject.WebApi.DependencyResolver.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/Quartz.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/Quartz.pdb">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/System.Buffers.dll">
+      <publishTime>04/11/2022 12:42:35</publishTime>
+    </File>
+    <File Include="bin/System.Linq.Dynamic.dll">
+      <publishTime>04/11/2022 12:42:37</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>04/11/2022 12:42:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>04/11/2022 12:42:33</publishTime>
+    </File>
+    <File Include="bin/Twilio.dll">
+      <publishTime>01/27/2021 21:48:34</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.dll">
+      <publishTime>04/14/2022 04:46:08</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.dll.config">
+      <publishTime>04/14/2022 03:23:06</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.pdb">
+      <publishTime>04/14/2022 04:46:08</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll">
+      <publishTime>04/14/2022 04:46:06</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll.config">
+      <publishTime>04/14/2022 03:58:39</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.pdb">
+      <publishTime>04/14/2022 04:46:06</publishTime>
+    </File>
+    <File Include="bin/VendTech.dll">
+      <publishTime>04/14/2022 04:46:10</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll">
+      <publishTime>04/14/2022 04:46:09</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll.config">
+      <publishTime>04/14/2022 04:00:33</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.pdb">
+      <publishTime>04/14/2022 04:46:09</publishTime>
+    </File>
+    <File Include="bin/VendTech.pdb">
+      <publishTime>04/14/2022 04:46:10</publishTime>
+    </File>
+    <File Include="bin/WebActivatorEx.dll">
+      <publishTime>04/11/2022 12:42:37</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>04/11/2022 12:42:37</publishTime>
+    </File>
+    <File Include="Content/spinner.css">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Content/style.css">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Content/transfer.css">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="ErrorLog.txt">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/0456a21a-8b02-4cda-9f59-78d853ed20da.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/05d4b5b2-d72f-4917-987b-19b0b7dc6d23.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/0e85b7f3-5370-464c-b0b0-212397c72f8d.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/1b768c3a-8c66-4975-b583-f7a37c903093.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/51d5df9c-e83b-4b44-a943-81e6d4db60d8.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/5eda501c-4fa1-4982-aa03-4589d01354bb.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/65aefc47-c031-4749-af61-ddc0c630b7ce.png">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/a4100e6a-93d2-4d7d-bcf9-01cb6460ddb3.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/ac8cecb5-b2f4-42f5-be4c-6b6ce70f7710.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/bc435e6b-db71-451b-8f3d-b10b87615a64.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Images/ProfileImages/d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="libman.json">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/baseProject.pubxml.user">
+      <publishTime>04/12/2022 10:59:03</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/FolderProfile.pubxml.user">
+      <publishTime>04/14/2022 04:46:00</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/agency.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/agencyRevenueReport.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/appUsers.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/balanceSheetReport.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/bankAccount.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/checkbank.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/cmsPages.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/commission.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/deposit.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/depositLog.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/depositRelease.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/depositReleaseReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/depositReverse.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/gstSalesReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/Login.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/passcode.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/paymentType.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/platform.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/pos.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/report.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/reportFilter.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/role.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/salesReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/templates.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/users.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/vendor.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/VendorPos.js">
+      <publishTime>04/11/2022 12:42:29</publishTime>
+    </File>
+    <File Include="Scripts/AgentScripts/Login.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AgentScripts/pos.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/AgentScripts/vendor.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/ajax-form.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/FrontEndScripts/registrations.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/html2canvas.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/html5.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery-migrate-1.2.1.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.table2excel.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/jspdf.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/Receipt.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/Spinner.js">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Scripts/sweetalert.min.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserDefinedScripts/Common.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserDefinedScripts/paging.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserDefinedScripts/requiredIf.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/agency.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/AgentRevenueReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/balanceSheetReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/depositReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/gstSalesReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/login.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/meter.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/passcode.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/pos.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/register.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/reportFilter.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/salesReport.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/transfer.js">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Scripts/VendorScripts/Login.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Scripts/VendorScripts/pos.js">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Templates/DepositPDF.html">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Templates/RechargeMeter.html">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Agents/AddAgent.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Agents/ManageAgents.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Agents/Partials/_agencyListing.cshtml">
+      <publishTime>04/11/2022 15:47:21</publishTime>
+    </File>
+    <File Include="Views/Deposit/Index.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/ChangePassword.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/Dashboard.cshtml">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Views/Home/Error.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/FirstTimeLoginChangePassword.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/ForgotPassword.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/PrivacyPolicy.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/Register.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/ResetPassword.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Home/TermsAndConditions.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/AddEditMeter.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Index.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_meterListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_salesListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_userMeterListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Recharge.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Meter/Utility.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/POS/ManagePos.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/POS/partials/_posListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/AgentRevenueReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/BalanceSheetReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/DepositReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/GSTSalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_agentRevenueListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_assignedReports.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_balanceSheetReportListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_depositListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_gstSalesListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_salesListing.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/PrintAgencyRevenueReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/PrintDepositReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/PrintGSTSalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/PrintSalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Report/SalesReport.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/Transfer/_transferToVedorsListing.cshtml">
+      <publishTime>04/14/2022 04:17:24</publishTime>
+    </File>
+    <File Include="Views/Shared/Transfer/_vendorsListing.cshtml">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Views/Shared/_beforeLoginUserLayout.cshtml">
+      <publishTime>04/11/2022 14:17:29</publishTime>
+    </File>
+    <File Include="Views/Shared/_depositReceipt.cshtml">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Views/Shared/_footer.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_FunctionCallMessage.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_Header.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>04/14/2022 03:25:24</publishTime>
+    </File>
+    <File Include="Views/Shared/_Paging.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_RequestResponseJSON.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_SearchFilter.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_SideBaar.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_voucherReceipt.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/_voucherReprint.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Shared/__Error.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/User/EditProfile.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>04/11/2022 12:42:30</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/14/2022 04:46:10</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
