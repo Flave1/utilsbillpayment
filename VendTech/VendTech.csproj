@@ -461,6 +461,7 @@
     <Content Include="Scripts\UserScripts\transfer.js" />
     <Content Include="Scripts\VendorScripts\Login.js" />
     <Content Include="Scripts\VendorScripts\pos.js" />
+    <None Include="Properties\PublishProfiles\win.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
