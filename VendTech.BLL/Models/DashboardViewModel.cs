@@ -15,9 +15,9 @@ namespace VendTech.BLL.Models
         public int userCount { get; set; }
         public decimal walletBalance { get; set; }
         public decimal revenue { get; set; }
-        public List<PlatformModel> platFormModels { get; set; }
-        public List<TransactionChartData> transactionChartData { get; set; }
-        public UserModel currentUser { get; set; }
+        public List<PlatformModel> platFormModels { get; set; } = new List<PlatformModel>();
+        public List<TransactionChartData> transactionChartData { get; set; } = new List<TransactionChartData>();
+        public UserModel currentUser { get; set; } = new UserModel();
 
         public PagingResult<DashboardBalanceSheetModel> Bs { get; set; } = new PagingResult<DashboardBalanceSheetModel>();
 

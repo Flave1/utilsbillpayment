@@ -184,6 +184,29 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Agency deleted successfully.");
         }
+
+        PagingResult<AgentListingModel> IAgencyManager.GetAgentsPagedList2(PagingModel model, long agency)
+        {
+            var result = new PagingResult<AgentListingModel>();
+            model.RecordsPerPage = 10000000;
+            IQueryable<POS> query = null;
+
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+             
+         
+            var list = query
+               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+               .ToList().Select(x => new AgentListingModel(x)).ToList();
+
+          
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "User List";
+            result.TotalCount = query.Count();
+            return result;
+        }
+
+
     }
 
 

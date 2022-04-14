@@ -279,6 +279,8 @@
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
+    <Content Include="Content\transfer.css" />
+    <Content Include="Content\spinner.css" />
     <Content Include="Content\style.css" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
@@ -431,8 +433,6 @@
     <Content Include="Scripts\html2canvas.min.js" />
     <Content Include="Scripts\html5.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\jquery-migrate-1.2.1.js" />
     <Content Include="Scripts\jquery.table2excel.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -444,6 +444,7 @@
     <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Spinner.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserDefinedScripts\Common.js" />
     <Content Include="Scripts\UserDefinedScripts\paging.js" />
@@ -508,6 +509,7 @@
     <Content Include="Templates\DepositPDF.html" />
     <Content Include="Templates\RechargeMeter.html" />
     <Content Include="Views\Home\Error.cshtml" />
+    <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -575,8 +577,8 @@
     <Content Include="Views\Report\PrintAgencyRevenueReport.cshtml" />
     <Content Include="Views\Report\partials\_assignedReports.cshtml" />
     <Content Include="Views\Shared\Transfer\_vendorsListing.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -627,9 +629,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56549</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56511/</IISUrl>
+          <IISUrl>http://localhost:56549/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:56511/</IISAppRootUrl>
+          <IISAppRootUrl>http://localhost:56549/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

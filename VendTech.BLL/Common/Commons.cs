@@ -128,4 +128,11 @@ namespace VendTech.BLL.Models
         public string Id { get; set; }
     }
 
+    public class CashTransferModel
+    {
+        public long FromPosId { get; set; }
+        public long ToPosId { get; set; }
+        public decimal Amount { get; set; }
+    }
+
 }

@@ -51,7 +51,8 @@ namespace VendTech.BLL.Interfaces
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
         PagingResult<AgentRevenueListingModel> GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin= false, long agentId = 0);
         PagingResult<AgencyRevenueExcelReportModel> GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
-        void DeletePendingDeposits(List<PendingDeposit> deposits); 
+        void DeletePendingDeposits(List<PendingDeposit> deposits);
+        IDictionary<string, string> CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos);
     }
 
 }
