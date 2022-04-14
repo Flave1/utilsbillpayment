@@ -294,8 +294,6 @@
     <Content Include="Images\ProfileImages\ac8cecb5-b2f4-42f5-be4c-6b6ce70f7710.jpg" />
     <Content Include="Images\ProfileImages\bc435e6b-db71-451b-8f3d-b10b87615a64.jpg" />
     <Content Include="Images\ProfileImages\d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg" />
-    <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayOut.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_beforeLoginAdminLayout.cshtml" />
@@ -461,7 +459,6 @@
     <Content Include="Scripts\UserScripts\transfer.js" />
     <Content Include="Scripts\VendorScripts\Login.js" />
     <Content Include="Scripts\VendorScripts\pos.js" />
-    <None Include="Properties\PublishProfiles\win.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
