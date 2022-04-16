@@ -1,11 +1,16 @@
-﻿
-
-
+﻿<style>
+    .title {
+        padding: 5px;
+        padding-left: 78px;
+        margin: 30px;
+        margin-left: 30px;
+    }
+</style>
 <div class="transferFromOverlay" id="transferFromModal">
     <div class="transferFromModal" style=" width: calc(60vw - 0px); max-width: calc(60vw - 0px);">
         <div class="table-responsive" style="background: white;">
-            <button class="pull-right btnClose" onclick="transferHandler.closeTransferFromVendors()"><i class="fa fa-times">close</i></button>
-            <h3 style="padding:5px; margin:5px; padding-left:20px">AGENCY WALLET ADMINISTRATION</h3>
+            <button class="pull-right btnClose" onclick="transferHandler.closeTransferFromVendors()"><i class="fa fa-times"></i></button>
+            <h3 class="title">AGENCY WALLET ADMINISTRATION</h3>
             <div id="vendorsTable">
 
             </div>
@@ -14,50 +19,3 @@
     </div>
 
 </div>
-
-
-
-
-
-@*<button class="transferEllbtn">
-        <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                select
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding:20px; ">
-                <button class="dropdown-item" onclick="transferHandler.openTransferToModal('@item.POSID', '@item.SerialNumber', '@item.Vendor', '@item.Balance')" href="#">Transfer</button>
-
-            </ul>
-        </div>
-    </button>*@
-
-@*<table class="table table-bordered" style="width:80%; margin:auto;">
-
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">VENDOR NAME</th>
-                <th scope="col">POS ID</th>
-                <th scope="col">BALANCE</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.List != null)
-            {
-                int i = 0;
-                foreach (var item in Model.List)
-                {
-                    i += 1;
-                    <tr>
-                        <th scope="row">@i</th>
-                        <td>   @item.Vendor  </td>
-                        <td>@item.POSID</td>
-                        <td>
-                            <span style="float:left">@item.Balance</span>
-
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>*@

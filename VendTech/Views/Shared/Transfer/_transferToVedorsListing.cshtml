@@ -4,11 +4,15 @@
         padding: 0;
         list-style: none;
     }
+        .liveSearchBar, .liveSearchBar li:hover {
+            list-style:decimal;
+        }
    
     .liveSearchBar, .liveSearchBar li a {
         color: #000;
         text-decoration: none;
     }
+       
     #live-search {
         padding: 20px;
         padding-left: 0;
@@ -47,7 +51,7 @@
         color: #000;
     }
     .transferToModal {
-        width: 700px;
+        width: 800px;
         height: auto;
         margin: auto;
         z-index: 3;
@@ -67,39 +71,93 @@
         display: none;
         overflow: hidden;
     }
+    .transferSection {
+        margin: 30px;
+        display: block;
+    }
+
+    .tfSection_div {
+        max-width: 100%;
+        width: calc(500px);
+        display: table-cell;
+        border: 1px solid grey;
+        padding: 5px;
+    }
+
+    .tfSectionTo_amount {
+        width: 100%;
+        display: table-row;
+    }
+    h1 strong {
+        color: #fb9b56;
+    }
+
+    h2 strong{
+        font-size:20px;
+    }
+    #amtToTransfer {
+        width: 200px;
+        max-width: 1000px;
+        position: relative;
+        left: 60px;
+    }
+    .form-group label {
+        position: relative;
+        left: 60px;
+    }
+ 
+    
 </style>
 <div class="transferToOverlay">
     <div class="transferToModal">
         <div class="table-responsive" style="background: white;">
-            <button class="pull-right btnClose" onclick="transferHandler.closeTransferToVendors()"><i class="fa fa-times">close</i></button>
-            <h3 style="padding:5px; margin:5px; padding-left:20px"><strong id="transFromVendor"></strong></h3>
-            <div style="margin:30px; display:block">
-                <div style="width: 49%; display: table-cell; border-right:1px solid grey;">
-                    <form id="live-search" action="" class="t_liveSearch" method="post" autocomplete="off">
-                        <fieldset>
-                            <h4>Search Vendors</h4>
-                            <input type="text" class="text-input form-control" id="filter" placeholder="search" />
-                            <span id="filter-count"></span>
-                        </fieldset>
-                    </form>
+            <button class="pull-right btnClose" onclick="transferHandler.closeTransferToVendors()"><i class="fa fa-times"></i></button>
+            <h3 style="padding:5px; margin:5px; padding-left:20px"><strong >TRANSFER FUNDS</strong></h3>
+            <div class="transferSection">
+                <div class="tfSection_div">
+                    <section style="padding:5px">
+                        <h1><strong>FROM:</strong></h1>
+                        <h2><strong id="transFromVendor"></strong></h2>
+                    </section>
+                    <section style="">
+                        <form id="live-search" action="" class="t_liveSearch" method="post" autocomplete="off">
+                            <fieldset>
+                                <h4>Search Vendors</h4>
+                                <input type="text" class="text-input form-control" id="filter" placeholder="search" />
+                                <span id="filter-count"></span>
+                            </fieldset>
+                        </form>
+                        <nav id="toVendorsList">   </nav>
+                    </section>
 
-                    <nav id="toVendorsList" >   </nav>
                 </div>
-                <div style="width: 49%; display: table-cell;">
-                    <div class="" style="padding:5px; margin-left:50px">
+                <div class="tfSection_div">
+                    <section style="height: 168px; width: 100%; display: block; padding: 5px; ">
+                        <h1><strong>TO:</strong></h1>
+                        <h2><strong id="transToVendor"> </strong> </h2>
+                    </section>
+
+                    <section style="height: 300px; width: 100%; padding: 5px; ">
                         <form>
                             <div class="form-group">
-                                <label><strong id="transToVendor">AMOUNT TO <br />  </strong></label>
-                                <input type="number" class="form-control" id="amtToTransfer" placeholder="Enter amount">
+                                <label><strong>AMOUNT   </strong></label>
+                                <input type="number" style="text-align:right; color:#125acb; font-weight:bold;" class="form-control" id="amtToTransfer" placeholder="Enter amount">
                                 <small class="form-text text-muted text-danger" id="transferError"> </small>
                             </div>
-                            <a href="#" onclick="transferHandler.transferToVendor()" class="btn btn-primary text-white pull-right" >Done</a>
+                            <a href="#" style="background-color: #e1cd0e; border: none; position: relative; right: 40px; position: relative; right: 73px; " onclick="transferHandler.transferToVendor()" class="btn btn-primary text-white pull-right">Transfer</a>
                         </form>
-                    </div>
+                    </section>
                 </div>
             </div>
-        </div> 
-      
-    </div>
 
+        </div>
+
+    </div>
 </div>
+
+    @*<div class="tfSectionTo_amount col-12">
+
+        </div>
+        <div class="tfSectionTo_amount col-12">
+           
+        </div>*@

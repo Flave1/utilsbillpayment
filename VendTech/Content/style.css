@@ -54,11 +54,15 @@ textarea {
     border: none;
 }
 
+    .btnClose i {
+        margin: 40px;
+        padding: 5px;
+        color: grey;
+    }
+
 .flatBtn {
     border: none;
     background: white;
 }
-
-
 
 

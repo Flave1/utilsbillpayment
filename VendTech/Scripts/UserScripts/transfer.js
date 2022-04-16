@@ -70,7 +70,7 @@ var transferHandler = {
                      </div>
         </button>`
     },
-
+ 
     closeTransferToVendors: function () {
         transferHandler.toVendors = [];
         $(".transferToModal").css("display", "none");
@@ -81,7 +81,7 @@ var transferHandler = {
         transferHandler.liveSearchVendors();
         transferHandler.transferFrom = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === posSerial)[0];
         if (transferHandler.transferFrom) {
-            $('#transFromVendor').html(`TRANSFER CASH FROM ${transferHandler.transferFrom.Vendor} : <a> ${transferHandler.transferFrom.Balance} </a>`);
+            $('#transFromVendor').html(`${transferHandler.transferFrom.Vendor}: <a> SSL ${transferHandler.transferFrom.Balance} </a>`);
             $('.transferToModal').css('display', 'block');
             $(".transferToOverlay").css("display", "block");
             transferHandler.displayToVendors();
@@ -117,7 +117,7 @@ var transferHandler = {
     displayToVendors: function () {
         let ul = '<ul class="liveSearchBar">';
         transferHandler.allAgencyVendors[0].filter(v => v.SerialNumber !== transferHandler.transferFrom.SerialNumber).forEach((vendor, index) => {
-            ul = ul + `<li><a id='toVendor_${vendor.SerialNumber}' href="#">${vendor.Vendor} --- ${vendor.SerialNumber}</a></li>`;
+            ul = ul + `<li><a id='toVendor_${vendor.SerialNumber}' href="#">${vendor.Vendor} - ${vendor.SerialNumber}</a></li>`;
         });
         ul += "</ul>";
         document.getElementById("toVendorsList").innerHTML = ul;
@@ -128,7 +128,7 @@ var transferHandler = {
         transferHandler.allAgencyVendors[0].forEach((vendor, index) => {
             $(`#toVendor_${vendor.SerialNumber}`).click(function () {
                 transferHandler.transferTo = vendor;
-                $(`#transToVendor`).html(`AMOUNT TO <br /> <a>` + vendor.Vendor  + '---'+ vendor.SerialNumber +`</a>`);
+                $(`#transToVendor`).html(vendor.Vendor + ` - <a>`+ vendor.SerialNumber +`</a>`);
             });
         }); 
     },
@@ -156,22 +156,26 @@ var transferHandler = {
                 return;
             }
 
-            var request = new Object();
-            request.FromPosId = Number(transferHandler.transferFrom.POSID);
-            request.ToPosId = Number(transferHandler.transferTo.POSID);
-            request.Amount = amountToTransfer;
-            $.ajax({
-                url: '/Agents/TransferCash',
-                data: $.postifyData(request),
-                type: "POST",
-                success: function (data) {
-                    transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
-                    $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
-                },
-                error: function (res) {
-                    $.ShowMessage($('div.messageAlert'), res.error, MessageType.Error);
-                }
+            $.ConfirmBox("", `Are you sure to transfer SLL: ${amountToTransfer} to ${transferHandler.transferFrom.Vendor}?`, null, true, "Yes", true, null, function () {
+                var request = new Object();
+                request.FromPosId = Number(transferHandler.transferFrom.POSID);
+                request.ToPosId = Number(transferHandler.transferTo.POSID);
+                request.Amount = amountToTransfer;
+                $.ajax({
+                    url: '/Agents/TransferCash',
+                    data: $.postifyData(request),
+                    type: "POST",
+                    success: function (data) {
+                        transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
+                        $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
+                    },
+                    error: function (res) {
+                        $.ShowMessage($('div.messageAlert'), res.error, MessageType.Error);
+                    }
+                });
             });
+
+           
 
 
         } else {
@@ -191,7 +195,9 @@ var transferHandler = {
                 vendor.Balance = toBalance;
             }
             $('#amtToTransfer').val(0);
-            $('#transFromVendor').html(`TRANSFER CASH FROM ${transferHandler.transferFrom.Vendor} : <a> ${fromBalance} </a>`);
+            $('#transFromVendor').html(`${transferHandler.transferFrom.Vendor}: <a> SSL  ${fromBalance} </a>`);
+            transferHandler.transferTo = null;
+            $(`#transToVendor`).html(``);
         });
 
         transferHandler.initializeTransferFromVendors();
