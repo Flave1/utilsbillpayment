@@ -47,8 +47,8 @@ var transferHandler = {
         transferHandler.allAgencyVendors[0].forEach((vendor, index) => {
             table = table + `<tr>`;
             table = table + `<td> ${vendor.Vendor}</td>`;
-            table = table + `<td> ${vendor.SerialNumber}</td>`;
-            table = table + `<td> ${vendor.Balance}</td>`;
+            table = table + `<td style="text-align:right;"> ${vendor.SerialNumber}</td>`;
+            table = table + `<td style="text-align:right; font-weight:bold;"> ${vendor.Balance}</td>`;
             table = table + `<td> ${transferHandler.returnButton(vendor.SerialNumber)}</td>`;
             table += `</tr>`;
         });
@@ -58,7 +58,7 @@ var transferHandler = {
     },
 
     returnButton: function (serial) {
-        return `<button class="transferEllbtn">
+        return `<button class="transferEllbtn btn-sm">
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="optionMenue_${serial}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             select
@@ -70,11 +70,14 @@ var transferHandler = {
                      </div>
         </button>`
     },
- 
+    
     closeTransferToVendors: function () {
         transferHandler.toVendors = [];
         $(".transferToModal").css("display", "none");
         $(".transferToOverlay").css("display", "none");
+        transferHandler.transferTo = null;
+        $(`#transToVendor`).html(``);
+        $('#amtToTransfer').val('');
     },
 
     showToVendorsModal: function (posSerial) {
@@ -140,7 +143,7 @@ var transferHandler = {
                 return;
             }
             transferHandler.transferTo = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === transferHandler.transferTo.SerialNumber)[0];
-            const amountToTransfer = Number($('#amtToTransfer').val());
+            const amountToTransfer = Number($('#amtToTransfer').val()?.replace(',', ''));
             const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replace(',', ''));
             if (!amountToTransfer || amountToTransfer === 0) {
                 $.ShowMessage($('div.messageAlert'), "Amount required", MessageType.Error);
@@ -156,7 +159,7 @@ var transferHandler = {
                 return;
             }
 
-            $.ConfirmBox("", `Are you sure to transfer SLL: ${amountToTransfer} to ${transferHandler.transferFrom.Vendor}?`, null, true, "Yes", true, null, function () {
+            $.ConfirmBox("", `Are you sure to transfer SLL: ${$('#amtToTransfer').val()} to ${transferHandler.transferTo.Vendor}?`, null, true, "Yes", true, null, function () {
                 var request = new Object();
                 request.FromPosId = Number(transferHandler.transferFrom.POSID);
                 request.ToPosId = Number(transferHandler.transferTo.POSID);
@@ -194,12 +197,16 @@ var transferHandler = {
             if (vendor.SerialNumber === transferHandler.transferTo.SerialNumber) {
                 vendor.Balance = toBalance;
             }
-            $('#amtToTransfer').val(0);
-            $('#transFromVendor').html(`${transferHandler.transferFrom.Vendor}: <a> SSL  ${fromBalance} </a>`);
-            transferHandler.transferTo = null;
-            $(`#transToVendor`).html(``);
         });
-
+        $('#transFromVendor').html(`${transferHandler.transferFrom.Vendor}: <a> SSL  ${fromBalance} </a>`);
+        transferHandler.transferTo = null;
+        $(`#transToVendor`).html(``);
+        $('#amtToTransfer').val('');
         transferHandler.initializeTransferFromVendors();
     },
+
+    separeteThousands: function (x) {
+        x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        $("#amtToTransfer").val(x);
+    }
 };

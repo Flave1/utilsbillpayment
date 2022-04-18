@@ -141,7 +141,7 @@
                         <form>
                             <div class="form-group">
                                 <label><strong>AMOUNT   </strong></label>
-                                <input type="number" style="text-align:right; color:#125acb; font-weight:bold;" class="form-control" id="amtToTransfer" placeholder="Enter amount">
+                                <input type="text" onmousemove="transferHandler.separeteThousands(this.value)" style="text-align:right; color:#125acb; font-weight:bold;" class="form-control" id="amtToTransfer" placeholder="Enter amount">
                                 <small class="form-text text-muted text-danger" id="transferError"> </small>
                             </div>
                             <a href="#" style="background-color: #e1cd0e; border: none; position: relative; right: 40px; position: relative; right: 73px; " onclick="transferHandler.transferToVendor()" class="btn btn-primary text-white pull-right">Transfer</a>

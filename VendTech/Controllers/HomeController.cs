@@ -168,12 +168,12 @@ namespace VendTech.Controllers
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID ?? 0)?.POSNumber;
             ViewBag.ShowRevenueWidg = _dashboardManager.IsUserAnAgent(LOGGEDIN_USER.UserID);
-            //var model = new List<PlatformModel>();
-            //model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
+            var model = new List<PlatformModel>();
+            model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
-            //dashBoard.currentUser = new UserModel();
-            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
-            //dashBoard.platFormModels = model;
+            dashBoard.currentUser = new UserModel();
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
             return View(dashBoard);

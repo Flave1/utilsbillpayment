@@ -47,17 +47,23 @@ textarea {
     font-size: 30px;
     background: none;
     border-radius: 4px;
+    background:#f98939;
+    border:none;
 }
+    .transferEllbtn .dropdown a{
+        color:black;
+    }
 
-.btnClose {
-    background: none;
-    border: none;
-}
+    .btnClose {
+        background: none;
+        border: none;
+    }
 
     .btnClose i {
         margin: 40px;
         padding: 5px;
         color: grey;
+        font-size:30px;;
     }
 
 .flatBtn {
