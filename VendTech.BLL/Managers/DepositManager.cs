@@ -2100,7 +2100,6 @@ namespace VendTech.BLL.Managers
                 {
                     if (user.Status == (int)UserStatusEnum.Active)
                     {
-                        //posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
                         posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                     }
                     else

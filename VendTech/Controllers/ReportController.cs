@@ -179,23 +179,6 @@ namespace VendTech.Controllers
 
 
             var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-            //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
-            //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
-
-            //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
-
-            //decimal balance = 0;
-            //foreach (var item in balanceSheet.List)
-            //{
-            //    balance = balance + item.DepositAmount - item.SaleAmount;
-            //    item.Balance = balance;
-            //}
-
-            //balanceSheet.Status = ActionStatus.Successfull;
-            //balanceSheet.Message = "Balance Sheet List";
-            //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
-
-            //ViewBag.Vendors = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
             ViewBag.userPos = posList;
 
 
@@ -977,7 +960,7 @@ namespace VendTech.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "VENDTECH DEPOSIT REPORTS",
+                    Text = "VENDTECH AGENT REVENUE REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
