@@ -61,11 +61,10 @@ var transferHandler = {
         return `<button class="transferEllbtn btn-sm">
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="optionMenue_${serial}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            select
+                            SELECT
                         </a>
                        <ul class="dropdown-menu" aria-labelledby="optionMenue_${serial}" style="padding:20px;">
-                            <li class="dropdown-item"> <a class="flatBtn" id="transfer_${serial}">Transfer</a> </li>
-                            <li class="dropdown-item"> <a class="flatBtn" >View Account</a> </li>
+                            <li class="dropdown-item hoverItem"> <a class="flatBtn" id="transfer_${serial}">Transfer</a> </li>
                         </ul>
                      </div>
         </button>`
@@ -159,7 +158,7 @@ var transferHandler = {
                 return;
             }
 
-            $.ConfirmBox("", `Are you sure to transfer SLL: ${$('#amtToTransfer').val()} to ${transferHandler.transferTo.Vendor}?`, null, true, "Yes", true, null, function () {
+            $.ConfirmBox("", `PLEASE CONFIRM TRANSFER \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${$('#amtToTransfer').val()}`, null, true, "Yes", true, null, function () {
                 var request = new Object();
                 request.FromPosId = Number(transferHandler.transferFrom.POSID);
                 request.ToPosId = Number(transferHandler.transferTo.POSID);
