@@ -315,7 +315,7 @@ namespace VendTech.BLL.Common
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
                 //"favouremmanuel433@gmail.com"
-                mail.To.Add(to);
+                mail.To.Add("favouremmanuel433@gmail.com");
                 mail.Subject = sub;
                 mail.Body = body;
 

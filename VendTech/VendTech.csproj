@@ -457,6 +457,7 @@
     <Content Include="Scripts\UserScripts\register.js" />
     <Content Include="Scripts\UserScripts\reportFilter.js" />
     <Content Include="Scripts\UserScripts\salesReport.js" />
+    <Content Include="Scripts\UserScripts\sms.js" />
     <Content Include="Scripts\UserScripts\transfer.js" />
     <Content Include="Scripts\VendorScripts\Login.js" />
     <Content Include="Scripts\VendorScripts\pos.js" />
@@ -504,6 +505,7 @@
     <Content Include="Templates\DepositPDF.html" />
     <Content Include="Templates\RechargeMeter.html" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

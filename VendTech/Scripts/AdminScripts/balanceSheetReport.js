@@ -251,7 +251,7 @@ function Paging(sender) {
 
 
     if (!$("#vendor").val()) {
-        debugger
+        
         $.ShowMessage($('div.messageAlert'), "Vendor required to process request", MessageType.Error);
         return;
     }

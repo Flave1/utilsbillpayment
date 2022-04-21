@@ -1,0 +1,89 @@
+﻿<style>
+   
+ 
+    .smsModal {
+        width: 400px;
+        height: auto;
+        margin: auto;
+        z-index: 3;
+        overflow: hidden;
+        display: block;
+        position: relative;
+        top:400px;
+    }
+    .smsOverlay {
+        width: calc(100vw - 2px);
+        height: 100vh;
+        position: fixed;
+        background-color: gray;
+        background-color: rgba(150,150,150,.5);
+        z-index: 1;
+        left: 1px;
+        display: none;
+        overflow: hidden;
+    }
+    .smsBoxSection {
+        margin: auto;
+        display: block;
+        height:200px;
+    }
+        .smsBoxSection form {
+            padding: 50px;
+        }
+
+    .input-group {
+        display: table
+    }
+
+        .input-group div {
+            display: table-cell;
+            border: 1px solid lightgrey;
+        }
+
+        .input-group input {
+            display: table-cell;
+            margin-left: 10px;
+        }
+
+    .btnClose {
+        background: none;
+        border: none;
+    }
+
+        .btnClose i {
+            margin: 10px;
+            padding: 5px;
+            color: grey;
+            font-size: 30px;
+        }
+</style>
+<div class="smsOverlay">
+    <div class="smsModal">
+        <div class="table-responsive" style="background: white;">
+            <button class="pull-right btnClose" onclick="smsHandler.closeSmsModal()"><i class="fa fa-times"></i></button>
+            <div class="smsBoxSection">
+                <form class="row"> 
+                    <div class="col-md-12 mb-3">
+                        <label>Mobile Number</label>
+                        <div class="input-group">
+                            <div>
+                                <span class="input-group-text">+232</span>
+                            </div>
+                            <input type="text" class="form-control" id="smsNumber" placeholder="enter number here...." required>
+                        </div>
+                    </div>
+
+                    <a style="position:relative; right:80px;" onclick="smsHandler.sendSms()" class="btn btn-primary pull-right" a href="#">Submit</a>
+                </form>
+            </div> 
+        </div>
+
+    </div>
+</div>
+
+    @*<div class="tfSectionTo_amount col-12">
+
+        </div>
+        <div class="tfSectionTo_amount col-12">
+           
+        </div>*@

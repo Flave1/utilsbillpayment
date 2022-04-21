@@ -79,7 +79,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchVoucherDetailsByToken(token) {
-    debugger
+    
     DisableAndEnablelinks(true, token);
     $("#re-print_section").show();
     try {
@@ -105,7 +105,7 @@ function fetchVoucherDetailsByToken(token) {
                 if (data.Code === 200) {
 
                     console.log(data);
-                    debugger
+                    
                     $("#re-customer_name").html(data.Data.CustomerName);
                     $("#re-customer_account_number").html(data.Data.AccountNo);
                     $("#re-customer_address").html(data.Data.Address);

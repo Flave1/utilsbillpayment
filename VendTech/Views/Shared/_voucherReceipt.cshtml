@@ -1,4 +1,6 @@
-﻿<div class="modal-dialog modal-md">
+﻿
+@Html.Partial("Sms/_smsModal")
+<div class="modal-dialog modal-md">
     <div class="modal-content modal-md">
         <div class="modal-body" id="printSection">
             <div class="row" style=" margin:18px; margin-left:-10px;" id="gen-invoice">
@@ -131,7 +133,7 @@
                         <img src="~/Content/images/vtech-receipt.png" />
                     </div>
                     <div class="row " id="print_section">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" style="display:none">SMS</button>
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" onclick="smsHandler.openSmsModal(false)" style="display:none">SMS</button>
                         <button class="btn btn-primary waves-effect waves-light " onclick="Print()" id="showprint_btn" style="display:none">PRINT</button>
                     </div>
                 </div>

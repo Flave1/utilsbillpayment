@@ -95,7 +95,7 @@ function Paging(sender) {
     obj.SearchField = $('#searchField').val();
     obj.PosId = $('#posDrp').val();
 
-    debugger
+    
     obj.VendorId = $('#vendor').val();
     obj.From = $('#FromDate').val();
     if (obj.From) {
