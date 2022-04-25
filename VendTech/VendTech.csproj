@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VendTech</RootNamespace>
     <AssemblyName>VendTech</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>56547</IISExpressSSLPort>
@@ -279,6 +279,7 @@
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
+    <Content Include="Content\style.css" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -294,39 +295,6 @@
     <Content Include="Images\ProfileImages\ac8cecb5-b2f4-42f5-be4c-6b6ce70f7710.jpg" />
     <Content Include="Images\ProfileImages\bc435e6b-db71-451b-8f3d-b10b87615a64.jpg" />
     <Content Include="Images\ProfileImages\d1072e02-af0d-418c-8102-aee7ef67f1eb.jpg" />
-    <Content Include="Properties\PublishProfiles\baseProject.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
-    <Content Include="Scripts\AdminScripts\checkbank.js" />
-    <Content Include="Scripts\AdminScripts\cmsPages.js" />
-    <Content Include="Scripts\AdminScripts\depositReverse.js" />
-    <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
-    <Content Include="Scripts\AdminScripts\passcode.js" />
-    <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
-    <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
-    <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
-    <Content Include="Scripts\AdminScripts\paymentType.js" />
-    <Content Include="Scripts\AdminScripts\reportFilter.js" />
-    <Content Include="Scripts\AdminScripts\salesReport.js" />
-    <Content Include="Scripts\AdminScripts\report.js" />
-    <Content Include="Scripts\AdminScripts\role.js" />
-    <Content Include="Scripts\AdminScripts\depositRelease.js" />
-    <Content Include="Scripts\AdminScripts\depositLog.js" />
-    <Content Include="Scripts\AdminScripts\Login.js" />
-    <Content Include="Scripts\AdminScripts\commission.js" />
-    <Content Include="Scripts\AdminScripts\templates.js" />
-    <Content Include="Scripts\AdminScripts\deposit.js" />
-    <Content Include="Scripts\AdminScripts\platform.js" />
-    <Content Include="Scripts\AdminScripts\bankAccount.js" />
-    <Content Include="Scripts\AdminScripts\appUsers.js" />
-    <Content Include="Scripts\AdminScripts\vendor.js" />
-    <Content Include="Scripts\AdminScripts\agency.js" />
-    <Content Include="Scripts\AdminScripts\pos.js" />
-    <Content Include="Scripts\AdminScripts\users.js" />
-    <Content Include="Scripts\AdminScripts\VendorPos.js" />
-    <Content Include="Scripts\AgentScripts\Login.js" />
-    <Content Include="Scripts\AgentScripts\pos.js" />
-    <Content Include="Scripts\AgentScripts\vendor.js" />
-    <Content Include="Scripts\ajax-form.js" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayOut.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_beforeLoginAdminLayout.cshtml" />
@@ -411,9 +379,6 @@
     <Content Include="Areas\Admin\Views\AppUser\Partials\_platformsListing.cshtml" />
     <Content Include="Areas\Admin\Views\AppUser\AddUser.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_platformsListing.cshtml" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\html2canvas.min.js" />
     <Content Include="Areas\Audit\Views\web.config" />
     <Content Include="libman.json" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -427,12 +392,76 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
+    <Content Include="Scripts\AdminScripts\agency.js" />
+    <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
+    <Content Include="Scripts\AdminScripts\appUsers.js" />
+    <Content Include="Scripts\AdminScripts\balanceSheetReport.js" />
+    <Content Include="Scripts\AdminScripts\bankAccount.js" />
+    <Content Include="Scripts\AdminScripts\checkbank.js" />
+    <Content Include="Scripts\AdminScripts\cmsPages.js" />
+    <Content Include="Scripts\AdminScripts\commission.js" />
+    <Content Include="Scripts\AdminScripts\deposit.js" />
+    <Content Include="Scripts\AdminScripts\depositLog.js" />
+    <Content Include="Scripts\AdminScripts\depositRelease.js" />
+    <Content Include="Scripts\AdminScripts\depositReleaseReport.js" />
+    <Content Include="Scripts\AdminScripts\depositReverse.js" />
+    <Content Include="Scripts\AdminScripts\gstSalesReport.js" />
+    <Content Include="Scripts\AdminScripts\Login.js" />
+    <Content Include="Scripts\AdminScripts\passcode.js" />
+    <Content Include="Scripts\AdminScripts\paymentType.js" />
+    <Content Include="Scripts\AdminScripts\platform.js" />
+    <Content Include="Scripts\AdminScripts\pos.js" />
+    <Content Include="Scripts\AdminScripts\report.js" />
+    <Content Include="Scripts\AdminScripts\reportFilter.js" />
+    <Content Include="Scripts\AdminScripts\role.js" />
+    <Content Include="Scripts\AdminScripts\salesReport.js" />
+    <Content Include="Scripts\AdminScripts\templates.js" />
+    <Content Include="Scripts\AdminScripts\users.js" />
+    <Content Include="Scripts\AdminScripts\vendor.js" />
+    <Content Include="Scripts\AdminScripts\VendorPos.js" />
+    <Content Include="Scripts\AgentScripts\Login.js" />
+    <Content Include="Scripts\AgentScripts\pos.js" />
+    <Content Include="Scripts\AgentScripts\vendor.js" />
+    <Content Include="Scripts\ajax-form.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\FrontEndScripts\registrations.js" />
+    <Content Include="Scripts\html2canvas.min.js" />
+    <Content Include="Scripts\html5.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.js" />
+    <Content Include="Scripts\jquery.table2excel.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jspdf.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Receipt.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Spinner.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserDefinedScripts\Common.js" />
+    <Content Include="Scripts\UserDefinedScripts\paging.js" />
+    <Content Include="Scripts\UserDefinedScripts\requiredIf.js" />
     <Content Include="Scripts\UserScripts\agency.js" />
-    <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
     <Content Include="Scripts\UserScripts\AgentRevenueReport.js" />
+    <Content Include="Scripts\UserScripts\balanceSheetReport.js" />
+    <Content Include="Scripts\UserScripts\depositReport.js" />
     <Content Include="Scripts\UserScripts\gstSalesReport.js" />
+    <Content Include="Scripts\UserScripts\login.js" />
+    <Content Include="Scripts\UserScripts\meter.js" />
     <Content Include="Scripts\UserScripts\passcode.js" />
+    <Content Include="Scripts\UserScripts\pos.js" />
+    <Content Include="Scripts\UserScripts\register.js" />
     <Content Include="Scripts\UserScripts\reportFilter.js" />
+    <Content Include="Scripts\UserScripts\salesReport.js" />
+    <Content Include="Scripts\UserScripts\sms.js" />
+    <Content Include="Scripts\UserScripts\transfer.js" />
+    <Content Include="Scripts\VendorScripts\Login.js" />
+    <Content Include="Scripts\VendorScripts\pos.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\EditChequeBanks.cshtml" />
@@ -454,25 +483,6 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.table2excel.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jspdf.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\Receipt.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\UserScripts\register.js" />
-    <Content Include="Scripts\UserScripts\pos.js" />
-    <Content Include="Scripts\UserScripts\salesReport.js" />
-    <Content Include="Scripts\UserScripts\meter.js" />
-    <Content Include="Scripts\UserScripts\depositReport.js" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ForotPassword.cshtml" />
@@ -492,21 +502,11 @@
     <Content Include="Areas\Admin\Views\Report\PrintDepositReleaseReport.cshtml" />
     <Content Include="Areas\Admin\Views\Home\OTPVerification.cshtml" />
     <None Include="packages.config" />
-    <Content Include="Scripts\FrontEndScripts\registrations.js" />
-    <Content Include="Scripts\html5.js" />
-    <Content Include="Scripts\jquery-migrate-1.2.1.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\sweetalert.min.js" />
-    <Content Include="Scripts\UserDefinedScripts\Common.js" />
-    <Content Include="Scripts\UserDefinedScripts\paging.js" />
-    <Content Include="Scripts\UserDefinedScripts\requiredIf.js" />
-    <Content Include="Scripts\UserScripts\login.js" />
-    <Content Include="Scripts\VendorScripts\Login.js" />
-    <Content Include="Scripts\VendorScripts\pos.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Templates\DepositPDF.html" />
     <Content Include="Templates\RechargeMeter.html" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
+    <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -549,7 +549,6 @@
     <Content Include="Views\POS\partials\_posListing.cshtml" />
     <Content Include="Views\Report\PrintDepositReport.cshtml" />
     <Content Include="Views\Report\PrintSalesReport.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Meter\Utility.cshtml" />
@@ -574,6 +573,9 @@
     <Content Include="Views\Report\partials\_agentRevenueListing.cshtml" />
     <Content Include="Views\Report\PrintAgencyRevenueReport.cshtml" />
     <Content Include="Views\Report\partials\_assignedReports.cshtml" />
+    <Content Include="Views\Shared\Transfer\_vendorsListing.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

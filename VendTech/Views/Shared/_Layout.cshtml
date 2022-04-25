@@ -12,6 +12,8 @@
     <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <![endif]-->
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
@@ -23,7 +25,7 @@
         @Html.Partial("_Header")
     </header>
     @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
-<section id="cl-wrapper" class="fixed-menu content">
+    <section id="cl-wrapper" class="fixed-menu content">
     @Html.Partial("_SideBaar")
 
     @if (user.UserType == UserRoles.AppUser)
@@ -31,34 +33,6 @@
         if (user.IsEmailVerified)
         {
             @RenderBody();
-            @*if (user.Status == (int)UserStatusEnum.Active)
-                {
-
-                }
-                else
-                {
-
-                    <div class="jumbotron">
-
-                        <div class="row ">
-                            <H1>Please hold on while we work on setting up your account.</H1>
-                            <br />
-                            <h3>You will receive an email or SMS as soon as your account is activated.</h3>
-                            <br />
-                            <p>
-                                <strong>Contact Details :</strong>
-                            </p>
-                            <p>
-                                Email : <strong> <a href="mailto:accounts@vendtechsl.com" style="color:#393333;">accounts@vendtechsl.com</a></strong>
-                            </p>
-                            <p>
-                                Phone : <strong><a href="tel:+23279990990" style="color:#393333;">+23279990990</a></strong>
-                            </p>
-                        </div>
-
-                    </div>
-                }*@
-
         }
     }
     else
@@ -89,6 +63,7 @@
         </div>
     </footer>
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/extendedjs")
     @Scripts.Render("~/bundles/themeSpecific")
@@ -108,7 +83,7 @@
                         }
                     }
                 })
-            }, 60000); 
+            }, 60000);
         })
     </script>
 

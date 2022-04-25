@@ -139,7 +139,7 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
 .dropdown-menu > li > a, .dropdown-menu li > a{font-size:12px;padding:5px 20px;clear:both;color:#333;display:block;font-weight:normal;line-height:1.42857;white-space:nowrap;}
 .dropdown-header{color:#2a2c34;margin-top:6px;padding-left:11px;cursor:pointer;}
 .dropdown-header i{font-size:14px;margin-right:4px;vertical-align:middle;}
-.dropdown-menu{background-clip:none;box-shadow:1px 3px 4px rgba(0, 0, 0, 0.18);}
+.dropdown-menu{box-shadow:1px 3px 4px rgba(0, 0, 0, 0.18);}
 .col-menu-2{min-width:405px;padding-bottom:10px;padding-top:7px;}
 .col-menu-2 > li:first-child ul{border-right:1px solid #E8E8E8;}
 .col-menu-2 > li > ul > li a{padding-left:32px;}

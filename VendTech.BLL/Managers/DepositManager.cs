@@ -1937,13 +1937,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
-
-
-            //if (dbDeposit.NextReminderDate != null)
-            //    dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddMinutes(10);
-            //else
-            //    dbDeposit.NextReminderDate = null;
-
+ 
             try
             {
                 dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("dd/MM/yyyy hh:mm");
@@ -1952,10 +1946,8 @@ namespace VendTech.BLL.Managers
             {
                 dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             }
-            //dbDeposit.isAudit = depositAuditModel.isAudit;
+            dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
 
-            dbDeposit.PaymentType = depositAuditModel.Type != null ?  int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
-            
             dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
             dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
             Context.SaveChanges();
@@ -1968,11 +1960,7 @@ namespace VendTech.BLL.Managers
             .Substring(dbDeposit.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
 
-            //depositAuditModel.isAudit = !depositAuditModel.isAudit;
-
-            //Get Description filed of enum 
-             
-            depositAuditModel.Type = dbDeposit.PaymentType.ToString();
+            depositAuditModel.Type = Context.PaymentTypes.FirstOrDefault(ee => ee.PaymentTypeId == dbDeposit.PaymentType).Name;
 
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
@@ -2007,8 +1995,7 @@ namespace VendTech.BLL.Managers
             {
                 dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
             } 
-             
-
+            
             if (dbDeposit.NextReminderDate == null) 
                 dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15); 
             else 
@@ -2020,7 +2007,6 @@ namespace VendTech.BLL.Managers
             dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
             Context.SaveChanges();
             
-
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;
             depositAuditModel.IssuingBank = dbDeposit.ChequeBankName != null ?
@@ -2114,7 +2100,6 @@ namespace VendTech.BLL.Managers
                 {
                     if (user.Status == (int)UserStatusEnum.Active)
                     {
-                        //posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
                         posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                     }
                     else
@@ -2186,5 +2171,125 @@ namespace VendTech.BLL.Managers
                 POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
             });
         }
+
+        string  IDepositManager.CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos)
+        {
+            try
+            {
+                //Substracts Sender Balance
+                var frompos = Context.POS.FirstOrDefault(er => er.POSId == fromPos);
+
+                var toPos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+                dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
+                dbDeposit.POS = toPos;
+                dbDeposit.UserId = toPos?.VendorId??0;
+                dbDeposit.CheckNumberOrSlipId ="0";
+                dbDeposit.Comments = "";
+                dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
+                dbDeposit.NameOnCheque = frompos.User.Vendor;
+                dbDeposit.BankAccountId = 1;
+                dbDeposit.isAudit = false;
+                //Adds to  Reciever Balance
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
+                dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.IsDeleted = false;
+                Context.Deposits.Add(dbDeposit);
+                Context.SaveChanges();
+
+                //Creating Log entry in deposit logs table
+                var dbDepositLog = new DepositLog();
+                dbDepositLog.UserId = currentUserId;
+                dbDepositLog.DepositId = dbDeposit.DepositId;
+                dbDepositLog.PreviousStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.NewStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.CreatedAt = DateTime.UtcNow;
+                Context.DepositLogs.Add(dbDepositLog);
+                Context.SaveChanges();
+
+                //Send push to all devices where this user logged in when admin released deposit
+                var deviceTokens = toPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
+                var obj = new PushNotificationModel();
+                obj.UserId = dbDeposit.UserId;
+                obj.Id = dbDeposit.DepositId;
+                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+
+                obj.Title = $"Transfer from {frompos.User.Vendor}";
+                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+
+                obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
+                foreach (var item in deviceTokens)
+                {
+                    obj.DeviceToken = item.DeviceToken;
+                    obj.DeviceType = item.AppType.Value;
+                    PushNotification.SendNotification(obj);
+                }
+                return string.Format("{0:N0}", dbDeposit.POS.Balance);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        string IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId)
+        {
+            try
+            {
+                var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+                dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
+                dbDeposit.POS = pos;
+                dbDeposit.UserId = pos?.VendorId ?? 0;
+                dbDeposit.CheckNumberOrSlipId = "0";
+                dbDeposit.Comments = "";
+                dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
+                dbDeposit.NameOnCheque = pos.User.Vendor;
+                dbDeposit.BankAccountId = 1;
+                dbDeposit.isAudit = false;
+
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
+                dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.IsDeleted = false;
+                Context.Deposits.Add(dbDeposit);
+                Context.SaveChanges();
+
+                //Creating Log entry in deposit logs table
+                var dbDepositLog = new DepositLog();
+                dbDepositLog.UserId = currentUserId;
+                dbDepositLog.DepositId = dbDeposit.DepositId;
+                dbDepositLog.PreviousStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.NewStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.CreatedAt = DateTime.UtcNow;
+                Context.DepositLogs.Add(dbDepositLog);
+                Context.SaveChanges();
+
+                //Send push to all devices where this user logged in when admin released deposit
+                var deviceTokens = pos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
+                var obj = new PushNotificationModel();
+                obj.UserId = dbDeposit.UserId;
+                obj.Id = dbDeposit.DepositId;
+                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+
+                obj.Title = $"Account Debited";
+                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+
+                obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
+                foreach (var item in deviceTokens)
+                {
+                    obj.DeviceToken = item.DeviceToken;
+                    obj.DeviceType = item.AppType.Value;
+                    PushNotification.SendNotification(obj);
+                }
+                return string.Format("{0:N0}", dbDeposit.POS.Balance);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

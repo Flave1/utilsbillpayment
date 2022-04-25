@@ -223,7 +223,7 @@
                     day: '2-digit', month: '2-digit', year: 'numeric'
                 }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
                 // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
-                debugger
+                
                 $("#printedDate").text(formattedDate);
                 $("#PrintedDateServer").val(formattedDate);
 

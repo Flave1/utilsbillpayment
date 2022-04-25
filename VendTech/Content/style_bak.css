@@ -572,7 +572,6 @@ body.modal-open,
   vertical-align: middle;
 }
 .dropdown-menu {
-  background-clip: none;
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.18);
 }
 .col-menu-2 {
@@ -3619,7 +3618,6 @@ h1:first-child {
   border-radius: 20px;
   -webkit-border-radius: 20px;
   min-width: 74px;
-  background-clip: padding-box;
 }
 .bootstrap-switch.bootstrap-switch-focused {
   box-shadow: none;

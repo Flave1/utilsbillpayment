@@ -18,6 +18,7 @@ namespace VendTech.BLL.Interfaces
         List<SelectListItem> GetAgentsSelectList();
         decimal GetAgentPercentage(long vendorId);
         ActionOutput DeleteAgency(long agentId);
+        PagingResult<AgentListingModel> GetAgentsPagedList2(PagingModel model, long agency);
     }
     
 }

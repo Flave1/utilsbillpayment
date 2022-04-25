@@ -39,7 +39,7 @@
 
 
 function enablePOS(sender) {
-    debugger
+    
     $.ConfirmBox("", "Are you sure to enable this POS?", null, true, "Yes", true, null, function () {
         $.ajaxExt({
             url: baseUrl + '/POS/EnablePOS',
@@ -64,7 +64,7 @@ function enablePOS(sender) {
 
 
 function disablePOS(sender) {
-    debugger
+    
     $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
         $.ajaxExt({
             url: baseUrl + '/POS/DisablePOS',
