@@ -1,7 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+﻿
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -22,3 +19,56 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.transferFromOverlay {
+    width: calc(100vw - 2px);
+    height: 100vh;
+    position: fixed;
+    background-color: gray;
+    background-color: rgba(150,150,150,.5);
+    z-index: 1;
+    left: 1px;
+    display: none;
+    overflow: hidden;
+}
+
+.transferFromModal {
+    width: 60%;
+    height: 800px;
+    margin: auto;
+    z-index: 2;
+    overflow: auto;
+}
+
+.transferEllbtn {
+    float: right;
+    font-weight: bold;
+    font-size: 30px;
+    background: none;
+    border-radius: 4px;
+    background:#f98939;
+    border:none;
+}
+    .transferEllbtn .dropdown a{
+        color:black;
+    }
+
+    .btnClose {
+        background: none;
+        border: none;
+    }
+
+    .btnClose i {
+        margin: 40px;
+        padding: 5px;
+        color: grey;
+        font-size:30px;;
+    }
+
+.flatBtn {
+    border: none;
+    background: white;
+}
+
+

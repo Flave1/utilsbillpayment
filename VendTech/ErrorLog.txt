@@ -1,3 +1,245 @@
+The partial view 'Partials/_vendorsListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Agents/Partials/_vendorsListing.aspx
+~/Views/Agents/Partials/_vendorsListing.ascx
+~/Views/Shared/Partials/_vendorsListing.aspx
+~/Views/Shared/Partials/_vendorsListing.ascx
+~/Views/Agents/Partials/_vendorsListing.cshtml
+~/Views/Agents/Partials/_vendorsListing.vbhtml
+~/Views/Shared/Partials/_vendorsListing.cshtml
+~/Views/Shared/Partials/_vendorsListing.vbhtml
+
+
+
+The partial view 'Partials/_vendorsListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Agents/Partials/_vendorsListing.aspx
+~/Views/Agents/Partials/_vendorsListing.ascx
+~/Views/Shared/Partials/_vendorsListing.aspx
+~/Views/Shared/Partials/_vendorsListing.ascx
+~/Views/Agents/Partials/_vendorsListing.cshtml
+~/Views/Agents/Partials/_vendorsListing.vbhtml
+~/Views/Shared/Partials/_vendorsListing.cshtml
+~/Views/Shared/Partials/_vendorsListing.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Cannot convert null to 'bool' because it is a non-nullable value type
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+"-" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+"-" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+"-" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+"-" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\Transfer\_vendorsListing.cshtml(25): error CS0103: The name 'item' does not exist in the current context
+
+
+
+Value cannot be null.
+Parameter name: args
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The partial view 'Transfer/_transferToVendorsListing' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Home/Transfer/_transferToVendorsListing.aspx
+~/Views/Home/Transfer/_transferToVendorsListing.ascx
+~/Views/Shared/Transfer/_transferToVendorsListing.aspx
+~/Views/Shared/Transfer/_transferToVendorsListing.ascx
+~/Views/Home/Transfer/_transferToVendorsListing.cshtml
+~/Views/Home/Transfer/_transferToVendorsListing.vbhtml
+~/Views/Shared/Transfer/_transferToVendorsListing.cshtml
+~/Views/Shared/Transfer/_transferToVendorsListing.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+"<" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
 Error occurred during a cryptographic operation.
 
 

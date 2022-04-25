@@ -1,16 +1,9 @@
 ﻿using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace VendTech.BLL.Managers
 {

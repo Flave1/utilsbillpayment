@@ -123,5 +123,16 @@ namespace VendTech.BLL.Models
         public bool DatabaseLogStatus { get; set; }
     }
 
+    public class FetchItemsModel
+    {
+        public string Id { get; set; }
+    }
+
+    public class CashTransferModel
+    {
+        public long FromPosId { get; set; }
+        public long ToPosId { get; set; }
+        public decimal Amount { get; set; }
+    }
 
 }

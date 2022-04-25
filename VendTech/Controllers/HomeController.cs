@@ -156,6 +156,10 @@ namespace VendTech.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
+
+            DashboardViewModel dashBoard = new DashboardViewModel();
+
+
             if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
@@ -163,11 +167,10 @@ namespace VendTech.Controllers
             }
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID ?? 0)?.POSNumber;
-            ViewBag.ShowRevenueWidg = _dashboardManager.IsUserAnAgent(LOGGEDIN_USER.UserID); 
+            ViewBag.ShowRevenueWidg = _dashboardManager.IsUserAnAgent(LOGGEDIN_USER.UserID);
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
-            DashboardViewModel dashBoard = new DashboardViewModel();
             dashBoard.currentUser = new UserModel();
             dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;

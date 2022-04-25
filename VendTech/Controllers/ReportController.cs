@@ -19,6 +19,12 @@ using iTextSharp.text.pdf;
 using System.Globalization;
 using VendTech.Areas.Admin.Controllers;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
 #endregion
 
 namespace VendTech.Controllers
@@ -179,23 +185,6 @@ namespace VendTech.Controllers
 
 
             var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-            //var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
-            //var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
-
-            //balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
-
-            //decimal balance = 0;
-            //foreach (var item in balanceSheet.List)
-            //{
-            //    balance = balance + item.DepositAmount - item.SaleAmount;
-            //    item.Balance = balance;
-            //}
-
-            //balanceSheet.Status = ActionStatus.Successfull;
-            //balanceSheet.Message = "Balance Sheet List";
-            //balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
-
-            //ViewBag.Vendors = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
             ViewBag.userPos = posList;
 
 
@@ -977,7 +966,7 @@ namespace VendTech.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "VENDTECH DEPOSIT REPORTS",
+                    Text = "VENDTECH AGENT REVENUE REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1773,6 +1762,48 @@ namespace VendTech.Controllers
 
             var list = _meterManager.GetUserGSTRechargesReport(newfilters, false).List;
             return View(list);
+        }
+
+        [AjaxOnly, HttpPost]
+        public async Task<JsonResult> SendSms(ReChargeSMS request)
+        {
+            var td = _meterManager.GetSingleTransaction(string.Concat(request.TransactionId.Where(c => !Char.IsWhiteSpace(c))));
+            if (td == null)
+                return  Json( new { message = "Not found.", status = "failed" });
+
+            var requestmsg = new SendSMSRequest
+            {
+                Recipient = $"232{request.PhoneNo}",
+                Payload = $"UID#:{td.SerialNumber}\n" +
+                            $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
+                            $"POSID:{td.POS.SerialNumber}\n" +
+                            $"Meter:{td.MeterNumber1}\n" +
+                            $"Amt:{string.Format("{0:N0}", td.Amount)}\n" +
+                            $"GST:{string.Format("{0:N0}", td.TaxCharge)}\n" +
+                            $"Chg:{string.Format("{0:N0}", td.ServiceCharge)}\n" +
+                            $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
+                            $"Units:{string.Format("{0:N0}", td.Units)}\n" +
+                            $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
+                            "VENDTECH"
+            };
+
+            var json = JsonConvert.SerializeObject(requestmsg);
+
+            HttpClient client = new HttpClient();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            client.BaseAddress = new Uri("https://kwiktalk.io");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var res = await client.SendAsync(httpRequest);
+            var stringResult = await res.Content.ReadAsStringAsync();
+
+            if (res.StatusCode != (HttpStatusCode)200)
+            {
+                return Json(new { message = "Unable to send sms.", status = "failed" });
+            }
+            return Json(new { message = "Sms successfully sent.", status = "success" });
         }
     }
 }

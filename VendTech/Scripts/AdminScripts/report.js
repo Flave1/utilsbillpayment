@@ -27,7 +27,7 @@
             To = val[1] + "/" + val[0] + "/" + val[2];
         }
 
-        debugger
+        
 
 
         window.location.href = "/Admin/Report/ManageReports?type=" + type + "&vendorId=" + vendorId + "&pos=" + pos + "&meter=" + meterNo + "&transactionId=" + transactionId + "&from=" + From + "&to=" + To;
