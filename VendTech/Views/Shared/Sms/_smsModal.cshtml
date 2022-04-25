@@ -35,14 +35,17 @@
         display: table
     }
 
-        .input-group div {
+        .input-group select {
             display: table-cell;
             border: 1px solid lightgrey;
+            width: 23%;
+            height: 35px;
         }
 
         .input-group input {
             display: table-cell;
-            margin-left: 10px;
+            margin-left: 2px;
+            
         }
 
     .btnClose {
@@ -55,6 +58,7 @@
             padding: 5px;
             color: grey;
             font-size: 30px;
+            font-weight:normal;
         }
 </style>
 <div class="smsOverlay">
@@ -64,16 +68,16 @@
             <div class="smsBoxSection">
                 <form class="row"> 
                     <div class="col-md-12 mb-3">
-                        <label>Mobile Number</label>
+                        <label>SEND VOUCHER BY SMS TO:</label>
                         <div class="input-group">
-                            <div>
-                                <span class="input-group-text">+232</span>
-                            </div>
-                            <input type="text" class="form-control" id="smsNumber" placeholder="enter number here...." required>
+                            <select>
+                                <option value="+232">+232</option>
+                            </select>
+                            <input type="text" class="form-control" style="width: 70%; float:right;" id="smsNumber" placeholder="enter number here...." required>
                         </div>
                     </div>
 
-                    <a style="position:relative; right:80px;" onclick="smsHandler.sendSms()" class="btn btn-primary pull-right" a href="#">Submit</a>
+                    <a style="position:relative; right:80px;" onclick="smsHandler.sendSms()" class="btn btn-primary pull-right" a href="#">Send</a>
                 </form>
             </div> 
         </div>

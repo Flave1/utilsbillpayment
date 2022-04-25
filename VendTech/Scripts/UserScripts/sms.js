@@ -31,7 +31,7 @@ var smsHandler = {
             type: "POST",
             success: function (data) {
                 $("#smsNumber").val('');
-                $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
+                $.ShowMessage($('div.messageAlert'), "SMS SENT", MessageType.Success);
             },
             error: function (res) {
                 console.log('err',res)
