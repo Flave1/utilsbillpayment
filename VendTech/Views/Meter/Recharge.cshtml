@@ -78,11 +78,11 @@
                                                     }
                                                     else
                                                     {
-                                                <div class=" col-md-12">
-                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
-                                                    @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+                                                        <div class=" col-md-12">
+                                                            <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                            @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
-                                                </div>
+                                                        </div>
                                                         <br />
                                                         <br />
                                                         <br />
@@ -127,12 +127,12 @@
                                                     <div class="col-md-4">
                                                         <div class="row">
                                                             <input type="button"
-                                                                   style="height:50px; 
-                                                                   font-weight:bold; 
-                                                                   text-transform:uppercase; 
-                                                                   border:none; margin-top:7px; 
-                                                                   width:100%; background: #ffd800; 
-                                                                   border-radius:5px;" disabled 
+                                                                   style="height:50px;
+                                                                   font-weight:bold;
+                                                                   text-transform:uppercase;
+                                                                   border:none; margin-top:7px;
+                                                                   width:100%; background: #ffd800;
+                                                                   border-radius:5px;" disabled
                                                                    class="savebttn addDepositBtn"
                                                                    id="pay_Now_Btn" value="PAY NOW">
                                                         </div>
@@ -154,7 +154,7 @@
                                                         <th>PRODUCT</th>
                                                         <th>TRANSACTION ID</th>
                                                         <th>METER #</th>
-                                                        <th>POS ID</th> 
+                                                        <th>POS ID</th>
                                                         <th>TOKEN</th>
                                                         <th>AMOUNT</th>
                                                     </tr>
@@ -234,23 +234,24 @@
 </div>
 
 
-<div class="modal fade" id="modalCart"> 
-    @Html.Partial("_voucherReceipt") 
+<div class="modal fade" id="modalCart">
+    @Html.Partial("_voucherReceipt")
 </div>
-<div class="modal fade" id="modalCart2"> 
-    @Html.Partial("_voucherReprint") 
+<div class="modal fade" id="modalCart2">
+    @Html.Partial("_voucherReprint")
 </div>
 <div class="modal fade" id="modalCart3">
     @Html.Partial("_RequestResponseJSON")
 </div>
 
-    @section scripts{
-        <script src="~/Scripts/UserScripts/meter.js"></script>
-        <link href="~/Content/transdetails.css" rel="stylesheet" />
-        <link href="~/Content/pos_receipt.css" rel="stylesheet" />
-        <script src="~/Scripts/Receipt.js"></script>
+@section scripts{
+    <script src="~/Scripts/UserScripts/meter.js"></script>
+    <link href="~/Content/transdetails.css" rel="stylesheet" />
+    <link href="~/Content/pos_receipt.css" rel="stylesheet" />
+    <script src="~/Scripts/Receipt.js"></script>
+    <script src="~/Scripts/UserScripts/sms.js"></script>
 
-        <script>
+    <script>
 
 
 
@@ -268,7 +269,7 @@
                         return;
                     } else {
 
-                        const minVend = '@(string.Format("{0:N0}", ViewBag.MinumumVend))'; 
+                        const minVend = '@(string.Format("{0:N0}", ViewBag.MinumumVend))';
                         const amtPay = +$("#Amount").val().replace(",", "");
 
                         if (amtPay < '@ViewBag.MinumumVend') {
@@ -383,14 +384,14 @@
                     }
 
 
-        </script>
+    </script>
+}
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
     }
-    <style type="text/css">
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            margin: 0;
-        }
-    </style>
+</style>

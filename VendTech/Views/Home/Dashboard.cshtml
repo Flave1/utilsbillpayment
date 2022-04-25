@@ -7,7 +7,7 @@
 }
 
 
-<style> 
+<style>
 
     .card {
         border: none;
@@ -19,14 +19,14 @@
         font-size: 8px;
         margin: auto;
     }
-     
-  
+
+
 
     .text2 {
         color: #808080;
-        font-weight:bold;
+        font-weight: bold;
     }
-     
+
 
     .title-container {
         width: 100%;
@@ -39,275 +39,285 @@
 
     .action {
         color: #55565a;
-        font-weight:bold;
-    } 
+        font-weight: bold;
+    }
+
     .steps a {
         color: #f7bf27;
     }
+
     a {
         font-weight: bold;
     }
+
     .custom-card {
         border-radius: 15px;
-        border: 1px solid #ffffff; 
-        margin:20px;
-        background:white;
-        padding : 10px;
+        border: 1px solid #ffffff;
+        margin: 20px;
+        background: white;
+        padding: 10px;
     }
 </style>
 
+<div id="fromVendorsList">
+    @Html.Partial("Transfer/_vendorsListing")
+    @Html.Partial("Transfer/_transferToVedorsListing")
+</div>
 <div class="container-fluid" id="pcont">
 
-  
     @if (user.UserType == UserRoles.Vendor || user.UserType == UserRoles.AppUser)
     {
-    <div class="dashright">
-        <div class="page-head">
-            <h2>Dashboard</h2>
-        </div>
-        <div class="cl-mcont">
-
-
-            <div class="row">
-                @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            @*<div id="spark1" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc">Current agency revenue </div>
-                                <div class="value">
-                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @string.Format("{0:N0}", Model.revenue)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            @*<div id="spark1" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc">Current wallet balance </div>
-                                <div class="value">
-                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @string.Format("{0:N0}", ViewBag.walletBalance)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 2))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                            @*<div id="spark1" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc"><a href="@Url.Action("SalesReport", "Report")">Total daily sales(today)</a></div>
-                                <div class="value">
-                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @string.Format("{0:N0}", Model.totalSales)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 3))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                            @*<div id="spark2" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc"> Total daily deposit(today)</div>
-                                <div class="value">
-                                    <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
-                                        @*SSL @Model.totalDeposit.ToString("#,##0.00")*@
-                                        SSL @string.Format("{0:N0}", Model.totalDeposit)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 4))
-                {
-
-                    <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            @*<div id="spark3" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc">Active POS</div>
-                                <div class="value">
-                                    <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">@Model.posCount</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 6))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            @*<div id="spark4" class="chart sparkline"></div>*@
-                            <div class="data-info">
-                                <div class="desc">Products</div>
-                                <div class="value">
-                                    <span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number">@Model.platFormModels.Count</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+        <div class="dashright">
+            <div class="page-head">
+                <h2>Dashboard</h2>
             </div>
+            <div class="cl-mcont">
 
-            @if (!assignerModules.Any(X => X.ControllerName != "26"))
-            {
                 <div class="row">
-                    <div class="col-md-4 ">
-                        <div class="card custom-card p-3 mb-2">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-row align-items-center title-container">
-                                    <div class=" c-details">
-                                        <h4 class="action">How To - Save Your Meters</h4> <span><hr /></span>
+                    @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-2">
+                            <div class="widget widget-tile">
+                                @*<div id="spark1" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc">Current agency revenue </div>
+                                    <div class="value">
+                                        <a style="border:none;background:none; cursor:pointer;" onclick="transferHandler.fetchTransferFromVendors()">
+                                            <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
+                                                SSL @string.Format("{0:N0}", Model.revenue)
+                                            </span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="steps row">
-                                <ol>
-                                    <li>Click on  <a href="@Url.Action("Index", "Meter")">SAVED METERS</a>.</li>
-                                    <li>Enter the meter Information.</li>
-                                </ol>
-                            </div>
-                            <span class="text2">Note: Alias is important as a short name to enable you differentiate your multiple meters (Eg : Apartment 1)</span>
                         </div>
-                    </div>
-                    <div class="col-md-4 ">
-                        <div class="card custom-card p-3 mb-2">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-row align-items-center title-container">
-                                    <div class=" c-details">
-                                        <h4 class="action">How To - Fund Your Wallet</h4> <span><hr /></span>
+                    }
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-2">
+                            <div class="widget widget-tile">
+                                @*<div id="spark1" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc">Current wallet balance </div>
+                                    <div class="value">
+                                        <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
+                                            SSL @string.Format("{0:N0}", ViewBag.walletBalance)
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="steps row">
-                                <ol>
-                                    <li>Click on  <a href="@Url.Action("Index", "Deposit")">WALLET</a>.</li>
-                                    <li>
-                                        Enter the payment Information. <br>
-                                        VENDTECH will accept cash or cheque.
-                                        <p>
-                                            <strong>CASH : </strong> Send cash to any VENDTECH office and <br /> your account will be credited as qucik as possible.
-                                            <br /> You can as well make a transfer to GT-BANK <br /> (VENDTECH SL LTD - <a href="#">204/3403314/1/1/6</a>)
-                                        </p>
-                                        <p><strong>CHEQUE : </strong>Input the information on the Wallet screen and send a snapshot of the cheque to VENDTECH on the whatsapp number</p>
-                                    </li>
-                                </ol>
-                            </div>
-                            <span class="text2"> Please contact <a href="tel:+232 76 277761">+232 76 277761</a> on whatsapp if you have any difficulties</span>
                         </div>
-                    </div>
-                    <div class="col-md-4 ">
-                        <div class="card custom-card p-3 mb-2">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-row align-items-center title-container">
-                                    <div class=" c-details">
-                                        <h4 class="action">How To - BILL PAYMENT</h4> <span><hr /></span>
+                    }
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 2))
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-3">
+                            <div class="widget widget-tile">
+                                @*<div id="spark1" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc"><a href="@Url.Action("SalesReport", "Report")">Total daily sales(today)</a></div>
+                                    <div class="value">
+                                        <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
+                                            SSL @string.Format("{0:N0}", Model.totalSales)
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="steps row">
-                                <ol>
-                                    <li>Click on  <a href="@Url.Action("Utility", "Meter")">BILL PAYMENT</a>, Utility.</li>
-                                    <li>
-                                        Select a saved meter or enter a new meter
-                                        <br><i class="text2">(Select saved meter is also an option to save new meter)</i>
-                                    </li>
-                                    <li>Enter Amount --> Get Token</li>
-                                    <li>You can print this receipt or write it down to enter into the meter...</li>
-                                </ol>
-                            </div>
-                            <span class="text2"> <i>Viola.... Life made easy.</i></span>
                         </div>
-                    </div>
+                    }
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 3))
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-3">
+                            <div class="widget widget-tile">
+                                @*<div id="spark2" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc"> Total daily deposit(today)</div>
+                                    <div class="value">
+                                        <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
+                                            @*SSL @Model.totalDeposit.ToString("#,##0.00")*@
+                                            SSL @string.Format("{0:N0}", Model.totalDeposit)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 4))
+                    {
+
+                        <div class="col-xs-12 col-md-6 col-lg-2">
+                            <div class="widget widget-tile">
+                                @*<div id="spark3" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc">Active POS</div>
+                                    <div class="value">
+                                        <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">@Model.posCount</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 6))
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-2">
+                            <div class="widget widget-tile">
+                                @*<div id="spark4" class="chart sparkline"></div>*@
+                                <div class="data-info">
+                                    <div class="desc">Products</div>
+                                    <div class="value">
+                                        <span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number">@Model.platFormModels.Count</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
+
+                @if (!assignerModules.Any(X => X.ControllerName != "26"))
+                {
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - Save Your Meters</h4> <span><hr /></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Index", "Meter")">SAVED METERS</a>.</li>
+                                        <li>Enter the meter Information.</li>
+                                    </ol>
+                                </div>
+                                <span class="text2">Note: Alias is important as a short name to enable you differentiate your multiple meters (Eg : Apartment 1)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - Fund Your Wallet</h4> <span><hr /></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Index", "Deposit")">WALLET</a>.</li>
+                                        <li>
+                                            Enter the payment Information. <br>
+                                            VENDTECH will accept cash or cheque.
+                                            <p>
+                                                <strong>CASH : </strong> Send cash to any VENDTECH office and <br /> your account will be credited as qucik as possible.
+                                                <br /> You can as well make a transfer to GT-BANK <br /> (VENDTECH SL LTD - <a href="#">204/3403314/1/1/6</a>)
+                                            </p>
+                                            <p><strong>CHEQUE : </strong>Input the information on the Wallet screen and send a snapshot of the cheque to VENDTECH on the whatsapp number</p>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <span class="text2"> Please contact <a href="tel:+232 76 277761">+232 76 277761</a> on whatsapp if you have any difficulties</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="card custom-card p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center title-container">
+                                        <div class=" c-details">
+                                            <h4 class="action">How To - BILL PAYMENT</h4> <span><hr /></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="steps row">
+                                    <ol>
+                                        <li>Click on  <a href="@Url.Action("Utility", "Meter")">BILL PAYMENT</a>, Utility.</li>
+                                        <li>
+                                            Select a saved meter or enter a new meter
+                                            <br><i class="text2">(Select saved meter is also an option to save new meter)</i>
+                                        </li>
+                                        <li>Enter Amount --> Get Token</li>
+                                        <li>You can print this receipt or write it down to enter into the meter...</li>
+                                    </ol>
+                                </div>
+                                <span class="text2"> <i>Viola.... Life made easy.</i></span>
+                            </div>
+                        </div>
+                    </div>
+                }
 
 
 
 
 
+            </div>
         </div>
-    </div>
     }
     else
     {
-    <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+        <div><H1>Access denied! You do not have permission to access this corner</H1></div>
     }
 
 
 </div>
 
+
+
+
 @section scripts{
     <link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
     <script type="text/javascript">
 
         $(document).ready(function () {
             //initialize the javascript
             App.init();
-
-
-
-
         });
     </script>
 
     <script>
-    var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
+        var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
     </script>
+
+    <script src="~/Scripts/UserScripts/transfer.js"></script>
+    @*<script src="~/Scripts/Spinner.js"></script>*@
     <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
-    <link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />
-    <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>
+    @*<link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />*@
+    @*<script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>*@
     <script type="text/javascript">
-        console.log(surveyLastDaysChartData)
         $(function () {
 
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            //console.log(surveyLastDaysChartData);
-            Morris.Line({
-                element: 'main-chart',
-                data: surveyLastDaysChartData /*[
-                                        { y: '2006', a: 90, b: 76 },
-                                        { y: '2007', a: 75, b: 65 },
-                                        { y: '2008', a: 50, b: 40 },
-                                        { y: '2009', a: 75, b: 65 },
-                                        { y: '2010', a: 50, b: 40 },
-                                        { y: '2011', a: 75, b: 65 },
-                                        { y: '2012', a: 25, b: 20 }
-                                    ]*/,
-                xkey: 'mdate',
-                ykeys: ['deposit', 'billpayment'],
-                labels: ['Deposit', 'Bill Payment'],
-                pointSize: 4,
-                hideHover: 'auto',
-                fillOpacity: 0.03,
-                lineColors: ['#768294', '#0084ff'],
-                xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
-                    var month = months[x.getMonth()];
-                    return month;
-                },
-                dateFormat: function (x) {
-                    var month = months[new Date(x).getMonth()];
-                    return month;
-                },
-            });
+            //var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            ////console.log(surveyLastDaysChartData);
+            //Morris.Line({
+            //    element: 'main-chart',
+            //    data: surveyLastDaysChartData /*[
+            //                                        { y: '2006', a: 90, b: 76 },
+            //                                        { y: '2007', a: 75, b: 65 },
+            //                                        { y: '2008', a: 50, b: 40 },
+            //                                        { y: '2009', a: 75, b: 65 },
+            //                                        { y: '2010', a: 50, b: 40 },
+            //                                        { y: '2011', a: 75, b: 65 },
+            //                                        { y: '2012', a: 25, b: 20 }
+            //                                    ]*/,
+            //    xkey: 'mdate',
+            //    ykeys: ['deposit', 'billpayment'],
+            //    labels: ['Deposit', 'Bill Payment'],
+            //    pointSize: 4,
+            //    hideHover: 'auto',
+            //    fillOpacity: 0.03,
+            //    lineColors: ['#768294', '#0084ff'],
+            //    xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
+            //        var month = months[x.getMonth()];
+            //        return month;
+            //    },
+            //    dateFormat: function (x) {
+            //        var month = months[new Date(x).getMonth()];
+            //        return month;
+            //    },
+            //});
         });
     </script>
+
 }
 
 

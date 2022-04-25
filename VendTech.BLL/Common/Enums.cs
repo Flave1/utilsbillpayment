@@ -46,9 +46,12 @@ namespace VendTech.BLL.Models
         DepositRequestNotification = 12,
         [Description("Uncleared Deposit Notification")]
         UnclearedDepositNotification = 13,
-
         [Description("Forgot Passcode")]
         ForgotPasscode = 14,
+        [Description("Transfer From Notification")]
+        TransferFromNotification = 15,
+        [Description("Transfer To Notification")]
+        TransferToNotification = 16,
     }
     public enum PosTypeEnum
     {

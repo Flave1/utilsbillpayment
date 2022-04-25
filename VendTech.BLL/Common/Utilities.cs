@@ -8,10 +8,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
-using VendTech.DAL;
 using MimeKit;
 using System.Net.Mail;
 using System.Net;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Common
 {

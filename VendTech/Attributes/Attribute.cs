@@ -62,7 +62,7 @@ namespace VendTech.Attributes
                 {
                     sw = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/ErrorLog.txt"), true);
                     sw.WriteLine(ex.Message);
-                    sw.WriteLine("http://jsonformat.com/");
+                    sw.WriteLine(DateTime.UtcNow);
                     sw.WriteLine(ex); sw.WriteLine(""); sw.WriteLine("");
                 }
                 catch { }

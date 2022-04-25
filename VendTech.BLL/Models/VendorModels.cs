@@ -58,4 +58,12 @@ namespace VendTech.BLL.Models
 
         //public long? POSId { get; set; }
     }
+
+    public class TransferFromVendors
+    {
+        public string VendorName { get; set; }
+        public long PosId { get; set; }
+        public string Serialnumber { get; set; }
+        public string Balance { get; set; }
+    }
 }

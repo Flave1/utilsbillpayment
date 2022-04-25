@@ -53,6 +53,19 @@ namespace VendTech.BLL.Models
             VendorId = obj.User.UserId;
             VendorEmail = obj?.User?.Email;
         }
+        public AgentListingModel(POS obj, long id)
+        {
+            POSID = obj.POSId;
+            SerialNumber = obj.SerialNumber;
+            AgencyName = obj?.User?.Agency?.AgencyName;
+            CellPhone = "+232" + obj.Phone;
+            AgentName = $"{obj?.User?.Name} {obj?.User?.SurName}";
+            Enabled = (bool)obj.Enabled;
+            Balance = string.Format("{0:N0}", obj?.Balance ?? 0);
+            Vendor = obj?.User?.Vendor;
+            VendorId = obj.User.UserId;
+            VendorEmail = obj?.User?.Email;
+        }
 
     }
         public class AddAgentModel : SaveAgentModel
