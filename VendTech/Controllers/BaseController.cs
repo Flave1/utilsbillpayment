@@ -216,7 +216,7 @@ namespace VendTech.Controllers
             //This needs to be changed to redirect the control to an error page.
             else
             {
-                if(LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor)
+                if(LOGGEDIN_USER != null && (LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor))
                 {
                     filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
                 }

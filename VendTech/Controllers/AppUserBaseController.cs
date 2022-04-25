@@ -110,7 +110,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             #endregion
 
-            if (auth_cookie != null)
+            if (auth_cookie != null && auth_cookie.Expires > DateTime.Now)
             {
                 #region If Logged User is null
                 if (LOGGEDIN_USER == null)
