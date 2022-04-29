@@ -891,7 +891,7 @@ namespace VendTech.BLL.Managers
             result.TotalCount = totalrecord;
             return result;
         }
-        PagingResult<DepositExcelReportModel> IDepositManager.GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<DepositExcelReportModel> IDepositManager.GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             var result = new PagingResult<DepositExcelReportModel>();
             var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
@@ -912,7 +912,8 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                //posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
             if (model.PosId.HasValue && model.PosId > 0)
@@ -1011,14 +1012,13 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        PagingResult<AgencyRevenueExcelReportModel> IDepositManager.GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<AgencyRevenueExcelReportModel> IDepositManager.GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             var result = new PagingResult<AgencyRevenueExcelReportModel>();
             var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
-
             }
             if (model.To != null)
             {
@@ -1032,7 +1032,8 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                    //posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
             if (model.PosId.HasValue && model.PosId > 0)
@@ -1262,7 +1263,7 @@ namespace VendTech.BLL.Managers
 
         }
 
-        PagingResult<DepositExcelReportModel> IDepositManager.GetReportExcelData(ReportSearchModel model)
+        PagingResult<DepositExcelReportModel> IDepositManager.GetReportExcelData(ReportSearchModel model, long agentId)
         {
             var result = new PagingResult<DepositExcelReportModel>();
             var query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
@@ -1285,7 +1286,8 @@ namespace VendTech.BLL.Managers
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
                 var posIds = new List<long>();
-                posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == model.AgencyId && p.Enabled == true).Select(p => p.POSId).ToList();
+                posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                //posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == model.AgencyId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 

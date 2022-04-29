@@ -58,6 +58,7 @@ namespace VendTech
 
         protected void Application_Error()
         {
+
             HttpContext httpContext = HttpContext.Current;
             if (httpContext != null)
             {

@@ -14,7 +14,7 @@
                 </div>
                 <div class="row" style="text-align:center; margin:5px;" id="gen-invoice">
                     <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
-                    <h3>DEPOSIT</h3>
+                    <h3>INVOICE</h3>
                 </div>
 
                 <table style="border-top:0.8px solid grey; margin:auto; width:90%;">
@@ -92,19 +92,30 @@
                             <td>Amount</td>
                             <td>@string.Format("{0:N0}", Model.Amount)</td>
                         </tr>
-                        @if (Model.PercentageCommission.ToString() != "0.00")
+                        @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
                         {
                             <tr>
-
                                 <td>COMMISSION @@ %1</td>
                                 <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
                             </tr>
 
                         }
-                        <tr>
-                            <td>TOTAL DEPOSIT AMOUNT</td>
-                            <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
-                        </tr>
+
+                        @if (Model.Type == "TRANSFER")
+                        {
+                            <tr>
+                                <td>TOTAL TRANSACTION AMOUNT</td>
+                                <td>@string.Format("{0:N0}", Model.Amount)</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>TOTAL TRANSACTION AMOUNT</td>
+                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
+                            </tr>
+                        }
+
 
                     </tbody>
                 </table>
@@ -118,10 +129,7 @@
                 </div>
                 <div class="row modal-footer" style="display:flex;"> 
                     <div class="col-md-5 pull-right" style="margin-left:30px; text-align:left">
-                        <span> NOTE: This is an official stamped receipt</span>
-                    </div>
-                    <div class="col-md-4 pull-right" style="text-align: left;">
-                        <img src="~/Content/images/vtech-receipt.png" width="100" />
+                        <span> NOTE: This is an official stamp</span>
                     </div>
                     <div class="col-md-3 pull-right" id="print_section" style="text-align:right">
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>

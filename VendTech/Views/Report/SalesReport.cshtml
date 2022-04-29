@@ -74,10 +74,7 @@
 
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-
-
-
-
+                                             
                                             @{
                                                 var pos = (List<SelectListItem>)ViewBag.userPos;
                                             }
@@ -209,6 +206,7 @@
         $("#btnExport").click(function (e) {
             var frm = $("#FromDate").val();
             var to = $("#ToDate").val();
+            debugger
             if (frm) {
                 var dtVal = frm.split("/");
                 $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);

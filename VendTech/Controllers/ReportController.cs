@@ -665,7 +665,7 @@ namespace VendTech.Controllers
             };
 
 
-            var list = _depositManager.GetReportExcelData(newfilters).List;
+            var list = _depositManager.GetReportExcelData(newfilters, LOGGEDIN_USER.AgencyId).List;
             var gv = new GridView
             {
                 DataSource = list
@@ -850,8 +850,6 @@ namespace VendTech.Controllers
             }
         }
 
-
-
         public void ExportAgentRevenueReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -871,7 +869,6 @@ namespace VendTech.Controllers
 
             var newfilters = new ReportSearchModel
             {
-
                 VendorId = LOGGEDIN_USER.UserID,
                 RecordsPerPage = 500000,
                 PosId = model.POS,
@@ -888,8 +885,7 @@ namespace VendTech.Controllers
                 PageNo = model.PageNo,
             };
 
-
-            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
+            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             var gv = new GridView
             {
                 DataSource = list
@@ -1067,8 +1063,6 @@ namespace VendTech.Controllers
             }
         }
 
-
-
         public void ExportSalesReportTo(ReportSearchModeluser model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             PrintedDateServer = PrintedDateServer.TrimEnd(' ');
@@ -1107,10 +1101,11 @@ namespace VendTech.Controllers
                 RefNumber = model.refNumber,
                 ReportType = model.ReportType,
                 PageNo = model.PageNo,
+                AgencyId = LOGGEDIN_USER.AgencyId
             };
 
 
-            var list = _meterManager.GetSalesExcelReportData(newfilters, false).List;
+            var list = _meterManager.GetSalesExcelReportData(newfilters, false, LOGGEDIN_USER.AgencyId).List;
 
 
             var gv = new GridView
@@ -1630,7 +1625,7 @@ namespace VendTech.Controllers
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
 
-            var list = _depositManager.GetReportsExcelDeposituser(newfilters, false).List;
+            var list = _depositManager.GetReportsExcelDeposituser(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             return View(list);
         }
         [HttpGet]
@@ -1675,7 +1670,7 @@ namespace VendTech.Controllers
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
 
-            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false).List;
+            var list = _depositManager.GetAgentRevenueReportsExcelDeposituser(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             return View(list);
         }
 
@@ -1718,7 +1713,7 @@ namespace VendTech.Controllers
             ViewBag.fromdate = newfilters.From == null ? "" : newfilters.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetSalesExcelReportData(newfilters, false).List;
+            var list = _meterManager.GetSalesExcelReportData(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             return View(list);
         }
 
@@ -1760,7 +1755,7 @@ namespace VendTech.Controllers
             ViewBag.fromdate = newfilters.From == null ? "" : newfilters.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false).List;
+            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             return View(list);
         }
 
