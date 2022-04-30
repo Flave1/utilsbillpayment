@@ -46,7 +46,7 @@ namespace VendTech.Areas.Admin.Controllers
             var model = new PermissonAndDetailModel();
             ViewBag.Minutes = minutes;
             #region If auth cookie is present
-            if (auth_cookie != null)
+            if (auth_cookie != null  && !string.IsNullOrEmpty(auth_cookie.Value))
             {
                 #region If LoggedInUser is null
                 if (LOGGEDIN_USER == null)
@@ -63,7 +63,7 @@ namespace VendTech.Areas.Admin.Controllers
                         }
                         else
                         {
-                            //SignOut();
+                           // SignOut();
                         }
 
                     }
@@ -110,27 +110,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
             #endregion
 
-            if (auth_cookie != null && auth_cookie.Expires > DateTime.Now)
-            {
-                #region If Logged User is null
-                if (LOGGEDIN_USER == null)
-                {
-                    FormsAuthenticationTicket auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
-                    model = new JavaScriptSerializer().Deserialize<PermissonAndDetailModel>(auth_ticket.UserData);
-                    LOGGEDIN_USER = model.UserDetails;
-                    ModulesModel = model.ModulesModelList;
-                    System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(auth_ticket), null);
-                }
-                if (filter_context.ActionDescriptor.ActionName == "Index" && filter_context.ActionDescriptor.ControllerDescriptor.ControllerName == "Home")
-                {
-                    filter_context.Result = RedirectToAction("Dashboard", "Home");// new { area = "Admin" });
-                }
-                #endregion
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                ViewBag.USER_PERMISSONS = ModulesModel;
-
-            }
-
 
 
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
@@ -157,12 +136,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
             {
-                HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
-                val.Expires = DateTime.Now.AddDays(-30);
-                Response.Cookies.Add(val);
                 SignOut();
-                LOGGEDIN_USER = null;
-                JustLoggedin = false;
                 filter_context.Result = RedirectToAction("Index", "Home"); 
             }
 
@@ -177,13 +151,6 @@ namespace VendTech.Areas.Admin.Controllers
                     CreateCustomAuthorisationCookie(LOGGEDIN_USER.UserName, false, ckie);
                 }
             }
-            //if (LOGGEDIN_USER.UserID == 0)
-            //{
-            //    SignOut();
-            //    JustLoggedin = false;
-            //    filter_context.Result = RedirectToAction("Index", "Home");
-            //}
-
             SetActionName(filter_context.ActionDescriptor.ActionName, filter_context.ActionDescriptor.ControllerDescriptor.ControllerName);
         }
 
@@ -219,7 +186,9 @@ namespace VendTech.Areas.Admin.Controllers
             HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             if (auth_cookie != null)
             {
+                LOGGEDIN_USER = null;
                 JustLoggedin = false;
+                auth_cookie.Value = null;
                 auth_cookie.Expires = DateTime.Now.AddDays(-30);
                 Response.Cookies.Add(auth_cookie);
             }
@@ -232,7 +201,6 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="actionName"></param>
         private void SetActionName(string actionName, string controllerName)
         {
-            //ViewBag.ControllerActionName = controllerName + " " + actionName;
             ViewBag.ControllerName = controllerName;
         }
     }

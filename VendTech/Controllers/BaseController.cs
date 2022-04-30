@@ -59,13 +59,27 @@ namespace VendTech.Controllers
         {
             if (!ModelState.IsValid)
             {
-                if (Request.IsAjaxRequest()) filterContext.Result = Json(new ActionOutput
+                var keysAndValues = ModelState.Keys.Zip(ModelState.Values, (f, m) => new { FieldName = f, Message = m });
+                foreach (var errs in keysAndValues)
                 {
-                    Status = ActionStatus.Error,
-                    Message = "Validation Error"
-                }, JsonRequestBehavior.AllowGet);
+                    foreach (var error in errs.Message.Errors)
+                    {
+                        if (Request.IsAjaxRequest()) filterContext.Result = Json(new ActionOutput
+                        {
+                            Status = ActionStatus.Error,
+                            Message = error.ErrorMessage
+                        }, JsonRequestBehavior.AllowGet);
+                        else filterContext.Result = null;
+                    }
+                }
+            
+                //if (Request.IsAjaxRequest()) filterContext.Result = Json(new ActionOutput
+                //{
+                //    Status = ActionStatus.Error,
+                //    Message = "Validation Error"
+                //}, JsonRequestBehavior.AllowGet);
                 //This needs to be changed to redirect the control to an error page.
-                else filterContext.Result = null;/// RedirectToAction("dashboard", "home");
+                //else filterContext.Result = null;/// RedirectToAction("dashboard", "home");
             }
         }
 
@@ -216,7 +230,7 @@ namespace VendTech.Controllers
             //This needs to be changed to redirect the control to an error page.
             else
             {
-                if(LOGGEDIN_USER != null && (LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor))
+                if(LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor)
                 {
                     filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
                 }

@@ -168,8 +168,11 @@ function Paging(sender) {
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
-
+            PageNumbering(results[1]); 
+        },
+        error: function (err) {
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false);
         }
     });
 }

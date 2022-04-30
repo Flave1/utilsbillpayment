@@ -192,8 +192,8 @@ namespace VendTech.BLL.Models
             DEPOSIT_TYPE = obj.PaymentType1.Name;
             AMOUNT = string.Format("{0:N0}", obj.Amount); 
             TRANSACTION_ID = obj?.TransactionId;  
-            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount);
-            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission);
+            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount == null ? 0 : obj.PercentageAmount);
+            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission == null ? 0 : obj.AgencyCommission);
         }
 
         public AgencyRevenueExcelReportModel()
