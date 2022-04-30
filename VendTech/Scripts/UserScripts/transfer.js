@@ -168,6 +168,8 @@ var transferHandler = {
                     data: $.postifyData(request),
                     type: "POST",
                     success: function (data) {
+                        $(".sweet-alert p").css('text-align', 'center');
+                        $(".sweet-alert p").css('color', '#000');
                         transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
                         $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
                     },
@@ -176,10 +178,6 @@ var transferHandler = {
                     }
                 });
             });
-
-           
-
-
         } else {
             $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
             return;
