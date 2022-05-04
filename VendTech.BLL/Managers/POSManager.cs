@@ -274,6 +274,7 @@ namespace VendTech.BLL.Managers
                 return null;
             return new SavePosModel()
             {
+                AgencyId = dbPos.User.AgentId??0,
                 SerialNumber = dbPos.SerialNumber,
                 VendorId = dbPos.VendorId,
                 Phone = dbPos.Phone,

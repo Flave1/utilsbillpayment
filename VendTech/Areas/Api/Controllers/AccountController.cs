@@ -74,8 +74,15 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
-                    if (isEnabled)
+                    var pos = _posManager.GetPosDetails(model.PassCode);
+                    if(pos != null)
+                    {
+                        if(pos.AgencyId == 10020)
+                        {
+                            return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP", Status.Failed).ConvertToHttpResponseOK();
+                        }
+                    }
+                    if (pos.Enabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
                         _authenticateManager.AddTokenDevice(model);

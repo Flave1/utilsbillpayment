@@ -106,6 +106,7 @@ namespace VendTech.BLL.Models
         public bool PosPrint { get; set; }
         public bool WebBarcode { get; set; }
         public bool PosBarcode { get; set; }
+        public long AgencyId { get; set; }
     }
 
     public class SavePassCodeModel
