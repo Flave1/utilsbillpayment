@@ -34,8 +34,8 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
         DepositAuditModel SaveDepositAuditRequest(DepositAuditModel depositAuditModel);
         PagingResult<DepositListingModel> GetReportsPagedHistoryList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
-        PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
-        PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model);
+        PagingResult<DepositExcelReportModel> GetReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
+        PagingResult<DepositExcelReportModel> GetReportExcelData(ReportSearchModel model, long agentId = 0);
         PagingResult<DepositAuditExcelReportModel> GetAuditReportExcelData(ReportSearchModel model);
         PagingResult<DepositListingModel> GetReleasedDepositPagedList(PagingModel model, bool getForRelease, long vendorId = 0);
         ActionOutput ChangeMultipleDepositStatusOnReverse(ReverseDepositModel model, long userId);
@@ -50,7 +50,7 @@ namespace VendTech.BLL.Interfaces
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
         PagingResult<AgentRevenueListingModel> GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin= false, long agentId = 0);
-        PagingResult<AgencyRevenueExcelReportModel> GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false);
+        PagingResult<AgencyRevenueExcelReportModel> GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         void DeletePendingDeposits(List<PendingDeposit> deposits);
         string CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos);
         string CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId);

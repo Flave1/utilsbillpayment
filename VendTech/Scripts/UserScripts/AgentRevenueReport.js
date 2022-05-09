@@ -164,6 +164,10 @@ function Paging(sender) {
             $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);
           
+        },
+        error: function (err) {
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false);
         }
     });
 }

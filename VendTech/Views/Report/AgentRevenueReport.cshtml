@@ -119,15 +119,7 @@
                                                 @Html.Partial("partials/_assignedReports", assigned_platforms)
                                             </div>
                                             <hr style="background:#d0cbcb; height:1px;" />
-                                            <div class="form-group  row">
-                                                <label style="width:30%;">TYPE:</label>
-                                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "SELECT TYPE", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
-
-                                            </div>
-                                            <div class="form-group  row">
-                                                <label style="width:30%;">REF #</label>
-                                                <input style="width:65%; float:right;" , type="text" id="refNumber" name="refNumber" class="form-control">
-                                            </div>
+                                          
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
 
