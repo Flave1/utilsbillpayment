@@ -111,6 +111,7 @@ namespace VendTech.BLL.Models
         public decimal Percentage { get; set; }
         public HttpPostedFile Image { get; set; }
         public HttpPostedFileBase ImagefromWeb { get; set; }
+        public string DeviceToken { get; set; }
 
         public bool IsRe_Approval { get; set; } = false;
         public UserModel() { }
@@ -126,6 +127,7 @@ namespace VendTech.BLL.Models
             this.isemailverified = userObj.IsEmailVerified;
             this.Status = userObj.Status;
             this.Vendor = userObj.Vendor;
+            this.DeviceToken = userObj.DeviceToken;
             this.IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
