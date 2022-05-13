@@ -19,7 +19,7 @@ namespace VendTech.BLL.Interfaces
         RechargeDetailPDFData GetRechargePDFData(long rechargeId);
         ActionOutput<MeterRechargeApiListingModel> GetRechargeDetail(long rechargeId);
         MeterModel GetMeterDetail(long meterId);
-        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesReport(ReportSearchModel model,bool callFromAdmin=false, long agentId = 0);
+        Task<PagingResult<MeterRechargeApiListingModel>> GetUserMeterRechargesReportAsync(ReportSearchModel model,bool callFromAdmin=false, long agentId = 0);
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false);
         List<SelectListItem> GetMetersDropDown(long userID);
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
@@ -29,7 +29,7 @@ namespace VendTech.BLL.Interfaces
         TransactionDetail GetLastTransaction();
         TransactionDetail GetSingleTransaction(string transactionId);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
-        PagingResult<GSTRechargeApiListingModel> GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
+        Task<PagingResult<GSTRechargeApiListingModel>> GetUserGSTRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
     }
     

@@ -1963,6 +1963,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
 
             depositAuditModel.Type = Context.PaymentTypes.FirstOrDefault(ee => ee.PaymentTypeId == dbDeposit.PaymentType).Name;
+            depositAuditModel.PaymentType = dbDeposit.PaymentType;
 
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
@@ -2017,6 +2018,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.Payer = dbDeposit.NameOnCheque;
              
             depositAuditModel.Type = Context.PaymentTypes.FirstOrDefault(ee => ee.PaymentTypeId == dbDeposit.PaymentType).Name;
+            depositAuditModel.PaymentType = dbDeposit.PaymentType;
 
             depositAuditModel.Comment = dbDeposit.Comments;
             depositAuditModel.DepositId = dbDeposit.DepositId;

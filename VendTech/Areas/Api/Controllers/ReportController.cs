@@ -41,7 +41,7 @@ namespace VendTech.Areas.Api.Controllers
 
 
             var deposits = new PagingResult<MeterRechargeApiListingModel>();
-            deposits = _meterManager.GetUserMeterRechargesReport(model);
+            deposits = _meterManager.GetUserMeterRechargesReportAsync(model).Result;
             return new JsonContent(deposits.TotalCount, deposits.Message, Status.Success, deposits.List).ConvertToHttpResponseOK();
         }
         [HttpPost]

@@ -126,7 +126,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var sales = new PagingResult<MeterRechargeApiListingModel>();
-            sales = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
+            sales = _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId).Result;
             ViewBag.SelectedTab = SelectedAdminTab.Reports; 
             return View(sales);
 
@@ -154,7 +154,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var sales = new PagingResult<GSTRechargeApiListingModel>();
-            sales = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
+            sales = _meterManager.GetUserGSTRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId).Result;
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             return View(sales);
 
@@ -300,7 +300,7 @@ namespace VendTech.Controllers
 
 
         [AjaxOnly, HttpPost]
-        public JsonResult GetSalesReportPagingList(ReportSearchModel model)
+        public async Task<JsonResult> GetSalesReportPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
@@ -309,7 +309,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<MeterRechargeApiListingModel>();
 
-            modal = _meterManager.GetUserMeterRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
+            modal = await _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
 
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_salesListing", modal));
@@ -326,7 +326,7 @@ namespace VendTech.Controllers
 
 
         [AjaxOnly, HttpPost]
-        public JsonResult GetGSTSalesReportPagingList(ReportSearchModel model)
+        public async Task<JsonResult> GetGSTSalesReportPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
@@ -335,7 +335,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<GSTRechargeApiListingModel>();
 
-            modal = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
+            modal = await _meterManager.GetUserGSTRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
              
 
             var resultString = new List<string> {
@@ -1378,7 +1378,7 @@ namespace VendTech.Controllers
             };
 
 
-            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false).List;
+            var list = _meterManager.GetUserGSTRechargesReportAsync(newfilters, false).Result.List;
 
 
             var gv = new GridView
@@ -1755,7 +1755,7 @@ namespace VendTech.Controllers
             ViewBag.fromdate = newfilters.From == null ? "" : newfilters.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false, LOGGEDIN_USER.AgencyId).List;
+            var list = _meterManager.GetUserGSTRechargesReportAsync(newfilters, false, LOGGEDIN_USER.AgencyId).Result.List;
             return View(list);
         }
 

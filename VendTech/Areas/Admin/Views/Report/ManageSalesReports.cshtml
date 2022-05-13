@@ -171,6 +171,7 @@
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="~/Scripts/UserScripts/sms.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
     <script src="~/Scripts/Receipt.js"></script>
@@ -180,7 +181,7 @@
 
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
-        $(document).ready(function () { 
+        $(document).ready(function () {
             App.init();
             $('#PrintType').on("change", function () {
                 $('#ExportType').val($(this).val());

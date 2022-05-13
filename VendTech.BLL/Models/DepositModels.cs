@@ -371,6 +371,7 @@ namespace VendTech.BLL.Models
         public decimal Amount { get; set; }
         public string VendorName { get; set; }
         public string Type { get; set; }
+        public int PaymentType { get; set; }
         public string Status { get; set; }
         public string CreatedAt { get; set; }
         public string TransactionId { get; set; }
@@ -394,6 +395,7 @@ namespace VendTech.BLL.Models
             DepositRef = obj.CheckNumberOrSlipId;
              
             Type = obj.PaymentType1.Name;
+            PaymentType = obj.PaymentType;
 
             GTBank = obj.BankAccount.BankName;
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";

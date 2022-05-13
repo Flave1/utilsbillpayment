@@ -39,6 +39,7 @@ namespace VendTech.BLL.Interfaces
         bool ConfirmThisUser(ChangePasswordModel model);
         ActionOutput<string> FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword);
         UserModel SaveAndLoginPassCode(string passCode, long userId);
+        ActionOutput GenerateNewPassword(string email);
     }
 
 }

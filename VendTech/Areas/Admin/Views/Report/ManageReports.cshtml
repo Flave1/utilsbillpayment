@@ -184,7 +184,7 @@
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="~/Scripts/Receipt.js"></script>
-     
+
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
 
@@ -200,11 +200,11 @@
             }
             else {
 
-                App.init(); 
+                App.init();
                 const date = new Date();
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
-                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", ""); 
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
 
                 $("#printedDate").text(formattedDate);
                 $("#PrintedDateServer").val(formattedDate);
