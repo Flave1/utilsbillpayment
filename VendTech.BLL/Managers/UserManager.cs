@@ -932,9 +932,9 @@ namespace VendTech.BLL.Managers
                 dbUser.SurName = userDetails.LastName;
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
+                dbUser.IsEmailVerified = false;
                 dbUser.CreatedAt = DateTime.UtcNow;
                 dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor); // userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
-                dbUser.IsEmailVerified = false;
                 dbUser.Address = userDetails.Address;
                 dbUser.CountryCode = "+232";
                 dbUser.CityId = Convert.ToInt32(userDetails.City != null ? userDetails.City : "0");

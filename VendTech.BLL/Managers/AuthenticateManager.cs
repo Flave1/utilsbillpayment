@@ -356,6 +356,19 @@ namespace VendTech.BLL.Managers
         //    return ReturnSuccess();
         //}
 
+       
+         ActionOutput IAuthenticateManager.GenerateNewPassword(string email)
+        {
+            var user = Context.Users.FirstOrDefault(x => x.Email.Trim().ToLower() == email.ToLower().Trim());
+            var password = Utilities.GenerateByAnyLength(4);
+            if (user != null)
+            {
+                user.Password = Utilities.EncryptPassword(password);
+                user.IsEmailVerified = false;
+            }
+            Context.SaveChanges();
+            return ReturnSuccess(password);
+        }
         ActionOutput IAuthenticateManager.AddTokenDevice(LoginAPIPassCodeModel model)
         {
             //string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());

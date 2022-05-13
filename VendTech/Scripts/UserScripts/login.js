@@ -62,7 +62,7 @@ var Admin = {
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {
-                $.ShowMessage($('div.messageAlert'), "Reset Password link has been sent to your email.", MessageType.Success);
+                $.ShowMessage($('div.messageAlert'), "A new Password has been sent to your email.", MessageType.Success);
                 setTimeout(function () {
                     window.location.reload();
                 }, 2000)

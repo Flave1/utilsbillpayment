@@ -112,7 +112,7 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    var recharges = _meterManager.GetUserMeterRechargesReport(model, true);
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
@@ -124,7 +124,7 @@ namespace VendTech.Areas.Admin.Controllers
                 }
                 if (val == "28")
                 {
-                    var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
+                    var recharges = _meterManager.GetUserGSTRechargesReportAsync(model, true);
                     return View("ManageGSTSalesReports", recharges);
                 }
                 if (val == "29")
@@ -231,15 +231,14 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
-            var modal = _meterManager.GetUserMeterRechargesReport(model, true);
+            var modal = _meterManager.GetUserMeterRechargesReportAsync(model, true);
 
 
-            var sum = modal.List.Select(d => d.Amount).Sum(); 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
+            var sum = modal.Result.List.Select(d => d.Amount).Sum(); 
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.Result.TotalCount.ToString()
            };
             return JsonResult(resultString);
         }
-
 
         [AjaxOnly, HttpPost]
         public JsonResult GetAgentRevenueReportsPagedList(ReportSearchModel model)
@@ -254,8 +253,6 @@ namespace VendTech.Areas.Admin.Controllers
            };
             return JsonResult(resultString);
         }
-
-
 
         [AjaxOnly, HttpPost]
         public JsonResult GetBalanceSheetReportsPagingList(ReportSearchModel model)
@@ -285,19 +282,17 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(resultString);
         }
 
-
         [AjaxOnly, HttpPost]
         public JsonResult GetGSTSalesReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
-            var modal = _meterManager.GetUserGSTRechargesReport(model, true);
+            var modal = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result;
               
             var resultString = new List<string> { RenderRazorViewToString("Partials/_gstSalesReportListing", modal), modal.TotalCount.ToString()
            };
             return JsonResult(resultString);
         }
-
 
         [AjaxOnly, HttpPost]
         public JsonResult GetVendorsPagingList(PagingModel model)
@@ -1024,7 +1019,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
-            var list = _meterManager.GetUserGSTRechargesReport(model, true).List;
+            var list = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result.List;
             var gv = new GridView
             {
                 DataSource = list,
@@ -1739,7 +1734,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = model.To == null ? "" : model.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetUserGSTRechargesReport(model, true).List;
+            var list = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result.List;
             return View(list);
         }
 

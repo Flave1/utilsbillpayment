@@ -171,7 +171,7 @@ namespace VendTech.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             dashBoard.currentUser = new UserModel();
-            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
@@ -191,14 +191,14 @@ namespace VendTech.Controllers
         {
             if (!string.IsNullOrEmpty(email))
             {
-                var otp = Utilities.GenerateRandomNo();
-                var result = _authenticateManager.ForgotPassword(email, otp.ToString());
+                //var otp = Utilities.GenerateRandomNo();
+                var result = _authenticateManager.GenerateNewPassword(email);
                 if (result.Status == ActionStatus.Error)
                     return JsonResult(result);
-                var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
+                //var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
                 string body = emailTemplate.TemplateContent;
-                body = body.Replace("%WebLink%", link);
+                body = body.Replace("%password%", result.Message);
                 string to = email;
                 Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
                 return JsonResult(result);
@@ -241,7 +241,6 @@ namespace VendTech.Controllers
             }
             return JsonResult(new ActionOutput { Status = result.Status, Message = result.Message });
         }
-
 
         [Public]
         public ActionResult FirstTimeLoginChangePassword(long userId = 0)
