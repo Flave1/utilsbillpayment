@@ -124,7 +124,7 @@ namespace VendTech.Areas.Admin.Controllers
                 }
                 if (val == "28")
                 {
-                    var recharges = _meterManager.GetUserGSTRechargesReportAsync(model, true);
+                    var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
                     return View("ManageGSTSalesReports", recharges);
                 }
                 if (val == "29")
@@ -287,7 +287,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
-            var modal = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result;
+            var modal = _meterManager.GetUserGSTRechargesReport(model, true);
               
             var resultString = new List<string> { RenderRazorViewToString("Partials/_gstSalesReportListing", modal), modal.TotalCount.ToString()
            };
@@ -1019,7 +1019,7 @@ namespace VendTech.Areas.Admin.Controllers
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
-            var list = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result.List;
+            var list = _meterManager.GetUserGSTRechargesReport(model, true).List;
             var gv = new GridView
             {
                 DataSource = list,
@@ -1734,7 +1734,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.fromdate = model.From == null ? "" : model.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = model.To == null ? "" : model.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetUserGSTRechargesReportAsync(model, true).Result.List;
+            var list = _meterManager.GetUserGSTRechargesReport(model, true).List;
             return View(list);
         }
 
