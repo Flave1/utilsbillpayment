@@ -101,8 +101,6 @@ namespace VendTech.Controllers
 
         }
        
-    
-    
         public ActionResult SalesReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
@@ -154,7 +152,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var sales = new PagingResult<GSTRechargeApiListingModel>();
-            sales = _meterManager.GetUserGSTRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId).Result;
+            sales = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             return View(sales);
 
@@ -298,7 +296,6 @@ namespace VendTech.Controllers
             return JsonResult(resultString);
         }
 
-
         [AjaxOnly, HttpPost]
         public async Task<JsonResult> GetSalesReportPagingList(ReportSearchModel model)
         {
@@ -324,9 +321,8 @@ namespace VendTech.Controllers
             return JsonResult(resultString);
         }
 
-
         [AjaxOnly, HttpPost]
-        public async Task<JsonResult> GetGSTSalesReportPagingList(ReportSearchModel model)
+        public JsonResult GetGSTSalesReportPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
@@ -335,7 +331,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<GSTRechargeApiListingModel>();
 
-            modal = await _meterManager.GetUserGSTRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
+            modal = _meterManager.GetUserGSTRechargesReport(model, false, LOGGEDIN_USER.AgencyId);
              
 
             var resultString = new List<string> {
@@ -1355,7 +1351,6 @@ namespace VendTech.Controllers
                 Todate = model.ToDate.Value.ToString("dd/MM/yyyy");
             }
 
-
             var newfilters = new ReportSearchModel
             {
 
@@ -1378,7 +1373,7 @@ namespace VendTech.Controllers
             };
 
 
-            var list = _meterManager.GetUserGSTRechargesReportAsync(newfilters, false).Result.List;
+            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false).List;
 
 
             var gv = new GridView
@@ -1755,7 +1750,7 @@ namespace VendTech.Controllers
             ViewBag.fromdate = newfilters.From == null ? "" : newfilters.From.Value.ToString("dd/MM/yyyy");
             ViewBag.Todate = newfilters.To == null ? "" : newfilters.To.Value.ToString("dd/MM/yyyy");
 
-            var list = _meterManager.GetUserGSTRechargesReportAsync(newfilters, false, LOGGEDIN_USER.AgencyId).Result.List;
+            var list = _meterManager.GetUserGSTRechargesReport(newfilters, false, LOGGEDIN_USER.AgencyId).List;
             return View(list);
         }
 

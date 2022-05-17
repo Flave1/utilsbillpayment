@@ -269,13 +269,12 @@ namespace VendTech.BLL.Managers
             }
             result.TotalCount = query.Count();
 
-
             if (model.SortBy != "VendorName" && model.SortBy != "MeterNumber" && model.SortBy != "POS")
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
 
-            var list =  query.Select(x => new MeterRechargeApiListingModel
+            var list = query.Select( x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
                 TransactionId = x.TransactionId,
@@ -323,7 +322,7 @@ namespace VendTech.BLL.Managers
 
         }
 
-        async Task<PagingResult<GSTRechargeApiListingModel>> IMeterManager.GetUserGSTRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId)
+        PagingResult<GSTRechargeApiListingModel> IMeterManager.GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
             var result = new PagingResult<GSTRechargeApiListingModel>();
@@ -382,7 +381,7 @@ namespace VendTech.BLL.Managers
             //    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             //}
 
-            var list = await query.Select(x => new GSTRechargeApiListingModel(x)).ToListAsync();
+            var list = query.Select(x => new GSTRechargeApiListingModel(x)).ToList();
 
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             { 

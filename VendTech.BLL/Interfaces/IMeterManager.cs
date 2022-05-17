@@ -29,7 +29,7 @@ namespace VendTech.BLL.Interfaces
         TransactionDetail GetLastTransaction();
         TransactionDetail GetSingleTransaction(string transactionId);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
-        Task<PagingResult<GSTRechargeApiListingModel>> GetUserGSTRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
+        PagingResult<GSTRechargeApiListingModel> GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
     }
     

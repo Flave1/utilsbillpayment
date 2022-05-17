@@ -580,3 +580,27 @@ One or more errors occurred.
 
 
 
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
