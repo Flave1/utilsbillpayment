@@ -234,8 +234,8 @@ namespace VendTech.Areas.Admin.Controllers
             var modal = _meterManager.GetUserMeterRechargesReportAsync(model, true);
 
 
-            var sum = modal.Result.List.Select(d => d.Amount).Sum(); 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.Result.TotalCount.ToString()
+            var sum = modal.List.Select(d => d.Amount).Sum(); 
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
            };
             return JsonResult(resultString);
         }

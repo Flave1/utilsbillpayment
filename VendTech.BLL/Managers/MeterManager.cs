@@ -216,7 +216,7 @@ namespace VendTech.BLL.Managers
             return result;
         }
         
-        async Task<PagingResult<MeterRechargeApiListingModel>> IMeterManager.GetUserMeterRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId)
+        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
             var result = new PagingResult<MeterRechargeApiListingModel>();
@@ -274,7 +274,7 @@ namespace VendTech.BLL.Managers
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
 
-            var list = query.Select( x => new MeterRechargeApiListingModel
+            var list = query.ToList().Select( x => new MeterRechargeApiListingModel
             {
                 Amount = x.Amount,
                 TransactionId = x.TransactionId,
@@ -282,7 +282,7 @@ namespace VendTech.BLL.Managers
                 RechargeId = x.TransactionDetailsId,
                 UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
                 ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName,
-                //CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
+                CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 POSId = x.POSId == null ? "" : x.POS.SerialNumber,
                 Status = ((RechargeMeterStatusEnum)x.Status).ToString(),

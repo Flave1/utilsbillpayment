@@ -77,8 +77,8 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
-                else if (userDetails.AgentId == 10020)
-                    return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
+                //else if (userDetails.AgentId == 10020 && model.PassCode != "93001")
+                //    return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
                 else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim())
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
@@ -88,6 +88,9 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         return new JsonContent("POS NOT AVAILABLE! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                     }
+                    if (userDetails.AgentId == 10020 && pos.SerialNumber != "93001")
+                        return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
+
                     if (pos.Enabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
