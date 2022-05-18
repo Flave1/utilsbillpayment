@@ -604,3 +604,75 @@ Error during serialization or deserialization using the JSON JavaScriptSerialize
 
 
 
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+The underlying provider failed on Open.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'System.Threading.Tasks.Task`1[VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+

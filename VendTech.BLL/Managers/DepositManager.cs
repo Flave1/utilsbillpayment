@@ -1939,14 +1939,14 @@ namespace VendTech.BLL.Managers
             dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
             dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
             dbDeposit.UpdatedAt = DateTime.UtcNow;
- 
+
             try
             {
-                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("dd/MM/yyyy hh:mm");
+                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("MM/dd/yyyy hh:mm");
             }
             catch (Exception)
             {
-                dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
+                dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "MM/dd/yyyy hh:mm", provider).ToString("MM/dd/yyyy hh:mm");
             }
             dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
 

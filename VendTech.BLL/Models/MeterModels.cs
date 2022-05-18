@@ -119,6 +119,23 @@ namespace VendTech.BLL.Models
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.MeterToken1;
         }
+
+        public MeterRechargeApiListingModel(TransactionDetail x, int v)
+        {
+            Amount = x.Amount;
+            TransactionId = x.TransactionId;
+            MeterRechargeId = x.TransactionDetailsId;
+            RechargeId = x.TransactionDetailsId;
+            UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            POSId = x.POSId == null ? "" : x.POS.SerialNumber;
+            Status = ((RechargeMeterStatusEnum)x.Status).ToString();
+            VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
+            RechargePin = x.MeterToken1;
+            CreatedAtDate = x.CreatedAt;
+        }
     }
 
     public class GSTRechargeApiListingModel

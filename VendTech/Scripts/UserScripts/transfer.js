@@ -2,7 +2,7 @@
 
 
 (function () { 
-    
+    alert('ok')
 })();
 
 var transferHandler = {
@@ -14,7 +14,7 @@ var transferHandler = {
         var request = new Object();
         request.id = 0;
         $.ajax({
-            url: '/Agents/FetchVendors',
+            url: '/Transfer/GetAllAgencyAdminVendor',
             data: $.postifyData(request),
             type: "POST",
             success: function (data) {

@@ -262,6 +262,7 @@
     <Compile Include="Areas\Vendor\Controllers\HomeController.cs" />
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
+    <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\AppUserBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -575,6 +576,7 @@
     <Content Include="Views\Shared\Transfer\_vendorsListing.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
+    <Content Include="Views\Transfer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

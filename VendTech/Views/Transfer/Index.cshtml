@@ -1,0 +1,87 @@
+﻿@model PagingResult<AgentListingModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Vendors</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    @*<div class="header noborder">
+                            <h3 > <a href="@Url.Action("AddAgent", "Agent", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+                        </div>*@
+                    <div class="content">
+                        <div class="table-responsive">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting" data-sortby="AGENCY">AGENCY </th>
+                                            <th class="sorting" data-sortby="VENDOR">VENDOR</th>
+                                            <th class="sorting" data-sortby="POSID">POS ID</th>
+                                            <th class="sorting" data-sortby="PHONE">CELL PHONE</th>
+                                            <th class="sorting" data-sortby="AGENT">AGENT NAME</th>
+                                            <th class="sorting" data-sortby="SALES">TODAY'S SALES</th>
+                                            <th class="sorting" data-sortby="BALANCE">BALANCE</th>
+                                            <th class="sorting" data-sortby="ENABLED">ENABLED</th>
+                                            <th class="sorting">ACTION</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @if (Model.List != null && Model.List.Count() > 0)
+                                        {
+                                            foreach (var item in Model.List)
+                                            {
+                                                <tr class="odd gradeX">
+                                                    <td>@item.AgencyName</td>
+                                                    <td>@item.Vendor</td>
+                                                    <td style="text-align:right;"><a style="cursor:pointer;" onclick="GeneratePasscode('@item.POSID', '@item.VendorEmail', '@item.CellPhone', '@item.VendorId')">@item.SerialNumber</a></td>
+                                                    <td style="text-align:right;"> @item.CellPhone</td>
+                                                    <td> @item.AgentName</td>
+                                                    <td style="color:green; text-align:right;"> <strong>@item.TodaySales</strong> </td>
+                                                    <td style="color:green; text-align:right;"> <strong>@item.Balance</strong> </td>
+                                                    <td> @item.Enabled</td>
+                                                    <td>
+                                                        @if (item.Enabled)
+                                                        {
+                                                            <a data-id="@item.POSID" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a data-id="@item.POSID" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" ; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td colspan="5">No Record Found</td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/UserScripts/transfer.js"></script>
+

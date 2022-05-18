@@ -112,7 +112,7 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true).Result;
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
@@ -1494,7 +1494,7 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
 
-           public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
             string Todate = "";
@@ -1689,8 +1689,6 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.AllowPaging = true;
             }
         }
-
-
 
 
         [HttpGet]
