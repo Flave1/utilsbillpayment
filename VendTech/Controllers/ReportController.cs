@@ -124,7 +124,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             var sales = new PagingResult<MeterRechargeApiListingModel>();
-            sales = _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId).Result;
+            sales = _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
             ViewBag.SelectedTab = SelectedAdminTab.Reports; 
             return View(sales);
 
@@ -297,7 +297,7 @@ namespace VendTech.Controllers
         }
 
         [AjaxOnly, HttpPost]
-        public async Task<JsonResult> GetSalesReportPagingList(ReportSearchModel model)
+        public JsonResult GetSalesReportPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             //model.SortBy = "CreatedAt";
@@ -306,7 +306,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 100000000;
             var modal = new PagingResult<MeterRechargeApiListingModel>();
 
-            modal = await _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
+            modal =  _meterManager.GetUserMeterRechargesReportAsync(model, false, LOGGEDIN_USER.AgencyId);
 
             //List<string> resultString = new List<string>();
             //resultString.Add(RenderRazorViewToString("Partials/_salesListing", modal));
