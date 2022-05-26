@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Interfaces
 {
     public interface ITransferManager
     {
-        PagingResult<AgentListingModel> GetAllAgencyAdminVendor(PagingModel model, long agency);
+        PagingResult<AgentListingModel> GetAllAgencyAdminVendors(PagingModel model, long agency);
+        PagingResult<AgentListingModel> GetOtherVendors(PagingModel model, long agency);
     }
 
 }

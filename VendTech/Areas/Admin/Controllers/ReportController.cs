@@ -112,7 +112,7 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true).Result;
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")

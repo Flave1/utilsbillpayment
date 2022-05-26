@@ -2176,7 +2176,7 @@ namespace VendTech.BLL.Managers
             });
         }
 
-        string  IDepositManager.CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos)
+        string  IDepositManager.CreateDepositCreditTransfer(Deposit dbDeposit, long currentUserId, long fromPos)
         {
             try
             {
@@ -2187,12 +2187,20 @@ namespace VendTech.BLL.Managers
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
                 dbDeposit.POS = toPos;
                 dbDeposit.UserId = toPos?.VendorId??0;
-                dbDeposit.CheckNumberOrSlipId ="0";
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
                 dbDeposit.NameOnCheque = frompos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
+
+                if (Context.Agencies.Select(s => s.Representative).Contains(frompos.VendorId))
+                {
+                    var amt = dbDeposit.Amount;
+                    var percntage = toPos.User.Agency.Commission.Percentage;
+                    var commision = amt * percntage / 100;
+                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                }
+
                 //Adds to  Reciever Balance
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
@@ -2242,21 +2250,31 @@ namespace VendTech.BLL.Managers
             try
             {
                 var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+       
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
                 dbDeposit.POS = pos;
                 dbDeposit.UserId = pos?.VendorId ?? 0;
-                dbDeposit.CheckNumberOrSlipId = "0";
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
                 dbDeposit.NameOnCheque = pos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
-
-                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
-                dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
                 dbDeposit.IsDeleted = false;
+
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
+             
+
+                if (Context.Agencies.Select(s => s.Representative).Contains(pos.VendorId))
+                {
+                    var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
+                    var percntage = pos.User.Agency.Commission.Percentage;
+                    var commision = amt * percntage / 100;
+                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                }
+                dbDeposit.NewBalance = dbDeposit.POS.Balance;
+
                 Context.Deposits.Add(dbDeposit);
                 Context.SaveChanges();
 

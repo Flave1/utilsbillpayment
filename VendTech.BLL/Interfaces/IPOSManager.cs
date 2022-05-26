@@ -35,6 +35,7 @@ namespace VendTech.BLL.Interfaces
         decimal GetPosPercentage(long posId);
         POS GetSinglePos(long pos);
         List<PosSelectItem> GetAgencyPos(long userId);
+        POS ReturnAgencyAdminPOS(long userId);
     }
 
 }

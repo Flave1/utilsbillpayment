@@ -157,13 +157,13 @@
                                         <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false)
-                                                     .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                     .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                     .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                     .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                     .ToList();
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
+                                                       .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                       .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                       .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                       .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                       .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                       .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
@@ -208,40 +208,7 @@
         var value ='@(Model.UserType==appUserVal)'
         var appUserEdit = value == "True";
 
-        //const togglePassword = document.querySelector('#togglePassword');
-        //const password = document.querySelector('.passwordE');
-
-        //const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
-        //const confirmPassword = document.querySelector('.confirmPasswordE');
-
-        //togglePassword.addEventListener('click', function (e) {
-        //    // toggle the type attribute
-        //    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        //    password.setAttribute('type', type);
-        //    // toggle the eye / eye slash icon
-        //    this.classList.toggle('bi-eye');
-        //});
-
-        //toggleConfirmPassword.addEventListener('click', function (e) {
-        //    // toggle the type attribute
-        //    const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        //    confirmPassword.setAttribute('type', type);
-        //    // toggle the eye / eye slash icon
-        //    this.classList.toggle('bi-eye');
-        //});
-
-        var toggleSelectAgent = document.querySelector('.selectAgent'); 
-        $('#10').hide() 
-        setTimeout(function () { 
-            toggleSelectAgent.addEventListener('change', function (e) {
-                if (this.checked) {
-                    $('#10').show()
-                } else {
-                    $('#10').hide()
-                }
-            })
-        }, 500)
-
+  
 
 
         $(document).ready(function () {

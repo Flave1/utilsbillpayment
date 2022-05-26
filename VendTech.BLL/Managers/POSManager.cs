@@ -551,5 +551,9 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess("Passcode saved successfully.");
         }
 
+        POS IPOSManager.ReturnAgencyAdminPOS(long userId)
+        {
+            return Context.POS.FirstOrDefault(e => e.VendorId == userId);
+        }
     }
 }

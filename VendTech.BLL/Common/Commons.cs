@@ -78,6 +78,8 @@ namespace VendTech.BLL.Models
         public bool IsCompany { get; set; }
         public long AgencyId { get; set; }
         public string VendorName { get; set; }
+        public string AgencyName { get; set; }
+
         public UserDetails()
         { }
     }

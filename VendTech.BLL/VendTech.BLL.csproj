@@ -190,6 +190,7 @@
     <Compile Include="Models\SMSModels.cs" />
     <Compile Include="Models\TokenModels.cs" />
     <Compile Include="Models\TransactionChartData.cs" />
+    <Compile Include="Models\TransferViewModels.cs" />
     <Compile Include="Models\UserAssignedModuleModel.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\VendorModels.cs" />

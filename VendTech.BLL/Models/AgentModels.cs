@@ -63,7 +63,7 @@ namespace VendTech.BLL.Models
             Enabled = (bool)obj.Enabled;
             Balance = string.Format("{0:N0}", obj?.Balance ?? 0);
             Vendor = obj?.User?.Vendor;
-            VendorId = obj.User.UserId;
+            VendorId = obj?.User?.UserId ?? 0;
             VendorEmail = obj?.User?.Email;
         }
 
@@ -89,7 +89,11 @@ namespace VendTech.BLL.Models
             public string CountryCode { get; set; }
             public int AgentType { get; set; }
             public int Percentage { get; set; }
-        public long? Representative { get; set; }
-        public long AgencyId { get;  set; }
+            public long? Representative { get; set; }
+         public long AgencyId { get;  set; }
+            public IList<Checkbox> ModuleList { get; set; }
+            public IList<WidgetCheckbox> WidgetList { get; set; }
+        public List<int> SelectedWidgets { get; set; }
+        public List<int> SelectedModules { get; set; }
     } 
 }

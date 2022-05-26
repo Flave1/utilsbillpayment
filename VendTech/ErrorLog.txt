@@ -676,3 +676,126 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+"<" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+An error occurred while preparing the command definition. See the inner exception for details.
+
+
+

@@ -52,7 +52,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<AgentRevenueListingModel> GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin= false, long agentId = 0);
         PagingResult<AgencyRevenueExcelReportModel> GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         void DeletePendingDeposits(List<PendingDeposit> deposits);
-        string CreateDepositTransfer(Deposit dbDeposit, long currentUserId, long fromPos);
+        string CreateDepositCreditTransfer(Deposit dbDeposit, long currentUserId, long fromPos);
         string CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId);
     }
 

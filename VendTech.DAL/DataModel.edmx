@@ -438,6 +438,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="ModuleId" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IsAddedFromAgency" Type="bit" />
         </EntityType>
         <EntityType Name="UserAssignedPlatforms">
           <Key>
@@ -456,6 +457,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="WidgetId" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="IsAddedFromAgency" Type="bit" />
         </EntityType>
         <EntityType Name="UserRoles">
           <Key>
@@ -1711,6 +1713,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Module" Relationship="Self.FK_UserAssignedModules_Modules" FromRole="UserAssignedModules" ToRole="Modules" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserAssignedModules_Users" FromRole="UserAssignedModules" ToRole="Users" />
+          <Property Name="IsAddedFromAgency" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserAssignedPlatform">
           <Key>
@@ -1733,6 +1736,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserAssignedWidgets_User" FromRole="UserAssignedWidgets" ToRole="Users" />
           <NavigationProperty Name="Widget" Relationship="Self.FK_UserAssignedWidgets_Widget" FromRole="UserAssignedWidgets" ToRole="Widgets" />
+          <Property Name="IsAddedFromAgency" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -3007,6 +3011,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="UserAssignedModules">
             <EntityTypeMapping TypeName="DataModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
+                <ScalarProperty Name="IsAddedFromAgency" ColumnName="IsAddedFromAgency" />
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
@@ -3027,6 +3032,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="UserAssignedWidgets">
             <EntityTypeMapping TypeName="DataModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
+                <ScalarProperty Name="IsAddedFromAgency" ColumnName="IsAddedFromAgency" />
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />

@@ -93,13 +93,14 @@ namespace VendTech.BLL.Models
         public int UserType { get; set; }
         public string AccountStatus { get; set; }
         public IList<Checkbox> ModuleList { get; set; }
-        public IList<PlatformCheckbox> PlatformList { get; set; }
         public IList<WidgetCheckbox> WidgetList { get; set; }
+        public IList<PlatformCheckbox> PlatformList { get; set; }
         public List<int> SelectedWidgets { get; set; }
         public List<int> SelectedModules { get; set; }
 
         public List<int> SelectedPlatforms { get; set; }
         public long? AgentId { get; set; }
+        public string AgencyName { get; set; }
         public long? VendorId { get; set; }
         public string Vendor { get; set; }
         //public long? POSId { get; set; }
@@ -117,7 +118,7 @@ namespace VendTech.BLL.Models
         public UserModel() { }
         public UserModel(User userObj)
         {
-            this.UserId = userObj.UserId;
+            UserId = userObj.UserId;
             this.FirstName = userObj.Name;
             this.LastName = userObj.SurName;
             this.Email = userObj.Email;
@@ -128,10 +129,11 @@ namespace VendTech.BLL.Models
             this.Status = userObj.Status;
             this.Vendor = userObj.Vendor;
             this.DeviceToken = userObj.DeviceToken;
-            this.IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
+            IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
             this.AgentId = userObj.AgentId;
+            AgencyName = userObj?.Agency?.AgencyName;
             var userAssignedPos = new POS();
             if (userObj.UserRole.Role == UserRoles.Vendor)
                 userAssignedPos = userObj.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
