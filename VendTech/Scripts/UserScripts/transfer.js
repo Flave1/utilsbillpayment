@@ -4,7 +4,7 @@
 (function () {
     $(document).ready(function () {
         transferHandler.fetchAgencyVendors();
-        transferHandler.fetchOtherVendors();
+        //transferHandler.fetchOtherVendors();
     });
 
 })();
@@ -13,12 +13,12 @@ var transferHandler = {
     allAgencyVendors: [],
     transferFrom: null,
     transferTo: null,
+    sentOtp: false,
 
     fetchAgencyVendors: function () {
-        transferHandler.allAgencyVendors = [];
-        transferHandler.transferFrom = null;
-        transferHandler.transferTo = null;
+        transferHandler.resetForm();
         $("#beneficiariesLoading").css("display", "block");
+        disableSubmit(true);
         var request = new Object();
         request.id = 0;
         $.ajax({
@@ -28,17 +28,25 @@ var transferHandler = {
             success: function (data) {
                 transferHandler.allAgencyVendors.push(JSON.parse(data.result));
                 $("#beneficiariesLoading").css("display", "none");
-                $("#submitTransferFromBtn").prop('disabled', false);
+                disableSubmit(false);
                 transferHandler.initializeCurrentAgencyVendors();
-               
+            },
+            error: function () {
+                disableSubmit(false);
             }
         });
     },
 
-    fetchOtherVendors: function () {
-        transferHandler.allAgencyVendors = [];
-        transferHandler.transferFrom = null;
-        transferHandler.transferTo = null;
+    fetchOtherVendors: function (frmBal, frmPosId, vendor) {
+        transferHandler.resetForm();
+
+        const frm = {
+            Balance: frmBal,
+            POSID: frmPosId,
+            Vendor: vendor
+        };
+        transferHandler.transferFrom = frm;
+        disableSubmit(true);
         $("#otherBeneficiariesLoading").css("display", "block");
         var request = new Object();
         request.id = 0;
@@ -47,18 +55,16 @@ var transferHandler = {
             data: $.postifyData(request),
             type: "POST",
             success: function (data) {
+                console.log('data', JSON.parse(data.result));
                 transferHandler.allAgencyVendors.push(JSON.parse(data.result));
                 $("#otherBeneficiariesLoading").css("display", "none");
-                $("#otherSubmitTransferFromBtn").prop('disabled', false);
+                disableSubmit(false);
                 transferHandler.initializeOtherVendors();
 
+            }, error: function (err) {
+                disableSubmit(false);
             }
         });
-    },
-
-    closeTransferFromVendors: function () {
-        transferHandler.allAgencyVendors = [];
-        $(".transferFromOverlay").css("display", "none");
     },
 
     initializeTransferFromVendors: function () {
@@ -79,19 +85,6 @@ var transferHandler = {
         transferHandler.addTransferFromEventListenners()
     },
 
-    returnButton: function (serial) {
-        return `<button class="transferEllbtn btn-sm">
-                    <div class="dropdown show">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="optionMenue_${serial}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            SELECT
-                        </a>
-                       <ul class="dropdown-menu" aria-labelledby="optionMenue_${serial}" style="padding:20px;">
-                            <li class="dropdown-item hoverItem"> <a class="flatBtn" id="transfer_${serial}">Transfer</a> </li>
-                        </ul>
-                     </div>
-        </button>`
-    },
-    
     closeTransferToVendors: function () {
         transferHandler.toVendors = [];
         $(".transferToModal").css("display", "none");
@@ -258,7 +251,7 @@ var transferHandler = {
         transferHandler.allAgencyVendors[0].forEach((vendor, index) => {
             $(`#vendorB_${vendor.SerialNumber}`).click(function () {
                 if (transferHandler.transferFrom !== null && transferHandler.transferFrom.SerialNumber === vendor.SerialNumber) {
-                    $.ShowMessage($('div.messageAlert'), "Already selected to transfer from", MessageType.Error);
+                    $.ShowMessage($('div.messageAlert'), "TRANSFER TO AND FROM CANNOT BE THE SAME", MessageType.Error);
                     return;
                 }
                 transferHandler.transferTo = vendor;
@@ -275,7 +268,7 @@ var transferHandler = {
             
             $(`#vendorT_${vendor.SerialNumber}`).click(function () {
                 if (transferHandler.transferTo !== null && transferHandler.transferTo.SerialNumber === vendor.SerialNumber) {
-                    $.ShowMessage($('div.messageAlert'), "Already selected to transfer to", MessageType.Error);
+                    $.ShowMessage($('div.messageAlert'), "TRANSFER TO AND FROM CANNOT BE THE SAME", MessageType.Error);
                     return;
                 }
                 transferHandler.transferFrom = vendor;
@@ -291,7 +284,7 @@ var transferHandler = {
         transferHandler.allAgencyVendors[0].forEach((vendor, index) => {
             $(`#otherVendorB_${vendor.SerialNumber}`).click(function () {
                 if (transferHandler.transferFrom !== null && transferHandler.transferFrom.SerialNumber === vendor.SerialNumber) {
-                    $.ShowMessage($('div.messageAlert'), "Already selected to transfer from", MessageType.Error);
+                    $.ShowMessage($('div.messageAlert'), "TRANSFER TO AND FROM CANNOT BE THE SAME", MessageType.Error);
                     return;
                 }
                 transferHandler.transferTo = vendor;
@@ -308,7 +301,7 @@ var transferHandler = {
 
             $(`#otherVendorT_${vendor.SerialNumber}`).click(function () {
                 if (transferHandler.transferTo !== null && transferHandler.transferTo.SerialNumber === vendor.SerialNumber) {
-                    $.ShowMessage($('div.messageAlert'), "Already selected to transfer to", MessageType.Error);
+                    $.ShowMessage($('div.messageAlert'), "TRANSFER TO AND FROM CANNOT BE THE SAME", MessageType.Error);
                     return;
                 }
                 transferHandler.transferFrom = vendor;
@@ -320,55 +313,47 @@ var transferHandler = {
         });
     },
 
-    transferToVendor: function () {
+    transferToVendor: function (sender) {
         if (transferHandler.transferFrom) {
             if (!transferHandler.transferTo) {
                 $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
                 return;
             }
             transferHandler.transferTo = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === transferHandler.transferTo.SerialNumber)[0];
-            const amountToTransfer = Number($('#amtToTransfer').val()?.replace(',', ''));
-            const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replace(',', ''));
+            const amountToTransfer = Number($('#amtToTransfer').val()?.replaceAll(',', ''));
+            const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replaceAll(',', ''));
             if (!amountToTransfer || amountToTransfer === 0) {
                 $.ShowMessage($('div.messageAlert'), "Amount required", MessageType.Error);
                 return;
             }
             if (amountToTransfer > amountToTansferFrom) {
-                $.ShowMessage($('div.messageAlert'), "Vendor Balance is not enough", MessageType.Error);
+                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
                 return;
             }
 
             if (amountToTansferFrom === 0) {
-                $.ShowMessage($('div.messageAlert'), "Vendor Balance is not enough", MessageType.Error);
+                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
                 return;
             }
 
-            $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
-                var request = new Object();
-                request.FromPosId = Number(transferHandler.transferFrom.POSID);
-                request.ToPosId = Number(transferHandler.transferTo.POSID);
-                request.Amount = amountToTransfer;
-                $("#submitTransferFromBtn").text('Processing.....');
-                $("#submitTransferFromBtn").prop('disabled', true);
-                $.ajax({
-                    url: '/Transfer/TransferCash',
-                    data: $.postifyData(request),
-                    type: "POST",
-                    success: function (data) {
-                        $(".sweet-alert p").css('text-align', 'center');
-                        $(".sweet-alert p").css('color', '#000');
-                        //transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
+            var request = new Object();
+            request.FromPosId = Number(transferHandler.transferFrom.POSID);
+            request.ToPosId = Number(transferHandler.transferTo.POSID);
+            request.Amount = amountToTransfer;
+            request.otp = $('#otp').val();
 
-                        $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
-                        $("#submitTransferFromBtn").prop('disabled', false);
-                        $("#submitTransferFromBtn").text('Transfer');
-                    },
-                    error: function (res) {
-                        $.ShowMessage($('div.messageAlert'), res.error, MessageType.Error);
-                        $("#submitTransferFromBtn").prop('disabled', false);
-                        $("#submitTransferFromBtn").text('Transfer');
-                    }
-                });
+
+            if (transferHandler.sentOtp) {
+                transferHandler.sendFormData1(sender, request);
+                return
+            }
+
+            $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+              
+                if (!transferHandler.sentOtp) {
+                    transferHandler.sendOtp(sender);
+                    return
+                }
             });
         } else {
             $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
@@ -378,61 +363,49 @@ var transferHandler = {
 
     },
 
-    transferToOtherVendor: function (wsx) {
-        console.log(wsx);
-        if (transferHandler.transferFrom) {
+    transferToOtherVendor: function (frmBal, frmPosId, vendor, sender = null) {
+        debugger
+        /*if (transferHandler.transferFrom) {*/
             if (!transferHandler.transferTo) {
                 $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
                 return;
             }
             transferHandler.transferTo = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === transferHandler.transferTo.SerialNumber)[0];
-            const amountToTransfer = Number($('#otherAmtToTransfer').val()?.replace(',', ''));
-            const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replace(',', ''));
+            const amountToTransfer = Number($('#otherAmtToTransfer').val()?.replaceAll(',', ''));
+            const amountToTansferFrom = Number(frmBal.replaceAll(',', ''));
             if (!amountToTransfer || amountToTransfer === 0) {
                 $.ShowMessage($('div.messageAlert'), "Amount required", MessageType.Error);
                 return;
             }
             if (amountToTransfer > amountToTansferFrom) {
-                $.ShowMessage($('div.messageAlert'), "Vendor Balance is not enough", MessageType.Error);
+                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
                 return;
             }
 
             if (amountToTansferFrom === 0) {
-                $.ShowMessage($('div.messageAlert'), "Vendor Balance is not enough", MessageType.Error);
+                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
                 return;
-            }
-
-            $.ConfirmBox("", ` TRANSFER CONFIRMATION  \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "Yes", true, null, function () {
-                var request = new Object();
-                request.FromPosId = Number(transferHandler.transferFrom.POSID);
-                request.ToPosId = Number(transferHandler.transferTo.POSID);
-                request.Amount = amountToTransfer;
-                $("#otherSubmitTransferFromBtn").text('Processing.....');
-                $("#otherSubmitTransferFromBtn").prop('disabled', true);
-                $.ajax({
-                    url: '/Transfer/TransferCash',
-                    data: $.postifyData(request),
-                    type: "POST",
-                    success: function (data) {
-                        $(".sweet-alert p").css('text-align', 'center');
-                        $(".sweet-alert p").css('color', '#000');
-                        //transferHandler.updateVendorsBalance(data.currentFromVendorBalance, data.currentToVendorBalance)
-                        $.ShowMessage($('div.messageAlert'), data.message, MessageType.Success);
-                        $("#otherSubmitTransferFromBtn").prop('disabled', false);
-                        $("#otherSubmitTransferFromBtn").text('Transfer');
-                    },
-                    error: function (res) {
-                        $.ShowMessage($('div.messageAlert'), res.error, MessageType.Error);
-                        $("#otherSubmitTransferFromBtn").prop('disabled', false);
-                        $("#otherSubmitTransferFromBtn").text('Transfer');
-                    }
-                });
-            });
-        } else {
-            $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
-            return;
         }
 
+        var request = new Object();
+        request.FromPosId = Number(frmPosId);
+        request.ToPosId = Number(transferHandler.transferTo.POSID);
+        request.Amount = amountToTransfer;
+        request.otp = $('#otherotp').val();
+
+        if (transferHandler.sentOtp) {
+            transferHandler.sendFormData1(sender, request);
+            return
+        }
+
+        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+
+            if (!transferHandler.sentOtp) {
+                transferHandler.sendOtp(sender);
+                return
+            }
+        });
+        
 
     },
 
@@ -453,7 +426,7 @@ var transferHandler = {
     },
 
     separeteThousands: function (x) {
-        x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        x = x.toString().replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
         $("#amtToTransfer").val(x);
     },
 
@@ -503,13 +476,132 @@ var transferHandler = {
     },
 
     displayAmount: function (x) {
+        if (!transferHandler.transferFrom) {
+            $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
+            return;
+        }
+
+        const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replaceAll(',', ''));
+        if (Number(x) > amountToTansferFrom) {
+
+            $.ShowMessage($('div.messageAlert'), "Insufficient Balance", MessageType.Error);
+            return;
+        }
         x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         $("#agencyAmountToTransferDisplay").text(x);
     },
 
     displayOtherAmount: function (x) {
+      
         x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         $("#otherAgencyAmountToTransferDisplay").text(x);
     },
 
+    resetForm: function () {
+        transferHandler.allAgencyVendors = [];
+        transferHandler.transferFrom = null;
+        transferHandler.transferTo = null;
+
+        //document.getElementById("otherAgencyBeneficiaries").innerHTML = '';
+        //document.getElementById("otherAgencyFromVendors").innerHTML = '';
+
+        $('#filterAgencyFromVendors').val(``);
+        $('#agencySenderDisplay').text(``);
+        $('#filterAgencyToVendors').val(``);
+        $('#agencyBenficiaryDisplay').text(``);
+
+        $('#otherFilterAgencyToVendors').val(``);
+        $('#otherAgencyBenficiaryDisplay').text(``);
+        $('#otp').val('');
+        $('.otpSent').css('display', 'none');
+
+        $('#otherAmtToTransfer').val(0);
+        //$('#otherFilterAgencyFromVendors').val(``);
+        //$('#otherAgencySenderDisplay').text(``);
+    },
+
+    sendOtp: function (sender) {
+        disableSubmit(true);
+        $.ajaxExt({
+            url: baseUrl + '/Transfer/SendOTP',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            button: $(sender),
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            success: function (results, message) {
+                transferHandler.sentOtp = true;
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    swal.close();
+                }, 1500);
+                disableSubmit(false);
+
+                $('.otpSent').css('display', 'block');
+            },
+            error: function (err) {
+                disableSubmit(false);
+            }
+        });
+    },
+
+    sendFormData1: function (sender, request) {
+        disableSubmit(true);
+        $.ajaxExt({
+            url: baseUrl + '/Transfer/TransferCash',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            data: $.postifyData(request),
+            success: function (results, message) {
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                $(".sweet-alert p").css('text-align', 'center');
+                $(".sweet-alert p").css('color', '#000');
+                transferHandler.resetForm();
+                disableSubmit(false);
+                transferHandler.sentOtp = false;
+                window.location.href = '/Report/DepositReport';
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                disableSubmit(false);
+            }
+        });
+
+    },
+
+    resendOtp1: function (sender) {
+        transferHandler.sentOtp = false;
+        transferHandler.transferToVendor(sender)
+    },
+
+    resendOtp2: function (frmBal, frmPosId, vendor, sender = null) {
+        transferHandler.sentOtp = false;
+        transferHandler.transferToOtherVendor(sender)
+    }
 };
+
+function disableSubmit(disabled = false) {
+    if (disabled) {
+        $("#otherSubmitTransferFromBtn").css({ backgroundColor: '#56bb96' });
+        $("#otherSubmitTransferFromBtn").text('PROCESSING....');
+        $("#otherSubmitTransferFromBtn").prop('disabled', true);
+
+        $("#submitTransferFromBtn").css({ backgroundColor: '#56bb96' });
+        $("#submitTransferFromBtn").text('PROCESSING....');
+        $("#submitTransferFromBtn").prop('disabled', true);
+    } else {
+        $("#otherSubmitTransferFromBtn").css({ backgroundColor: '#f1cf09' });
+        $("#otherSubmitTransferFromBtn").text('Submit');
+        $("#otherSubmitTransferFromBtn").prop('disabled', false);
+
+
+        $("#submitTransferFromBtn").css({ backgroundColor: '#f1cf09' });
+        $("#submitTransferFromBtn").text('Submit');
+        $("#submitTransferFromBtn").prop('disabled', false);
+    }
+
+}

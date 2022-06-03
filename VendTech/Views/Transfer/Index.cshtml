@@ -19,7 +19,7 @@
                     @if (Model.CanTranferToOtherVendors)
                     {
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="pills-profile-tab" onclick="transferHandler.fetchOtherVendors()" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">OTHER VENDORS</a>
+                            <a class="nav-link" id="pills-profile-tab" onclick="transferHandler.fetchOtherVendors('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName')" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">OTHER VENDORS</a>
                         </li>
                     }
                 </ul>
@@ -36,40 +36,46 @@
                                             <b>  <i class="font-weight-bold alert-warning" id="beneficiariesLoading">Beneficiaries loading, please wait.......</i></b>
                                             <form>
                                                 <h5 class="card-title"></h5>
-                                                <div class=" row align-items-center">
-                                                    <div class="col-md-6">
-                                                        <h5><label>TRANSFER FROM</label> </h5>
-                                                        <input type="text"  class="form-control mb-2 rounded" id="filterAgencyFromVendors" autocomplete="off" placeholder="Search vendors to transfer from.... ">
-                                                        <nav class="agencyFromVendors" id="agencyFromVendors"></nav>
+                                                <div class="row">
+                                                    <div class=" row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <h5><label>TRANSFER FROM</label> </h5>
+                                                            <input type="text" class="form-control mb-2 rounded" id="filterAgencyFromVendors" autocomplete="off" placeholder="Search vendors to transfer from.... ">
+                                                            <nav class="agencyFromVendors" id="agencyFromVendors"></nav>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h5><strong id="agencySenderDisplay"></strong></h5>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <h5><strong id="agencySenderDisplay"></strong></h5>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <h5><label>TRANSFER TO</label> </h5>
+                                                            <input type="text" class="form-control mb-2 rounded" id="filterAgencyToVendors" autocomplete="off" placeholder="Search for beneficiaries.... ">
+                                                            <nav class="agencyBeneficiaries" id="agencyBeneficiaries"></nav>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h5><strong id="agencyBenficiaryDisplay"></strong></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <h5><label>TRANSFER AMOUNT</label> </h5>
+                                                            <input type="number" class="form-control mb-2 rounded" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row push-item-right col-md-6">
+                                                        <div class="col-md-12">
+                                                            <h1><strong id="agencyAmountToTransferDisplay"></strong></h1>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-6">
-                                                        <h5><label>TRANSFER TO</label> </h5>
-                                                        <input type="text" class="form-control mb-2 rounded" id="filterAgencyToVendors" autocomplete="off" placeholder="Search for beneficiaries.... ">
-                                                        <nav class="agencyBeneficiaries" id="agencyBeneficiaries"></nav>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><strong id="agencyBenficiaryDisplay"></strong></h5>
-                                                    </div>
+                                                <div class="form-group row otpSent">
+                                                    <div class="row" style="width:80%; text-align:right"><a href="#" onclick="transferHandler.resendOtp1(this)">RESEND OTP</a></div>
+                                                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                                                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otp">
                                                 </div>
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-4">
-                                                        <h5><label>TRANSFER AMOUNT</label> </h5>
-                                                        <input type="number" class="form-control mb-2 rounded" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value)" >
-                                                    </div>
-                                                </div>
-                                                <div class="row push-item-right col-md-6">
-                                                    <div class="col-md-12">
-                                                        <h1><strong id="agencyAmountToTransferDisplay"></strong></h1>
-                                                    </div>
-                                                </div>
-                                                <hr />
                                                 <div class="col-auto">
-                                                    <button type="button" onclick="transferHandler.transferToVendor()" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
+                                                    <button type="button" onclick="transferHandler.transferToVendor(this)" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -93,40 +99,47 @@
                                             <b>  <i class="font-weight-bold alert-warning" id="otherBeneficiariesLoading">Other beneficiaries loading, please wait.......</i></b>
                                             <form>
                                                 <h5 class="card-title"></h5>
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-6">
-                                                        <h5><label>TRANSFER FROM</label> </h5>
-                                                        <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
-                                                        <nav class="otherAgencyFromVendors" id="otherAgencyFromVendors"></nav>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><strong id="otherAgencySenderDisplay"> BALANCE : SLL @Model.AdminBalance</strong></h5>
-                                                    </div>
-                                                </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h5><label>TRANSFER TO</label> </h5>
-                                                        <input type="text" class="form-control mb-2 rounded" id="otherFilterAgencyToVendors" placeholder="Search for other beneficiaries.... ">
-                                                        <nav class="otherAgencyBeneficiaries" id="otherAgencyBeneficiaries"></nav>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <h5><label>TRANSFER FROM</label> </h5>
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
+                                                            <nav class="otherAgencyFromVendors" id="otherAgencyFromVendors"></nav>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h5><strong id="otherAgencySenderDisplay"> BALANCE : SLL @Model.AdminBalance</strong></h5>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <h5><strong id="otherAgencyBenficiaryDisplay"></strong></h5>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5><label>TRANSFER TO</label> </h5>
+                                                            <input type="text" class="form-control mb-2 rounded" id="otherFilterAgencyToVendors" autocomplete="off" placeholder="Search for other beneficiaries.... ">
+                                                            <nav class="otherAgencyBeneficiaries" id="otherAgencyBeneficiaries"></nav>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h5><strong id="otherAgencyBenficiaryDisplay"></strong></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <h5><label>TRANSFER AMOUNT</label> </h5>
+                                                            <input type="text" class="form-control mb-2 rounded" id="otherAmtToTransfer" onkeyup="transferHandler.displayOtherAmount(this.value)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row push-item-right col-md-6">
+                                                        <div class="col-md-12">
+                                                            <h1><strong id="otherAgencyAmountToTransferDisplay"></strong></h1>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h5><label>TRANSFER AMOUNT</label> </h5>
-                                                        <input type="text" class="form-control mb-2 rounded" id="otherAmtToTransfer" onkeyup="transferHandler.displayOtherAmount(this.value)">
-                                                    </div>
-                                                </div>
-                                                <div class="row push-item-right col-md-6">
-                                                    <div class="col-md-12">
-                                                        <h1><strong id="otherAgencyAmountToTransferDisplay"></strong></h1>
-                                                    </div>
+                                                <div class="form-group row otpSent">
+                                                    <div class="row" style="width:80%; text-align:right"><a href="#otherotp" onclick="transferHandler.resendOtp2('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName', this)">RESEND OTP</a></div>
+                                                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                                                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otherotp">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <button type="button" onclick="transferHandler.transferToOtherVendor('@Model')" id="otherSubmitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
+                                                        <button type="button" onclick="transferHandler.transferToOtherVendor('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName', this)" id="otherSubmitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
                                                     </div>
                                                 </div>
                                             </form>

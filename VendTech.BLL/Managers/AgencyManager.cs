@@ -24,7 +24,15 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))
-                    query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.AgencyName.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("ADMIN"))
+                    query = query.Where(z => z.User.Name.ToLower().Trim().Contains(model.Search.ToLower().Trim()) || z.User.SurName.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("COMMISSION"))
+                    query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("POS"))
+                    query = query.Where(z => z.User.POS.FirstOrDefault().SerialNumber.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("BALANCE"))
+                    query = query.Where(z => z.User.POS.FirstOrDefault().Balance.ToString().ToLower().Trim().Contains(model.Search.ToLower().Trim()));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)

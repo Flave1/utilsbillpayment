@@ -53,7 +53,8 @@ namespace VendTech.Controllers
                     Vendor = LOGGEDIN_USER?.AgencyName,
                     AdminBalance = string.Format("{0:N0}", agencyPos.Balance),
                     AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,
-                    AdminPos = agencyPos.SerialNumber
+                    AdminPos = agencyPos.SerialNumber,
+                    AdminPosId = agencyPos.POSId
                 });
             }
 
@@ -81,7 +82,7 @@ namespace VendTech.Controllers
         {
             try
             {
-
+               
                 //return null;
                 var reference = Utilities.GenerateByAnyLength(6).ToUpper();
                 var depositCr = new Deposit
@@ -91,27 +92,42 @@ namespace VendTech.Controllers
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = request.Amount,
-                    CheckNumberOrSlipId = reference
+                    CheckNumberOrSlipId = reference,
+                    ValueDate = DateTime.UtcNow.ToString()
                 };
-                var to = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId);
-                var depositDr = new Deposit
+                var result1 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
+                if(result1.Status == ActionStatus.Successfull)
                 {
-                    Amount = Decimal.Negate(request.Amount),
-                    POSId = request.FromPosId,
-                    BankAccountId = 0,
-                    CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = Decimal.Negate(request.Amount),
-                    CheckNumberOrSlipId = reference
-                };
-                var from = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
+                    var depositDr = new Deposit
+                    {
+                        Amount = Decimal.Negate(request.Amount),
+                        POSId = request.FromPosId,
+                        BankAccountId = 0,
+                        CreatedAt = DateTime.UtcNow,
+                        PercentageAmount = Decimal.Negate(request.Amount),
+                        CheckNumberOrSlipId = reference,
+                        ValueDate = DateTime.UtcNow.ToString()
+                    };
+                    var result2 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
 
-                //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                //SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
-                return Json(new { message = "TRANSFER SUCCESSFUL", currentFromVendorBalance = from, currentToVendorBalance = to });
+                    if(result2.Status == ActionStatus.Successfull)
+                    {
+                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        //SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                    }
+                    return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
+                }
+                else
+                {
+                    return JsonResult(new ActionOutput { Message = result1.Message, Status = result1.Status});
+                }
+              
+
+               
             }
             catch (Exception e)
             {
-                return Json(new { error = "Error Occurred!!! please contact administrator" });
+                return JsonResult(new ActionOutput { Message = "Error Occurred!!! please contact administrator", Status = ActionStatus.Error });
             }
         }
 
@@ -207,6 +223,26 @@ namespace VendTech.Controllers
             }
         }
 
+
+        [AjaxOnly, HttpPost]
+        public JsonResult SendOTP()
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            var result = _depositManager.SendOTP();
+            if (result.Status == ActionStatus.Successfull)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%otp%", result.Object);
+                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                    var currentUser = LOGGEDIN_USER.UserID;
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
         #endregion
 
     }

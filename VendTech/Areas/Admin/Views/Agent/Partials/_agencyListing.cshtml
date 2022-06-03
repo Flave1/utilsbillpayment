@@ -7,20 +7,31 @@
 {
     foreach (var item in Model.List)
     {
-        <tr class="odd gradeX">
-            <td>@item.AgencyName</td>
-            <td> @item.Admin</td>
-            <td>
-                @item.Percentage
-            </td>
-             
-            <td><a class="btn btn-primary btn-xs" href="@Url.Action("AddAgent", "Agent", new { area = "Admin", id = @item.AgencyId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-                @if (user.UserType == UserRoles.Admin)
-                {
-                    <a data-userid="@item.AgencyId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
-                }
-            </td>
-        </tr>
+<tr class="odd gradeX">
+    <td>@item.AgencyName</td>
+    <td> @item.Admin</td>
+    <td style="text-align:right;">
+        @item.Percentage
+    </td>
+    <td>
+        <strong><a href="#" onclick="superAdminTransferHandler.addDeposit('@item.AgencyAdminDisplayName', '@item.AgencyAdminPosId')"> @item.SerialNumber</a> </strong>
+    </td>
+    <td  style="text-align:right;">
+        <strong>@item.Balance</strong>
+    </td>
+    <td style="text-align:right;">
+        <a  href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin", vendor = @item.AgencyName })">@item.VendorsCount</a>
+        @*<strong><a href="@Html.Action("ManageVendors","Vendor", new { area = "Admin", vendor = @item.AgencyName })">@item.VendorsCount</a></strong>*@
+    </td>
+
+    <td>
+        <a class="btn btn-primary btn-xs" href="@Url.Action("AddAgent", "Agent", new { area = "Admin", id = @item.AgencyId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+        @if (user.UserType == UserRoles.Admin)
+        {
+            <a data-userid="@item.AgencyId" class="btn btn-danger btn-xs deleteUser" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+        }
+    </td>
+</tr>
     }
 }
 else

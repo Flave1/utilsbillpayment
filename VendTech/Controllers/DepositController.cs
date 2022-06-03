@@ -97,6 +97,7 @@ namespace VendTech.Controllers
 
             return View(model);
         }
+    
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
         {
@@ -143,6 +144,7 @@ namespace VendTech.Controllers
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
+       
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)
         {

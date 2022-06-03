@@ -799,3 +799,652 @@ An error occurred while preparing the command definition. See the inner exceptio
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Agent\Partials\_agencyListing.cshtml(23): error CS1061: 'VendTech.BLL.Models.AgencyListingModel' does not contain a definition for 'VendorsCounttent' and no extension method 'VendorsCounttent' accepting a first argument of type 'VendTech.BLL.Models.AgencyListingModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+

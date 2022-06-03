@@ -135,6 +135,7 @@ namespace VendTech.BLL.Models
         public long FromPosId { get; set; }
         public long ToPosId { get; set; }
         public decimal Amount { get; set; }
+        public string otp { get; set; }
     }
 
 }

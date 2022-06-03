@@ -13,6 +13,7 @@ namespace VendTech.BLL.Models
         public string Vendor { get; set; }
         public string AdminName { get; set; }
         public string AdminPos { get; set; }
+        public long AdminPosId { get; set; }
         public string AdminBalance { get; set; }
     }
 }

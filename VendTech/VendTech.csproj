@@ -417,6 +417,7 @@
     <Content Include="Scripts\AdminScripts\role.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\templates.js" />
+    <Content Include="Scripts\AdminScripts\superAdminTransfer.js" />
     <Content Include="Scripts\AdminScripts\users.js" />
     <Content Include="Scripts\AdminScripts\vendor.js" />
     <Content Include="Scripts\AdminScripts\VendorPos.js" />
@@ -464,6 +465,7 @@
     <Content Include="Scripts\VendorScripts\pos.js" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />

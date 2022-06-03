@@ -173,3 +173,6 @@ input[type=number] {
 strong {
     text-transform: uppercase;
 }
+.otpSent {
+    display: none;
+}
