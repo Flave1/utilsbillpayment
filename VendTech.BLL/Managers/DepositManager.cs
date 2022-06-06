@@ -1942,7 +1942,7 @@ namespace VendTech.BLL.Managers
  
             try
             {
-                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("dd/MM/yyyy hh:mm");
+                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("MM/dd/yyyy hh:mm");
             }
             catch (Exception)
             {
@@ -1992,7 +1992,7 @@ namespace VendTech.BLL.Managers
 
             try
             {
-                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("dd/MM/yyyy hh:mm");
+                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("MM/dd/yyyy hh:mm");
             }
             catch (Exception)
             {
