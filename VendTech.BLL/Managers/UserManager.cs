@@ -390,7 +390,7 @@ namespace VendTech.BLL.Managers
             return Convert.ToInt64(0);
         }
 
-        User IUserManager.GetUserIdByEmail(string email)
+        User IUserManager.GetUserDetailByEmail(string email)
         {
             var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
             if (userDetail != null)

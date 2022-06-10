@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http.Description;
 using System.Web.Mvc;
 using VendTech.Areas.Admin.Controllers;
@@ -26,15 +27,17 @@ namespace VendTech.Controllers
         private readonly IDepositManager _depositManager;
         private readonly IPOSManager _posManager;
         private readonly IEmailTemplateManager _templateManager;
+        private readonly ISMSManager _smsManager;
         #endregion
 
-        public TransferController(IErrorLogManager errorLogManager, ITransferManager transferManager, IDepositManager depositManager, IPOSManager posManager, IEmailTemplateManager templateManager)
+        public TransferController(IErrorLogManager errorLogManager, ITransferManager transferManager, IDepositManager depositManager, IPOSManager posManager, IEmailTemplateManager templateManager, ISMSManager smsManager)
             : base(errorLogManager)
         {
             _transferManager = transferManager;
             _depositManager = depositManager;
             _posManager = posManager;
             _templateManager = templateManager;
+            _smsManager = smsManager;
         }
 
         #region User Management
@@ -112,8 +115,8 @@ namespace VendTech.Controllers
 
                     if(result2.Status == ActionStatus.Successfull)
                     {
-                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        //SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }
@@ -225,7 +228,7 @@ namespace VendTech.Controllers
 
 
         [AjaxOnly, HttpPost]
-        public JsonResult SendOTP()
+        public async Task<JsonResult> SendOTP()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.SendOTP();
@@ -240,6 +243,20 @@ namespace VendTech.Controllers
                     var currentUser = LOGGEDIN_USER.UserID;
                     Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
                 }
+
+                var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
+                if(user != null)
+                {
+                    var requestmsg = new SendSMSRequest
+                    {
+                        Recipient = "232" + user.Phone,
+                        Payload = $"Greetings {user.Name} \n" +
+                  $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
+                  "VENDTECH"
+                    };
+                    await _smsManager.SendSmsAsync(requestmsg);
+                }
+                
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }

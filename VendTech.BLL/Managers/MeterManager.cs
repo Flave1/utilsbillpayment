@@ -366,7 +366,7 @@ namespace VendTech.BLL.Managers
             //    query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             //}
 
-            var list = query.Select(x => new GSTRechargeApiListingModel(x)).ToList();
+            var list = query.ToList().Select(x => new GSTRechargeApiListingModel(x)).ToList();
 
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             { 

@@ -152,7 +152,7 @@ namespace VendTech.BLL.Models
         public double Units { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
-        {  
+        {
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.MeterNumber1; 
             TransactionId = x.TransactionId;

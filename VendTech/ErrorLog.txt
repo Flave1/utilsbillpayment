@@ -1448,3 +1448,47 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+LINQ to Entities does not recognize the method 'Int64 ToInt64(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+

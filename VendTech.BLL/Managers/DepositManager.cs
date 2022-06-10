@@ -1926,33 +1926,31 @@ namespace VendTech.BLL.Managers
         DepositAuditModel IDepositManager.UpdateDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
-            var posId = new POS();
+            var pos = new POS();
             //.Include(x => x.POS) .Include(x => x.User).Include(x => x.BankAccount)
             var dbDeposit = Context.Deposits
                 .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
 
-            posId = Context.POS.FirstOrDefault(x => x.POSId == Convert.ToInt64(depositAuditModel.PosId));
-            dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
-            dbDeposit.UserId = depositAuditModel.UserId;
-            dbDeposit.POSId = posId != null ? posId.POSId : dbDeposit.POSId;
-            dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
-            dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
-            dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
-            dbDeposit.UpdatedAt = DateTime.UtcNow;
+            var posId = Convert.ToInt64(depositAuditModel.PosId); 
+            var vlDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
 
-            try
+            pos = Context.POS.FirstOrDefault(x => x.POSId == posId);
+            if(pos != null)
             {
-                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("MM/dd/yyyy hh:mm");
-            }
-            catch (Exception)
-            {
-                dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "MM/dd/yyyy hh:mm", provider).ToString("MM/dd/yyyy hh:mm");
-            }
-            dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
+                dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
+                dbDeposit.UserId = depositAuditModel.UserId;
+                dbDeposit.POSId = pos != null ? pos.POSId : dbDeposit.POSId;
+                dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
+                dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
+                dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
+                dbDeposit.UpdatedAt = DateTime.UtcNow;
+                dbDeposit.ValueDate = vlDate.ToString();
+                dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
 
-            dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
-            dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
-            Context.SaveChanges();
+                dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
+                dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
+                Context.SaveChanges();
+            }
 
 
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
@@ -1967,48 +1965,47 @@ namespace VendTech.BLL.Managers
 
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
-            depositAuditModel.PosId = posId.SerialNumber;
-            depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm",
-                CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            depositAuditModel.PosId = pos?.SerialNumber;
+            depositAuditModel.ValueDateModel = vlDate;
             depositAuditModel.Comment = dbDeposit.Comments;
             return depositAuditModel;
         }
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
-            var posId = new POS();
+            var pos = new POS();
             //.Include(x => x.POS) .Include(x => x.User).Include(x => x.BankAccount)
             var dbDeposit = Context.Deposits
                 .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
 
-            posId = Context.POS.FirstOrDefault(x => x.POSId == Convert.ToInt64(depositAuditModel.PosId));
-            dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
-            dbDeposit.UserId = depositAuditModel.UserId;
-            dbDeposit.POSId = posId != null ? posId.POSId : dbDeposit.POSId;
-            dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
-            dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
-            dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
-            dbDeposit.UpdatedAt = DateTime.UtcNow;
 
-            try
+            var posId = Convert.ToInt64(depositAuditModel.PosId);
+            var vlDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
+
+            pos = Context.POS.FirstOrDefault(x => x.POSId == posId);
+           if(pos != null)
             {
-                dbDeposit.ValueDate = DateTime.Parse(depositAuditModel.ValueDateModel, provider).ToString("dd/MM/yyyy hh:mm");
+                dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
+                dbDeposit.UserId = depositAuditModel.UserId;
+                dbDeposit.POSId = pos != null ? pos.POSId : dbDeposit.POSId;
+                dbDeposit.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
+                dbDeposit.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
+                dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
+                dbDeposit.UpdatedAt = DateTime.UtcNow;
+
+                dbDeposit.ValueDate = vlDate.ToString();
+
+                if (dbDeposit.NextReminderDate == null)
+                    dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15);
+                else
+                    dbDeposit.NextReminderDate = null;
+
+                dbDeposit.isAudit = depositAuditModel.isAudit;
+                dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
+                dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
+                dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
+                Context.SaveChanges();
             }
-            catch (Exception)
-            {
-                dbDeposit.ValueDate = DateTime.ParseExact(depositAuditModel.ValueDateModel, "dd/MM/yyyy hh:mm", provider).ToString("dd/MM/yyyy hh:mm");
-            } 
-            
-            if (dbDeposit.NextReminderDate == null) 
-                dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15); 
-            else 
-                dbDeposit.NextReminderDate = null; 
-
-            dbDeposit.isAudit = depositAuditModel.isAudit;
-            dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
-            dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
-            dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
-            Context.SaveChanges();
             
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.DepositBy = dbDeposit.POS.User.Vendor;
@@ -2023,9 +2020,8 @@ namespace VendTech.BLL.Managers
             depositAuditModel.Comment = dbDeposit.Comments;
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
-            depositAuditModel.PosId = posId.SerialNumber;
-            depositAuditModel.ValueDateModel = DateTime.ParseExact(dbDeposit.ValueDate, "dd/MM/yyyy hh:mm",
-                CultureInfo.InvariantCulture).ToString("dd/MM/yyyy hh:mm");
+            depositAuditModel.PosId = pos?.SerialNumber;
+            depositAuditModel.ValueDateModel = vlDate;
             return depositAuditModel;
         }
         
@@ -2180,13 +2176,12 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-
                 var frompos = Context.POS.FirstOrDefault(er => er.POSId == fromPos);
                 if(frompos == null)
                     return ReturnError("POT NOT FOUND");
 
                 if (dbDeposit.Amount > frompos.Balance.Value)
-                    return ReturnError("INSUFFICIENT BALANCE");
+                    return ReturnError("INSUFFICIENT BALANCE TO MAKE TRANSFER");
 
                 if (!(Context.DepositOTPs.Any(p => p.OTP == otp && !p.IsUsed)))
                     return ReturnError("WRONG OTP ENTERED");

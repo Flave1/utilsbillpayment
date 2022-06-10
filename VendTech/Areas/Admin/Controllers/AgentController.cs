@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
@@ -22,9 +23,10 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPaymentTypeManager _paymentTypeManager;
         private readonly IDepositManager _depositManager;
+        private readonly ISMSManager _smsManager;
         #endregion
 
-        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICommissionManager commissionManager, IPaymentTypeManager paymentTypeManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IVendorManager vendorManager, IDepositManager depositManager)
+        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICommissionManager commissionManager, IPaymentTypeManager paymentTypeManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IVendorManager vendorManager, IDepositManager depositManager, ISMSManager smsManager)
             : base(errorLogManager)
         {
             _agencyManager = agencyManager;
@@ -35,6 +37,7 @@ namespace VendTech.Areas.Admin.Controllers
             _posManager = posManager;
             _vendorManager = vendorManager;
             _depositManager = depositManager;
+            _smsManager = smsManager;
         }
 
         #region User Management
@@ -94,7 +97,7 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
         [AjaxOnly, HttpPost]
-        public JsonResult SendOTP()
+        public async Task<JsonResult> SendOTP()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.SendOTP();
@@ -108,6 +111,19 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
                     Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
+
+                var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
+                if (user != null)
+                {
+                    var msg = new SendSMSRequest
+                    {
+                        Recipient = "232" + user.Phone,
+                        Payload = $"Greetings {user.Name} \n" +
+                          $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
+                          "VENDTECH"
+                    };
+                    await _smsManager.SendSmsAsync(msg);
                 }
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
