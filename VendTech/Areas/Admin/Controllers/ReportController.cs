@@ -1494,7 +1494,7 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
 
-           public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
+        public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
             string Todate = "";
@@ -1689,8 +1689,6 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.AllowPaging = true;
             }
         }
-
-
 
 
         [HttpGet]

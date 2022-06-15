@@ -1,2 +1,178 @@
-﻿
+﻿active >a {
+    background: #e4c200;
+}
 
+.nav-pills {
+    background-color: #272930;
+}
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin: 5px;
+    font-weight:bold;
+}
+
+.card-title{
+    font-weight:bold;
+}
+
+
+.liveSearchBar, .liveSearchBar li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .liveSearchBar, .liveSearchBar li:hover {
+        list-style: decimal;
+    }
+
+        .liveSearchBar, .liveSearchBar li a {
+            color: #000;
+            text-decoration: none;
+            cursor:pointer
+        }
+
+#live-search {
+    padding: 20px;
+    padding-left: 0;
+}
+
+    #live-search fieldset {
+        border: 0;
+        padding-left: 0;
+    }
+
+:focus {
+    outline: none;
+}
+
+.text-input {
+    height: 30px;
+    background: none;
+    border: 1px solid #000;
+    padding: 5px;
+    font-size: 20px;
+    color: #000;
+}
+
+::-webkit-input-placeholder {
+    color: #000;
+}
+
+:-moz-placeholder {
+    color: #000;
+}
+
+::-moz-placeholder {
+    color: #000;
+}
+
+:-ms-input-placeholder {
+    color: #000;
+}
+
+
+
+.agencyBeneficiaries {
+    height: auto;
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.agencyFromVendors {
+    height: auto;
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.otherAgencyBeneficiaries {
+    height: auto;
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.otherAgencyFromVendors {
+    height: auto;
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+#agencySenderDisplay {
+    position: relative;
+    top: 40px;
+}
+
+#agencyBenficiaryDisplay {
+    position: relative;
+    top: 40px;
+}
+
+
+#otherAgencySenderDisplay {
+    position: relative;
+    top: 40px;
+}
+
+#otherAgencyBenficiaryDisplay {
+    position: relative;
+    top: 40px;
+}
+
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.nav-pills {
+    background: #272930;
+}
+.nav-link{
+    color:white;
+}
+
+.nav-pills > .active .nav-link {
+    background: grey;
+}
+
+    .nav-pills > .active .nav-link:hover {
+        background: grey;
+    }
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background: grey;
+}
+
+.sweet-alert p::first-line{
+    color: red;
+    font-weight:bold;
+}
+
+#agencyAmountToTransferDisplay{
+    background: #74ecf0
+}
+#otherAgencyAmountToTransferDisplay {
+    background: #74ecf0;
+}
+
+#amtToTransfer{
+    font-weight:bold;
+    font-size:30px;
+    text-align:right;
+    padding:5px;
+    height:35px;
+}
+#otherAmtToTransfer {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: right;
+    padding: 5px;
+    height: 35px;
+}
+strong {
+    text-transform: uppercase;
+}
+.otpSent {
+    display: none;
+}

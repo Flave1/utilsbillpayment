@@ -362,7 +362,7 @@ namespace VendTech.BLL.Models
     {
         public long DepositId { get; set; }
         public string DateTime { get; set; }
-        public long? PosId { get; set; }
+        public string PosId { get; set; }
         public string DepositBy { get; set; }
         public string Payer { get; set; }
         public string IssuingBank { get; set; }
@@ -390,7 +390,7 @@ namespace VendTech.BLL.Models
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
             DepositBy = obj.POS.User.Vendor.Trim();
-            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
+            PosId = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
              
@@ -401,7 +401,7 @@ namespace VendTech.BLL.Models
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
-            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             TransactionId = obj.TransactionId;
             if (obj.ValueDate != " 12:00")
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;

@@ -390,7 +390,7 @@ namespace VendTech.BLL.Managers
             return Convert.ToInt64(0);
         }
 
-        User IUserManager.GetUserIdByEmail(string email)
+        User IUserManager.GetUserDetailByEmail(string email)
         {
             var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
             if (userDetail != null)
@@ -1131,7 +1131,7 @@ namespace VendTech.BLL.Managers
 
         bool RemoveORAddUserPermissions(long userId, AddUserModel model)
         {
-            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
+            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId && x.IsAddedFromAgency == false).ToList();
             if (existingpermissons.Count() > 0)
             {
                 Context.UserAssignedModules.RemoveRange(existingpermissons);
@@ -1146,6 +1146,7 @@ namespace VendTech.BLL.Managers
                      UserId = userId,
                      ModuleId = c,
                      CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = false,
                  }));
                 Context.UserAssignedModules.AddRange(newpermissos);
                 Context.SaveChanges();
@@ -1181,7 +1182,7 @@ namespace VendTech.BLL.Managers
         bool RemoveOrAddUserWidgets(long userId, AddUserModel model)
         {
             //Deleting Exisiting Widgets
-            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
+            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId && x.IsAddedFromAgency == false).ToList();
             if (existing_widgets.Count() > 0)
             {
                 Context.UserAssignedWidgets.RemoveRange(existing_widgets);
@@ -1197,6 +1198,7 @@ namespace VendTech.BLL.Managers
                      UserId = userId,
                      WidgetId = c,
                      CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = false
                  }));
                 Context.UserAssignedWidgets.AddRange(newwidgets);
                 Context.SaveChanges();

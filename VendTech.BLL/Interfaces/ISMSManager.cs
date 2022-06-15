@@ -9,6 +9,6 @@ namespace VendTech.BLL.Interfaces
 {
     public interface ISMSManager
     {
-        Task<bool> SendSmsAsync(SendSMSRequest request);
+        Task<ActionOutput> SendSmsAsync(SendSMSRequest request);
     }
 }

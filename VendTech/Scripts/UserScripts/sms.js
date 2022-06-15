@@ -16,8 +16,8 @@ var smsHandler = {
     },
     sendSms: function () {
         var number = $("#smsNumber").val();
-        console.log('number.lenght', number.lenght);
-        if (number.length !== 8) {
+        console.log('number.lenght', number);
+        if (number.length !== 8 && number !== "") {
             $.ShowMessage($('div.messageAlert'), "Invalid number", MessageType.Error);
             return;
         }

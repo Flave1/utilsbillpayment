@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -25,6 +26,7 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         private readonly IAgencyManager _agentManager;
+        private readonly ISMSManager _smsManager;
 
         public AccountController(IUserManager userManager,
             IBankAccountManager bankAccountManager,
@@ -34,7 +36,7 @@ namespace VendTech.Areas.Api.Controllers
             ICMSManager cmsManager,
             IVendorManager vendorManager,
             IPOSManager posManager,
-            IAgencyManager agentManager)
+            IAgencyManager agentManager, ISMSManager smsManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -45,6 +47,7 @@ namespace VendTech.Areas.Api.Controllers
             _bankAccountManager = bankAccountManager;
             _posManager = posManager;
             _agentManager = agentManager;
+            _smsManager = smsManager;
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -317,10 +320,10 @@ namespace VendTech.Areas.Api.Controllers
 
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
-        public HttpResponseMessage ForgotPasscode2(RestPassCodeModel request)
+        public async Task<HttpResponseMessage> ForgotPasscode2(RestPassCodeModel request)
         { 
            var otp = Convert.ToString(Utilities.GenerateRandomNo());
-            var user = _userManager.GetUserIdByEmail(request.Email);
+            var user = _userManager.GetUserDetailByEmail(request.Email);
             if(user != null)
             {
                 var result = _authenticateManager.SaveAccountVerificationRequest(user.UserId, otp);
@@ -334,10 +337,23 @@ namespace VendTech.Areas.Api.Controllers
                         body = body.Replace("%OTP%", otp);
                         if (!string.IsNullOrEmpty(user.Email))
                         {
-                            Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                            Utilities.SendEmailOld(user.Email, emailTemplate.EmailSubject, body);
                         }
+
+                        var msg = new SendSMSRequest
+                        {
+                            Recipient = "232" + user.Phone,
+                            Payload = $"Hello {user.Name} \n" +
+                              $"To confirm the new passcode..\n Please enter the following 4 digit OTP to proceed. {otp}\n" +
+                              "VENDTECH"
+                        };
+                        var ew = await _smsManager.SendSmsAsync(msg);
+
                         return new JsonContent(user.UserId.ToString(), Status.Success).ConvertToHttpResponseOK();
                     }
+
+                    
+
                     return new JsonContent("Unable to send otp email", Status.Failed).ConvertToHttpResponseOK();
                 }
                 return new JsonContent("Unable to generate otp", Status.Failed).ConvertToHttpResponseOK(); 

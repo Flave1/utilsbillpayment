@@ -157,10 +157,12 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Report/GetSalesReportPagingList',
         success: function (results, message) {
+            console.log('results', results);
+            debugger
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]); 
+            //PageNumbering(results[1]); 
         },
         error: function (err) {
             $("#btnFilterSearch").val('SEARCH');

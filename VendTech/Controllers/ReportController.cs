@@ -1761,6 +1761,8 @@ namespace VendTech.Controllers
             if (td == null)
                 return  Json( new { message = "Not found.", status = "failed" });
 
+            if (request.PhoneNo == null)
+                request.PhoneNo = "12345678";
             var requestmsg = new SendSMSRequest
             {
                 Recipient = $"232{request.PhoneNo}",

@@ -134,7 +134,6 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     <script type="text/javascript">
@@ -220,8 +219,6 @@
                     culture: "en-GB",
                    value: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
                 });
-
-
 
              $("#ValueDate").kendoDatePicker({
                     max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
@@ -332,7 +329,6 @@
             $.ajax({
                 url: '/Admin/Deposit/GetVendorHistoryReports?vendor=' + vendor,
                 success: function (res) {
-                    console.log("res", res)
                     $('#hsListing').html(res);
                 }
             })

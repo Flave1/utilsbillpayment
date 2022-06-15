@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
 using VendTech.Areas.Admin.Controllers;
+using System.Threading.Tasks;
 #endregion
 
 namespace VendTech.Controllers
@@ -34,6 +35,7 @@ namespace VendTech.Controllers
         private readonly IVendorManager _vendorManager;
         private readonly IDashboardManager _dashboardManager;
         private readonly IAgencyManager _agentManager;
+        private readonly ISMSManager _smsManager;
 
 
         #endregion
@@ -47,7 +49,7 @@ namespace VendTech.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IAgencyManager agencyManager,
-            IDashboardManager dashboardManager)
+            IDashboardManager dashboardManager, ISMSManager smsManager)
             : base(errorLogManager)
         {
             _agentManager = agencyManager;
@@ -58,6 +60,7 @@ namespace VendTech.Controllers
             _platformManager = platformManager;
             _vendorManager = vendorManager;
             _dashboardManager = dashboardManager;
+            _smsManager = smsManager;
         }
 
         /// <summary>
@@ -112,7 +115,8 @@ namespace VendTech.Controllers
                     UserType = UserRoles.AppUser,
                     IsEmailVerified = userDetails.isemailverified,
                     Status = userDetails.Status,
-                    VendorName = userDetails.Vendor
+                    VendorName = userDetails.Vendor,
+                    AgencyName = userDetails.AgencyName,
                 };
             }
             else
@@ -171,7 +175,7 @@ namespace VendTech.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             dashBoard.currentUser = new UserModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
@@ -187,7 +191,7 @@ namespace VendTech.Controllers
             return View();
         }
         [HttpPost, Public]
-        public JsonResult ForgotPassword(string email)
+        public async Task<JsonResult> ForgotPassword(string email)
         {
             if (!string.IsNullOrEmpty(email))
             {
@@ -201,6 +205,20 @@ namespace VendTech.Controllers
                 body = body.Replace("%password%", result.Message);
                 string to = email;
                 Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+
+                var user = _userManager.GetUserDetailByEmail(email);
+                if (user != null)
+                {
+                    var msg = new SendSMSRequest
+                    {
+                        Recipient = "232" + user.Phone,
+                        Payload = $"Greetings {user.Name} \n" +
+                          $"To change passcode use this temporal password to login. {result}\n" +
+                          "VENDTECH"
+                    };
+                    await _smsManager.SendSmsAsync(msg);
+                }
+
                 return JsonResult(result);
             }
             return JsonResult(new ActionOutput { Message = "Email is required", Status = ActionStatus.Error });

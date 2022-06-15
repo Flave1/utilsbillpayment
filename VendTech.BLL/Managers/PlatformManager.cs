@@ -37,10 +37,6 @@ namespace VendTech.BLL.Managers
                 if (userId == 0) return new List<PlatformModel>();
                 var user = Context.Users.SingleOrDefault(p => p.UserId == userId);
                 var userAssignedPos = new POS();
-                //if (user.UserRole.Role == UserRoles.Vendor)
-                //    userAssignedPos = user.POS.FirstOrDefault();
-                //else if (user.UserRole.Role == UserRoles.AppUser && user.User1 != null)
-                //    userAssignedPos = user.User1.POS.FirstOrDefault();
                 userAssignedPos = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).FirstOrDefault();
 
                 if (userAssignedPos != null && userAssignedPos.POSId > 0)

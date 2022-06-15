@@ -347,10 +347,18 @@ namespace VendTech.Controllers
             ViewData.Model = model;
             using (var sw = new StringWriter())
             {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, view_name);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                try
+                {
+                    var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, view_name);
+                    var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                    viewResult.View.Render(viewContext, sw);
+                    viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
                 return sw.GetStringBuilder().ToString();
             }
         }

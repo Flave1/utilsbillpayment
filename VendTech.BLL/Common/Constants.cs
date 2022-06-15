@@ -28,8 +28,9 @@ namespace VendTech.BLL.Models
         public const string Password = "Password";
         public const string Profile = "Profile";
         public const string Meters = "Meters";
-       
-      
+        public const string Transfer = "Transfer";
+
+
     }
 
     public static class SelectedSubMenuAdminTab

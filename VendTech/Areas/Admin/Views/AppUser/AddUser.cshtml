@@ -109,18 +109,18 @@
                                         <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r =>  r.IsAdmin == false)
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                    .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                    .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                    .ToList()??new List<Checkbox>();
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                        .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                        .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
                                                 }
-                                                }
+                                            }
                                             @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>

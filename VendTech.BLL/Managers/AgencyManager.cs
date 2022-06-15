@@ -24,7 +24,15 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))
-                    query = query.Where(z => z.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.AgencyName.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("ADMIN"))
+                    query = query.Where(z => z.User.Name.ToLower().Trim().Contains(model.Search.ToLower().Trim()) || z.User.SurName.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("COMMISSION"))
+                    query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("POS"))
+                    query = query.Where(z => z.User.POS.FirstOrDefault().SerialNumber.ToLower().Trim().Contains(model.Search.ToLower().Trim()));
+                if (model.SearchField.Equals("BALANCE"))
+                    query = query.Where(z => z.User.POS.FirstOrDefault().Balance.ToString().ToLower().Trim().Contains(model.Search.ToLower().Trim()));
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
@@ -157,7 +165,63 @@ namespace VendTech.BLL.Managers
                 Context.Agencies.Add(agent);
             }
             Context.SaveChanges();
+
+            RemoveORAddUserPermissions(model.Representative.Value, model);
+            RemoveOrAddUserWidgets(model.Representative.Value, model);
+
             return ReturnSuccess("Agent saved successfully.");
+        }
+
+        bool RemoveORAddUserPermissions(long userId, SaveAgentModel model)
+        {
+            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId && x.IsAddedFromAgency == true).ToList();
+            if (existingpermissons.Count() > 0)
+            {
+                Context.UserAssignedModules.RemoveRange(existingpermissons);
+                Context.SaveChanges();
+            }
+            List<UserAssignedModule> newpermissos = new List<UserAssignedModule>();
+            if (model.SelectedModules != null)
+            {
+                model.SelectedModules.ToList().ForEach(c =>
+                 newpermissos.Add(new UserAssignedModule()
+                 {
+                     UserId = userId,
+                     ModuleId = c,
+                     CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = true,
+                 }));
+                Context.UserAssignedModules.AddRange(newpermissos);
+                Context.SaveChanges();
+            }
+            return true;
+        }
+
+        bool RemoveOrAddUserWidgets(long userId, SaveAgentModel model)
+        {
+            //Deleting Exisiting Widgets
+            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId && x.IsAddedFromAgency == true).ToList();
+            if (existing_widgets.Count() > 0)
+            {
+                Context.UserAssignedWidgets.RemoveRange(existing_widgets);
+                Context.SaveChanges();
+            }
+
+            List<UserAssignedWidget> newwidgets = new List<UserAssignedWidget>();
+            if (model.SelectedWidgets != null)
+            {
+                model.SelectedWidgets.ToList().ForEach(c =>
+                 newwidgets.Add(new UserAssignedWidget()
+                 {
+                     UserId = userId,
+                     WidgetId = c,
+                     CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = true
+                 }));
+                Context.UserAssignedWidgets.AddRange(newwidgets);
+                Context.SaveChanges();
+            }
+            return true;
         }
 
         List<SelectListItem> IAgencyManager.GetAgentsSelectList()

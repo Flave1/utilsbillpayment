@@ -15,13 +15,24 @@ namespace VendTech.BLL.Models
         public string Admin { get; set; }
         public string AgentType { get; set; }
         public decimal Percentage { get; set; }
+        public string SerialNumber { get; set; }
+        public string AgencyAdminDisplayName { get; set; }
+        public long? AgencyAdminPosId { get; set; }
+        public string Balance { get; set; }
+        public int VendorsCount { get; set; }
         public AgencyListingModel(Agency obj)
         {
+            var pos = obj?.User?.POS.FirstOrDefault();
             AgencyId = obj.AgencyId;
             AgencyName = obj.AgencyName;
             Admin = obj?.User?.Name + " " + obj?.User?.SurName;
             //AgentType = ((AgentTypeEnum)obj.AgentType).ToString();
             Percentage = obj?.Commission?.Percentage?? 0;
+            SerialNumber = pos?.SerialNumber;
+            AgencyAdminDisplayName = obj?.User?.Vendor + " - " + pos?.SerialNumber;
+            AgencyAdminPosId = pos?.POSId;
+            Balance = string.Format("{0:N0}", pos?.Balance??0);
+            VendorsCount = obj.Users.Where(e => e.UserId != obj.Representative).Count();
         }
     }
 
@@ -63,7 +74,7 @@ namespace VendTech.BLL.Models
             Enabled = (bool)obj.Enabled;
             Balance = string.Format("{0:N0}", obj?.Balance ?? 0);
             Vendor = obj?.User?.Vendor;
-            VendorId = obj.User.UserId;
+            VendorId = obj?.User?.UserId ?? 0;
             VendorEmail = obj?.User?.Email;
         }
 
@@ -89,7 +100,24 @@ namespace VendTech.BLL.Models
             public string CountryCode { get; set; }
             public int AgentType { get; set; }
             public int Percentage { get; set; }
-        public long? Representative { get; set; }
-        public long AgencyId { get;  set; }
-    } 
+            public long? Representative { get; set; }
+         public long AgencyId { get;  set; }
+            public IList<Checkbox> ModuleList { get; set; }
+            public IList<WidgetCheckbox> WidgetList { get; set; }
+        public List<int> SelectedWidgets { get; set; }
+        public List<int> SelectedModules { get; set; }
+    }
+    
+    public class DepositToAdmin
+    {
+        public long PosId { get; set; }
+        public int BankAccountId { get; set; }
+        public int PaymentType { get; set; }
+        public string ChkOrSlipNo { get; set; }
+        public decimal Amount { get; set; }
+        public string ValueDate { get; set; }
+        public string Bank { get; set; }
+        public string NameOnCheque { get; set; }
+        public string OTP { get; set; }
+    }
 }
