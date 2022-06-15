@@ -62,9 +62,9 @@ var Admin = {
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {
-                $.ShowMessage($('div.messageAlert'), "A new Password has been sent to your email.", MessageType.Success);
+                $.ShowMessage($('div.messageAlert'), "A new Password has been sent to you.", MessageType.Success);
                 setTimeout(function () {
-                    window.location.reload();
+                    window.location.href = '/Home/Index';
                 }, 2000)
                 return;
             }

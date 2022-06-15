@@ -364,7 +364,7 @@ var transferHandler = {
     },
 
     transferToOtherVendor: function (frmBal, frmPosId, vendor, sender = null) {
-        debugger
+      
         /*if (transferHandler.transferFrom) {*/
             if (!transferHandler.transferTo) {
                 $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
@@ -482,19 +482,23 @@ var transferHandler = {
         }
 
         const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replaceAll(',', ''));
-        if (Number(x) > amountToTansferFrom) {
+        if (Number(x?.replaceAll(',', '')) > amountToTansferFrom) {
 
-            $.ShowMessage($('div.messageAlert'), "Insufficient Balance", MessageType.Error);
+            $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
             return;
         }
-        x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        $("#agencyAmountToTransferDisplay").text(x);
+        x = x.toString().replace(/\,/g, "");
+        $("#amtToTransfer").val(transferHandler.thousands_separators(x));
+        $("#agencyAmountToTransferDisplay").text(transferHandler.thousands_separators(x));
     },
 
     displayOtherAmount: function (x) {
-      
-        x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        $("#otherAgencyAmountToTransferDisplay").text(x);
+
+        x = x.toString().replace(/\,/g, "");
+       
+        $("#otherAgencyAmountToTransferDisplay").text(transferHandler.thousands_separators(x));
+
+        $("#otherAmtToTransfer").val(transferHandler.thousands_separators(x));
     },
 
     resetForm: function () {
@@ -581,7 +585,20 @@ var transferHandler = {
     resendOtp2: function (frmBal, frmPosId, vendor, sender = null) {
         transferHandler.sentOtp = false;
         transferHandler.transferToOtherVendor(sender)
-    }
+    },
+
+     isNumber: function (evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+        return true;
+    },
+
+    thousands_separators: function (num) {
+        var num_parts = num.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return num_parts.join(".");
+    },
 };
 
 function disableSubmit(disabled = false) {

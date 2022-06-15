@@ -314,7 +314,7 @@
                     <div class=" col-md-12">
                         <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @onchange = "getVendor(this)" })
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @required="true", @onchange = "getVendor(this)" })
                         </div>
                     </div>
                     <div class=" col-md-12">
@@ -480,11 +480,12 @@
                     }
          });
 
-        function editDeposit(id, posid, depositby, payer, issuingbank, depositref, gtbank,
-            amount, isAudit, userId, date, valueDate, Type, comment) {
+        function editDeposit(id = 0, posid = "", depositby = 0, payer = "", issuingbank = "", depositref = "", gtbank = "",
+            amount = 0, isAudit = true, userId = 0, date = "", valueDate = "", Type = 0, comment = "") {
 
             debugger
 
+            posid = posid?.replace('AGT-', '');
             //const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer", "Cash/Cheque"];
             comment = escape(comment);
             const decoded = atob(unescape(comment));
@@ -545,6 +546,12 @@
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
             debugger
+
+            if (inputParam.ValueDateModel) {
+                var val = inputParam.ValueDateModel.split("/");
+                inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            }
+
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
@@ -625,6 +632,10 @@
         function Save(th) {
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
+            if (inputParam.ValueDateModel) {
+                var val = inputParam.ValueDateModel.split("/");
+                inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            }
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();
