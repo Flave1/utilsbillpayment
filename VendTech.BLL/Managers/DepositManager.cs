@@ -1882,7 +1882,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate+ " 12:00";//.ToString("dd/MM/yyyy hh:mm");
-            dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
+            //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.PendingDeposits.Add(dbDeposit);
             Context.SaveChanges();
@@ -1919,7 +1919,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = model.CreatedAt;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate;// + //" 12:00";//.ToString("dd/MM/yyyy hh:mm");
-            dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
+            //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges(); 
