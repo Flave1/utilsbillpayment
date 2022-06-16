@@ -106,7 +106,7 @@ namespace VendTech.BLL.Models
             IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
-            ValueDate = ValueDate;
+            ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
 
         public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
@@ -164,7 +164,7 @@ namespace VendTech.BLL.Models
             NEW_BALANCE = obj.NewBalance == null ? string.Format("{0:N0}", obj.Amount) : string.Format("{0:N0}", obj.NewBalance.Value);
             PERCENT = string.Format("{0:N0}", obj.PercentageAmount);
             TRANSACTION_ID = obj?.TransactionId;
-            VALUEDATE = obj.ValueDateStamp == null ? obj.ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
 
         }
@@ -409,7 +409,7 @@ namespace VendTech.BLL.Models
             if (obj.ValueDate != " 12:00")
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             Comment = obj.Comments;
-            //ValueDateModel = obj.ValueDateStamp == null ? ValueDateModel : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            ValueDateModel = obj.ValueDateStamp == null ? ValueDateModel : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             //ValueDate = obj.ValueDateStamp == null ? ValueDateModel : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
     } 
