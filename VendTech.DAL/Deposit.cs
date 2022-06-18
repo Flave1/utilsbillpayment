@@ -41,6 +41,7 @@ namespace VendTech.DAL
         public Nullable<System.DateTime> NextReminderDate { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<decimal> AgencyCommission { get; set; }
+        public Nullable<System.DateTime> ValueDateStamp { get; set; }
     
         public virtual BankAccount BankAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

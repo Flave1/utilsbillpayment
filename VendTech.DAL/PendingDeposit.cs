@@ -35,6 +35,7 @@ namespace VendTech.DAL
         public Nullable<System.DateTime> NextReminderDate { get; set; }
         public bool IsDeleted { get; set; }
         public long ApprovedDepId { get; set; }
+        public Nullable<System.DateTime> ValueDateStamp { get; set; }
     
         public virtual POS POS { get; set; }
         public virtual User User { get; set; }

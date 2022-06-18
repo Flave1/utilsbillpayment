@@ -81,7 +81,7 @@ namespace VendTech.Controllers
 
 
         [AjaxOnly, HttpPost]
-        public JsonResult TransferCash(CashTransferModel request)
+        public async Task<JsonResult> TransferCash(CashTransferModel request)
         {
             try
             {
@@ -96,7 +96,8 @@ namespace VendTech.Controllers
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = request.Amount,
                     CheckNumberOrSlipId = reference,
-                    ValueDate = DateTime.UtcNow.ToString()
+                    ValueDate = DateTime.UtcNow.ToString(),
+                    ValueDateStamp = DateTime.UtcNow
                 };
                 var result1 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
                 if(result1.Status == ActionStatus.Successfull)
@@ -109,14 +110,15 @@ namespace VendTech.Controllers
                         CreatedAt = DateTime.UtcNow,
                         PercentageAmount = Decimal.Negate(request.Amount),
                         CheckNumberOrSlipId = reference,
-                        ValueDate = DateTime.UtcNow.ToString()
+                        ValueDate = DateTime.UtcNow.ToString(),
+                        ValueDateStamp = DateTime.UtcNow
                     };
                     var result2 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
 
                     if(result2.Status == ActionStatus.Successfull)
                     {
                         SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }
@@ -170,7 +172,7 @@ namespace VendTech.Controllers
                 }
             }
         }
-        private void SendSmsOnDeposit(long fromPos, long toPosId, decimal amt)
+        private async Task SendSmsOnDeposit(long fromPos, long toPosId, decimal amt)
         {
 
             var frmPos = _posManager.GetSinglePos(fromPos);
@@ -187,18 +189,7 @@ namespace VendTech.Controllers
                    "VENDTECH"
                 };
 
-                var json = JsonConvert.SerializeObject(requestmsg);
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpClient client = new HttpClient();
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.BaseAddress = new Uri("https://kwiktalk.io");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
-                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var res = client.SendAsync(httpRequest).Result;
-                var stringResult = res.Content.ReadAsStringAsync().Result;
+                await _smsManager.SendSmsAsync(requestmsg);
             }
 
             if (toPos != null & toPos.SMSNotificationDeposit ?? true)
@@ -211,18 +202,7 @@ namespace VendTech.Controllers
                    "VENDTECH"
                 };
 
-                var json = JsonConvert.SerializeObject(requestmsg);
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpClient client = new HttpClient();
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.BaseAddress = new Uri("https://kwiktalk.io");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
-                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var res = client.SendAsync(httpRequest).Result;
-                var stringResult = res.Content.ReadAsStringAsync().Result;
+                await _smsManager.SendSmsAsync(requestmsg);
             }
         }
 

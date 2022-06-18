@@ -142,7 +142,8 @@
                                             </div>
 
                                             <div class="editpro-row submt " style="padding-right : 20px;">
-                                                <input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">
+                                                @*<input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">*@
+                                                <button type="button" class="savebttn btn btn-primary pull-left addDepositBtn " id="btnAdd" >ADD DEPOSIT</button>
                                             </div>
                                         </div>
 
@@ -336,121 +337,137 @@
                 })
         }
 
+
+
     function AddDeposit(sender) {
-        $("#btnAdd").val('PROCESSING....');
-        $("#btnAdd").prop('disabled', true); 
-            if (!$("#amount").val() || $("#amount").val() == "0")
-            {
-                $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    return;
-            } 
-            else if (!$("#posDrp").val()) {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
-                return;
-            }
-            else if (!$("#ChkOrSlipNo").val())
-            {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
-                    return;
-            }else {
-                $("#ContinueDepoit").val(0);
-                    $.ajaxExt({
-                        url: baseUrl + '/Deposit/AddDeposit',
-                        type: 'POST',
-                        validate: true,
-                        showErrorMessage: true,
-                        messageControl: $('div.messageAlert'),
-                        formToValidate: $(sender).parents("form:first"),
-                        formToPost: $(sender).parents("form:first"),
-                        isAjaxForm: true,
-                        showThrobber: true,
-                        button: $(sender),
-                        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                        success: function (results, message) {
-                            if (message != "Deposit request saved successfully.") {
-                                reDeposit(sender, 2, message);
-                                $("#btnAdd").val('ADD BALANCE');
-                                $("#btnAdd").prop('disabled', false);
-                                return;
-                            }
-                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                            setTimeout(function () {
-                                window.location.href = baseUrl + '/Deposit/Index'
-                            }, 1500);
 
-                        },
-                        error: function (results, message) {
-                            $("#btnAdd").val('ADD BALANCE');
-                            $("#btnAdd").prop('disabled', false);
-                        }
-                    });
-                }
+        disableSubmit(true);
 
+     
+
+        if (!$("#amount").val() || $("#amount").val() == "0") {
+            $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
+
+            disableSubmit(false);
+            return;
+        }
+        else if (!$("#posDrp").val()) {
+
+            disableSubmit(false);
+            $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
+            return;
+        }
+        else if (!$("#ChkOrSlipNo").val()) {
+            disableSubmit(false);
+            $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
+            return;
         }
 
-        $("#posDrp").on("change", function () {
-            let posId = $("#posDrp").val();
-
-            if (posId) {
-                fetchPosPercentage(posId);
-            }
-        })
-        function fetchPosPercentage(posId) {
-
-            $.ajax({
-                url: '/Admin/Report/GetPosPercentage?pos=' + posId,
-                success: function (res) {
-                    if (res.percentage > 0) {
-                        $("#agentPercentage").text(res.percentage);
-                        $("#commission").show();
-                    } else {
-                        $("#commission").hide();
-                    }
-                }
-            });
-        }
-
-
-        function reDeposit(sender, ContinueDepoit, amt) {
+        else {
             $("#ContinueDepoit").val(0);
-            $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
-
-                $.ajaxExt({
-                    url: baseUrl + '/Deposit/AddDeposit',
-                    type: 'POST',
-                    validate: true,
-                    showErrorMessage: true,
-                    messageControl: $('div.messageAlert'),
-                    formToValidate: $(sender).parents("form:first"),
-                    formToPost: $(sender).parents("form:first"),
-                    isAjaxForm: true,
-                    showThrobber: true,
-                    button: $(sender),
-                    throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                    success: function (results, message) {
-                        $(".sweet-alert h2").css("color", "green");
-                        $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1500);
-                    },
-                    error: function (results, message) {
-                        $("#btnAdd").val('ADD BALANCE');
-                        $("#btnAdd").prop('disabled', false);
+            $.ajaxExt({
+                url: baseUrl + '/Deposit/AddDeposit',
+                type: 'POST',
+                validate: true,
+                showErrorMessage: true,
+                messageControl: $('div.messageAlert'),
+                formToValidate: $(sender).parents("form:first"),
+                formToPost: $(sender).parents("form:first"),
+                isAjaxForm: true,
+                showThrobber: true,
+                button: $(sender),
+                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                success: function (results, message) {
+                    if (message != "Deposit request saved successfully.") {
+                        reDeposit(sender, 2, message);
+                        return;
                     }
-                });
+                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    setTimeout(function () {
+                        window.location.href = baseUrl + '/Deposit/Index'
+                    }, 1500);
+
+                    disableSubmit(false);
+                },
+                error: function (results, message) {
+                    disableSubmit(false);
+                }
             });
-            $(".sweet-alert h2").css("color", "red");
-            $(".confirm").hide();
-            $("#btnAdd").val('ADD BALANCE');
+        }
+
+    }
+
+    $("#posDrp").on("change", function () {
+        let posId = $("#posDrp").val();
+
+        if (posId) {
+            fetchPosPercentage(posId);
+        }
+    })
+    function fetchPosPercentage(posId) {
+
+        $.ajax({
+            url: '/Admin/Report/GetPosPercentage?pos=' + posId,
+            success: function (res) {
+                if (res.percentage > 0) {
+                    $("#agentPercentage").text(res.percentage);
+                    $("#commission").show();
+                } else {
+                    $("#commission").hide();
+                }
+            }
+        });
+    }
+
+
+    function reDeposit(sender, ContinueDepoit, amt) {
+        $("#ContinueDepoit").val(0);
+        $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
+
+            $.ajaxExt({
+                url: baseUrl + '/Deposit/AddDeposit',
+                type: 'POST',
+                validate: true,
+                showErrorMessage: true,
+                messageControl: $('div.messageAlert'),
+                formToValidate: $(sender).parents("form:first"),
+                formToPost: $(sender).parents("form:first"),
+                isAjaxForm: true,
+                showThrobber: true,
+                button: $(sender),
+                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                success: function (results, message) {
+                    $(".sweet-alert h2").css("color", "green");
+                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                    disableSubmit(false);
+                },
+                error: function (results, message) {
+                    disableSubmit(false);
+                }
+            });
+        });
+        $(".sweet-alert h2").css("color", "red");
+        $(".confirm").hide();
+        disableSubmit(false);
+    }
+
+
+    function disableSubmit(disabled = false) {
+        if (disabled) {
+            $("#btnAdd").css({ backgroundColor: '#56bb96' });
+            $("#btnAdd").text('PROCESSING....');
+            $("#btnAdd").prop('ADD BALANCE', true);
+        } else {
+            $("#btnAdd").css({ backgroundColor: '#f1cf09' });
+            $("#btnAdd").text('ADD BALANCE');
             $("#btnAdd").prop('disabled', false);
         }
+
+    }
+
 </script>
 }
 

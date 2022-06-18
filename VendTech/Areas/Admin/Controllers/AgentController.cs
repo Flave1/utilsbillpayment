@@ -156,7 +156,8 @@ namespace VendTech.Areas.Admin.Controllers
                     ChequeBankName = request.Bank,
                     ValueDate = request.ValueDate,
                     NameOnCheque = request.NameOnCheque,
-                    PaymentType = request.PaymentType
+                    PaymentType = request.PaymentType,
+                    ValueDateStamp = request.ValueDate == null ? DateTime.UtcNow : Convert.ToDateTime(request.ValueDate),
                 };
 
                var result =  _depositManager.DepositToAgencyAdminAccount(depositCr, LOGGEDIN_USER.UserID, request.OTP);
@@ -177,9 +178,9 @@ namespace VendTech.Areas.Admin.Controllers
                 }
                 return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return JsonResult(new ActionOutput { Message = "Error occurred!!", Status = ActionStatus.Error });
+                return JsonResult(new ActionOutput { Message = $"Error occurred!!  {ex?.Message}", Status = ActionStatus.Error });
             }
         }
       

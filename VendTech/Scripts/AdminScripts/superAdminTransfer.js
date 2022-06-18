@@ -131,6 +131,9 @@ var superAdminTransferHandler = {
         if (!valueDate) {
             $.ShowMessage($('div.messageAlert'), "Value date required", MessageType.Error);
             return 'error';
+        } else {
+            var val = valueDate.split("/");
+            valueDate = val[1] + "/" + val[0] + "/" + val[2];
         }
         var bank = $('#bank').val()
         if (!bank) {

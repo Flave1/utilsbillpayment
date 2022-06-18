@@ -91,8 +91,8 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         return new JsonContent("POS NOT AVAILABLE! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                     }
-                    if (userDetails.AgentId == 10020 && pos.SerialNumber != "93001")
-                        return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
+                    if (userDetails.AgentId == 10020 && pos.SerialNumber != "93001" && pos.SerialNumber != "93017" && pos.SerialNumber != "93001")
+                        return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP", Status.Failed).ConvertToHttpResponseOK();
 
                     if (pos.Enabled)
                     {
@@ -337,7 +337,7 @@ namespace VendTech.Areas.Api.Controllers
                         body = body.Replace("%OTP%", otp);
                         if (!string.IsNullOrEmpty(user.Email))
                         {
-                            Utilities.SendEmailOld(user.Email, emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
                         }
 
                         var msg = new SendSMSRequest

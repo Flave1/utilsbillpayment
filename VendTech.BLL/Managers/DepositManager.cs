@@ -1668,7 +1668,8 @@ namespace VendTech.BLL.Managers
                 UpdatedAt = dbDeposit.UpdatedAt,
                 User = dbDeposit.User,
                 UserId = dbDeposit.UserId,
-                ValueDate = dbDeposit.ValueDate
+                ValueDate = dbDeposit.ValueDate,
+                ValueDateStamp = Convert.ToDateTime(dbDeposit.ValueDate)
             };
 
             Context.Deposits.Add(reversedDeposit);
@@ -1881,6 +1882,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate+ " 12:00";//.ToString("dd/MM/yyyy hh:mm");
+            //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.PendingDeposits.Add(dbDeposit);
             Context.SaveChanges();
@@ -1917,6 +1919,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CreatedAt = model.CreatedAt;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate;// + //" 12:00";//.ToString("dd/MM/yyyy hh:mm");
+            //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.Deposits.Add(dbDeposit);
             Context.SaveChanges(); 
@@ -1945,6 +1948,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
                 dbDeposit.UpdatedAt = DateTime.UtcNow;
                 dbDeposit.ValueDate = vlDate.ToString();
+                dbDeposit.ValueDateStamp = Convert.ToDateTime(Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm"));
                 dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
 
                 dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
@@ -1966,7 +1970,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = pos?.SerialNumber;
-            depositAuditModel.ValueDateModel = vlDate;
+            depositAuditModel.ValueDateModel = dbDeposit.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.Comment = dbDeposit.Comments;
             return depositAuditModel;
         }
@@ -1994,6 +1998,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UpdatedAt = DateTime.UtcNow;
 
                 dbDeposit.ValueDate = vlDate.ToString();
+                dbDeposit.ValueDateStamp = Convert.ToDateTime(Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm"));
 
                 if (dbDeposit.NextReminderDate == null)
                     dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15);
@@ -2021,7 +2026,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = pos?.SerialNumber;
-            depositAuditModel.ValueDateModel = vlDate;
+            depositAuditModel.ValueDateModel = dbDeposit.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             return depositAuditModel;
         }
         

@@ -1,5 +1,8 @@
-use Vendtechnov
+use abc_production
 go
+
+--deploy wen.config file to live
+
 
 -- alter table UserAssignedModules
 -- add IsAddedFromAgency bit DEFAULT (0)
@@ -12,11 +15,13 @@ go
 
 -- update UserAssignedWidgets set IsAddedFromAgency = 1 where WidgetId = 10
 
-update [UserAssignedWidgets]
-set IsAddedFromAgency = 1
-where [UserAssignedWidgets].[ModuleId] = 26
+-- update [UserAssignedModules]
+-- set IsAddedFromAgency = 1
+-- where moduleId = 33
+-- select * from Modules
 
-select * from Modules
+-- alter table deposits
+-- add ValueDateStamp DateTime null
 
--- SELECT  IsAddedFromAgency from UserAssignedModules
--- SELECT  IsAddedFromAgency from UserAssignedWidgets
+--  alter table PendingDeposits
+--  add ValueDateStamp DateTime null

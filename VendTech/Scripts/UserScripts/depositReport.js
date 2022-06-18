@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
    
-
+    $('#rpt').val(1);
     $("input[type=button]#btnFilterVersion").live("click", function () {
         return Deposits.ManageDeposits($(this));
     });

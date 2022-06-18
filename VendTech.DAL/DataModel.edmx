@@ -156,6 +156,7 @@
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ValueDateStamp" Type="datetime" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -298,6 +299,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="ApprovedDepId" Type="bigint" Nullable="false" />
+          <Property Name="ValueDateStamp" Type="datetime" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -1426,6 +1428,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="POS" Relationship="Self.FK_Deposits_POS" FromRole="Deposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_Deposits_Users" FromRole="Deposits" ToRole="Users" />
           <NavigationProperty Name="PaymentType1" Relationship="DataModel.FK_Deposits_PaymentType" FromRole="Deposit" ToRole="PaymentType" />
+          <Property Name="ValueDateStamp" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1554,6 +1557,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="POS" Relationship="Self.FK_PendingDeposits_POS" FromRole="PendingDeposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_PendingDeposits_Users" FromRole="PendingDeposits" ToRole="Users" />
           <NavigationProperty Name="PaymentType1" Relationship="DataModel.FK_PendingDeposits_PaymentType" FromRole="PendingDeposit" ToRole="PaymentType" />
+          <Property Name="ValueDateStamp" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -2721,6 +2725,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="Deposits">
             <EntityTypeMapping TypeName="DataModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
+                <ScalarProperty Name="ValueDateStamp" ColumnName="ValueDateStamp" />
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -2846,6 +2851,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="PendingDeposits">
             <EntityTypeMapping TypeName="DataModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
+                <ScalarProperty Name="ValueDateStamp" ColumnName="ValueDateStamp" />
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
