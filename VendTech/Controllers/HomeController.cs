@@ -213,7 +213,7 @@ namespace VendTech.Controllers
                     {
                         Recipient = "232" + user.Phone,
                         Payload = $"Greetings {user.Name} \n" +
-                          $"To change passcode use this temporal password to login. {result}\n" +
+                          $"Please use this temporal password to login. {result.Message}\n" +
                           "VENDTECH"
                     };
                     await _smsManager.SendSmsAsync(msg);

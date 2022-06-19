@@ -545,12 +545,13 @@
 
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
+
             debugger
 
-            if (inputParam.ValueDateModel) {
-                var val = inputParam.ValueDateModel.split("/");
-                inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
-            }
+            //if (inputParam.ValueDateModel) {
+            //    var val = inputParam.ValueDateModel.split("/");
+            //    inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            //}
 
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
             inputParam.PosId = $("#PosId").val();
@@ -630,13 +631,15 @@
         }
 
     function Save(th) {
-            debugger
+
+        debugger
+
             var inputParam = new Object();
             inputParam.ValueDateModel = $("#value_date").val();
-            if (inputParam.ValueDateModel) {
-                var val = inputParam.ValueDateModel.split("/");
-                inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
-            }
+            //if (inputParam.ValueDateModel) {
+            //    var val = inputParam.ValueDateModel.split("/");
+            //    inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            //}
             inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
             inputParam.PosId = $("#PosId").val();
             inputParam.IssuingBank = $("#issuingbank").val();

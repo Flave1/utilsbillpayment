@@ -166,7 +166,6 @@ namespace VendTech.Areas.Admin.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [Public]
         public ActionResult ResetPassword(ResetPasswordModel model)
@@ -180,7 +179,6 @@ namespace VendTech.Areas.Admin.Controllers
                 ViewBag.Message = "Password reset successfully.";
             return View(model);
         }
-
 
         [HttpGet]
         [Public]

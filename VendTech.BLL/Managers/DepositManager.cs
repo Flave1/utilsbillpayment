@@ -1984,7 +1984,6 @@ namespace VendTech.BLL.Managers
 
 
             var posId = Convert.ToInt64(depositAuditModel.PosId);
-            var vlDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
 
             pos = Context.POS.FirstOrDefault(x => x.POSId == posId);
            if(pos != null)
@@ -1997,8 +1996,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
                 dbDeposit.UpdatedAt = DateTime.UtcNow;
 
-                dbDeposit.ValueDate = vlDate.ToString();
-                dbDeposit.ValueDateStamp = Convert.ToDateTime(Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm"));
+                dbDeposit.ValueDate = depositAuditModel.ValueDateModel;
+                //dbDeposit.ValueDateStamp = Convert.ToDateTime(depositAuditModel.ValueDateModel);
 
                 if (dbDeposit.NextReminderDate == null)
                     dbDeposit.NextReminderDate = dbDeposit.CreatedAt.AddDays(15);
@@ -2026,7 +2025,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.DepositId = dbDeposit.DepositId;
             depositAuditModel.Price = Convert.ToString(Convert.ToDecimal(depositAuditModel.Amount));
             depositAuditModel.PosId = pos?.SerialNumber;
-            depositAuditModel.ValueDateModel = dbDeposit.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            depositAuditModel.ValueDateModel = depositAuditModel.ValueDateModel;
             return depositAuditModel;
         }
         
