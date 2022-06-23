@@ -19,7 +19,7 @@
                     }
                     @if (assignerModules.Where(X => X.ControllerName == "19").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
-                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "active" : "")" href="@Url.Action("Utility", "Meter")"><i class="fa fa-shopping-cart"></i><span>Bill Payment</span></a></li>
+                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.BillPayment ? "active" : "")" href="@Url.Action("Utility", "Meter")"><i class="fa fa-shopping-cart"></i><span>Bill Payment</span></a></li>
                     }
                     @if (assignerModules.Where(X => X.ControllerName == "20").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {

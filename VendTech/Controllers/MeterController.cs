@@ -165,6 +165,8 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
+
+            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
@@ -179,7 +181,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
-            ViewBag.SelectedTab = SelectedAdminTab.Users;
+            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             ViewBag.MinumumVend = _platformManager.GetSinglePlatform(1).MinimumAmount; //1 is not to be changed

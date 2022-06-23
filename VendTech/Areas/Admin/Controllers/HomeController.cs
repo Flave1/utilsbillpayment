@@ -146,10 +146,21 @@ namespace VendTech.Areas.Admin.Controllers
                     return JsonResult(result);
                 var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%link%", link);
-                string to = email;
-                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+             
+                if (emailTemplate.TemplateStatus)
+                {
+                    var user = _userManager.GetUserDetailByEmail(email);
+                    if (user != null)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%USER%", link);
+                        body = body.Replace("%POSID%", link);
+                        body = body.Replace("%PASSWORD%", link);
+                        string to = email;
+                        Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                    }
+
+                }
                 return JsonResult(result);
             }
             return JsonResult(new ActionOutput { Message = "Email is required", Status = ActionStatus.Error });

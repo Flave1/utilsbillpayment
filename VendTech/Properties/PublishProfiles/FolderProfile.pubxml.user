@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\bin\app.publish\</_PublishTargetUrl>
-    <History>True|2022-06-16T10:37:13.7233749Z;True|2022-06-08T15:10:06.3888061+01:00;True|2022-05-31T03:25:52.7597776+01:00;True|2022-05-27T10:18:05.2117828+01:00;True|2022-05-24T15:16:25.2805821+01:00;True|2022-05-22T01:59:56.3342289+01:00;True|2022-05-17T07:17:53.1350332+01:00;True|2022-05-12T14:49:22.8789381+01:00;</History>
+    <History>True|2022-06-21T10:10:26.0532474Z;True|2022-06-16T11:37:13.7233749+01:00;True|2022-06-08T15:10:06.3888061+01:00;True|2022-05-31T03:25:52.7597776+01:00;True|2022-05-27T10:18:05.2117828+01:00;True|2022-05-24T15:16:25.2805821+01:00;True|2022-05-22T01:59:56.3342289+01:00;True|2022-05-17T07:17:53.1350332+01:00;True|2022-05-12T14:49:22.8789381+01:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/readme.txt">
@@ -120,7 +120,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:55</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>04/11/2022 07:08:55</publishTime>
+      <publishTime>06/21/2022 08:42:38</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
       <publishTime>04/11/2022 07:08:55</publishTime>
@@ -558,13 +558,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/27/2021 20:48:34</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>06/17/2022 11:28:41</publishTime>
+      <publishTime>06/21/2022 11:10:20</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>06/17/2022 11:28:41</publishTime>
+      <publishTime>06/21/2022 11:10:20</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
       <publishTime>06/10/2022 18:15:36</publishTime>
@@ -576,19 +576,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/10/2022 18:15:36</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/18/2022 13:05:06</publishTime>
+      <publishTime>06/21/2022 11:10:23</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>06/18/2022 12:24:21</publishTime>
+      <publishTime>06/21/2022 11:10:22</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>06/18/2022 12:24:21</publishTime>
+      <publishTime>06/21/2022 11:10:22</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>06/18/2022 13:05:06</publishTime>
+      <publishTime>06/21/2022 11:10:23</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
@@ -18666,7 +18666,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:58</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>06/17/2022 11:07:48</publishTime>
+      <publishTime>06/21/2022 08:51:35</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/11/2022 07:08:58</publishTime>
@@ -18783,7 +18783,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/reportFilter.js">
-      <publishTime>04/11/2022 07:08:58</publishTime>
+      <publishTime>06/21/2022 08:08:26</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/role.js">
       <publishTime>04/11/2022 07:08:58</publishTime>
@@ -19101,7 +19101,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:58</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
-      <publishTime>06/06/2022 16:08:01</publishTime>
+      <publishTime>06/21/2022 11:08:24</publishTime>
     </File>
     <File Include="Views/Shared/_voucherReceipt.cshtml">
       <publishTime>05/04/2022 12:45:29</publishTime>

@@ -61,7 +61,7 @@ namespace VendTech.Areas.Admin.Controllers
         #region Report
 
         [HttpGet]
-        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null, string source = "")
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
 
@@ -72,6 +72,12 @@ namespace VendTech.Areas.Admin.Controllers
  
             ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
             ViewBag.SelectedTab = SelectedAdminTab.Reports; 
+
+            if(source == "dashboard")
+            {
+                from = DateTime.UtcNow;
+                to = DateTime.UtcNow;
+            }
  
             var model = new ReportSearchModel
             {

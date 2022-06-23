@@ -1,13 +1,13 @@
 ﻿@model DashboardViewModel
-@{ 
+@{
     ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    var depositActionURL = Html.Raw(Url.Action("ManageReports", "Report", new { type = 17, source = "dashboard" }));
+}
 
-    }
 
- 
 <div class="container-fluid" id="pcont">
 
     @if (user.UserType != UserRoles.AppUser)
@@ -67,9 +67,11 @@
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
                         <div class="widget widget-tile">
-                            @*<div id="spark2" class="chart sparkline"></div>*@
+                            @*<div id="spark2" class="chart sparkline"></div>
+                                &from=06/20/2022&to=06/20/2022
+                            *@
                             <div class="data-info">
-                                <div class="desc"><a href="@Url.Action("ManageReports", "Report", new { type = 17 })">Total daily deposits(today)</a></div>
+                                <div class="desc"><a href="@depositActionURL">Total daily deposits(today)</a></div>
                                 <div class="value">
                                     <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
                                         SSL @string.Format("{0:N0}", @Model.totalDeposit)
@@ -109,7 +111,7 @@
                 }
 
             </div>
-            
+
             <div class="row">
                 <div class="col-md-6" id="saleListing">
                     @Html.Partial("Partials/_salesListing", Model.s)
@@ -127,75 +129,74 @@
     {
         <div><H1>Access denied! You do not have permission to access this corner</H1></div>
     }
-    </div>
-    @section scripts{
-        <link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
-        @*<script src="~/Content/assets/lib/jquery/jquery.min.js" type="text/javascript"></script>*@
+</div>
+@section scripts{
+    <link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
+    @*<script src="~/Content/assets/lib/jquery/jquery.min.js" type="text/javascript"></script>*@
 
-        <script type="text/javascript">
-
-
-            setInterval(function () {
+    <script type="text/javascript">
 
 
-                $.ajax({
-                    url: '/Admin/Home/GetVendorBalanceSheetReports',
-                    success: function (data) {
-                        console.log('data', data)
-                        $('#bsListing').html(data); 
-                    }
-                })
-
-                $.ajax({
-                    url: '/Admin/Home/GetSalesHistory',
-                    success: function (data) { 
-                        $('#saleListing').html(data);
-                    }
-                })
-
-            }, 5000)
+        setInterval(function () {
 
 
-            $(document).ready(function () {
+            $.ajax({
+                url: '/Admin/Home/GetVendorBalanceSheetReports',
+                success: function (data) {
+                    $('#bsListing').html(data);
+                }
+            })
 
-               
-                //initialize the javascript
-                App.init(); 
-                App.dashBoard(); 
-            });
-        </script>
-        <script>
+            $.ajax({
+                url: '/Admin/Home/GetSalesHistory',
+                success: function (data) {
+                    $('#saleListing').html(data);
+                }
+            })
+
+        }, 5000)
+
+
+        $(document).ready(function () {
+
+
+            //initialize the javascript
+            App.init();
+            App.dashBoard();
+        });
+    </script>
+    <script>
     var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
-        </script>
-        <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
-        <link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />
-        <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>
-        <script type="text/javascript">
+    </script>
+    <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
+    <link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />
+    <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>
+    <script type="text/javascript">
 
-            $(function () {
+        $(function () {
 
-                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                Morris.Line({
-                    element: 'main-chart',
-                    data: surveyLastDaysChartData,
-                    xkey: 'mdate',
-                    ykeys: ['deposit', 'billpayment'],
-                    labels: ['Total Deposit', 'Total Bill Payment'],
-                    pointSize: 4,
-                    hideHover: 'auto',
-                    fillOpacity: 0.03,
-                    lineColors: ['#768294', '#0084ff'],
-                    xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
-                        var month = months[x.getMonth()];
-                        return month;
-                    },
-                    dateFormat: function (x) {
-                        var month = months[new Date(x).getMonth()];
-                        return month;
-                    },
-                });
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            Morris.Line({
+                element: 'main-chart',
+                data: surveyLastDaysChartData,
+                xkey: 'mdate',
+                ykeys: ['deposit', 'billpayment'],
+                labels: ['Total Deposit', 'Total Bill Payment'],
+                pointSize: 4,
+                hideHover: 'auto',
+                fillOpacity: 0.03,
+                lineColors: ['#768294', '#0084ff'],
+                xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
+                    var month = months[x.getMonth()];
+                    return month;
+                },
+                dateFormat: function (x) {
+                    var month = months[new Date(x).getMonth()];
+                    return month;
+                },
             });
-        </script>
-    }
+        });
+    </script>
+}
 
 
