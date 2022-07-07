@@ -5,7 +5,9 @@
 }
 
 <link href="~/Content/transfer.css" rel="stylesheet" />
+
 <div class="container-fluid" id="pcont">
+  
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
@@ -25,7 +27,7 @@
                 </ul>
 
                 <div class="tab-content" id="pills-tabContent">
-                   
+
                     @if (Model.CanTranferToOwnVendors)
                     {
                         <div class="tab-pane fade active in" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">

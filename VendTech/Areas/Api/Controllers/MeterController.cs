@@ -53,7 +53,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetMeters(int pageNo, int pageSize)
         {
-            var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize);
+            var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize, true);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
 
@@ -62,6 +62,12 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage RechargeMeter(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserId;
+
+            var minVend = _meterManager.ReturnMinVend();
+            if (model.Amount < minVend)
+            {
+                return new JsonContent($"PLEASE TENDER SLL: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
+            }
             var result = _meterManager.RechargeMeter(model);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
@@ -223,6 +229,23 @@ namespace VendTech.Areas.Api.Controllers
             }
             return new JsonContent("Sms successfully sent.", Status.Success, stringResult).ConvertToHttpResponseOK();
         }
+
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage Redenominate()
+        {
+            try
+            {
+                 _meterManager.RedenominateBalnces();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return new JsonContent("Sms successfully sent.", Status.Success, null).ConvertToHttpResponseOK();
+        }
+
     }
     public class Tokenobject
     {

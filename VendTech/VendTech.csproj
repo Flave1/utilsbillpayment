@@ -280,7 +280,6 @@
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
-    <Content Include="Content\transfer.css" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -466,6 +465,7 @@
     <Content Include="Areas\Admin\Views\Agent\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />

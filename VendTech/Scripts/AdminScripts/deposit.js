@@ -166,26 +166,34 @@ var Deposits = {
             return;
         }
         else {
-            $.ajaxExt({
-                url: baseUrl + '/Admin/Deposit/AddDeposit',
-                type: 'POST',
-                validate: true,
-                showErrorMessage: true,
-                messageControl: $('div.messageAlert'),
-                formToValidate: $(sender).parents("form:first"),
-                formToPost: $(sender).parents("form:first"),
-                isAjaxForm: true,
-                showThrobber: true,
-                button: $(sender),
-                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                success: function (results, message) {
-                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 1500);
 
-                }
-            });
+            var amt = thousands_separators($("#amount").val());
+            var invalidAmt = thousands_separators($("#amount").val() / 1000);
+
+            $.ConfirmBox("REDENOMINATION ALERT", "PLEASE CONFIRM DEPOSIT \n AMOUNT: SLL  " + amt + " \n\n MAKE SURE YOU ARE CERTAIN THAT YOU WANT TO DEPOSIT " + amt + " AND NOT " + invalidAmt + " LEONES", null, true, null, true, null, function () {
+
+                $.ajaxExt({
+                    url: baseUrl + '/Admin/Deposit/AddDeposit',
+                    type: 'POST',
+                    validate: true,
+                    showErrorMessage: true,
+                    messageControl: $('div.messageAlert'),
+                    formToValidate: $(sender).parents("form:first"),
+                    formToPost: $(sender).parents("form:first"),
+                    isAjaxForm: true,
+                    showThrobber: true,
+                    button: $(sender),
+                    throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                    success: function (results, message) {
+                        $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+
+                    }
+                });
+            })
+            
         }
 
     }

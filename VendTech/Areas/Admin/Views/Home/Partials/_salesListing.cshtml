@@ -1,4 +1,4 @@
-﻿@model PagingResult<MeterRechargeApiListingModel>
+﻿﻿@model PagingResult<MeterRechargeApiListingModel>
 
 @{
     Layout = null;
@@ -23,9 +23,9 @@
                 <th scope="col">#</th>
                 <th scope="col">DATETIME</th>
                 <th scope="col">TRANS ID</th>
-                <th scope="col">METER #</th>
-                <th scope="col">VENDOR</th>
                 <th scope="col">POSID</th>
+                <th scope="col">VENDOR</th>
+                <th scope="col">METER #</th>
                 <th scope="col">AMOUNT</th>
             </tr>
         </thead>
@@ -37,18 +37,17 @@
                 {
                     //@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })<a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='#'> </a>
                     i += 1;
-            <tr id="meterList">
-                <th scope="row">@i</th>
-                <td style="text-align:right">
-                    @item.CreatedAt
-                </td>
-                <td style="font-weight:bold; text-align:right;"> @item.TransactionId </td>
-                <td style="font-weight: bold; text-align: right;">@item.MeterNumber</td>
-                <td style="font-weight: bold;">@item.VendorName</td>
-                <td style="font-weight: bold; text-align: right;">@item.POSId</td>
-
-                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Amount)</td> 
-            </tr>
+                    <tr id="meterList">
+                        <th scope="row">@i</th>
+                        <td style="text-align:right">
+                            @item.CreatedAt
+                        </td>
+                        <td style="text-align:right;"> @item.TransactionId </td>
+                        <td style="text-align: right; ">@item.POSId</td>
+                        <td style="font-weight: bold; color:green;">@item.VendorName</td>
+                        <td style="text-align: right;">@item.MeterNumber</td>
+                        <td style="font-weight: bold; text-align: right; color:red;">@string.Format("{0:N0}", item.Amount)</td>
+                    </tr>
                 }
             }
 

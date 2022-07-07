@@ -44,7 +44,7 @@ namespace VendTech.BLL.Managers
             dbMeter.Address = model.Address;
             dbMeter.Allias = model.Allias;
             dbMeter.IsSaved = model.IsSaved;
-            dbMeter.IsVerified = model.MeterId > 0 ? model.isVerified : false;
+            dbMeter.IsVerified = model.isVerified;
             if (model.MeterId == 0)
             {
                 dbMeter.UserId = model.UserId;
@@ -82,7 +82,7 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IMeterManager.GetMetersDropDown(long userID)
         {
-            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true)
+            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true)
                 .Select(p => new SelectListItem
                 {
                     Text = p.Number + " - " + p.Allias ?? string.Empty,
@@ -90,10 +90,10 @@ namespace VendTech.BLL.Managers
                 }).ToList();
         }
 
-        PagingResult<MeterAPIListingModel> IMeterManager.GetMeters(long userID, int pageNo, int pageSize)
+        PagingResult<MeterAPIListingModel> IMeterManager.GetMeters(long userID, int pageNo, int pageSize, bool isActive)
         {
             var result = new PagingResult<MeterAPIListingModel>();
-            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true).ToList();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == isActive).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             result.List = list;
@@ -819,21 +819,21 @@ namespace VendTech.BLL.Managers
             receipt.CustomerName = model?.Customer;
             receipt.ReceiptNo = model?.ReceiptNumber;
             receipt.Address = model?.CustomerAddress;
-            receipt.Tarrif = string.Format("{0:N0}", model?.Tariff);
+            receipt.Tarrif = Utilities.FormatAmount(Decimal.Parse(model.Tariff));
             receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = model.DebitRecovery;
             var amt = model?.TenderedAmount.ToString("N");
             receipt.Amount = amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
-            receipt.Charges = string.Format("{0:N0}", Convert.ToDecimal(model.ServiceCharge));
+            receipt.Charges = Utilities.FormatAmount(Decimal.Parse(model.ServiceCharge));
             receipt.Commission = string.Format("{0:N0}", 0.00);
-            receipt.Unit = string.Format("{0:N0}", model?.Units);
-            receipt.UnitCost = string.Format("{0:N0}", model.CostOfUnits);
+            receipt.Unit = Utilities.FormatAmount(model.Units);
+            receipt.UnitCost = Utilities.FormatAmount(model.CostOfUnits);
             receipt.SerialNo = model?.SerialNumber;
             receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1) ?? string.Empty;
             receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2) ?? string.Empty;
             receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3) ?? string.Empty;
             receipt.Discount = string.Format("{0:N0}", 0);
-            receipt.Tax = string.Format("{0:N0}", model.TaxCharge);
+            receipt.Tax = Utilities.FormatAmount(model.TaxCharge);
             receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
@@ -1171,6 +1171,42 @@ namespace VendTech.BLL.Managers
             Status = "",
             POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
            }); 
-        } 
+        }
+
+        void IMeterManager.RedenominateBalnces()
+        {
+            try
+            {
+                var posBalances = Context.TransactionDetails.Where(d => d.Amount != null && d.Amount > 0).ToList();
+
+                foreach (var pos in posBalances)
+                {
+                    try
+                    {
+                        var balance = pos.Amount / 1000;
+                        pos.Amount = balance;
+                        pos.TenderedAmount = balance;
+                        pos.TransactionAmount = balance;
+                    }
+                    catch (Exception ex)
+                    { 
+                        continue;
+                    }
+                }
+
+                Context.SaveChanges();
+            }
+            catch (Exception ex)
+            { 
+                throw ex;
+            }
+            
+        }
+
+        decimal IMeterManager.ReturnMinVend()
+        {
+            return Context.Platforms.FirstOrDefault(d => d.PlatformId == 1).MinimumAmount;
+
+        }
     } 
 }

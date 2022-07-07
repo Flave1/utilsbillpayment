@@ -1,4 +1,4 @@
-﻿﻿@model PagingResult<DashboardBalanceSheetModel>
+﻿﻿﻿@model PagingResult<DashboardBalanceSheetModel>
 
 @{
     Layout = null;
@@ -37,35 +37,35 @@
                 {
                     //@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })<a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='#'> </a>
                     i += 1;
-            <tr id="meterList">
-                <th scope="row">@i</th>
-                <td>
-                    @if (item.Status == "green")
-                    {
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/48-checkmark-cross/done.svg" width="20" alt="Alternate Text" />
-                    }
-                    else
-                    {
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/26-signs-symbols/red-alert.svg" width="20" alt="Alternate Text" />
-                    }
-                </td>
-                <td style="font-weight:bold"> @item.Vendor </td>
-                <td style="font-weight:bold; text-align:right;">@string.Format("{0:N0}", item.DepositAmount)</td>
-                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.SaleAmount)</td>
-                <td style="text-align:right">
-                    @if (item.Status == "red")
-                    {
-                        <span style="color: red; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
-                    }
-                    else
-                    {
-                        <span style="color: black; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
-                    }
-                </td>
-                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.POSBalance)</td>
+                    <tr id="meterList">
+                        <th scope="row">@i</th>
+                        <td>
+                            @if (item.Status == "green")
+                            {
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/48-checkmark-cross/done.svg" width="20" alt="Alternate Text" />
+                            }
+                            else
+                            {
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/26-signs-symbols/red-alert.svg" width="20" alt="Alternate Text" />
+                            }
+                        </td>
+                        <td> @item.Vendor </td>
+                        <td style="text-align:right;">@string.Format("{0:N0}", item.DepositAmount)</td>
+                        <td style="text-align: right;">@string.Format("{0:N0}", item.SaleAmount)</td>
+                        <td style="text-align:right">
+                            @if (item.Status == "red")
+                            {
+                                <span style="color: orange; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
+                            }
+                            else
+                            {
+                                <span style="color: black; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
+                            }
+                        </td>
+                        <td style="font-weight: bold; color: Red; text-align: right;">@string.Format("{0:N0}", item.POSBalance)</td>
 
 
-            </tr>
+                    </tr>
                 }
             }
 

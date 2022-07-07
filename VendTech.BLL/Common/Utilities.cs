@@ -423,5 +423,11 @@ namespace VendTech.BLL.Common
             return hash;
         }
 
+
+        public static string FormatAmount(decimal? amt)
+        {
+            var d = amt.ToString().Contains('.') ? "." + amt.ToString().Split('.')[1] : "";
+            return amt == null ? "0" : string.Format("{0:N0}", amt) + "" + d;
+        }
     }
 }

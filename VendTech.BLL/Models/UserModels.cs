@@ -84,6 +84,7 @@ namespace VendTech.BLL.Models
         [Index(IsUnique = true)]
         public string Phone { get; set; }
         public string Token { get; set; }
+        public string MinVend { get; set; }
         public string CountryCode { get; set; }
         //When admin creating user from backend then there is a checkbox which let us know that user needs to reset password on first login or not
         public bool ResetUserPassword { get; set; }

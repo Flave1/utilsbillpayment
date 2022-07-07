@@ -89,12 +89,12 @@
 
                                                     }
 
-                                                    <div class="form-group col-md-8">
+                                                    <div class="form-group col-md-8" >
                                                         <label class="control-label ">SELECT SAVED METER</label>
                                                         @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
                                                     </div>
                                                 </div>
-                                                <div class="separator padded">OR</div>
+                                                @*<div class="separator padded">OR</div>*@
                                                 <div class="row padded">
                                                     <div class="col-md-6">
                                                         <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>

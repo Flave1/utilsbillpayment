@@ -27,7 +27,7 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IPOSManager _posManager;
         private readonly IAgencyManager _agentManager;
         private readonly ISMSManager _smsManager;
-
+        private readonly IMeterManager _meterManager;
         public AccountController(IUserManager userManager,
             IBankAccountManager bankAccountManager,
             IErrorLogManager errorLogManager,
@@ -36,7 +36,7 @@ namespace VendTech.Areas.Api.Controllers
             ICMSManager cmsManager,
             IVendorManager vendorManager,
             IPOSManager posManager,
-            IAgencyManager agentManager, ISMSManager smsManager)
+            IAgencyManager agentManager, ISMSManager smsManager, IMeterManager meterManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -48,6 +48,7 @@ namespace VendTech.Areas.Api.Controllers
             _posManager = posManager;
             _agentManager = agentManager;
             _smsManager = smsManager;
+            _meterManager = meterManager;
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -175,6 +176,7 @@ namespace VendTech.Areas.Api.Controllers
             var IssuedOn = DateTime.UtcNow;
             var newToken = _authenticateManager.GenerateToken(user, IssuedOn);
             user.Token = newToken;
+            user.MinVend = _meterManager.ReturnMinVend().ToString();
             TokenModel token = new TokenModel();
             token.TokenKey = newToken;
             token.UserId = user.UserId;
@@ -564,5 +566,7 @@ namespace VendTech.Areas.Api.Controllers
             var data = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
             return new JsonContent("Bank accounts fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
+    
+
     }
 }

@@ -53,7 +53,7 @@ namespace VendTech.Controllers
         public ActionResult Index()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
-            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000);
+            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
             return View(meters);
 
         }
@@ -62,7 +62,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var pageNo = (model.PageNo / model.RecordsPerPage) + (model.PageNo % model.RecordsPerPage > 0 ? 1 : 0);
-            var modal = _meterManager.GetMeters(LOGGEDIN_USER.UserID, pageNo, model.RecordsPerPage);
+            var modal = _meterManager.GetMeters(LOGGEDIN_USER.UserID, pageNo, model.RecordsPerPage, model.IsActive);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_meterListing", modal));
             resultString.Add(modal.TotalCount.ToString());
@@ -235,7 +235,7 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public ActionResult GetUserMeters(RequestObject tokenobject)
         {
-            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 1000000000); 
+            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 1000000000, true); 
             return PartialView("Partials/_userMeterListing", modal);
         }
 
