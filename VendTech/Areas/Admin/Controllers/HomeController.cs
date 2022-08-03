@@ -343,7 +343,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var result = new LastMeterTransaction
                 { 
                     LastDealerBalance = string.Format("{0:N0}", lastTransaction.CurrentDealerBalance),
-                    RequestDate = lastTransaction.RequestDate.ToString("dd/MM/yyyy"),  
+                    RequestDate = lastTransaction.CreatedAt.ToString("dd/MM/yyyy hh:mm"),  
                 }; 
 
                 return Json(new { result = result }, JsonRequestBehavior.AllowGet);
@@ -399,8 +399,10 @@ namespace VendTech.Areas.Admin.Controllers
 
             try
             {
-                var sales = _meterManager.GetDashboardBalanceSheetReports();
-                var deps = _depositManager.GetDashboardBalanceSheetReports();
+
+                var date = DateTime.Parse("2021-03-01");
+                var sales = _meterManager.GetDashboardBalanceSheetReports(date);
+                var deps = _depositManager.GetDashboardBalanceSheetReports(date);
 
                 result.List = (from a in sales
                                join b in deps on a.UserId equals b.UserId
@@ -413,7 +415,8 @@ namespace VendTech.Areas.Admin.Controllers
                                    DepositAmount = b.DepositAmount,
                                    Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
                                    POSBalance = b.POSBalance
-                               }).OrderBy(s => s.Balance).Take(5).ToList();
+                               }).OrderByDescending(s => s.Balance).ToList();
+
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";
                 return PartialView("Partials/_BSReportListing", result);

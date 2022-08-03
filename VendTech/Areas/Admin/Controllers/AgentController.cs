@@ -140,7 +140,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (request.ValueDate == null)
                 request.ValueDate = DateTime.UtcNow.ToString();
             else
-                request.ValueDate = request.ValueDate + " 12:00";
+                request.ValueDate = request.ValueDate;
 
             try
             {

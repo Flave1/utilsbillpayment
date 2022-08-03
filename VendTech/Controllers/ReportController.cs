@@ -1470,12 +1470,12 @@ namespace VendTech.Controllers
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[4].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[4].Text));
-                        row.Cells[5].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[5].Text));
-                        row.Cells[7].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[7].Text));
-                        row.Cells[8].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[8].Text));
 
-                        row.Cells[6].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[6].Text));
+                        row.Cells[4].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[4].Text));
+                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[5].Text));
+                        row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[7].Text));
+                        row.Cells[8].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[8].Text));
+                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[6].Text));
                     }
                 }
             }

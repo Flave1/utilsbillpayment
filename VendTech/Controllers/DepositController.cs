@@ -95,6 +95,7 @@ namespace VendTech.Controllers
 
             ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
 
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             return View(model);
         }
     

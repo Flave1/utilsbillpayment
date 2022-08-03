@@ -39,10 +39,9 @@ namespace VendTech.BLL.Common
         public static string GetLastMeterRechardeId()
         {
             VendtechEntities context = new VendtechEntities();
-            var existing_details = context.TransactionDetails.ToList();
-            long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
-            max = max + 1;
-            return max.ToString();
+            var lastRecord = context.TransactionDetails.OrderByDescending(d =>  d.TransactionDetailsId).FirstOrDefault();
+            var trId = Convert.ToInt64(lastRecord.TransactionId) + 1;
+            return trId.ToString();
         }
 
         public static string GetLastDepositTrabsactionId()
@@ -426,8 +425,17 @@ namespace VendTech.BLL.Common
 
         public static string FormatAmount(decimal? amt)
         {
-            var d = amt.ToString().Contains('.') ? "." + amt.ToString().Split('.')[1] : "";
-            return amt == null ? "0" : string.Format("{0:N0}", amt) + "" + d;
+            if (amt.ToString().Contains('.'))
+            {
+                var splitedAmt = amt.ToString().Split('.');
+                var d =  "." + splitedAmt[1];
+                var result = amt == null ? "0" : string.Format("{0:N0}", Convert.ToDecimal(splitedAmt[0])) + "" + d;
+                return result;
+            }
+            else
+            {
+                return amt == null ? "0" : string.Format("{0:N0}", amt) + "";
+            }
         }
     }
 }

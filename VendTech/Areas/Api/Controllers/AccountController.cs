@@ -73,18 +73,13 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
             else
             {
-                //if (!_authenticateManager.IsEmailExist(model.Email))
-                //    return new JsonContent("Email is not registered with us.", Status.Failed).ConvertToHttpResponseOK();
-                //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
                 if (userDetails == null)
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
-                //else if (userDetails.AgentId == 10020 && model.PassCode != "93001")
-                //    return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
-                else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim())
-                    return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                //else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim())
+                //    return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
                     var pos = _posManager.GetPosDetails(model.PassCode);
@@ -92,9 +87,6 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         return new JsonContent("POS NOT AVAILABLE! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                     }
-                    if (userDetails.AgentId == 10020 && pos.SerialNumber != "93001" && pos.SerialNumber != "93017" && pos.SerialNumber != "93001")
-                        return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP", Status.Failed).ConvertToHttpResponseOK();
-
                     if (pos.Enabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
@@ -106,15 +98,6 @@ namespace VendTech.Areas.Api.Controllers
                         }
                         else
                             return GenerateandSaveToken(userDetails, model);
-                        //var code = Utilities.GenerateRandomNumber();
-                        ////Send login code on Email
-                        //var saveToken = _authenticateManager.SaveLoginCode(userDetails.UserId, code);
-                        //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.LoginCodeEmail);
-                        //string body = emailTemplate.TemplateContent;
-                        //body = body.Replace("%code%", code.ToString());
-                        //Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
-                        ////_authenticateManager.FirstTimeLogin(userDetails.UserId);
-                        //return new JsonContent("Login code sent to your email.", Status.Success, userDetails).ConvertToHttpResponseOK();
                     }
                     else
                     {

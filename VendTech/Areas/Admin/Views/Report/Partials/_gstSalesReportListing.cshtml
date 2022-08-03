@@ -5,67 +5,48 @@
 {
     foreach (var item in Model.List)
     {
-        <tr class="odd gradeX">
-            <td style="text-align:right;"> @item.CreatedAt</td>
-            <td style="text-align:right;"> @item.TransactionId</td>
-            <td style="text-align:right;"> @item.Receipt</td>
-            <td style="text-align:right;"> @item.MeterNumber</td>
-            <td style="text-align:right;">
-       
-                @{
-                    var d1 = item.Amount.ToString().Contains('.') ? item.Amount.ToString().Split('.')[1]: "";
-                    var amt = item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount) + "." + d1;
-                }
-                <span style="font-size:15px;">
-                    @amt
-                </span>
-            </td>
-            <td style="text-align:right;">
-                @{
-                    var d2 = item.ServiceCharge.ToString().Contains('.') ? "."+item.ServiceCharge.ToString().Split('.')[1] : "";
-                    var ServiceCharge = item.ServiceCharge == null ? "0" : string.Format("{0:N0}", item.ServiceCharge) + "" + d2;
-                }
-                <span style="font-size:15px;">
-                    @ServiceCharge
-                </span>
-            </td>
-            <td style="text-align:right;">
-                @{
-                    var d3 = item.Gst.ToString().Contains('.') ? "." + item.Gst.ToString().Split('.')[1] : "";
-                    var Gst = item.Gst == null ? "0" : string.Format("{0:N0}", item.Gst) + "" + d3;
-                }
-                <strong style="font-size:15px; color:green;">
-                    @Gst
-                </strong>
-            </td>
-            <td style="text-align:right;">
-                @{
-                    var d4 = item.UnitsCost.ToString().Contains('.') ? "." + item.UnitsCost.ToString().Split('.')[1] : "";
-                    var UnitsCost = item.UnitsCost == null ? "0" : string.Format("{0:N0}", item.UnitsCost) + "" + d4;
-                }
-                <span style="font-size:15px;">
-                    @UnitsCost
-                </span>
-            </td>
-            <td style="text-align:right;">
-                @{
-                    var d5 = item.Tarrif.ToString().Contains('.') ? "." + item.Tarrif.ToString().Split('.')[1] : "";
-                    var Tarrif = item.Tarrif == null ? "0" : string.Format("{0:N0}", item.Tarrif) + "" + d5;
-                }
-                <span style="font-size:15px;">
-                    @Tarrif
-                </span>
-            </td>
-            <td style="text-align:right;">
-                @{
-                    var d6 = item.Units.ToString().Contains('.') ? "." + item.Units.ToString().Split('.')[1] : "";
-                    var Units = item.Units == null ? "0" : string.Format("{0:N0}", item.Units) + "" + d6;
-                }
-                <span style="font-size:15px;">
-                    @Units
-                </span>
-            </td>
-        </tr>
+<tr class="odd gradeX">
+    <td style="text-align:right;"> @item.CreatedAt</td>
+    <td style="text-align:right;"> @item.TransactionId</td>
+    <td style="text-align:right;"> @item.Receipt</td>
+    <td style="text-align:right;"> @item.MeterNumber</td>
+    <td style="text-align:right;">
+
+        <span style="font-size:15px;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
+        </span>
+    </td>
+    <td style="text-align:right;">
+
+        <span style="font-size:15px;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.ServiceCharge)
+        </span>
+    </td>
+    <td style="text-align:right;">
+
+        <strong style="font-size:15px; color:green;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.Gst)
+        </strong>
+    </td>
+    <td style="text-align:right;">
+
+        <span style="font-size:15px;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.UnitsCost)
+        </span>
+    </td>
+    <td style="text-align:right;">
+
+        <span style="font-size:15px;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.Tarrif)
+        </span>
+    </td>
+    <td style="text-align:right;">
+
+        <span style="font-size:15px;">
+            @VendTech.BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(item.Units))
+        </span>
+    </td>
+</tr>
     }
 }
 else

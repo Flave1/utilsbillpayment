@@ -181,10 +181,13 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
+            ViewBag.IsDisable = platform.DisablePlatform;
+            ViewBag.DisabledMessage = platform.DiabledPlaformMessage;
+            ViewBag.MinumumVend = platform.MinimumAmount;
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            ViewBag.MinumumVend = _platformManager.GetSinglePlatform(1).MinimumAmount; //1 is not to be changed
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
@@ -239,7 +242,7 @@ namespace VendTech.Controllers
             return PartialView("Partials/_userMeterListing", modal);
         }
 
-        [AjaxOnly, HttpPost, Public]
+        [AjaxOnly, HttpPost]
         public ActionResult GetLatestRechargesAfterPurchase()
         {
             var hostory_model = new ReportSearchModel

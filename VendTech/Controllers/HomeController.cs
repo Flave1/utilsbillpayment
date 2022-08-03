@@ -49,7 +49,8 @@ namespace VendTech.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IAgencyManager agencyManager,
-            IDashboardManager dashboardManager, ISMSManager smsManager)
+            IDashboardManager dashboardManager, 
+            ISMSManager smsManager)
             : base(errorLogManager)
         {
             _agentManager = agencyManager;
@@ -160,9 +161,7 @@ namespace VendTech.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
-
             DashboardViewModel dashBoard = new DashboardViewModel();
-
             if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
@@ -175,7 +174,7 @@ namespace VendTech.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             dashBoard.currentUser = new UserModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);

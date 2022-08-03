@@ -15,11 +15,12 @@ namespace VendTech.BLL.Models
         public string VendorName { get; set; }
         public string AgencyName { get; set; }
         public string StringId { get; set; }
-        public decimal Balance { get; set; }
+        public string Balance { get; set; }
         public string Name { get; set; } 
         public string SurName { get; set; } 
         public string Phone { get; set; } 
         public string Address { get; set; }
+        public string PosSerial { get; set; }
         public VendorListingModel(User obj)
         {
             VendorId = obj.UserId;
@@ -29,6 +30,8 @@ namespace VendTech.BLL.Models
             SurName = obj.SurName;
             Phone = obj.Phone;
             Address = obj.Address;
+            PosSerial = obj.POS.FirstOrDefault().SerialNumber;
+            Balance = string.Format("{0:N0}", obj.POS.FirstOrDefault().Balance);
             //Balance = obj.Balance==null?0:obj.Balance.Value;
             StringId = Utilities.Base64Encode(obj.UserId.ToString());
         }

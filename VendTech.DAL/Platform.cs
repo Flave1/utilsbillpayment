@@ -11,9 +11,10 @@ namespace VendTech.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Platform
-    {
+{
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Platform()
         {
@@ -30,6 +31,9 @@ namespace VendTech.DAL
         public string ShortName { get; set; }
         public string Logo { get; set; }
         public decimal MinimumAmount { get; set; }
+        public bool DisablePlatform { get; set; }
+        [MaxLength]
+        public string DisabledPlatformMessage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }

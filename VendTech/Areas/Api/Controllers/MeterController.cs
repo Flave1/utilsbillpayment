@@ -25,13 +25,15 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         private readonly IMeterManager _meterManager;
         private readonly IEmailTemplateManager _emailTemplateManager;
-        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IEmailTemplateManager emailTemplateManager)
+        private readonly IPlatformManager _platformManager;
+        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IEmailTemplateManager emailTemplateManager, IPlatformManager platformManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
             _authenticateManager = authenticateManager;
             _meterManager = meterManager;
             _emailTemplateManager = emailTemplateManager;
+            _platformManager = platformManager;
         }
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
@@ -56,6 +58,7 @@ namespace VendTech.Areas.Api.Controllers
             var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize, true);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
+
 
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
@@ -173,6 +176,11 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
         {
+            var platf = _platformManager.GetSinglePlatform(1);
+            if (platf.DisablePlatform)
+            {
+                return new JsonContent("Please try again later or use the web", Status.Failed).ConvertToHttpResponseOK();
+            }
             model.UserId = LOGGEDIN_USER.UserId;
             var result = _meterManager.RechargeMeterReturn(model).Result;
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();

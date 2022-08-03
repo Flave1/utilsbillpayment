@@ -61,6 +61,7 @@
                 <div class="block-flat">
                     <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
                         @*<span id="balanceSpan" style="color:#00a2e8;">SSL: @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>*@
+                        <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
                     </div>
                     <div class="contarea meterpage">
                         <div class="container-fluid" style="background:white; ">

@@ -57,6 +57,17 @@
         background: white;
         padding: 10px;
     }
+    .data-info {
+        display: flex;
+    }
+
+        .data-info > div {
+            width: 100%;
+        }
+
+            .data-info > div:first-child {
+                text-align: left;
+            }
 </style>
 
 <div id="fromVendorsList">
@@ -70,6 +81,9 @@
         <div class="dashright">
             <div class="page-head">
                 <h2>Dashboard</h2>
+                <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
+                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                </div>
             </div>
             <div class="cl-mcont">
 
@@ -80,7 +94,7 @@
                             <div class="widget widget-tile">
                                 @*<div id="spark1" class="chart sparkline"></div>*@
                                 <div class="data-info">
-                                    <div class="desc">Current agency revenue </div>
+                                    <div class="desc">Current agency balance </div>
                                     <div class="value">
                                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
                                             SSL @string.Format("{0:N0}", Model.revenue)

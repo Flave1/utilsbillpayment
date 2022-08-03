@@ -7,7 +7,21 @@
     var depositActionURL = Html.Raw(Url.Action("ManageReports", "Report", new { type = 17, source = "dashboard" }));
 }
 
+<style>
+    .data-info {
+        display: flex;
+    }
 
+        .data-info > div {
+            width: 100%;
+        }
+        .data-info > div:first-child {
+            text-align:left;
+        }
+    .transDate {
+        width: 100%;
+    }
+</style>
 <div class="container-fluid" id="pcont">
 
     @if (user.UserType != UserRoles.AppUser)
@@ -18,15 +32,15 @@
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            <div class="data-info">
+                        <div class="widget widget-tile" >
+                            <div class="data-info ">
                                 <div class="desc">RTS Balance</div>
                                 <div class="value">
                                     <span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number" id="dealerBal"></span>
                                 </div>
-                            </div>
-                            <div class="chart sparkline" style="text-align:right; position:relative; top:10px">
-                                <small id="transDate"></small>
+                                <div class="transDate">
+                                    <small id="transDate"></small>
+                                </div>
                             </div>
 
                         </div>

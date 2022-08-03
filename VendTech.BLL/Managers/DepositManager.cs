@@ -1937,8 +1937,8 @@ namespace VendTech.BLL.Managers
             var posId = Convert.ToInt64(depositAuditModel.PosId); 
             var vlDate = Convert.ToDateTime(depositAuditModel.ValueDateModel).ToString("dd/MM/yyyy hh:mm");
 
-            pos = Context.POS.FirstOrDefault(x => x.POSId == posId);
-            if(pos != null)
+            pos = dbDeposit.POS;
+            if (pos != null)
             {
                 dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
                 dbDeposit.UserId = depositAuditModel.UserId;
@@ -1985,7 +1985,7 @@ namespace VendTech.BLL.Managers
 
             var posId = Convert.ToInt64(depositAuditModel.PosId);
 
-            pos = Context.POS.FirstOrDefault(x => x.POSId == posId);
+            pos = dbDeposit.POS;
            if(pos != null)
             {
                 dbDeposit.Amount = Convert.ToDecimal(depositAuditModel.Amount.ToString().Replace(",", ""));
@@ -2114,7 +2114,9 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-           
+            var lastRecordBeforeFilteredLIst = query;
+
+
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.DateTime) >= DbFunctions.TruncateTime(model.From));
@@ -2158,11 +2160,15 @@ namespace VendTech.BLL.Managers
                 {
                     query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                 }
-            } 
+            }
+
+            //var allFilteredIds = string.Join("", query.Select(d => d.TransactionId));
+            //var allQueryIds = string.Join("", lastRecordBeforeFilteredLIst.Select(s => s.TransactionId));
+            //var splitedIds = allQueryIds.Split(allFilteredIds);
             return query; 
         }
 
-        IQueryable<DashboardBalanceSheetModel> IDepositManager.GetDashboardBalanceSheetReports()
+        IQueryable<DashboardBalanceSheetModel> IDepositManager.GetDashboardBalanceSheetReports(DateTime date)
         {
             return Context.Deposits.GroupBy(f => f.UserId).Select(f => new DashboardBalanceSheetModel
             {
@@ -2184,11 +2190,6 @@ namespace VendTech.BLL.Managers
                 if(frompos == null)
                     return ReturnError("POT NOT FOUND");
 
-                if (dbDeposit.Amount > frompos.Balance.Value)
-                    return ReturnError("INSUFFICIENT BALANCE TO MAKE TRANSFER");
-
-                if (!(Context.DepositOTPs.Any(p => p.OTP == otp && !p.IsUsed)))
-                    return ReturnError("WRONG OTP ENTERED");
 
                 var toPos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
@@ -2252,11 +2253,20 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId)
+        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp)
         {
             try
             {
                 var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+                if (pos == null)
+                    return ReturnError("POT NOT FOUND");
+
+                if (dbDeposit.Amount > pos.Balance.Value)
+                    return ReturnError("INSUFFICIENT BALANCE TO MAKE TRANSFER");
+
+                if (!(Context.DepositOTPs.Any(p => p.OTP == otp && !p.IsUsed)))
+                    return ReturnError("WRONG OTP ENTERED");
+               
        
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
                 dbDeposit.POS = pos;

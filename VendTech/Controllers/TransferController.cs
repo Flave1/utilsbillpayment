@@ -88,34 +88,37 @@ namespace VendTech.Controllers
                
                 //return null;
                 var reference = Utilities.GenerateByAnyLength(6).ToUpper();
-                var depositCr = new Deposit
+
+                var depositDr = new Deposit
                 {
-                    Amount = request.Amount,
-                    POSId = request.ToPosId,
+                    Amount = Decimal.Negate(request.Amount),
+                    POSId = request.FromPosId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = request.Amount,
+                    PercentageAmount = Decimal.Negate(request.Amount),
                     CheckNumberOrSlipId = reference,
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
                 };
-                var result1 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
+                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp);
+
+                
                 if(result1.Status == ActionStatus.Successfull)
                 {
-                    var depositDr = new Deposit
+                    var depositCr = new Deposit
                     {
-                        Amount = Decimal.Negate(request.Amount),
-                        POSId = request.FromPosId,
+                        Amount = request.Amount,
+                        POSId = request.ToPosId,
                         BankAccountId = 0,
                         CreatedAt = DateTime.UtcNow,
-                        PercentageAmount = Decimal.Negate(request.Amount),
+                        PercentageAmount = request.Amount,
                         CheckNumberOrSlipId = reference,
                         ValueDate = DateTime.UtcNow.ToString(),
                         ValueDateStamp = DateTime.UtcNow
                     };
-                    var result2 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
+                    var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
 
-                    if(result2.Status == ActionStatus.Successfull)
+                    if (result2.Status == ActionStatus.Successfull)
                     {
                         SendEmailOnDeposit(request.FromPosId, request.ToPosId);
                         await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
@@ -184,7 +187,7 @@ namespace VendTech.Controllers
                 {
                     Recipient = "232" + frmPos.Phone,
                     Payload = $"Greetings {frmPos.User.Name} \n" +
-                   $"Your wallet has been credited of SLL: {string.Format("{0:N0}", amt)}.\n" +
+                   $"Your wallet has been credited of NLe: {string.Format("{0:N0}", amt)}.\n" +
                    "Please confirm the amount transferred reflects in your wallet.\n" +
                    "VENDTECH"
                 };
@@ -198,7 +201,7 @@ namespace VendTech.Controllers
                 {
                     Recipient = "232" + toPos.Phone,
                     Payload = $"Greetings {toPos.User.Name} \n" +
-                   $"Your wallet has been debited of SLL: {string.Format("{0:N0}", amt)}.\n" +
+                   $"Your wallet has been debited of NLe: {string.Format("{0:N0}", amt)}.\n" +
                    "VENDTECH"
                 };
 

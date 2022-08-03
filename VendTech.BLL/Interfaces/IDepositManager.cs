@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VendTech.BLL.Models;
 using VendTech.DAL;
@@ -48,12 +49,12 @@ namespace VendTech.BLL.Interfaces
         decimal TakeCommisionsAndReturnAgentsCommision(long posId, decimal amt);
         Deposit SaveApprovedDeposit(PendingDeposit model);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
-        IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
+        IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports(DateTime date);
         PagingResult<AgentRevenueListingModel> GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin= false, long agentId = 0);
         PagingResult<AgencyRevenueExcelReportModel> GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         void DeletePendingDeposits(List<PendingDeposit> deposits);
         ActionOutput CreateDepositCreditTransfer(Deposit dbDeposit, long currentUserId, long fromPos, string otp);
-        ActionOutput CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId);
+        ActionOutput CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp);
         ActionOutput DepositToAgencyAdminAccount(Deposit dbDeposit, long currentUserId, string OTP);
     }
 

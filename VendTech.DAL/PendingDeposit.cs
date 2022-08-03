@@ -37,8 +37,8 @@ namespace VendTech.DAL
         public long ApprovedDepId { get; set; }
         public Nullable<System.DateTime> ValueDateStamp { get; set; }
     
+        public virtual PaymentType PaymentType1 { get; set; }
         public virtual POS POS { get; set; }
         public virtual User User { get; set; }
-        public virtual PaymentType PaymentType1 { get; set; }
     }
 }

@@ -217,23 +217,23 @@ namespace VendTech.BLL.Models
          
         public string Pin3 { get; set; }
          
-        public long RtsUniqueId { get; set; }
+        public string RtsUniqueId { get; set; }
          
-        public long ReceiptNumber { get; set; }
+        public string ReceiptNumber { get; set; }
          
         public string Sgc { get; set; }
          
-        public long ServiceCharge { get; set; }
+        public string ServiceCharge { get; set; }
          
-        public long Tariff { get; set; }
+        public string Tariff { get; set; }
          
-        public double TaxCharge { get; set; }
+        public string TaxCharge { get; set; }
          
-        public long TenderedAmount { get; set; }
+        public string TenderedAmount { get; set; }
          
-        public long TransactionAmount { get; set; }
+        public string TransactionAmount { get; set; }
          
-        public double Units { get; set; }
+        public string Units { get; set; }
          
         public long VatNumber { get; set; }
     }

@@ -46,8 +46,8 @@ namespace VendTech.DAL
         public virtual BankAccount BankAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepositLog> DepositLogs { get; set; }
+        public virtual PaymentType PaymentType1 { get; set; }
         public virtual POS POS { get; set; }
         public virtual User User { get; set; }
-        public virtual PaymentType PaymentType1 { get; set; }
     }
 }
