@@ -576,7 +576,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/19/2022 08:42:13</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>08/02/2022 06:25:30</publishTime>
+      <publishTime>08/03/2022 07:47:46</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
       <publishTime>08/02/2022 05:44:42</publishTime>
@@ -588,7 +588,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/02/2022 05:44:42</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>08/02/2022 06:25:30</publishTime>
+      <publishTime>08/03/2022 07:47:46</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
@@ -9735,7 +9735,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/02/2022 05:48:34</publishTime>
+      <publishTime>08/03/2022 07:47:51</publishTime>
     </File>
   </ItemGroup>
 </Project>
