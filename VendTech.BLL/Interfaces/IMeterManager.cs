@@ -33,7 +33,7 @@ namespace VendTech.BLL.Interfaces
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports(DateTime date);
         void RedenominateBalnces();
         decimal ReturnMinVend();
-        List<VendorStatus> GetVendorStatus();
+        PagingResult<VendorStatus> GetVendorStatus();
     }
     
 }

@@ -238,6 +238,7 @@ namespace VendTech.BLL.Models
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
         public int PassCode { get; set; }
+        public bool IsAgencyAdmin { get; set; } = false;
 
         public AddUserModel()
         {

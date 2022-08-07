@@ -462,11 +462,15 @@ namespace VendTech.BLL.Models
     public class VendorStatus
     {
         public long userid { get; set; }
-        public decimal vendor { get; set; } = 0;
-        public decimal totaldeposits { get; set; } = 0;
-        public decimal totalsales { get; set; } = 0;
-        public decimal runningbalance { get; set; } = 0;
-        public string POSBalance { get; set; }
-        public decimal overage { get; set; }
+        public string vendor { get; set; }
+        public decimal? totaldeposits { get; set; } = 0;
+        public decimal? totalsales { get; set; } = 0;
+        public decimal? runningbalance { get; set; } = 0;
+        public decimal? POSBalance { get; set; }
+        public decimal? overage { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public decimal? PercentageAmount { get; set; } = 0;
     }
+
+
 }

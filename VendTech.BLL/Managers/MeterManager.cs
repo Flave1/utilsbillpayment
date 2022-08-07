@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Web.Configuration;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
+using System.Data.Entity.SqlServer;
 
 namespace VendTech.BLL.Managers
 {
@@ -1209,7 +1210,7 @@ namespace VendTech.BLL.Managers
 
         IQueryable<DashboardBalanceSheetModel> IMeterManager.GetDashboardBalanceSheetReports(DateTime date)
         {
-            //var we  = GetVendorStatus();
+            var we  = GetVendorStatus();
            return  Context.TransactionDetails
                 .Where(d => d.Finalised == true && d.Status == 1)
                 .GroupBy(f => f.UserId)
@@ -1225,19 +1226,88 @@ namespace VendTech.BLL.Managers
            });
         }
 
-       public  List<VendorStatus> GetVendorStatus()
+       public  PagingResult<VendorStatus> GetVendorStatus()
         {
-            var query = $"SELECT tbl.userid, users.vendor, sum(tbl.PercentageAmount) as totaldeposits,  sum(tbl.totalsales) as totalsales, sum(tbl.PercentageAmount) - sum(tbl.totalsales) as runningbalance, " +
-                "pos.balance as POSBalance, (sum(tbl.PercentageAmount) - sum(tbl.totalsales)) - pos.balance as overage FROM(SELECT userid, 0 as totalsales, " +
-                "case when DATEPART(month, createdat) < 7 and(DATEPART(year, createdat) = 2022) or(DATEPART(year, createdat) = 2021) then sum(PercentageAmount / 1000) " +
-                "when DATEPART(month, createdat) > 6 and DATEPART(year, createdat) = 2022 then sum(PercentageAmount) end PercentageAmount  FROM deposits--WHERE  userid = 40341 group by userid, " +
-                "createdat UNION ALL SELECT userid, case when DATEPART(month, createdat) < 7 and(DATEPART(year, createdat) = 2022) or(DATEPART(year, createdat) = 2021) then sum(amount / 1000) " +
-                "when DATEPART(month, createdat) > 6 and DATEPART(year, createdat) = 2022 then sum(amount) end as totalsales, 0 as PercentageAmount FROM transactiondetails WHERE status = 1--and userid = 40341 " +
-                "group by userid, createdat ) as tbl join POS on POS.VendorId = tbl.userid join users on tbl.userid = users.userid GROUP BY tbl.userid, users.vendor, pos.balance " +
-                "having sum(tbl.PercentageAmount) - sum(tbl.totalsales) > 0 and sum(tbl.PercentageAmount) -sum(tbl.totalsales) <> pos.balance ORDER BY pos.balance - (sum(tbl.PercentageAmount) - sum(tbl.totalsales))";
+            var res = new PagingResult<VendorStatus>();
+            try
+            {
+                var result = (from tbl in (
+                   from Deposits in Context.Deposits
+                   group Deposits by new 
+                   {
+                       Deposits.UserId,
+                       Deposits.CreatedAt
+                   } into g
+                   select new VendorStatus
+                   {
+                       userid = g.Key.UserId,
+                       vendor = "",
+                       totaldeposits = 0,
+                       totalsales = (decimal)0,
+                       runningbalance = 0,
+                       POSBalance = 0,
+                       overage = 0,
+                       PercentageAmount = SqlFunctions.DatePart("month", g.Key.CreatedAt) < 7 &&
+                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ||
+                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2021 ? (System.Decimal?)g.Sum(p => p.PercentageAmount / 1000) :
+                             SqlFunctions.DatePart("month", g.Key.CreatedAt) > 6 &&
+                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ? (System.Decimal?)g.Sum(p => p.PercentageAmount) : null
+                        }).Concat(from TransactionDetails in Context.TransactionDetails
+                             where
+                            TransactionDetails.Status == 1
+                             group TransactionDetails by new
+                             {
+                                 TransactionDetails.UserId,
+                                 TransactionDetails.CreatedAt
+                             } into g
+                             select new VendorStatus
+                             {
 
-            var sq = Context.Users.SqlQuery(query).ToList();
-            return new List<VendorStatus>();
+                                 userid = g.Key.UserId,
+                                 vendor = "",
+                                 totaldeposits = 0,
+                                 totalsales = SqlFunctions.DatePart("month", g.Key.CreatedAt) < 7 &&
+                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ||
+                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2021 ? (System.Decimal?)g.Sum(p => p.Amount / 1000) :
+                                    SqlFunctions.DatePart("month", g.Key.CreatedAt) > 6 &&
+                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ? (System.Decimal?)g.Sum(p => p.Amount) : null,
+                                 runningbalance = 0,
+                                 POSBalance = 0,
+                                 overage = 0,
+                                 PercentageAmount = (System.Decimal?)0,
+                             }
+               )
+                              join POS in Context.POS on tbl.userid equals POS.VendorId
+                              join Users in Context.Users on tbl.userid equals Users.UserId
+                              group new { tbl, Users, POS } by new
+                              {
+                                  tbl.userid,
+                                  Users.Vendor,
+                                  POS.Balance
+                              } into g
+                              where (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) > 0 &&
+                                (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) != g.Key.Balance
+                              orderby
+                                (g.Key.Balance - (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)))
+                              select new VendorStatus
+                              {
+                                  userid = g.Key.userid,
+                                  vendor = g.Key.Vendor,
+                                  totaldeposits = g.Sum(p => p.tbl.PercentageAmount),
+                                  totalsales = (int?)g.Sum(p => p.tbl.totalsales),
+                                  runningbalance = (decimal?)(g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)),
+                                  POSBalance = g.Key.Balance,
+                                  overage = (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) - g.Key.Balance,
+                                  PercentageAmount = g.Sum(p => p.tbl.PercentageAmount),
+                              }).ToList();
+
+                res.List = result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return res;
         }
 
 
