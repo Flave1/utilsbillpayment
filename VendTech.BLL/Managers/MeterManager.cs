@@ -169,7 +169,7 @@ namespace VendTech.BLL.Managers
                 Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 PRODUCT_TYPE = x?.Platform?.ShortName,
                 PIN = x.MeterToken1,
-                AMOUNT = string.Format("{0:N0}", x.Amount),
+                AMOUNT = Utilities.FormatAmount(x.Amount),
                 TRANSACTIONID = x.TransactionId,
                 METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor,
@@ -467,7 +467,7 @@ namespace VendTech.BLL.Managers
             obj.UserId = model.UserId;
             obj.Id = dbMeterRecharge.TransactionDetailsId;
             obj.Title = "Meter recharged successfully";
-            obj.Message = "Your meter has successfully recharged with SLL " + string.Format("{0:N0}", model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
+            obj.Message = "Your meter has successfully recharged with NLe " + Utilities.FormatAmount(model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
             obj.NotificationType = NotificationTypeEnum.MeterRecharge;
             foreach (var item in deviceTokens)
             {
@@ -892,7 +892,7 @@ namespace VendTech.BLL.Managers
             obj.UserId = model.UserId;
             obj.Id = MeterRechargeId;
             obj.Title = "Meter recharged successfully";
-            obj.Message = $"Your meter has successfully recharged with SLL { string.Format("{0:N0}", model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
+            obj.Message = $"Your meter has successfully recharged with NLe { Utilities.FormatAmount(model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
             obj.NotificationType = NotificationTypeEnum.MeterRecharge;
             foreach (var item in deviceTokens)
             {

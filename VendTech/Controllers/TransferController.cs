@@ -54,7 +54,7 @@ namespace VendTech.Controllers
                     CanTranferToOwnVendors = ModulesModel.Any(s => s.ControllerName.Contains("32")),
                     CanTranferToOtherVendors = ModulesModel.Any(s => s.ControllerName.Contains("33")),
                     Vendor = LOGGEDIN_USER?.AgencyName,
-                    AdminBalance = string.Format("{0:N0}", agencyPos.Balance),
+                    AdminBalance = Utilities.FormatAmount(agencyPos.Balance),
                     AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,
                     AdminPos = agencyPos.SerialNumber,
                     AdminPosId = agencyPos.POSId
@@ -187,7 +187,7 @@ namespace VendTech.Controllers
                 {
                     Recipient = "232" + frmPos.Phone,
                     Payload = $"Greetings {frmPos.User.Name} \n" +
-                   $"Your wallet has been credited of NLe: {string.Format("{0:N0}", amt)}.\n" +
+                   $"Your wallet has been credited of NLe: {Utilities.FormatAmount(amt)}.\n" +
                    "Please confirm the amount transferred reflects in your wallet.\n" +
                    "VENDTECH"
                 };
@@ -201,7 +201,7 @@ namespace VendTech.Controllers
                 {
                     Recipient = "232" + toPos.Phone,
                     Payload = $"Greetings {toPos.User.Name} \n" +
-                   $"Your wallet has been debited of NLe: {string.Format("{0:N0}", amt)}.\n" +
+                   $"Your wallet has been debited of NLe: {Utilities.FormatAmount(amt)}.\n" +
                    "VENDTECH"
                 };
 

@@ -52,14 +52,10 @@
                 <div class="block-flat">
                     @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
                     {
-                        @*<div class="dashtop">
-                                <label>Wallet Balance - </label>
-                                <span id="balanceSpan" style="color: #00a2e8; ">SSL : @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
-                            </div>*@
                         <div class="contarea meterpage row">
                             <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
                                 <span class="alert-danger" id="error_reponse" style=" display:none; float:left;"></span>
-                                <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                                <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                             </div>
                             <div class="tabcont-row current">
                                 <div class="row">
@@ -285,7 +281,7 @@
                         return;
                     } else {
 
-                        const minVend = '@(string.Format("{0:N0}", ViewBag.MinumumVend))';
+                        const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
                         const amtPay = +$("#Amount").val().replace(",", "");
 
                         if (amtPay < '@ViewBag.MinumumVend') {
@@ -381,7 +377,7 @@
                         val = $("#Amount").val();
 
                         var amt_to_display = thousands_separators(val);
-                        var wallet_balance = '@(string.Format("{0:N0}", ViewBag.walletBalance))';
+                        var wallet_balance = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)';
 
                         if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
                             $("#pay_Now_Btn").prop('disabled', true);

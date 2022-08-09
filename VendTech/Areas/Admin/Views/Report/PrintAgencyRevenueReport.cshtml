@@ -71,9 +71,9 @@
                                         <td> @item.DEPOSIT_TYPE</td>
                                         <td style="text-align:center;"> @item.TRANSACTION_ID</td>
                                         <td style="text-align:right"> @item.DEPOSIT_REF_NO</td>
-                                        <td style="text-align:right"><strong><a href="#">@(item.AMOUNT == null ? "0" : string.Format("{0:N0}", item.AMOUNT)) </a></strong></td>
-                                        <td style="text-align:right"><strong>@(item.VENDORPERCENT == null ? "0" : string.Format("{0:N0}", item.VENDORPERCENT))</strong></td>
-                                        <td style="text-align:right"><strong>@(item.AGENTPERCENT == null ? "0" : string.Format("{0:N0}", item.AGENTPERCENT))</strong></td>
+                                        <td style="text-align:right"><strong><a href="#">@Utilities.FormatAmount(Convert.ToDecimal(item.AMOUNT)) </a></strong></td>
+                                        <td style="text-align:right"><strong>@Utilities.FormatAmount(Convert.ToDecimal(item.VENDORPERCENT))</strong></td>
+                                        <td style="text-align:right"><strong>@Utilities.FormatAmount(Convert.ToDecimal(item.AGENTPERCENT))</strong></td>
 
                                     </tr>
 

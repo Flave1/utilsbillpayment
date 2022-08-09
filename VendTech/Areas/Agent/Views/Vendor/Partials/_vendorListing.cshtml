@@ -9,7 +9,7 @@
             <td>@item.VendorName</td>
             <td> @item.AgencyName</td>
             <td class="pull-right">
-                @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))
+                @VendTech.BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(item.Balance))
             </td>
             <td><a class="btn btn-primary btn-xs" href="@Url.Action("AddEditVendor", "Vendor", new { area = "Agent", id = @item.VendorId })" data-original-title="Edit" data-toggle="tooltip">Edit</a></td>
 

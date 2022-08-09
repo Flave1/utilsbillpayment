@@ -82,7 +82,7 @@
             <div class="page-head">
                 <h2>Dashboard</h2>
                 <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
-                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                    <span id="balanceSpan" style="color: #00a2e8; ">NLe: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                 </div>
             </div>
             <div class="cl-mcont">
@@ -97,7 +97,7 @@
                                     <div class="desc">Current agency balance </div>
                                     <div class="value">
                                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                            SSL @string.Format("{0:N0}", Model.revenue)
+                                            NLe @VendTech.BLL.Common.Utilities.FormatAmount(Model.revenue)
                                         </span>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                     <div class="desc">Current wallet balance </div>
                                     <div class="value">
                                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                            SSL @string.Format("{0:N0}", ViewBag.walletBalance)
+                                            NLe @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)
                                         </span>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                     <div class="desc"><a href="@Url.Action("SalesReport", "Report")">Total daily sales(today)</a></div>
                                     <div class="value">
                                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                            SSL @string.Format("{0:N0}", Model.totalSales)
+                                            NLe @VendTech.BLL.Common.Utilities.FormatAmount(Model.totalSales)
                                         </span>
                                     </div>
                                 </div>
@@ -145,8 +145,8 @@
                                     <div class="desc"> Total daily deposit(today)</div>
                                     <div class="value">
                                         <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
-                                            @*SSL @Model.totalDeposit.ToString("#,##0.00")*@
-                                            SSL @string.Format("{0:N0}", Model.totalDeposit)
+                                            @*NLe @Model.totalDeposit.ToString("#,##0.00")*@
+                                            NLe @VendTech.BLL.Common.Utilities.FormatAmount(Model.totalDeposit)
                                         </span>
                                     </div>
                                 </div>

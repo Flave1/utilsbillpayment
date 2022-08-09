@@ -48,7 +48,7 @@ namespace VendTech.Areas.Api.Controllers
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
                 {
-                    return new JsonContent(string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
+                    return new JsonContent(BLL.Common.Utilities.FormatAmount(pendingDeposits), Status.Success).ConvertToHttpResponseOK();
                 }
             }
 
@@ -72,7 +72,7 @@ namespace VendTech.Areas.Api.Controllers
                             body = body.Replace("%VendorName%", pos.User.Vendor);
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(result.Object.Amount));
                             VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                         }
 
@@ -99,7 +99,7 @@ namespace VendTech.Areas.Api.Controllers
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
                 {
-                    return new JsonContent(string.Format("{0:N0}", pendingDeposits), Status.Success).ConvertToHttpResponseOK();
+                    return new JsonContent(BLL.Common.Utilities.FormatAmount(pendingDeposits), Status.Success).ConvertToHttpResponseOK();
                 }
             }
 
@@ -123,7 +123,7 @@ namespace VendTech.Areas.Api.Controllers
                             body = body.Replace("%VendorName%", pos.User.Vendor);
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(result.Object.Amount));
                             VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                         }
 

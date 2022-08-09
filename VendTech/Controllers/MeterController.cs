@@ -13,6 +13,7 @@ using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.Areas.Admin.Controllers;
+using VendTech.BLL.Common;
 #endregion
 
 namespace VendTech.Controllers
@@ -267,7 +268,7 @@ namespace VendTech.Controllers
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
             else
                 ViewBag.walletBalance = 0; 
-            return Json(string.Format("{0:N0}", ViewBag.walletBalance != null ? ViewBag.walletBalance : "0"));
+            return Json(Utilities.FormatAmount(ViewBag.walletBalance));
         }
 
 

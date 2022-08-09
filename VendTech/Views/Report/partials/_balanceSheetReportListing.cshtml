@@ -20,7 +20,7 @@
                 }
                 else
                 {
-                    <span style="@deposit">@string.Format("{0:N0}", item.DepositAmount)</span>  
+            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.DepositAmount)</span>  
                 }
             </td>
             <td style="text-align:right;">
@@ -30,7 +30,7 @@
                 }
                 else
                 {
-            <span style="@deposit">@string.Format("{0:N0}", item.SaleAmount)</span>
+            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.SaleAmount)</span>
                 }
             </td>
             <td style="text-align:right;">
@@ -40,7 +40,7 @@
                 }
                 else
                 {
-            <span style="@deposit">@string.Format("{0:N0}", item.Balance)</span>
+            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</span>
                 }
             </td>
         </tr>

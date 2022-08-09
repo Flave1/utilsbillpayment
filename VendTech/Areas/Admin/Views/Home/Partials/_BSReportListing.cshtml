@@ -40,12 +40,12 @@
             <tr id="meterList">
                 <th scope="row">@i</th>
                 <td> @item.vendor </td>
-                <td style="text-align:right;">@string.Format("{0:N0}", item.runningbalance)</td>
-                <td style="text-align: right;">@string.Format("{0:N0}", item.PercentageAmount)</td>
+                <td style="text-align:right;">@VendTech.BLL.Common.Utilities.FormatAmount( item.runningbalance)</td>
+                <td style="text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)</td>
 
-                <td style="font-weight: bold; color: Red; text-align: right;">@string.Format("{0:N0}", item.POSBalance)</td>
+                <td style="font-weight: bold; color: Red; text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.POSBalance)</td>
                 <td style="text-align:right">
-                    <span style="color: orange; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.overage)</span>
+                    <span style="color: orange; font-weight: bold; text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.overage)</span>
                 </td>
 
 

@@ -69,7 +69,7 @@ namespace VendTech.Areas.Api.Controllers
             var minVend = _meterManager.ReturnMinVend();
             if (model.Amount < minVend)
             {
-                return new JsonContent($"PLEASE TENDER SLL: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
+                return new JsonContent($"PLEASE TENDER NLe: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }
             var result = _meterManager.RechargeMeter(model);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
@@ -210,11 +210,11 @@ namespace VendTech.Areas.Api.Controllers
                             $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
                             $"POSID:{td.POS.SerialNumber}\n" +
                             $"Meter:{td.MeterNumber1}\n" +
-                            $"Amt:{string.Format("{0:N0}", td.Amount)}\n" +
-                            $"GST:{string.Format("{0:N0}", td.TaxCharge)}\n" +
-                            $"Chg:{string.Format("{0:N0}", td.ServiceCharge)}\n" +
-                            $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
-                            $"Units:{string.Format("{0:N0}", td.Units)}\n" +
+                            $"Amt:{BLL.Common.Utilities.FormatAmount(td.Amount)}\n" +
+                            $"GST:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge))}\n" +
+                            $"Chg:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge))}\n" +
+                            $"COU:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.CostOfUnits))} \n" +
+                            $"Units:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.Units))}\n" +
                             $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
                             "VENDTECH"
             };

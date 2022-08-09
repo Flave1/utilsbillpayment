@@ -114,7 +114,7 @@ namespace VendTech.Controllers
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
                 {
-                    return JsonResult(new ActionOutput { Message = string.Format("{0:N0}", pendingDeposits), Status = ActionStatus.Successfull });
+                    return JsonResult(new ActionOutput { Message = Utilities.FormatAmount(pendingDeposits), Status = ActionStatus.Successfull });
                 }
             }
                  
@@ -137,7 +137,7 @@ namespace VendTech.Controllers
                             body = body.Replace("%VendorName%", pos.User.Vendor);
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
                             Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                         }
 

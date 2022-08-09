@@ -10,12 +10,10 @@
             <td>@item.UserName</td>
             <td>@item.DepositerName</td>
             <td style="text-align:right;">
-                @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))
-
+                @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
             </td>
             <td style="text-align:right;">
-                @(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))
-
+                @VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)
             </td>
             <td>@item.TransactionId</td>
             <td>@item.VendorName</td>

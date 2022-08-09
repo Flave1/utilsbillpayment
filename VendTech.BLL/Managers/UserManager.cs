@@ -861,8 +861,8 @@ namespace VendTech.BLL.Managers
                 dbUser.Phone = userDetails.Phone;
                  
                 dbUser.CountryCode = userDetails.CountryCode;
-                if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
-                    dbUser.FKVendorId = userDetails.VendorId;
+                //if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
+                //    dbUser.FKVendorId = userDetails.VendorId;
                 
                 //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
                 //    dbUser.FKPOSId = userDetails.POSId;
@@ -894,7 +894,7 @@ namespace VendTech.BLL.Managers
                     };
                 }
 
-                //dbUser.FKVendorId = dbUser.UserId;
+                dbUser.FKVendorId = dbUser.UserId;
                 RemoveORAddUserPermissions(dbUser.UserId, userDetails);
 
                 RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);

@@ -1607,21 +1607,21 @@ namespace VendTech.BLL.Managers
                     var obj = new PushNotificationModel();
                     obj.UserId = dbDeposit.UserId;
                     obj.Id = dbDeposit.DepositId;
-                    var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+                    var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
                     if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Rejected || dbDeposit.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant)
                     {
                         obj.Title = "Deposit request rejected";
-                        obj.Message = "Your deposit request has been rejected of SLL " + notyAmount;
+                        obj.Message = "Your deposit request has been rejected of NLe " + notyAmount;
                     }
                     else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Released)
                     {
                         obj.Title = "Wallet updated successfully";
-                        obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+                        obj.Message = "Your wallet has been updated with NLe " + notyAmount;
                     }
                     else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
                     {
                         obj.Title = "Deposit request in progress";
-                        obj.Message = "Your deposit request has been in processed of SLL " + notyAmount;
+                        obj.Message = "Your deposit request has been in processed of NLe " + notyAmount;
                     }
                     obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                     foreach (var item in deviceTokens)
@@ -1709,9 +1709,9 @@ namespace VendTech.BLL.Managers
             var obj = new PushNotificationModel();
             obj.UserId = dbDeposit.UserId;
             obj.Id = dbDeposit.DepositId;
-            var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+            var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
             obj.Title = "Wallet updated successfully";
-            obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+            obj.Message = "Your wallet has been updated with NLe " + notyAmount;
             obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
             foreach (var item in deviceTokens)
             {
@@ -2205,9 +2205,9 @@ namespace VendTech.BLL.Managers
                 if (Context.Agencies.Select(s => s.Representative).Contains(frompos.VendorId))
                 {
                     var amt = dbDeposit.Amount;
-                    var percntage = toPos.Commission.Percentage;
+                    var percntage = frompos.Commission.Percentage;
                     var commision = amt * percntage / 100;
-                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    frompos.Balance = frompos.Balance + commision;
                 }
 
                 //Adds to  Reciever Balance
@@ -2233,10 +2233,10 @@ namespace VendTech.BLL.Managers
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
-                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+                var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Transfer from {frompos.User.Vendor}";
-                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+                obj.Message = "Your wallet has been updated with NLe " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                 foreach (var item in deviceTokens)
@@ -2309,10 +2309,10 @@ namespace VendTech.BLL.Managers
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
-                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+                var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Account Debited";
-                obj.Message = "Your wallet has been updated with SLL " + notyAmount;
+                obj.Message = "Your wallet has been updated with NLe " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                 foreach (var item in deviceTokens)
@@ -2368,10 +2368,10 @@ namespace VendTech.BLL.Managers
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
-                var notyAmount = string.Format("{0:N0}", dbDeposit.Amount);
+                var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Vendtech Deposit";
-                obj.Message = "Your wallet has been credited with SLL " + notyAmount;
+                obj.Message = "Your wallet has been credited with NLe " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                 foreach (var item in deviceTokens)

@@ -256,7 +256,7 @@ var transferHandler = {
                 }
                 transferHandler.transferTo = vendor;
                 $('#filterAgencyToVendors').val(`${vendor.Vendor + ` - ` + vendor.SerialNumber}`);
-                $('#agencyBenficiaryDisplay').text(`BALANCE: SLL ${vendor.Balance}`);
+                $('#agencyBenficiaryDisplay').text(`BALANCE: NLe ${vendor.Balance}`);
                 $('#agencyBeneficiaries').css('display', 'none');
                 $('#agencyBeneficiaries').css('opacity', '1');
             });
@@ -273,7 +273,7 @@ var transferHandler = {
                 }
                 transferHandler.transferFrom = vendor;
                 $('#filterAgencyFromVendors').val(`${vendor.Vendor + ` - ` + vendor.SerialNumber}`);
-                $('#agencySenderDisplay').text(`BALANCE: SLL ${vendor.Balance}`);
+                $('#agencySenderDisplay').text(`BALANCE: NLe ${vendor.Balance}`);
                 $('#agencyFromVendors').css('display', 'none');
                 $('#agencyFromVendors').css('opacity', '1');
             });
@@ -289,7 +289,7 @@ var transferHandler = {
                 }
                 transferHandler.transferTo = vendor;
                 $('#otherFilterAgencyToVendors').val(`${vendor.Vendor + ` - ` + vendor.SerialNumber}`);
-                $('#otherAgencyBenficiaryDisplay').text(`BALANCE: SLL ${vendor.Balance}`);
+                $('#otherAgencyBenficiaryDisplay').text(`BALANCE: NLe ${vendor.Balance}`);
                 $('#otherAgencyBeneficiaries').css('display', 'none');
                 $('#otherAgencyBeneficiaries').css('opacity', '1');
             });
@@ -306,7 +306,7 @@ var transferHandler = {
                 }
                 transferHandler.transferFrom = vendor;
                 $('#otherFilterAgencyFromVendors').val(`${vendor.Vendor + ` - ` + vendor.SerialNumber}`);
-                $('#otherAgencySenderDisplay').text(`BALANCE: SLL ${vendor.Balance}`);
+                $('#otherAgencySenderDisplay').text(`BALANCE: NLe ${vendor.Balance}`);
                 $('#otherAgencyFromVendors').css('display', 'none');
                 $('#otherAgencyFromVendors').css('opacity', '1');
             });
@@ -348,7 +348,7 @@ var transferHandler = {
                 return
             }
 
-            $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+            $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
               
                 if (!transferHandler.sentOtp) {
                     transferHandler.sendOtp(sender);
@@ -398,7 +398,7 @@ var transferHandler = {
             return
         }
 
-        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: SLL: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
 
             if (!transferHandler.sentOtp) {
                 transferHandler.sendOtp(sender);

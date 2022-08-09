@@ -342,7 +342,7 @@ namespace VendTech.Areas.Admin.Controllers
                 
                 var result = new LastMeterTransaction
                 { 
-                    LastDealerBalance = string.Format("{0:N0}", lastTransaction.CurrentDealerBalance),
+                    LastDealerBalance = Utilities.FormatAmount(lastTransaction.CurrentDealerBalance),
                     RequestDate = lastTransaction.CreatedAt.ToString("dd/MM/yyyy hh:mm"),  
                 }; 
 

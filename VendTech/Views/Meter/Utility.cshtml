@@ -19,7 +19,7 @@
             <div class="page-head">
                 <h2>Utility</h2>
                 <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
-                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @(ViewBag.walletBalance == null ? "0" : string.Format("{0:N0}", ViewBag.walletBalance))</span>
+                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                 </div>
             </div>
             <div class="cl-mcont">

@@ -46,7 +46,7 @@
                         <td style="text-align: right; ">@item.POSId</td>
                         <td style="font-weight: bold; color:green;">@item.VendorName</td>
                         <td style="text-align: right;">@item.MeterNumber</td>
-                        <td style="font-weight: bold; text-align: right; color:red;">@string.Format("{0:N0}", item.Amount)</td>
+                        <td style="font-weight: bold; text-align: right; color:red;">@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</td>
                     </tr>
                 }
             }

@@ -13,9 +13,9 @@
         <td> @item.Type</td>
         <td> @item.Bank</td>
         <td style="text-align:right"> @item.ChkNoOrSlipId</td>
-        <td style="text-align:right"><strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong></td>
-        <td style="text-align:right"><strong>@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</strong></td>
-        <td style="text-align:right"><strong>@(item.NewBalance == null ? "0" : string.Format("{0:N0}", item.NewBalance))</strong></td>
+        <td style="text-align:right"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</strong></td>
+        <td style="text-align:right"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)</strong></td>
+        <td style="text-align:right"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.NewBalance)</strong></td>
 
 
 

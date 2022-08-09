@@ -146,7 +146,7 @@ namespace VendTech.Areas.Api.Controllers
                         balance = balance, 
                         unReadNotifications = _userManager.GetUnreadNotifications(LOGGEDIN_USER.UserId), 
                         accountStatus=userDetail.AccountStatus ,
-                        stringBalance = string.Format("{0:N0}", balance)
+                        stringBalance = Utilities.FormatAmount(balance)
         }
                 ).ConvertToHttpResponseOK();
         }

@@ -225,7 +225,7 @@ namespace VendTech.BLL.Models
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
             var userBalance = obj.POS.FirstOrDefault(d => d.VendorId == obj.UserId)?.Balance;
-            Balance = string.Format("{0:N0}", userBalance == null?0: userBalance);
+            Balance = Utilities.FormatAmount(userBalance);
         }
     }
     public class AddUserModel : UserModel

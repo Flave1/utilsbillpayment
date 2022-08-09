@@ -54,7 +54,7 @@
                                 <div class="desc">Current wallet balance</div>
                                 <div class="value">
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @string.Format("{0:N0}", Model.walletBalance)
+                                        SSL @Utilities.FormatAmount(Model.walletBalance)
                                     </span>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                 <div class="desc"><a href="@Url.Action("ManageReports", "Report")">Total daily sales(today)</a></div>
                                 <div class="value">
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @string.Format("{0:N0}", @Model.totalSales)
+                                        SSL @Utilities.FormatAmount(Model.totalSales)
 
                                     </span>
                                 </div>
@@ -88,7 +88,7 @@
                                 <div class="desc"><a href="@depositActionURL">Total daily deposits(today)</a></div>
                                 <div class="value">
                                     <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
-                                        SSL @string.Format("{0:N0}", @Model.totalDeposit)
+                                        SSL @Utilities.FormatAmount(Model.totalDeposit)
                                     </span>
                                 </div>
                             </div>

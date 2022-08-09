@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -70,7 +71,7 @@ namespace VendTech.BLL.Models
         {
             PosId = obj.POSId;
             SerialNumber = obj.SerialNumber;
-            Balance = obj.Balance == null ? "0" : string.Format("{0:N0}", obj.Balance.Value);
+            Balance = Utilities.FormatAmount(obj.Balance);
             Percentage = obj.Commission.Percentage;
         }
     }

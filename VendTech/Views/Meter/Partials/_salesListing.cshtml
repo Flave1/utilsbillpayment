@@ -15,7 +15,7 @@
             @VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin) </a>
             </strong>
         </td>
-        <td style="text-align:right;"> <strong>@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</strong> </td>
+        <td style="text-align:right;"> <strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</strong> </td>
     </tr>
     }
 }

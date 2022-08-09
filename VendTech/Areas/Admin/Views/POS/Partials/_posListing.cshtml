@@ -18,7 +18,7 @@
     </td>
 
     <td>@item.VendorType</td>
-    <td style="text-align:right; font-size: 15px; color:blue;"><strong>@(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</strong></td>
+    <td style="text-align:right; font-size: 15px; color:blue;"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</strong></td>
     <td>
         <a class="btn btn-primary btn-xs" style="padding-left:10px; padding-right:10px; border:none;" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
         <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" style=" border:none;" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>

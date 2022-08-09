@@ -90,13 +90,13 @@
                         </tr>
                         <tr>
                             <td>Amount</td>
-                            <td>@string.Format("{0:N0}", Model.Amount)</td>
+                            <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>
                         </tr>
                         @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
                         {
                             <tr>
                                 <td>COMMISSION @@ %1</td>
-                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
                             </tr>
 
                         }
@@ -105,14 +105,14 @@
                         {
                             <tr>
                                 <td>TOTAL TRANSACTION AMOUNT</td>
-                                <td>@string.Format("{0:N0}", Model.Amount)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>
                             </tr>
                         }
                         else
                         {
                             <tr>
                                 <td>TOTAL TRANSACTION AMOUNT</td>
-                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
                             </tr>
                         }
 
