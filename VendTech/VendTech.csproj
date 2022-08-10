@@ -3358,7 +3358,9 @@
     <Content Include="Content\themes\skycons\.gitignore" />
     <Content Include="Content\themes\skycons\README.md" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />

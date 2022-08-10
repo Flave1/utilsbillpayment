@@ -2188,7 +2188,7 @@ namespace VendTech.BLL.Managers
             {
                 var frompos = Context.POS.FirstOrDefault(er => er.POSId == fromPos);
                 if(frompos == null)
-                    return ReturnError("POT NOT FOUND");
+                    return ReturnError("POS NOT FOUND");
 
 
                 var toPos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
@@ -2205,9 +2205,9 @@ namespace VendTech.BLL.Managers
                 if (Context.Agencies.Select(s => s.Representative).Contains(frompos.VendorId))
                 {
                     var amt = dbDeposit.Amount;
-                    var percntage = frompos.Commission.Percentage;
+                    var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
-                    frompos.Balance = frompos.Balance + commision;
+                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
 
                 //Adds to  Reciever Balance
@@ -2281,7 +2281,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.IsDeleted = false;
 
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
-             
+
                 if (Context.Agencies.Select(s => s.Representative).Contains(pos.VendorId))
                 {
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
@@ -2290,6 +2290,7 @@ namespace VendTech.BLL.Managers
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
+
 
                 Context.Deposits.Add(dbDeposit);
                 Context.SaveChanges();
