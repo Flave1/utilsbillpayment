@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -49,7 +50,7 @@ namespace VendTech.BLL.Models
             SMSNotificationSales = Convert.ToBoolean(obj.SMSNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
             UserId = obj?.User?.UserId??0;
-            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true)??0;
+            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true && d.IsVerified == true) ??0;
             Percentage = obj.Commission.Percentage;
             WebSms = obj?.WebSms ?? false;
             PosSms = obj?.PosSms ?? false;
@@ -70,7 +71,7 @@ namespace VendTech.BLL.Models
         {
             PosId = obj.POSId;
             SerialNumber = obj.SerialNumber;
-            Balance = obj.Balance == null ? "0" : string.Format("{0:N0}", obj.Balance.Value);
+            Balance = Utilities.FormatAmount(obj.Balance);
             Percentage = obj.Commission.Percentage;
         }
     }

@@ -3,6 +3,67 @@
     ViewBag.Title = "Manage Platforms";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
 
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -40,9 +101,10 @@
                                         <tr class="odd gradeX">
                                             <td>@item.ShortName</td>
                                             <td>@item.Title</td>
-                                            <td style="text-align:right;">@string.Format("{0:N0}", item.MinimumAmount)</td>
+                                            <td style="text-align:right;">@Utilities.FormatAmount(item.MinimumAmount)</td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo', '@item.MinimumAmount')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> 
+                                                <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
                                                 @if (item.Enabled)
                                                 {
@@ -117,6 +179,15 @@
                                 <input class="pull-right" style="width:52%; " type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
                             </div>
 
+                        </div>
+                        <br /><br /> <br />
+                        <br />
+                        <div class="col-md-12">
+                            <label for="title" class="col-md-4 control-label" id="statusLabel"></label>
+                            <div class="col-md-8">
+                                <input type="checkbox" checked="" id="stopSale" name="DisablePlatform" style="height:30px; width:30px" />
+                                <textarea class="pull-right form-control" style="width:80%; max-width:80%; max-height: 70px; height: 70px;" type="text" id="diabledPlaformMessage" name="DiabledPlaformMessage"> </textarea>
+                            </div>
                         </div>
 
                     </div>

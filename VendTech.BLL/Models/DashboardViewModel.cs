@@ -19,7 +19,7 @@ namespace VendTech.BLL.Models
         public List<TransactionChartData> transactionChartData { get; set; } = new List<TransactionChartData>();
         public UserModel currentUser { get; set; } = new UserModel();
 
-        public PagingResult<DashboardBalanceSheetModel> Bs { get; set; } = new PagingResult<DashboardBalanceSheetModel>();
+        public PagingResult<VendorStatus> Bs { get; set; } = new PagingResult<VendorStatus>();
 
         public PagingResult<MeterRechargeApiListingModel> s { get; set; } = new PagingResult<MeterRechargeApiListingModel>();
         public PagingResult<AgentListingModel> TransferFromVendors { get; set; } = new PagingResult<AgentListingModel>();

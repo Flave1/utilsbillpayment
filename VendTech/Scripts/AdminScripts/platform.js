@@ -7,15 +7,27 @@
     });
     $("a.enablePlatform").live("click", function () {
         return enablePlatform($(this));
-    }); 
+    });
+
+    $('#stopSale').change(function () {
+
+        var event = $(this).val();
+        $('#stopSale').val(event === 'true' ? false : true);
+        console.log('event', $('#stopSale').val());
+
+    });
 });
 
-function addPlatform() {
+
+
+function addPlatform(statusLabel = 'DISABLE') {
     $("#platformModalTitle").text("Add Product");
     $("#hdnPlatformId").val('');
     $("#short_name").val('');
     $("#title").val('');
     $("#minAmount").val('');
+    $('#stopSale').val('false');
+    $('#diabledPlaformMessage').val('');
     $("#platformModal").modal('show');
 }
 
@@ -44,21 +56,42 @@ function previewFile(input) {
     }
 }
 
-function editPlatform(title, id, short_name, logo, minAmount) {
-   
+function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
+
+    
+    if (id === '1') {
+        $("#statusLabel").text('DISABLE VEND');
+    } else {
+        $("#statusLabel").text(statusLabel);
+    }
     $("#platformModalTitle").text("Edit Product");
     $("#hdnPlatformId").val(id);
     $("#short_name").val(short_name);
     $("#minAmount").val(minAmount);
     $("#title").val(title); 
     $("#ImagefromWeb").val(logo.fileName);
+    $('#stopSale').val(saleStatus);
+
+    if (saleStatus === 'true') {
+        $('#stopSale').attr('checked', true)
+    } else {
+        $('#stopSale').attr('checked', false)
+    }
+
+    message = escape(message);
+    const decoded = atob(unescape(message));
+
+    $('#diabledPlaformMessage').val(decoded);
     $("#previewImg").attr("src", logo);
+
     //previewFile(logo);
     $("#platformModal").modal('show');
 }
 
 function savePlatform(sender) {
-   
+
+    const note = btoa($("#diabledPlaformMessage").val());
+    $("#diabledPlaformMessage").val(note)
     if (!$("#title").val()) {
         $.ShowMessage($('div.messageAlert'), "Title is required", MessageType.Error);
         return;

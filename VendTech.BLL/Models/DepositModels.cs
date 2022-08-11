@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -160,9 +161,9 @@ namespace VendTech.BLL.Models
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
             BANK = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
-            AMOUNT = string.Format("{0:N0}", obj.Amount);
-            NEW_BALANCE = obj.NewBalance == null ? string.Format("{0:N0}", obj.Amount) : string.Format("{0:N0}", obj.NewBalance.Value);
-            PERCENT = string.Format("{0:N0}", obj.PercentageAmount);
+            AMOUNT = Utilities.FormatAmount(obj.Amount);
+            NEW_BALANCE = obj.NewBalance == null ? Utilities.FormatAmount(obj.Amount) : Utilities.FormatAmount(obj.NewBalance.Value);
+            PERCENT = Utilities.FormatAmount(obj.PercentageAmount);
             TRANSACTION_ID = obj?.TransactionId;
             VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
@@ -193,10 +194,10 @@ namespace VendTech.BLL.Models
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
-            AMOUNT = string.Format("{0:N0}", obj.Amount); 
+            AMOUNT = Utilities.FormatAmount(obj.Amount); 
             TRANSACTION_ID = obj?.TransactionId;  
-            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount == null ? 0 : obj.PercentageAmount);
-            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission == null ? 0 : obj.AgencyCommission);
+            VENDORPERCENT = Utilities.FormatAmount(obj.PercentageAmount);
+            AGENTPERCENT = Utilities.FormatAmount(obj.AgencyCommission);
         }
 
         public AgencyRevenueExcelReportModel()
@@ -235,7 +236,7 @@ namespace VendTech.BLL.Models
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             GTBANK = obj.BankAccount.BankName;
-            AMOUNT = string.Format("{0:N0}", obj.Amount);
+            AMOUNT = Utilities.FormatAmount(obj.Amount);
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
         }
 
@@ -458,4 +459,19 @@ namespace VendTech.BLL.Models
 
        
     }
+
+    public class VendorStatus
+    {
+        public long userid { get; set; }
+        public string vendor { get; set; }
+        public decimal? totaldeposits { get; set; } = 0;
+        public decimal? totalsales { get; set; } = 0;
+        public decimal? runningbalance { get; set; } = 0;
+        public decimal? POSBalance { get; set; }
+        public decimal? overage { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public decimal? PercentageAmount { get; set; } = 0;
+    }
+
+
 }

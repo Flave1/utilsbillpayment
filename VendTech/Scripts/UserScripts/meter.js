@@ -1,49 +1,49 @@
 ﻿$(document).ready(function () {
     
     $("input[type=button]#addUserBtn").live("click", function () {
-        return Users.AddUser($(this));
+        return UserMeters.AddUser($(this));
     });
     $("input[type=button]#rechargeBtn").on("click", function () {
-        return Users.RechargeMeter($(this));
+        return UserMeters.RechargeMeter($(this));
     });
     $("button#rechargeBtn").on("click", function () {
-        return Users.RechargeMeter2($(this));
+        return UserMeters.RechargeMeter2($(this));
     });
     $("input[type=button]#editUserBtn").live("click", function () {
-        return Users.UpdateUser($(this));
+        return UserMeters.UpdateUser($(this));
     });
     $("a.deletethis").live("click", function () {
-        return Users.DeleteUser($(this));
+        return UserMeters.DeleteUser($(this));
     });
     $("a.activateUser").live("click", function () {
-        return Users.ActivateUser($(this));
+        return UserMeters.ActivateUser($(this));
     });
     $("a.declinedUser").live("click", function () {
-        return Users.DeclineUser($(this));
+        return UserMeters.DeclineUser($(this));
     });
     $("a.blockUser").live("click", function () {
-        return Users.BlockUser($(this));
+        return UserMeters.BlockUser($(this));
     });
     $("a.unBlockUser").live("click", function () {
-        return Users.UnBlockUser($(this));
+        return UserMeters.UnBlockUser($(this));
     });
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return Users.ManageUsers($(this));
+        return UserMeters.ManageUsers($(this));
     });
     $("select#showRecords").on("change", function () {
-        return Users.ShowRecords($(this));
+        return UserMeters.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return Users.SortUsers($(this));
+        return UserMeters.SortUserMeters($(this));
     });
     $("#btnFilterSearch").live("click", function () {
-        return Users.SearchUsers($(this));
+        return UserMeters.SearchUsers($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
-        return Users.SearchUsers($(this));
+        return UserMeters.SearchUsers($(this));
     });
 
     $("#printSection").click(function () {
@@ -67,8 +67,8 @@
    
 });
 
-var Users = {
-    SortUsers: function (sender) {
+var UserMeters = {
+    SortUserMeters: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
             $('.sorting').removeClass("sorting_desc")
@@ -134,6 +134,7 @@ var Users = {
         
 
     },
+
     RechargeMeter2: function (sender) {
 
         
@@ -225,6 +226,7 @@ var Users = {
             }
         }); 
     },
+
     AddUser: function (sender) {
         $.ajaxExt({
             url: baseUrl + '/Meter/AddEditMeter',
@@ -248,6 +250,7 @@ var Users = {
         });
 
     },
+
     UpdateUser: function (sender) {
         $.ajaxExt({
             url: baseUrl + '/Admin/AppUser/UpdateUserDetails',
@@ -271,6 +274,7 @@ var Users = {
         });
 
     },
+
     BlockUser: function (sender) {
         $.ConfirmBox("", "Are you sure to block this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -290,6 +294,7 @@ var Users = {
             });
         });
     },
+
     UnBlockUser: function (sender) {
         $.ConfirmBox("", "Are you sure to unblock this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -309,6 +314,7 @@ var Users = {
             });
         });
     },
+
     ActivateUser: function (sender) {
         $.ConfirmBox("", "Are you sure to active this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -328,6 +334,7 @@ var Users = {
             });
         });
     },
+
     DeclineUser: function (sender) {
         $.ConfirmBox("", "Are you sure to decline this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -347,6 +354,7 @@ var Users = {
             });
         });
     },
+
     DeleteUser: function (sender) {
         $.ConfirmBox("", "Are you sure to delete this meter?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -425,7 +433,7 @@ function Paging(sender) {
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
-
+    obj.IsActive = $('#IsActive').val();
     $.ajaxExt({
         type: "POST",
         validate: false,
@@ -436,7 +444,8 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Meter/GetMetersPagingList',
         success: function (results, message) {
-            $('#meterList').html(results[0]);
+            //$('#meterList').html(results[0]);
+            $('#divResult table:first tbody').html(results[0]);
             PageNumbering(results[1]);
 
         }

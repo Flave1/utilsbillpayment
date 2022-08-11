@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
 {
- public   class VendorListingModel
+    public   class VendorListingModel
     {
         public long VendorId { get; set; }
         public string VendorName { get; set; }
         public string AgencyName { get; set; }
         public string StringId { get; set; }
-        public decimal Balance { get; set; }
+        public string Balance { get; set; }
         public string Name { get; set; } 
         public string SurName { get; set; } 
         public string Phone { get; set; } 
         public string Address { get; set; }
+        public string PosSerial { get; set; }
         public VendorListingModel(User obj)
         {
             VendorId = obj.UserId;
@@ -29,6 +26,8 @@ namespace VendTech.BLL.Models
             SurName = obj.SurName;
             Phone = obj.Phone;
             Address = obj.Address;
+            PosSerial = obj.POS.FirstOrDefault().SerialNumber;
+            Balance = Utilities.FormatAmount(obj.POS.FirstOrDefault().Balance);
             //Balance = obj.Balance==null?0:obj.Balance.Value;
             StringId = Utilities.Base64Encode(obj.UserId.ToString());
         }

@@ -8,7 +8,7 @@
             <tr class="odd gradeX">
                 <td style="text-align:right;">@item.SerialNumber</td>
                 <td> @item.VendorName</td>
-                <td style="text-align:right;" class="wbalance">   @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</td>
+                <td style="text-align:right;" class="wbalance">   @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</td>
                 <td style="text-align:right;" >
                     @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
                 </td>

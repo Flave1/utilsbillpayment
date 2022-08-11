@@ -13,7 +13,7 @@ namespace VendTech.BLL.Interfaces
     {
         ActionOutput SaveMeter(MeterModel model);
         ActionOutput DeleteMeter(long meterId,long userId);
-        PagingResult<MeterAPIListingModel> GetMeters(long userID, int pageNo, int pageSize);
+        PagingResult<MeterAPIListingModel> GetMeters(long userID, int pageNo, int pageSize, bool isActive);
         ActionOutput RechargeMeter(RechargeMeterModel model);
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRecharges(long userID, int pageNo, int pageSize);
         RechargeDetailPDFData GetRechargePDFData(long rechargeId);
@@ -30,7 +30,10 @@ namespace VendTech.BLL.Interfaces
         TransactionDetail GetSingleTransaction(string transactionId);
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
         PagingResult<GSTRechargeApiListingModel> GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
-        IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports();
+        IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports(DateTime date);
+        void RedenominateBalnces();
+        decimal ReturnMinVend();
+        PagingResult<VendorStatus> GetVendorStatus();
     }
     
 }

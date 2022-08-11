@@ -64,18 +64,48 @@
 
                                 @foreach (var item in Model)
                                 {
-                                    <tr class="odd gradeX">
-                                        <td style="text-align:right;"> @item.CreatedAt</td>
-                                        <td style="text-align:right;"> @item.TransactionId</td>
-                                        <td style="text-align:right;"> @item.Receipt</td>
-                                        <td style="text-align:right;"> @item.MeterNumber</td>
-                                        <td style="text-align:right;"> <span style="font-size:15px;"> @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))</span></td>
-                                        <td style="text-align:right;"> <span style="font-size:15px"> @(item.ServiceCharge == null ? "0" : string.Format("{0:N0}", item.ServiceCharge))</span></td>
-                                        <td style="text-align:right;"> <strong style="font-size:15px; color:green;"> @(item.Gst == null ? "0" : string.Format("{0:N0}", item.Gst))</strong></td>
-                                        <td style="text-align:right;"> <span style="font-size:15px"> @(item.UnitsCost == null ? "0" : string.Format("{0:N0}", item.UnitsCost))</span></td>
-                                        <td style="text-align:right;"> <span style="font-size:15px"> @(item.Tarrif == null ? "0" : string.Format("{0:N0}", item.Tarrif))</span></td>
-                                        <td style="text-align:right;"> <span style="font-size:15px"> @item.Units</span></td>
-                                    </tr>
+                            <tr class="odd gradeX">
+                                <td style="text-align:right;"> @item.CreatedAt</td>
+                                <td style="text-align:right;"> @item.TransactionId</td>
+                                <td style="text-align:right;"> @item.Receipt</td>
+                                <td style="text-align:right;"> @item.MeterNumber</td>
+                                <td style="text-align:right;">
+
+                                    <span style="font-size:15px;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+
+                                    <span style="font-size:15px;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(item.ServiceCharge)
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+
+                                    <strong style="font-size:15px; color:green;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(item.Gst)
+                                    </strong>
+                                </td>
+                                <td style="text-align:right;">
+
+                                    <span style="font-size:15px;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(item.UnitsCost)
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+
+                                    <span style="font-size:15px;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(item.Tarrif)
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+
+                                    <span style="font-size:15px;">
+                                        @VendTech.BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(item.Units))
+                                    </span>
+                                </td>
+                            </tr>
                                 }
 
 

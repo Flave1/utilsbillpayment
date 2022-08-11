@@ -30,7 +30,7 @@ namespace VendTech.BLL.Models
         public string SerialNo { get; set; }
         public string POS { get; set; }
         public string VendorId { get; set; }
-        public double DebitRecovery { get; set; }
+        public decimal DebitRecovery { get; set; }
         public string Pin1 { get; set; }
         public string Pin2 { get; set; }
         public string Pin3 { get; set; }

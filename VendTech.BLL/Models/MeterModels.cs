@@ -144,11 +144,11 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }   
         public string Receipt { get; set; }
         public string MeterNumber { get; set; }    
-        public decimal Amount { get; set; }
-        public decimal ServiceCharge { get; set; }
-        public decimal Gst { get; set; }
-        public decimal UnitsCost { get; set; }
-        public decimal Tarrif { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? ServiceCharge { get; set; }
+        public decimal? Gst { get; set; }
+        public decimal? UnitsCost { get; set; }
+        public decimal? Tarrif { get; set; }
         public double Units { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
@@ -158,7 +158,7 @@ namespace VendTech.BLL.Models
             TransactionId = x.TransactionId;
             Receipt = x.ReceiptNumber;
             ServiceCharge = Convert.ToDecimal(x.ServiceCharge); ;
-            Gst = x.TaxCharge;
+            Gst = Convert.ToDecimal(x.TaxCharge);
             UnitsCost = Convert.ToDecimal(x.CostOfUnits);
             Tarrif = Convert.ToDecimal(x.Tariff);
             Units = Convert.ToDouble(x.Units);

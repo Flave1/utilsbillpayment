@@ -1,5 +1,7 @@
-use abc_production
+use vendtechnov
 go
+
+select * from transactionDetail order by transactionDetailId desc
 
 --deploy wen.config file to live
 
@@ -25,3 +27,4 @@ go
 
 --  alter table PendingDeposits
 --  add ValueDateStamp DateTime null
+

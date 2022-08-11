@@ -76,7 +76,7 @@
                                         <td style="text-align:left">@item.ISSUINGBANK</td>
                                         <td style="text-align:left">@item.DEPOSIT_REF_NO</td>
                                         <td style="text-align:left">@item.GTBANK</td>
-                                        <td style="text-align:right">@(item.AMOUNT == null ? "0" : string.Format("{0:N0}", item.AMOUNT))</td>
+                                        <td style="text-align:right">@Utilities.FormatAmount(Convert.ToDecimal(item.AMOUNT))</td>
                                         <td>@item.STATUS</td>
                                     </tr>
                                 }

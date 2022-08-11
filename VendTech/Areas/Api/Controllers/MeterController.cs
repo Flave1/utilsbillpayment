@@ -25,13 +25,15 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IAuthenticateManager _authenticateManager;
         private readonly IMeterManager _meterManager;
         private readonly IEmailTemplateManager _emailTemplateManager;
-        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IEmailTemplateManager emailTemplateManager)
+        private readonly IPlatformManager _platformManager;
+        public MeterController(IUserManager userManager, IErrorLogManager errorLogManager, IMeterManager meterManager, IAuthenticateManager authenticateManager, IEmailTemplateManager emailTemplateManager, IPlatformManager platformManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
             _authenticateManager = authenticateManager;
             _meterManager = meterManager;
             _emailTemplateManager = emailTemplateManager;
+            _platformManager = platformManager;
         }
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
@@ -53,15 +55,22 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetMeters(int pageNo, int pageSize)
         {
-            var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize);
+            var result = _meterManager.GetMeters(LOGGEDIN_USER.UserId, pageNo, pageSize, true);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
+
 
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage RechargeMeter(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserId;
+
+            var minVend = _meterManager.ReturnMinVend();
+            if (model.Amount < minVend)
+            {
+                return new JsonContent($"PLEASE TENDER NLe: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
+            }
             var result = _meterManager.RechargeMeter(model);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
@@ -167,6 +176,11 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
         {
+            var platf = _platformManager.GetSinglePlatform(1);
+            if (platf.DisablePlatform)
+            {
+                return new JsonContent("Please try again later or use the web", Status.Failed).ConvertToHttpResponseOK();
+            }
             model.UserId = LOGGEDIN_USER.UserId;
             var result = _meterManager.RechargeMeterReturn(model).Result;
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
@@ -196,11 +210,11 @@ namespace VendTech.Areas.Api.Controllers
                             $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
                             $"POSID:{td.POS.SerialNumber}\n" +
                             $"Meter:{td.MeterNumber1}\n" +
-                            $"Amt:{string.Format("{0:N0}", td.Amount)}\n" +
-                            $"GST:{string.Format("{0:N0}", td.TaxCharge)}\n" +
-                            $"Chg:{string.Format("{0:N0}", td.ServiceCharge)}\n" +
-                            $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
-                            $"Units:{string.Format("{0:N0}", td.Units)}\n" +
+                            $"Amt:{BLL.Common.Utilities.FormatAmount(td.Amount)}\n" +
+                            $"GST:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge))}\n" +
+                            $"Chg:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge))}\n" +
+                            $"COU:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.CostOfUnits))} \n" +
+                            $"Units:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.Units))}\n" +
                             $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
                             "VENDTECH"
             };
@@ -223,6 +237,23 @@ namespace VendTech.Areas.Api.Controllers
             }
             return new JsonContent("Sms successfully sent.", Status.Success, stringResult).ConvertToHttpResponseOK();
         }
+
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage Redenominate()
+        {
+            try
+            {
+                 _meterManager.RedenominateBalnces();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return new JsonContent("Sms successfully sent.", Status.Success, null).ConvertToHttpResponseOK();
+        }
+
     }
     public class Tokenobject
     {

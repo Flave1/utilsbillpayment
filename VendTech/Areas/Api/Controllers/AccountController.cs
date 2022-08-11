@@ -27,7 +27,7 @@ namespace VendTech.Areas.Api.Controllers
         private readonly IPOSManager _posManager;
         private readonly IAgencyManager _agentManager;
         private readonly ISMSManager _smsManager;
-
+        private readonly IMeterManager _meterManager;
         public AccountController(IUserManager userManager,
             IBankAccountManager bankAccountManager,
             IErrorLogManager errorLogManager,
@@ -36,7 +36,7 @@ namespace VendTech.Areas.Api.Controllers
             ICMSManager cmsManager,
             IVendorManager vendorManager,
             IPOSManager posManager,
-            IAgencyManager agentManager, ISMSManager smsManager)
+            IAgencyManager agentManager, ISMSManager smsManager, IMeterManager meterManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -48,6 +48,7 @@ namespace VendTech.Areas.Api.Controllers
             _posManager = posManager;
             _agentManager = agentManager;
             _smsManager = smsManager;
+            _meterManager = meterManager;
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -72,16 +73,11 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
             else
             {
-                //if (!_authenticateManager.IsEmailExist(model.Email))
-                //    return new JsonContent("Email is not registered with us.", Status.Failed).ConvertToHttpResponseOK();
-                //var userDetails = _authenticateManager.GetDetailsbyUser(model.Email, model.Password);
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
                 if (userDetails == null)
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
-                //else if (userDetails.AgentId == 10020 && model.PassCode != "93001")
-                //    return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP \n THANKS", Status.Failed).ConvertToHttpResponseOK();
                 else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim())
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
@@ -91,9 +87,6 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         return new JsonContent("POS NOT AVAILABLE! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                     }
-                    if (userDetails.AgentId == 10020 && pos.SerialNumber != "93001" && pos.SerialNumber != "93017" && pos.SerialNumber != "93001")
-                        return new JsonContent("VENDOR ACCOUNT ON HOLD! \n PLEASE MAKE USE OF THE WEB APP", Status.Failed).ConvertToHttpResponseOK();
-
                     if (pos.Enabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
@@ -105,15 +98,6 @@ namespace VendTech.Areas.Api.Controllers
                         }
                         else
                             return GenerateandSaveToken(userDetails, model);
-                        //var code = Utilities.GenerateRandomNumber();
-                        ////Send login code on Email
-                        //var saveToken = _authenticateManager.SaveLoginCode(userDetails.UserId, code);
-                        //var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.LoginCodeEmail);
-                        //string body = emailTemplate.TemplateContent;
-                        //body = body.Replace("%code%", code.ToString());
-                        //Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
-                        ////_authenticateManager.FirstTimeLogin(userDetails.UserId);
-                        //return new JsonContent("Login code sent to your email.", Status.Success, userDetails).ConvertToHttpResponseOK();
                     }
                     else
                     {
@@ -175,6 +159,7 @@ namespace VendTech.Areas.Api.Controllers
             var IssuedOn = DateTime.UtcNow;
             var newToken = _authenticateManager.GenerateToken(user, IssuedOn);
             user.Token = newToken;
+            user.MinVend = _meterManager.ReturnMinVend().ToString();
             TokenModel token = new TokenModel();
             token.TokenKey = newToken;
             token.UserId = user.UserId;
@@ -213,38 +198,42 @@ namespace VendTech.Areas.Api.Controllers
                 var code = Utilities.GenerateRandomNo();
                 var saveToken = _authenticateManager.SaveAccountVerificationRequest(result.Object, code.ToString());
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%firstname%", model.FirstName);
-                body = body.Replace("%lastname%", model.LastName);
-                body = body.Replace("%code%", code.ToString());
-
-                // new code apllied here 
-                body = body.Replace("%USER%", model.FirstName);
-                body = body.Replace("%UserName%", model.Email);
-                body = body.Replace("%Password%", registered_user_password);
-                var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.Object + "'>Verify Now</a>";
-
-                body = body.Replace("%verifylink%", verifybutton);
-                body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
-                body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
-                var link = "";
-                var otp = Utilities.GenerateRandomNo();
-                var result_ = _authenticateManager.ForgotPassword(model.Email, otp.ToString());
-                if (result_.Status == ActionStatus.Successfull)
+                if (emailTemplate.TemplateStatus)
                 {
-                    link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.Object + "&token=" + otp + "'>Reset Now</a>";
-                }
-                body = body.Replace("%passwordrestlink%", link);
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%firstname%", model.FirstName);
+                    body = body.Replace("%lastname%", model.LastName);
+                    body = body.Replace("%code%", code.ToString());
 
-                try
-                {
-                    Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+                    // new code apllied here 
+                    body = body.Replace("%USER%", model.FirstName);
+                    body = body.Replace("%UserName%", model.Email);
+                    body = body.Replace("%Password%", registered_user_password);
+                    var verifybutton = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"].ToString() + "/Admin/Home/OTPVerification/" + result.Object + "'>Verify Now</a>";
+
+                    body = body.Replace("%verifylink%", verifybutton);
+                    body = body.Replace("%AppLink%", WebConfigurationManager.AppSettings["AppLink"].ToString());
+                    body = body.Replace("%WebLink%", WebConfigurationManager.AppSettings["BaseUrl"].ToString());
+                    var link = "";
+                    var otp = Utilities.GenerateRandomNo();
+                    var result_ = _authenticateManager.ForgotPassword(model.Email, otp.ToString());
+                    if (result_.Status == ActionStatus.Successfull)
+                    {
+                        link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 5px 7px;border-radius: 61px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.Object + "&token=" + otp + "'>Reset Now</a>";
+                    }
+                    body = body.Replace("%passwordrestlink%", link);
+
+                    try
+                    {
+                        Utilities.SendEmail(model.Email, emailTemplate.EmailSubject, body);
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                        //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
+                    }
                 }
-                catch (Exception e)
-                {
-                    throw e;
-                    //return Json(new ActionOutput { Status = ActionStatus.Error, Message = $"{e?.InnerException?.Message }{e?.Message} {e?.Source} {e?.StackTrace}" });
-                }
+               
 
                 //send mail to all admin with this app users permission
 
@@ -256,10 +245,14 @@ namespace VendTech.Areas.Api.Controllers
                         var adminEmailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.UserAccountReactivationForAdmin);
                         if (adminEmailTemplate != null)
                         {
-                            string _body = adminEmailTemplate.TemplateContent;
-                            _body = _body.Replace("%USER%", adminUser.Name);
-                            //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
-                            Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                            if (adminEmailTemplate.TemplateStatus)
+                            {
+                                string _body = adminEmailTemplate.TemplateContent;
+                                _body = _body.Replace("%USER%", adminUser.Name);
+                                //_body = _body.Replace("%APPROVER%", LOGGEDIN_USER.FirstName);
+                                Utilities.SendEmail(adminUser.Email, adminEmailTemplate.EmailSubject, _body);
+                            }
+                            
                         }
                     }
                 }
@@ -309,10 +302,21 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent(result.Message, Status.Failed).ConvertToHttpResponseOK();
                 var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%link%", link);
-                string to = email;
-                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                if (emailTemplate.TemplateStatus)
+                {
+                    var user = _userManager.GetUserDetailByEmail(email);
+                    if (user != null)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%USER%", link);
+                        body = body.Replace("%POSID%", link);
+                        body = body.Replace("%PASSWORD%", link);
+                        string to = email;
+                        Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                    }
+                    
+                }
+                
                 return new JsonContent("Password reset link has been sent to your email.", Status.Success).ConvertToHttpResponseOK();
             }
             return new JsonContent("Email is required.", Status.Failed).ConvertToHttpResponseOK();
@@ -545,5 +549,7 @@ namespace VendTech.Areas.Api.Controllers
             var data = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
             return new JsonContent("Bank accounts fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
+    
+
     }
 }

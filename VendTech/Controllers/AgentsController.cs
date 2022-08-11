@@ -46,8 +46,10 @@ namespace VendTech.Controllers
         public ActionResult ManageAgents()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            if(LOGGEDIN_USER.AgencyId > 0)
+            ViewBag.walletBalance = 0;
+            if (LOGGEDIN_USER.AgencyId > 0)
             {
+                ViewBag.walletBalance = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID).Balance ?? 0;
                 var users = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
                 return View(users);
             }

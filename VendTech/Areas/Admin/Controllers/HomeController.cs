@@ -146,10 +146,21 @@ namespace VendTech.Areas.Admin.Controllers
                     return JsonResult(result);
                 var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Admin/Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%link%", link);
-                string to = email;
-                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+             
+                if (emailTemplate.TemplateStatus)
+                {
+                    var user = _userManager.GetUserDetailByEmail(email);
+                    if (user != null)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%USER%", link);
+                        body = body.Replace("%POSID%", link);
+                        body = body.Replace("%PASSWORD%", link);
+                        string to = email;
+                        Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                    }
+
+                }
                 return JsonResult(result);
             }
             return JsonResult(new ActionOutput { Message = "Email is required", Status = ActionStatus.Error });
@@ -166,7 +177,6 @@ namespace VendTech.Areas.Admin.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [Public]
         public ActionResult ResetPassword(ResetPasswordModel model)
@@ -180,7 +190,6 @@ namespace VendTech.Areas.Admin.Controllers
                 ViewBag.Message = "Password reset successfully.";
             return View(model);
         }
-
 
         [HttpGet]
         [Public]
@@ -333,8 +342,8 @@ namespace VendTech.Areas.Admin.Controllers
                 
                 var result = new LastMeterTransaction
                 { 
-                    LastDealerBalance = string.Format("{0:N0}", lastTransaction.CurrentDealerBalance),
-                    RequestDate = lastTransaction.RequestDate.ToString("dd/MM/yyyy"),  
+                    LastDealerBalance = Utilities.FormatAmount(lastTransaction.CurrentDealerBalance),
+                    RequestDate = lastTransaction.CreatedAt.ToString("dd/MM/yyyy hh:mm"),  
                 }; 
 
                 return Json(new { result = result }, JsonRequestBehavior.AllowGet);
@@ -390,24 +399,29 @@ namespace VendTech.Areas.Admin.Controllers
 
             try
             {
-                var sales = _meterManager.GetDashboardBalanceSheetReports();
-                var deps = _depositManager.GetDashboardBalanceSheetReports();
 
-                result.List = (from a in sales
-                               join b in deps on a.UserId equals b.UserId
-                               select new DashboardBalanceSheetModel
-                               {
-                                   SaleAmount = a.SaleAmount,
-                                   Vendor = a.Vendor,
-                                   UserId = a.UserId,
-                                   Balance = b.DepositAmount - a.SaleAmount,
-                                   DepositAmount = b.DepositAmount,
-                                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
-                                   POSBalance = b.POSBalance
-                               }).OrderBy(s => s.Balance).Take(5).ToList();
+                //var date = DateTime.Parse("2021-03-01");
+                //var sales = _meterManager.GetDashboardBalanceSheetReports(date);
+                //var deps = _depositManager.GetDashboardBalanceSheetReports(date);
+
+                //result.List = (from a in sales
+                //               join b in deps on a.UserId equals b.UserId
+                //               select new DashboardBalanceSheetModel
+                //               {
+                //                   SaleAmount = a.SaleAmount,
+                //                   Vendor = a.Vendor,
+                //                   UserId = a.UserId,
+                //                   Balance = b.DepositAmount - a.SaleAmount,
+                //                   DepositAmount = b.DepositAmount,
+                //                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
+                //                   POSBalance = b.POSBalance
+                //               }).OrderByDescending(s => s.Balance).ToList();
+
+                var vendorStatus = _meterManager.GetVendorStatus();
+
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";
-                return PartialView("Partials/_BSReportListing", result);
+                return PartialView("Partials/_BSReportListing", vendorStatus);
             }
             catch (Exception)
             {

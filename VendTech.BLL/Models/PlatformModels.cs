@@ -15,6 +15,8 @@ namespace VendTech.BLL.Models
         public bool Enabled { get; set; }
         public string Logo { get; set; }
         public decimal MinimumAmount { get; set; }
+        public bool DisablePlatform { get; set; }
+        public string DiabledPlaformMessage { get; set; }
     }
 
   public class SavePlatformModel
@@ -26,5 +28,7 @@ namespace VendTech.BLL.Models
         public HttpPostedFileBase ImagefromWeb { get; set; }
         public string Logo { get; internal set; }
         public decimal MinimumAmount { get; set; }
+        public bool DisablePlatform { get; set; } = false;
+        public string DiabledPlaformMessage { get; set; }
     }
 }

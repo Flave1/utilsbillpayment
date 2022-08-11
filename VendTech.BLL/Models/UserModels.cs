@@ -84,6 +84,7 @@ namespace VendTech.BLL.Models
         [Index(IsUnique = true)]
         public string Phone { get; set; }
         public string Token { get; set; }
+        public string MinVend { get; set; }
         public string CountryCode { get; set; }
         //When admin creating user from backend then there is a checkbox which let us know that user needs to reset password on first login or not
         public bool ResetUserPassword { get; set; }
@@ -224,7 +225,7 @@ namespace VendTech.BLL.Models
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
             var userBalance = obj.POS.FirstOrDefault(d => d.VendorId == obj.UserId)?.Balance;
-            Balance = string.Format("{0:N0}", userBalance == null?0: userBalance);
+            Balance = Utilities.FormatAmount(userBalance);
         }
     }
     public class AddUserModel : UserModel
@@ -237,6 +238,7 @@ namespace VendTech.BLL.Models
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
         public int PassCode { get; set; }
+        public bool IsAgencyAdmin { get; set; } = false;
 
         public AddUserModel()
         {

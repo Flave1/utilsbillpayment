@@ -843,7 +843,15 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
+                if (userDetails.IsAgencyAdmin)
+                {
+                    //userDetails.UserType = 9;
+                    dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                }
+                else
+                {
+                    dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
+                }
                 dbUser.IsEmailVerified = false;
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;
@@ -851,9 +859,11 @@ namespace VendTech.BLL.Managers
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.AgentId = userDetails.AgentId;
                 dbUser.Phone = userDetails.Phone;
+                 
                 dbUser.CountryCode = userDetails.CountryCode;
-                if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
-                    dbUser.FKVendorId = userDetails.VendorId;
+                //if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
+                //    dbUser.FKVendorId = userDetails.VendorId;
+                
                 //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
                 //    dbUser.FKPOSId = userDetails.POSId;
                 if (userDetails.Image != null)
@@ -872,7 +882,7 @@ namespace VendTech.BLL.Managers
                 try
                 {
                     Context.Users.Add(dbUser);
-                    Context.SaveChanges();
+                    SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -884,7 +894,7 @@ namespace VendTech.BLL.Managers
                     };
                 }
 
-
+                dbUser.FKVendorId = dbUser.UserId;
                 RemoveORAddUserPermissions(dbUser.UserId, userDetails);
 
                 RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);

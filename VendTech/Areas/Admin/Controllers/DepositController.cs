@@ -181,7 +181,7 @@ namespace VendTech.Areas.Admin.Controllers
                         body = body.Replace("%VendorName%", pos.User.Vendor);
                         body = body.Replace("%POSID%", pos.SerialNumber);
                         body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                        body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                        body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
                         Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                     }
                 }

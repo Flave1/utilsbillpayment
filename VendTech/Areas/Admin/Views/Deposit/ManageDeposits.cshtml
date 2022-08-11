@@ -20,7 +20,7 @@
                     <div class="manage-desposit">
                         <div class="manage-desposit-top">
                             <h3></h3>
-                            <label style="font-size: 24px; color: #00a2e8 !important;">SLL: @(ViewBag.Balance == 0 ? "0" : string.Format("{0:N0}", ViewBag.Balance))  </label>
+                            <label style="font-size: 24px; color: #00a2e8 !important;">NLe: @Utilities.FormatAmount(ViewBag.Balance)  </label>
                         </div>
                         <div class="manage-desposit-content divResult" id="divResult">
                             <form>

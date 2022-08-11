@@ -49,7 +49,8 @@ namespace VendTech.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IAgencyManager agencyManager,
-            IDashboardManager dashboardManager, ISMSManager smsManager)
+            IDashboardManager dashboardManager, 
+            ISMSManager smsManager)
             : base(errorLogManager)
         {
             _agentManager = agencyManager;
@@ -160,9 +161,7 @@ namespace VendTech.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
-
             DashboardViewModel dashBoard = new DashboardViewModel();
-
             if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
@@ -200,20 +199,26 @@ namespace VendTech.Controllers
                 if (result.Status == ActionStatus.Error)
                     return JsonResult(result);
                 //var link = "<a style='background-color: #7bddff; color: #fff;text-decoration: none;padding: 10px 20px;border-radius: 30px;text-transform: uppercase;' href='" + WebConfigurationManager.AppSettings["BaseUrl"] + "Home/ResetPassword?userId=" + result.ID + "&token=" + otp + "'>Reset Now</a>";
-                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%password%", result.Message);
-                string to = email;
-                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
-
+               
                 var user = _userManager.GetUserDetailByEmail(email);
                 if (user != null)
                 {
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.ForgetPassword);
+                    if (emailTemplate.TemplateStatus)
+                    {
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%PASSWORD%", result.Message);
+                        body = body.Replace("%USER%", user.Name);
+                        body = body.Replace("%POSID%", user.POS.FirstOrDefault().SerialNumber);
+                        string to = email;
+                        Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                    }
+
                     var msg = new SendSMSRequest
                     {
                         Recipient = "232" + user.Phone,
                         Payload = $"Greetings {user.Name} \n" +
-                          $"To change passcode use this temporal password to login. {result}\n" +
+                          $"Please use this temporal password to login. {result.Message}\n" +
                           "VENDTECH"
                     };
                     await _smsManager.SendSmsAsync(msg);
@@ -386,14 +391,17 @@ namespace VendTech.Controllers
             foreach(var admin in adminUser)
             {
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewUserEmailToAdmin);
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%AdminUserName%", admin.Name);
-                body = body.Replace("%Name%", request.FirstName);
-                body = body.Replace("%Surname%", request.LastName);
-                body = body.Replace("%Vendor%", request.IsCompany ? request.CompanyName : request.FirstName + " " +request.LastName);
-                Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
-            }
-            
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%AdminUserName%", admin.Name);
+                    body = body.Replace("%Name%", request.FirstName);
+                    body = body.Replace("%Surname%", request.LastName);
+                    body = body.Replace("%Vendor%", request.IsCompany ? request.CompanyName : request.FirstName + " " + request.LastName);
+                    Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                }
+                
+            }        
         }
         void sendEmailToRegisteredUser(RegisterAPIModel request)
         {

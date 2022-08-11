@@ -29,6 +29,7 @@ namespace VendTech.BLL.Models
         public const string Profile = "Profile";
         public const string Meters = "Meters";
         public const string Transfer = "Transfer";
+        public const string BillPayment = "BillPayment";
 
 
     }
