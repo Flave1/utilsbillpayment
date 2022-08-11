@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -106,6 +107,7 @@ namespace VendTech.BLL.Models
             IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
+            ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
 
         public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
@@ -129,6 +131,7 @@ namespace VendTech.BLL.Models
             IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
+            ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
     }
     public class DepositExcelReportModel
@@ -158,12 +161,13 @@ namespace VendTech.BLL.Models
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
             BANK = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
-            AMOUNT = string.Format("{0:N0}", obj.Amount);
-            NEW_BALANCE = obj.NewBalance == null ? string.Format("{0:N0}", obj.Amount) : string.Format("{0:N0}", obj.NewBalance.Value);
-            PERCENT = string.Format("{0:N0}", obj.PercentageAmount);
+            AMOUNT = Utilities.FormatAmount(obj.Amount);
+            NEW_BALANCE = obj.NewBalance == null ? Utilities.FormatAmount(obj.Amount) : Utilities.FormatAmount(obj.NewBalance.Value);
+            PERCENT = Utilities.FormatAmount(obj.PercentageAmount);
             TRANSACTION_ID = obj?.TransactionId;
-            VALUEDATE = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
+
         }
 
         public DepositExcelReportModel()
@@ -190,10 +194,10 @@ namespace VendTech.BLL.Models
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
-            AMOUNT = string.Format("{0:N0}", obj.Amount); 
+            AMOUNT = Utilities.FormatAmount(obj.Amount); 
             TRANSACTION_ID = obj?.TransactionId;  
-            VENDORPERCENT = string.Format("{0:N0}", obj.PercentageAmount == null ? 0 : obj.PercentageAmount);
-            AGENTPERCENT = string.Format("{0:N0}", obj.AgencyCommission == null ? 0 : obj.AgencyCommission);
+            VENDORPERCENT = Utilities.FormatAmount(obj.PercentageAmount);
+            AGENTPERCENT = Utilities.FormatAmount(obj.AgencyCommission);
         }
 
         public AgencyRevenueExcelReportModel()
@@ -224,7 +228,7 @@ namespace VendTech.BLL.Models
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            VALUEDATE = obj.ValueDate;
+            VALUEDATE = VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_BY = obj.POS.User.Vendor;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
@@ -232,7 +236,7 @@ namespace VendTech.BLL.Models
             ISSUINGBANK = !string.IsNullOrEmpty(obj.ChequeBankName) ? obj.ChequeBankName.IndexOf('-') == -1 ? obj.ChequeBankName : obj.ChequeBankName.Substring(0, obj.ChequeBankName.IndexOf("-")) : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             GTBANK = obj.BankAccount.BankName;
-            AMOUNT = string.Format("{0:N0}", obj.Amount);
+            AMOUNT = Utilities.FormatAmount(obj.Amount);
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
         }
 
@@ -362,7 +366,7 @@ namespace VendTech.BLL.Models
     {
         public long DepositId { get; set; }
         public string DateTime { get; set; }
-        public long? PosId { get; set; }
+        public string PosId { get; set; }
         public string DepositBy { get; set; }
         public string Payer { get; set; }
         public string IssuingBank { get; set; }
@@ -390,7 +394,7 @@ namespace VendTech.BLL.Models
             isAudit = Convert.ToBoolean(obj.isAudit);
             UserId = obj.UserId;
             DepositBy = obj.POS.User.Vendor.Trim();
-            PosId = obj.POS != null ? !obj.POS.SerialNumber.StartsWith("AGT") ?  Convert.ToInt64(obj.POS.SerialNumber) : 0 : 0;
+            PosId = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = !string.IsNullOrEmpty(obj.User.Vendor) ? obj.User.Vendor : obj.User.Name + " " + obj.User.SurName;
             DepositRef = obj.CheckNumberOrSlipId;
              
@@ -401,11 +405,13 @@ namespace VendTech.BLL.Models
             Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
-            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             TransactionId = obj.TransactionId;
             if (obj.ValueDate != " 12:00")
                 ValueDateModel = obj.ValueDate == null ? new DateTime().ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             Comment = obj.Comments;
+            ValueDateModel = obj.ValueDateStamp == null ? ValueDateModel : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            //ValueDate = obj.ValueDateStamp == null ? ValueDateModel : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
     } 
 
@@ -453,4 +459,19 @@ namespace VendTech.BLL.Models
 
        
     }
+
+    public class VendorStatus
+    {
+        public long userid { get; set; }
+        public string vendor { get; set; }
+        public decimal? totaldeposits { get; set; } = 0;
+        public decimal? totalsales { get; set; } = 0;
+        public decimal? runningbalance { get; set; } = 0;
+        public decimal? POSBalance { get; set; }
+        public decimal? overage { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public decimal? PercentageAmount { get; set; } = 0;
+    }
+
+
 }

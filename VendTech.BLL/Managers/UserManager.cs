@@ -390,7 +390,7 @@ namespace VendTech.BLL.Managers
             return Convert.ToInt64(0);
         }
 
-        User IUserManager.GetUserIdByEmail(string email)
+        User IUserManager.GetUserDetailByEmail(string email)
         {
             var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
             if (userDetail != null)
@@ -843,7 +843,15 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
+                if (userDetails.IsAgencyAdmin)
+                {
+                    //userDetails.UserType = 9;
+                    dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                }
+                else
+                {
+                    dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor);
+                }
                 dbUser.IsEmailVerified = false;
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;
@@ -851,9 +859,11 @@ namespace VendTech.BLL.Managers
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.AgentId = userDetails.AgentId;
                 dbUser.Phone = userDetails.Phone;
+                 
                 dbUser.CountryCode = userDetails.CountryCode;
-                if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
-                    dbUser.FKVendorId = userDetails.VendorId;
+                //if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
+                //    dbUser.FKVendorId = userDetails.VendorId;
+                
                 //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
                 //    dbUser.FKPOSId = userDetails.POSId;
                 if (userDetails.Image != null)
@@ -872,7 +882,7 @@ namespace VendTech.BLL.Managers
                 try
                 {
                     Context.Users.Add(dbUser);
-                    Context.SaveChanges();
+                    SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -884,7 +894,7 @@ namespace VendTech.BLL.Managers
                     };
                 }
 
-
+                dbUser.FKVendorId = dbUser.UserId;
                 RemoveORAddUserPermissions(dbUser.UserId, userDetails);
 
                 RemoveOrAddUserPlatforms(dbUser.UserId, userDetails);
@@ -1131,7 +1141,7 @@ namespace VendTech.BLL.Managers
 
         bool RemoveORAddUserPermissions(long userId, AddUserModel model)
         {
-            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList();
+            var existingpermissons = Context.UserAssignedModules.Where(x => x.UserId == userId && x.IsAddedFromAgency == false).ToList();
             if (existingpermissons.Count() > 0)
             {
                 Context.UserAssignedModules.RemoveRange(existingpermissons);
@@ -1146,6 +1156,7 @@ namespace VendTech.BLL.Managers
                      UserId = userId,
                      ModuleId = c,
                      CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = false,
                  }));
                 Context.UserAssignedModules.AddRange(newpermissos);
                 Context.SaveChanges();
@@ -1181,7 +1192,7 @@ namespace VendTech.BLL.Managers
         bool RemoveOrAddUserWidgets(long userId, AddUserModel model)
         {
             //Deleting Exisiting Widgets
-            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId).ToList();
+            var existing_widgets = Context.UserAssignedWidgets.Where(x => x.UserId == userId && x.IsAddedFromAgency == false).ToList();
             if (existing_widgets.Count() > 0)
             {
                 Context.UserAssignedWidgets.RemoveRange(existing_widgets);
@@ -1197,6 +1208,7 @@ namespace VendTech.BLL.Managers
                      UserId = userId,
                      WidgetId = c,
                      CreatedAt = DateTime.UtcNow,
+                     IsAddedFromAgency = false
                  }));
                 Context.UserAssignedWidgets.AddRange(newwidgets);
                 Context.SaveChanges();

@@ -32,18 +32,18 @@ namespace VendTech.DAL
         public decimal CurrentDealerBalance { get; set; }
         public string AccountNumber { get; set; }
         public string Customer { get; set; }
-        public long RTSUniqueID { get; set; }
+        public string RTSUniqueID { get; set; }
         public string ReceiptNumber { get; set; }
         public string ServiceCharge { get; set; }
         public string Tariff { get; set; }
-        public decimal TaxCharge { get; set; }
+        public string TaxCharge { get; set; }
         public decimal TenderedAmount { get; set; }
         public decimal TransactionAmount { get; set; }
-        public decimal Units { get; set; }
+        public string Units { get; set; }
         public string SerialNumber { get; set; }
         public string CustomerAddress { get; set; }
-        public long DebitRecovery { get; set; }
-        public decimal CostOfUnits { get; set; }
+        public string DebitRecovery { get; set; }
+        public string CostOfUnits { get; set; }
         public string VProvider { get; set; }
         public Nullable<bool> Finalised { get; set; }
         public Nullable<int> StatusRequestCount { get; set; }

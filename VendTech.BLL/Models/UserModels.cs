@@ -84,6 +84,7 @@ namespace VendTech.BLL.Models
         [Index(IsUnique = true)]
         public string Phone { get; set; }
         public string Token { get; set; }
+        public string MinVend { get; set; }
         public string CountryCode { get; set; }
         //When admin creating user from backend then there is a checkbox which let us know that user needs to reset password on first login or not
         public bool ResetUserPassword { get; set; }
@@ -93,13 +94,14 @@ namespace VendTech.BLL.Models
         public int UserType { get; set; }
         public string AccountStatus { get; set; }
         public IList<Checkbox> ModuleList { get; set; }
-        public IList<PlatformCheckbox> PlatformList { get; set; }
         public IList<WidgetCheckbox> WidgetList { get; set; }
+        public IList<PlatformCheckbox> PlatformList { get; set; }
         public List<int> SelectedWidgets { get; set; }
         public List<int> SelectedModules { get; set; }
 
         public List<int> SelectedPlatforms { get; set; }
         public long? AgentId { get; set; }
+        public string AgencyName { get; set; }
         public long? VendorId { get; set; }
         public string Vendor { get; set; }
         //public long? POSId { get; set; }
@@ -117,7 +119,7 @@ namespace VendTech.BLL.Models
         public UserModel() { }
         public UserModel(User userObj)
         {
-            this.UserId = userObj.UserId;
+            UserId = userObj.UserId;
             this.FirstName = userObj.Name;
             this.LastName = userObj.SurName;
             this.Email = userObj.Email;
@@ -128,10 +130,11 @@ namespace VendTech.BLL.Models
             this.Status = userObj.Status;
             this.Vendor = userObj.Vendor;
             this.DeviceToken = userObj.DeviceToken;
-            this.IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
+            IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
             this.AgentId = userObj.AgentId;
+            AgencyName = userObj?.Agency?.AgencyName;
             var userAssignedPos = new POS();
             if (userObj.UserRole.Role == UserRoles.Vendor)
                 userAssignedPos = userObj.POS.FirstOrDefault(p => p.Enabled != false && !p.IsDeleted);
@@ -222,7 +225,7 @@ namespace VendTech.BLL.Models
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
             var userBalance = obj.POS.FirstOrDefault(d => d.VendorId == obj.UserId)?.Balance;
-            Balance = string.Format("{0:N0}", userBalance == null?0: userBalance);
+            Balance = Utilities.FormatAmount(userBalance);
         }
     }
     public class AddUserModel : UserModel
@@ -235,6 +238,7 @@ namespace VendTech.BLL.Models
         public string ConfirmPassword { get; set; }
         public string Address { get; set; }
         public int PassCode { get; set; }
+        public bool IsAgencyAdmin { get; set; } = false;
 
         public AddUserModel()
         {

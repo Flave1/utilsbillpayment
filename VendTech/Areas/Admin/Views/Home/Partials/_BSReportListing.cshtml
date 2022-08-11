@@ -1,4 +1,4 @@
-﻿﻿@model PagingResult<DashboardBalanceSheetModel>
+﻿﻿﻿@model PagingResult<VendorStatus>
 
 @{
     Layout = null;
@@ -21,12 +21,12 @@
             </tr>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">STATUS</th>
+                @*<th scope="col">STATUS</th>*@
                 <th scope="col">VENDOR</th>
-                <th scope="col">TOTAL DEPOSITS</th>
-                <th scope="col">TOTAL PURCHASES</th>
-                <th scope="col">DIFFERENCE</th>
+                <th scope="col">RUNNING BAL</th>
+                <th scope="col">PERCENTAGE AMOUNT</th>
                 <th scope="col">POS BALANCE</th>
+                <th scope="col">OVERAGE</th>
             </tr>
         </thead>
         <tbody>
@@ -39,30 +39,14 @@
                     i += 1;
             <tr id="meterList">
                 <th scope="row">@i</th>
-                <td>
-                    @if (item.Status == "green")
-                    {
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/48-checkmark-cross/done.svg" width="20" alt="Alternate Text" />
-                    }
-                    else
-                    {
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/26-signs-symbols/red-alert.svg" width="20" alt="Alternate Text" />
-                    }
-                </td>
-                <td style="font-weight:bold"> @item.Vendor </td>
-                <td style="font-weight:bold; text-align:right;">@string.Format("{0:N0}", item.DepositAmount)</td>
-                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.SaleAmount)</td>
+                <td> @item.vendor </td>
+                <td style="text-align:right;">@VendTech.BLL.Common.Utilities.FormatAmount( item.runningbalance)</td>
+                <td style="text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)</td>
+
+                <td style="font-weight: bold; color: Red; text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.POSBalance)</td>
                 <td style="text-align:right">
-                    @if (item.Status == "red")
-                    {
-                        <span style="color: red; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
-                    }
-                    else
-                    {
-                        <span style="color: black; font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.Balance)</span>
-                    }
+                    <span style="color: orange; font-weight: bold; text-align: right;">@VendTech.BLL.Common.Utilities.FormatAmount(item.overage)</span>
                 </td>
-                <td style="font-weight: bold; text-align: right;">@string.Format("{0:N0}", item.POSBalance)</td>
 
 
             </tr>

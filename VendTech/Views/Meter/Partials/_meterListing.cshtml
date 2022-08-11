@@ -14,12 +14,17 @@
                     <td>@item.MeterMake</td>
                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
                     <td>@item.isVerified</td>
-                    <td>
+                    @*<td>
                         <a title="Delete" class="deletethis col-md-4" data-id="@item.MeterId" href="javascript:void(0)"><i class="fa fa-trash-o text-danger"></i></a>
 
 
-                    </td>
+                    </td>*@
                     <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a></td>
-                    <td><a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a></td>
+                    <td>
+                        @if (item.isVerified)
+                        {
+                            <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a>
+                        }
+                    </td>
                 </tr>
             }

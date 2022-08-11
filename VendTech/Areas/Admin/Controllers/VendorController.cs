@@ -45,11 +45,19 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageVendors()
+        public ActionResult ManageVendors(string vendor = "")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Vendors;
-            var users = _vendorManager.GetVendorsPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
-            return View(users);
+            if (!string.IsNullOrEmpty(vendor))
+            {
+                var model = PagingModel.DefaultModel("CreatedAt", "Desc");
+                model.SearchField = "agency";
+                model.Search = vendor;
+                var list = _vendorManager.GetVendorsPagedList(model);
+                return View(list);
+            }
+            var list1 = _vendorManager.GetVendorsPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
+            return View(list1);
         }
 
         [AjaxOnly, HttpPost]

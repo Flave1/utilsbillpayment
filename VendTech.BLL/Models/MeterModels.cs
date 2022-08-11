@@ -119,6 +119,23 @@ namespace VendTech.BLL.Models
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.MeterToken1;
         }
+
+        public MeterRechargeApiListingModel(TransactionDetail x, int v)
+        {
+            Amount = x.Amount;
+            TransactionId = x.TransactionId;
+            MeterRechargeId = x.TransactionDetailsId;
+            RechargeId = x.TransactionDetailsId;
+            UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            POSId = x.POSId == null ? "" : x.POS.SerialNumber;
+            Status = ((RechargeMeterStatusEnum)x.Status).ToString();
+            VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
+            RechargePin = x.MeterToken1;
+            CreatedAtDate = x.CreatedAt;
+        }
     }
 
     public class GSTRechargeApiListingModel
@@ -127,21 +144,21 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }   
         public string Receipt { get; set; }
         public string MeterNumber { get; set; }    
-        public decimal Amount { get; set; }
-        public decimal ServiceCharge { get; set; }
-        public decimal Gst { get; set; }
-        public decimal UnitsCost { get; set; }
-        public decimal Tarrif { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? ServiceCharge { get; set; }
+        public decimal? Gst { get; set; }
+        public decimal? UnitsCost { get; set; }
+        public decimal? Tarrif { get; set; }
         public double Units { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
-        {  
+        {
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.MeterNumber1; 
             TransactionId = x.TransactionId;
             Receipt = x.ReceiptNumber;
             ServiceCharge = Convert.ToDecimal(x.ServiceCharge); ;
-            Gst = x.TaxCharge;
+            Gst = Convert.ToDecimal(x.TaxCharge);
             UnitsCost = Convert.ToDecimal(x.CostOfUnits);
             Tarrif = Convert.ToDecimal(x.Tariff);
             Units = Convert.ToDouble(x.Units);

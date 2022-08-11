@@ -46,8 +46,10 @@ namespace VendTech.Controllers
         public ActionResult ManageAgents()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            if(LOGGEDIN_USER.AgencyId > 0)
+            ViewBag.walletBalance = 0;
+            if (LOGGEDIN_USER.AgencyId > 0)
             {
+                ViewBag.walletBalance = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID).Balance ?? 0;
                 var users = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
                 return View(users);
             }
@@ -192,131 +194,7 @@ namespace VendTech.Controllers
             return Json(new { result = JsonConvert.SerializeObject(vendorList.List) });
         }
 
-        [AjaxOnly, HttpPost]
-        public JsonResult TransferCash(CashTransferModel request)
-        {
-            try
-            {
-                var depositCr = new Deposit
-                {
-                    Amount = request.Amount,
-                    POSId = request.ToPosId,
-                    BankAccountId = 0,
-                    CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = request.Amount,
-                };
-                var to = _depositManager.CreateDepositTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId);
-                var depositDr = new Deposit
-                {
-                    Amount = Decimal.Negate(request.Amount),
-                    POSId = request.FromPosId,
-                    BankAccountId = 0,
-                    CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = Decimal.Negate(request.Amount),
-                };
-                var from = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID);
-
-                SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
-                return Json(new { message = "You Successfuly transfered cash", currentFromVendorBalance = from, currentToVendorBalance = to });
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = "Error Occurred!!! please contact administrator"});
-            }
-        }
-
-        private void SendEmailOnDeposit(long fromPos, long toPosId)
-        {
-            var frmPos = _posManager.GetSinglePos(fromPos);
-            var toPos = _posManager.GetSinglePos(toPosId);
-
-            if (frmPos != null & frmPos?.EmailNotificationDeposit ?? false)
-            {
-                var user = _userManager.GetUserDetailsByUserId(frmPos?.VendorId??0);
-                if (user != null)
-                {
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.TransferFromNotification);
-                    if (emailTemplate.TemplateStatus)
-                    {
-                        string body = emailTemplate.TemplateContent;
-                        body = body.Replace("%USER%", user.FirstName);
-                        Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
-                    }
-                }
-            }
-
-            if (toPos != null & toPos?.EmailNotificationDeposit ?? false)
-            {
-                var user = _userManager.GetUserDetailsByUserId(toPos?.VendorId ?? 0);
-                if (user != null)
-                {
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.TransferToNotification);
-                    if (emailTemplate.TemplateStatus)
-                    {
-                        string body = emailTemplate.TemplateContent;
-                        body = body.Replace("%USER%", user.FirstName);
-                        Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
-                    }
-                }
-            }
-        }
-        private void SendSmsOnDeposit(long fromPos, long toPosId, decimal amt)
-        {
-
-            var frmPos = _posManager.GetSinglePos(fromPos);
-            var toPos = _posManager.GetSinglePos(toPosId);
-
-            if (frmPos != null & frmPos.SMSNotificationDeposit ?? true)
-            {
-                var requestmsg = new SendSMSRequest
-                {
-                    Recipient = "232" + frmPos.Phone,
-                    Payload = $"Greetings {frmPos.User.Name} \n" +
-                   $"Your wallet has been credited of SLL: {string.Format("{0:N0}", amt)}.\n" +
-                   "Please confirm the amount transferred reflects in your wallet.\n" +
-                   "VENDTECH"
-                };
-
-                var json = JsonConvert.SerializeObject(requestmsg);
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpClient client = new HttpClient();
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.BaseAddress = new Uri("https://kwiktalk.io");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
-                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var res = client.SendAsync(httpRequest).Result;
-                var stringResult = res.Content.ReadAsStringAsync().Result;
-            }
-
-            if (toPos != null & toPos.SMSNotificationDeposit ?? true)
-            {
-                var requestmsg = new SendSMSRequest
-                {
-                    Recipient = "232" + toPos.Phone,
-                    Payload = $"Greetings {toPos.User.Name} \n" +
-                   $"Your wallet has been debited of SLL: {string.Format("{0:N0}", amt)}.\n" +
-                   "VENDTECH"
-                };
-
-                var json = JsonConvert.SerializeObject(requestmsg);
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpClient client = new HttpClient();
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.BaseAddress = new Uri("https://kwiktalk.io");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
-                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var res = client.SendAsync(httpRequest).Result;
-                var stringResult = res.Content.ReadAsStringAsync().Result;
-            }
-        }
-
+       
         #endregion
     }
 }

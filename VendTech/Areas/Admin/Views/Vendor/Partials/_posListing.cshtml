@@ -8,7 +8,7 @@
         <tr class="odd gradeX">
             <td style="text-align:right;">@item.SerialNumber</td>
             <td> @item.VendorName</td>
-            <td style="text-align:right;">   @(item.Balance == null ? "0" : string.Format("{0:N0}", item.Balance))</td>
+            <td style="text-align:right;">  @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</td>
 
             <td style="text-align:right;">
                 @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
@@ -31,7 +31,7 @@
         @{
             var total = Model.List.Sum(e => e.Balance);
         }
-        @(total == null ? "0" : string.Format("{0:N0}", total))
+        @VendTech.BLL.Common.Utilities.FormatAmount(total)
     </td>
     <td style="border:1px solid white;">    </td>
     <td style="border:1px solid white;">    </td>

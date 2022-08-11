@@ -11,9 +11,9 @@ using VendTech.BLL.Models;
 
 namespace VendTech.BLL.Managers
 {
-    public class SMSManager : ISMSManager
+    public class SMSManager : BaseManager, ISMSManager
     {
-        async Task<bool> ISMSManager.SendSmsAsync(SendSMSRequest model)
+        async Task<ActionOutput> ISMSManager.SendSmsAsync(SendSMSRequest model)
         {
             try
             {
@@ -22,21 +22,22 @@ namespace VendTech.BLL.Managers
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 HttpClient client = new HttpClient();
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.BaseAddress = new Uri("https://kwiktalk.io");
+                client.BaseAddress = new Uri(WebConfigurationManager.AppSettings["SMSAPI"].ToString()); 
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
-                request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+                httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var res = await client.SendAsync(request);
-                return true;
+                var res = await client.SendAsync(httpRequest);
+                var stringResult = res.Content.ReadAsStringAsync().Result;
+                return new ActionOutput { Message = "SMS Sent Successfully", Status = ActionStatus.Successfull };
             }
             catch (HttpRequestException e)
             {
-                throw e;
+                return new ActionOutput { Message = e.Message, Status = ActionStatus.Error };
             }
             catch (Exception x)
             {
-                throw x;
+                return new ActionOutput { Message = x.Message, Status = ActionStatus.Error };
             }
 
         }

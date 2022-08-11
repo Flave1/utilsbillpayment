@@ -18,22 +18,37 @@ $(document).ready(function () {
         let pos = urlParams.get("pos");
         let vendorId = urlParams.get("vendorId");
         let type = urlParams.get("type");
+        let source = urlParams.get("source");
+        if (source == 'dashboard') {
+            $("#FromDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(),
+                format: "dd/MM/yyyy"
+            });
+            $("#ToDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(),
+                format: "dd/MM/yyyy"
+            });
+        } else {
+            $("#FromDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(from),
+                format: "dd/MM/yyyy"
+            });
+            $("#ToDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(to),
+                format: "dd/MM/yyyy"
+            });
+        }
 
         $("#reportType").val(type); 
         $("#meterNo").val(meter);
         $("#vendor").val(vendorId);
         $("#tranId").val(transId);
         $("#pos").val(pos);
-        $("#FromDate").kendoDatePicker({
-            culture: "en-GB",
-            value: new Date(from),
-            format: "dd/MM/yyyy"
-        });
-        $("#ToDate").kendoDatePicker({
-            culture: "en-GB",
-            value: new Date(to),
-            format: "dd/MM/yyyy"
-        });
+       
     }
     $("#fromSpan").text($("#FromDate").val())
     $("#toSpan").text($("#ToDate").val())

@@ -13,6 +13,7 @@ using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.Areas.Admin.Controllers;
+using VendTech.BLL.Common;
 #endregion
 
 namespace VendTech.Controllers
@@ -53,7 +54,7 @@ namespace VendTech.Controllers
         public ActionResult Index()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
-            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000);
+            var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
             return View(meters);
 
         }
@@ -62,7 +63,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var pageNo = (model.PageNo / model.RecordsPerPage) + (model.PageNo % model.RecordsPerPage > 0 ? 1 : 0);
-            var modal = _meterManager.GetMeters(LOGGEDIN_USER.UserID, pageNo, model.RecordsPerPage);
+            var modal = _meterManager.GetMeters(LOGGEDIN_USER.UserID, pageNo, model.RecordsPerPage, model.IsActive);
             List<string> resultString = new List<string>();
             resultString.Add(RenderRazorViewToString("Partials/_meterListing", modal));
             resultString.Add(modal.TotalCount.ToString());
@@ -165,6 +166,8 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
+
+            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
@@ -179,10 +182,13 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
-            ViewBag.SelectedTab = SelectedAdminTab.Users;
+            var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
+            ViewBag.IsDisable = platform.DisablePlatform;
+            ViewBag.DisabledMessage = platform.DiabledPlaformMessage;
+            ViewBag.MinumumVend = platform.MinimumAmount;
+            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            ViewBag.MinumumVend = _platformManager.GetSinglePlatform(1).MinimumAmount; //1 is not to be changed
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
@@ -233,11 +239,11 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public ActionResult GetUserMeters(RequestObject tokenobject)
         {
-            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 1000000000); 
+            var modal = _meterManager.GetMeters(Convert.ToInt64(tokenobject.token_string), 0, 1000000000, true); 
             return PartialView("Partials/_userMeterListing", modal);
         }
 
-        [AjaxOnly, HttpPost, Public]
+        [AjaxOnly, HttpPost]
         public ActionResult GetLatestRechargesAfterPurchase()
         {
             var hostory_model = new ReportSearchModel
@@ -262,7 +268,7 @@ namespace VendTech.Controllers
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
             else
                 ViewBag.walletBalance = 0; 
-            return Json(string.Format("{0:N0}", ViewBag.walletBalance != null ? ViewBag.walletBalance : "0"));
+            return Json(Utilities.FormatAmount(ViewBag.walletBalance));
         }
 
 

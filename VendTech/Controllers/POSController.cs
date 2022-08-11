@@ -54,6 +54,7 @@ namespace VendTech.Controllers
             var users = new PagingResult<POSListingModel>();
             //if (vendorId > 0)
             //{
+
             users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, LOGGEDIN_USER.UserID);
             ViewBag.VendorName = vendor != null ? vendor.Vendor : "";
 

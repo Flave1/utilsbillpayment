@@ -18,6 +18,7 @@ namespace VendTech.DAL
         public long UserId { get; set; }
         public int WidgetId { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public Nullable<bool> IsAddedFromAgency { get; set; }
     
         public virtual User User { get; set; }
         public virtual Widget Widget { get; set; }

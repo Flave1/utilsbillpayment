@@ -1,0 +1,91 @@
+﻿@model List<Checkbox>
+<style>
+    span.more-optionspan {
+        padding-left: 20px;
+        display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+
+    .more-option:checked ~ span.more-optionspan {
+        visibility: visible;
+    }
+
+    .more-userOption {
+        vertical-align: top;
+    }
+
+    span.more-userOptionspan {
+        padding-left: 20px;
+        display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+
+    .more-userOption:checked ~ span.more-userOptionspan {
+        visibility: visible;
+    }
+
+    .more-userOption {
+        vertical-align: top;
+    }
+</style>
+<div id="divResult">
+    <table class="table table-bordered" id="datatable-icons">
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Permission</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chkbox in (Model.Where(p => p.SubMenuOf == null)))
+            {
+
+                <tr class="odd gradeX">
+                    <td><label> @chkbox.ModuleName</label></td>
+                    <td>
+                        <input class="@(
+                    chkbox.ModuleName == "Manage Agents" ? "more-option" :
+                    chkbox.ModuleName == "TRANSFER" ? "more-option" : "")"
+                               type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+
+                        @if (chkbox.ModuleName.ToLower() == "Manage Agents".ToLower())
+                        {
+                            <span class="more-optionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID).OrderBy(d => d.ModuleName)))
+                                {
+                                    <p><input type="checkbox" name="SelectedModules" class="selectAgent" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+                                }
+
+                            </span>
+                        }
+
+                        @if (chkbox.ModuleName.ToLower() == "TRANSFER".ToLower())
+                        {
+                            <span class="more-optionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID).OrderBy(d => d.ModuleName)).OrderBy(s => s.ID))
+                                {
+                                    if (item.ID == 32)
+                                    {
+                                        <p><input type="checkbox" name="SelectedModules" class="selectAgent" value="@item.ID" checked /> @item.ModuleName</p>
+                                    }
+                                    else
+                                    {
+                                        <p><input type="checkbox" name="SelectedModules" class="selectAgent" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+                                    }
+                                }
+
+                            </span>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

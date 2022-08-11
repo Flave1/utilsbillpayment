@@ -15,9 +15,9 @@
     <td> @item.Bank</td>
     <td style=" text-align:center;"> @item.TransactionId</td>
     <td style="text-align:right"> @item.ChkNoOrSlipId</td>
-    <td style="text-align:right"><strong><a href="#" onclick="onViewDepositDetails('@item.DepositId')">@(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount)) </a></strong></td>
-    <td style="text-align:right"><strong>@(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))</strong></td>
-    <td style="text-align:right"><strong>@(item.NewBalance == null ? "0" : string.Format("{0:N0}", item.NewBalance))</strong></td>
+    <td style="text-align:right"><strong><a href="#" onclick="onViewDepositDetails('@item.DepositId')">@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount) </a></strong></td>
+    <td style="text-align:right"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)</strong></td>
+    <td style="text-align:right"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.NewBalance)</strong></td>
 
 
 

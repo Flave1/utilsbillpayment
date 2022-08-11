@@ -26,6 +26,8 @@ namespace VendTech.BLL.Managers
                 Title = p.Title,
                 Enabled = p.Enabled,
                 MinimumAmount = p.MinimumAmount,
+                DiabledPlaformMessage = p.DisabledPlatformMessage,
+                DisablePlatform = p.DisablePlatform,
                 Logo = string.IsNullOrEmpty(p.Logo) ? "" : Utilities.DomainUrl + p.Logo
             }).ToList();
             return platforms;
@@ -37,10 +39,6 @@ namespace VendTech.BLL.Managers
                 if (userId == 0) return new List<PlatformModel>();
                 var user = Context.Users.SingleOrDefault(p => p.UserId == userId);
                 var userAssignedPos = new POS();
-                //if (user.UserRole.Role == UserRoles.Vendor)
-                //    userAssignedPos = user.POS.FirstOrDefault();
-                //else if (user.UserRole.Role == UserRoles.AppUser && user.User1 != null)
-                //    userAssignedPos = user.User1.POS.FirstOrDefault();
                 userAssignedPos = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).FirstOrDefault();
 
                 if (userAssignedPos != null && userAssignedPos.POSId > 0)
@@ -49,7 +47,8 @@ namespace VendTech.BLL.Managers
                     {
                         PlatformId = p.Platform.PlatformId,
                         Title = p.Platform.Title,
-                        Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo
+                        DisablePlatform = p.Platform.DisablePlatform,
+                        Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo,
                     }).ToList();
                 }
             }
@@ -98,16 +97,19 @@ namespace VendTech.BLL.Managers
             dbPlatform.Title = model.Title; 
             dbPlatform.ShortName = model.ShortName;
             dbPlatform.MinimumAmount = model.MinimumAmount;
+            dbPlatform.DisabledPlatformMessage = model.DiabledPlaformMessage.ToString();
+            dbPlatform.DisablePlatform = model.DisablePlatform;
             if (model.Id == null || model.Id == 0)
             {
                 dbPlatform.CreatedAt = DateTime.UtcNow;
                 dbPlatform.IsDeleted = false;
                 Context.Platforms.Add(dbPlatform);
             }
-            Context.SaveChanges();
+            SaveChanges();
             return ReturnSuccess("Platform detail saved successfully.");
 
         }
+
 
         ActionOutput IPlatformManager.DeletePlatform(int platformId)
         {
@@ -162,7 +164,11 @@ namespace VendTech.BLL.Managers
                 return Context.Platforms.Where(d => d.PlatformId == platformId 
                 && d.IsDeleted == false 
                 && d.Enabled == true)
-                    .Select(d => new PlatformModel { Enabled = d.Enabled, MinimumAmount = d.MinimumAmount, Title = d.Title })
+                    .Select(d => new PlatformModel { Enabled = d.Enabled, 
+                        MinimumAmount = d.MinimumAmount, Title = d.Title,
+                        DiabledPlaformMessage = d.DisabledPlatformMessage,
+                        DisablePlatform = d.DisablePlatform,
+                    })
                     .FirstOrDefault();
                  
             }

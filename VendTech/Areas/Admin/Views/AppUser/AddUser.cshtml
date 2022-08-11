@@ -102,25 +102,32 @@
                                             @Html.ValidationMessageFor(x => x.AgentId)
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
+                                            </reset>
+                                        </div>
 
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
 
                                         <div class=" col-md-12">
-                                            @{ var listing = Model.ModuleList.Where(r =>  r.IsAdmin == false)
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                    .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                    .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                    .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                    .ToList()??new List<Checkbox>();
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                        .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                        .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
                                                 }
-                                                }
+                                            }
                                             @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>

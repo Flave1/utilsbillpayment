@@ -422,8 +422,8 @@ namespace VendTech.Controllers
                 // openingClosingHeader
                 var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
                 var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
-                var openingBal = openBal > 0 ? "OPENING BAL:  " + string.Format("{0:N0}", openBal) : "OPENING BAL: 0";
-                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + string.Format("{0:N0}", closeBal) : "CLOSING BAL:  0";
+                var openingBal = openBal > 0 ? "OPENING BAL:  " + BLL.Common.Utilities.FormatAmount(openBal) : "OPENING BAL: 0";
+                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + BLL.Common.Utilities.FormatAmount(closeBal) : "CLOSING BAL:  0";
                 var openingClosingHeader = new TableHeaderCell
                 {
                     ColumnSpan = 2,
@@ -501,9 +501,9 @@ namespace VendTech.Controllers
                         depositAmount = Convert.ToDecimal(row.Cells[4].Text);
                         balance = balance + depositAmount - saleAmount;
 
-                        row.Cells[4].Text = string.Format("{0:N0}", depositAmount);
-                        row.Cells[5].Text = string.Format("{0:N0}", saleAmount);
-                        row.Cells[6].Text = string.Format("{0:N0}", balance);
+                        row.Cells[4].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
+                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
+                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(balance);
                         if (row.Cells[2].Text == "Deposit")
                         {
                             row.Cells[0].BackColor = Color.LightGray;
@@ -613,8 +613,8 @@ namespace VendTech.Controllers
             ViewBag.vendor = GetVendorDetail.Value;
 
             var list = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
-            ViewBag.openBal = string.Format("{0:N0}", depositsBS.FirstOrDefault().DepositAmount);
-            ViewBag.closeBal = string.Format("{0:N0}", depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum());
+            ViewBag.openBal = BLL.Common.Utilities.FormatAmount(depositsBS.FirstOrDefault().DepositAmount);
+            ViewBag.closeBal = BLL.Common.Utilities.FormatAmount(depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum());
             foreach (var item in list)
             {
                 balance = balance + item.DepositAmount - item.SaleAmount;
@@ -1470,12 +1470,12 @@ namespace VendTech.Controllers
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[4].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[4].Text));
-                        row.Cells[5].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[5].Text));
-                        row.Cells[7].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[7].Text));
-                        row.Cells[8].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[8].Text));
 
-                        row.Cells[6].Text = string.Format("{0:N0}", Convert.ToDecimal(row.Cells[6].Text));
+                        row.Cells[4].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[4].Text));
+                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[5].Text));
+                        row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[7].Text));
+                        row.Cells[8].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[8].Text));
+                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(row.Cells[6].Text));
                     }
                 }
             }
@@ -1761,6 +1761,8 @@ namespace VendTech.Controllers
             if (td == null)
                 return  Json( new { message = "Not found.", status = "failed" });
 
+            if (request.PhoneNo == null)
+                request.PhoneNo = "12345678";
             var requestmsg = new SendSMSRequest
             {
                 Recipient = $"232{request.PhoneNo}",
@@ -1768,11 +1770,11 @@ namespace VendTech.Controllers
                             $"{td.CreatedAt.ToString("dd/MM/yyyy")}\n" +
                             $"POSID:{td.POS.SerialNumber}\n" +
                             $"Meter:{td.MeterNumber1}\n" +
-                            $"Amt:{string.Format("{0:N0}", td.Amount)}\n" +
-                            $"GST:{string.Format("{0:N0}", td.TaxCharge)}\n" +
-                            $"Chg:{string.Format("{0:N0}", td.ServiceCharge)}\n" +
-                            $"COU:{string.Format("{0:N0}", td.CostOfUnits)} \n" +
-                            $"Units:{string.Format("{0:N0}", td.Units)}\n" +
+                            $"Amt:{BLL.Common.Utilities.FormatAmount(td.Amount)}\n" +
+                            $"GST:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge))}\n" +
+                            $"Chg:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge))}\n" +
+                            $"COU:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.CostOfUnits))} \n" +
+                            $"Units:{BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.Units))}\n" +
                             $"PIN:{BLL.Common.Utilities.FormatThisToken(td.MeterToken1)}\n" +
                             "VENDTECH"
             };

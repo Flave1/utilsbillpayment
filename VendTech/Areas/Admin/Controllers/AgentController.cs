@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -13,14 +18,26 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IAgencyManager _agencyManager;
         private readonly ICommissionManager _commissionManager;
         private readonly IEmailTemplateManager _templateManager;
+        private readonly IVendorManager _vendorManager;
+        private readonly IPOSManager _posManager;
+        private readonly IBankAccountManager _bankAccountManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
+        private readonly IDepositManager _depositManager;
+        private readonly ISMSManager _smsManager;
         #endregion
 
-        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICommissionManager commissionManager)
+        public AgentController(IAgencyManager agencyManager, IErrorLogManager errorLogManager, IEmailTemplateManager templateManager, ICommissionManager commissionManager, IPaymentTypeManager paymentTypeManager, IBankAccountManager bankAccountManager, IPOSManager posManager, IVendorManager vendorManager, IDepositManager depositManager, ISMSManager smsManager)
             : base(errorLogManager)
         {
             _agencyManager = agencyManager;
             _templateManager = templateManager;
             _commissionManager = commissionManager;
+            _paymentTypeManager = paymentTypeManager;
+            _bankAccountManager = bankAccountManager;
+            _posManager = posManager;
+            _vendorManager = vendorManager;
+            _depositManager = depositManager;
+            _smsManager = smsManager;
         }
 
         #region User Management
@@ -29,6 +46,15 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageAgents()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
+            var vendors = _vendorManager.GetVendorsSelectList();
+            ViewBag.PosId = new SelectList(_vendorManager.GetPosSelectList(), "Value", "Text");
+
+            ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
+
+            var bankAccounts = _bankAccountManager.GetBankAccounts();
+            ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName.ToUpper(), Value = p.BankAccountId.ToString() }).ToList();
+            ViewBag.vendors = vendors;
 
             var users = _agencyManager.GetAgenciesPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
             return View(users);
@@ -44,16 +70,7 @@ namespace VendTech.Areas.Admin.Controllers
             resultString.Add(modal.TotalCount.ToString());
             return JsonResult(resultString);
         }
-        //[HttpGet]
-        //public ActionResult AddAgent()
-        //{
-        //    var model = new SaveAgentModel();
-
-        //    ViewBag.AgentTypes = Utilities.EnumToList(typeof(AgentTypeEnum));
-
-        //    return View(model);
-        //}
-
+      
         [HttpPost]
         public ActionResult AddAgent(SaveAgentModel model)
         {
@@ -70,16 +87,104 @@ namespace VendTech.Areas.Admin.Controllers
             if (id.HasValue && id > 0)
             {
                 model = _agencyManager.GetAgentDetail(id.Value);
+                model.ModuleList = _userManager.GetAllModules(model.Representative.Value);
+                model.WidgetList = _userManager.GetAllWidgets(model.Representative.Value);
+                return View(model);
             }
+            model.ModuleList = _userManager.GetAllModules(0);
+            model.WidgetList = _userManager.GetAllWidgets(0);
             return View(model);
         }
 
-        //[HttpPost]
-        //public ActionResult AddAgent(SaveAgentModel model)
-        //{
-        //    return JsonResult(_agencyManager.UpdateAgent(model));
-        //}
-        //Get Agent Percentage with vendorid
+        [AjaxOnly, HttpPost]
+        public async Task<JsonResult> SendOTP()
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            var result = _depositManager.SendOTP();
+            if (result.Status == ActionStatus.Successfull)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%otp%", result.Object);
+                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                    var currentUser = LOGGEDIN_USER.UserID;
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
+
+                var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
+                if (user != null)
+                {
+                    var msg = new SendSMSRequest
+                    {
+                        Recipient = "232" + user.Phone,
+                        Payload = $"Greetings {user.Name} \n" +
+                          $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
+                          "VENDTECH"
+                    };
+                    await _smsManager.SendSmsAsync(msg);
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult AddDeposit(DepositToAdmin request)
+        {
+            if (request.PosId == 0)
+            {
+                return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
+            }
+
+            if (request.ValueDate == null)
+                request.ValueDate = DateTime.UtcNow.ToString();
+            else
+                request.ValueDate = request.ValueDate;
+
+            try
+            {
+                
+                var depositCr = new Deposit
+                {
+                    Amount = request.Amount,
+                    POSId = request.PosId,
+                    BankAccountId = request.BankAccountId,
+                    CreatedAt = DateTime.UtcNow,
+                    PercentageAmount = request.Amount,
+                    CheckNumberOrSlipId = request.ChkOrSlipNo,
+                    ChequeBankName = request.Bank,
+                    ValueDate = request.ValueDate,
+                    NameOnCheque = request.NameOnCheque,
+                    PaymentType = request.PaymentType,
+                    ValueDateStamp = request.ValueDate == null ? DateTime.UtcNow : Convert.ToDateTime(request.ValueDate),
+                };
+
+               var result =  _depositManager.DepositToAgencyAdminAccount(depositCr, LOGGEDIN_USER.UserID, request.OTP);
+
+               if(result.Status == ActionStatus.Successfull)
+                {
+                    var pos = _posManager.GetSinglePos(request.PosId);
+                    if (pos != null && pos.EmailNotificationDeposit == true)
+                    {
+                        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.TransferToNotification);
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%USER%", pos.User.Name);
+                            Utilities.SendEmail(pos.User.Email, emailTemplate.EmailSubject, body);
+                        }
+                    }
+                }
+                return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+            }
+            catch (Exception ex)
+            {
+                return JsonResult(new ActionOutput { Message = $"Error occurred!!  {ex?.Message}", Status = ActionStatus.Error });
+            }
+        }
+      
+        
         public ActionResult GetAgentPercentage(long vendorId)
         {
             return Json(new { percentage = _agencyManager.GetAgentPercentage(vendorId) }, JsonRequestBehavior.AllowGet);

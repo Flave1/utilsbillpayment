@@ -95,11 +95,14 @@ namespace VendTech.Controllers
 
             ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
 
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             return View(model);
         }
+    
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
         {
+
             // model.UserId = LOGGEDIN_USER.UserID; 
             if (model.PosId == 0)
             {
@@ -111,7 +114,7 @@ namespace VendTech.Controllers
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
                 {
-                    return JsonResult(new ActionOutput { Message = string.Format("{0:N0}", pendingDeposits), Status = ActionStatus.Successfull });
+                    return JsonResult(new ActionOutput { Message = Utilities.FormatAmount(pendingDeposits), Status = ActionStatus.Successfull });
                 }
             }
                  
@@ -134,7 +137,7 @@ namespace VendTech.Controllers
                             body = body.Replace("%VendorName%", pos.User.Vendor);
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", string.Format("{0:N0}", result.Object.Amount));
+                            body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
                             Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                         }
 
@@ -143,6 +146,7 @@ namespace VendTech.Controllers
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
+       
         [AjaxOnly]
         public JsonResult GetBankAccountDetail(int bankAccountId)
         {

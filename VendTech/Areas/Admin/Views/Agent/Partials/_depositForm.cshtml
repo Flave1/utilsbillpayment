@@ -1,0 +1,109 @@
+﻿<style>
+    #percentageAmount {
+        font-size: 50px;
+        height: 55px;
+        border: none;
+        text-align: right;
+        color: red !important;
+        font-weight: bold;
+    }
+
+    .modal-dialog {
+        margin-top: 2%;
+    }
+
+    #amountDisplay {
+        font-size: 20px;
+        text-align: right;
+        font-weight: bold;
+        color: #e81500 !important;
+        width: 50%;
+    }
+
+    #amountDisplay2 {
+        font-size: 30px;
+        text-align: right;
+        font-weight: bold;
+        color: #00a2e8 !important;
+        width: 50%;
+        border: none;
+    }
+    .otpSent{
+        display: none;
+    }
+    .k-header{
+        width: 50% !important;
+    }
+</style>
+<div id="depositToAgencyAdminModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style=" margin-right:-0%; ">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="height: 680px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="superAdminTransferHandler.resetForm()">&times;</button>
+                <h4 class="modal-title">Deposit Uploader</h4>
+                <hr />
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <h3 style="padding-left: 10px; margin-top: -40px; color:#00a2e8;">
+                        <strong id="agencyAdminDisplayName">AFRO INTERNATION - AGT - 93000</strong>
+                    </h3>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">BANK ACCOUNT</label>
+                    @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @style = " width:50% !important;", @class = "form-control col-md-6", @id = "bankAccountId" })
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">CHX/CASH</label>
+                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-8  form-control", style = "width: 50%;", @onchange = "superAdminTransferHandler.onPaymentTypeChange()", @id = "paymentType" })
+                </div>
+                <div class="form-group row chkBankDiv" style="display:none;">
+                    <label class="col-sm-2 col-md-2" style="width:31% !important;">VALUE DATE</label>
+                    <input type="text" style="width:50%; font-weight: bold;" class="col-sm-6 col-md-6 form-control" autocomplete="off" name="ValueDate" id="valueDate">
+                </div>
+                <div class="form-group row chkBankDiv" style="display: none">
+                    <label class="col-sm-2 col-md-2" style="width:31% !important;">BANK</label>
+                    @Html.DropDownList("ChkBankName", null, "SELECT BANK", new { @class = "col-sm-6 col-md-6  form-control", @style = "width: 50%;", @id = "bank" })
+                </div>
+                <div class="form-group row chkBankDiv" style="display: none">
+                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">NAME ON CHEQUE</label>
+                    <input type="text" id="nameOnCheque" name="NameOnCheque" style="width: 50%;" class="col-sm-6 col-md-6  form-control">
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-2" style="width:31% !important;">CHX # OR SLIP ID</label>
+                    <input type="text" id="chkOrSlipNo" value="0" name="ChkOrSlipNo" style="color: red; text-align: right; width:50%; font-weight: bold;" class="col-md-10 form-control">
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">DEPOSIT AMOUNT</label>
+                    <input type="text"
+                           id="amountDisplay"
+                           onkeypress="javascript:return superAdminTransferHandler.isNumber(event)"
+                           onkeyup="superAdminTransferHandler.getAmountWithPercentage()"
+                           class="col-md-10  form-control">
+                    <input type="hidden" id="amount" name="Amount">
+                </div>
+                <br />
+                <div class="form-group row">
+                    <label style=" width:31% !important;"></label>
+                    <input type="text" id="amountDisplay2">
+                </div>
+
+                <div class="form-group row otpSent">
+                    <div class="row" style="width:80%; text-align:right"><a href="#" onclick="superAdminTransferHandler.resendOtp(this)">RESEND OTP</a></div>
+                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otp">
+                </div>
+                <div class="row col-md-11">
+                    <button type="button" class="btn btn-primary pull-right" id="submitBtn" onclick="superAdminTransferHandler.submit(this)">Submit</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

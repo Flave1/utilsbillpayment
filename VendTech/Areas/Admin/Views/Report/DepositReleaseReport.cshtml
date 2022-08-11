@@ -103,7 +103,7 @@
                                 @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
                                 <div class="otpdiv">
                                     @*<h3 class=""> <a href="javascript:void(0)" id="sendOTPBtn" class="btn btn-primary pull-right" title="Send OTP"><i class="fa fa-save "></i><super></super></a></h3>*@
-                                    <label style="font-size: 24px; color: #00a2e8 !important;"> @(ViewBag.Balance == null ? "0" : string.Format("{0:N0}", ViewBag.Balance))  SLL</label>
+                                    <label style="font-size: 24px; color: #00a2e8 !important;">   NLe: @Utilities.FormatAmount(ViewBag.Balance)</label>
                                 </div>
                                 <div id="divResult">
                                     <table class="table table-bordered" id="datatable-icons">

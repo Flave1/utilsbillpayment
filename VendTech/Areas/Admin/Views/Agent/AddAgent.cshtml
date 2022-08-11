@@ -17,63 +17,78 @@
                         <h3>@ViewBag.Title</h3>
                     </div>
                     <div class="content people-form-cs">
-                        <form class="form-horizontal" role="form" id="UserForm">
-                            @Html.HiddenFor(x => x.AgencyId)
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-12 control-label" style=" text-align:left">AGENCY NAME<em>*</em></label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.AgencyName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.AgencyName)
+                        <form class="form-horizontal row" role="form" id="UserForm">
+                            <div class="row">
+                                @Html.HiddenFor(x => x.AgencyId)
+                                <div class="col-md-4">
+
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-12 control-label" style=" text-align:left">AGENCY NAME<em>*</em></label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(x => x.AgencyName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.AgencyName)
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="inputEmail3" class="col-md-12">SELECT ADMINISTRATOR</label>
+                                            <div class="col-md-12">
+                                                <select class="form-control " name="Representative" id="Admin">
+                                                    <option value="">SELECT ADMIN</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="inputEmail3" class="col-md-12">AGENCY COMMISION</label>
+                                            <div class="col-md-12">
+                                                <select class="form-control " name="Percentage" id="Percentage">
+                                                    <option value="0">COMMISSION</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                 </div>
-                                @*<div class="row">
-                                    <div class=" col-md-12">
-                                        <label for="inputEmail3" class="col-md-12 control-label" style="text-align:left">COMPANY</label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(x => x.Company, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Company)
-                                        </div>
-                                    </div>
 
-                                </div>*@
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="inputEmail3" class="col-md-12">SELECT ADMINISTRATOR</label>
-                                        <div class="col-md-8">
-                                            <select class="form-control " name="Representative" id="Admin">
-                                                <option value="">SELECT ADMIN</option>
-                                            </select>
-                                        </div>
-                                  
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="inputEmail3" class="col-md-12">AGENCY COMMISION</label>
-                                        <div class="col-md-8">
-                                            <select class="form-control " name="Percentage" id="Percentage">
-                                                <option value="">COMMISSION</option>
-                                            </select>
+                                        <div class=" col-md-12">
+                                            @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID == 26 || r.SubMenuOf == 26 || r.ID == 31 || r.SubMenuOf == 31)
+                                                           .ToList();
+                                                if (listing == null || !listing.Any())
+                                                {
+                                                    listing = new List<Checkbox>();
+                                                }
+                                            }
+                                            @Html.Partial("Partials/_modulesListing", listing)
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">DASHBOARD WIDGETS</label>
 
+                                        <div class=" col-md-12">
+                                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList.Where(d => d.Id != 9).ToList())
 
-
-
-                                <div class="row">
-                                    <div class=" col-md-6">
-                                        <div class="col-sm-offset-12 col-sm-8">
-                                            <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a>
-                                            <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pull-right col-sm-3">
+                                    <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                    <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
                                 </div>
                             </div>
                         </form>
@@ -87,12 +102,38 @@
 @section scripts{
     <script src="~/Scripts/AdminScripts/agency.js"></script>
     <script type="text/javascript">
+
+
+
         $(document).ready(function () {
-            
-          
+
+            var toggleSelectAgent = document.querySelector('.selectAgent');
+
+            if ('@Model.AgencyId' == 0) {
+                $('#10').hide();
+            }
+
+            setTimeout(function () {
+                toggleSelectAgent.addEventListener('change', function (e) {
+                    if (this.checked) {
+                        $('#10').show();
+                        $('#10').attr('checked', true);
+                    } else {
+                        $('#10').hide();
+                        $('#10').attr('checked', false);
+                    }
+                });
+
+            }, 500);
+
+
+
             loadAllUser()
             loadAllCommissions()
             App.init();
+
+
+
         });
 
 
@@ -118,7 +159,7 @@
                 }
                 var val = $("#Percentage").val('@Model.Percentage');
                   if ('@Model.Percentage' == 0) {
-                    $('#Percentage option[value="1"]').attr("selected", true);
+                    $('#Percentage option[value="2"]').attr("selected", true);
                 }
             }
         }

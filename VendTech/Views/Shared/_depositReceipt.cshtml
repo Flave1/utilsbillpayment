@@ -90,13 +90,13 @@
                         </tr>
                         <tr>
                             <td>Amount</td>
-                            <td>@string.Format("{0:N0}", Model.Amount)</td>
+                            <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>
                         </tr>
                         @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
                         {
                             <tr>
                                 <td>COMMISSION @@ %1</td>
-                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
                             </tr>
 
                         }
@@ -105,14 +105,14 @@
                         {
                             <tr>
                                 <td>TOTAL TRANSACTION AMOUNT</td>
-                                <td>@string.Format("{0:N0}", Model.Amount)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>
                             </tr>
                         }
                         else
                         {
                             <tr>
                                 <td>TOTAL TRANSACTION AMOUNT</td>
-                                <td>@string.Format("{0:N0}", (Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
+                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
                             </tr>
                         }
 
@@ -129,7 +129,7 @@
                 </div>
                 <div class="row modal-footer" style="display:flex;"> 
                     <div class="col-md-5 pull-right" style="margin-left:30px; text-align:left">
-                        <span> NOTE: This is an official stamp</span>
+                        <span> Note: THIS IS AN OFFICIAL VENDTECH INVOICE</span>
                     </div>
                     <div class="col-md-3 pull-right" id="print_section" style="text-align:right">
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>

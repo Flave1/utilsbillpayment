@@ -46,11 +46,21 @@
                     font-size: 15px;
                     height: 40px;
                 }
+
+                .sweet-alert h2 {
+                    color: red;
+                    font-weight: bold;
+                }
+                .sweet-alert p {
+                    font-weight: bold;
+                }
+
             </style>
+
             <div class="col-md-21">
                 <div class="block-flat">
                     <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                        @*<span id="balanceSpan" style="color:#00a2e8;">SSL: @(ViewBag.balance == null ? "0" : string.Format("{0:N0}", ViewBag.balance))</span>*@
+                        <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                     </div>
                     <div class="contarea meterpage">
                         <div class="container-fluid" style="background:white; ">
@@ -142,7 +152,8 @@
                                             </div>
 
                                             <div class="editpro-row submt " style="padding-right : 20px;">
-                                                <input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">
+                                                @*<input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">*@
+                                                <button type="button" class="savebttn btn btn-primary pull-left addDepositBtn " id="btnAdd">ADD DEPOSIT</button>
                                             </div>
                                         </div>
 
@@ -336,91 +347,37 @@
                 })
         }
 
+
+
     function AddDeposit(sender) {
-        $("#btnAdd").val('PROCESSING....');
-        $("#btnAdd").prop('disabled', true); 
-            if (!$("#amount").val() || $("#amount").val() == "0")
-            {
-                $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    return;
-            } 
-            else if (!$("#posDrp").val()) {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
-                return;
-            }
-            else if (!$("#ChkOrSlipNo").val())
-            {
-                $("#btnAdd").val('ADD BALANCE');
-                $("#btnAdd").prop('disabled', false);
-                    $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
-                    return;
-            }else {
+
+        if (!$("#amount").val() || $("#amount").val() == "0") {
+            $.ShowMessage($('div.messageAlert'), "Amount is required and amount must be greater then 0.", MessageType.Error);
+
+            disableSubmit(false);
+            return;
+        }
+        else if (!$("#posDrp").val()) {
+
+            disableSubmit(false);
+            $.ShowMessage($('div.messageAlert'), "POS Required.", MessageType.Error);
+            return;
+        }
+        else if (!$("#ChkOrSlipNo").val()) {
+            disableSubmit(false);
+            $.ShowMessage($('div.messageAlert'), "Cheque or Slip Id is required.", MessageType.Error);
+            return;
+        }
+
+        else {
+          
+
+            var amt = thousands_separators($("#amount").val());
+            var invalidAmt = thousands_separators($("#amount").val() / 1000);
+
+            $.ConfirmBox("REDENOMINATION ALERT", "PLEASE CONFIRM DEPOSIT \n AMOUNT: NLe  " + amt + " \n\n MAKE SURE YOU ARE CERTAIN THAT YOU WANT TO DEPOSIT " + amt + " AND NOT " + invalidAmt + " LEONES", null, true, null, true, null, function () {
+                disableSubmit(true);
                 $("#ContinueDepoit").val(0);
-                    $.ajaxExt({
-                        url: baseUrl + '/Deposit/AddDeposit',
-                        type: 'POST',
-                        validate: true,
-                        showErrorMessage: true,
-                        messageControl: $('div.messageAlert'),
-                        formToValidate: $(sender).parents("form:first"),
-                        formToPost: $(sender).parents("form:first"),
-                        isAjaxForm: true,
-                        showThrobber: true,
-                        button: $(sender),
-                        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                        success: function (results, message) {
-                            if (message != "Deposit request saved successfully.") {
-                                reDeposit(sender, 2, message);
-                                $("#btnAdd").val('ADD BALANCE');
-                                $("#btnAdd").prop('disabled', false);
-                                return;
-                            }
-                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                            setTimeout(function () {
-                                window.location.href = baseUrl + '/Deposit/Index'
-                            }, 1500);
-
-                        },
-                        error: function (results, message) {
-                            $("#btnAdd").val('ADD BALANCE');
-                            $("#btnAdd").prop('disabled', false);
-                        }
-                    });
-                }
-
-        }
-
-        $("#posDrp").on("change", function () {
-            let posId = $("#posDrp").val();
-
-            if (posId) {
-                fetchPosPercentage(posId);
-            }
-        })
-        function fetchPosPercentage(posId) {
-
-            $.ajax({
-                url: '/Admin/Report/GetPosPercentage?pos=' + posId,
-                success: function (res) {
-                    if (res.percentage > 0) {
-                        $("#agentPercentage").text(res.percentage);
-                        $("#commission").show();
-                    } else {
-                        $("#commission").hide();
-                    }
-                }
-            });
-        }
-
-
-        function reDeposit(sender, ContinueDepoit, amt) {
-            $("#ContinueDepoit").val(0);
-            $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n SLL: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
-
                 $.ajaxExt({
                     url: baseUrl + '/Deposit/AddDeposit',
                     type: 'POST',
@@ -434,23 +391,105 @@
                     button: $(sender),
                     throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                     success: function (results, message) {
-                        $(".sweet-alert h2").css("color", "green");
+                        if (message != "Deposit request saved successfully.") {
+                            reDeposit(sender, 2, message);
+                            return;
+                        }
                         $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                         setTimeout(function () {
-                            window.location.reload();
+                            window.location.href = baseUrl + '/Deposit/Index'
                         }, 1500);
+
+                        disableSubmit(false);
                     },
                     error: function (results, message) {
-                        $("#btnAdd").val('ADD BALANCE');
-                        $("#btnAdd").prop('disabled', false);
+                        disableSubmit(false);
                     }
                 });
+
+            })
+            
+        }
+
+    }
+
+    $("#posDrp").on("change", function () {
+        let posId = $("#posDrp").val();
+
+        if (posId) {
+            fetchPosPercentage(posId);
+        }
+    })
+    function fetchPosPercentage(posId) {
+
+        $.ajax({
+            url: '/Admin/Report/GetPosPercentage?pos=' + posId,
+            success: function (res) {
+                if (res.percentage > 0) {
+                    $("#agentPercentage").text(res.percentage);
+                    $("#commission").show();
+                } else {
+                    $("#commission").hide();
+                }
+            }
+        });
+    }
+
+
+    function reDeposit(sender, ContinueDepoit, amt) {
+        $("#ContinueDepoit").val(0);
+        $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n NLe: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
+
+            $.ajaxExt({
+                url: baseUrl + '/Deposit/AddDeposit',
+                type: 'POST',
+                validate: true,
+                showErrorMessage: true,
+                messageControl: $('div.messageAlert'),
+                formToValidate: $(sender).parents("form:first"),
+                formToPost: $(sender).parents("form:first"),
+                isAjaxForm: true,
+                showThrobber: true,
+                button: $(sender),
+                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                success: function (results, message) {
+                    $(".sweet-alert h2").css("color", "green");
+                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                    disableSubmit(false);
+                },
+                error: function (results, message) {
+                    disableSubmit(false);
+                }
             });
-            $(".sweet-alert h2").css("color", "red");
-            $(".confirm").hide();
-            $("#btnAdd").val('ADD BALANCE');
+        });
+        $(".sweet-alert h2").css("color", "red");
+        $(".confirm").hide();
+        disableSubmit(false);
+    }
+
+
+    function disableSubmit(disabled = false) {
+        if (disabled) {
+            $("#btnAdd").css({ backgroundColor: '#56bb96' });
+            $("#btnAdd").text('PROCESSING....');
+            $("#btnAdd").prop('ADD BALANCE', true);
+        } else {
+            $("#btnAdd").css({ backgroundColor: '#f1cf09' });
+            $("#btnAdd").text('ADD BALANCE');
             $("#btnAdd").prop('disabled', false);
         }
+
+    }
+
+    function thousands_separators (num) {
+        var num_parts = num.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return num_parts.join(".");
+    }
+
 </script>
 }
 

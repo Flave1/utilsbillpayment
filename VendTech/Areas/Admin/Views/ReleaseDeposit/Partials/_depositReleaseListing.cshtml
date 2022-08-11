@@ -13,10 +13,10 @@
         <td> @item.Type</td>
         <td style="text-align:right;"> @item.ChkNoOrSlipId</td>
         <td style="text-align:right;">
-            @(item.Amount == null ? "0" : string.Format("{0:N0}", item.Amount))
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
         </td>
         <td style="text-align:right;">
-            @(item.PercentageAmount == null ? "0" : string.Format("{0:N0}", item.PercentageAmount))
+            @VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)
         </td>
         <td>
             @item.Status

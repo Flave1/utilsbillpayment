@@ -84,6 +84,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
+       
         [AjaxOnly, HttpPost]
         public JsonResult ChangeDepositStatus(ReleaseDepositModel model)
         {
@@ -141,7 +142,7 @@ namespace VendTech.Areas.Admin.Controllers
                             {
                                 Recipient = "232" + deposit.POS.Phone,
                                 Payload = $"Greetings {deposit.User.Name} \n" +
-                               $"Your deposit of SLL: {string.Format("{0:N0}", deposit.Amount)} has been approved.\n" +
+                               $"Your deposit of NLe: {Utilities.FormatAmount(deposit.Amount)} has been approved.\n" +
                                "Please confirm the amount deposited reflects in your wallet.\n" +
                                "VENDTECH"
                                 };
