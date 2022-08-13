@@ -1593,7 +1593,7 @@ namespace VendTech.BLL.Managers
                         }
                         dbDeposit.NewBalance = dbDeposit.POS.Balance; 
 
-                        dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                        dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                         dbDeposit.IsDeleted = false;
 
                        
@@ -2207,13 +2207,16 @@ namespace VendTech.BLL.Managers
                     var amt = dbDeposit.Amount;
                     var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
+                    dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    
                 }
 
                 //Adds to  Reciever Balance
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                //dbDeposit.PercentageAmount = 
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
-                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
                 Context.Deposits.Add(dbDeposit);
                 Context.SaveChanges();
@@ -2277,7 +2280,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
-                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
 
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
@@ -2287,6 +2290,7 @@ namespace VendTech.BLL.Managers
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
                     var percntage = pos.User.Agency.Commission.Percentage;
                     var commision = amt * percntage / 100;
+                    dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
@@ -2349,7 +2353,7 @@ namespace VendTech.BLL.Managers
               
                 //Adds to  Reciever Balance
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
-                dbDeposit.TransactionId = Utilities.GetLastDepositTrabsactionId();
+                dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
                 Context.Deposits.Add(dbDeposit);
                 Context.SaveChanges();
