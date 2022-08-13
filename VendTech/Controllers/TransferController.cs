@@ -95,7 +95,7 @@ namespace VendTech.Controllers
                     POSId = request.FromPosId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = Decimal.Negate(request.Amount),
+                    PercentageAmount = request.Amount,
                     CheckNumberOrSlipId = reference,
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
