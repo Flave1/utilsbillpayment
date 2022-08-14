@@ -2209,7 +2209,6 @@ namespace VendTech.BLL.Managers
                     var commision = amt * percntage / 100;
                     dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
-                    
                 }
 
                 //Adds to  Reciever Balance
@@ -2292,6 +2291,7 @@ namespace VendTech.BLL.Managers
                     var commision = amt * percntage / 100;
                     dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    dbDeposit.AgencyCommission = commision;
                 }
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
 

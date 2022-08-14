@@ -1,4 +1,4 @@
-﻿@model PagingResult<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
 @{
 
     ViewBag.Title = "Manage Balance Sheet Reports";
@@ -62,6 +62,7 @@
                                 </div>
 
                                 <div class="blwsec">
+                                    
                                     @using (Html.BeginForm("ExportBalanceSheetReportTo", "Report", FormMethod.Post, new { @id = "salesForm" }))
                                     {
                                         <div class="blwsec-left">

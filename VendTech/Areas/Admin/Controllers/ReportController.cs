@@ -124,8 +124,8 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "27")
                 {
 
-                    var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-                 
+                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+                    ViewBag.OpeningBalance = 0;
                     return View("BalanceSheetReports", balanceSheet);
                 }
                 if (val == "28")
@@ -266,25 +266,29 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000; 
 
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
             balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
             decimal balance = 0;
+            
             foreach (var item in balanceSheet.List)
             {
                 balance = balance + item.DepositAmount - item.SaleAmount;
                 item.Balance = balance;
             }
-
+            var firstRecord = balanceSheet.List.FirstOrDefault();
+            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.SaleAmount + firstRecord.Balance);
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
             var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
-           };
+           
+            
+            };
             return JsonResult(resultString);
         }
 
