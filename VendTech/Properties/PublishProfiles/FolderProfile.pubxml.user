@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\bin\app.publish\</_PublishTargetUrl>
-    <History>True|2022-08-13T13:24:41.1234899Z;True|2022-08-13T14:22:38.7333491+01:00;True|2022-08-13T11:50:57.6995012+01:00;True|2022-08-13T11:38:51.4344867+01:00;True|2022-08-12T07:58:46.7719560+01:00;</History>
+    <History>True|2022-08-22T13:23:01.6145603Z;True|2022-08-21T13:05:42.8185518+01:00;True|2022-08-21T13:04:53.7384114+01:00;True|2022-08-21T13:04:13.2799725+01:00;True|2022-08-20T14:50:02.6952540+01:00;True|2022-08-13T14:24:41.1234899+01:00;True|2022-08-13T14:22:38.7333491+01:00;True|2022-08-13T11:50:57.6995012+01:00;True|2022-08-13T11:38:51.4344867+01:00;True|2022-08-12T07:58:46.7719560+01:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/readme.txt">
@@ -171,7 +171,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/11/2022 14:55:58</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/AddEditPos.cshtml">
-      <publishTime>04/11/2022 07:08:55</publishTime>
+      <publishTime>08/21/2022 13:19:15</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>08/11/2022 14:55:58</publishTime>
@@ -198,7 +198,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
-      <publishTime>08/11/2022 14:55:58</publishTime>
+      <publishTime>08/18/2022 11:39:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageGSTSalesReports.cshtml">
       <publishTime>04/11/2022 07:08:55</publishTime>
@@ -558,37 +558,37 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/27/2021 20:48:34</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>08/13/2022 14:22:26</publishTime>
+      <publishTime>08/22/2022 15:16:04</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
-      <publishTime>08/13/2022 14:22:26</publishTime>
+      <publishTime>08/22/2022 15:16:04</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>08/12/2022 07:58:24</publishTime>
+      <publishTime>08/22/2022 15:16:02</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>08/11/2022 14:55:58</publishTime>
+      <publishTime>08/22/2022 14:42:58</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
-      <publishTime>08/12/2022 07:58:24</publishTime>
+      <publishTime>08/22/2022 15:16:02</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>08/13/2022 14:24:32</publishTime>
+      <publishTime>08/22/2022 19:42:44</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>08/13/2022 14:22:26</publishTime>
+      <publishTime>08/22/2022 15:16:05</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>05/04/2022 12:45:29</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
-      <publishTime>08/13/2022 14:22:26</publishTime>
+      <publishTime>08/22/2022 15:16:05</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>08/13/2022 14:24:32</publishTime>
+      <publishTime>08/22/2022 19:42:44</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
@@ -9273,7 +9273,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:58</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>08/13/2022 14:11:21</publishTime>
+      <publishTime>08/15/2022 16:22:57</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/11/2022 07:08:58</publishTime>
@@ -9735,7 +9735,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:08:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/12/2022 07:58:30</publishTime>
+      <publishTime>08/16/2022 15:33:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

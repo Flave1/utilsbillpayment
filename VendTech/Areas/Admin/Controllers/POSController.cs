@@ -149,7 +149,17 @@ namespace VendTech.Areas.Admin.Controllers
             var readonlyStr = "readonly";
             ViewBag.read = "";
 
-            if (id > 0) ViewBag.read = readonlyStr;
+            if (id > 0)
+            {
+                ViewBag.read = readonlyStr;
+            }
+            else
+            {
+                model.PosSms = true;
+                model.WebPrint = true;
+                model.SMSNotificationDeposit = true;
+                model.SMSNotificationDeposit = true;
+            }
 
             ViewBag.PosTypes = Utilities.EnumToList(typeof(PosTypeEnum));
             ViewBag.Vendors = _vendorManager.GetVendorsForPOSPageSelectList();
@@ -164,7 +174,6 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 model = _posManager.GetPosDetail(id.Value);
                 model.PlatformList = _posManager.GetAllPlatforms(id.Value);
-
             }
             else
                 model.PlatformList = _posManager.GetAllPlatforms(0);

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -155,8 +155,9 @@
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="datetime" />
+          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -314,7 +315,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="Logo" Type="varchar" MaxLength="200" />
           <Property Name="MinimumAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DisablePlatform" Type="bit" Nullable="false" />
-          <Property Name="DisabledPlatformMessage" Type="varchar" MaxLength="1" />
+          <Property Name="DisabledPlatformMessage" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -1414,8 +1415,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1585,13 +1585,14 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="DateTime" Precision="3" />
           <NavigationProperty Name="BankAccount" Relationship="Self.FK_Deposits_BankAccounts" FromRole="Deposits" ToRole="BankAccounts" />
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Deposits" FromRole="Deposits" ToRole="DepositLogs" />
           <NavigationProperty Name="PaymentType1" Relationship="Self.FK_Deposits_PaymentType" FromRole="Deposits" ToRole="PaymentType" />
           <NavigationProperty Name="POS" Relationship="Self.FK_Deposits_POS" FromRole="Deposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_Deposits_Users" FromRole="Deposits" ToRole="Users" />
+          <Property Name="BalanceBefore" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1748,7 +1749,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <Property Name="Logo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="MinimumAmount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DisablePlatform" Type="Boolean" Nullable="false" />
-          <Property Name="DisabledPlatformMessage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DisabledPlatformMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetails" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="Self.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatforms" />
@@ -2985,6 +2986,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <EntitySetMapping Name="Deposits">
             <EntityTypeMapping TypeName="VendtechModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
+                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />

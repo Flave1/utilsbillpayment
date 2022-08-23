@@ -85,8 +85,10 @@ namespace VendTech.Controllers
         {
             try
             {
-               
-                //return null;
+                if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
+                {
+                    SignOut();
+                }
                 var reference = Utilities.GenerateByAnyLength(6).ToUpper();
 
                 var depositDr = new Deposit
@@ -95,7 +97,7 @@ namespace VendTech.Controllers
                     POSId = request.FromPosId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
-                    PercentageAmount = request.Amount,
+                    PercentageAmount = Decimal.Negate(request.Amount),
                     CheckNumberOrSlipId = reference,
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
@@ -213,6 +215,10 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public async Task<JsonResult> SendOTP()
         {
+            if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
+            {
+                SignOut();
+            }
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.SendOTP();
             if (result.Status == ActionStatus.Successfull)
