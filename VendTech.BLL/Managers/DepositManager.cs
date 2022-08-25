@@ -1569,6 +1569,7 @@ namespace VendTech.BLL.Managers
                     dbDeposit.Status = (int)status;
                     dbDeposit.IsDeleted = true;
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
+                    dbDeposit.BalanceBefore = dbDeposit.POS.Balance;
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
                     {
                         //dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
@@ -1917,6 +1918,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.PercentageAmount = model.PercentageAmount;
             dbDeposit.TransactionId = "0";
             dbDeposit.CreatedAt = model.CreatedAt;
+            dbDeposit.BalanceBefore = 0;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
             dbDeposit.ValueDate = model.ValueDate;// + //" 12:00";//.ToString("dd/MM/yyyy hh:mm");
             //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
@@ -1950,6 +1952,7 @@ namespace VendTech.BLL.Managers
 
                 dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
                 dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
+                dbDeposit.BalanceBefore = dbDeposit.BalanceBefore == null ? 0 : dbDeposit.BalanceBefore;
                 Context.SaveChanges();
             }
 
@@ -2001,7 +2004,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
                 dbDeposit.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
                 dbDeposit.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
-                Context.SaveChanges();
+                dbDeposit.BalanceBefore = dbDeposit.BalanceBefore == null ? 0: dbDeposit.BalanceBefore;
+                SaveChanges();
             }
             
             depositAuditModel.DateTime = dbDeposit.CreatedAt.ToString("dd/MM/yyyy hh:mm");
@@ -2341,6 +2345,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId ?? 0;
                 dbDeposit.Comments = "";
                 dbDeposit.isAudit = false;
+                dbDeposit.BalanceBefore = toPos.Balance;
 
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
               

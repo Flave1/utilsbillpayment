@@ -428,7 +428,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 9,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -628,7 +628,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 13,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -768,7 +768,6 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.AllowPaging = true;
             }
         }
-
 
         public void ExportBalanceSheetReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1009,7 +1008,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
 
         }
-
 
         public void ExportGSTSalesReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1503,7 +1501,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
         }
 
-
         public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -1599,7 +1596,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "VENDTECH DEPOSIT REPORTS",
+                    Text = "VENDTECH AGENCY REVENUE REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1614,7 +1611,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1700,7 +1697,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult PrintSalesReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1722,7 +1718,6 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _meterManager.GetSalesExcelReportData(model, true).List;
             return View(list);
         }
-
 
         [HttpGet]
         public ActionResult PrintGSTSalesReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)

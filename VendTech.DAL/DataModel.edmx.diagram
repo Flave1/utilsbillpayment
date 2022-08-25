@@ -4,91 +4,90 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f7b3437fa2df49349699a9c83c812bac" Name="Diagram1">
-        <EntityTypeShape EntityType="VendtechModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="26.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Agency" Width="1.5" PointX="3" PointY="37.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.BankAccount" Width="1.5" PointX="11.25" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.ChequeBank" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.City" Width="1.5" PointX="6" PointY="33.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.CMSPage" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Commission" Width="1.5" PointX="0.75" PointY="38" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.ContactU" Width="1.5" PointX="10.5" PointY="29.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Country" Width="1.5" PointX="3.75" PointY="33.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.DepositLog" Width="1.5" PointX="10.5" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.DepositOTP" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Deposit" Width="1.5" PointX="13.5" PointY="36" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.EmailConfirmationRequest" Width="1.5" PointX="10.5" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.EmailTemplate" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.ErrorLog" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.ForgotPasswordRequest" Width="1.5" PointX="10.5" PointY="45.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Meter" Width="1.5" PointX="10.5" PointY="48.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Module" Width="1.5" PointX="11.25" PointY="56.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Notification" Width="1.5" PointX="10.5" PointY="52.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.PaymentType" Width="1.5" PointX="14.25" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.PendingDeposit" Width="1.5" PointX="16.5" PointY="31.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Platform" Width="1.5" PointX="13.5" PointY="23.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.POS" Width="1.5" PointX="13.5" PointY="27.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.POSAssignedPlatform" Width="1.5" PointX="15.75" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.ReferralCode" Width="1.5" PointX="10.5" PointY="70.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.SmartKorpor" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.StanTable" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.TokensManager" Width="1.5" PointX="10.5" PointY="73.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.TransactionDetail" Width="1.5" PointX="15.75" PointY="38.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.UserAssignedModule" Width="1.5" PointX="13.5" PointY="44" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.UserAssignedPlatform" Width="1.5" PointX="18.5" PointY="38" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.UserAssignedWidget" Width="1.5" PointX="18.5" PointY="41" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.UserRole" Width="1.5" PointX="6" PointY="41.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.User" Width="1.5" PointX="8.25" PointY="33" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Vendor" Width="1.5" PointX="5.25" PointY="37.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Widget" Width="1.5" PointX="16.25" PointY="50" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.Nation" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.temptransactiondetail" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.TEMPdeposit" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.TempPOSTable" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VendtechModel.temptransactiondetails1" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
-        <AssociationConnector Association="VendtechModel.FK_AccountVerificationOTP_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Agency_Commissions" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Agency_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_Agency" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Vendors_Agency" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Deposits_BankAccounts" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_City_Country" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_City" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_POS_Commissions" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_Commissions" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_ContactUs_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_Country" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_DepositLogs_Deposits" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_DepositLogs_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Deposits_PaymentType" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Deposits_POS" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Deposits_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_EmailConfirmationRequests_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_ForgotPasswordRequests_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Meters_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_TransactionDetails_Meters" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Modules_Modules" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedModules_Modules" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Notifications_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_PendingDeposits_PaymentType" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_PendingDeposits_POS" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_PendingDeposits_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_POSAssignedPlatforms_Platform" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_TransactionDetails_Platforms" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedPlatforms_Platform" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_POS_Vendors" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_POSAssignedPlatforms_POS" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_TransactionDetails_POS" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_ReferralCodes_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_TokensManager_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_TransactionDetails_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedModules_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedPlatforms_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedWidgets_User" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_UserRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="VendtechModel.FK_Users_Users1" ManuallyRouted="false" />
+      <Diagram DiagramId="278ccdcb03824f5dac1c28b5d4b95fa8" Name="Diagram1">
+        <EntityTypeShape EntityType="VentechModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Agency" Width="1.5" PointX="3" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.BankAccount" Width="1.5" PointX="11.25" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.ChequeBank" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.City" Width="1.5" PointX="6" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.CMSPage" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Commission" Width="1.5" PointX="0.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.ContactU" Width="1.5" PointX="10.5" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Country" Width="1.5" PointX="3.75" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.DepositLog" Width="1.5" PointX="10.5" PointY="39" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.DepositOTP" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Deposit" Width="1.5" PointX="13.5" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.EmailConfirmationRequest" Width="1.5" PointX="10.5" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.EmailTemplate" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.ErrorLog" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.ForgotPasswordRequest" Width="1.5" PointX="10.5" PointY="45.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Meter" Width="1.5" PointX="10.5" PointY="48.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Module" Width="1.5" PointX="11.25" PointY="56.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Notification" Width="1.5" PointX="10.5" PointY="53" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.PaymentType" Width="1.5" PointX="14.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.PendingDeposit" Width="1.5" PointX="16.5" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Platform" Width="1.5" PointX="13.5" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.POS" Width="1.5" PointX="13.5" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.POSAssignedPlatform" Width="1.5" PointX="15.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.ReferralCode" Width="1.5" PointX="10.5" PointY="71" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.StanTable" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.TokensManager" Width="1.5" PointX="10.5" PointY="73.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.TransactionDetail" Width="1.5" PointX="15.75" PointY="38.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.UserAssignedModule" Width="1.5" PointX="13.5" PointY="44.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.UserAssignedPlatform" Width="1.5" PointX="18.5" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.UserAssignedWidget" Width="1.5" PointX="18.5" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.UserRole" Width="1.5" PointX="6" PointY="41.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.User" Width="1.5" PointX="8.25" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Vendor" Width="1.5" PointX="5.25" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Widget" Width="1.5" PointX="16.25" PointY="50.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.Nation" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.temptransactiondetail" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.TEMPdeposit" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.TempPOSTable" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentechModel.temptransactiondetails1" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="VentechModel.FK_AccountVerificationOTP_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Agency_Commissions" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Agency_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_Agency" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Vendors_Agency" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Deposits_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_City_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_City" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_POS_Commissions" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_Commissions" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_ContactUs_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_DepositLogs_Deposits" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_DepositLogs_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Deposits_PaymentType" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Deposits_POS" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Deposits_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_EmailConfirmationRequests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_ForgotPasswordRequests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Meters_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_TransactionDetails_Meters" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Modules_Modules" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedModules_Modules" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Notifications_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_PendingDeposits_PaymentType" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_PendingDeposits_POS" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_PendingDeposits_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_POSAssignedPlatforms_Platform" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_TransactionDetails_Platforms" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedPlatforms_Platform" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_POS_Vendors" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_POSAssignedPlatforms_POS" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_TransactionDetails_POS" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_ReferralCodes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_TokensManager_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_TransactionDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedModules_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedPlatforms_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedWidgets_User" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_UserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="VentechModel.FK_Users_Users1" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

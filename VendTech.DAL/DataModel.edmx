@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VentechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -157,7 +157,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="datetime" />
-          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -237,7 +237,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -366,13 +366,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsUsed" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="SmartKorpor">
-          <Key>
-            <PropertyRef Name="ResponseId" />
-          </Key>
-          <Property Name="ResponseId" Type="int" Nullable="false" />
-          <Property Name="Response" Type="varchar(max)" />
-        </EntityType>
         <EntityType Name="StanTable">
           <Key>
             <PropertyRef Name="Id" />
@@ -381,7 +374,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="Stan" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.dbo.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ABC_PRODUCTION.dbo.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="temptransactiondetails">
           <Key>
             <PropertyRef Name="TransactionDetailsId" />
@@ -566,7 +559,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.temptransactiondetails' does not h
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.vt_admin.TEMPdeposits' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TEMPdeposits' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TEMPdeposits">
           <Key>
             <PropertyRef Name="DepositId" />
@@ -605,7 +598,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.TEMPdeposits' does not have a
           <Property Name="ValueDateStamp" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.vt_admin.TempPOSTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TempPOSTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempPOSTable">
           <Key>
             <PropertyRef Name="POSID" />
@@ -616,7 +609,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.TempPOSTable' does not have a
           <Property Name="REDOM_BALANCE" Type="varchar" MaxLength="9" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="temptransactiondetails1">
           <Key>
             <PropertyRef Name="TransactionDetailsId" />
@@ -1139,7 +1132,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VendtechModelStoreContainer">
+        <EntityContainer Name="VentechModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
@@ -1166,7 +1159,6 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SmartKorpor" EntityType="Self.SmartKorpor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
@@ -1415,10 +1407,11 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VentechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1587,12 +1580,12 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="DateTime" Precision="3" />
+          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="BankAccount" Relationship="Self.FK_Deposits_BankAccounts" FromRole="Deposits" ToRole="BankAccounts" />
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Deposits" FromRole="Deposits" ToRole="DepositLogs" />
           <NavigationProperty Name="PaymentType1" Relationship="Self.FK_Deposits_PaymentType" FromRole="Deposits" ToRole="PaymentType" />
           <NavigationProperty Name="POS" Relationship="Self.FK_Deposits_POS" FromRole="Deposits" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_Deposits_Users" FromRole="Deposits" ToRole="Users" />
-          <Property Name="BalanceBefore" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequest">
           <Key>
@@ -1811,13 +1804,6 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <Property Name="IsUsed" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_ReferralCodes_Users" FromRole="ReferralCodes" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="SmartKorpor">
-          <Key>
-            <PropertyRef Name="ResponseId" />
-          </Key>
-          <Property Name="ResponseId" Type="Int32" Nullable="false" />
-          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="StanTable">
           <Key>
@@ -2654,7 +2640,6 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
           <EntitySet Name="POS" EntityType="Self.POS" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatform" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCode" />
-          <EntitySet Name="SmartKorpors" EntityType="Self.SmartKorpor" />
           <EntitySet Name="StanTables" EntityType="Self.StanTable" />
           <EntitySet Name="TokensManagers" EntityType="Self.TokensManager" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetail" />
@@ -2844,9 +2829,9 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VendtechModelStoreContainer" CdmEntityContainer="VendtechEntities">
+        <EntityContainerMapping StorageEntityContainer="VentechModelStoreContainer" CdmEntityContainer="VendtechEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.AccountVerificationOTP">
+            <EntityTypeMapping TypeName="VentechModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">
                 <ScalarProperty Name="AccountVerificationOTPId" ColumnName="AccountVerificationOTPId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2856,7 +2841,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Agencies">
-            <EntityTypeMapping TypeName="VendtechModel.Agency">
+            <EntityTypeMapping TypeName="VentechModel.Agency">
               <MappingFragment StoreEntitySet="Agency">
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="AgencyName" ColumnName="AgencyName" />
@@ -2869,7 +2854,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AppSettings">
-            <EntityTypeMapping TypeName="VendtechModel.AppSetting">
+            <EntityTypeMapping TypeName="VentechModel.AppSetting">
               <MappingFragment StoreEntitySet="AppSettings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2878,7 +2863,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BankAccounts">
-            <EntityTypeMapping TypeName="VendtechModel.BankAccount">
+            <EntityTypeMapping TypeName="VentechModel.BankAccount">
               <MappingFragment StoreEntitySet="BankAccounts">
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -2891,7 +2876,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
-            <EntityTypeMapping TypeName="VendtechModel.ChequeBank">
+            <EntityTypeMapping TypeName="VentechModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BankCode" ColumnName="BankCode" />
@@ -2903,7 +2888,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
-            <EntityTypeMapping TypeName="VendtechModel.City">
+            <EntityTypeMapping TypeName="VentechModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2914,7 +2899,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CMSPages">
-            <EntityTypeMapping TypeName="VendtechModel.CMSPage">
+            <EntityTypeMapping TypeName="VentechModel.CMSPage">
               <MappingFragment StoreEntitySet="CMSPages">
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
@@ -2929,7 +2914,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commissions">
-            <EntityTypeMapping TypeName="VendtechModel.Commission">
+            <EntityTypeMapping TypeName="VentechModel.Commission">
               <MappingFragment StoreEntitySet="Commissions">
                 <ScalarProperty Name="CommissionId" ColumnName="CommissionId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -2939,7 +2924,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="VendtechModel.ContactU">
+            <EntityTypeMapping TypeName="VentechModel.ContactU">
               <MappingFragment StoreEntitySet="ContactUs">
                 <ScalarProperty Name="ContactUsId" ColumnName="ContactUsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2952,7 +2937,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="VendtechModel.Country">
+            <EntityTypeMapping TypeName="VentechModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2962,7 +2947,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositLogs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositLog">
+            <EntityTypeMapping TypeName="VentechModel.DepositLog">
               <MappingFragment StoreEntitySet="DepositLogs">
                 <ScalarProperty Name="DepositLogId" ColumnName="DepositLogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2974,7 +2959,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositOTP">
+            <EntityTypeMapping TypeName="VentechModel.DepositOTP">
               <MappingFragment StoreEntitySet="DepositOTP">
                 <ScalarProperty Name="DepositOTPId" ColumnName="DepositOTPId" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
@@ -2984,9 +2969,8 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deposits">
-            <EntityTypeMapping TypeName="VendtechModel.Deposit">
+            <EntityTypeMapping TypeName="VentechModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
-                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -3009,11 +2993,12 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
                 <ScalarProperty Name="ValueDateStamp" ColumnName="ValueDateStamp" />
+                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailConfirmationRequests">
-            <EntityTypeMapping TypeName="VendtechModel.EmailConfirmationRequest">
+            <EntityTypeMapping TypeName="VentechModel.EmailConfirmationRequest">
               <MappingFragment StoreEntitySet="EmailConfirmationRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3023,7 +3008,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailTemplates">
-            <EntityTypeMapping TypeName="VendtechModel.EmailTemplate">
+            <EntityTypeMapping TypeName="VentechModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
@@ -3041,7 +3026,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ErrorLogs">
-            <EntityTypeMapping TypeName="VendtechModel.ErrorLog">
+            <EntityTypeMapping TypeName="VentechModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
@@ -3056,7 +3041,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForgotPasswordRequests">
-            <EntityTypeMapping TypeName="VendtechModel.ForgotPasswordRequest">
+            <EntityTypeMapping TypeName="VentechModel.ForgotPasswordRequest">
               <MappingFragment StoreEntitySet="ForgotPasswordRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3066,7 +3051,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meters">
-            <EntityTypeMapping TypeName="VendtechModel.Meter">
+            <EntityTypeMapping TypeName="VentechModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
                 <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3084,7 +3069,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="VendtechModel.Module">
+            <EntityTypeMapping TypeName="VentechModel.Module">
               <MappingFragment StoreEntitySet="Modules">
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
@@ -3096,7 +3081,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="VendtechModel.Notification">
+            <EntityTypeMapping TypeName="VentechModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3111,7 +3096,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentTypes">
-            <EntityTypeMapping TypeName="VendtechModel.PaymentType">
+            <EntityTypeMapping TypeName="VentechModel.PaymentType">
               <MappingFragment StoreEntitySet="PaymentType">
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3123,7 +3108,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PendingDeposits">
-            <EntityTypeMapping TypeName="VendtechModel.PendingDeposit">
+            <EntityTypeMapping TypeName="VentechModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3151,7 +3136,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
-            <EntityTypeMapping TypeName="VendtechModel.Platform">
+            <EntityTypeMapping TypeName="VentechModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3167,7 +3152,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POS">
-            <EntityTypeMapping TypeName="VendtechModel.POS">
+            <EntityTypeMapping TypeName="VentechModel.POS">
               <MappingFragment StoreEntitySet="POS">
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
@@ -3198,7 +3183,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POSAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.POSAssignedPlatform">
+            <EntityTypeMapping TypeName="VentechModel.POSAssignedPlatform">
               <MappingFragment StoreEntitySet="POSAssignedPlatforms">
                 <ScalarProperty Name="AssignPOSPlatformId" ColumnName="AssignPOSPlatformId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -3208,7 +3193,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReferralCodes">
-            <EntityTypeMapping TypeName="VendtechModel.ReferralCode">
+            <EntityTypeMapping TypeName="VentechModel.ReferralCode">
               <MappingFragment StoreEntitySet="ReferralCodes">
                 <ScalarProperty Name="ReferralCodeId" ColumnName="ReferralCodeId" />
                 <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
@@ -3218,16 +3203,8 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SmartKorpors">
-            <EntityTypeMapping TypeName="VendtechModel.SmartKorpor">
-              <MappingFragment StoreEntitySet="SmartKorpor">
-                <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
-                <ScalarProperty Name="Response" ColumnName="Response" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StanTables">
-            <EntityTypeMapping TypeName="VendtechModel.StanTable">
+            <EntityTypeMapping TypeName="VentechModel.StanTable">
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
@@ -3235,7 +3212,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
-            <EntityTypeMapping TypeName="VendtechModel.TokensManager">
+            <EntityTypeMapping TypeName="VentechModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3249,7 +3226,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="VendtechModel.TransactionDetail">
+            <EntityTypeMapping TypeName="VentechModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3299,7 +3276,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedModule">
+            <EntityTypeMapping TypeName="VentechModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3310,7 +3287,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedPlatform">
+            <EntityTypeMapping TypeName="VentechModel.UserAssignedPlatform">
               <MappingFragment StoreEntitySet="UserAssignedPlatforms">
                 <ScalarProperty Name="AssignUserPlatformId" ColumnName="AssignUserPlatformId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3320,7 +3297,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedWidgets">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedWidget">
+            <EntityTypeMapping TypeName="VentechModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3331,7 +3308,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="VendtechModel.UserRole">
+            <EntityTypeMapping TypeName="VentechModel.UserRole">
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -3340,7 +3317,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VendtechModel.User">
+            <EntityTypeMapping TypeName="VentechModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3380,7 +3357,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="VendtechModel.Vendor">
+            <EntityTypeMapping TypeName="VentechModel.Vendor">
               <MappingFragment StoreEntitySet="Vendors">
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3397,7 +3374,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="VendtechModel.Widget">
+            <EntityTypeMapping TypeName="VentechModel.Widget">
               <MappingFragment StoreEntitySet="Widgets">
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3408,7 +3385,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nations">
-            <EntityTypeMapping TypeName="VendtechModel.Nation">
+            <EntityTypeMapping TypeName="VentechModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
@@ -3418,7 +3395,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="temptransactiondetails">
-            <EntityTypeMapping TypeName="VendtechModel.temptransactiondetail">
+            <EntityTypeMapping TypeName="VentechModel.temptransactiondetail">
               <MappingFragment StoreEntitySet="temptransactiondetails">
                 <ScalarProperty Name="Row1_" ColumnName="Row1#" />
                 <ScalarProperty Name="Row2_" ColumnName="Row2#" />
@@ -3434,7 +3411,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TEMPdeposits">
-            <EntityTypeMapping TypeName="VendtechModel.TEMPdeposit">
+            <EntityTypeMapping TypeName="VentechModel.TEMPdeposit">
               <MappingFragment StoreEntitySet="TEMPdeposits">
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3462,7 +3439,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TempPOSTables">
-            <EntityTypeMapping TypeName="VendtechModel.TempPOSTable">
+            <EntityTypeMapping TypeName="VentechModel.TempPOSTable">
               <MappingFragment StoreEntitySet="TempPOSTable">
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
                 <ScalarProperty Name="POSID" ColumnName="POSID" />
@@ -3472,7 +3449,7 @@ warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="temptransactiondetails1">
-            <EntityTypeMapping TypeName="VendtechModel.temptransactiondetails1">
+            <EntityTypeMapping TypeName="VentechModel.temptransactiondetails1">
               <MappingFragment StoreEntitySet="temptransactiondetails1">
                 <ScalarProperty Name="Row1_" ColumnName="Row1#" />
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
