@@ -478,12 +478,14 @@ namespace VendTech.BLL.Managers
 
         PagingResult<AgentRevenueListingModel> IDepositManager.GetAgentRevenueReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
+            //model.From = model.From.Value.Subtract(TimeSpan.FromDays(365));
             model.RecordsPerPage = 10000000;
             IQueryable<DepositLog> query = null;
             var result = new PagingResult<AgentRevenueListingModel>();
 
             if (!model.IsInitialLoad)
-                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed);
+                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released 
+                || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed);
             else
                 query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt)
                     .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released
@@ -1032,7 +1034,6 @@ namespace VendTech.BLL.Managers
                 if (callFromAdmin)
                     posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
-                    //posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
@@ -2282,7 +2283,7 @@ namespace VendTech.BLL.Managers
                     var amt = dbDeposit.Amount;
                     var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
-                    dbDeposit.AgencyCommission = commision;
+                    dbDeposit.AgencyCommission = 0;
                     dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
