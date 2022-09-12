@@ -392,7 +392,7 @@ namespace VendTech.BLL.Managers
                 model.RecordsPerPage = 10;
             }
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            var query = Context.TransactionDetails.Take(model.RecordsPerPage).OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -405,7 +405,7 @@ namespace VendTech.BLL.Managers
             }
 
 
-            var list = query.Take(model.RecordsPerPage).ToList().Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
