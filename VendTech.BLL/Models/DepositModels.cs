@@ -37,6 +37,7 @@ namespace VendTech.BLL.Models
         public decimal SaleAmount { get; set; } = 0;
         public decimal Balance { get; set; } = 0; 
         public long? POSId { get; set; }
+        public decimal? BalanceBefore { get; set; } = 0;
     }
 
     public class DashboardBalanceSheetModel

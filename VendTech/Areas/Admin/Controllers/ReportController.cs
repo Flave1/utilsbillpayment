@@ -280,7 +280,7 @@ namespace VendTech.Areas.Admin.Controllers
                 item.Balance = balance;
             }
             var firstRecord = balanceSheet.List.FirstOrDefault();
-            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.SaleAmount + firstRecord.Balance);
+            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance);
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();

@@ -45,7 +45,7 @@ namespace VendTech.BLL.Models
          
         public object Denomination { get; set; }
          
-        public object VoucherPin { get; set; }
+        public string VoucherPin { get; set; }
          
         public object MeterNumber { get; set; }
          
@@ -53,7 +53,7 @@ namespace VendTech.BLL.Models
          
         public object Tariff { get; set; }
          
-        public object Customer { get; set; }
+        public string Customer { get; set; }
          
         public object CustomerAccNo { get; set; }
          

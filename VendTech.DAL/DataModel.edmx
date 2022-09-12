@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VentechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VentechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -237,7 +237,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -374,7 +374,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primar
           <Property Name="Stan" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.dbo.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.dbo.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="temptransactiondetails">
           <Key>
             <PropertyRef Name="TransactionDetailsId" />
@@ -455,6 +455,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.temptransactiondetails' does no
           <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
           <Property Name="DateAndTimeLinked" Type="varchar(max)" />
           <Property Name="CurrentVendorBalance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
           <Key>
@@ -559,7 +560,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.temptransactiondetails' does no
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TEMPdeposits' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.vt_admin.TEMPdeposits' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TEMPdeposits">
           <Key>
             <PropertyRef Name="DepositId" />
@@ -598,7 +599,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TEMPdeposits' does not hav
           <Property Name="ValueDateStamp" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TempPOSTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.vt_admin.TempPOSTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempPOSTable">
           <Key>
             <PropertyRef Name="POSID" />
@@ -609,7 +610,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.TempPOSTable' does not hav
           <Property Name="REDOM_BALANCE" Type="varchar" MaxLength="9" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.vt_admin.temptransactiondetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="temptransactiondetails1">
           <Key>
             <PropertyRef Name="TransactionDetailsId" />
@@ -1407,8 +1408,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.temptransactiondetails' do
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VentechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1878,6 +1878,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.temptransactiondetails' do
           <NavigationProperty Name="Platform" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="TransactionDetails" ToRole="Platform" />
           <NavigationProperty Name="POS" Relationship="Self.FK_TransactionDetails_POS" FromRole="TransactionDetails" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_TransactionDetails_Users" FromRole="TransactionDetails" ToRole="Users" />
+          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UserAssignedModule">
           <Key>
@@ -3228,6 +3229,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.vt_admin.temptransactiondetails' do
           <EntitySetMapping Name="TransactionDetails">
             <EntityTypeMapping TypeName="VentechModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />

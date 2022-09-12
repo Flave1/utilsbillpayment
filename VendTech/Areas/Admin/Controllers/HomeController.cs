@@ -52,6 +52,7 @@ namespace VendTech.Areas.Admin.Controllers
 
         [HttpGet, Public]
         public ActionResult Index()
+        
         {
             return View(new LoginModal());
         }
@@ -119,7 +120,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (LOGGEDIN_USER?.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                return RedirectToAction("Index", "Home", new { area = "admin" });
             }
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);

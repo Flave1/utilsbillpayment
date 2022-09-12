@@ -1016,6 +1016,7 @@ namespace VendTech.BLL.Managers
 
         PagingResult<AgencyRevenueExcelReportModel> IDepositManager.GetAgentRevenueReportsExcelDeposituser(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
+            model.RecordsPerPage = 1000000000;
             var result = new PagingResult<AgencyRevenueExcelReportModel>();
             var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
             if (model.From != null)
@@ -2072,7 +2073,8 @@ namespace VendTech.BLL.Managers
                             DepositAmount = a.PercentageAmount ?? 0,
                             SaleAmount = 0,
                             Balance = 0,
-                            POSId = a.POSId
+                            POSId = a.POSId,
+                            BalanceBefore = 0,
                         };
             }
             else
@@ -2087,7 +2089,8 @@ namespace VendTech.BLL.Managers
                             DepositAmount = a.PercentageAmount ?? 0,
                             SaleAmount = 0,
                             Balance = 0,
-                            POSId = a.POSId
+                            POSId = a.POSId,
+                            BalanceBefore = 0,
                         };
             }
 
@@ -2198,7 +2201,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.POS = pos;
                 dbDeposit.UserId = pos?.VendorId ?? 0;
                 dbDeposit.Comments = "";
-                dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
+                dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                 dbDeposit.NameOnCheque = pos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
@@ -2210,6 +2213,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.AgencyCommission = 0;
                 if (Context.Agencies.Select(s => s.Representative).Contains(pos.VendorId))
                 {
+                    //dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
                     var percntage = pos.User.Agency.Commission.Percentage;
                     var commision = amt * percntage / 100;
@@ -2271,7 +2275,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.POS = toPos;
                 dbDeposit.UserId = toPos?.VendorId??0;
                 dbDeposit.Comments = "";
-                dbDeposit.ChequeBankName = "TRANSFER - (INWARD TRANSFER)";
+                dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                 dbDeposit.NameOnCheque = frompos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
