@@ -673,7 +673,12 @@
                     console.log('data', data)
                     if (data != null) {
                         $("#depositModal").modal('hide');
-                        $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
+                        $.ShowMessage($('div.messageAlert'), "DEPOSIT CLEARED SUCCESSFULLY", MessageType.Success);
+
+                        setTimeout(function () {
+                            $(".confirm").click();
+                        }, 2000);
+
                         $('tr').each(function (index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);

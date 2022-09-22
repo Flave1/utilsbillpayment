@@ -179,7 +179,7 @@ namespace VendTech.Areas.Api.Controllers
             var platf = _platformManager.GetSinglePlatform(1);
             if (platf.DisablePlatform)
             {
-                return new JsonContent("Please try again later or use the web", Status.Failed).ConvertToHttpResponseOK();
+                return new JsonContent("VENDING SERVICE IS DISABLED", Status.Failed).ConvertToHttpResponseOK();
             }
             model.UserId = LOGGEDIN_USER.UserId;
             var result = _meterManager.RechargeMeterReturn(model).Result;

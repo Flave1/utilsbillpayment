@@ -549,7 +549,16 @@ namespace VendTech.Areas.Api.Controllers
             var data = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
             return new JsonContent("Bank accounts fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
-    
 
+
+
+        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        //[ResponseType(typeof(ResponseBase))]
+        //[ActionName("operation")]
+        //public async Task<HttpResponseMessage> Operation()
+        //{
+        //    await _bankAccountManager.PerformOperation();
+        //    return new JsonContent("Bank accounts fetched successfully.", Status.Success, "").ConvertToHttpResponseOK();
+        //}
     }
 }

@@ -229,7 +229,7 @@ namespace VendTech.BLL.Models
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            VALUEDATE = VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            VALUEDATE = obj.ValueDateStamp == null ? obj.ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_BY = obj.POS.User.Vendor;
             DEPOSIT_TYPE = obj.PaymentType1.Name;

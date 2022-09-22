@@ -3553,3 +3553,19 @@ One or more errors occurred.
 
 
 
+The underlying provider failed on ConnectionString.
+
+
+
+The underlying provider failed on Open.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
