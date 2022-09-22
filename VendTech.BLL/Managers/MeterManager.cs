@@ -481,74 +481,237 @@ namespace VendTech.BLL.Managers
 
         }
 
+        //VERSION 2
+        //async Task<ReceiptModel> IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
+        //{ 
+        //    var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
+
+
+        //    try
+        //    {
+        //        Platform platf = new Platform();
+        //        if (model.PlatformId == null)
+        //        {
+        //            platf = Context.Platforms.Find(1);
+        //            model.PlatformId = platf.PlatformId;
+        //        }
+        //        else
+        //            platf = Context.Platforms.Find(model.PlatformId);
+
+        //        var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
+        //        var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
+        //        var validatioResult = ValidateRequest(pos, user, platf, model);
+        //        if (validatioResult.ReceiptStatus.Status == "unsuccessful")
+        //        {
+        //            return validatioResult;
+        //        }
+
+        //        if (model.MeterId != null)
+        //        {
+        //            var met = Context.Meters.Find(model.MeterId);
+        //            model.MeterNumber = met.Number;
+        //        }
+        //        else
+        //        {
+        //            model.IsSaved = false;
+        //        }
+
+
+        //        IceKloudResponse icekloud_response = new IceKloudResponse();
+        //        IcekloudQueryResponse query_response = new IcekloudQueryResponse();
+        //        TransactionDetail db_transaction_detail = new TransactionDetail();
+
+        //        model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
+
+        //        icekloud_response = Make_recharge_request_from_icekloud(model);
+
+        //        var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
+        //        var vend_response = JsonConvert.SerializeObject(icekloud_response);
+
+
+
+        //        if (icekloud_response.Status.ToLower() != "success")
+        //        {
+        //            var vendStatus = QueryStatusOfVend(model, query_response, db_transaction_detail, platf, icekloud_response);
+        //            if (vendStatus.ReceiptStatus.Status == "unsuccessful")
+        //            {
+        //                return vendStatus;
+        //            }
+        //        }
+
+        //        var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
+
+        //        if (response_data != null)
+        //        {
+        //            db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
+        //        }
+
+        //        db_transaction_detail.PlatFormId = platf.PlatformId;
+        //        db_transaction_detail.Platform = platf;
+        //        db_transaction_detail.TransactionId = model.TransactionId.ToString();
+
+        //        MeterModel newMeter = new MeterModel();
+        //        long meterId = 0;
+        //        if (model.SaveAsNewMeter)
+        //        {
+        //            newMeter = StackNewMeterToDbObject(model);
+        //            newMeter.IsSaved = true;
+        //            meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
+        //            db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
+        //        }
+        //        else
+        //        {
+        //            db_transaction_detail.MeterId = model.MeterId;
+        //        }
+
+        //        db_transaction_detail.BalanceBefore = pos.Balance ?? 0;
+        //        pos.Balance = (pos.Balance - model.Amount);
+        //        db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
+        //        Context.TransactionDetails.Add(db_transaction_detail);
+        //        SaveSales();
+
+        //        Push_notification_to_user(user, model, db_transaction_detail.TransactionDetailsId);
+
+        //        var receipt = Build_receipt_model_from_dbtransaction_detail(db_transaction_detail);
+        //        receipt.ShouldShowSmsButton = (bool)db_transaction_detail.POS.WebSms;
+        //        receipt.ShouldShowPrintButton = (bool)db_transaction_detail.POS.WebPrint;
+        //        receipt.mobileShowSmsButton = (bool)db_transaction_detail.POS.PosSms;
+        //        receipt.mobileShowPrintButton = (bool)db_transaction_detail.POS.PosPrint;
+        //        receipt.CurrentBallance = db_transaction_detail?.POS?.Balance??0;
+        //        return receipt;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+
+        //}
+
         async Task<ReceiptModel> IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
-        { 
+        {
             var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
 
-            
-            try
+            Platform platf = new Platform();
+            if (model.PlatformId == null)
             {
-                Platform platf = new Platform();
-                if (model.PlatformId == null)
+                platf = Context.Platforms.Find(1);
+                model.PlatformId = platf.PlatformId;
+            }
+            else
+                platf = Context.Platforms.Find(model.PlatformId);
+
+            if (platf.DisablePlatform)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = platf.DisabledPlatformMessage;
+                return response;
+            }
+
+            var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
+            if (user == null)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "User does not exist";
+                return response;
+            }
+            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
+
+            if (pos == null)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
+                return response;
+            }
+            if (pos.Balance == null)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+                return response;
+            }
+
+
+            if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
+            {
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+                return response;
+            }
+
+            if (model.MeterId != null)
+            {
+                var met = Context.Meters.Find(model.MeterId);
+                model.MeterNumber = met.Number;
+            }
+            else
+            {
+                model.IsSaved = false;
+            }
+
+
+            IceKloudResponse icekloud_response = new IceKloudResponse();
+            IcekloudQueryResponse query_response = new IcekloudQueryResponse();
+            TransactionDetail db_transaction_detail = new TransactionDetail();
+
+            model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
+            icekloud_response = Make_recharge_request_from_icekloud(model);
+
+            var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
+            var vend_response = JsonConvert.SerializeObject(icekloud_response);
+            var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
+
+            if (icekloud_response.Content.Data.Error == "Unable to connect to the remote server")
+            {
+                var query_request = Buid_vend_query_object(model);
+                query_response = Query_vend_status(query_request);
+                if (!query_response.Content.Finalised)
                 {
-                    platf = Context.Platforms.Find(1);
-                    model.PlatformId = platf.PlatformId;
+                    db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
+                    db_transaction_detail.PlatFormId = platf.PlatformId;
+                    db_transaction_detail.Platform = platf;
+
+                    Context.TransactionDetails.Add(db_transaction_detail);
+                    Context.SaveChanges();
+
+                    response.ReceiptStatus.Status = "unsuccessful";
+                    response.ReceiptStatus.Message = query_response.Content.StatusDescription;
+                    return response;
                 }
-                else
-                    platf = Context.Platforms.Find(model.PlatformId);
-
-                var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-                var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
-                var validatioResult = ValidateRequest(pos, user, platf, model);
-                if (validatioResult.ReceiptStatus.Status == "unsuccessful")
-                {
-                    return validatioResult;
-                }
-
-                if (model.MeterId != null)
-                {
-                    var met = Context.Meters.Find(model.MeterId);
-                    model.MeterNumber = met.Number;
-                }
-                else
-                {
-                    model.IsSaved = false;
-                }
-
-
-                IceKloudResponse icekloud_response = new IceKloudResponse();
-                IcekloudQueryResponse query_response = new IcekloudQueryResponse();
-                TransactionDetail db_transaction_detail = new TransactionDetail();
-
-                model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
-
-                icekloud_response = Make_recharge_request_from_icekloud(model);
-
-                var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
-                var vend_response = JsonConvert.SerializeObject(icekloud_response);
-                
-
-
-                if (icekloud_response.Status.ToLower() != "success")
-                {
-                    var vendStatus = QueryStatusOfVend(model, query_response, db_transaction_detail, platf, icekloud_response);
-                    if (vendStatus.ReceiptStatus.Status == "unsuccessful")
-                    {
-                        return vendStatus;
-                    }
-                }
-
-                var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
-
-                if (response_data != null)
-                {
-                    db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
-                }
-
+            }
+            else if (icekloud_response.Status.ToLower() != "success")
+            {
+                //Will save to a different table
+                db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
-                db_transaction_detail.TransactionId = model.TransactionId.ToString();
+                Context.TransactionDetails.Add(db_transaction_detail);
 
+                SaveSales();
+
+                response.ReceiptStatus.Status = "unsuccessful";
+                if ("Input string was not in a correct format." == icekloud_response.Content.Data?.Error)
+                {
+                    response.ReceiptStatus.Message = "Amount tendered is too low";
+                    return response;
+                }
+                response.ReceiptStatus.Message = icekloud_response.Content.Data?.Error;
+                return response;
+            }
+
+
+            if (response_data != null)
+            {
+                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
+            }
+            else if (query_response.Content.Finalised)
+            {
+                db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
+            }
+
+            db_transaction_detail.PlatFormId = platf.PlatformId;
+            db_transaction_detail.Platform = platf;
+            db_transaction_detail.TransactionId = model.TransactionId.ToString();
+            try
+            {
                 MeterModel newMeter = new MeterModel();
                 long meterId = 0;
                 if (model.SaveAsNewMeter)
@@ -557,13 +720,13 @@ namespace VendTech.BLL.Managers
                     newMeter.IsSaved = true;
                     meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
                     db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
+
                 }
                 else
                 {
                     db_transaction_detail.MeterId = model.MeterId;
                 }
 
-                db_transaction_detail.BalanceBefore = pos.Balance ?? 0;
                 pos.Balance = (pos.Balance - model.Amount);
                 db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
                 Context.TransactionDetails.Add(db_transaction_detail);
@@ -576,7 +739,7 @@ namespace VendTech.BLL.Managers
                 receipt.ShouldShowPrintButton = (bool)db_transaction_detail.POS.WebPrint;
                 receipt.mobileShowSmsButton = (bool)db_transaction_detail.POS.PosSms;
                 receipt.mobileShowPrintButton = (bool)db_transaction_detail.POS.PosPrint;
-                receipt.CurrentBallance = db_transaction_detail?.POS?.Balance??0;
+                receipt.CurrentBallance = db_transaction_detail?.POS?.Balance ?? 0;
                 return receipt;
             }
             catch (Exception e)
@@ -585,7 +748,6 @@ namespace VendTech.BLL.Managers
             }
 
         }
-
         private ReceiptModel QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
             var response = new ReceiptModel();
