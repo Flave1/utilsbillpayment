@@ -181,6 +181,11 @@ namespace VendTech.Areas.Api.Controllers
             {
                 return new JsonContent("VENDING SERVICE IS DISABLED", Status.Failed).ConvertToHttpResponseOK();
             }
+
+            if (platf.MinimumAmount < model.Amount)
+            {
+                return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
+            }
             model.UserId = LOGGEDIN_USER.UserId;
             var result = _meterManager.RechargeMeterReturn(model).Result;
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();

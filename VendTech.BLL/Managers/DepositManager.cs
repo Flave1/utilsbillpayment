@@ -1754,7 +1754,7 @@ namespace VendTech.BLL.Managers
                         (this as IDepositManager).ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, userId);
                     }
                 }
-                return ReturnSuccess(userIds, "Deposit updated successfully.");
+                return ReturnSuccess(userIds, "DEPOSIT APPROVED SUCCESSFULLY");
             }
             catch (Exception ex)
             {
@@ -1797,7 +1797,7 @@ namespace VendTech.BLL.Managers
                 Context.DepositOTPs.ToList().ForEach(p => p.IsUsed = true);
                 Context.DepositOTPs.Add(dbDepositOTP);
                 Context.SaveChanges();
-                return ReturnSuccess<string>(otp.ToString(), "OTP sent successfully.");
+                return ReturnSuccess<string>(otp.ToString(), "OTP SENT SUCCESSFULLY.");
             }
             catch (Exception)
             {

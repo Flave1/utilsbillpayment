@@ -56,7 +56,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage Test()
         {
             var aa = _userManager.GetWelcomeMessage();
-            return new JsonContent("OTP sent successfully", Status.Success).ConvertToHttpResponseOK();
+            return new JsonContent("OTP SENT SUCCESSFULLY", Status.Success).ConvertToHttpResponseOK();
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -288,7 +288,7 @@ namespace VendTech.Areas.Api.Controllers
             string body = emailTemplate.TemplateContent;
             body = body.Replace("%code%", code.ToString());
             Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
-            return new JsonContent("OTP sent successfully.", Status.Success, user).ConvertToHttpResponseOK();
+            return new JsonContent("OTP SENT SUCCESSFULLY.", Status.Success, user).ConvertToHttpResponseOK();
         }
         
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -347,8 +347,8 @@ namespace VendTech.Areas.Api.Controllers
                         var msg = new SendSMSRequest
                         {
                             Recipient = "232" + user.Phone,
-                            Payload = $"Hello {user.Name} \n" +
-                              $"To confirm the new passcode..\n Please enter the following 4 digit OTP to proceed. {otp}\n" +
+                            Payload = $"Greetings {user.Name} \n" +
+                              $"Please enter the following OTP in the mobile APP.\n{otp}\n" +
                               "VENDTECH"
                         };
                         var ew = await _smsManager.SendSmsAsync(msg);

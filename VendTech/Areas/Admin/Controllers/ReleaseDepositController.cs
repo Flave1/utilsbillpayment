@@ -142,8 +142,9 @@ namespace VendTech.Areas.Admin.Controllers
                             {
                                 Recipient = "232" + deposit.POS.Phone,
                                 Payload = $"Greetings {deposit.User.Name} \n" +
-                               $"Your deposit of NLe: {Utilities.FormatAmount(deposit.Amount)} has been approved.\n" +
-                               "Please confirm the amount deposited reflects in your wallet.\n" +
+                               "Your last deposit has been approved\n" +
+                               "Please confirm the amount deposited reflects in your wallet correctly.\n" +
+                               $"NLe: {Utilities.FormatAmount(deposit.Amount)} \n" +
                                "VENDTECH"
                                 };
 

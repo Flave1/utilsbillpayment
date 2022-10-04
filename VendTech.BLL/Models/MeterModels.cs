@@ -19,7 +19,7 @@ namespace VendTech.BLL.Models
         public string Address { get; set; }
         public string MeterMake { get; set; }
         public string Allias { get; set; }
-        public bool isVerified { get; set; }
+        public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
     }
 

@@ -3,8 +3,6 @@ using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
 using VendTech.BLL.Common;
@@ -64,7 +62,7 @@ namespace VendTech.BLL.Managers
             Context.ForgotPasswordRequests.Add(request);
             Context.ForgotPasswordRequests.RemoveRange(existingRequest);
             Context.SaveChanges();
-            return ReturnSuccess(user.Email, "OTP sent to your email");
+            return ReturnSuccess(user.Email, "OTP SENT BY SMS");
         }
 
         ActionOutput<string> IAuthenticateManager.FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword)
