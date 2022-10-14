@@ -452,7 +452,7 @@ namespace VendTech.BLL.Managers
                 }).ToList();
             }
          
-            return Context.UserAssignedModules.Where(p => p.UserId == UserId).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
+            return Context.UserAssignedModules.Where(p => p.UserId == UserId && p.Module.SubMenuOf == 9).ToList().OrderBy(l => l.ModuleId).Select(p => new SelectListItem
             {
                 Text = p.Module.ModuleName,
                 Value = p.Module.ModuleId.ToString()

@@ -49,24 +49,6 @@ function GetRequestANDResponse(transactionId) {
                 document.getElementById("Response").textContent = JSON.stringify(respone, undefined, 2); 
                 $("#modalCart3").modal("show");
 
-                //if (data.Code === 302) {
-                //    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                //    $("#error_reponse").show();
-                //    $("#error_reponse").html(data.Msg);
-                //    return false;
-                //}
-                //if (data.Code === 200) {
-
-                //    console.log(data);
-                     
-                //    document.getElementById("Request").textContent = JSON.stringify(json1, undefined, 2); 
-                //    document.getElementById("Response").textContent = JSON.stringify(json2, undefined, 2); 
-
-                //    $("#modalCart3").modal("show");
-                //} else {
-
-                //    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-                //}
 
             }
         });
@@ -131,7 +113,8 @@ function fetchVoucherDetailsByToken(token) {
                     $("#re-vendorId").html(data.Data.VendorId);
                     if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
-                    $("#modalCart2").modal("show"); 
+                   
+                    $("#modalCart2").modal("show");
                 } else {
 
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);

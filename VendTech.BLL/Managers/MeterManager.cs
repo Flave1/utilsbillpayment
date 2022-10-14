@@ -272,7 +272,7 @@ namespace VendTech.BLL.Managers
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
 
-            var list = query.ToList().Select( x => new MeterRechargeApiListingModel(x, 1)).ToList();
+            var list = query.AsEnumerable().Select( x => new MeterRechargeApiListingModel(x, 1)).ToList();
 
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             {
@@ -498,7 +498,7 @@ namespace VendTech.BLL.Managers
         //        var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
         //        var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
         //        var validatioResult = ValidateRequest(pos, user, platf, model);
-                
+
         //        if (validatioResult.ReceiptStatus.Status == "unsuccessful")
         //            return validatioResult;
 
@@ -516,6 +516,7 @@ namespace VendTech.BLL.Managers
 
         //        model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
         //        db_transaction_detail.PlatFormId = platf.PlatformId;
+        //        db_transaction_detail.QueryStatusCount = 0;
         //        db_transaction_detail = CreateTransactionCopy(model);
 
         //        icekloud_response = Make_recharge_request_from_icekloud(model);
@@ -715,6 +716,7 @@ namespace VendTech.BLL.Managers
                 db_transaction_detail.BalanceBefore = pos.Balance ?? 0;
                 pos.Balance = (pos.Balance - model.Amount);
                 db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
+                db_transaction_detail.QueryStatusCount = 0;
                 Context.TransactionDetails.Add(db_transaction_detail);
                 SaveSales();
 
@@ -743,12 +745,15 @@ namespace VendTech.BLL.Managers
 
             var query_request = Buid_vend_query_object(model);
             query_response = Query_vend_status(query_request);
+            var count = 0;
             if (!query_response.Content.Finalised)
             {
+                count = count + 1;
                 return QueryStatusOfVend(model, query_response, db_transaction_detail, platf, response_data);
             }
             else
             {
+                db_transaction_detail.QueryStatusCount = count;
                 if (string.IsNullOrEmpty(query_response.Content.VoucherPin))
                 {
                     UpdateTransactionOnFailure(response_data, db_transaction_detail);
@@ -1053,7 +1058,6 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
-
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)

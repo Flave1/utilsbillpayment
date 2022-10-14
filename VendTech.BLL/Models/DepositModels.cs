@@ -311,6 +311,11 @@ namespace VendTech.BLL.Models
         public string OTP { get; set; }
     }
 
+    public class ReleaseDepositModel2
+    {
+        public List<long> ReleaseDepositIds { get; set; }
+    }
+
     public class ReverseDepositModel
     {
         public List<long> ReverseDepositIds { get; set; }

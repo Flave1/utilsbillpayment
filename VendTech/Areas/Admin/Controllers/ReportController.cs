@@ -217,9 +217,9 @@ namespace VendTech.Areas.Admin.Controllers
             if (model.ReportType == "17")
             {
                 var resultString = new List<string> {
-               RenderRazorViewToString("Partials/_reportListing", modal),
-               modal.TotalCount.ToString()
-            };
+                   RenderRazorViewToString("Partials/_reportListing", modal),
+                   modal.TotalCount.ToString()
+                };
                 return JsonResult(resultString);
             }
 

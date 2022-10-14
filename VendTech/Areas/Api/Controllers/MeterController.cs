@@ -174,6 +174,7 @@ namespace VendTech.Areas.Api.Controllers
 
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
+        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
         {
             var platf = _platformManager.GetSinglePlatform(1);
@@ -182,7 +183,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent("VENDING SERVICE IS DISABLED", Status.Failed).ConvertToHttpResponseOK();
             }
 
-            if (platf.MinimumAmount < model.Amount)
+            if (platf.MinimumAmount > model.Amount)
             {
                 return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }

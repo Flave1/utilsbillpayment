@@ -321,7 +321,7 @@ namespace VendTech.BLL.Managers
             //    query = query.Where(p => p.Deposit.m);
             //}
 
-            var totalrecoed = query.ToList().Count();
+            var totalrecoed = query.AsEnumerable().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "TransactionId" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
                 // query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
@@ -341,7 +341,7 @@ namespace VendTech.BLL.Managers
                     query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                 }
             }
-            var list = query.ToList().Select(x => new DepositListingModel(x.Deposit)).ToList();
+            var list = query.AsEnumerable().Select(x => new DepositListingModel(x.Deposit)).ToList();
             if (model.SortBy == "CreatedAt" || model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
             {
                 if (model.SortBy == "UserName")

@@ -35,7 +35,7 @@ namespace VendTech.Areas.Admin.Controllers
         #region User Management
 
         [HttpGet]
-        public ActionResult ManageDepositRelease(string status = "")
+        public ActionResult ManageDepositRelease(string status = "", string depositids = "", string otp = "")
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
@@ -84,7 +84,30 @@ namespace VendTech.Areas.Admin.Controllers
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
-       
+
+
+        [AjaxOnly, HttpPost]
+        public JsonResult SendOTP2(ReleaseDepositModel2 model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            var result = _depositManager.SendOTP();
+            if (result.Status == ActionStatus.Successfull)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                if (emailTemplate.TemplateStatus)
+                {
+                    var releaseBtn = $"<a href='https://vendtechsl.com/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", model.ReleaseDepositIds)}&otp={result.Object}'>WILL DO</a>";
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%otp%", result.Object);
+                    body = body.Replace("%RELEASEOTP%", releaseBtn);
+                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                    var currentUser = LOGGEDIN_USER.UserID;
+                    //"favouremmanuel433@gmail.com"
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
         [AjaxOnly, HttpPost]
         public JsonResult ChangeDepositStatus(ReleaseDepositModel model)
         {
