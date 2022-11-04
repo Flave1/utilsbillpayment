@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ABC_PRODUCTIONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ABC_PRODUCTIONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -237,7 +237,7 @@
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
@@ -512,6 +512,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primar
           <Property Name="TotalPendingData" Type="int" />
           <Property Name="IsCompany" Type="bit" />
           <Property Name="UserSerialNo" Type="bigint" />
+          <Property Name="MobileAppVersion" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -1257,8 +1258,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primar
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ABC_PRODUCTIONModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1837,6 +1837,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primar
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -3086,6 +3087,7 @@ warning 6002: The table/view 'ABC_PRODUCTION.dbo.Nations' does not have a primar
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="MobileAppVersion" ColumnName="MobileAppVersion" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />

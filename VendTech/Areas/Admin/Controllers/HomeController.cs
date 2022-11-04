@@ -51,8 +51,7 @@ namespace VendTech.Areas.Admin.Controllers
 
 
         [HttpGet, Public]
-        public ActionResult Index()
-        
+        public ActionResult Index(string returnUrl)
         {
             return View(new LoginModal());
         }

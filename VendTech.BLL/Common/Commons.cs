@@ -114,6 +114,17 @@ namespace VendTech.BLL.Models
         public bool IsCompany { get; set; }
         public UserDetailForAdmin()
         { }
+        public UserDetailForAdmin(UserDetails user)
+        {
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            UserEmail = user.UserEmail;
+            UserID = user.UserID;
+            UserType = user.UserType;
+            UserName = user.UserEmail;
+            IsAuthenticated = user.IsAuthenticated;
+            LastActivityTime = user.LastActivityTime;
+        }
 
 
     }

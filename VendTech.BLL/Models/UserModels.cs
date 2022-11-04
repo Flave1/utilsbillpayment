@@ -20,6 +20,7 @@ namespace VendTech.BLL.Models
 
         [Required(ErrorMessage = "Required")]
         public string Password { get; set; }
+        public string returnUrl { get; set; }
     }
 
     /// <summary>
@@ -116,6 +117,7 @@ namespace VendTech.BLL.Models
         public string DeviceToken { get; set; }
 
         public bool IsRe_Approval { get; set; } = false;
+        public string MobileAppVersion { get; set; }
         public UserModel() { }
         public UserModel(User userObj)
         {
@@ -129,7 +131,8 @@ namespace VendTech.BLL.Models
             this.isemailverified = userObj.IsEmailVerified;
             this.Status = userObj.Status;
             this.Vendor = userObj.Vendor;
-            this.DeviceToken = userObj.DeviceToken;
+            DeviceToken = userObj.DeviceToken;
+            MobileAppVersion = userObj.MobileAppVersion;
             IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
@@ -191,6 +194,7 @@ namespace VendTech.BLL.Models
         public string PassCode { get; set; }
         public string DeviceToken { get; set; }
         public string AppType { get; set; }
+        public string AppVersion { get; set; } = "2.2";
     }
     public class ApiResponseUserDetail
     {

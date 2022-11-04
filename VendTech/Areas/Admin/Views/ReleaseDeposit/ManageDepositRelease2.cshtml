@@ -1,0 +1,110 @@
+﻿@model PagingResult<DepositListingModel>
+@{
+    ViewBag.Title = "Deposit Release";
+    Layout = null;
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Deposit Release</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="content">
+                        <div class="table-responsive deopsitrelease">
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+                            <div class="otpdiv">
+                                <h3 class=""> <a href="javascript:void(0)" id="sendOTPBtn" class="btn btn-primary pull-right" title="Send OTP"><i class="fa fa-save "></i><super></super></a></h3>
+                                <label style="font-size: 24px; color: #00a2e8 !important;">NLe: @Utilities.FormatAmount(ViewBag.Balance) </label>
+                            </div>
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>DATE/TIME</th>
+                                            <th>VALUE DATE</th>
+                                            <th>POS ID</th>
+                                            <th>VENDOR</th>
+                                            <th>TYPE</th>
+                                            <th>REF #</th>
+                                            <th>AMOUNT</th>
+                                            <th>%</th>
+                                            <th>STATUS</th>
+                                            <th>DELETE</th>
+                                            <th>RELEASE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("Partials/_depositReleaseListing", Model)
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        @Html.Partial("_Paging")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="depositReleaseModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="margin-top:15%; margin-right:-0%; ">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="height: 400px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Deposit Release</h4>
+            </div>
+            <div class="modal-body">
+                <br /><br /><br /> <br />
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="inputEmail3" class="col-md-4 control-label" style="font-weight:bold; font-size:20px">ENTER OTP<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" style="height:70px; font-weight:bold; font-size:65px;" id="otp" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnChangeDepositStatus" onclick="ChangeDepositStatus()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/depositRelease.js"></script>
+
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["POS ID", "USER NAME","PAYMENT TYPE", "CHEQUE # OR REG ID", "AMOUNT","%","STATUS"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            
+            //initialize the javascript
+            App.init();
+           
+            //Deposits.ManageDeposits(totalCount);
+        
+        });
+    </script>
+}
+

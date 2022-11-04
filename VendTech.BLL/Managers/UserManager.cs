@@ -358,9 +358,30 @@ namespace VendTech.BLL.Managers
                 UserEmail = user.Email,
                 UserID = user.UserId,
                 UserType = user.UserRole.Role,
+                UserName = user.UserName
                 //ProfilePicPath = user.ProfilePic
             };
             return ReturnSuccess<UserDetailForAdmin>(modelUser, "User logged in successfully.");
+        }
+
+        UserDetails IUserManager.BackgroundAdminLogin(long taskId)
+        {
+            var user = Context.Users.FirstOrDefault(p => p.UserId == taskId && (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
+            (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset));
+            if (user == null)
+                return null;
+            var modelUser = new UserDetails
+            {
+                FirstName = user.Name,
+                LastName = user.SurName,
+                UserEmail = user.Email,
+                UserID = user.UserId,
+                UserType = user.UserRole.Role,
+                UserName = user.Email,
+                IsAuthenticated = true,
+                LastActivityTime = DateTime.UtcNow,
+            };
+            return modelUser;
         }
 
 

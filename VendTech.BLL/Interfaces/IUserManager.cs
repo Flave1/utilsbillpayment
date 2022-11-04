@@ -92,6 +92,7 @@ namespace VendTech.BLL.Interfaces
         User GetUserDetailByEmail(string email);
         List<SelectListItem> GetAgentSelectList();
         UserLogo GetUserLogo(long userId);
+        UserDetails BackgroundAdminLogin(long taskId);
     }
 
 }

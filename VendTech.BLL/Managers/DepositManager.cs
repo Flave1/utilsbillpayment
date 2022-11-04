@@ -38,8 +38,8 @@ namespace VendTech.BLL.Managers
                 query2 = query2.Where(p => p.UserId == userId);
             }
 
-            var list = query.ToList().Select(x => new DepositListingModel(x.Deposit)).ToList(); 
-            var list2 = query2.ToList().Select(x => new DepositListingModel(x)).ToList();
+            var list = query.AsEnumerable().Select(x => new DepositListingModel(x.Deposit)).ToList(); 
+            var list2 = query2.AsEnumerable().Select(x => new DepositListingModel(x)).ToList();
 
             result.List = list2.Concat(list).Take(10).ToList();
             result.Status = ActionStatus.Successfull;
@@ -1759,6 +1759,28 @@ namespace VendTech.BLL.Managers
             catch (Exception ex)
             {
                 return ReturnError<List<long>>("Error occured while updating entries.");
+            }
+        }
+
+        ActionOutput<string> IDepositManager.CancelDeposit(CancelDepositModel model)
+        {
+            try
+            {
+
+                if (model.CancelDepositId > 0)
+                {
+                    var pendingDepoosit = Context.PendingDeposits.FirstOrDefault(d => model.CancelDepositId == d.PendingDepositId);
+                    if (pendingDepoosit != null)
+                    {
+                        Context.PendingDeposits.Remove(pendingDepoosit);
+                        Context.SaveChanges();
+                    }
+                }
+                return ReturnSuccess<string>("DEPOSIT APPROVED SUCCESSFULLY");
+            }
+            catch (Exception)
+            {
+                return ReturnError<string>("Error occured while updating entries.");
             }
         }
 

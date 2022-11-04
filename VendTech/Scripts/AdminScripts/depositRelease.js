@@ -1,10 +1,12 @@
-﻿var releaseDepositIds = [];
+﻿
+var releaseDepositIds = [];
 var cancelDepositIds = [];
 
 $(document).ready(function () {
     
-    cancelCkboxClick();
+    cancelCkboxClick(this);
     releaseChkboxClick();
+    deleteDepositRequest(this);
 
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams) {
@@ -49,6 +51,62 @@ $(document).ready(function () {
         return Deposits.SearchDeposits($(this));
     });
 });
+
+
+function deleteDepositRequest(sender) {
+
+    $('.cancelChkBox').on('change', function () {
+
+
+        console.log('value', this.value)
+        if (this.checked) {
+            var idx = releaseDepositIds.indexOf(this.value);
+            if (idx >= 0) {
+                releaseDepositIds.splice(idx, 1);
+                $("#releaseChk" + this.value).prop("checked", false);
+            }
+
+            const id = this.value;
+
+            $.ConfirmBox("CANCEL DEPOSIT REQUEST", "CANCEL THIS DEPOSIT REQUEST", null, true, null, true, null, function () {
+
+
+
+                    $.ajaxExt({
+                        url: baseUrl + '/Admin/ReleaseDeposit/CancelDeposit',
+                        type: 'POST',
+                        validate: false,
+                        showErrorMessage: true,
+                        messageControl: $('div.messageAlert'),
+                        showThrobber: true,
+                        button: $(sender),
+                        throbberPosition: { my: "left center", at: "right center", of: window },
+                        data: { CancelDepositId: id },
+                        success: function (results, message) {
+                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1500)
+                            
+                        }
+                    });
+            
+            });
+            
+
+
+
+
+        }
+        else {
+            var idx = cancelDepositIds.indexOf(this.value);
+            if (idx >= 0) {
+                cancelDepositIds.splice(idx, 1);
+            }
+        }
+    });
+
+}
 
 function cancelCkboxClick() {
     $('.cancelChkBox').on('change',function () {
@@ -95,7 +153,7 @@ function sendOTPForDepositRelease(sender) {
         $.ShowMessage($('div.messageAlert'), "Please select atleast one deposit request.", MessageType.Error);
         return;
     }
-    debugger
+
     $.ajaxExt({
         url: baseUrl + '/Admin/ReleaseDeposit/SendOTP2',
         type: 'POST',

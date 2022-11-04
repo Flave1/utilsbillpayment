@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VendTech.BLL.Common;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,13 +13,7 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using IronXL;
 using System.Data;
-using Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
-using ClosedXML.Excel;
-using System.ComponentModel;
-using Quartz.Util;
 using System.Drawing;
 
 namespace VendTech.Areas.Admin.Controllers

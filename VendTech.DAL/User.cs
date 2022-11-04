@@ -71,6 +71,7 @@ namespace VendTech.DAL
         public Nullable<int> TotalPendingData { get; set; }
         public Nullable<bool> IsCompany { get; set; }
         public Nullable<long> UserSerialNo { get; set; }
+        public string MobileAppVersion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountVerificationOTP> AccountVerificationOTPs { get; set; }

@@ -378,6 +378,7 @@ namespace VendTech.BLL.Managers
 
             userModel.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
             userModel.AppType = string.IsNullOrEmpty(model.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
+            userModel.MobileAppVersion = model.AppVersion;
             Context.SaveChanges();
             return ReturnSuccess();
         }

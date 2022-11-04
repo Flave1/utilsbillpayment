@@ -3358,6 +3358,7 @@
     <Content Include="Content\themes\skycons\.gitignore" />
     <Content Include="Content\themes\skycons\README.md" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
+    <Content Include="Areas\Admin\Views\ReleaseDeposit\ManageDepositRelease2.cshtml" />
     <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
