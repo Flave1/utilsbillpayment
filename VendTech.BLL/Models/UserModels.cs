@@ -194,7 +194,7 @@ namespace VendTech.BLL.Models
         public string PassCode { get; set; }
         public string DeviceToken { get; set; }
         public string AppType { get; set; }
-        public string AppVersion { get; set; } = "2.2";
+        public string AppVersion { get; set; } = "0.0";
     }
     public class ApiResponseUserDetail
     {

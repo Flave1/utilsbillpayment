@@ -64,7 +64,7 @@ namespace VendTech.Areas.Api.Controllers
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
-            if (model.AppVersion == "2.2")
+            if (model.AppVersion == "0.0")
             {
                 return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Failed).ConvertToHttpResponseOK();
             }
@@ -86,7 +86,7 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    if(Convert.ToDouble(model.AppVersion) < 2.3)
+                    if(model.AppVersion != CurrentAppVersion)
                     {
                         return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
                     }
@@ -136,6 +136,7 @@ namespace VendTech.Areas.Api.Controllers
                     if (isEnabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
+                        model.AppVersion = CurrentAppVersion;
                         _authenticateManager.AddTokenDevice(model);
                         if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
                         {
