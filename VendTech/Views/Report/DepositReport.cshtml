@@ -58,13 +58,13 @@
                                         </select>
                                     </label>
 
-                                    <label>
+                                    @*<label>
                                         <button type="button" id="btnExport">Export</button>
 
                                     </label>
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
-                                    </label>
+                                    </label>*@
 
                                 </div>
                                 <div class="blwsec">
@@ -137,29 +137,33 @@
 
                                     </div>
                                     <div class="blwsec-right">
-                                        <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
-                                            <table class="table table-bordered" id="datatable-icons">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                        <th class="sorting" data-sortby="CreatedAt">VALUE DATE</th>
-                                                        <th class="sorting" data-sortby="POS">POS ID</th>
-                                                        <th class="sorting" data-sortby="Vendor">VENDOR</th>
-                                                        <th class="sorting" data-sortby="UserName">APPROVER</th>
-                                                        <th class="sorting" data-sortby="PaymentType">TYPE</th>
-                                                        <th class="sorting" data-sortby="BANK">BANK</th>
-                                                        <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
-                                                        <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
-                                                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                        <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                        <th class="sorting" data-sortby="NewBalance">BALANCE</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @Html.Partial("Partials/_depositListing", Model)
-                                                </tbody>
-                                            </table>
+                                        <div class="row">
+                                            <strong>We are currently updating deposit reports!!!  </strong>
+                                            <p>Please try again later or contact vendtech support</p>
                                         </div>
+                                        @*<div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
+            <table class="table table-bordered" id="datatable-icons">
+                <thead>
+                    <tr>
+                        <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                        <th class="sorting" data-sortby="CreatedAt">VALUE DATE</th>
+                        <th class="sorting" data-sortby="POS">POS ID</th>
+                        <th class="sorting" data-sortby="Vendor">VENDOR</th>
+                        <th class="sorting" data-sortby="UserName">APPROVER</th>
+                        <th class="sorting" data-sortby="PaymentType">TYPE</th>
+                        <th class="sorting" data-sortby="BANK">BANK</th>
+                        <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                        <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
+                        <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                        <th class="sorting" data-sortby="PercentageAmount">%</th>
+                        <th class="sorting" data-sortby="NewBalance">BALANCE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.Partial("Partials/_depositListing", Model)
+                </tbody>
+            </table>
+        </div>*@
                                         @*@Html.Partial("_Paging")*@
                                     </div>
                                     <input type="hidden" value="CreatedAt" id="SortBy" />

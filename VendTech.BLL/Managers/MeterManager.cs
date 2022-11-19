@@ -1148,7 +1148,7 @@ namespace VendTech.BLL.Managers
                 tran.CurrentDealerBalance = response_data != null ? (decimal)response_data?.DealerBalance : new decimal();
                 tran.Customer = response_data != null ? response_data?.PowerHubVoucher?.Customer : string.Empty;
                 tran.ReceiptNumber = response_data != null ? response_data?.PowerHubVoucher?.ReceiptNumber.ToString() : string.Empty;
-                tran.RequestDate = response_data != null ? Convert.ToDateTime(response_data?.DateAndTime) : DateTime.UtcNow;
+                tran.RequestDate = DateTime.UtcNow;
                 tran.RTSUniqueID = response_data != null ? response_data?.PowerHubVoucher?.RtsUniqueId : "";
                 tran.SerialNumber = response_data != null ? response_data?.SerialNumber.ToString() : string.Empty;
                 tran.ServiceCharge = response_data != null ? response_data?.PowerHubVoucher?.ServiceCharge : "0";

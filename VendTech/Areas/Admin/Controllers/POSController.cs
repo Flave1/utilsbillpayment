@@ -200,7 +200,28 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
 
- 
+        [HttpPost, AjaxOnly]
+        public JsonResult PurchaseUnits(RechargeMeterModel model)
+        {
+            model.UserId = model.UserId;
+            var result = _meterManager.RechargeMeterReturn(model).Result;
+            if (result.ReceiptStatus.Status == "unsuccessful")
+            {
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            }
+
+            if (result != null)
+                return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+            return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
+
+        }
+
+        [HttpPost, AjaxOnly]
+        public JsonResult PurchaseUnits2()
+        {
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = new object() });
+        }
+
         #endregion
     }
 }

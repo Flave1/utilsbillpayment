@@ -86,10 +86,10 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    if(model.AppVersion != CurrentAppVersion)
-                    {
-                        return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
-                    }
+                    //if(model.AppVersion != CurrentAppVersion)
+                    //{
+                    //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
+                    //}
                     var pos = _posManager.GetPosDetails(model.PassCode);
                     if(pos == null)
                     {

@@ -3037,6 +3037,7 @@
     <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
+    <Content Include="Scripts\AdminScripts\purchaseUnitsByAdmin.js" />
     <Content Include="Scripts\AdminScripts\templates.js" />
     <Content Include="Scripts\AdminScripts\superAdminTransfer.js" />
     <Content Include="Scripts\AdminScripts\users.js" />
@@ -3360,6 +3361,7 @@
     <Content Include="Content\themes\skycons\README.md" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
     <Content Include="Areas\Admin\Views\ReleaseDeposit\ManageDepositRelease2.cshtml" />
+    <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
     <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />

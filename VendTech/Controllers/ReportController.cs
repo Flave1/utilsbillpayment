@@ -96,8 +96,9 @@ namespace VendTech.Controllers
             ViewBag.AssignedReports = assignedReportModule;
 
             var bankAccounts = _bankAccountMananger.GetBankAccounts();
-            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList(); 
-            return View(deposits);
+            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+            //deposits
+            return View(new PagingResult<DepositListingModel>());
 
         }
        
