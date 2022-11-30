@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
@@ -34,9 +35,28 @@ namespace VendTech.Areas.Admin.Controllers
 
         #region User Management
 
-        [HttpGet]
-        public ActionResult ManageDepositRelease(string status = "")
+        [HttpGet, Public]
+        public ActionResult ManageDepositRelease(string status = "", string depositids = "", string otp = "", string taskId = "")
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                var user = _userManager.BackgroundAdminLogin(Convert.ToInt64(taskId));
+                if(user == null)
+                    SignOut();
+                else
+                {
+                    JustLoggedin = true;
+                    var PermissonAndDetailModel = new PermissonAndDetailModelForAdmin();
+                    PermissonAndDetailModel.UserDetails = new UserDetailForAdmin(user);
+                    PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(user.UserID)
+                        .Where(e => e.ControllerName != "19" && e.ControllerName != "20" && e.ControllerName != "1" && e.ControllerName != "23" && e.ControllerName != "18" && e.ControllerName != "27").ToList();
+                    CreateCustomAuthorisationCookie(user.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
+
+                    ViewBag.LOGGEDIN_USER = user;
+                    ViewBag.Data = _userManager.GetNotificationUsersCount(user.UserID);
+                    ViewBag.USER_PERMISSONS = PermissonAndDetailModel.ModulesModelList;
+                }
+            }
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             ViewBag.Balance = _depositManager.GetPendingDepositTotal();
             var deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, status);
@@ -84,13 +104,37 @@ namespace VendTech.Areas.Admin.Controllers
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
-       
+
+
+        [AjaxOnly, HttpPost]
+        public JsonResult SendOTP2(ReleaseDepositModel2 model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            var result = _depositManager.SendOTP();
+            if (result.Status == ActionStatus.Successfull)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                if (emailTemplate.TemplateStatus)
+                {
+                    var releaseBtn = $"<a href='https://vendtechsl.com/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", model.ReleaseDepositIds)}&otp={result.Object}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%otp%", result.Object);
+                    body = body.Replace("%RELEASEOTP%", releaseBtn);
+                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                    var currentUser = LOGGEDIN_USER.UserID;
+                    //"favouremmanuel433@gmail.com"
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                }
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
         [AjaxOnly, HttpPost]
         public JsonResult ChangeDepositStatus(ReleaseDepositModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.ChangeMultipleDepositStatus(model, LOGGEDIN_USER.UserID);
-            if(result.Status == ActionStatus.Error)
+
+            if (result.Status == ActionStatus.Error)
             {
                 return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             } 
@@ -99,6 +143,18 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 SendEmailOnDeposit(model.ReleaseDepositIds);
                 SendSmsOnDeposit(model.ReleaseDepositIds);
+            }
+            return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult CancelDeposit(CancelDepositModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            var result = _depositManager.CancelDeposit(model);
+            if (result.Status == ActionStatus.Error)
+            {
+                return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
@@ -142,8 +198,9 @@ namespace VendTech.Areas.Admin.Controllers
                             {
                                 Recipient = "232" + deposit.POS.Phone,
                                 Payload = $"Greetings {deposit.User.Name} \n" +
-                               $"Your deposit of NLe: {Utilities.FormatAmount(deposit.Amount)} has been approved.\n" +
-                               "Please confirm the amount deposited reflects in your wallet.\n" +
+                               "Your last deposit has been approved\n" +
+                               "Please confirm the amount deposited reflects in your wallet correctly.\n" +
+                               $"NLe: {Utilities.FormatAmount(deposit.Amount)} \n" +
                                "VENDTECH"
                                 };
 

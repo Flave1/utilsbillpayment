@@ -265,7 +265,10 @@ namespace VendTech.BLL.Managers
             result.TotalCount = query.Count();
             return result;
         }
-
+        bool IAgencyManager.IsAdmin(long vendorId)
+        {
+            return Context.Agencies.Any(p => p.Representative == vendorId);
+        }
 
     }
 

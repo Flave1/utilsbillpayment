@@ -1,4 +1,4 @@
-﻿@model PagingResult<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
 @{
 
     ViewBag.Title = "Manage Balance Sheet Reports";
@@ -62,6 +62,7 @@
                                 </div>
 
                                 <div class="blwsec">
+                                    
                                     @using (Html.BeginForm("ExportBalanceSheetReportTo", "Report", FormMethod.Post, new { @id = "salesForm" }))
                                     {
                                         <div class="blwsec-left">
@@ -124,6 +125,7 @@
                                                         <th data-sortby="TransactionId">TRANS ID</th>
                                                         <th data-sortby="TransactionType">TYPE</th>
                                                         <th data-sortby="Reference">REF #</th>
+                                                        <th data-sortby="BALANCEBEFORE">BALANCE BEFORE</th>
                                                         <th data-sortby="DAMOUNT">DEPOSITS</th>
                                                         <th data-sortby="SAMOUNT">SALES</th>
                                                         <th data-sortby="BALANCE">BALANCE</th>
@@ -189,7 +191,7 @@
                 var to = $("#ToDate").val();
                 if (frm) {
                     var dtVal = frm.split("/");
-                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    $("#frmDt").val(frm);//dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]
                 }
                 else {
                     $("#frmDt").val('');
@@ -197,7 +199,7 @@
                 }
                 if (to) {
                     var dtVal = to.split("/");
-                    $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    $("#toDt").val(to);//dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]
                 }
                 else {
                     $("#toDt").val('');

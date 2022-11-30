@@ -35,6 +35,7 @@ namespace VendTech.BLL.Models
         public bool WebPrint { get; set; }
         public bool WebBarcode { get; set; }
         public bool PosBarcode { get; set; }
+        public string MobileAppVersion { get; set; }
         public POSListingModel(POS obj)
         {
             POSId = obj.POSId;
@@ -59,6 +60,7 @@ namespace VendTech.BLL.Models
             WebBarcode = obj?.WebBarcode ?? false;
             PosBarcode = obj?.PosBarcode ?? false;
             Agency = obj?.User?.Agency?.AgencyName;
+            MobileAppVersion = obj.User?.MobileAppVersion ?? "2.2";
         } 
     }
     public class PosAPiListingModel

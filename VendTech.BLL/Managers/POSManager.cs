@@ -3,13 +3,8 @@ using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
-using VendTech.BLL.Common;
-using System.Web;
-using System.IO;
 using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
@@ -28,57 +23,60 @@ namespace VendTech.BLL.Managers
         }
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
-            if(model.SortBy == null)
+            //model.RecordsPerPage = 1000000;
+            var result = new PagingResult<POSListingModel>();
+            IQueryable<POS> query = Context.POS.Where(p => !p.IsDeleted);
+
+            if (model.SortBy == null)
             {
                 model.SortBy = "SerialNumber";
             }
-            model.RecordsPerPage = 1000000;
-            var result = new PagingResult<POSListingModel>();
-            IQueryable<POS> query = null;
-            //if (agentId > 0)
-            //    query = query.Where(p => p.Vendor.AgencyId == agentId);
-            if (model.SortBy == "VendorId")
+            else if (model.SortBy == "VendorId")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.POS.Where(p => !p.IsDeleted).OrderBy(s => s.User.Vendor);
+                    query = query.Where(p => !p.IsDeleted).OrderBy(s => s.User.Vendor);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Vendor);
+                    query = query.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Vendor);
                 }
             }
-            if (model.SortBy == "COMMISSION")
+            else if (model.SortBy == "COMMISSION")
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(r => r.Commission.Percentage + " " + model.SortOrder);
+                query = query.OrderBy(r => r.Commission.Percentage + " " + model.SortOrder);
             }
-            if (model.SortBy == "Number")
+            else if (model.SortBy == "Number")
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
+                query = query.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
             }
             else if (model.SortBy == "MeterCount")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.POS.Where(p => !p.IsDeleted).OrderBy(s => s.User.Meters.Count());
+                    query = query.Where(p => !p.IsDeleted).OrderBy(s => s.User.Meters.Count());
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.POS.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
+                    query = query.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
                 }
             }
 
             else if (model.SortBy == "POSId")
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("SerialNumber" + " " + model.SortOrder);
+                query = query.Where(p => !p.IsDeleted).OrderBy("SerialNumber" + " " + model.SortOrder);
             }
             else if (model.SortBy == "Agency")
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+                query = query.Where(p => !p.IsDeleted).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            }
+            else if (model.SortBy == "appVersion")
+            {
+                query = query.Where(p => !p.IsDeleted).OrderBy("User.MobileAppVersion" + " " + model.SortOrder);
             }
             else
             {
-                query = Context.POS.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
+                query = query.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
             }
             if (vendorId > 0)
             {
@@ -200,7 +198,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId, long agentId)
         {
-            var query = new List<POS>(); 
+            var query = new List<POS>();
             var userPos = new List<POS>();
             if (userId > 0)
             {

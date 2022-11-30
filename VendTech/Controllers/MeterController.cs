@@ -192,7 +192,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
-
+            JavaScriptSerializer js = new JavaScriptSerializer();
             var hostory_model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -282,6 +282,22 @@ namespace VendTech.Controllers
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
             }
          
+            if (result != null)
+                return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+            return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
+
+        }
+
+        [HttpPost, AjaxOnly, Public]
+        public JsonResult RechargeReturn2(RechargeMeterModel model)
+        {
+            model.UserId = model.UserId;
+            var result = _meterManager.RechargeMeterReturn(model).Result;
+            if (result.ReceiptStatus.Status == "unsuccessful")
+            {
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            }
+
             if (result != null)
                 return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
             return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });

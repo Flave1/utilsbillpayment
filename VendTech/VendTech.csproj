@@ -262,6 +262,7 @@
     <Compile Include="Areas\Vendor\Controllers\HomeController.cs" />
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
+    <Compile Include="Controllers\PrivacyController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\AppUserBaseController.cs" />
@@ -3036,6 +3037,7 @@
     <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
+    <Content Include="Scripts\AdminScripts\purchaseUnitsByAdmin.js" />
     <Content Include="Scripts\AdminScripts\templates.js" />
     <Content Include="Scripts\AdminScripts\superAdminTransfer.js" />
     <Content Include="Scripts\AdminScripts\users.js" />
@@ -3358,6 +3360,10 @@
     <Content Include="Content\themes\skycons\.gitignore" />
     <Content Include="Content\themes\skycons\README.md" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
+    <Content Include="Areas\Admin\Views\ReleaseDeposit\ManageDepositRelease2.cshtml" />
+    <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReportButtons.cshtml" />
     <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
@@ -3406,6 +3412,8 @@
     <Content Include="Templates\RechargeMeter.html" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
+    <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
+    <Content Include="Views\Privacy\Policy.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

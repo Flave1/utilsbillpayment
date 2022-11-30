@@ -602,16 +602,17 @@
                                 }
                                 $(this).find("#_ref").text(data.DepositRef);
                                 $(this).find("td").find("#_gt").text(data.GTBank);
-                                if (data.Price == "0") {
-                                    $(this).find("#_amt").text(data.Price);
-                                }
-                                else {
-                                    data.Price = data.Price.replace(/\D/g, "")
-                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                    $(this).find("#_amt")
-                                        .text(data.Price.replace(/\D/g, "")
-                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                                }
+                                $(this).find("#_amt").text(data.Price);
+                                //if (data.Price == "0") {
+                                //    $(this).find("#_amt").text(data.Price);
+                                //}
+                                //else {
+                                //    data.Price = data.Price.replace(/\D/g, "")
+                                //        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                //    $(this).find("#_amt")
+                                //        .text(data.Price.replace(/\D/g, "")
+                                //            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                //}
                                 $(this).find("#_sts").addClass("Updated");
                                 $(this).find("#_sts").text("Updated");
                                 $(this).find("#_sts").prop("onclick", null);
@@ -630,7 +631,7 @@
             });
         }
 
-    function Save(th) {
+        function Save(th) {
 
         
 
@@ -672,7 +673,12 @@
                     console.log('data', data)
                     if (data != null) {
                         $("#depositModal").modal('hide');
-                        $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
+                        $.ShowMessage($('div.messageAlert'), "DEPOSIT CLEARED SUCCESSFULLY", MessageType.Success);
+
+                        setTimeout(function () {
+                            $(".confirm").click();
+                        }, 2000);
+
                         $('tr').each(function (index, value) {
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);
@@ -690,16 +696,7 @@
                                 }
                                 $(this).find("#_ref").text(data.DepositRef);
                                 $(this).find("td").find("#_gt").text(data.GTBank);
-                                if (data.Price == "0") {
-                                    $(this).find("#_amt").text(data.Price);
-                                }
-                                else {
-                                    data.Price = data.Price.replace(/\D/g, "")
-                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                    $(this).find("#_amt")
-                                        .text(data.Price.replace(/\D/g, "")
-                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                                }
+                                $(this).find("#_amt").text(data.Price);
                                 if (data.isAudit) {
                                     $(this).find("#_sts").removeClass("btn-success");
                                     $(this).find("#_sts").addClass("btn-clear");

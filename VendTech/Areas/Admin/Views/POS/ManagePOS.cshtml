@@ -9,14 +9,17 @@
         color: white;
         font-weight: bold;
     }
+
     .notActive {
         color: black;
         background: grey
     }
+
     .isActive:hover {
         color: black;
         background: grey
     }
+
     .notActive:hover {
         background: black;
         color: white;
@@ -41,21 +44,25 @@
                     </div>
                     <div class="content">
                         <div class="table-responsive">
-                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc"})
+                            @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
 
                             <div id="divResult">
-                                <input id="IsActive" value="true" hidden/>
+                                <input id="IsActive" value="true" hidden />
                                 <div style='text-align: center; width:20%; height:40px; display:flex; '>
-                                    <button id="true"  
-                                            style="width: 49%; border: none;"  class="isActive"
-                                            onclick="openTab('true')">ACTIVE POS</button>
-                                    <button id="false" 
-                                            style="width: 49%; border:none;"  class="notActive"
-                                            onclick="openTab('false')">INACTIVE POS</button> 
+                                    <button id="true"
+                                            style="width: 49%; border: none;" class="isActive"
+                                            onclick="openTab('true')">
+                                        ACTIVE POS
+                                    </button>
+                                    <button id="false"
+                                            style="width: 49%; border:none;" class="notActive"
+                                            onclick="openTab('false')">
+                                        INACTIVE POS
+                                    </button>
                                 </div>
 
-             
-                                
+
+
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
@@ -66,11 +73,12 @@
                                             <th class="sorting" data-sortby="Number">POS SIM #</th>
                                             <th class="sorting" data-sortby="MeterCount">SAVED METERS</th>
                                             <th class="sorting" data-sortby="VendorType">POS TYPE</th>
+                                            <th class="sorting" data-sortby="appVersion">APP VERSION</th>
                                             <th class="sorting" data-sortby="Balance">BALANCE</th>
                                             <th>ACTION</th>
                                         </tr>
-                                    </thead>  
-                                    <tbody >
+                                    </thead>
+                                    <tbody>
                                         @Html.Partial("Partials/_posListing", Model)
                                     </tbody>
                                 </table>
@@ -94,16 +102,15 @@
                 <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
             </div>
 
-            <div class="modal-body">
-            </div> 
+            <div class="modal-meter-body">
+            </div>
         </div>
     </div>
 </div>
 
 
 
-
-  
+@Html.Partial("Partials/_purchaseUnitsForm")
 
 
 @section scripts{
@@ -113,6 +120,11 @@
     </script>
     <script src="~/Scripts/AdminScripts/pos.js"></script>
 
+    <script src="~/Scripts/AdminScripts/purchaseUnitsByAdmin.js"></script>
+
+    <script src="~/Scripts/UserScripts/sms.js"></script>
+
+    <script src="~/Scripts/Receipt.js"></script>
 
     <script type="text/javascript">
         function openTab(status) {
@@ -122,25 +134,25 @@
             document.getElementById(otherTabStatus).className = 'notActive';
 
             $('#IsActive').val(status === 'true' ? true : false);
-            
+
             return AdminPOS.SortUsers($(this));
         }
         $("#searchField").show();
-        var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE" ];
+        var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
         for (var i = 0; i < searchFields.length; i++) {
-            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>") 
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
 
-        $(document).ready(function () { 
-            //initialize the javascript 
+        $(document).ready(function () {
+            //initialize the javascript
             $('#searchField option[value="VENDOR"]').attr("selected", true);
             $('.filter-select option[value="100"]').attr("selected", true);
             App.init();
-            Users.ManageUsers(totalCount);
+            //Users.ManageUsers(totalCount);
         });
 
         function onSavedMeterClicked(userId, vendor, posid) {
-            
+
 
             if (userId) {
                 var inputParam = new Object();
@@ -153,9 +165,13 @@
                     success: function (data) {
                         $("#vendorName").text(vendor);
                         $("#posId").text(posid);
-                        $('.modal-body').html(data);
+                        $('.modal-meter-body').html(data);
                         $("#myModal2").modal("show");
-                        
+                        $('#myModal2').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        })
+
                     }
                 });
             }

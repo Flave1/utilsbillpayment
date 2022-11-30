@@ -37,6 +37,7 @@ namespace VendTech.BLL.Models
         public decimal SaleAmount { get; set; } = 0;
         public decimal Balance { get; set; } = 0; 
         public long? POSId { get; set; }
+        public decimal? BalanceBefore { get; set; } = 0;
     }
 
     public class DashboardBalanceSheetModel
@@ -228,7 +229,7 @@ namespace VendTech.BLL.Models
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
             DATE_TIME = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");      //ToString("dd/MM/yyyy HH:mm");
-            VALUEDATE = VALUEDATE = obj.ValueDateStamp == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            VALUEDATE = obj.ValueDateStamp == null ? obj.ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_BY = obj.POS.User.Vendor;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
@@ -310,6 +311,15 @@ namespace VendTech.BLL.Models
         public string OTP { get; set; }
     }
 
+    public class ReleaseDepositModel2
+    {
+        public List<long> ReleaseDepositIds { get; set; }
+    }
+    public class CancelDepositModel
+    {
+        public long CancelDepositId { get; set; }
+    }
+
     public class ReverseDepositModel
     {
         public List<long> ReverseDepositIds { get; set; }
@@ -342,7 +352,9 @@ namespace VendTech.BLL.Models
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
         public long? PosId { get; set; } = 0;
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? From { get; set; } = null;
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? To { get; set; } = null;
         public string Meter { get; set; } = "";
         public string RefNumber { get; set; }
@@ -360,6 +372,7 @@ namespace VendTech.BLL.Models
         public bool IsAudit { get; set; }
         public string Status { get; set; }
         public bool IsInitialLoad { get; set; } = false; 
+        public string MiniSaleRpType { get; set; }
     }
 
     public class DepositAuditModel

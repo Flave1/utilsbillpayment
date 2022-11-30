@@ -206,18 +206,15 @@
         $("#btnExport").click(function (e) {
             var frm = $("#FromDate").val();
             var to = $("#ToDate").val();
-            debugger
             if (frm) {
-                var dtVal = frm.split("/");
-                $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                $("#frmDt").val(frm);
             }
             else {
                 $("#frmDt").val('');
 
             }
             if (to) {
-                var dtVal = to.split("/");
-                $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                $("#toDt").val(to);
             }
             else {
                 $("#toDt").val('');

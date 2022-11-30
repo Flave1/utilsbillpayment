@@ -91,6 +91,7 @@
 });
 
 var AdminPOS = {
+
     SortUsers: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");

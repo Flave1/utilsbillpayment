@@ -27,7 +27,16 @@ namespace VendTech.BLL.Models
         public int TotalCount { get; set; }
         public ActionStatus Status { get; set; }
         public String Message { get; set; }
-    } 
+    }
+
+    public class PagingResultWithDefaultAmount<T>
+    {
+        public List<T> List { get; set; }
+        public int TotalCount { get; set; }
+        public ActionStatus Status { get; set; }
+        public String Message { get; set; }
+        public string Amount { get; set; }
+    }
     public class PagingModel
     {
         public int PageNo { get; set; }
@@ -105,6 +114,17 @@ namespace VendTech.BLL.Models
         public bool IsCompany { get; set; }
         public UserDetailForAdmin()
         { }
+        public UserDetailForAdmin(UserDetails user)
+        {
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            UserEmail = user.UserEmail;
+            UserID = user.UserID;
+            UserType = user.UserType;
+            UserName = user.UserEmail;
+            IsAuthenticated = user.IsAuthenticated;
+            LastActivityTime = user.LastActivityTime;
+        }
 
 
     }

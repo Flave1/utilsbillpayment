@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VendTech.BLL.Common;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -19,7 +20,7 @@ namespace VendTech.BLL.Models
         public string Address { get; set; }
         public string MeterMake { get; set; }
         public string Allias { get; set; }
-        public bool isVerified { get; set; }
+        public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
     }
 
@@ -27,9 +28,13 @@ namespace VendTech.BLL.Models
     { 
         public string UserName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public long POSId { get; set; }
+        public string POSSerialNumber { get; set; }
+        public string Balance { get; set; }
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
+            var pos = obj.User.POS.FirstOrDefault();
             UserId = obj.UserId;
             UserName = obj.User.Name + " " + obj.User.SurName;
             Name = obj.Name;
@@ -40,6 +45,9 @@ namespace VendTech.BLL.Models
             Number = obj.Number;
             Allias = obj.Allias;
             isVerified = (bool)obj.IsVerified;
+            POSId = pos.POSId;
+            POSSerialNumber = pos.SerialNumber;
+            Balance = Utilities.FormatAmount(pos.Balance);
         }
     }
 
@@ -193,4 +201,9 @@ namespace VendTech.BLL.Models
     //    public decimal Units { get; set; } 
     //}
 
+    public class MiniSalesReport
+    {
+        public string DateTime { get; set; }
+        public string TAmount { get; set; }
+    }
 }

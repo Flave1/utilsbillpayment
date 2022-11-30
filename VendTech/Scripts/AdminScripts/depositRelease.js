@@ -1,10 +1,21 @@
-﻿var releaseDepositIds = [];
+﻿
+var releaseDepositIds = [];
 var cancelDepositIds = [];
 
 $(document).ready(function () {
     
-    cancelCkboxClick();
+    cancelCkboxClick(this);
     releaseChkboxClick();
+    deleteDepositRequest(this);
+
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams) {
+        var depositids = urlParams.get("depositids");
+        var otp = urlParams.get("otp");
+        if (depositids && otp) {
+            ChangeDepositStatusOnReady(depositids, otp)
+        }
+    }
     
     $("#sendOTPBtn").live("click", function () {
         return sendOTPForDepositRelease($(this));
@@ -41,6 +52,62 @@ $(document).ready(function () {
     });
 });
 
+
+function deleteDepositRequest(sender) {
+
+    $('.cancelChkBox').on('change', function () {
+
+
+        console.log('value', this.value)
+        if (this.checked) {
+            var idx = releaseDepositIds.indexOf(this.value);
+            if (idx >= 0) {
+                releaseDepositIds.splice(idx, 1);
+                $("#releaseChk" + this.value).prop("checked", false);
+            }
+
+            const id = this.value;
+
+            $.ConfirmBox("CANCEL DEPOSIT REQUEST", "CANCEL THIS DEPOSIT REQUEST", null, true, null, true, null, function () {
+
+
+
+                    $.ajaxExt({
+                        url: baseUrl + '/Admin/ReleaseDeposit/CancelDeposit',
+                        type: 'POST',
+                        validate: false,
+                        showErrorMessage: true,
+                        messageControl: $('div.messageAlert'),
+                        showThrobber: true,
+                        button: $(sender),
+                        throbberPosition: { my: "left center", at: "right center", of: window },
+                        data: { CancelDepositId: id },
+                        success: function (results, message) {
+                            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1500)
+                            
+                        }
+                    });
+            
+            });
+            
+
+
+
+
+        }
+        else {
+            var idx = cancelDepositIds.indexOf(this.value);
+            if (idx >= 0) {
+                cancelDepositIds.splice(idx, 1);
+            }
+        }
+    });
+
+}
+
 function cancelCkboxClick() {
     $('.cancelChkBox').on('change',function () {
         if (this.checked) {
@@ -59,7 +126,9 @@ function cancelCkboxClick() {
         }
     });
 }
+
 function releaseChkboxClick() {
+
     $('.releaseChkBox').on('change', function () {
         if (this.checked) {
             var idx = cancelDepositIds.indexOf(this.value);
@@ -77,19 +146,23 @@ function releaseChkboxClick() {
         }
     });
 }
+
 function sendOTPForDepositRelease(sender) {
+    var ids = releaseDepositIds;
     if (cancelDepositIds.length == 0 && releaseDepositIds.length == 0) {
         $.ShowMessage($('div.messageAlert'), "Please select atleast one deposit request.", MessageType.Error);
         return;
     }
+
     $.ajaxExt({
-        url: baseUrl + '/Admin/ReleaseDeposit/SendOTP',
+        url: baseUrl + '/Admin/ReleaseDeposit/SendOTP2',
         type: 'POST',
         validate: false,
         showErrorMessage: true,
         messageControl: $('div.messageAlert'),
         showThrobber: true,
         button: $(sender),
+        data: { ReleaseDepositIds: ids },
         throbberPosition: { my: "left center", at: "right center", of: $(sender) },
         success: function (results, message) {
             $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
@@ -103,6 +176,7 @@ function sendOTPForDepositRelease(sender) {
         }
     });
 }
+
 function ChangeDepositStatus() {
     if (!$("#otp").val())
     {
@@ -144,6 +218,47 @@ function ChangeDepositStatus() {
         }
     });
 }
+
+function ChangeDepositStatusOnReady(depositids, otp) {
+    $("#depositReleaseModal").modal('show');
+
+    $("#otp").val(otp);
+
+    $("#btnChangeDepositStatus").css({ backgroundColor: '#56bb96' });
+    $("#btnChangeDepositStatus").text('PROCESSING....');
+    $("#btnChangeDepositStatus").prop('disabled', true);
+
+    $.ajaxExt({
+        url: baseUrl + '/Admin/ReleaseDeposit/ChangeDepositStatus',
+        type: 'POST',
+        validate: false,
+        showErrorMessage: true,
+        messageControl: $('div.messageAlert'),
+        showThrobber: true,
+        data: { ReleaseDepositIds: depositids.split(','), CancelDepositIds: cancelDepositIds, OTP: otp },
+        success: function (results, message) {
+            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+            $("#depositReleaseModal").modal('hide');
+            $("#btnChangeDepositStatus").css({ backgroundColor: '#f1cf09' });
+            $("#btnChangeDepositStatus").text('Submit');
+            $("#btnChangeDepositStatus").prop('disabled', false);
+            //Paging();
+            releaseDepositIds = [];
+            cancelDepositIds = [];
+            setTimeout(function () {
+                cancelCkboxClick();
+                releaseChkboxClick();
+                window.location.href = '/Admin/ReleaseDeposit/ManageDepositRelease';
+            }, 1000)
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#btnChangeDepositStatus").css({ backgroundColor: '#f1cf09' });
+            $("#btnChangeDepositStatus").text('Submit');
+            $("#btnChangeDepositStatus").prop('disabled', false);
+        }
+    });
+}
+
 var Deposits = {
     SortDeposits: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {

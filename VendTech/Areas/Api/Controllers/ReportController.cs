@@ -66,7 +66,8 @@ namespace VendTech.Areas.Api.Controllers
 
 
             var deposits = new PagingResult<DepositListingModel>();
-            deposits = _depositManager.GetReportsPagedList(model);
+            //deposits = _depositManager.GetReportsPagedList(model);
+            deposits = new PagingResult<DepositListingModel>();
             return new JsonContent(deposits.TotalCount, deposits.Message, Status.Success, deposits.List).ConvertToHttpResponseOK();
         }
     }

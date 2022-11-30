@@ -24,7 +24,7 @@
         <td style="text-align:center">
             @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
             {
-                <input type="checkbox" id="@("cancelChk"+item.DepositId)" class="cancelChkBox" value="@item.DepositId" />
+                <input type="checkbox" id="@("cancelChk"+item.DepositId)" onclick="deleteDepositRequest()" class="cancelChkBox" value="@item.DepositId" />
                 @*<a data-depositid="@item.DepositId" class="btn btn-danger btn-xs rejectReleaseDepositBtn" href="javascript:void(0);" data-original-title="Reject Release" data-toggle="tooltip">Reject</a>
                 <a data-depositid="@item.DepositId" class="btn btn-primary btn-xs releaseDepositBtn" href="javascript:void(0);" data-original-title="Release" data-toggle="tooltip">Release</a>*@
             }

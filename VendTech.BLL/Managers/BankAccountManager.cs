@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using VendTech.DAL;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace VendTech.BLL.Managers
 {
@@ -156,6 +158,16 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Bank deleted successfully.");
         }
+
+        //async Task IBankAccountManager.PerformOperation()
+        //{
+        //    var list = Context.TransactionDetails.Where(x => x.Amount > 0 && x.Finalised == true && x.Status == 1);
+        //    foreach(var item in list)
+        //    {
+        //        item.BalanceBefore = item.CurrentVendorBalance - item.Amount;
+        //        SaveChanges();
+        //    }
+        //}
     }
 
 

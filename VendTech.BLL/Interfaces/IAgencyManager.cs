@@ -19,6 +19,7 @@ namespace VendTech.BLL.Interfaces
         decimal GetAgentPercentage(long vendorId);
         ActionOutput DeleteAgency(long agentId);
         PagingResult<AgentListingModel> GetAgentsPagedList2(PagingModel model, long agency);
+        bool IsAdmin(long vendorId);
     }
     
 }

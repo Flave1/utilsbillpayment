@@ -141,7 +141,6 @@ namespace VendTech.BLL.Managers
 
         public bool IsUserAnAgent(long userId = 0) => Context.Agencies.Any(d => d.Representative == userId);
 
-
         public DashboardViewModel getDashboardData(long userId, long agentId)
         {
             try

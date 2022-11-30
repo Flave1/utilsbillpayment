@@ -230,15 +230,24 @@ namespace VendTech.Controllers
             //This needs to be changed to redirect the control to an error page.
             else
             {
-                if(LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor)
+                if(LOGGEDIN_USER != null)
                 {
-                    filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
+                    if (LOGGEDIN_USER.UserType == UserRoles.AppUser || LOGGEDIN_USER.UserType == UserRoles.Vendor)
+                    {
+                        filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message });
+                    }
+                    else
+                    {
+                        filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message, area = "Admin" });
+                    }
+
                 }
                 else
                 {
-                    filter_context.Result = RedirectToAction("error", "Home", new { errorMessage = filter_context.Exception.Message, area = "Admin" });
+                    SignOut2();
+                    filter_context.Result = RedirectToAction("Index", "Home", new { area = "admin" });
                 }
-                
+
             }
 
             base.OnException(filter_context);
@@ -380,6 +389,19 @@ namespace VendTech.Controllers
             return Redirect(Url.Action("Index", "Home"));
         }
 
+        [Public]
+        public virtual ActionResult SignOut2()
+        {
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            if (auth_cookie != null)
+            {
+                JustLoggedin = false;
+                auth_cookie.Expires = DateTime.Now.AddDays(-30);
+                Response.Cookies.Add(auth_cookie);
+            }
+
+            return View("Index", "Home", new { area = "admin" });
+        }
         /// <summary>
         /// This will be used to set action name
         /// </summary>
