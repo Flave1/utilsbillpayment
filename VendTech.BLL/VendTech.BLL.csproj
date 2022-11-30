@@ -138,6 +138,7 @@
     <Compile Include="Interfaces\IPlatformManager.cs" />
     <Compile Include="Interfaces\IBankAccountManager.cs" />
     <Compile Include="Interfaces\ISMSManager.cs" />
+    <Compile Include="Interfaces\IUssdIntegrationManager.cs" />
     <Compile Include="Interfaces\IVendorManager.cs" />
     <Compile Include="Interfaces\IContactUsManager.cs" />
     <Compile Include="Interfaces\IMeterManager.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Interfaces\IAuthenticateManager.cs" />
     <Compile Include="Interfaces\IAgencyManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\UssdIntegrationManager.cs" />
     <Compile Include="Managers\TransferManager.cs" />
     <Compile Include="Managers\PaymentTypeManager.cs" />
     <Compile Include="Managers\DashboardManager.cs" />
