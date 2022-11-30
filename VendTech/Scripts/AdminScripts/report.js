@@ -17,15 +17,15 @@
 
 
         var From = $('#FromDate').val();
-        if (From) {
-            var val = From.split("/");
-            From = val[1] + "/" + val[0] + "/" + val[2];
-        }
+        //if (From) {
+        //    var val = From.split("/");
+        //    From = val[1] + "/" + val[0] + "/" + val[2];
+        //}
         var To = $('#ToDate').val();
-        if (To) {
-            var val = To.split("/");
-            To = val[1] + "/" + val[0] + "/" + val[2];
-        }
+        //if (To) {
+        //    var val = To.split("/");
+        //    To = val[1] + "/" + val[0] + "/" + val[2];
+        //}
 
         
 
@@ -247,15 +247,15 @@ function Paging(sender) {
         obj.IsAudit = false;
     }
 
-    if (obj.From) {
-        var val = obj.From.split("/");
-        obj.From = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (obj.From) {
+    //    var val = obj.From.split("/");
+    //    obj.From = val[1] + "/" + val[0] + "/" + val[2];
+    //}
     obj.To = $('#ToDate').val();
-    if (obj.To) {
-        var val = obj.To.split("/");
-        obj.To = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (obj.To) {
+    //    var val = obj.To.split("/");
+    //    obj.To = val[1] + "/" + val[0] + "/" + val[2];
+    //}
     obj.ReportType = $("#reportType").val();
     obj.RefNumber = $("#refNumber").val();
     obj.Bank = $("#bank").val();
@@ -263,24 +263,24 @@ function Paging(sender) {
     obj.TransactionId = $('#tranId').val();
 
     if (obj.From) {
-        var dt = new Date(obj.From);
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
+        //var dt = new Date(obj.From);
+        ////var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
+        //var val = dt.toLocaleDateString('en-GB', {
+        //    day: '2-digit', month: '2-digit', year: 'numeric'
+        //}).replace(/ /g, '-');
 
-        $("#fromSpan").text(val);
+        $("#fromSpan").text(obj.From);
     }
     else
         $("#fromSpan").text("_");
 
     if (obj.To) {
-        var dt = new Date(obj.To);
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
-        $("#toSpan").text(val);
+        //var dt = new Date(obj.To);
+        ////var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
+        //var val = dt.toLocaleDateString('en-GB', {
+        //    day: '2-digit', month: '2-digit', year: 'numeric'
+        //}).replace(/ /g, '-');
+        $("#toSpan").text(obj.To);
     }
     else
         $("#toSpan").text("_");

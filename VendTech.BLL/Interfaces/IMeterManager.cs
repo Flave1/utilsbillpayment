@@ -34,6 +34,7 @@ namespace VendTech.BLL.Interfaces
         void RedenominateBalnces();
         decimal ReturnMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
+        PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
     }
     
 }

@@ -192,7 +192,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
-
+            JavaScriptSerializer js = new JavaScriptSerializer();
             var hostory_model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",

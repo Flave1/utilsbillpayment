@@ -33,14 +33,16 @@ $(document).ready(function () {
         } else {
             $("#FromDate").kendoDatePicker({
                 culture: "en-GB",
-                value: new Date(from),
+                value: new Date(),
                 format: "dd/MM/yyyy"
             });
             $("#ToDate").kendoDatePicker({
                 culture: "en-GB",
-                value: new Date(to),
+                value: new Date(),
                 format: "dd/MM/yyyy"
             });
+            $("#FromDate").val(from);
+            $("#ToDate").val(to);
         }
 
         $("#reportType").val(type); 
@@ -60,18 +62,28 @@ $(document).ready(function () {
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy"
     });
-    var datePicker1 = $("#FromDate").data("kendoDatePicker");
-    $("#FromDate").click(function () {
-        datePicker1.open();
-    })
+    
     $("#ToDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy"
     });
+    var datePicker1 = $("#FromDate").data("kendoDatePicker");
+    $("#FromDate").click(function () {
+        datePicker1.open();
+    })
     var datePicker2 = $("#ToDate").data("kendoDatePicker");
     $("#ToDate").click(function () {
         datePicker2.open();
     })
+
+    //var datePicker1frm = $("#miniSaleRpFromDate").data("kendoDatePicker");
+    //$("#miniSaleRpFromDate").click(function () {
+    //    datePicker1frm.open();
+    //})
+    //var datePicker2to = $("#miniSaleRpToDate").data("kendoDatePicker");
+    //$("#miniSaleRpToDate").click(function () {
+    //    datePicker2to.open();
+    //})
 
     $("#reportType").on("change", function () {
 
@@ -81,16 +93,17 @@ $(document).ready(function () {
         var meterNo = $('#meterNo').val();
         var transactionId = $('#tranId').val();
 
+        debugger
         var From = $('#FromDate').val();
-        if (From) {
-            var val = From.split("/");
-            From = val[1] + "/" + val[0] + "/" + val[2];
-        }
+        //if (From) {
+        //    var val = From.split("/");
+        //    From = val[1] + "/" + val[0] + "/" + val[2];
+        //}
         var To = $('#ToDate').val();
-        if (To) {
-            var val = To.split("/");
-            To = val[1] + "/" + val[0] + "/" + val[2];
-        }
+        //if (To) {
+        //    var val = To.split("/");
+        //    To = val[1] + "/" + val[0] + "/" + val[2];
+        //}
 
         if (transactionId == undefined) { 
             transactionId = ''

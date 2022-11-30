@@ -14,9 +14,16 @@ var purchaseUnitsByAdmin = {
     formData: null,
     vendBalance: '',
 
-    openForm: function (vendor, meternumber, meterId, posId, userId, balance, serial) {
+    openForm: function (vendor, meternumber, meterId, posId, userId, balance, serial, list) {
 
-        console.log('serial', serial)
+        console.log('list', JSON.parse(list))
+        const selectItemList = JSON.parse(list);
+        if (selectItemList.length > 0) {
+            for (var i = 0; i < selectItemList.length; i++) {
+                $("#selectMeter").append("<option value=" + selectItemList[i].value + "> " + selectItemList[i].text +" </option>")
+            }
+            document.getElementById('selectMeter').value = meterId;
+        }
         $('#purchaseAmount').val('');
         $('#vendor').html(vendor);
         $('#meternumber').html(meternumber);
@@ -37,6 +44,7 @@ var purchaseUnitsByAdmin = {
     },
 
     resetForm: function () {
+        $("#selectMeter").html('');
         purchaseUnitsByAdmin.formData = {
             meterNumber : '',
             posId : '',
@@ -63,7 +71,7 @@ var purchaseUnitsByAdmin = {
             $.ShowMessage($('div.messageAlert'), "Invalid form data", MessageType.Error);
             return;
         }
-        var amount = Number($("#purchaseAmount").val());
+        var amount = Number($("#purchaseAmount").val().toString().replaceAll(',', ''));
         if (amount === 0) {
             $.ShowMessage($('div.messageAlert'), "Amount is required", MessageType.Error);
             return;
@@ -75,85 +83,87 @@ var purchaseUnitsByAdmin = {
 
         const bal = Number(this.vendBalance.toString().replaceAll(',', ''));
         if (bal < amount) {
-            $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE", MessageType.Error);
+            $.ShowMessage($('div.messageAlert'), "WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE", MessageType.Error);
             return;
         }
 
         this.formData.amount = amount;
         disableSubmit(true);
-        $.ajaxExt({
+        $.ajax({
             url: baseUrl + '/Admin/POS/PurchaseUnits',
-            type: 'POST',
-            dataType: "json",
-            data: purchaseUnitsByAdmin.formData,
-            success: function (response) {
-                debugger
+            data: $.postifyData(this.formData),
+            type: "POST",
+            success: function (data) {
 
-                console.log('response', response);
-                //purchaseUnitsByAdmin.resetForm();
-                //disableSubmit(false);
-
-                //if (response.Code === 302) {
-                //    $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
-                //    return false;
-                //}
-
-                //if (response.Code === 200) {
+                const response = JSON.parse(data)
+                console.log('response', data);
+                purchaseUnitsByAdmin.resetForm();
+                disableSubmit(false);
 
 
-                //    console.log(response);
+                if (response.Code === 302) {
+                    $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
+                    return false;
+                }
 
-                //    $("#sales_date").html(response.Data.TransactionDate);
-                //    $("#customer_name").html(response.Data.CustomerName);
-                //    $("#customer_account_number").html(response.Data.AccountNo);
-                //    $("#customer_address").html(response.Data.Address);
-                //    $("#meter_number").html(response.Data.DeviceNumber);
-                //    $("#current_tarrif").html(response.Data.Tarrif);
-                //    $("#amount_tender").html(response.Data.Amount);
-                //    $("#gst").html(response.Data.Tax);
-                //    $("#service_charge").html(response.Data.Charges);
-                //    $("#debit_recovery").html(response.Data.DebitRecovery);
-                //    $("#cost_of_units").html(response.Data.UnitCost);
-                //    $("#units").html(response.Data.Unit);
-                //    $("#pin1").html(response.Data.Pin1);
-                //    if (response.Data.Pin1.length > 0) $("#pin1_section").show();
-                //    $("#pin2").html(response.Data.Pin2);
-                //    if (response.Data.Pin2.length > 0) $("#pin2_section").show();
-                //    $("#pin3").html(response.Data.Pin3);
-                //    if (response.Data.Pin3.length > 0) $("#pin3_section").show();
-                //    $("#edsa_serial").html(response.Data.SerialNo);
-                //    $("#barcode").html(response.Data.DeviceNumber);
-                //    $("#vendtech_serial_code").html(response.Data.VTECHSerial);
-                //    $("#pos_id").html(response.Data.POS);
-                //    if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
-                //    if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
-                //    $("#vendorId").html(response.Data.VendorId);
+                if (response.Code === 200) {
 
-                //    $("#modalCart").modal("show");
-                //    $("#depositToAgencyAdminModal").modal('hide');
-                //    /*setTimeout(function () {
-                //        if (redirectToAddMeter) {
-                //            window.location.href = baseUrl + '/Meter/AddEditMeter?number=' + $("#MeterNumber").val();
-                //            return;
-                //        }
-    
-                //        //window.location.href = baseUrl + '/Home/Index';
-                //    }, 100500);*/
-                //} else {
+                    $("#sales_date").html(response.Data.TransactionDate);
+                    $("#customer_name").html(response.Data.CustomerName);
+                    $("#customer_account_number").html(response.Data.AccountNo);
+                    $("#customer_address").html(response.Data.Address);
+                    $("#meter_number").html(response.Data.DeviceNumber);
+                    $("#current_tarrif").html(response.Data.Tarrif);
+                    $("#amount_tender").html(response.Data.Amount);
+                    $("#gst").html(response.Data.Tax);
+                    $("#service_charge").html(response.Data.Charges);
+                    $("#debit_recovery").html(response.Data.DebitRecovery);
+                    $("#cost_of_units").html(response.Data.UnitCost);
+                    $("#units").html(response.Data.Unit);
+                    $("#pin1").html(response.Data.Pin1);
+                    if (response.Data.Pin1.length > 0) $("#pin1_section").show();
+                    $("#pin2").html(response.Data.Pin2);
+                    if (response.Data.Pin2.length > 0) $("#pin2_section").show();
+                    $("#pin3").html(response.Data.Pin3);
+                    if (response.Data.Pin3.length > 0) $("#pin3_section").show();
+                    $("#edsa_serial").html(response.Data.SerialNo);
+                    $("#barcode").html(response.Data.DeviceNumber);
+                    $("#vendtech_serial_code").html(response.Data.VTECHSerial);
+                    $("#pos_id").html(response.Data.POS);
+                    if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
+                    if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
+                    $("#vendorId").html(response.Data.VendorId);
 
-                //    $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
-                //}
+                    $("#modalCart").modal("show");
+                    $("#depositToAgencyAdminModal").modal('hide');
+                } else {
+
+                    $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
+                }
 
 
-                //Paging(this);
+                Paging(this);
             },
-            //error: function (xhr, ajaxOptions, thrownError) {
-            //    $.ShowMessage($('div.messageAlert'), "Error occurred!!", MessageType.Error);
-            //    disableSubmit(false);
-            //}
+            error: function () {
+                disableSubmit(false);
+            }
         });
+
+
+       
     },
 
+    returnAmount: function () {
+
+
+        var amt = $("#purchaseAmount").val().toString().replaceAll(',', '');
+        const bal = Number(this.vendBalance.toString().replaceAll(',', ''));
+        if (bal < amt) {
+            $.ShowMessage($('div.messageAlert'), "WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE", MessageType.Error);
+        }
+
+      $("#purchaseAmount").val(this.thousands_separators(amt))
+    },
 
 };
 

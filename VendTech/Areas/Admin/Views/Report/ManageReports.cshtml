@@ -220,16 +220,16 @@
                     var frm = $("#FromDate").val();
                     var to = $("#ToDate").val();
                     if (frm) {
-                        var dtVal = frm.split("/");
-                        $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                        var dtVal = frm.split("/");//dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]
+                        $("#frmDt").val(frm);
                     }
                     else {
                         $("#frmDt").val('');
 
                     }
                     if (to) {
-                        var dtVal = to.split("/");
-                        $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                        var dtVal = to.split("/");//dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]
+                        $("#toDt").val(to);
                     }
                     else {
                         $("#toDt").val('');

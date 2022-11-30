@@ -201,4 +201,9 @@ namespace VendTech.BLL.Models
     //    public decimal Units { get; set; } 
     //}
 
+    public class MiniSalesReport
+    {
+        public string DateTime { get; set; }
+        public string TAmount { get; set; }
+    }
 }

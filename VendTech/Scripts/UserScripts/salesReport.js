@@ -96,39 +96,29 @@ function Paging(sender) {
     obj.PosId = $('#posDrp').val();
     obj.VendorId = $('#vendor').val();
     obj.From = $('#FromDate').val();
-    if (obj.From) {
-        var val = obj.From.split("/");
-        obj.From = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (obj.From) {
+    //    var val = obj.From.split("/");
+    //    obj.From = val[1] + "/" + val[0] + "/" + val[2];
+    //}
     obj.To = $('#ToDate').val();
-    if (obj.To) {
-        var val = obj.To.split("/");
-        obj.To = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (obj.To) {
+    //    var val = obj.To.split("/");
+    //    obj.To = val[1] + "/" + val[0] + "/" + val[2];
+    //}
     obj.ReportType = $("#reportType").val();
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
      
 
     if (obj.From) {
-        var dt = new Date(obj.From);
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
 
-        $("#fromSpan").text(val);
+        $("#fromSpan").text(obj.From);
     }
     else
         $("#fromSpan").text("_");
 
     if (obj.To) {
-        var dt = new Date(obj.To);
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
-        $("#toSpan").text(val);
+        $("#toSpan").text(obj.To);
     }
     else
         $("#toSpan").text("_");
@@ -157,8 +147,6 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Report/GetSalesReportPagingList',
         success: function (results, message) {
-            console.log('results', results);
-            debugger
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false);
             $('#divResult table:first tbody').html(results[0]);

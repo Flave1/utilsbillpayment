@@ -3,13 +3,8 @@ using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
-using VendTech.BLL.Common;
-using System.Web;
-using System.IO;
 using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
@@ -28,7 +23,7 @@ namespace VendTech.BLL.Managers
         }
         PagingResult<POSListingModel> IPOSManager.GetPOSPagedList(PagingModel model, long agentId, long vendorId, bool callForGetVendorPos)
         {
-            model.RecordsPerPage = 1000000;
+            //model.RecordsPerPage = 1000000;
             var result = new PagingResult<POSListingModel>();
             IQueryable<POS> query = Context.POS.Where(p => !p.IsDeleted);
 
@@ -74,6 +69,10 @@ namespace VendTech.BLL.Managers
             else if (model.SortBy == "Agency")
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            }
+            else if (model.SortBy == "appVersion")
+            {
+                query = query.Where(p => !p.IsDeleted).OrderBy("User.MobileAppVersion" + " " + model.SortOrder);
             }
             else
             {
@@ -199,7 +198,7 @@ namespace VendTech.BLL.Managers
 
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId, long agentId)
         {
-            var query = new List<POS>(); 
+            var query = new List<POS>();
             var userPos = new List<POS>();
             if (userId > 0)
             {

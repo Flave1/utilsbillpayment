@@ -1,0 +1,60 @@
+﻿
+<div class="modal fade" id="miniSalesReportModal" role="dialog">
+    <div class="modal-dialog" style=" margin-right:-0%; height:100%">
+        <!-- Modal content-->
+        <div class="modal-content" style="height: 100%; padding-top:5px;" >
+
+            <div style="max-height: 80%; height: 80%; overflow: scroll; overflow-x: hidden;">
+
+                @Html.Partial("Partials/_miniSalesReportButtons")
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="">&times;</button>
+                    <h4 style="padding: 5px; font-weight:bold;" id="miniSalesReportTitle" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="" style="width: 100%; overflow: hidden;">
+                        <div style=" overflow: scroll; overflow-x: hidden; scrollbar-face-color: yellow;">
+                            <table class="table table-bordered" id="datatable-icons">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight:bold;">DATE/TIME</th>
+                                        <th style="font-weight:bold;">DAILY TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="miniSalesListing" style="">
+                                    <tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="margin:10px; height:19%">
+                <label style="width:100%;">TRANSACTION PERIOD</label>
+                <div style="width:100%;">
+
+                    <div style="width: 49%; float: left; ">
+                        <label>From:</label>
+                        <input type="text" name="miniSaleRpFromDate" id="miniSaleRpFromDate">
+                    </div>
+
+                    <div style="width: 49%; float: right; margin-bottom:3px;">
+                        <label>To:</label>
+                        <input type="text" name="miniSaleRpToDate" id="miniSaleRpToDate">
+                    </div>
+
+                </div>
+                <hr style="background:#d0cbcb; height:1px; width:100%;" />
+                <input type="button" class="btn btn-primary" value="SEARCH" onclick="miniSalesReportHandler.search(this)" id="miniSalesRPSearch" />
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+

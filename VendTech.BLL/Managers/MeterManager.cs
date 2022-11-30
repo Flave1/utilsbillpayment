@@ -1692,5 +1692,88 @@ namespace VendTech.BLL.Managers
             else
                 tran.MeterId = model.MeterId;
         }
+
+        PagingResult<MiniSalesReport> IMeterManager.GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type)
+        {
+            model.RecordsPerPage = 10000000;
+            var result = new PagingResult<MiniSalesReport>();
+
+            IQueryable<TransactionDetail> query = null;
+
+            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+            if (model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                {
+                    if (user.Status == (int)UserStatusEnum.Active)
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                    }
+                    else
+                    {
+                        posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == user.FKVendorId).Select(p => p.POSId).ToList();
+                    }
+                }
+                query = query.Where(p => posIds.Contains(p.POSId.Value));
+            }
+            if (model.From != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));
+            }
+            if (model.To != null)
+            {
+                query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) <= DbFunctions.TruncateTime(model.To));
+            }
+            if (model.PosId > 0)
+            {
+                query = query.Where(p => p.POSId == model.PosId);
+            }
+            if (!string.IsNullOrEmpty(model.Meter))
+            {
+                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+            }
+            if (!string.IsNullOrEmpty(model.TransactionId))
+            {
+                query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            }
+
+            if(type == "daily")
+            {
+                var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
+                {
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
+                }).ToList();
+                result.List = dailyRp;
+            }
+            if (type == "weekly")
+            {
+                var dailyRp = query.AsEnumerable().GroupBy(i => Utilities.WeekOfYearISO8601(i.CreatedAt)).Select(d => new MiniSalesReport
+                {
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
+                }).ToList();
+                result.List = dailyRp;
+            }
+            if (type == "monthly")
+            {
+                var dailyRp = query.AsEnumerable().GroupBy(i => i.CreatedAt.Month).Select(d => new MiniSalesReport
+                {
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
+                }).ToList();
+                result.List = dailyRp;
+            }
+
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meter recharges fetched successfully.";
+            return result;
+
+        }
+
     }
 }

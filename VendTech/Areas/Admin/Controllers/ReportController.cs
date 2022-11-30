@@ -15,6 +15,8 @@ using iTextSharp.text.pdf;
 using System.Globalization;
 using System.Data;
 using System.Drawing;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -54,7 +56,7 @@ namespace VendTech.Areas.Admin.Controllers
         #region Report
 
         [HttpGet]
-        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null, string source = "")
+        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
 
@@ -68,10 +70,18 @@ namespace VendTech.Areas.Admin.Controllers
 
             if(source == "dashboard")
             {
-                from = DateTime.UtcNow;
-                to = DateTime.UtcNow;
+                from = DateTime.UtcNow.ToString();
+                to = DateTime.UtcNow.ToString();
             }
- 
+            if(from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
+
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -81,12 +91,12 @@ namespace VendTech.Areas.Admin.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To =DateTime.Parse(to)
             };
 
             var deposits = new PagingResult<DepositListingModel>();
-            var depositAudit = new PagingResult<DepositAuditModel>(); 
+            var depositAudit = new PagingResult<DepositAuditModel>();
 
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
@@ -111,7 +121,7 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
@@ -1876,6 +1886,16 @@ namespace VendTech.Areas.Admin.Controllers
             table.Rows.Add(6, "Devesh", "M", 92, 87, 78, 73, 75, 72);
             return table;
         }
-         
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetMiniSalesReport(ReportSearchModel model)
+        {
+            model.RecordsPerPage = 1000000000;
+            model.IsInitialLoad = true;
+            var result = _meterManager.GetMiniSalesReport(model, true, 0, model.MiniSaleRpType);
+            return Json(new { result = JsonConvert.SerializeObject(result.List) });
+        }
+    
+    
     }
 }

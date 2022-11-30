@@ -12,6 +12,7 @@ using MimeKit;
 using System.Net.Mail;
 using System.Net;
 using VendTech.DAL;
+using System.Globalization;
 
 namespace VendTech.BLL.Common
 {
@@ -436,6 +437,23 @@ namespace VendTech.BLL.Common
             {
                 return amt == null ? "0" : string.Format("{0:N0}", amt) + "";
             }
+        }
+
+        public static int WeekOfYearISO8601(DateTime date)
+        {
+            var day = (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(date);
+            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date.AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        public static List<int> WeekOfYearISO8601(List<DateTime> dates)
+        {
+            List<int> weeks = new List<int>();
+            for (int i = 0; i < dates.Count(); i++)
+            {
+                var day = (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(dates[i]);
+                weeks.Add(CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dates[i].AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+            }
+            return weeks.Distinct().ToList();
         }
     }
 }

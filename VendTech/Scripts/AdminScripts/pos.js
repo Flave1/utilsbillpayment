@@ -92,24 +92,6 @@
 
 var AdminPOS = {
 
-
-    purchase2: function (sender) {
-        $.ajaxExt({
-            url: baseUrl + '/Admin/POS/PurchaseUnits2',
-            type: 'POST',
-            showErrorMessage: true,
-            messageControl: $('div.messageAlert'),
-            showThrobber: true,
-            button: $(sender),
-            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-            success: function (results, message) {
-                debugger
-                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-            }
-        });
-
-    },
-
     SortUsers: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");

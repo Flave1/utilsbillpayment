@@ -352,7 +352,9 @@ namespace VendTech.BLL.Models
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
         public long? PosId { get; set; } = 0;
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? From { get; set; } = null;
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? To { get; set; } = null;
         public string Meter { get; set; } = "";
         public string RefNumber { get; set; }
@@ -370,6 +372,7 @@ namespace VendTech.BLL.Models
         public bool IsAudit { get; set; }
         public string Status { get; set; }
         public bool IsInitialLoad { get; set; } = false; 
+        public string MiniSaleRpType { get; set; }
     }
 
     public class DepositAuditModel

@@ -3362,6 +3362,8 @@
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
     <Content Include="Areas\Admin\Views\ReleaseDeposit\ManageDepositRelease2.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReport.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReportButtons.cshtml" />
     <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />

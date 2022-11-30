@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-   
+
+    
 
     $("input[type=button]#btnFilterVersion").live("click", function () {
         return Deposits.ManageDeposits($(this));
@@ -13,18 +14,8 @@
         var pos = $('#pos').val();
         var meterNo = $('#meterNo').val();
         var transactionId = $('#tranId').val();
-
         var From = $('#FromDate').val();
-        if (From) {
-            var val = From.split("/");
-            From = val[1] + "/" + val[0] + "/" + val[2];
-        }
         var To = $('#ToDate').val();
-        if (To) {
-            var val = To.split("/");
-            To = val[1] + "/" + val[0] + "/" + val[2];
-        }
-         
         window.location.href = "/Admin/Report/ManageReports?type=" + type + "&vendorId=" + vendorId + "&pos=" + pos + "&meter=" + meterNo + "&transactionId=" + transactionId + "&from=" + From + "&to=" + To;
     });
     $('.sorting').live("click", function () {
@@ -55,6 +46,142 @@
         return Deposits.SearchDeposits($(this));
     });
 });
+
+var miniSalesReportHandler = {
+    searchFilter: null,
+    openMiniSalesReportModal: function (type) {
+        $("#miniSalesReportModal").modal("show");
+        $('#miniSalesReportModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+        this.fetchMiniSalesReport(this, type, true)
+
+    },
+
+    fetchMiniSalesReport: function (sender, type, isInitial) {
+        document.getElementById("miniSalesListing").innerHTML = "";
+        disableSubmit(true);
+        var obj = new Object();
+        obj.Search = $('#Search').val();
+        obj.PageNo = paging.startIndex;
+        obj.RecordsPerPage = paging.pageSize;
+        obj.SortBy = $('#SortBy').val();
+        obj.SortOrder = $('#SortOrder').val();
+        obj.SearchField = $('#searchField').val();
+        obj.PosId = $('#pos').val();
+        obj.VendorId = $('#vendor').val();
+        obj.ReportType = $("#reportType").val();
+        obj.Meter = $('#meterNo').val();
+        obj.TransactionId = $('#tranId').val();
+        if (isInitial === true) {
+            obj.To = $('#ToDate').val();
+            obj.From = $('#FromDate').val();
+        } else {
+            obj.To = $('#miniSaleRpToDate').val();
+            obj.From = $('#miniSaleRpFromDate').val();
+        }
+        
+        obj.miniSaleRpType = type;
+
+        if (obj.From) {
+            var val1 = obj.From.split("/");
+            obj.From = val1[0] + "/" + val1[1] + "/" + val1[2];
+        }
+        if (obj.To) {
+            var val2 = obj.To.split("/");
+            obj.To = val2[0] + "/" + val2[1] + "/" + val2[2];
+        }
+
+        this.setTitle(type, obj)
+
+        $("#miniSaleRpFromDate").kendoDatePicker({
+            culture: "en-GB",
+            value: new Date(),
+            format: "dd/MM/yyyy"
+        });
+        $("#miniSaleRpToDate").kendoDatePicker({
+            culture: "en-GB",
+            value: new Date(),
+            format: "dd/MM/yyyy"
+        });
+        
+        $('#miniSaleRpFromDate').val(obj.From);
+        $('#miniSaleRpToDate').val(obj.To);
+        this.searchFilter = obj;
+        $.ajax({
+            url: baseUrl + '/Admin/Report/GetMiniSalesReport',
+            data: $.postifyData(obj),
+            type: "POST",
+            success: function (data) {
+                disableSubmit(false);
+                const response = JSON.parse(data.result);
+                if (response.length > 0) {
+                    document.getElementById("miniSalesListing").innerHTML = "";
+                    for (var i = 0; i < response.length; i++) {
+                        const tr =
+                            "<tr>" +
+                                "<th style='text-align:right'>" + response[i].DateTime + "</th> " +
+                                "<th style='text-align:right'>" + response[i].TAmount + "</th>" +
+                            "</tr >";
+                        var html = document.getElementById("miniSalesListing").innerHTML + tr;
+                        document.getElementById("miniSalesListing").innerHTML = html;
+                    }
+                }
+            },
+            error: function () {
+                disableSubmit(false);
+            }
+        });
+
+    },
+
+    search: function (sender) {
+        disableSubmit(true);
+
+        var from = $('#miniSaleRpFromDate').val();
+        var to = $('#miniSaleRpToDate').val();
+        this.searchFilter.From = from;
+        this.searchFilter.To = to;
+        $('#ToDate').val(to);
+        $('#FromDate').val(from);
+        this.setTitle(this.searchFilter.miniSaleRpType, this.searchFilter);
+        document.getElementById("miniSalesListing").innerHTML = "";
+        $.ajax({
+            url: baseUrl + '/Admin/Report/GetMiniSalesReport',
+            data: $.postifyData(this.searchFilter),
+            type: "POST",
+            success: function (data) {
+                disableSubmit(false);
+                const response = JSON.parse(data.result);
+                if (response.length > 0) {
+                    document.getElementById("miniSalesListing").innerHTML = "";
+                    for (var i = 0; i < response.length; i++) {
+                        const tr =
+                            "<tr>" +
+                            "<th style='text-align:right'>" + response[i].DateTime + "</th> " +
+                            "<th style='text-align:right'>" + response[i].TAmount + "</th>" +
+                            "</tr >";
+                        var html = document.getElementById("miniSalesListing").innerHTML + tr;
+                        document.getElementById("miniSalesListing").innerHTML = html;
+                    }
+                }
+            },
+            error: function () {
+                disableSubmit(false);
+            }
+        });
+    },
+
+    setTitle: function (type, obj) {
+        if (type === "daily") {
+            $('#miniSalesReportTitle').html("DAILY SALES TOTAL " + obj.From + " - " + obj.To)
+        } else if (type === "weekly") {
+            $('#miniSalesReportTitle').html("WEEKLY SALES TOTAL " + obj.From + " - " + obj.To)
+        } else
+            $('#miniSalesReportTitle').html("MONTHLY SALES TOTAL " + obj.From + " - " + obj.To)
+    }
+}
 
 var Deposits = {
     SortDeposits: function (sender) {
@@ -223,44 +350,25 @@ function Paging(sender) {
     obj.PosId = $('#pos').val();
     obj.VendorId = $('#vendor').val();
     obj.From = $('#FromDate').val();
-    if (obj.From) {
-     var val=   obj.From.split("/");
-     obj.From = val[1] + "/" + val[0] + "/" + val[2];
-    }
+
     obj.To = $('#ToDate').val();
-    if (obj.To) {
-        var val = obj.To.split("/");
-        obj.To = val[1] + "/" + val[0] + "/" + val[2];
-    }
+
     obj.ReportType = $("#reportType").val();
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
 
     if (obj.From) {
-        var dt = new Date(obj.From);
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-       var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
-
-        $("#fromSpan").text(val);
+        $("#fromSpan").text($("#FromDate").val())
     }
     else
         $("#fromSpan").text("_");
-
 
     $("#btnFilterSearch").val('DATA LOADING........');
     $("#btnFilterSearch").prop('disabled', true);
 
     if (obj.To)
     {
-        var dt = new Date(obj.To);
-      
-        //var val = dt.getDate() + "/" + getMonthName(dt.getMonth()) + "/" + dt.getFullYear();
-        var val = dt.toLocaleDateString('en-GB', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        }).replace(/ /g, '-');
-        $("#toSpan").text(val);
+        $("#toSpan").text($("#ToDate").val())
     }
     else
         $("#toSpan").text("_");
@@ -275,8 +383,6 @@ function Paging(sender) {
     }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
 
 
-
-  // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
     $("#printedDate").text(formattedDate);
     $("#PrintedDateServer").val(formattedDate);
     $.ajaxExt({
@@ -322,4 +428,17 @@ function getMonthName(number)
     month[11] = "DEC";
   //  return month[number];
     return number+1;
+}
+
+function disableSubmit(disabled = false) {
+    if (disabled) {
+        $("#miniSalesRPSearch").css({ backgroundColor: '#56bb96' });
+        $("#miniSalesRPSearch").val('PROCESSING....');
+        $("#miniSalesRPSearch").prop('disabled', true);
+    } else {
+        $("#miniSalesRPSearch").css({ backgroundColor: '#f1cf09' });
+        $("#miniSalesRPSearch").val('Submit');
+        $("#miniSalesRPSearch").prop('disabled', false);
+    }
+
 }
