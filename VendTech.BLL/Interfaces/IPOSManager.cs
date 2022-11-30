@@ -36,6 +36,8 @@ namespace VendTech.BLL.Interfaces
         POS GetSinglePos(long pos);
         List<PosSelectItem> GetAgencyPos(long userId);
         POS ReturnAgencyAdminPOS(long userId);
+        void DeductFromVendorPOSBalance(long userId, decimal amount);
+        void keepTransanctiondetails(long userId, decimal amount, long meterId, long number);
     }
 
 }

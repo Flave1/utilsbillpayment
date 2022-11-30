@@ -553,5 +553,23 @@ namespace VendTech.BLL.Managers
         {
             return Context.POS.FirstOrDefault(e => e.VendorId == userId);
         }
+
+        void IPOSManager.DeductFromVendorPOSBalance(long userId, decimal amount)
+        {
+            var pos = Context.POS.FirstOrDefault(x => x.VendorId == userId);
+            if (pos == null)
+                throw new ArgumentException("POS NOT FOUND");
+            if (pos.Balance == null)
+                throw new ArgumentException("WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE");
+            if (pos.Balance < amount)
+                throw new ArgumentException("WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE");
+            pos.Balance = (pos.Balance - amount);
+            Context.SaveChanges();
+        }
+
+        void IPOSManager.keepTransanctiondetails(long userId, decimal amount, long meterId, long number)
+        {
+           
+        }
     }
 }
