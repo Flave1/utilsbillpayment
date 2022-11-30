@@ -8,15 +8,15 @@ function changeReport(type) {
     var transactionId = $('#tranId').val(); 
 
     var From = $('#FromDate').val();
-    if (From) {
-        var val = From.split("/");
-        From = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (From) {
+    //    var val = From.split("/");
+    //    From = val[1] + "/" + val[0] + "/" + val[2];
+    //}
     var To = $('#ToDate').val();
-    if (To) {
-        var val = To.split("/");
-        To = val[1] + "/" + val[0] + "/" + val[2];
-    }
+    //if (To) {
+    //    var val = To.split("/");
+    //    To = val[1] + "/" + val[0] + "/" + val[2];
+    //}
      
     if (transactionId == undefined) {
         transactionId = ''
@@ -104,7 +104,7 @@ $(document).ready(function () {
         $("#rpt").val(type);
         $("#FromDate").kendoDatePicker({
             culture: "en-GB",
-            value: new Date(from),
+            value: new Date(),
             format: "dd/MM/yyyy",
             change: function () { $("#fromSpan").html($("#FromDate").val()) }
         });
@@ -114,9 +114,7 @@ $(document).ready(function () {
             format: "dd/MM/yyyy",
             change: function () { $("#toSpan").html($("#ToDate").val()) }
         });
-
-
-
+        $("#FromDate").val(from);
+        $("#ToDate").val(to);
     }
-
 });

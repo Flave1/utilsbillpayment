@@ -48,44 +48,44 @@
 
 
                                     <div class=" form-group ">
-            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
-            <div class="col-md-12">
-                @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-6"})
-                @Html.ValidationMessageFor(x => x.Password) 
-            </div>
-
-        </div>
-                                    <div class="form-group">
-            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
-            <div class="col-md-12">
-                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                    @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
-                </reset>
-            </div>
-        </div>
-
-                                    @*<div class="form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-12"})
-                                            </div>
-                                            <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+                                        <div class="col-md-12">
+                                            @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-6" })
+                                            @Html.ValidationMessageFor(x => x.Password)
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+                                        <div class="col-md-12">
+                                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                @Html.CheckBoxFor(p => p.ResetUserPassword) RESET AT LOGIN
+                                            </reset>
                                         </div>
                                     </div>
 
+                                    @*<div class="form-group">
+            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
+            <div class="col-sm-12">
+                <div class="input-group">
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-12"})
+                </div>
+                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+            </div>
+        </div>
 
-                                    <div class="form-group">
-                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control col-md-12" })
-                                            </div>
-                                            <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
-                                        </div>
-                                    </div>*@
+
+        <div class="form-group">
+            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+            <div class="col-sm-12">
+                <div class="input-group">
+                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control col-md-12" })
+                </div>
+                <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+            </div>
+        </div>*@
                                     <div class="form-group">
                                         <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
                                         <div class="col-md-12">
@@ -122,6 +122,14 @@
                                             @*<span class="help-block">If you select a vendor, then this user will assign to Vendor.</span>*@
                                             @Html.ValidationMessageFor(x => x.AgentId)
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
+                                            </reset>
+                                        </div>
+
                                     </div>
 
                                 </div>

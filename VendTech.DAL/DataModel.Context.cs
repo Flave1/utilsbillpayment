@@ -51,7 +51,6 @@ namespace VendTech.DAL
         public virtual DbSet<POS> POS { get; set; }
         public virtual DbSet<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         public virtual DbSet<ReferralCode> ReferralCodes { get; set; }
-        public virtual DbSet<SmartKorpor> SmartKorpors { get; set; }
         public virtual DbSet<StanTable> StanTables { get; set; }
         public virtual DbSet<TokensManager> TokensManagers { get; set; }
         public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
@@ -63,9 +62,5 @@ namespace VendTech.DAL
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
-        public virtual DbSet<temptransactiondetail> temptransactiondetails { get; set; }
-        public virtual DbSet<TEMPdeposit> TEMPdeposits { get; set; }
-        public virtual DbSet<TempPOSTable> TempPOSTables { get; set; }
-        public virtual DbSet<temptransactiondetails1> temptransactiondetails1 { get; set; }
     }
 }

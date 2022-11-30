@@ -134,6 +134,7 @@ namespace VendTech.BLL.Models
     {
         [Description("Success")]
         Success = 1,
+        Pending = 2,
 
     }
     public enum DepositPaymentTypeEnum

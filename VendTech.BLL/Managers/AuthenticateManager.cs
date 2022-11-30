@@ -3,8 +3,6 @@ using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
 using VendTech.BLL.Common;
@@ -64,7 +62,7 @@ namespace VendTech.BLL.Managers
             Context.ForgotPasswordRequests.Add(request);
             Context.ForgotPasswordRequests.RemoveRange(existingRequest);
             Context.SaveChanges();
-            return ReturnSuccess(user.Email, "OTP sent to your email");
+            return ReturnSuccess(user.Email, "OTP SENT BY SMS");
         }
 
         ActionOutput<string> IAuthenticateManager.FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword)
@@ -196,7 +194,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var decryptedPass = Utilities.DecryptPassword("MTIzNDU2Nzg5MA==");
+                var decryptedPass = Utilities.DecryptPassword("VGVtcE1hY2swMQ==");
                 var result = Context.Users
                     .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
                 && x.Password == encryptPassword
@@ -380,6 +378,7 @@ namespace VendTech.BLL.Managers
 
             userModel.DeviceToken = model.DeviceToken == null ? "" : model.DeviceToken.Trim();
             userModel.AppType = string.IsNullOrEmpty(model.AppType) ? (int)AppTypeEnum.IOS : (int)AppTypeEnum.Android;
+            userModel.MobileAppVersion = model.AppVersion;
             Context.SaveChanges();
             return ReturnSuccess();
         }

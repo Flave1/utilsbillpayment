@@ -7,7 +7,6 @@
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 
-
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h4><b>Manage Sales Report</b></h4>
@@ -35,6 +34,13 @@
                         option {
                             font-weight: bold;
                         }
+
+                        .miniReportBtn {
+                            border: none;
+                            background: black;
+                            color: white;
+                            font-weight: bold;
+                        }
                     </style>
 
                     <div class="content">
@@ -59,6 +65,10 @@
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
+                                    <label class="pull-right" >
+                                        <button type="button"  onclick="miniSalesReportHandler.openMiniSalesReportModal('daily')">SALES SUMMARY</button>
+                                    </label>
+
                                 </div>
 
                                 <div class="blwsec">
@@ -93,9 +103,7 @@
                                                     <input type="hidden" id="toDt" />
                                                 </div>
                                             </div>
-                                            <hr style="        background: #d0cbcb !important;
-        height: 1px;
-" />
+                                            <hr style="background: #d0cbcb !important; height: 1px;" />
                                             <div class="form-group row">
                                                 <label>Report</label>
                                                 @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control" })
@@ -159,6 +167,8 @@
     @Html.Partial("_RequestResponseJSON")
 </div>
 
+@Html.Partial("Partials/_miniSalesReport")
+
 @section scripts{
 
 
@@ -190,10 +200,10 @@
             $("#btnExport").click(function (e) {
                 var frm = $("#FromDate").val();
                 var to = $("#ToDate").val();
-                if (frm) {
-                    var dtVal = frm.split("/");
-                    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
-                }
+                //if (frm) {
+                //    var dtVal = frm.split("/");
+                //    $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                //}
                 else {
                     $("#frmDt").val('');
 

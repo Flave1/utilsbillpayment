@@ -51,7 +51,7 @@ namespace VendTech.Areas.Admin.Controllers
 
 
         [HttpGet, Public]
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl)
         {
             return View(new LoginModal());
         }
@@ -119,7 +119,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (LOGGEDIN_USER?.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                return RedirectToAction("Index", "Home", new { area = "admin" });
             }
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
@@ -377,8 +377,8 @@ namespace VendTech.Areas.Admin.Controllers
                             body = body.Replace("%DEPOSITAPPROVEDDATE%", deposit.DepositLogs.FirstOrDefault()?.CreatedAt.ToString("f"));
                             body = body.Replace("%TODAY%", DateTime.UtcNow.ToString("f"));
                             //Utilities.SendEmail(deposit.User.Email, emailTemplate.EmailSubject, body); 
-                            Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
-                            _depositManager.UpdateNextReminderDate(deposit);
+                            //Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
+                            //_depositManager.UpdateNextReminderDate(deposit);
                         }
                     }
                 }

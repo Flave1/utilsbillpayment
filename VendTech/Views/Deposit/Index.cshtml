@@ -52,8 +52,9 @@
                     font-weight: bold;
                 }
                 .sweet-alert p {
-                    font-weight: bold;
+                    font-weight: bold !important;
                 }
+               
 
             </style>
 
@@ -165,16 +166,16 @@
                                         <table class="table table-bordered" id="datatable-icons">
                                             <thead>
                                                 <tr>
-                                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
-                                                    <th class="sorting" data-sortby="CreatedAt">VALUE DATE</th>
-                                                    <th class="sorting" data-sortby="POS">POS ID</th>
-                                                    <th class="sorting" data-sortby="UserName">VENDOR</th>
-                                                    <th class="sorting" data-sortby="PaymentType">TYPE</th>
-                                                    <th class="sorting" data-sortby="BANK">BANK</th>
-                                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
-                                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
-                                                    <th class="sorting" data-sortby="PercentageAmount">%</th>
-                                                    <th class="sorting" data-sortby="NewBalance">NEW BALANCE</th>
+                                                    <th >DATE/TIME</th>
+                                                    <th >VALUE DATE</th>
+                                                    <th >POS ID</th>
+                                                    <th >VENDOR</th>
+                                                    <th >TYPE</th>
+                                                    <th >BANK</th>
+                                                    <th >REF #</th>
+                                                    <th >AMOUNT</th>
+                                                    <th >%</th>
+                                                    <th >NEW BALANCE</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="depositListing">
@@ -375,7 +376,7 @@
             var amt = thousands_separators($("#amount").val());
             var invalidAmt = thousands_separators($("#amount").val() / 1000);
 
-            $.ConfirmBox("REDENOMINATION ALERT", "PLEASE CONFIRM DEPOSIT \n AMOUNT: NLe  " + amt + " \n\n MAKE SURE YOU ARE CERTAIN THAT YOU WANT TO DEPOSIT " + amt + " AND NOT " + invalidAmt + " LEONES", null, true, null, true, null, function () {
+            $.ConfirmBox("REDENOMINATION ALERT", "PLEASE CONFIRM DEPOSIT \n\n AMOUNT: NLe  " + amt +"", null, true, null, true, null, function () {
                 disableSubmit(true);
                 $("#ContinueDepoit").val(0);
                 $.ajaxExt({

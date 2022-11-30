@@ -12,6 +12,7 @@ using MimeKit;
 using System.Net.Mail;
 using System.Net;
 using VendTech.DAL;
+using System.Globalization;
 
 namespace VendTech.BLL.Common
 {
@@ -44,10 +45,10 @@ namespace VendTech.BLL.Common
             return trId.ToString();
         }
 
-        public static string GetLastDepositTrabsactionId()
+        public static string GetLastDepositTransactionId()
         {
             VendtechEntities context = new VendtechEntities();
-            var existing_details = context.Deposits.Where(p => p.IsDeleted == false).ToList();
+            var existing_details = context.Deposits.Where(p => p.IsDeleted == false).AsEnumerable();
             long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
             max = max + 1;
             return max.ToString();
@@ -313,18 +314,18 @@ namespace VendTech.BLL.Common
                 SmtpClient SmtpServer = new SmtpClient();
 
                 mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                //"favouremmanuel433@gmail.com"
                 mail.To.Add(to);
                 mail.Subject = sub;
                 mail.Body = body;
 
+
                 ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                ////SmtpServer.Port = 587;
+                //SmtpServer.Port = 587;
                 ////SmtpServer.UseDefaultCredentials = false;
                 ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-               // SmtpServer.EnableSsl = true;
+                // SmtpServer.EnableSsl = true;
                 mail.IsBodyHtml = true;
-
+                mail.BodyEncoding = Encoding.UTF8;
                 SmtpServer.Send(mail);
 
                 return true;
@@ -436,6 +437,23 @@ namespace VendTech.BLL.Common
             {
                 return amt == null ? "0" : string.Format("{0:N0}", amt) + "";
             }
+        }
+
+        public static int WeekOfYearISO8601(DateTime date)
+        {
+            var day = (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(date);
+            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date.AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        public static List<int> WeekOfYearISO8601(List<DateTime> dates)
+        {
+            List<int> weeks = new List<int>();
+            for (int i = 0; i < dates.Count(); i++)
+            {
+                var day = (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(dates[i]);
+                weeks.Add(CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dates[i].AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+            }
+            return weeks.Distinct().ToList();
         }
     }
 }

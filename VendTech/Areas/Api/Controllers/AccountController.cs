@@ -56,7 +56,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage Test()
         {
             var aa = _userManager.GetWelcomeMessage();
-            return new JsonContent("OTP sent successfully", Status.Success).ConvertToHttpResponseOK();
+            return new JsonContent("OTP SENT SUCCESSFULLY", Status.Success).ConvertToHttpResponseOK();
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -64,6 +64,10 @@ namespace VendTech.Areas.Api.Controllers
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
+            if (model.AppVersion == "0.0")
+            {
+                return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Failed).ConvertToHttpResponseOK();
+            }
             if (string.IsNullOrEmpty(model.DeviceToken))
             {
                 return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
@@ -82,6 +86,10 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
+                    //if(model.AppVersion != CurrentAppVersion)
+                    //{
+                    //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
+                    //}
                     var pos = _posManager.GetPosDetails(model.PassCode);
                     if(pos == null)
                     {
@@ -128,6 +136,7 @@ namespace VendTech.Areas.Api.Controllers
                     if (isEnabled)
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
+                        model.AppVersion = CurrentAppVersion;
                         _authenticateManager.AddTokenDevice(model);
                         if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
                         {
@@ -288,7 +297,7 @@ namespace VendTech.Areas.Api.Controllers
             string body = emailTemplate.TemplateContent;
             body = body.Replace("%code%", code.ToString());
             Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
-            return new JsonContent("OTP sent successfully.", Status.Success, user).ConvertToHttpResponseOK();
+            return new JsonContent("OTP SENT SUCCESSFULLY.", Status.Success, user).ConvertToHttpResponseOK();
         }
         
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
@@ -347,8 +356,8 @@ namespace VendTech.Areas.Api.Controllers
                         var msg = new SendSMSRequest
                         {
                             Recipient = "232" + user.Phone,
-                            Payload = $"Hello {user.Name} \n" +
-                              $"To confirm the new passcode..\n Please enter the following 4 digit OTP to proceed. {otp}\n" +
+                            Payload = $"Greetings {user.Name} \n" +
+                              $"Please enter the following OTP in the mobile APP.\n{otp}\n" +
                               "VENDTECH"
                         };
                         var ew = await _smsManager.SendSmsAsync(msg);
@@ -549,7 +558,16 @@ namespace VendTech.Areas.Api.Controllers
             var data = bankAccounts.ToList().Select(p => new SelectListItem { Text = "(" + p.BankName + " - " + Utilities.FormatBankAccount(p.AccountNumber) + ")", Value = p.BankAccountId.ToString() }).ToList();
             return new JsonContent("Bank accounts fetched successfully.", Status.Success, data).ConvertToHttpResponseOK();
         }
-    
 
+
+
+        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        //[ResponseType(typeof(ResponseBase))]
+        //[ActionName("operation")]
+        //public async Task<HttpResponseMessage> Operation()
+        //{
+        //    await _bankAccountManager.PerformOperation();
+        //    return new JsonContent("Bank accounts fetched successfully.", Status.Success, "").ConvertToHttpResponseOK();
+        //}
     }
 }

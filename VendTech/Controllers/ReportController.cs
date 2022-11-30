@@ -67,9 +67,19 @@ namespace VendTech.Controllers
         /// Index View 
         /// </summary>
         /// <returns></returns>
-        public ActionResult DepositReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult DepositReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+
+            if (from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
+
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -79,8 +89,8 @@ namespace VendTech.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To = DateTime.Parse(to)
             };
 
 
@@ -96,15 +106,25 @@ namespace VendTech.Controllers
             ViewBag.AssignedReports = assignedReportModule;
 
             var bankAccounts = _bankAccountMananger.GetBankAccounts();
-            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList(); 
-            return View(deposits);
+            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+            //deposits
+            return View(new PagingResult<DepositListingModel>());
 
         }
        
-        public ActionResult SalesReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult SalesReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Reports;
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+
+            if (from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -115,8 +135,8 @@ namespace VendTech.Controllers
                 PosId = pos,
                 Meter = meter == "undefined" ? "" : meter,
                 TransactionId = transactionId == "undefined" ? "" : transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To = DateTime.Parse(to)
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -130,9 +150,17 @@ namespace VendTech.Controllers
 
         }
 
-        public ActionResult GSTSalesReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult GSTSalesReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            if (from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -143,8 +171,8 @@ namespace VendTech.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To = DateTime.Parse(to)
 
             };
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
@@ -158,10 +186,18 @@ namespace VendTech.Controllers
 
         }
 
-        public ActionResult BalanceSheetReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult BalanceSheetReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
 
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            if (from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -172,8 +208,8 @@ namespace VendTech.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To = DateTime.Parse(to)
 
             };
             model.RecordsPerPage = 1000000000;
@@ -192,9 +228,17 @@ namespace VendTech.Controllers
         }
 
 
-        public ActionResult AgentRevenueReport(long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null)
+        public ActionResult AgentRevenueReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+            if (from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -205,8 +249,8 @@ namespace VendTech.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To = DateTime.Parse(to)
             };
              
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);

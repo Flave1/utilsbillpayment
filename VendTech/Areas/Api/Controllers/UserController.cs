@@ -43,7 +43,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage Test()
         {
             var aa = _userManager.GetWelcomeMessage();
-            return new JsonContent("OTP sent successfully", Status.Success).ConvertToHttpResponseOK();
+            return new JsonContent("OTP SENT SUCCESSFULLY", Status.Success).ConvertToHttpResponseOK();
         }
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]

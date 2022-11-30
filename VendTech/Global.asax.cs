@@ -56,6 +56,15 @@ namespace VendTech
         //    }
         //}
 
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            System.Globalization.CultureInfo newCulture =
+                (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            newCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            newCulture.DateTimeFormat.DateSeparator = "/";
+            System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
+        }
+
         protected void Application_Error()
         {
 

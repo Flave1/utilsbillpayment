@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VendTech.BLL.Common;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,14 +13,10 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using IronXL;
 using System.Data;
-using Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
-using ClosedXML.Excel;
-using System.ComponentModel;
-using Quartz.Util;
 using System.Drawing;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -61,7 +56,7 @@ namespace VendTech.Areas.Admin.Controllers
         #region Report
 
         [HttpGet]
-        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", DateTime? from = null, DateTime? to = null, string source = "")
+        public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
 
@@ -75,10 +70,18 @@ namespace VendTech.Areas.Admin.Controllers
 
             if(source == "dashboard")
             {
-                from = DateTime.UtcNow;
-                to = DateTime.UtcNow;
+                from = DateTime.UtcNow.ToString();
+                to = DateTime.UtcNow.ToString();
             }
- 
+            if(from == null)
+            {
+                from = DateTime.UtcNow.ToString();
+            }
+            if (to == null)
+            {
+                to = DateTime.UtcNow.ToString();
+            }
+
             var model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -88,12 +91,12 @@ namespace VendTech.Areas.Admin.Controllers
                 PosId = pos,
                 Meter = meter,
                 TransactionId = transactionId,
-                From = from,
-                To = to
+                From = DateTime.Parse(from),
+                To =DateTime.Parse(to)
             };
 
             var deposits = new PagingResult<DepositListingModel>();
-            var depositAudit = new PagingResult<DepositAuditModel>(); 
+            var depositAudit = new PagingResult<DepositAuditModel>();
 
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
@@ -118,14 +121,14 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
                 {
 
-                    var balanceSheet = new PagingResult<BalanceSheetListingModel>();
-                 
+                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+                    ViewBag.OpeningBalance = 0;
                     return View("BalanceSheetReports", balanceSheet);
                 }
                 if (val == "28")
@@ -217,9 +220,9 @@ namespace VendTech.Areas.Admin.Controllers
             if (model.ReportType == "17")
             {
                 var resultString = new List<string> {
-               RenderRazorViewToString("Partials/_reportListing", modal),
-               modal.TotalCount.ToString()
-            };
+                   RenderRazorViewToString("Partials/_reportListing", modal),
+                   modal.TotalCount.ToString()
+                };
                 return JsonResult(resultString);
             }
 
@@ -266,25 +269,29 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000; 
 
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
             balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
             decimal balance = 0;
+            
             foreach (var item in balanceSheet.List)
             {
                 balance = balance + item.DepositAmount - item.SaleAmount;
                 item.Balance = balance;
             }
-
+            var firstRecord = balanceSheet.List.FirstOrDefault();
+            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance);
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
             var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
-           };
+           
+            
+            };
             return JsonResult(resultString);
         }
 
@@ -424,7 +431,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 9,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -624,7 +631,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 13,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -764,7 +771,6 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.AllowPaging = true;
             }
         }
-
 
         public void ExportBalanceSheetReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1005,7 +1011,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
 
         }
-
 
         public void ExportGSTSalesReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1499,7 +1504,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
         }
 
-
         public void ExportAgentRevenueReportTo(ReportSearchModel model, string ExportType, string FromDate, string ToDate, string PrintedDateServer)
         {
             string fromdate = "";
@@ -1595,7 +1599,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var tec1 = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "VENDTECH DEPOSIT REPORTS",
+                    Text = "VENDTECH AGENCY REVENUE REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1610,7 +1614,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1696,7 +1700,6 @@ namespace VendTech.Areas.Admin.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult PrintSalesReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
         {
@@ -1718,7 +1721,6 @@ namespace VendTech.Areas.Admin.Controllers
             var list = _meterManager.GetSalesExcelReportData(model, true).List;
             return View(list);
         }
-
 
         [HttpGet]
         public ActionResult PrintGSTSalesReport(ReportSearchModel model, string FromDate, string ToDate, string PrintedDateServer)
@@ -1884,6 +1886,16 @@ namespace VendTech.Areas.Admin.Controllers
             table.Rows.Add(6, "Devesh", "M", 92, 87, 78, 73, 75, 72);
             return table;
         }
-         
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetMiniSalesReport(ReportSearchModel model)
+        {
+            model.RecordsPerPage = 1000000000;
+            model.IsInitialLoad = true;
+            var result = _meterManager.GetMiniSalesReport(model, true, 0, model.MiniSaleRpType);
+            return Json(new { result = JsonConvert.SerializeObject(result.List) });
+        }
+    
+    
     }
 }

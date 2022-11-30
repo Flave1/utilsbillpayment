@@ -161,6 +161,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
+            userModel.IsAgencyAdmin = _agentManager.IsAdmin(userId);
             return View(userModel);
         }
 
