@@ -189,12 +189,6 @@ namespace VendTech.BLL.Managers
             }).ToList();
         }
 
-        public class PosSelectItem
-        {
-            public string Text { get; set; } 
-            public string Value { get; set; }
-            public int? Percentage { get; set; }
-        }
 
         List<SelectListItem> IPOSManager.GetPOSSelectList(long userId, long agentId)
         {
@@ -553,5 +547,7 @@ namespace VendTech.BLL.Managers
         {
             return Context.POS.FirstOrDefault(e => e.VendorId == userId);
         }
+    
+        
     }
 }
