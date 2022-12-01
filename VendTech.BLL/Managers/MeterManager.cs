@@ -1741,11 +1741,11 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
             }
 
-            if(type == "daily")
+            if (type == "daily")
             {
                 var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0, 2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;
@@ -1754,7 +1754,7 @@ namespace VendTech.BLL.Managers
             {
                 var dailyRp = query.AsEnumerable().GroupBy(i => Utilities.WeekOfYearISO8601(i.CreatedAt)).Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0, 2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;
@@ -1763,7 +1763,7 @@ namespace VendTech.BLL.Managers
             {
                 var dailyRp = query.AsEnumerable().GroupBy(i => i.CreatedAt.Month).Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0, 2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;
