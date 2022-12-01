@@ -76,14 +76,22 @@ $(document).ready(function () {
         datePicker2.open();
     })
 
-    //var datePicker1frm = $("#miniSaleRpFromDate").data("kendoDatePicker");
-    //$("#miniSaleRpFromDate").click(function () {
-    //    datePicker1frm.open();
-    //})
-    //var datePicker2to = $("#miniSaleRpToDate").data("kendoDatePicker");
-    //$("#miniSaleRpToDate").click(function () {
-    //    datePicker2to.open();
-    //})
+    $("#miniSaleRpFromDate").kendoDatePicker({
+        max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+        format: "dd/MM/yyyy"
+    });
+    var datePicker1frm = $("#miniSaleRpFromDate").data("kendoDatePicker");
+    $("#miniSaleRpFromDate").click(function () {
+        datePicker1frm.open();
+    })
+    $("#miniSaleRpToDate").kendoDatePicker({
+        max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+        format: "dd/MM/yyyy"
+    });
+    var datePicker2to = $("#miniSaleRpToDate").data("kendoDatePicker");
+    $("#miniSaleRpToDate").click(function () {
+        datePicker2to.open();
+    })
 
     $("#reportType").on("change", function () {
 

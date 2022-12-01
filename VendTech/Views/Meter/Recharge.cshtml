@@ -383,7 +383,7 @@
 
                         if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
                             $("#pay_Now_Btn").prop('disabled', true);
-                             $.ShowMessage($('div.messageAlert'), "Walllet balance is insufficient to make purchase.", MessageType.Error);
+                             $.ShowMessage($('div.messageAlert'), "WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE.", MessageType.Error);
                             return false;
                         }
                         $("#AmountDisplay").val();
