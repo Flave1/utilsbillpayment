@@ -174,7 +174,7 @@ namespace VendTech.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             dashBoard.currentUser = new UserModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             dashBoard.platFormModels = model;
 
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
