@@ -23,7 +23,7 @@
         return AdminPOS.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return AdminPOS.SortUsers($(this));
+        return AdminPOS.SortPOS($(this));
     });
     //$("#btnFilterSearch").live("click", function () {
     //    return AdminPOS.SearchUsers($(this));
@@ -92,7 +92,7 @@
 
 var AdminPOS = {
 
-    SortUsers: function (sender) {
+    SortPOS: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
             $('.sorting').removeClass("sorting_desc")
@@ -101,7 +101,7 @@ var AdminPOS = {
             $('#SortOrder').val('Desc');
             paging.startIndex = 1;
             paging.currentPage = 0;
-            Paging();
+            POSPaging();
         }
         else
         {
@@ -112,7 +112,7 @@ var AdminPOS = {
             $('#SortOrder').val('Asc');
             paging.startIndex = 1;
             paging.currentPage = 0;
-            Paging();
+            POSPaging();
         }
     },
     AddUser: function (sender) {
@@ -176,7 +176,7 @@ var AdminPOS = {
                 data: { posId: $(sender).attr("data-userid") },
                 success: function (results, message) {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    Paging();
+                    POSPaging();
                 }
             }); 
         });
@@ -191,7 +191,7 @@ var AdminPOS = {
 
     SearchUsers: function (sender) {
         paging.startIndex = 1;
-        Paging(sender);
+        POSPaging(sender);
 
     },
 
@@ -199,16 +199,16 @@ var AdminPOS = {
 
         paging.startIndex = 1;
         paging.pageSize = parseInt($(sender).find('option:selected').val());
-        Paging(sender);
+        POSPaging(sender);
 
     }
 };
 
-function Paging(sender) {
+function POSPaging(sender) {
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
-    obj.RecordsPerPage = paging.pageSize;
+    obj.RecordsPerPage = parseInt($('#showRecords').val());
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();

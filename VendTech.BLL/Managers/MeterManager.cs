@@ -1745,7 +1745,7 @@ namespace VendTech.BLL.Managers
             {
                 var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0, 2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;

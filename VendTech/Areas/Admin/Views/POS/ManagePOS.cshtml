@@ -134,8 +134,7 @@
             document.getElementById(otherTabStatus).className = 'notActive';
 
             $('#IsActive').val(status === 'true' ? true : false);
-
-            return AdminPOS.SortUsers($(this));
+            return AdminPOS.SortPOS($(this));
         }
         $("#searchField").show();
         var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];

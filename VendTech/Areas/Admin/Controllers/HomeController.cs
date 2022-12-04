@@ -13,8 +13,6 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
 using System.Reflection;
-using VendTech.DAL;
-using Newtonsoft.Json;
 using System.Linq;
 using static VendTech.Controllers.MeterController;
 #endregion

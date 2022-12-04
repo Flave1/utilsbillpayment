@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
 {
