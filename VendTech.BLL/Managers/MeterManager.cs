@@ -400,7 +400,6 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-
             var list = query.AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;

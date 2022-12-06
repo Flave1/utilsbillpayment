@@ -200,6 +200,11 @@ var superAdminTransferHandler = {
             data: formData,
             success: function (results, message) {
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+
+                setTimeout(function () {
+                    window.location.href = '/Admin/Agent/ManageAgents';
+                }, 3000)
+
                 $("#depositToAgencyAdminModal").modal('hide');
                 superAdminTransferHandler.resetForm();
                 disableSubmit(false);
