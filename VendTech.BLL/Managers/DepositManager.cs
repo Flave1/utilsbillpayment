@@ -1594,8 +1594,8 @@ namespace VendTech.BLL.Managers
                                 dbDeposit.AgencyCommission = percentage;
                             }
                         }
-                        dbDeposit.NewBalance = dbDeposit.POS.Balance; 
-
+                        dbDeposit.NewBalance = dbDeposit.POS.Balance;
+                        dbDeposit.CreatedAt = DateTime.UtcNow;
                         dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                         dbDeposit.IsDeleted = false;
 
@@ -2247,7 +2247,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
-                dbDeposit.BalanceBefore = dbDeposit.POS.Balance;
+                dbDeposit.BalanceBefore = pos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
                 if (Context.Agencies.Select(s => s.Representative).Contains(pos.VendorId))
@@ -2318,7 +2318,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.NameOnCheque = frompos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
-                dbDeposit.BalanceBefore = dbDeposit.POS.Balance;
+                dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
                 if (Context.Agencies.Select(s => s.Representative).Contains(frompos.VendorId))
@@ -2427,7 +2427,7 @@ namespace VendTech.BLL.Managers
                     obj.DeviceType = item.AppType.Value;
                     PushNotification.SendNotification(obj);
                 }
-                return ReturnSuccess("DEPOSIT TRANSFER SUCCESSUFUL");
+                return ReturnSuccess("DEPOSIT TRANSFER SUCCESSFUL");
             }
             catch (Exception e)
             {

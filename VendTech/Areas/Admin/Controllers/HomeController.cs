@@ -405,7 +405,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //result.List = (from a in sales
                 //               join b in deps on a.UserId equals b.UserId
                 //               select new DashboardBalanceSheetModel
-                //               {
+                //               {  
                 //                   SaleAmount = a.SaleAmount,
                 //                   Vendor = a.Vendor,
                 //                   UserId = a.UserId,

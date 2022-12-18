@@ -5,7 +5,8 @@
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
     var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
 }
-
+<link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
+<link href="~/Content/style.css" rel="stylesheet" />
 
 <style>
 
@@ -57,6 +58,7 @@
         background: white;
         padding: 10px;
     }
+
     .data-info {
         display: flex;
     }
@@ -70,10 +72,8 @@
             }
 </style>
 
-<div id="fromVendorsList">
-    @Html.Partial("Transfer/_vendorsListing")
-    @Html.Partial("Transfer/_transferToVedorsListing")
-</div>
+
+
 <div class="container-fluid" id="pcont">
 
     @if (user.UserType == UserRoles.Vendor || user.UserType == UserRoles.AppUser)
@@ -90,7 +90,7 @@
                 <div class="row">
                     @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2">
                             <div class="widget widget-tile">
                                 @*<div id="spark1" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -106,7 +106,7 @@
                     }
                     @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2">
                             <div class="widget widget-tile">
                                 @*<div id="spark1" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -122,7 +122,7 @@
                     }
                     @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 2))
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-3">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-3">
                             <div class="widget widget-tile">
                                 @*<div id="spark1" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -138,7 +138,7 @@
                     }
                     @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 3))
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-3">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-3">
                             <div class="widget widget-tile">
                                 @*<div id="spark2" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -156,7 +156,7 @@
                     @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 4))
                     {
 
-                        <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2">
                             <div class="widget widget-tile">
                                 @*<div id="spark3" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -170,7 +170,7 @@
                     }
                     @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 6))
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2">
                             <div class="widget widget-tile">
                                 @*<div id="spark4" class="chart sparkline"></div>*@
                                 <div class="data-info">
@@ -182,6 +182,7 @@
                             </div>
                         </div>
                     }
+
                 </div>
 
                 @if (!assignerModules.Any(X => X.ControllerName != "26"))
@@ -276,8 +277,7 @@
 
 
 @section scripts{
-    <link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
-    <link href="~/Content/style.css" rel="stylesheet" />
+
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -290,7 +290,6 @@
         var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
     </script>
 
-    <script src="~/Scripts/UserScripts/transfer.js"></script>
     @*<script src="~/Scripts/Spinner.js"></script>*@
     <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
     @*<link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />*@

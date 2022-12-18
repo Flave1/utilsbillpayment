@@ -13,10 +13,15 @@
 var purchaseUnitsByAdmin = {
     formData: null,
     vendBalance: '',
-
+    userId: 0,
+    serial: '',
+    vendor:'',
     openForm: function (vendor, meternumber, meterId, posId, userId, balance, serial, list) {
 
-        console.log('list', JSON.parse(list))
+        this.userId = userId;
+        this.serial = serial;
+        this.vendor = vendor;
+
         const selectItemList = JSON.parse(list);
         if (selectItemList.length > 0) {
             for (var i = 0; i < selectItemList.length; i++) {
@@ -96,7 +101,6 @@ var purchaseUnitsByAdmin = {
             success: function (data) {
 
                 const response = JSON.parse(data)
-                console.log('response', data);
                 purchaseUnitsByAdmin.resetForm();
                 disableSubmit(false);
 
@@ -107,6 +111,10 @@ var purchaseUnitsByAdmin = {
                 }
 
                 if (response.Code === 200) {
+
+                    const bal = Number(purchaseUnitsByAdmin.vendBalance?.toString()?.replaceAll(',', ''));
+                    purchaseUnitsByAdmin.vendBalance = (bal - amount);
+                    $('#purchaseBalance').html(purchaseUnitsByAdmin.thousands_separators(purchaseUnitsByAdmin.vendBalance))
 
                     $("#sales_date").html(response.Data.TransactionDate);
                     $("#customer_name").html(response.Data.CustomerName);
@@ -141,7 +149,7 @@ var purchaseUnitsByAdmin = {
                     $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                 }
 
-
+                onSavedMeterClicked(this.userId, this.vendor, this.serial);
                 Paging(this);
             },
             error: function () {
@@ -204,4 +212,30 @@ function Paging(sender) {
 
         }
     });
+}
+
+function onSavedMeterClicked(userId, vendor, posid) {
+
+
+    if (userId) {
+        var inputParam = new Object();
+        inputParam.token_string = userId
+
+        $.ajax({
+            url: baseUrl + '/Meter/GetUserMeters',
+            data: $.postifyData(inputParam),
+            type: "POST",
+            success: function (data) {
+                $("#vendorName").text(vendor);
+                $("#posId").text(posid);
+                $('.modal-meter-body').html(data);
+                $("#myModal2").modal("show");
+                $('#myModal2').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+            }
+        });
+    }
 }
