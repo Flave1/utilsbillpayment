@@ -224,6 +224,8 @@ function ChangeDepositStatusOnReady(depositids, otp) {
 
     $("#otp").val(otp);
 
+    debugger
+
     $("#btnChangeDepositStatus").css({ backgroundColor: '#56bb96' });
     $("#btnChangeDepositStatus").text('PROCESSING....');
     $("#btnChangeDepositStatus").prop('disabled', true);

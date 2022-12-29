@@ -6,14 +6,12 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
 {
