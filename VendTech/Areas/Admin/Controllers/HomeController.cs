@@ -125,7 +125,7 @@ namespace VendTech.Areas.Admin.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             DashboardViewModel dashBoard = new DashboardViewModel();
-            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
             dashBoard.platFormModels = model;
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
             return View(dashBoard);
@@ -407,7 +407,7 @@ namespace VendTech.Areas.Admin.Controllers
                 //result.List = (from a in sales
                 //               join b in deps on a.UserId equals b.UserId
                 //               select new DashboardBalanceSheetModel
-                //               {
+                //               {  
                 //                   SaleAmount = a.SaleAmount,
                 //                   Vendor = a.Vendor,
                 //                   UserId = a.UserId,

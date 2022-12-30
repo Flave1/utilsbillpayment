@@ -305,6 +305,8 @@
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\adminStyle.css" />
+    <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\themes\behaviour\general.js" />
     <Content Include="Content\themes\behaviour\voice-commands.js" />
     <Content Include="Content\themes\bootstrap.daterangepicker\daterangepicker-bs2.css" />
@@ -2926,6 +2928,7 @@
     <Content Include="Content\themes\skycons\index.html" />
     <Content Include="Content\themes\skycons\skycons.js" />
     <Content Include="Content\themes\typeahead\bootstrap-typeahead.js" />
+    <Content Include="Content\transfer.css" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
