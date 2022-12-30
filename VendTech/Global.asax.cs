@@ -22,6 +22,8 @@ namespace VendTech
 
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
+
+            //Trigger for 
             ITrigger firstTrigger = TriggerBuilder.Create().StartNow()
             .WithSimpleSchedule
               (s =>
@@ -32,12 +34,15 @@ namespace VendTech
             scheduler.ScheduleJob(jobFirst, firstTrigger);
 
 
-
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+
+            //Job that checks for final status of transactions when in a pending state
+
            
         }
         //protected void Application_Error(object sender, EventArgs e)
@@ -64,6 +69,8 @@ namespace VendTech
             newCulture.DateTimeFormat.DateSeparator = "/";
             System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
         }
+
+      
 
         protected void Application_Error()
         {

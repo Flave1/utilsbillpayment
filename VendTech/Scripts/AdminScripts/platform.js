@@ -26,6 +26,7 @@ function addPlatform(statusLabel = 'DISABLE') {
     $("#short_name").val('');
     $("#title").val('');
     $("#minAmount").val('');
+    $("#platformType").val('');
     $('#stopSale').val('false');
     $('#diabledPlaformMessage').val('');
     $("#platformModal").modal('show');
@@ -56,7 +57,7 @@ function previewFile(input) {
     }
 }
 
-function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
+function editPlatform(type, apiConnId, title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
 
     
     if (id === '1') {
@@ -68,6 +69,39 @@ function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false
     $("#hdnPlatformId").val(id);
     $("#short_name").val(short_name);
     $("#minAmount").val(minAmount);
+    $("#platformType").val(type);
+
+    
+
+    //fetch the list of API Connections
+    $.ajax('/Admin/Platform/GetApiConnectionsForPlatform?platformId=' + id, {
+        dataType: 'json',
+        timeout: 60000,
+        success: function (data, status, xhr) {
+            //append the options to the select
+            var htmlSelect = "<option value=''>Select API Connection</option>";
+
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    let apiConn = data[i];
+                    htmlSelect += "<option value='" + apiConn.Id + "'" + (apiConnId == apiConn.Id ? " selected" : "") + ">" + apiConn.Name + "</option>";
+                }
+            }
+
+            document.getElementById("platformApiConnId").innerHTML = htmlSelect;
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            alert("Error fetching Platform API Connections list for Platform. Please reload page if issue continues.");
+        }
+    });
+
+    
+    
+
+    //$("#platformApiConnId").html(htmlSelect);
+
+    $("#platformApiConnId").val(apiConnId);
+
     $("#title").val(title); 
     $("#ImagefromWeb").val(logo.fileName);
     $('#stopSale').val(saleStatus);
@@ -98,6 +132,10 @@ function savePlatform(sender) {
     }
     if ( !$("#short_name").val()) {
         $.ShowMessage($('div.messageAlert'), "ShortName field is required", MessageType.Error);
+        return;
+    }
+    if (!$("#platformType").val()) {
+        $.ShowMessage($('div.messageAlert'), "Type field is required", MessageType.Error);
         return;
     }
 

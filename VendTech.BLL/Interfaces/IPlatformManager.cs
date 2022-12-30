@@ -16,6 +16,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput ChangePlatformStatus(int platformId,bool value);
         List<PlatformModel> GetUserAssignedPlatforms(long userId);
         PlatformModel GetSinglePlatform(long platformId);
+
+        PlatformModel GetPlatformById(long platformId);
     }
     
 }

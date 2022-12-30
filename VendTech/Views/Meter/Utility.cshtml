@@ -37,7 +37,7 @@
                                         {
 
 
-                                            <li class="productBox" onclick="onProductClick('@item.Title')" style="cursor: pointer;">
+                                            <li class="productBox" onclick="onProductClick(@item.PlatformType, @item.PlatformId)" style="cursor: pointer;">
                                                 <a href="javascript:void(0)">
 
                                                     @{
@@ -112,13 +112,22 @@
 
            
         });
-        function onProductClick(prod) {
-            console.log('prod', prod);
-            if (prod === "ELECTRICITY (EDSA)") {
+        function onProductClick(prodType, platformId) {
+           
+            // This is only required cos it  hasn't been merged.
+            //All transactions regardless of type will all be of type PlatformTransaction
+            if (prodType == 3) {
+                window.location.href = "/Meter/Recharge";
+            } else {
+                window.location.href = "/PlatformTransaction/?pid=" + platformId;
+            }
+
+            /*if (prod === "ELECTRICITY (EDSA)") {
                 window.location.href = "/Meter/Recharge";
             } else if (prod === "Nigeria MTN") {
                 window.location.href = "/Airtime/Recharge";
             }
+            */
         }
     </script>
 }

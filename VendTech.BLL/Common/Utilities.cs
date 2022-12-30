@@ -16,11 +16,19 @@ using System.Globalization;
 
 namespace VendTech.BLL.Common
 {
+    public static class StringUtils
+    {
+        
+    }
+
     public static class Utilities
     {
+
+
         public static decimal MinimumDepositAmount = 50;
         public static decimal MaximumDepositAmount = 500;
         private static Random random = new Random();
+
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -36,6 +44,7 @@ namespace VendTech.BLL.Common
             }
             return string.Format("{0:x}", i - DateTime.Now.Ticks);
         }
+
 
         public static string GetLastMeterRechardeId()
         {
@@ -454,6 +463,16 @@ namespace VendTech.BLL.Common
                 weeks.Add(CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dates[i].AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
             }
             return weeks.Distinct().ToList();
+        }
+
+        public static long ToUnixTimestamp(DateTime value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("DateTime to convert to Unix Timestamp cannot be null");
+            }
+
+            return (long)Math.Truncate((value.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
         }
     }
 }
