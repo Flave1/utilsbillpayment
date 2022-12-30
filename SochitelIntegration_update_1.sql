@@ -1,10 +1,11 @@
 ﻿-- Commands to be executed for the Sochitel Integration update.
 
--- PlatformTransactions
+-- PlatformApiLogs
 -- PlatformApis
 -- PlatformApiConnections
--- PlatformPacParams
--- PlatformApiLogs
+-- PlatformPacParam
+-- PlatformTransactions
+
 
 -- Add the 'PlatformType' column to differentiate products
 ALTER TABLE dbo.Platform 
