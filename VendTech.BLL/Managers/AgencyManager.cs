@@ -20,7 +20,7 @@ namespace VendTech.BLL.Managers
         PagingResult<AgencyListingModel> IAgencyManager.GetAgenciesPagedList(PagingModel model)
         {
             var result = new PagingResult<AgencyListingModel>();
-            var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))
@@ -36,7 +36,7 @@ namespace VendTech.BLL.Managers
             }
             var list = query
                .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
-               .ToList().Select(x => new AgencyListingModel(x)).ToList();
+               .ToList().Select(x => new AgencyListingModel(x)).OrderBy(x => x.SerialNumber).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "Agency List";

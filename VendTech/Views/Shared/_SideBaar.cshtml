@@ -43,7 +43,10 @@
                     }
                     @if (user.UserType == UserRoles.AppUser)
                     {
-                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "")">
+                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "") hidden-md hidden-lg">
+                            <a href="@Url.Action("EditProfile", "User")"><i class="fa fa-user"></i><span>Manage Profile</span></a>
+                        </li>
+                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "") hidden-sm hidden-xs">
                             <a href="#"><i class="fa fa-user"></i><span>Manage Profile</span></a>
                             <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
                                 <li><a href="@Url.Action("EditProfile", "User")">Edit Profile</a></li>

@@ -5,9 +5,11 @@
 }
 
 <link href="~/Content/transfer.css" rel="stylesheet" />
+<link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
+<link href="~/Content/style.css" rel="stylesheet" />
 
 <div class="container-fluid" id="pcont">
-  
+
     <div class="cl-mcont">
         <div class="row">
             <div class="col-md-12">
@@ -73,8 +75,10 @@
                                                 </div>
                                                 <div class="form-group row otpSent">
                                                     <div class="row" style="width:80%; text-align:right"><a href="#" onclick="transferHandler.resendOtp1(this)">RESEND OTP</a></div>
-                                                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
-                                                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otp">
+                                                    <div class="row">
+                                                        <label class="alert-warning col-md-5 col-xs-5 col-sm-5 " >INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                                                        <input type="text" style="height: 50px; font-weight: bolder; font-size: 40px;" class="form-control col-lg-9 col-md-9 col-sm-9 col-xs-9" placeholder="ENTER OTP" id="otp">
+                                                    </div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <button type="button" onclick="transferHandler.transferToVendor(this)" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
@@ -134,14 +138,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row otpSent">
+                                                <div class="form-group row otpSent" style="display:block">
                                                     <div class="row" style="width:80%; text-align:right"><a href="#otherotp" onclick="transferHandler.resendOtp2('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName', this)">RESEND OTP</a></div>
-                                                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
-                                                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otherotp">
+                                                    <div class="row">
+                                                        <label class="alert-warning col-md-5 col-xs-5 col-sm-5">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                                                        <input type="text" style=" height: 50px; font-weight: bolder; font-size: 40px;" class="form-control col-lg-9 col-md-9 col-sm-9 col-xs-9" placeholder="ENTER OTP" id="otherotp">
+                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <button type="button" onclick="transferHandler.transferToOtherVendor('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName', this)" id="otherSubmitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
+                                                        <button type="button" 
+                                                                onclick="transferHandler.transferToOtherVendor('@Model.AdminBalance', '@Model.AdminPosId', '@Model.AdminName', this)" 
+                                                                id="otherSubmitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -157,6 +166,11 @@
         </div>
     </div>
 </div>
+<div id="fromVendorsList">
+    @Html.Partial("Transfer/_vendorsListing")
+    @Html.Partial("Transfer/_transferToVedorsListing")
+</div>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/UserScripts/transfer.js"></script>
 <script src="~/Scripts/UserScripts/transfer.js"></script>
 
