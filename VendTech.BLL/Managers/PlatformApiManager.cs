@@ -374,6 +374,7 @@ namespace VendTech.BLL.Managers
 
             //Sochitel
             configs.Add(1, new PlatformApiTypeConfig { Id = 1, Name = "Sochitel API", ClassName = "Sochitel" });
+            configs.Add(2, new PlatformApiTypeConfig { Id = 2, Name = "EDSA API", ClassName = "Edsa" });
 
             return configs;
         }

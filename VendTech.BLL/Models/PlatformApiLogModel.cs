@@ -54,7 +54,6 @@ namespace VendTech.BLL.Models
         {
             get
             {
-                
                 return log => new PlatformApiLogModel()
                 {
                     Id = log.Id,

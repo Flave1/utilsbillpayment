@@ -216,6 +216,33 @@ namespace VendTech.BLL.Managers
             }  
         }
 
+        public List<PlatformModel> GetPlatformsByTypeForRecharge(PlatformTypeEnum type)
+        {
+            try
+            {
+                return Context.Platforms.Where(d => d.PlatformType == (int) type
+                && d.IsDeleted == false
+                && d.Enabled == true)
+                    .Select(d => new PlatformModel
+                    {
+                        Enabled = d.Enabled,
+                        MinimumAmount = d.MinimumAmount,
+                        Title = d.Title,
+                        DiabledPlaformMessage = d.DisabledPlatformMessage,
+                        DisablePlatform = d.DisablePlatform,
+                        PlatformType = d.PlatformType,
+                        PlatformId = d.PlatformId,
+                        PlatformApiConnId = d.PlatformApiConnId
+                    })
+                    .ToList();
+
+            }
+            catch (Exception)
+            {
+                return new List<PlatformModel>();
+            }
+        }
+
     }
 
 

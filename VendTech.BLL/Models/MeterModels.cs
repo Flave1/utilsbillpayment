@@ -115,7 +115,7 @@ namespace VendTech.BLL.Models
         {
             TransactionDetailsId = x.TransactionDetailsId;
             Amount = x.Amount;
-            ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName;
+            ProductShortName = x.Platform?.Title == null ? "" : x.Platform.Title;
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;

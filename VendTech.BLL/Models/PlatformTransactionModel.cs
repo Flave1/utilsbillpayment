@@ -11,7 +11,6 @@ namespace VendTech.BLL.Models
 {
     public class PlatformTransactionModel : LongIdentifierModelBase
     {
-        [Required]
         public int? ApiConnectionId { get; set; }
         [Required]
         public int PlatformId { get; set; }
@@ -43,39 +42,43 @@ namespace VendTech.BLL.Models
         public string ApiConnectionName { get; set; }
         public string PlatformApiName { get; set; }
         public int PlatformApiId { get; set; }
+        public long? TransactionDetailId { get; set; }
 
         public string CreatedAtStr { 
             get { return CreatedAt.ToString(ModelUtils.DISPLAY_DATE_FORMAT); } 
         }
 
+        public List<MeterRechargeApiListingModel> History { get; set; }
+
         public static PlatformTransactionModel From(VendTech.DAL.PlatformTransaction x)
         {
-            return new PlatformTransactionModel {
-                Id = x.Id,
-                ApiConnectionId = x.ApiConnectionId,
-                ApiConnectionName = x.PlatformApiConnection.Name,
-                PlatformId = x.PlatformId,
-                UserId = x.UserId,
-                Beneficiary = x.Beneficiary,
-                Amount = x.Amount,
-                AmountPlatform = x.AmountPlatform,
-                Currency = x.Currency,
-                PosId = x.PosId,
-                CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt,
-                Status = x.Status,
-                PlatformName = x.Platform.Title,
-                OperatorReference = x.OperatorReference,
-                PinNumber = x.PinNumber,
-                PinSerial = x.PinSerial,
-                PinInstructions = x.PinInstructions,
-                ApiTransactionId = x.ApiTransactionId,
-                StatusName = ((TransactionStatus)x.Status).ToString(),
-                PlatformTypeName = ((PlatformTypeEnum)x.Platform.PlatformType).ToString(),
-                LastPendingCheck = x.LastPendingCheck,
-                UserReference = x.UserReference,
-               
-            };
+            var model = new PlatformTransactionModel();
+            model.Id = x.Id;
+            model.ApiConnectionId = x.ApiConnectionId;
+            model.ApiConnectionName = x.PlatformApiConnection.Name;
+            model.PlatformId = x.PlatformId;
+            model.UserId = x.UserId;
+            model.Beneficiary = x.Beneficiary;
+            model.Amount = x.Amount;
+            model.AmountPlatform = x.AmountPlatform;
+            model.Currency = x.Currency;
+            model.PosId = x.PosId;
+            model.CreatedAt = x.CreatedAt;
+            model.UpdatedAt = x.UpdatedAt;
+            model.Status = x.Status;
+            model.PlatformName = x.Platform.Title;
+            model.OperatorReference = x.OperatorReference;
+            model.PinNumber = x.PinNumber;
+            model.PinSerial = x.PinSerial;
+            model.PinInstructions = x.PinInstructions;
+            model.ApiTransactionId = x.ApiTransactionId;
+            model.StatusName = ((TransactionStatus)x.Status).ToString();
+            model.PlatformTypeName = ((PlatformTypeEnum)x.Platform.PlatformType).ToString();
+            model.LastPendingCheck = x.LastPendingCheck;
+            model.UserReference = x.UserReference;
+            model.TransactionDetailId = x.TransactionDetailId;
+
+            return model;
         }
 
         public static Expression<Func<VendTech.DAL.PlatformTransaction, PlatformTransactionModel>> Projection
@@ -86,6 +89,7 @@ namespace VendTech.BLL.Models
                 {
                     Id = x.Id,
                     ApiConnectionId = x.ApiConnectionId,
+                    ApiConnectionName = (x.PlatformApiConnection != null) ? x.PlatformApiConnection.Name : null,
                     PlatformId = x.PlatformId,
                     UserId = x.UserId,
                     Beneficiary = x.Beneficiary,
@@ -106,9 +110,10 @@ namespace VendTech.BLL.Models
                     PlatformTypeName = ((PlatformTypeEnum)x.Platform.PlatformType).ToString(),
                     LastPendingCheck = x.LastPendingCheck,
                     UserReference = x.UserReference,
-                    PlatformApiName = x.PlatformApiConnection.PlatformApi.Name,
-                    PlatformApiId = x.PlatformApiConnection.PlatformApi.Id
-                };
+                    PlatformApiName = (x.PlatformApiConnection != null) ? x.PlatformApiConnection.PlatformApi.Name : null,
+                    PlatformApiId = (x.PlatformApiConnection != null) ? x.PlatformApiConnection.PlatformApi.Id : 0,
+                    TransactionDetailId = x.TransactionDetailId
+            };
             }
         }
     }

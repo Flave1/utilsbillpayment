@@ -95,8 +95,10 @@ namespace VendTech.BLL.PlatformApi
             string username = executionContext.PlatformApiConfig["username"];
             string password = executionContext.PlatformApiConfig["password"];
             string url = executionContext.PlatformApiConfig["url"];
+
             string operatorId = executionContext.PerPlatformParams["operatorId"];
             string productId = executionContext.PerPlatformParams["productId"];
+
             string msisdn = executionContext.Msisdn;
             string accountId = executionContext.AccountId;
             decimal amount = executionContext.Amount;
@@ -117,7 +119,7 @@ namespace VendTech.BLL.PlatformApi
             };
 
             base.ExecutePOSTRequest(apiRequestInfo, url, payload);
-
+            
             response.AddApiCall(apiRequestInfo);
 
             //If there is a timeout we will flag as pending so it will be checked later

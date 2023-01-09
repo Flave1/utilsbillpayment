@@ -16,6 +16,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using VendTech.BLL.Common;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace VendTech.BLL.Managers
 {
@@ -54,7 +55,7 @@ namespace VendTech.BLL.Managers
             Context.PlatformTransactions.Add(platformTransaction);
             Context.SaveChanges();
 
-            return PlatformTransactionModel.From(platformTransaction);
+            return Context.PlatformTransactions.Where(x => x.Id == platformTransaction.Id).Select(PlatformTransactionModel.Projection).FirstOrDefault();
         }
 
         public bool ProcessTransactionViaApi(long transactionId)
@@ -218,6 +219,39 @@ namespace VendTech.BLL.Managers
                         pendingTranx.UpdatedAt = DateTime.UtcNow;
 
                         DbCtx.SaveChanges();
+
+                        if (pendingTranx.Status == (int) TransactionStatus.Successful)
+                        {
+                            PlatformTransactionModel tranxModel = DbCtx.PlatformTransactions
+                                                                    .Where(t => t.Id == pendingTranx.Id)
+                                                                    .Select(PlatformTransactionModel.Projection)
+                                                                    .FirstOrDefault();
+                            
+                            TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+                            List<PlatformApiLogModel> logs = DbCtx.PlatformApiLogs
+                                                                    .Select(PlatformApiLogModel.Projection)
+                                                                    .Where(l => l.TransactionId == pendingTranx.Id)
+                                                                    .OrderBy(l => l.LogDate)
+                                                                    .ToList();
+
+                            Logs tranxLogs = CreateLogs(logs);
+
+                            transactionDetail.Request = tranxLogs.Request.ToString();
+                            transactionDetail.Response = tranxLogs.Response.ToString();
+
+                            DbCtx.TransactionDetails.Add(transactionDetail);
+                            PlatformTransaction tranx = DbCtx.PlatformTransactions.Where(t => t.Id == tranxModel.Id).FirstOrDefault();
+                            tranx.TransactionDetailId = transactionDetail.TransactionDetailsId;
+                            DbCtx.SaveChanges();
+                        }
+                        //Transaction failed so reverse balance
+                        else
+                        {
+                            var pos = DbCtx.POS.FirstOrDefault(p => p.POSId == pendingTranx.PosId);
+                            //Transaction failed so reverse the balance
+                            pos.Balance = pos.Balance.Value + pendingTranx.Amount;
+                            DbCtx.SaveChanges();
+                        }
                     }
                 }
             }
@@ -231,6 +265,35 @@ namespace VendTech.BLL.Managers
                 .Select(PlatformApiLogModel.Projection)
                 .OrderBy(o => o.LogDate)
                 .ToList();
+        }
+
+        public PagingResult<MeterRechargeApiListingModel> GetUserAirtimeRechargeTransactionDetailsHistory(ReportSearchModel model, bool callFromAdmin)
+        {
+            if (model.RecordsPerPage != 20)
+            {
+                model.RecordsPerPage = 10;
+            }
+            var result = new PagingResult<MeterRechargeApiListingModel>();
+            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
+                .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && p.Platform.PlatformType == (int) PlatformTypeEnum.AIRTIME);
+
+            if (model.VendorId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
+                var posIds = new List<long>();
+                if (callFromAdmin)
+                    posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
+                else
+                    posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
+                query = query.Where(p => posIds.Contains(p.POSId.Value));
+            }
+
+            var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
+
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Airtime recharges fetched successfully.";
+            return result;
         }
 
         public DataTableResultModel<PlatformTransactionModel> GetPlatformTransactionsForDataTable(DataQueryModel query)
@@ -294,5 +357,145 @@ namespace VendTech.BLL.Managers
 
             return new PlatformTransactionModel();
         }
+
+        public ActionOutput RechargeAirtime(PlatformTransactionModel model)
+        {
+            var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
+            if (user == null)
+            {
+                return ReturnError("User not exist.");
+            }
+                
+            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.PosId);
+
+            if (pos.Balance == null || pos.Balance.Value < model.Amount)
+            {
+                return ReturnError("INSUFFICIENT BALANCE FOR THIS TRANSACTION.");
+            }
+
+            try
+            {
+                //Deduct the amount from the balance so the user does not go and initiate another transaction while this is still in progress
+                pos.Balance = pos.Balance.Value - model.Amount;
+                Context.SaveChanges();
+
+                //Is the product configured with a Connection ID
+                PlatformApiConnection apiConn = Context.PlatformApiConnections.Where(x => x.PlatformId == model.PlatformId).FirstOrDefault();
+
+                PlatformTransactionModel tranxModel = this.New(model.UserId, model.PlatformId, pos.POSId, model.Amount,
+                    model.Beneficiary, model.Currency, apiConn?.Id);
+
+                //Process the transaction via the API and 
+                this.ProcessTransactionViaApi(tranxModel.Id);
+
+                int Status = Context.PlatformTransactions.Where(t => t.Id == tranxModel.Id).Select(t => t.Status).FirstOrDefault();
+
+                //If it succeeds, then transfer to TransactionDetail 
+                if (Status == (int)TransactionStatus.Successful)
+                {
+                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+                    List<PlatformApiLogModel> logs = GetTransactionLogs(tranxModel.Id);
+                    Logs tranxLogs = CreateLogs( logs );
+
+                    transactionDetail.Request = tranxLogs.Request.ToString();
+                    transactionDetail.Response = tranxLogs.Response.ToString();
+
+                    Context.TransactionDetails.Add(transactionDetail);
+                    PlatformTransaction tranx = Context.PlatformTransactions.FirstOrDefault(t => t.Id == tranxModel.Id);
+                    tranx.TransactionDetailId = transactionDetail.TransactionDetailsId;
+                    Context.SaveChanges();
+
+                    return ReturnSuccess("Airtime recharge was successful.");
+                }
+                else if (Status == (int)TransactionStatus.Pending)
+                {
+                    return ReturnPending(tranxModel.Id, "Airtime recharge is pending");
+                }
+
+                //Transaction failed so reverse the balance
+                pos.Balance = pos.Balance.Value + model.Amount;
+                Context.SaveChanges();
+
+                return ReturnError("Airtime recharge failed.");
+            }
+            catch(Exception ex)
+            {
+                return ReturnError("Airtime recharge failed due to an error. Please contact Administrator");
+            }
+        }
+
+        private static TransactionDetail CreateTransactionDetail(PlatformTransactionModel tranxModel)
+        {
+            if (tranxModel == null)
+            {
+                throw new ArgumentNullException("PlatformTransaction to covert to TransactionDetail cannot be null");
+            }
+
+            var now = DateTime.UtcNow;
+
+            var tranxDetail = new TransactionDetail
+            {
+                UserId = tranxModel.UserId,
+                POSId = tranxModel.PosId,
+                MeterNumber1 = tranxModel.Beneficiary,
+                Amount = tranxModel.Amount,
+                PlatFormId = tranxModel.PlatformId,
+                TransactionId = Utilities.GetLastMeterRechardeId(),
+                IsDeleted = false,
+                Status = (int)RechargeMeterStatusEnum.Success,
+                CreatedAt = now,
+                RequestDate = now,
+                Finalised = true,
+                TaxCharge = "",
+                Units = "",
+                DebitRecovery = "",
+                CostOfUnits = "",
+            };
+
+            return tranxDetail;
+        }
+
+        private static Logs CreateLogs(List<PlatformApiLogModel> logs)
+        {
+            StringBuilder request = new StringBuilder();
+            StringBuilder response = new StringBuilder();
+
+            if (logs != null && logs.Count > 0)
+            {
+                foreach (var log in logs)
+                {
+                    if (log.LogType == (int)ApiLogType.InitialRequest)
+                    {
+                        request.Append("Initial Request:\n");
+                    }
+                    else
+                    {
+                        request.Append("\n\nPending Request:\n");
+                    }
+
+                    ExecutionResponse execRes = log.ApiLogJson;
+                    List<ApiRequestInfo> apiRequestInfos = execRes.ApiCalls;
+                    if (apiRequestInfos.Count > 0)
+                    {
+                        foreach (ApiRequestInfo reqInfo in apiRequestInfos)
+                        {
+                            request.Append("Request Sent => ").Append(reqInfo.RequestSentStr).Append("\n")
+                            .Append("Payload => ").Append(reqInfo.Request).Append("\n");
+
+                            response.Append("Response Received => ").Append(reqInfo.ResponseReceivedStr).Append("\n")
+                                .Append("Payload => ").Append(reqInfo.Response).Append("\n");
+                        }
+                    }
+                }
+            }
+
+            return new Logs { Request = request, Response = response };
+        }
+    }
+
+    internal class Logs
+    {
+        public StringBuilder Request { get; set; }
+        public StringBuilder Response { get; set; }
     }
 }

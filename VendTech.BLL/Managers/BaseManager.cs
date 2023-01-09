@@ -54,11 +54,16 @@ namespace VendTech.BLL.Managers
 
         protected ActionOutput ReturnError(long id, string msg = "")
         {
-            return new ActionOutput { Status = ActionStatus.Successfull, Message = msg, ID = id };
+            return new ActionOutput { Status = ActionStatus.Error, Message = msg, ID = id };
         }
         protected ActionOutput ReturnError(string msg = "")
         {
             return new ActionOutput { Status = ActionStatus.Error, Message = msg };
+        }
+
+        protected ActionOutput ReturnPending(long id, string msg = "")
+        {
+            return new ActionOutput { ID = id, Status = ActionStatus.Pending, Message = msg };
         }
 
         protected ActionOutput<T> ReturnSuccess<T>(T model, string msg = "")

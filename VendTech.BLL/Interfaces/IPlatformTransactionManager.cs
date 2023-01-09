@@ -16,5 +16,7 @@ namespace VendTech.BLL.Interfaces
         bool ProcessTransactionViaApi(long transactionId);
         List<PlatformApiLogModel> GetTransactionLogs(long transactionId);
         void CheckPendingTransaction();
+        PagingResult<MeterRechargeApiListingModel> GetUserAirtimeRechargeTransactionDetailsHistory(ReportSearchModel model, bool callFromAdmin = false);
+        ActionOutput RechargeAirtime(PlatformTransactionModel model);
     }
 }

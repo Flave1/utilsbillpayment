@@ -3459,6 +3459,8 @@
     <Content Include="Views\PlatformTransaction\Index.cshtml" />
     <Content Include="Views\PlatformTransaction\Execute.cshtml" />
     <Content Include="Views\PlatformTransaction\ExecuteOutcome.cshtml" />
+    <Content Include="Views\Airtime\Partials\_salesListing.cshtml" />
+    <Content Include="Views\Airtime\Partials\_downTimeNotification.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

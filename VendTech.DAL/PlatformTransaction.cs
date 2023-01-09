@@ -33,6 +33,7 @@ namespace VendTech.DAL
         public string PinInstructions { get; set; }
         public string ApiTransactionId { get; set; }
         public long LastPendingCheck { get; set; }
+        public Nullable<long> TransactionDetailId { get; set; }
     
         public virtual Currency Currency1 { get; set; }
         public virtual Platform Platform { get; set; }

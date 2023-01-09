@@ -39,14 +39,11 @@
         <EntityTypeShape EntityType="ABC_PRODUCTIONModel.UserAssignedWidget" Width="1.5" PointX="18.5" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ABC_PRODUCTIONModel.UserRole" Width="1.5" PointX="6" PointY="42.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ABC_PRODUCTIONModel.User" Width="1.5" PointX="8.25" PointY="33.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ABC_PRODUCTIONModel.Vendor" Width="1.5" PointX="5.25" PointY="37.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ABC_PRODUCTIONModel.Widget" Width="1.5" PointX="16.25" PointY="50.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ABC_PRODUCTIONModel.Nation" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_AccountVerificationOTP_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Agency_Commissions" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Agency_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Users_Agency" ManuallyRouted="false" />
-        <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Vendors_Agency" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Deposits_BankAccounts" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_City_Country" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Users_City" ManuallyRouted="false" />
@@ -81,7 +78,6 @@
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_UserAssignedModules_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_UserAssignedPlatforms_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_UserAssignedWidgets_User" ManuallyRouted="false" />
-        <AssociationConnector Association="ABC_PRODUCTIONModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Users_UserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Users_Users1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ABC_PRODUCTIONModel.PlatformApiConnection" Width="1.5" PointX="0.75" PointY="7.75" />
@@ -102,6 +98,9 @@
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_PlatformApiConnections" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_POS" />
         <AssociationConnector Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_Users" />
+        <EntityTypeShape EntityType="ABC_PRODUCTIONModel.Vendor" Width="1.5" PointX="5.25" PointY="37.75" />
+        <EntityTypeShape EntityType="ABC_PRODUCTIONModel.Widget" Width="1.5" PointX="3.375" PointY="9.75" />
+        <AssociationConnector Association="ABC_PRODUCTIONModel.FK_Vendors_Agency" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

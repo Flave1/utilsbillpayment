@@ -11,7 +11,8 @@ namespace VendTech.BLL.Models
         Successfull = 1,
         Error = 2,
         LoggedOut = 3,
-        Unauthorized = 4
+        Unauthorized = 4,
+        Pending = 5,
     }
     public enum NotificationStatusEnum
     {

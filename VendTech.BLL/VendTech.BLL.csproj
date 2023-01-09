@@ -217,6 +217,7 @@
     <Compile Include="PlatformApi\Class1.cs" />
     <Compile Include="PlatformApi\IPlatformApi.cs" />
     <Compile Include="PlatformApi\PlatformApiConfig.cs" />
+    <Compile Include="PlatformApi\PlatformApi_Edsa.cs" />
     <Compile Include="PlatformApi\PlatformApi_Sochitel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

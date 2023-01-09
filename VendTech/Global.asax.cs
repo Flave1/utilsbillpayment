@@ -40,9 +40,6 @@ namespace VendTech
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-
-            //Job that checks for final status of transactions when in a pending state
-
            
         }
         //protected void Application_Error(object sender, EventArgs e)

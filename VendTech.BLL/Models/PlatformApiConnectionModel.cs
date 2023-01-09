@@ -39,19 +39,19 @@ namespace VendTech.BLL.Models
         {
             if (apiConnection == null) throw new ArgumentNullException("PlatformApiConnection is null");
 
-            return new PlatformApiConnectionModel
-            {
-                Id = apiConnection.Id,
-                PlatformApiId = apiConnection.PlatformApiId,
-                PlatformApiName = apiConnection.PlatformApi.Name,
-                Name = apiConnection.Name,
-                Status = apiConnection.Status,
-                StatusName = EnumUtils.GetEnumName<StatusEnum>(apiConnection.Status),
-                CreatedAt = apiConnection.CreatedAt,
-                UpdatedAt = apiConnection.UpdatedAt,
-                PlatformApi = PlatformApiModel.From(apiManager, apiConnection.PlatformApi),
-                PlatformId= apiConnection.PlatformId,
-            };
+            PlatformApiConnectionModel model = new PlatformApiConnectionModel();
+            model.Id = apiConnection.Id;
+            model.PlatformApiId = apiConnection.PlatformApiId;
+            model.PlatformApiName = apiConnection.PlatformApi.Name;
+            model.Name = apiConnection.Name;
+            model.Status = apiConnection.Status;
+            model.StatusName = EnumUtils.GetEnumName<StatusEnum>(apiConnection.Status);
+            model.CreatedAt = apiConnection.CreatedAt;
+            model.UpdatedAt = apiConnection.UpdatedAt;
+            model.PlatformApi = PlatformApiModel.From(apiManager, apiConnection.PlatformApi);
+            model.PlatformId = apiConnection.PlatformId;
+
+            return model;
         }
 
         public VendTech.DAL.PlatformApiConnection To(VendTech.DAL.PlatformApiConnection apiConnection)
