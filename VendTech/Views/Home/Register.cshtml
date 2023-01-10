@@ -1,4 +1,4 @@
-﻿@model VendTech.BLL.Models.RegisterAPIModel
+﻿﻿@model VendTech.BLL.Models.RegisterAPIModel
 
 @{
     ViewBag.Title = "Register";
@@ -11,13 +11,13 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12 hidden-sm hidden-xs">
             <div class="row" style="height:230px;"></div>
             <section class="flave-content">
                 @*<h1>VENDTECH</h1>
-                <p><h1>WE MAKE THE LIGHT COME ON...</h1></p>
-                <p class="sub-title"><strong>Do you want to be a vendtech agent,</strong> <br /> and also earn commissions ?</p>
-                <p class="flave_forcec_center"><a class="button" href="/Home/Register">click here to join us</a></p>*@
+                    <p><h1>WE MAKE THE LIGHT COME ON...</h1></p>
+                    <p class="sub-title"><strong>Do you want to be a vendtech agent,</strong> <br /> and also earn commissions ?</p>
+                    <p class="flave_forcec_center"><a class="button" href="/Home/Register">click here to join us</a></p>*@
 
 
             </section>
@@ -39,37 +39,36 @@
                             <div>
                                 <form style="margin-bottom: 0 !important;" class="form-horizontal" id="loginForm">
                                     <div class="content">
-                                        <h4 class="title">Application registration</h4>
+                                        <h4 class="title">VENDTECH ACCOUNT REGISTRATION</h4>
 
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                         
+
                                         @*<div class="form-group">
-                                            <div class="col-sm-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
-                                                    <select class="form-control" name="Agency" id="Agency" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
-                                                    </select>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+                                                        <select class="form-control" name="Agency" id="Agency" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>*@
+                                            </div>*@
 
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <span class="alert-danger text-center" style="margin:auto; ">You can register for PERSONAL or CORPORATE Account</span>
+                                                @*<span class="alert-danger text-center" style="margin:auto; ">You can register for PERSONAL or CORPORATE Account</span>*@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-certificate"></i></span>
                                                     <select class="form-control" id="isCompany" style="font-weight:bold; text-transform:uppercase; font-size:20px;">
-                                                        <option value="Individual">PERSONAL ACCOUNT</option>
+                                                        <option value="Individual">VENDOR ACCOUNT</option>
                                                         <option value="Company">CORPORATE ACCOUNT</option>
                                                     </select>
                                                     @Html.HiddenFor(model => model.IsCompany, new { @id = "beTrueIfIsCompany" })
-                                                    @*@Html.DropDownListFor(m => m.Individual_or_company, new SelectList(Enum.GetValues(typeof(Individual_or_company))),
-            new { @class = "form-control", @id = "isCompany", @style = "font-weight:bold; text-transform:uppercase; font-size:20px;" })*@
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group for_company" style="display:none;">
+                                        <div class="form-group for_company" style="display:true;">
                                             <div class="col-sm-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
@@ -154,22 +153,26 @@
 
                                     </div>
                                     <div class="foot">
-                                        <a class="btn btn-primary" href="/Home/Index">Back to login</a>
-                                        <button class="btn btn-warning" id="registerBtn" data-dismiss="modal" type="button">Register</button>
+
+                                        <button class="btn btn-warning" id="registerBtn" data-dismiss="modal" type="button" style="width:90%; font-weight:bold; font-size:30px;">REGISTER</button>
+
+                                        <BR> <BR>
+
+                                        Already have a VENDTECH account? <a href="/Home/Index">LOGIN ></a>
                                     </div>
                                 </form>
                             </div>
 
-                        </div> 
+                        </div>
                     </div>
 
                 </div>
 
             </div>
         </div>
-    </div> 
+    </div>
 </div>
- 
+
 
 
 @section scripts{
@@ -182,34 +185,34 @@
         })
 
         $(function() {
-            
-           
-            $("#isCompany").change(function () {  
+
+
+            $("#isCompany").change(function () {
                 if (this.value === "Individual")
                 {
                     $("#beTrueIfIsCompany").val(false)
                     $(".for_company").hide();
                     $("#first_name").attr("placeholder", "First Name *");
-                    $("#last_name").attr("placeholder", "Last Name *"); 
+                    $("#last_name").attr("placeholder", "Last Name *");
                 }
-                    
+
                 if (this.value === "Company")
                 {
                     $("#beTrueIfIsCompany").val(true)
                     $(".for_company").show();
                     $("#first_name").attr("placeholder", "REP. First Name *");
-                    $("#last_name").attr("placeholder", "REP. Last Name *"); 
+                    $("#last_name").attr("placeholder", "REP. Last Name *");
                 }
             })
 
         });
 
         $(document).ready(function () {
-             
 
-            $("#Country").change(onCountryChange);  
+
+            $("#Country").change(onCountryChange);
               onCountryChange();
-            loadAllCountries(); 
+            loadAllCountries();
 
             $("input[type=button]#saveProfileBtn").live("click", function () {
                 return UpdateProfile($(this));
@@ -223,26 +226,26 @@
         @*function loadAllAgencies() {
             var array = @Html.Raw(Json.Encode( ViewBag.Agencies));
             if (array.length > 0)
-            { 
+            {
                         for (var i = 0; i < array.length; i++) {
                             $("#Agency").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
-                        } 
+                        }
             }
         }*@
 
         function loadAllCountries() {
             var array = @Html.Raw(Json.Encode(ViewBag.countries));
             if (array.length > 0)
-            { 
+            {
                         for (var i = 0; i < array.length; i++) {
                             $("#Country").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
-                        } 
+                        }
             }
         }
 
         function onCountryChange() {
             $("#City").empty();
-            $("#City").append("<option value=''> Select City </option>") 
+            $("#City").append("<option value=''> Select City </option>")
                 var val = $("#Country").val();
                 var array = @Html.Raw(Json.Encode(ViewBag.Cities));
                 if (val) {
@@ -250,7 +253,7 @@
                     if(records.length>0){
 
                         for (var i = 0; i < records.length; i++) {
-                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>") 
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
 
                         }
                         $("#City").val('@Model.City');
@@ -258,7 +261,7 @@
                 }
         }
 
-   
+
     </script>
 }
 

@@ -118,15 +118,12 @@ namespace VendTech.BLL.Models
         {
             FirstName = user.FirstName;
             LastName = user.LastName;
-            UserEmail = user.UserEmail;
+            UserName = user.UserName;
+            IsAuthenticated = true;
             UserID = user.UserID;
+            LastActivityTime = DateTime.UtcNow;
             UserType = user.UserType;
-            UserName = user.UserEmail;
-            IsAuthenticated = user.IsAuthenticated;
-            LastActivityTime = user.LastActivityTime;
         }
-
-
     }
     public class ExceptionModal
     {

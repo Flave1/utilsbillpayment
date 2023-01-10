@@ -2221,10 +2221,14 @@ namespace VendTech.BLL.Managers
             });
         }
 
-        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp)
+        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp, long toPos)
         {
             try
             {
+                var befiaryPos = Context.POS.FirstOrDefault(er => er.POSId == toPos);
+                if (befiaryPos == null)
+                    return ReturnError("POS NOT FOUND");
+
                 var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                 if (pos == null)
                     return ReturnError("POT NOT FOUND");
@@ -2241,7 +2245,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = pos?.VendorId ?? 0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = pos.User.Vendor;
+                dbDeposit.NameOnCheque = befiaryPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
@@ -2315,7 +2319,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId??0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = frompos.User.Vendor;
+                dbDeposit.NameOnCheque = toPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance;
@@ -2434,6 +2438,7 @@ namespace VendTech.BLL.Managers
                 throw e;
             }
         }
+
 
     }
 }
