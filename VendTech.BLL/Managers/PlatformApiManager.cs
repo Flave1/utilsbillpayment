@@ -361,6 +361,8 @@ namespace VendTech.BLL.Managers
                 VendTech.DAL.PlatformApiConnection apiConnection = Context.PlatformApiConnections.Where(p => p.Id == apiConnId).FirstOrDefault();
                 if (apiConnection != null)
                 {
+                    VendTech.DAL.PlatformApi platformApi = Context.PlatformApis.FirstOrDefault(p => p.Id == apiConnection.PlatformApiId);
+                    apiConnection.PlatformApi = platformApi;
                     return PlatformApiConnectionModel.From(this, apiConnection);
                 }
             }

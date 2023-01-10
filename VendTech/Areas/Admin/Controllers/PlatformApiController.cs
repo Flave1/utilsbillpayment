@@ -125,7 +125,7 @@ namespace VendTech.Areas.Admin.Controllers
             //Validate
             if (_platformApiManager.SavePlatformApiConnection(connModelForm))
             {
-                Session.Add("_fromSave", true);
+                Session.Add("_fromSave", "true");
                 PlatformApiConnectionModel apiConn = _platformApiManager.GetPlatformApiConnectionById(connModelForm.Id);
                 return RedirectToAction("EditApiConnection", "PlatformApi", new { id = connModelForm.Id });
             }
