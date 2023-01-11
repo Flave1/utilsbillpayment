@@ -13,7 +13,6 @@ namespace VendTech.BLL.PlatformApi
     {
         ExecutionResponse Execute(ExecutionContext executionContext);
         ExecutionResponse CheckStatus(ExecutionContext executionContext);
-        IDictionary<string, Object> GetTransactionContext();
         IDictionary<string, PlatformApiConfig> GetPlatformApiConfigFields();
     }
 

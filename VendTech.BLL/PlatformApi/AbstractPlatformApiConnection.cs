@@ -62,11 +62,6 @@ namespace VendTech.BLL.PlatformApi
                 apiRequestInfo.ErrorMsg = e.Message;
             }
         }
-
-        public IDictionary<string, Object> GetTransactionContext()
-        {
-            return null;
-        }
     }
 
 

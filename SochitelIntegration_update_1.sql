@@ -85,6 +85,7 @@ CREATE TABLE [dbo].[PlatformTransactions] (
     [PinInstructions]   NVARCHAR (MAX)  NULL,
     [ApiTransactionId]  NVARCHAR (50)   NULL,
     [LastPendingCheck]  BIGINT          CONSTRAINT [DEFAULT_PlatformTransactions_LastPendingCheck] DEFAULT ((0)) NOT NULL,
+    [TransactionDetailId]  BIGINT      NOT NULL,
     CONSTRAINT [PK_PlatformTransactions] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_PlatformTransactions_Currencies] FOREIGN KEY ([Currency]) REFERENCES [dbo].[Currencies] ([Id]),
     CONSTRAINT [FK_PlatformTransactions_Platform] FOREIGN KEY ([PlatformId]) REFERENCES [dbo].[Platform] ([PlatformId]),
