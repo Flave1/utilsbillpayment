@@ -156,109 +156,114 @@ namespace VendTech.BLL.Managers
             {
                 //Last pending check done 1 min ago. This is to avoid checking the status within too short intervals
                 long lastPendingCheck = Utilities.ToUnixTimestamp(DateTime.UtcNow) - 60;
-
-                var pendingTranx = DbCtx.PlatformTransactions
-                    .Where(t => t.Status == (int)TransactionStatus.Pending)
-                    .Where(t => t.LastPendingCheck < lastPendingCheck)
-                    .FirstOrDefault();
-
-                try
+                PlatformTransaction pendingTranx = null;
+                if (lastPendingCheck != null)
                 {
-                    if (pendingTranx != null && pendingTranx.ApiConnectionId > 0)
+                    pendingTranx = DbCtx.PlatformTransactions
+                                        .Where(t => t.Status == (int)TransactionStatus.Pending)
+                                        .Where(t => t.LastPendingCheck < lastPendingCheck)
+                                        .FirstOrDefault();
+                    try
                     {
-                        pendingTranx.LastPendingCheck = Utilities.ToUnixTimestamp(DateTime.UtcNow);
-                        DbCtx.SaveChanges();
-
-                        ExecutionContext executionContext = new ExecutionContext
+                        if (pendingTranx != null && pendingTranx.ApiConnectionId > 0)
                         {
-                            UserReference = pendingTranx.UserReference,
-                            ApiTransactionId = pendingTranx.ApiTransactionId
-                        };
-
-                        VendTech.DAL.PlatformApiConnection platformApiConnection =
-                                DbCtx.PlatformApiConnections.Where(p => p.Id == pendingTranx.ApiConnectionId).FirstOrDefault();
-
-                        //PlatformApi config
-                        string config = platformApiConnection.PlatformApi.Config;
-                        executionContext.PlatformApiConfig = JsonConvert.DeserializeObject<Dictionary<string, string>>(config);
-
-                        //Get the Per Platform API Conn Params
-                        VendTech.DAL.PlatformPacParam platformPacParam = DbCtx.PlatformPacParams.FirstOrDefault(
-                        p => p.PlatformId == pendingTranx.PlatformId && p.PlatformApiConnectionId == pendingTranx.ApiConnectionId);
-
-                        PlatformPacParams platformPacParams = PlatformPacParams.From(platformPacParam);
-                        if (platformPacParams != null && platformPacParams.ConfigDictionary != null)
-                        {
-                            executionContext.PerPlatformParams = platformPacParams.ConfigDictionary;
-                        }
-
-                        IPlatformApi api = _platformApiManager.GetPlatformApiInstanceByTypeId(platformApiConnection.PlatformApi.ApiType);
-                        ExecutionResponse execResponse = api.CheckStatus(executionContext);
-
-                        //Save the logs
-                        string logJSON = JsonConvert.SerializeObject(execResponse);
-                        VendTech.DAL.PlatformApiLog log = new VendTech.DAL.PlatformApiLog
-                        {
-                            TransactionId = pendingTranx.Id,
-                            LogType = (int)ApiLogType.PendingCheckRequest,
-                            ApiLog = logJSON,
-                            LogDate = DateTime.UtcNow
-                        };
-
-                        DbCtx.PlatformApiLogs.Add(log);
-                        DbCtx.SaveChanges();
-
-                        //Fetch from DB
-                        pendingTranx = DbCtx.PlatformTransactions.Where(t => t.Id == pendingTranx.Id).FirstOrDefault();
-                        if (execResponse.Status != (int)TransactionStatus.Pending)
-                        {
-                            pendingTranx.Status = execResponse.Status;
-                            pendingTranx.OperatorReference = execResponse.OperatorReference;
-                            pendingTranx.PinNumber = execResponse.PinNumber;
-                            pendingTranx.PinSerial = execResponse.PinSerial;
-                            pendingTranx.PinInstructions = execResponse.PinInstructions;
-                            pendingTranx.ApiTransactionId = execResponse.ApiTransactionId;
-                            pendingTranx.UpdatedAt = DateTime.UtcNow;
-
+                            pendingTranx.LastPendingCheck = Utilities.ToUnixTimestamp(DateTime.UtcNow);
                             DbCtx.SaveChanges();
 
-                            if (pendingTranx.Status == (int)TransactionStatus.Successful)
+                            ExecutionContext executionContext = new ExecutionContext
                             {
-                                PlatformTransactionModel tranxModel = DbCtx.PlatformTransactions
-                                                                        .Where(t => t.Id == pendingTranx.Id)
-                                                                        .Select(PlatformTransactionModel.Projection)
-                                                                        .FirstOrDefault();
+                                UserReference = pendingTranx.UserReference,
+                                ApiTransactionId = pendingTranx.ApiTransactionId
+                            };
 
-                                TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
-                                List<PlatformApiLogModel> logs = DbCtx.PlatformApiLogs
-                                                                        .Select(PlatformApiLogModel.Projection)
-                                                                        .Where(l => l.TransactionId == pendingTranx.Id)
-                                                                        .OrderBy(l => l.LogDate)
-                                                                        .ToList();
+                            VendTech.DAL.PlatformApiConnection platformApiConnection =
+                                    DbCtx.PlatformApiConnections.Where(p => p.Id == pendingTranx.ApiConnectionId).FirstOrDefault();
 
-                                Logs tranxLogs = CreateLogs(logs);
+                            //PlatformApi config
+                            string config = platformApiConnection.PlatformApi.Config;
+                            executionContext.PlatformApiConfig = JsonConvert.DeserializeObject<Dictionary<string, string>>(config);
 
-                                transactionDetail.Request = tranxLogs.Request.ToString();
-                                transactionDetail.Response = tranxLogs.Response.ToString();
+                            //Get the Per Platform API Conn Params
+                            VendTech.DAL.PlatformPacParam platformPacParam = DbCtx.PlatformPacParams.FirstOrDefault(
+                            p => p.PlatformId == pendingTranx.PlatformId && p.PlatformApiConnectionId == pendingTranx.ApiConnectionId);
 
-                                DbCtx.TransactionDetails.Add(transactionDetail);
-                                PlatformTransaction tranx = DbCtx.PlatformTransactions.Where(t => t.Id == tranxModel.Id).FirstOrDefault();
-                                tranx.TransactionDetailId = transactionDetail.TransactionDetailsId;
-                                DbCtx.SaveChanges();
+                            PlatformPacParams platformPacParams = PlatformPacParams.From(platformPacParam);
+                            if (platformPacParams != null && platformPacParams.ConfigDictionary != null)
+                            {
+                                executionContext.PerPlatformParams = platformPacParams.ConfigDictionary;
                             }
-                            //Transaction failed so reverse balance
-                            else
+
+                            IPlatformApi api = _platformApiManager.GetPlatformApiInstanceByTypeId(platformApiConnection.PlatformApi.ApiType);
+                            ExecutionResponse execResponse = api.CheckStatus(executionContext);
+
+                            //Save the logs
+                            string logJSON = JsonConvert.SerializeObject(execResponse);
+                            PlatformApiLog log = new PlatformApiLog
                             {
-                                var pos = DbCtx.POS.FirstOrDefault(p => p.POSId == pendingTranx.PosId);
-                                ReverseBalanceDeduction(DbCtx, pos, pendingTranx.Amount);
+                                TransactionId = pendingTranx.Id,
+                                LogType = (int)ApiLogType.PendingCheckRequest,
+                                ApiLog = logJSON,
+                                LogDate = DateTime.UtcNow
+                            };
+
+                            DbCtx.PlatformApiLogs.Add(log);
+                            DbCtx.SaveChanges();
+
+                            //Fetch from DB
+                            pendingTranx = DbCtx.PlatformTransactions.Where(t => t.Id == pendingTranx.Id).FirstOrDefault();
+                            if (execResponse.Status != (int)TransactionStatus.Pending)
+                            {
+                                pendingTranx.Status = execResponse.Status;
+                                pendingTranx.OperatorReference = execResponse.OperatorReference;
+                                pendingTranx.PinNumber = execResponse.PinNumber;
+                                pendingTranx.PinSerial = execResponse.PinSerial;
+                                pendingTranx.PinInstructions = execResponse.PinInstructions;
+                                pendingTranx.ApiTransactionId = execResponse.ApiTransactionId;
+                                pendingTranx.UpdatedAt = DateTime.UtcNow;
+
+                                DbCtx.SaveChanges();
+
+                                if (pendingTranx.Status == (int)TransactionStatus.Successful)
+                                {
+                                    PlatformTransactionModel tranxModel = DbCtx.PlatformTransactions
+                                                                            .Where(t => t.Id == pendingTranx.Id)
+                                                                            .Select(PlatformTransactionModel.Projection)
+                                                                            .FirstOrDefault();
+
+                                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+                                    List<PlatformApiLogModel> logs = DbCtx.PlatformApiLogs
+                                                                            .Select(PlatformApiLogModel.Projection)
+                                                                            .Where(l => l.TransactionId == pendingTranx.Id)
+                                                                            .OrderBy(l => l.LogDate)
+                                                                            .ToList();
+
+                                    Logs tranxLogs = CreateLogs(logs);
+
+                                    transactionDetail.Request = tranxLogs.Request.ToString();
+                                    transactionDetail.Response = tranxLogs.Response.ToString();
+
+                                    DbCtx.TransactionDetails.Add(transactionDetail);
+                                    PlatformTransaction tranx = DbCtx.PlatformTransactions.Where(t => t.Id == tranxModel.Id).FirstOrDefault();
+                                    tranx.TransactionDetailId = transactionDetail.TransactionDetailsId;
+                                    DbCtx.SaveChanges();
+                                }
+                                //Transaction failed so reverse balance
+                                else
+                                {
+                                    var pos = DbCtx.POS.FirstOrDefault(p => p.POSId == pendingTranx.PosId);
+                                    ReverseBalanceDeduction(DbCtx, pos, pendingTranx.Amount);
+                                }
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
-                catch(Exception ex)
-                {
-                    
-                }
+                 
+
+                
                 
             }
             //SELECT DATEDIFF(SECOND,'1970-01-01', GETUTCDATE())

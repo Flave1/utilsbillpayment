@@ -52,11 +52,11 @@
                                                     urlPath = "/Meter/Recharge";
                                                     title = "Electricity";
                                                 }
-                                                else if (item.PlatformType == 1 && (!airtimeIconCreated))
+                                                else if (item.PlatformType == 1)//&& (!airtimeIconCreated)
                                                 {
                                                     airtimeIconCreated = true;
                                                     createIcon = true;
-                                                    urlPath = "/Airtime/Recharge";
+                                                    urlPath = "/Airtime/Recharge?provider=" + item.PlatformId;
                                                     title = "Airtime";
                                                 }
 

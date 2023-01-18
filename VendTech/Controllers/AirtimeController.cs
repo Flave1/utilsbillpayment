@@ -27,13 +27,10 @@ namespace VendTech.Controllers
             _platformTransactionManager = platformTransactionManager;
         }
 
-        public ActionResult Recharge()
+        public ActionResult Recharge(string provider = "")
         {
             //list of airtime products
-            List<SelectListItem> productsSelectList = new List<SelectListItem>()
-            {
-                new SelectListItem { Value = "", Text = "Select Operator" }
-            };
+            List<SelectListItem> productsSelectList = new List<SelectListItem>();
 
             var airtimeProducts = _platformManager.GetPlatformsByTypeForRecharge(PlatformTypeEnum.AIRTIME);
             if (airtimeProducts != null && airtimeProducts.Count > 0)
@@ -81,10 +78,13 @@ namespace VendTech.Controllers
         public JsonResult Recharge(PlatformTransactionModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-
+            //
             //Fetch the currency
+            if(!model.Beneficiary.StartsWith("234") && !model.Beneficiary.StartsWith("+234"))
+            {
+                model.Beneficiary = "234" + model.Beneficiary;
+            }
             model.Currency = "SLE";
-
             return JsonResult(_platformTransactionManager.RechargeAirtime(model));
         }
     }

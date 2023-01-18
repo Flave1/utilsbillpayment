@@ -49,6 +49,14 @@
                     .input {
                         font-weight: bold;
                     }
+
+                    .selectedOperator {
+                        border: 3px solid #1f2127;
+                    }
+
+                    .deselectOperator {
+                        border: none;
+                    }
                 </style>
                 <div class="col-md-12">
                     <div class="block-flat">
@@ -82,32 +90,54 @@
                                                                 @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
                                                             </div>
-                                                            <br />
-                                                            <br />
-                                                            <br />
                                                         }
                                                     </div>
+                                                    <div class="row padded" style="display:inline-block">
+
+                                                        <input type="hidden" id="platformIdSelect" name="PlatformId" />
+                                                        @foreach (var nOperator in ViewBag.PlatformList)
+                                                        {
+                                                            if (nOperator.Value == "3")
+                                                            {
+                                                                <span>
+                                                                    <img id="platformIdSelect_3" onclick="selectOperator('@nOperator.Value')" src="https://zenprospect-production.s3.amazonaws.com/uploads/pictures/63b4403abdcffa0001a01d04/picture" alt="Company logo"
+                                                                         height="100" width="100" style="margin: auto; border-radius: 10px;" />
+                                                                </span>
+                                                            }
+                                                            else if (nOperator.Value == "2")
+                                                            {
+                                                                <span>
+                                                                    <img id="platformIdSelect_2" onclick="selectOperator('@nOperator.Value')" src="https://investadvocate.com.ng/wp-content/uploads/2016/07/Orange.jpg" alt="Company logo"
+                                                                         height="100" width="100" style="margin: auto; border-radius:10px;" />
+                                                                </span>
+                                                            }
+
+
+                                                        }
+
+                                                    </div>
+
 
                                                     <div class="row padded">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-8">
                                                             <label><span style="color:red; text-align:center;"> ENTER</span> PHONE NUMBER</label>
-                                                            @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
+                                                            <span style="display: flex">
+                                                                <select>
+                                                                    <option value="+234">+234</option>
+                                                                </select>
+                                                                @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
+                                                            </span>
                                                             @Html.ValidationMessageFor(x => x.Beneficiary)
                                                         </div>
                                                     </div>
 
-                                                    <div class="row padded">
-                                                        <div class="col-md-6">
-                                                            <label>SELECT PRODUCT</label>
-                                                            @Html.DropDownList("PlatformId", new SelectList(ViewBag.PlatformList, "value", "text"), null, new { @style = "height:35px; font-weight:bolder;", @class = " input form-control", @id = "platformIdSelect" })
-                                                            
-                                                        </div>
-                                                    </div>
+
 
                                                     <div class="row padded">
 
                                                         <div class="col-md-8">
                                                             <label>AMOUNT</label>
+
                                                             <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
                                                                    id="AmountDisplay" type="text"
                                                                    onkeypress="javascript:return isNumber(event)"
@@ -247,6 +277,15 @@
 
         $(document).ready(function () {
 
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+
+            $(function () {
+                selectOperator(params.provider)
+
+            });
+
             if ('@ViewBag.IsDisable' === 'True') {
                 var message = '@Html.Raw(ViewBag.DisabledMessage)';
                 if (message) {
@@ -290,7 +329,6 @@
 
                     let phoneno = $("#Beneficiary").val();
 
-                    console.log(phoneno.length);
 
                     //If the number is entered in international format
                     //it will be 11 but if entered in local format it will be 9
@@ -301,9 +339,9 @@
                         return;
                     }*/
 
-                    $("#phoneno").html(phoneno);
+                    $("#phoneno").html("+234" + phoneno);
                     $("#pamount").html(thousands_separators($("#Amount").val()));
-                    $("#product").html($("#platformIdSelect option:selected").text().trim());
+                    //$("#product").html($("#platformIdSelect option:selected").text().trim());
                     $("#form-bp1").modal("show")
                 }
             });
@@ -324,6 +362,20 @@
 
         });
 
+        function selectOperator(value) {
+
+            $('#platformIdSelect').val(value)
+            if (value === "2") {
+                $("#platformIdSelect_" + value).addClass('selectedOperator');
+                $("#platformIdSelect_3").removeClass('selectedOperator');
+                $("#product").html("ORANGE SL");
+            } else if (value === "3") {
+                $("#platformIdSelect_" + value).addClass('selectedOperator');
+                $("#platformIdSelect_2").removeClass('selectedOperator');
+                $("#product").html("AFRICELL");
+            }
+        }
+
         $(function () {
             $("#posDrp").on("change", function () {
                 $.ajax({
@@ -342,7 +394,7 @@
 
                     return true;
                 }
-                
+
                 function thousands_separators(num) {
                     var num_parts = num.toString().split(".");
                     num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -404,7 +456,7 @@
                 messageControl: $('div.messageAlert'),
                 //formToValidate: $(sender).parents("form:first"),
                 //formToPost: $(sender).parents("form:first"),
-                formToValidate: $("#rechargeAirtimeForm"), 
+                formToValidate: $("#rechargeAirtimeForm"),
                 formToPost: $("#rechargeAirtimeForm"),
                 isAjaxForm: true,
                 showThrobber: true,
@@ -413,7 +465,7 @@
                 success: function (results, message) {
 
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    
+
                     $("#pay_Now_Btn").val('PAY NOW');
                     $("#pay_Now_Btn").prop('disabled', false);
 

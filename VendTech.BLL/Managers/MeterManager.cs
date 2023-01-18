@@ -983,7 +983,7 @@ namespace VendTech.BLL.Managers
                         {
                             UserName = username,
                             Password = password,
-                            System = "SL"
+                            System = "ATB"// "SL"
                         }, "apiV1_VendVoucher", "webapp", "0", "EDSA", $"{model.Amount}", $"{model.MeterNumber}", -1, "ver1.5", model.TransactionId
                        },
             };
