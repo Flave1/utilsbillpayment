@@ -7,6 +7,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Configuration;
@@ -917,6 +918,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 request_model = Buid_new_request_object(model);
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
                 icekloud_response = _http_client.PostAsJsonAsync(url, request_model).Result;
 

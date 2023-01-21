@@ -17,7 +17,7 @@
     <div class="container-fluid" id="pcont">
         <div class="dashright">
             <div class="page-head">
-                <h2>Utility</h2>
+                <h2>Bill Payment</h2>
                 <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
                     <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                 </div>
@@ -35,7 +35,7 @@
                                 <div class="contarea">
 
                                     <ul>
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.OrderBy(x => x.PlatformId))
                                         {
                                             // Use the product types to create the icons
                                             // For electricity we are only doing EDSA so we direct to

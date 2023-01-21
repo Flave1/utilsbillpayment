@@ -92,9 +92,9 @@
                                                             </div>
                                                         }
                                                     </div>
-                                                    <div class="row padded" style="display:inline-block">
+                                                    <input type="hidden" id="platformIdSelect" name="PlatformId" />
+                                                    @*<div class="row padded" style="display:inline-block">
 
-                                                        <input type="hidden" id="platformIdSelect" name="PlatformId" />
                                                         @foreach (var nOperator in ViewBag.PlatformList)
                                                         {
                                                             if (nOperator.Value == "3")
@@ -115,7 +115,7 @@
 
                                                         }
 
-                                                    </div>
+                                                    </div>*@
 
 
                                                     <div class="row padded">
@@ -366,12 +366,12 @@
 
             $('#platformIdSelect').val(value)
             if (value === "2") {
-                $("#platformIdSelect_" + value).addClass('selectedOperator');
-                $("#platformIdSelect_3").removeClass('selectedOperator');
+                //$("#platformIdSelect_" + value).addClass('selectedOperator');
+                //$("#platformIdSelect_3").removeClass('selectedOperator');
                 $("#product").html("ORANGE SL");
             } else if (value === "3") {
-                $("#platformIdSelect_" + value).addClass('selectedOperator');
-                $("#platformIdSelect_2").removeClass('selectedOperator');
+                //$("#platformIdSelect_" + value).addClass('selectedOperator');
+                //$("#platformIdSelect_2").removeClass('selectedOperator');
                 $("#product").html("AFRICELL");
             }
         }
