@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using PagedList;
@@ -11,12 +10,7 @@ using System.Data.Entity;
 using VendTech.DAL;
 using Newtonsoft.Json;
 using VendTech.BLL.PlatformApi;
-using System.Web.Util;
-using System.Runtime.Remoting.Contexts;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using VendTech.BLL.Common;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace VendTech.BLL.Managers
 {
@@ -369,19 +363,24 @@ namespace VendTech.BLL.Managers
             return new PlatformTransactionModel();
         }
 
-        public ActionOutput RechargeAirtime(PlatformTransactionModel model)
+        public AirtimeReceiptModel RechargeAirtime(PlatformTransactionModel model)
         {
+            var response = new AirtimeReceiptModel { ReceiptStatus = new ReceiptStatus() };
             var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
             if (user == null)
             {
-                return ReturnError("User not exist.");
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "User not exist.";
+                return response;
             }
                 
             var pos = Context.POS.FirstOrDefault(p => p.POSId == model.PosId);
 
             if (pos.Balance == null || pos.Balance.Value < model.Amount)
             {
-                return ReturnError("INSUFFICIENT BALANCE FOR THIS TRANSACTION.");
+                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+                return response;
             }
 
             bool balanceDeducted = false;
@@ -418,19 +417,28 @@ namespace VendTech.BLL.Managers
                     Context.TransactionDetails.Add(transactionDetail);
                     PlatformTransaction tranx = Context.PlatformTransactions.FirstOrDefault(t => t.Id == tranxModel.Id);
                     tranx.TransactionDetailId = transactionDetail.TransactionDetailsId;
-                    Context.SaveChanges();
 
-                    return ReturnSuccess("Airtime recharge was successful.");
+                    transactionDetail.TenderedAmount = model.Amount;
+                    transactionDetail.Amount = model.Amount;
+                    transactionDetail.CurrentVendorBalance = pos.Balance;
+                    transactionDetail.BalanceBefore = pos.Balance = model.Amount;
+                    Context.SaveChanges();
+                    response = GenerateReceipt(transactionDetail);
+                    return response;
                 }
                 else if (Status == (int)TransactionStatus.Pending)
                 {
-                    return ReturnPending(tranxModel.Id, "Airtime recharge is pending");
+                    response.ReceiptStatus.Status = "pending";
+                    response.ReceiptStatus.Message = "Airtime recharge is pending";
+                    return response;
                 }
 
                 //Transaction failed so reverse the balance
                 ReverseBalanceDeduction(Context, pos, model.Amount);
 
-                return ReturnError("Airtime recharge failed.");
+                response.ReceiptStatus.Status = "pending";
+                response.ReceiptStatus.Message = "Airtime recharge failed.";
+                return response;
             }
             catch(Exception ex)
             {
@@ -439,11 +447,30 @@ namespace VendTech.BLL.Managers
                 {
                     ReverseBalanceDeduction(Context, pos, model.Amount);
                 }
-
-                return ReturnError("Airtime recharge failed due to an error. Please contact Administrator");
+                response.ReceiptStatus.Status = "pending";
+                response.ReceiptStatus.Message = "Airtime recharge failed due to an error. Please contact Administrator";
+                return response;
             }
         }
 
+        private AirtimeReceiptModel GenerateReceipt(TransactionDetail trax)
+        {
+            var receipt = new AirtimeReceiptModel();
+            receipt.Phone = trax?.MeterNumber1 ?? "";
+            receipt.POS = trax?.POS?.SerialNumber ?? "";
+            receipt.CustomerName = trax?.User.Vendor ?? "";
+            receipt.ReceiptNo = trax?.ReceiptNumber ?? "";
+            var amt = trax?.Amount.ToString("N");
+            receipt.Amount = amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
+            receipt.Charges = Utilities.FormatAmount(Convert.ToDecimal(trax.ServiceCharge));
+            receipt.Commission = string.Format("{0:N0}", 0.00);
+            receipt.Discount = string.Format("{0:N0}", 0);
+            receipt.TransactionDate = trax.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            receipt.VendorId = trax.User.Vendor;
+            receipt.EDSASerial = trax?.SerialNumber?? "";
+            receipt.VTECHSerial = trax.TransactionId ?? "";
+            return receipt;
+        }
         private static void ReverseBalanceDeduction(VendtechEntities dbCtx, VendTech.DAL.POS pos, decimal amount)
         {
             pos.Balance = pos.Balance.Value + amount;

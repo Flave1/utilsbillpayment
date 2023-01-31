@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -85,7 +86,19 @@ namespace VendTech.Controllers
                 model.Beneficiary = "234" + model.Beneficiary;
             }
             model.Currency = "SLE";
-            return JsonResult(_platformTransactionManager.RechargeAirtime(model));
+
+            var result = _platformTransactionManager.RechargeAirtime(model);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+            {
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message }));
+            }
+            if (result.ReceiptStatus.Status == "pending")
+            {
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 300, Msg = result.ReceiptStatus.Message }));
+            }
+            if (result != null)
+                return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
+            return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
         }
     }
 }

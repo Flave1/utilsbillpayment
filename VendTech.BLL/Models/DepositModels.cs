@@ -350,6 +350,7 @@ namespace VendTech.BLL.Models
         public long? VendorId { get; set; }
         public long? AgencyId { get; set; }
         public string ReportType { get; set; }
+        public int PlatformId { get;set; }
         public string ProductShortName { get; set; }
         public long? PosId { get; set; } = 0;
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
