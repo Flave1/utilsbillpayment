@@ -11,6 +11,7 @@ using VendTech.DAL;
 using Newtonsoft.Json;
 using VendTech.BLL.PlatformApi;
 using VendTech.BLL.Common;
+using System.Data.Entity.Core;
 
 namespace VendTech.BLL.Managers
 {
@@ -153,10 +154,18 @@ namespace VendTech.BLL.Managers
                 PlatformTransaction pendingTranx = null;
                 if (lastPendingCheck != null)
                 {
-                    pendingTranx = DbCtx.PlatformTransactions
+                    try
+                    {
+                        pendingTranx = DbCtx.PlatformTransactions
                                         .Where(t => t.Status == (int)TransactionStatus.Pending)
                                         .Where(t => t.LastPendingCheck < lastPendingCheck)
                                         .FirstOrDefault();
+                    }
+                    catch (EntityCommandExecutionException)
+                    {
+                        return;
+                    }
+                    
                     try
                     {
                         if (pendingTranx != null && pendingTranx.ApiConnectionId > 0)
