@@ -196,3 +196,11 @@ The view 'Index' or its master was not found or no view engine supports the sear
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
