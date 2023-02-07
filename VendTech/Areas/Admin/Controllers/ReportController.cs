@@ -464,13 +464,14 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right; row.Cells[3].Text.ToString();
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[3].Text = BLL.Common.Utilities.StringValue(row.Cells[3].Text.ToString());
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         var token = row.Cells[6].Text.ToString();
-                        row.Cells[6].Text = isAirtime ? token : token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
+                        row.Cells[6].Text = isAirtime ? BLL.Common.Utilities.StringValue(token) : token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 2;
                     }
                 }

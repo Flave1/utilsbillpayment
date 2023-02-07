@@ -384,7 +384,12 @@ namespace VendTech.BLL.Common
 
             return token_item;
         }
-       
+        public static string StringValue(string token_item)
+        {
+            token_item = token_item.Insert(4, " ");
+            return token_item;
+        }
+
         public async static Task<bool> Execute(string email, string subject, string message)
         {
             try

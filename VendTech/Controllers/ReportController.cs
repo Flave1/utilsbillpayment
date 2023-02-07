@@ -797,7 +797,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 13,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1017,7 +1017,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1241,7 +1241,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1269,13 +1269,14 @@ namespace VendTech.Controllers
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right; row.Cells[3].Text.ToString();
+                        row.Cells[3].HorizontalAlign = HorizontalAlign.Right; 
+                        row.Cells[3].Text = BLL.Common.Utilities.StringValue(row.Cells[3].Text.ToString()) ;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         var token = row.Cells[6].Text.ToString();
-                        row.Cells[6].Text = isAirtime ? token : token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
+                        row.Cells[6].Text = isAirtime ? BLL.Common.Utilities.StringValue(token) : token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 3;
                     }
                 }
