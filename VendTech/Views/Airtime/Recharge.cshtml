@@ -452,83 +452,12 @@
             }
 
             disableSubmit(true)
-            //$.ajaxExt({
-            //    url: baseUrl + '/Airtime/Recharge',
-            //    data: $("#rechargeAirtimeForm").serialize(),
-            //    type: 'POST',
-            //    //validate: true,
-            //    //showErrorMessage: true,
-            //    //messageControl: $('div.messageAlert'),
-            //    //formToValidate: $(sender).parents("form:first"),
-            //    //formToPost: $(sender).parents("form:first"),
-            //    //formToValidate: $("#rechargeAirtimeForm"),
-            //    //formToPost: $("#rechargeAirtimeForm"),
-            //    //isAjaxForm: true,
-            //    //showThrobber: true,
-            //    //button: $(sender),
-            //    //throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-
-               
-            //    success: function (response) {
-            //        debugger
-            //        $("#pay_Now_Btn").val('PROCESSING....');
-            //        $("#pay_Now_Btn").prop('disabled', false);
-
-            //        const data = JSON.parse(response)
-            //        if (data.Code === 302) {
-            //            $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-            //            $("#error_reponse").show();
-            //            $("#error_reponse").html(data.Msg);
-            //            return false;
-            //        }
-            //        if (data.Code === 300) {
-            //            $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
-            //            $("#error_reponse").show();
-            //            $("#error_reponse").html(data.Msg);
-            //            return false;
-            //        }
-            //        if (data.Code == 200) {
-            //            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-
-            //            $("#pay_Now_Btn").val('PAY NOW');
-            //            $("#pay_Now_Btn").prop('disabled', false);
-
-            //            $("#sales_date").html(data.Data.TransactionDate);
-            //            $("#customer_name").html(data.Data.CustomerName);
-            //            $("#customer_account_number").html(data.Data.Phone);
-            //            $("#amount_tender").html(data.Data.Amount);
-            //            $("#service_charge").html(data.Data.Charges);
-            //            $("#debit_recovery").html(data.Data.DebitRecovery);
-            //            $("#cost_of_units").html(data.Data.UnitCost);
-            //            $("#units").html(data.Data.Unit);
-            //            $("#pin1").html(data.Data.Pin1);
-            //            if (data.Data.Pin1.length > 0) $("#pin1_section").show();
-            //            $("#edsa_serial").html(data.Data.SerialNo);
-            //            $("#barcode").html(data.Data.DeviceNumber);
-            //            $("#vendtech_serial_code").html(data.Data.VTECHSerial);
-            //            $("#pos_id").html(data.Data.POS);
-            //            if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
-            //            if (data.Data.ShouldShowPrintButton) $("#showprint_btn").show();
-            //            $("#vendorId").html(data.Data.VendorId);
-
-
-            //            $("#airtimeReceiptModal").modal("show");
-            //        }
-                   
-            //    },
-            //    error: function (err) {
-            //        $("#pay_Now_Btn").val('PROCESSING....');
-            //        $("#pay_Now_Btn").prop('disabled', false);
-            //    }
-            //});
-
-            disableSubmit(true);
             $.ajax({
                 url: baseUrl + '/Airtime/Recharge',
                 data: $("#rechargeAirtimeForm").serialize(),
                 type: 'POST',
                 success: function (data) {
-                    debugger
+                    
                     const response = JSON.parse(data)
                     disableSubmit(false);
 
@@ -556,6 +485,7 @@
                         if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                         if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                         $("#vendorId").html(response.Data.VendorId);
+                        $("#receiptTitle").html(response.Data.ReceiptTitle);
 
 
                         $("#airtimeReceiptModal").modal("show");

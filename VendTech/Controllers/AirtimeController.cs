@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -7,9 +6,7 @@ using System.Web.Script.Serialization;
 using VendTech.Areas.Admin.Controllers;
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
-using VendTech.DAL;
 
 namespace VendTech.Controllers
 {
@@ -21,7 +18,7 @@ namespace VendTech.Controllers
         public AirtimeController(
             IErrorLogManager errorLogManager,
             IPOSManager posManager,
-            IPlatformTransactionManager platformTransactionManager) 
+            IPlatformTransactionManager platformTransactionManager)
             : base(errorLogManager)
         {
             _posManager = posManager;
@@ -79,7 +76,7 @@ namespace VendTech.Controllers
         public JsonResult Recharge(PlatformTransactionModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            //
+            
             //Fetch the currency
             if(!model.Beneficiary.StartsWith("234") && !model.Beneficiary.StartsWith("+234"))
             {
@@ -99,6 +96,15 @@ namespace VendTech.Controllers
             if (result != null)
                 return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
             return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetAirtimeReceipt(RequestObject1 requestObject)
+        {
+            var result = _platformTransactionManager.GetAirtimeReceipt(requestObject.Id);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
+            return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
         }
     }
 }

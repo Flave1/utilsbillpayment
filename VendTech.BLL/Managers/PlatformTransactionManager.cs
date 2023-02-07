@@ -478,6 +478,11 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = trax.User.Vendor;
             receipt.EDSASerial = trax?.SerialNumber?? "";
             receipt.VTECHSerial = trax.TransactionId ?? "";
+            receipt.mobileShowPrintButton = (bool)trax.POS.PosPrint;
+            receipt.mobileShowSmsButton = (bool)trax.POS.PosSms;
+            receipt.ShouldShowSmsButton = (bool)trax.POS.WebSms;
+            receipt.ShouldShowPrintButton = (bool)trax.POS.WebPrint;
+            receipt.ReceiptTitle = trax.PlatFormId == 2 ? "ORANGE" : "AFRICELL";
             return receipt;
         }
         private static void ReverseBalanceDeduction(VendtechEntities dbCtx, VendTech.DAL.POS pos, decimal amount)
@@ -553,6 +558,17 @@ namespace VendTech.BLL.Managers
 
             return new Logs { Request = request, Response = response };
         }
+
+        public AirtimeReceiptModel GetAirtimeReceipt(string traxId)
+        {
+            var trax = Context.TransactionDetails.Where(e => e.TransactionId == traxId).ToList().FirstOrDefault();
+            if (trax != null)
+            {
+                var receipt = GenerateReceipt(trax);
+                return receipt;
+            }
+            return new AirtimeReceiptModel { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
+        }
     }
 
     internal class Logs
@@ -560,4 +576,5 @@ namespace VendTech.BLL.Managers
         public StringBuilder Request { get; set; }
         public StringBuilder Response { get; set; }
     }
+    
 }

@@ -99,7 +99,7 @@ namespace VendTech.BLL.Models
         public string ProductShortName { get; set; }
         public string RechargePin { get; set; }
         public string POSId { get; set; }
-        public string PlatformId { get; set; }
+        public int PlatformId { get; set; }
         public string UserName { get; set; }
         public string VendorName { get; set; }
         public long VendorId { get; set; }
@@ -120,9 +120,9 @@ namespace VendTech.BLL.Models
             {
                 if (x.Platform.PlatformId == 1)
                     ProductShortName = x.Platform.ShortName;
-                else if (x.Platform.PlatformId == 2)
+                else if (x.PlatFormId == 2)
                     ProductShortName = "ORANGE";
-                else if (x.Platform.PlatformId == 3)
+                else if (x.PlatFormId == 3)
                     ProductShortName = "AFRICELL";
 
             }
@@ -136,6 +136,7 @@ namespace VendTech.BLL.Models
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.MeterToken1;
+            PlatformId = (int)x.PlatFormId;
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
@@ -160,8 +161,9 @@ namespace VendTech.BLL.Models
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
             Status = ((RechargeMeterStatusEnum)x.Status).ToString();
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/"+ x.TransactionId;
             CreatedAtDate = x.CreatedAt;
+            PlatformId = (int)x.PlatFormId;
         }
     }
 
@@ -233,5 +235,14 @@ namespace VendTech.BLL.Models
     {
         public string DateTime { get; set; }
         public string TAmount { get; set; }
+    }
+    public class RequestObject
+    {
+        public string token_string { get; set; }
+    }
+
+    public class RequestObject1
+    {
+        public string Id { get; set; }
     }
 }
