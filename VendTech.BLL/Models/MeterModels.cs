@@ -135,7 +135,7 @@ namespace VendTech.BLL.Models
             RechargeId = x.TransactionDetailsId;
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.MeterToken1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             PlatformId = (int)x.PlatFormId;
         }
 

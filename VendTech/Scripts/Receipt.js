@@ -107,7 +107,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
                     $("#units").html(response.Data.Unit);
                     $("#pin1").html(response.Data.Pin1);
                     $("#edsa_serial").html(response.Data.SerialNo);
-                    $("#barcode").html(response.Data.DeviceNumber);
+                    $("#barcode").html(response.Data.Phone);
                     $("#vendtech_serial_code").html(response.Data.VTECHSerial);
                     $("#pos_id").html(response.Data.POS);
                     if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
