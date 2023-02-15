@@ -208,17 +208,17 @@ namespace VendTech.BLL.Models
         public SalesReportExcelModel(TransactionDetail x)
         {
             Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-            if (x.Platform.PlatformId == 1)
+            if (x.PlatFormId == 1)
                 PRODUCT_TYPE = x.Platform.ShortName;
-            else if (x.Platform.PlatformId == 2)
+            else if (x.PlatFormId == 2)
                 PRODUCT_TYPE = "ORANGE";
-            else if (x.Platform.PlatformId == 3)
+            else if (x.PlatFormId == 3)
                 PRODUCT_TYPE = "AFRICELL";
             if (x.PlatFormId == 1)
                 PIN = x.MeterToken1;
             else if (x.PlatFormId == 2)
                 PIN = x.MeterNumber1;
-            else if (x.PlatFormId == 2)
+            else if (x.PlatFormId == 3)
                 PIN = x.MeterNumber1;
             AMOUNT = Utilities.FormatAmount(x.Amount);
             TRANSACTIONID = x.TransactionId;
