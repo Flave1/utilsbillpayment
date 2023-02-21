@@ -487,5 +487,25 @@ namespace VendTech.BLL.Models
         public decimal? PercentageAmount { get; set; } = 0;
     }
 
+    public class Dep1
+    {
+        public DateTime CreatedAt { get; set; }
+        public string TransactionId { get; set; }
+        public long UserId { get; set; }
+        public decimal? NewBalance { get; set; }
+        public decimal? PercentageAmount { get; set; }
+        public decimal? Totalsales { get; set; }
+        public decimal? AgencyCommission { get; set; }
+    }
 
+
+    public class DepTrans1
+    {
+        public long UserId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string TransactionId { get; set; }
+        public decimal? CurrentVendorBalance { get; set; }
+        public decimal? AgencyCommission { get; internal set; }
+        public decimal? NewBalance { get; internal set; }
+    }
 }

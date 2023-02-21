@@ -400,23 +400,6 @@ namespace VendTech.Areas.Admin.Controllers
             try
             {
 
-                //var date = DateTime.Parse("2021-03-01");
-                //var sales = _meterManager.GetDashboardBalanceSheetReports(date);
-                //var deps = _depositManager.GetDashboardBalanceSheetReports(date);
-
-                //result.List = (from a in sales
-                //               join b in deps on a.UserId equals b.UserId
-                //               select new DashboardBalanceSheetModel
-                //               {  
-                //                   SaleAmount = a.SaleAmount,
-                //                   Vendor = a.Vendor,
-                //                   UserId = a.UserId,
-                //                   Balance = b.DepositAmount - a.SaleAmount,
-                //                   DepositAmount = b.DepositAmount,
-                //                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
-                //                   POSBalance = b.POSBalance
-                //               }).OrderByDescending(s => s.Balance).ToList();
-
                 var vendorStatus = _meterManager.GetVendorStatus();
 
                 result.Status = ActionStatus.Successfull;
