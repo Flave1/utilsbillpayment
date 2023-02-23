@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using VendTech.DAL;
 
 namespace VendTech.BLL.Models
 {
+    public class AirtimePurchaseModel
+    {
+        public int PlatformId { get; set; }
+        public long Amount { get; set; }
+        public long UserId { get; set; }
+        public long PosId { get; set; }
+        public string Phone { get; set; }
+        public string Currency { get; set; }
+    }
     public class PlatformTransactionModel : LongIdentifierModelBase
     {
         public int? ApiConnectionId { get; set; }

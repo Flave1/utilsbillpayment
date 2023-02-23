@@ -855,6 +855,7 @@ namespace VendTech.BLL.Managers
             data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
+            data.PlatformId = (int)recharge.PlatFormId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             var thisTransactionNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
             if(thisTransactionNotification != null)

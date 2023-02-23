@@ -271,6 +271,7 @@
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
     <Compile Include="Areas\Api\Controllers\ContactUsController.cs" />
+    <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\MeterController.cs" />
     <Compile Include="Areas\Api\Controllers\AccountController.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />

@@ -382,8 +382,8 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Message = "User not exist.";
                 return response;
             }
-                
-            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.PosId);
+            var posid = user.POS.FirstOrDefault().POSId;
+            var pos = Context.POS.FirstOrDefault(p => p.POSId == posid);
 
             if (pos.Balance == null || pos.Balance.Value < model.Amount)
             {
