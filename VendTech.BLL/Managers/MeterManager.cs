@@ -668,6 +668,7 @@ namespace VendTech.BLL.Managers
                 db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
+                db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
                 Context.TransactionDetails.Add(db_transaction_detail);
 
                 SaveSales();
@@ -736,6 +737,7 @@ namespace VendTech.BLL.Managers
 
         }
 
+        long generateTrxTableKey() => Context.TransactionDetails.Max(x => x.TransactionDetailsId) + 1;
 
         private Dictionary<string, TransactionDetail> QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
