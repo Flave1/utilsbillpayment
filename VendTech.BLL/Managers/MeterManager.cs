@@ -668,7 +668,7 @@ namespace VendTech.BLL.Managers
                 db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
-                db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
+                //db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
                 Context.TransactionDetails.Add(db_transaction_detail);
 
                 SaveSales();
