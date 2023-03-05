@@ -37,7 +37,7 @@
                                         {
 
 
-                                            <li class="productBox" style="cursor: pointer;">
+                                            <li class="productBox" onclick="onProductClick('@item.Title')" style="cursor: pointer;">
                                                 <a href="javascript:void(0)">
 
                                                     @{
@@ -106,11 +106,21 @@
         $(document).ready(function () {
             //initialize the javascript
             App.init();
-            $(".productBox").click(function () {
-                window.location.href = "/Meter/Recharge";
-            });
+            //$(".productBox").click(function () {
+            //    window.location.href = "/Meter/Recharge";
+            //});
+
+           
         });
-    ``   </script>
+        function onProductClick(prod) {
+            console.log('prod', prod);
+            if (prod === "ELECTRICITY (EDSA)") {
+                window.location.href = "/Meter/Recharge";
+            } else if (prod === "Nigeria MTN") {
+                window.location.href = "/Airtime/Recharge";
+            }
+        }
+    </script>
 }
 
 </html>

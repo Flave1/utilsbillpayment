@@ -1,5 +1,5 @@
 ﻿
-$(document).ready(function () { 
+$(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams == "") {
         $("#FromDate").kendoDatePicker({
@@ -45,12 +45,12 @@ $(document).ready(function () {
             $("#ToDate").val(to);
         }
 
-        $("#reportType").val(type); 
+        $("#reportType").val(type);
         $("#meterNo").val(meter);
         $("#vendor").val(vendorId);
         $("#tranId").val(transId);
         $("#pos").val(pos);
-       
+
     }
     $("#fromSpan").text($("#FromDate").val())
     $("#toSpan").text($("#ToDate").val())
@@ -62,7 +62,7 @@ $(document).ready(function () {
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy"
     });
-    
+
     $("#ToDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy"
@@ -113,11 +113,11 @@ $(document).ready(function () {
         //    To = val[1] + "/" + val[0] + "/" + val[2];
         //}
 
-        if (transactionId == undefined) { 
+        if (transactionId == undefined) {
             transactionId = ''
         }
 
-        if (meterNo == undefined) { 
+        if (meterNo == undefined) {
             meterNo = ''
         }
 
@@ -128,7 +128,7 @@ $(document).ready(function () {
         if (pos == undefined) {
             pos = 0
         }
-         
+
 
         window.location.href = "/Admin/Report/ManageReports?type=" + type + "&vendorId=" + vendorId + "&pos=" + pos + "&meter=" + meterNo + "&transactionId=" + transactionId + "&from=" + From + "&to=" + To;
     });
@@ -178,6 +178,6 @@ $(document).ready(function () {
             $("#pos").append("<option value=''> SELECT POS</option>")
         }
     });
-     
+
 });
 

@@ -134,8 +134,7 @@
             document.getElementById(otherTabStatus).className = 'notActive';
 
             $('#IsActive').val(status === 'true' ? true : false);
-
-            return AdminPOS.SortUsers($(this));
+            return AdminPOS.SortPOS($(this));
         }
         $("#searchField").show();
         var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
@@ -151,31 +150,7 @@
             //Users.ManageUsers(totalCount);
         });
 
-        function onSavedMeterClicked(userId, vendor, posid) {
-
-
-            if (userId) {
-                var inputParam = new Object();
-                inputParam.token_string = userId
-
-                $.ajax({
-                    url: baseUrl + '/Meter/GetUserMeters',
-                    data: $.postifyData(inputParam),
-                    type: "POST",
-                    success: function (data) {
-                        $("#vendorName").text(vendor);
-                        $("#posId").text(posid);
-                        $('.modal-meter-body').html(data);
-                        $("#myModal2").modal("show");
-                        $('#myModal2').modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        })
-
-                    }
-                });
-            }
-        }
+        
     </script>
 }
 

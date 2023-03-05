@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<META HTTP-EQUIV=”refresh” CONTENT=”5; URL=https://vendtechsl.com/Home/Index”>*@
     <link rel="shortcut icon" href="~/Content/images/vt_logo.PNG">
     <title>User Panel</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
@@ -14,10 +15,12 @@
         <![endif]-->
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/userStyle.css" rel="stylesheet" />
+
 
 </head>
 <body>
@@ -72,6 +75,14 @@
     @RenderSection("scripts", required: false)
 
     <script>
+        function openCloseMobileSideBar() {
+            
+            if ($('.show_cl-sidebar')[0]) {
+                $('.cl-sidebar').removeClass('show_cl-sidebar')
+            } else {
+                $('.cl-sidebar').addClass('show_cl-sidebar')
+            }
+        }
         $(function () {
             setInterval(function () {
 

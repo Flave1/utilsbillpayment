@@ -3,13 +3,25 @@
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
 }
 <!-- Fixed navbar -->
-<div id="head-nav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
+<div id="head-nav" class="navbar navbar-default navbar-fixed-top" >
+    <div id="mobile-nav">
+        <div style="width: 30%; float: left; padding-top: 13px" onclick="openCloseMobileSideBar()">
+            <i class="fa fa-bars" style="font-size:30px;"></i>
+        </div>
+        <div style="width: 30%; float: left; padding-top: 13px; text-align:center">
+            <a href="/home/dashboard" class="pull-right"><img src="@Url.Content("~/Content/images/logo1.jpg")" width="100" alt="LOGO" /></a>
+
+        </div>
+        <div style="width:40%; float:right; padding-top:10px">
+            <a class="btn my-2 my-sm-0 pull-right bg-darkgray mt-2" href="@Url.Action("SignOut", "Home")">SIGN OUT</a>
+        </div>
+    </div>
+    <div class="container-fluid" id="main-container-menu">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="fa fa-gear"></span> </button>
             <a class="navbar-brand" href="/home/dashboard"><span>Agent Panel</span></a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" id="navbar-profile" >
              
 
             <ul class="nav navbar-nav navbar-right user-nav">

@@ -1,37 +1,37 @@
 ﻿$(document).ready(function () {
     $("input[type=button]#addUserBtn").live("click", function () {
-        return Users.AddUser($(this));
+        return AdminVendors.AddUser($(this));
     });
     $("input[type=button]#editUserBtn").live("click", function () {
-        return Users.UpdateUser($(this));
+        return AdminVendors.UpdateUser($(this));
     });
     $("a.deleteUser").live("click", function () {
-        return Users.DeleteUser($(this));
+        return AdminVendors.DeleteUser($(this));
     });
     $("a.deleteUser1").live("click", function () {
-        return Users.DeleteUser($(this),true);
+        return AdminVendors.DeleteUser($(this),true);
     });
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return Users.ManageUsers($(this));
+        return AdminVendors.ManageUsers($(this));
     });
     $("select#showRecords").on("change", function () {
-        return Users.ShowRecords($(this));
+        return AdminVendors.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return Users.SortUsers($(this));
+        return AdminVendors.SortUsers($(this));
     });
     $("#btnFilterSearch").live("click", function () {
-        return Users.SearchUsers($(this));
+        return AdminVendors.SearchUsers($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
-        return Users.SearchUsers($(this));
+        return AdminVendors.SearchUsers($(this));
     });
 });
 
-var Users = {
+var AdminVendors = {
     SortUsers: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
@@ -133,7 +133,6 @@ var Users = {
     ManageUsers: function (totalCount) {
         var totalRecords = 0;
         totalRecords = parseInt(totalCount);
-        //alert(totalRecords);
         PageNumbering(totalRecords);
     },
 
@@ -144,7 +143,6 @@ var Users = {
     },
 
     ShowRecords: function (sender) {
-
         paging.startIndex = 1;
         paging.pageSize = parseInt($(sender).find('option:selected').val());
         Paging(sender);

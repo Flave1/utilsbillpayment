@@ -178,7 +178,7 @@ namespace VendTech.BLL.Managers
             {
                 vendor = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
                 if (vendor == null)
-                    return ReturnError("Vendor not exist");
+                    return ReturnError("Vendor does not exist");
             }
 
             if (model.VendorId == 0)
@@ -195,6 +195,7 @@ namespace VendTech.BLL.Managers
             }
 
             vendor.Vendor = model.Vendor;
+            vendor.CompanyName = model.Vendor;
 
             Context.SaveChanges();
             return ReturnSuccess("Vendor saved successfully.");

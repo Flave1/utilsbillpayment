@@ -121,8 +121,8 @@ var miniSalesReportHandler = {
                     for (var i = 0; i < response.length; i++) {
                         const tr =
                             "<tr>" +
-                                "<th style='text-align:right'>" + response[i].DateTime + "</th> " +
-                                "<th style='text-align:right'>" + response[i].TAmount + "</th>" +
+                                "<td style='text-align:center'>" + response[i].DateTime + "</td> " +
+                                "<td style='text-align:center; font-weight:bold; color:deepskyblue;'>" + response[i].TAmount + "</td>" +
                             "</tr >";
                         var html = document.getElementById("miniSalesListing").innerHTML + tr;
                         document.getElementById("miniSalesListing").innerHTML = html;
@@ -159,8 +159,8 @@ var miniSalesReportHandler = {
                     for (var i = 0; i < response.length; i++) {
                         const tr =
                             "<tr>" +
-                            "<th style='text-align:right'>" + response[i].DateTime + "</th> " +
-                            "<th style='text-align:right'>" + response[i].TAmount + "</th>" +
+                            "<td style='text-align:center'>" + response[i].DateTime + "</td> " +
+                            "<td style='text-align:center; font-weight:bold; color:deepskyblue;'>" + response[i].TAmount + "</td>" +
                             "</tr >";
                         var html = document.getElementById("miniSalesListing").innerHTML + tr;
                         document.getElementById("miniSalesListing").innerHTML = html;

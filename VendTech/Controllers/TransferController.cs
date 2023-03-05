@@ -45,7 +45,11 @@ namespace VendTech.Controllers
         public ActionResult Index()
         {
             ViewBag.SelectedTab = SelectedAdminTab.Transfer;
-
+            if(LOGGEDIN_USER == null)
+            {
+                SignOut();
+                return View("Index", "Home", new {area = ""});
+            }
             var agencyPos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
             if(ModulesModel.Any())
             {
@@ -102,7 +106,7 @@ namespace VendTech.Controllers
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
                 };
-                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp);
+                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId);
 
                 
                 if(result1.Status == ActionStatus.Successfull)

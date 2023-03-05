@@ -74,6 +74,7 @@
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
         $(document).ready(function () {
+            $('.filter-select option[value="100"]').attr("selected", true);
             var d = new Date();
             $("#valueDate").kendoDatePicker({
                 culture: "en-GB",

@@ -13,8 +13,6 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
 using System.Reflection;
-using VendTech.DAL;
-using Newtonsoft.Json;
 using System.Linq;
 using static VendTech.Controllers.MeterController;
 #endregion
@@ -125,7 +123,7 @@ namespace VendTech.Areas.Admin.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             DashboardViewModel dashBoard = new DashboardViewModel();
-            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
+            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
             dashBoard.platFormModels = model;
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
             return View(dashBoard);
@@ -399,23 +397,6 @@ namespace VendTech.Areas.Admin.Controllers
 
             try
             {
-
-                //var date = DateTime.Parse("2021-03-01");
-                //var sales = _meterManager.GetDashboardBalanceSheetReports(date);
-                //var deps = _depositManager.GetDashboardBalanceSheetReports(date);
-
-                //result.List = (from a in sales
-                //               join b in deps on a.UserId equals b.UserId
-                //               select new DashboardBalanceSheetModel
-                //               {
-                //                   SaleAmount = a.SaleAmount,
-                //                   Vendor = a.Vendor,
-                //                   UserId = a.UserId,
-                //                   Balance = b.DepositAmount - a.SaleAmount,
-                //                   DepositAmount = b.DepositAmount,
-                //                   Status = a.SaleAmount > b.DepositAmount ? "red" : "green",
-                //                   POSBalance = b.POSBalance
-                //               }).OrderByDescending(s => s.Balance).ToList();
 
                 var vendorStatus = _meterManager.GetVendorStatus();
 

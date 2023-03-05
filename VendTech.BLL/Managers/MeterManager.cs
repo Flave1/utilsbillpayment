@@ -388,7 +388,7 @@ namespace VendTech.BLL.Managers
                 model.RecordsPerPage = 10;
             }
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.Take(model.RecordsPerPage).OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -400,8 +400,7 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-
-            var list = query.AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -669,6 +668,7 @@ namespace VendTech.BLL.Managers
                 db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
+                //db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
                 Context.TransactionDetails.Add(db_transaction_detail);
 
                 SaveSales();
@@ -737,6 +737,7 @@ namespace VendTech.BLL.Managers
 
         }
 
+        long generateTrxTableKey() => Context.TransactionDetails.Max(x => x.TransactionDetailsId) + 1;
 
         private Dictionary<string, TransactionDetail> QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
@@ -1408,77 +1409,78 @@ namespace VendTech.BLL.Managers
             var res = new PagingResult<VendorStatus>();
             try
             {
-                var result = (from tbl in (
-                   from Deposits in Context.Deposits
-                   group Deposits by new 
-                   {
-                       Deposits.UserId,
-                       Deposits.CreatedAt
-                   } into g
-                   select new VendorStatus
-                   {
-                       userid = g.Key.UserId,
-                       vendor = "",
-                       totaldeposits = 0,
-                       totalsales = (decimal)0,
-                       runningbalance = 0,
-                       POSBalance = 0,
-                       overage = 0,
-                       PercentageAmount = SqlFunctions.DatePart("month", g.Key.CreatedAt) < 7 &&
-                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ||
-                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2021 ? (System.Decimal?)g.Sum(p => p.PercentageAmount / 1000) :
-                             SqlFunctions.DatePart("month", g.Key.CreatedAt) > 6 &&
-                             SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ? (System.Decimal?)g.Sum(p => p.PercentageAmount) : null
-                        }).Concat(from TransactionDetails in Context.TransactionDetails
-                             where
-                            TransactionDetails.Status == 1
-                             group TransactionDetails by new
+                var date = DateTime.Parse("2022/07/01");
+                var query = (from tbl in ( from Deposits in Context.Deposits
+                            group Deposits by new DepTrans1
+                            {
+                                UserId = Deposits.UserId,
+                                CreatedAt = Deposits.CreatedAt,
+                                AgencyCommission = Deposits.AgencyCommission,
+                                TransactionId = Deposits.TransactionId,
+                                NewBalance = Deposits.NewBalance
+                            } into vv
+                            select new Dep1
+                            {
+                                CreatedAt = vv.Key.CreatedAt,
+                                TransactionId = vv.Key.TransactionId,
+                                UserId = vv.Key.UserId,
+                                NewBalance = vv.Key.NewBalance,
+                                PercentageAmount =
+                               DbFunctions.TruncateTime(vv.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount) :
+                              DbFunctions.TruncateTime(vv.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount / 1000) : null,
+                                Totalsales = (decimal?)0,
+                                AgencyCommission = vv.Key.AgencyCommission
+                            }
+                        ).Concat(from TransactionDetails in Context.TransactionDetails where  TransactionDetails.Status == 1
+                                    group TransactionDetails by new
+                                    {
+                                        TransactionDetails.UserId,
+                                        TransactionDetails.CreatedAt,
+                                        TransactionDetails.TransactionId,
+                                        TransactionDetails.CurrentVendorBalance
+                                    } into bb
+                                    select new Dep1
+                                    {
+                                        CreatedAt = bb.Key.CreatedAt,
+                                        TransactionId = bb.Key.TransactionId,
+                                        UserId = bb.Key.UserId,
+                                        NewBalance = bb.Key.CurrentVendorBalance,
+                                        PercentageAmount = (decimal?)0,
+                                        Totalsales =
+                                          DbFunctions.TruncateTime(bb.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount) :
+                                          DbFunctions.TruncateTime(bb.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount / 1000) : null,
+                                        AgencyCommission = (decimal?)0
+                                    }
+                                )
+
+                             join POS in Context.POS on new { VendorId = tbl.UserId } equals new { VendorId = POS.VendorId ?? 0}
+                             join Users in Context.Users on new { UserId = (long)tbl.UserId } equals new { UserId = Users.UserId }
+                             group new { tbl, Users, POS } by new
                              {
-                                 TransactionDetails.UserId,
-                                 TransactionDetails.CreatedAt
+                                 tbl.UserId,
+                                 Users.Vendor,
+                                 POS.Balance
                              } into g
+                             where (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)) > 0 &&
+                               (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)) != g.Key.Balance
+                             orderby
+                               (g.Key.Balance - (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)))
                              select new VendorStatus
                              {
+                                userid = g.Key.UserId,
+                                 vendor = g.Key.Vendor,
+                                 totaldeposits = (decimal?)g.Sum(p => p.tbl.PercentageAmount),
+                                 totalsales = (int?)g.Sum(p => p.tbl.Totalsales),
+                                 runningbalance = (decimal?)(g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)),
+                                 POSBalance = g.Key.Balance,
+                                 overage = (decimal?)((g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)) - g.Key.Balance)
+                             }).Where(x => x.overage.ToString().StartsWith("-")).ToList();
 
-                                 userid = g.Key.UserId,
-                                 vendor = "",
-                                 totaldeposits = 0,
-                                 totalsales = SqlFunctions.DatePart("month", g.Key.CreatedAt) < 7 &&
-                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ||
-                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2021 ? (System.Decimal?)g.Sum(p => p.Amount / 1000) :
-                                    SqlFunctions.DatePart("month", g.Key.CreatedAt) > 6 &&
-                                    SqlFunctions.DatePart("year", g.Key.CreatedAt) == 2022 ? (System.Decimal?)g.Sum(p => p.Amount) : null,
-                                 runningbalance = 0,
-                                 POSBalance = 0,
-                                 overage = 0,
-                                 PercentageAmount = (System.Decimal?)0,
-                             }
-               )
-                              join POS in Context.POS on tbl.userid equals POS.VendorId
-                              join Users in Context.Users on tbl.userid equals Users.UserId
-                              group new { tbl, Users, POS } by new
-                              {
-                                  tbl.userid,
-                                  Users.Vendor,
-                                  POS.Balance
-                              } into g
-                              where (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) > 0 &&
-                                (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) != g.Key.Balance
-                              orderby
-                                (g.Key.Balance - (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)))
-                              select new VendorStatus
-                              {
-                                  userid = g.Key.userid,
-                                  vendor = g.Key.Vendor,
-                                  totaldeposits = g.Sum(p => p.tbl.PercentageAmount),
-                                  totalsales = (int?)g.Sum(p => p.tbl.totalsales),
-                                  runningbalance = (decimal?)(g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)),
-                                  POSBalance = g.Key.Balance,
-                                  overage = (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.totalsales)) - g.Key.Balance,
-                                  PercentageAmount = g.Sum(p => p.tbl.PercentageAmount),
-                              }).ToList();
 
-                res.List = result;
+
+                
+
+                 res.List = query;
             }
             catch (Exception ex)
             {
@@ -1741,7 +1743,7 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
             }
 
-            if(type == "daily")
+            if (type == "daily")
             {
                 var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
                 {
@@ -1774,6 +1776,8 @@ namespace VendTech.BLL.Managers
             return result;
 
         }
+
+
 
     }
 }

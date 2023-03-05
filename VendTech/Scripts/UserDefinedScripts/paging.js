@@ -1,7 +1,7 @@
 ﻿var paging = {
     startIndex: 1,
     currentPage: 0,
-    pageSize: 10,
+    pageSize: 100,
     pagingWrapper: 'pagingWrapper1',
     first: 'first',
     last: 'last',

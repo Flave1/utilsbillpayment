@@ -1307,7 +1307,7 @@ namespace VendTech.BLL.Managers
 
         UserLogo IUserManager.GetUserLogo(long userId)
         {
-            return new UserLogo { Image = Context.Users.FirstOrDefault(d => d.UserId == userId).ProfilePic };
+            return new UserLogo { Image = Context.Users.FirstOrDefault(d => d.UserId == userId)?.ProfilePic };
         }
 
 

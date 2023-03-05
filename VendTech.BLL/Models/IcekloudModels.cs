@@ -159,7 +159,7 @@ namespace VendTech.BLL.Models
          
         public string Provider { get; set; }
          
-        public long SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
 
         public Tym2SellVoucher Tym2SellVoucher { get; set; } = new Tym2SellVoucher();
          
