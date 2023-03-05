@@ -16,6 +16,8 @@ using VendTech.BLL.Common;
 using System.Web.Configuration;
 using VendTech.Areas.Admin.Controllers;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
+using VendTech.DAL;
 #endregion
 
 namespace VendTech.Controllers
@@ -143,9 +145,24 @@ namespace VendTech.Controllers
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
                 CreateCustomAuthorisationCookie(data.Object.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
-              
+                SendEmailOnLogin();
+
             }
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        private void SendEmailOnLogin()
+        {
+            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.NewAppUser);
+            if (emailTemplate.TemplateStatus)
+            {
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%PASSWORD%", "Flave");
+                body = body.Replace("%USER%", "Flave");
+                body = body.Replace("%POSID%", "Flave");
+                string to = "favouremmanuel433@gmail.com";
+                Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+            }
         }
         /// <summary>
         /// About Us Page

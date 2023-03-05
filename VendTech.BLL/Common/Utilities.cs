@@ -13,6 +13,8 @@ using System.Net.Mail;
 using System.Net;
 using VendTech.DAL;
 using System.Globalization;
+using VendTech.BLL.Interfaces;
+using System.Xml.Linq;
 
 namespace VendTech.BLL.Common
 {
@@ -307,32 +309,102 @@ namespace VendTech.BLL.Common
 
         }
         public static bool SendEmail(string to, string sub, string body)
-        { 
+        {
+            string from =  WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password =  WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient();
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //LogProcessToDatabase("About to start", body);
+                //MailMessage mail = new MailMessage();
+                //SmtpClient SmtpServer = new SmtpClient();
 
-                mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                mail.To.Add(to);
-                mail.Subject = sub;
-                mail.Body = body;
+                //mail.From = new MailAddress(from, displayName);
+                //mail.To.Add(to);
+                //mail.Subject = sub;
+                //mail.Body = body;
+                //mail.IsBodyHtml = true;
+                //mail.BodyEncoding = Encoding.UTF8;
+
+                //LogProcessToDatabase("Created Payload", body);
+
+                ////SmtpServer.EnableSsl = true;
+                //SmtpServer.Port = 587;//25;
+                //SmtpServer.UseDefaultCredentials = false;
+                //SmtpServer.Credentials = new NetworkCredential(from, password);
 
 
-                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                //SmtpServer.Port = 587;
-                ////SmtpServer.UseDefaultCredentials = false;
-                ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                // SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true;
-                mail.BodyEncoding = Encoding.UTF8;
-                SmtpServer.Send(mail);
+                //LogProcessToDatabase("About to send", body);
+                //SmtpServer.Send(mail);
+                //LogProcessToDatabase("Mail sent", mail);
+                //return true;
 
+                LogProcessToDatabase("About to start", body);
+
+                MailMessage msg = new MailMessage();
+
+                msg.To.Add(to);
+
+                MailAddress address = new MailAddress(from);
+                msg.From = address;
+                msg.Subject = sub;
+                msg.Body = body;
+                msg.IsBodyHtml = true;
+                msg.BodyEncoding = Encoding.UTF8;
+
+                LogProcessToDatabase("Created Payload", body);
+                SmtpClient client = new SmtpClient();
+                client.Host = "relay-hosting.secureserver.net";
+                client.Port = 25;
+
+                //Send the msg
+                client.Send(msg);
+
+                LogProcessToDatabase("About to send", body);
+
+                client.Send(msg);
+
+
+                LogProcessToDatabase("Mail sent", msg);
                 return true;
+
+
             }
             catch (Exception x)
-            { return true; }
+            {
+                LogExceptionToDatabase(x);
+                return true;
+            }
 
+        }
+
+        static void LogExceptionToDatabase(Exception exc)
+        {
+            var context = new VendtechEntities();
+            ErrorLog errorObj = new ErrorLog();
+            errorObj.Message = exc.Message;
+            errorObj.StackTrace = exc.StackTrace;
+            errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
+            errorObj.LoggedInDetails = "";
+            errorObj.LoggedAt = DateTime.UtcNow;
+            context.ErrorLogs.Add(errorObj);
+            // To do
+            context.SaveChanges();
+        }
+
+        static void LogProcessToDatabase(string Message, object data)
+        {
+            var context = new VendtechEntities();
+            ErrorLog errorObj = new ErrorLog();
+            errorObj.Message = Message;
+            errorObj.StackTrace = typeof(Utilities).ToString();
+            errorObj.InnerException = "";
+            errorObj.LoggedInDetails = "";
+            errorObj.LoggedAt = DateTime.UtcNow;
+            context.ErrorLogs.Add(errorObj);
+            // To do
+            context.SaveChanges();
         }
         public static string Base64Decode(string base64EncodedData)
         {

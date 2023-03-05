@@ -224,3 +224,35 @@ One or more errors occurred.
 
 
 
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

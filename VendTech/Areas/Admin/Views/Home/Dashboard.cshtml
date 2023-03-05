@@ -1,4 +1,4 @@
-﻿@model DashboardViewModel
+﻿﻿@model DashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
@@ -15,9 +15,11 @@
         .data-info > div {
             width: 100%;
         }
-        .data-info > div:first-child {
-            text-align:left;
-        }
+
+            .data-info > div:first-child {
+                text-align: left;
+            }
+
     .transDate {
         width: 100%;
     }
@@ -32,7 +34,7 @@
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile" >
+                        <div class="widget widget-tile">
                             <div class="data-info ">
                                 <div class="desc">RTS Balance</div>
                                 <div class="value">
@@ -150,15 +152,6 @@
 
     <script type="text/javascript">
 
-        setInterval(function () {
-            $.ajax({
-                url: '/Admin/Home/ReturnDealerBalance',
-                success: function (data) {
-                    $("#dealerBal").text(data.result.LastDealerBalance);
-                    $("#transDate").text(data.result.RequestDate);
-                }
-            })
-        }, 3000);
 
         setInterval(function () {
 
