@@ -145,7 +145,7 @@ namespace VendTech.Controllers
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
                 CreateCustomAuthorisationCookie(data.Object.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
-                SendEmailOnLogin();
+
 
             }
             return Json(data, JsonRequestBehavior.AllowGet);

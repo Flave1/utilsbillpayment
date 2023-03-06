@@ -308,7 +308,7 @@ namespace VendTech.BLL.Common
             { throw x; }
 
         }
-        public static bool SendEmail(string to, string sub, string body)
+        public static bool SendEmail11(string to, string sub, string body)
         {
             string from =  WebConfigurationManager.AppSettings["SMTPFrom"].ToString();
             string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
@@ -370,6 +370,55 @@ namespace VendTech.BLL.Common
             {
                 LogExceptionToDatabase(x);
                 return true;
+            }
+
+        }
+
+        public static void SendEmail(string to, string sub, string body)
+        {
+            string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
+            try
+            {
+
+                var mimeMsg = new MimeMessage();
+                var frms = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, from),
+                };
+                var tos = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, to),
+                };
+                mimeMsg.From.AddRange(frms);
+                mimeMsg.To.AddRange(tos);
+                mimeMsg.Subject = sub;
+
+                mimeMsg.Body = new TextPart("html")
+                {
+                    Text = body
+                };
+
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    client.Connect("smtp.gmail.com", 465);
+
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    client.Authenticate(from, password);
+
+                    client.Send(mimeMsg);
+
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception x)
+            {
+                LogExceptionToDatabase(x);
+                //return true;
             }
 
         }
