@@ -131,6 +131,13 @@ namespace VendTech.BLL.Models
         public string Phone { get; set; }
         public long VendorId { get; set; }
     }
+
+    public class PosSelectItem
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+        public int? Percentage { get; set; }
+    }
     public class RestPassCodeModel
     {  
         public string Email { get; set; } 
