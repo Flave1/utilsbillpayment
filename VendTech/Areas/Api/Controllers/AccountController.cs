@@ -283,7 +283,7 @@ namespace VendTech.Areas.Api.Controllers
                         body = body.Replace("%OTP%", otp);
                         if (!string.IsNullOrEmpty(user.Email))
                         {
-                            Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
                         }
 
                         var msg = new SendSMSRequest
