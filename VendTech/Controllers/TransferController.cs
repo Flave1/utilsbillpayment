@@ -50,13 +50,13 @@ namespace VendTech.Controllers
                 SignOut();
                 return View("Index", "Home", new {area = ""});
             }
-            var agencyPos = _posManager.ReturnAgencyAdminPOS(40251); //LOGGEDIN_USER.UserID);
+            var agencyPos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
             if(ModulesModel.Any())
             {
                 return View(new TransferViewModel 
                 {
-                    CanTranferToOwnVendors = true, // ModulesModel.Any(s => s.ControllerName.Contains("32")),
-                    CanTranferToOtherVendors = true,// ModulesModel.Any(s => s.ControllerName.Contains("33")),
+                    CanTranferToOwnVendors = ModulesModel.Any(s => s.ControllerName.Contains("32")),
+                    CanTranferToOtherVendors = ModulesModel.Any(s => s.ControllerName.Contains("33")),
                     Vendor = LOGGEDIN_USER?.AgencyName,
                     AdminBalance = Utilities.FormatAmount(agencyPos.Balance),
                     AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,
@@ -94,11 +94,11 @@ namespace VendTech.Controllers
                     SignOut();
                 }
                 var reference = Utilities.GenerateByAnyLength(6).ToUpper();
-
+                var frompos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
                 var depositDr = new Deposit
                 {
                     Amount = Decimal.Negate(request.Amount),
-                    POSId = request.FromPosId,
+                    POSId = frompos.POSId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = Decimal.Negate(request.Amount),
@@ -106,7 +106,8 @@ namespace VendTech.Controllers
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
                 };
-                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId);
+
+                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId, frompos);
 
                 
                 if(result1.Status == ActionStatus.Successfull)
@@ -122,12 +123,12 @@ namespace VendTech.Controllers
                         ValueDate = DateTime.UtcNow.ToString(),
                         ValueDateStamp = DateTime.UtcNow
                     };
-                    var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
+                    var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, frompos, request.otp);
 
                     if (result2.Status == ActionStatus.Successfull)
                     {
-                        SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        //await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }
@@ -234,7 +235,7 @@ namespace VendTech.Controllers
                     body = body.Replace("%otp%", result.Object);
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
-                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    //Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
                 }
 
                 var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);

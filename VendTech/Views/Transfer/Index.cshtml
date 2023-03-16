@@ -44,11 +44,11 @@
                                                     <div class=" row align-items-center">
                                                         <div class="col-md-6">
                                                             <h5><label>TRANSFER FROM</label> </h5>
-                                                            <input type="text" class="form-control mb-2 rounded" id="filterAgencyFromVendors" autocomplete="off" placeholder="Search vendors to transfer from.... ">
-                                                            <nav class="agencyFromVendors" id="agencyFromVendors"></nav>
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos"  id="filterAgencyFromVendors" autocomplete="off" >
+                                                            @*<nav class="agencyFromVendors" id="agencyFromVendors"></nav>*@
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <h5><strong id="agencySenderDisplay"></strong></h5>
+                                                            <h5><strong id="agencySenderDisplay">BALANCE: NLe @Model.AdminBalance</strong></h5>
                                                         </div>
                                                     </div>
                                                     <div class="row align-items-center">
@@ -64,7 +64,7 @@
                                                     <div class="row align-items-center">
                                                         <div class="col-md-4">
                                                             <h5><label>TRANSFER AMOUNT</label> </h5>
-                                                            <input type="text" class="form-control mb-2 rounded" onkeypress="javascript:return transferHandler.isNumber(event)" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value)">
+                                                            <input type="text" class="form-control mb-2 rounded" onkeypress="javascript:return transferHandler.isNumber(event)" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value, '@Model.AdminBalance')">
                                                         </div>
                                                     </div>
                                                     <div class="row push-item-right col-md-6">
@@ -81,7 +81,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <button type="button" onclick="transferHandler.transferToVendor(this)" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
+                                                    <button type="button" onclick="transferHandler.transferToVendor(this, '@Model.AdminBalance')" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
                                                 </div>
                                             </form>
                                         </div>
