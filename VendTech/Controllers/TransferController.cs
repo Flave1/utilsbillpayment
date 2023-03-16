@@ -50,13 +50,13 @@ namespace VendTech.Controllers
                 SignOut();
                 return View("Index", "Home", new {area = ""});
             }
-            var agencyPos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
+            var agencyPos = _posManager.ReturnAgencyAdminPOS(40251); //LOGGEDIN_USER.UserID);
             if(ModulesModel.Any())
             {
                 return View(new TransferViewModel 
                 {
-                    CanTranferToOwnVendors = ModulesModel.Any(s => s.ControllerName.Contains("32")),
-                    CanTranferToOtherVendors = ModulesModel.Any(s => s.ControllerName.Contains("33")),
+                    CanTranferToOwnVendors = true, // ModulesModel.Any(s => s.ControllerName.Contains("32")),
+                    CanTranferToOtherVendors = true,// ModulesModel.Any(s => s.ControllerName.Contains("33")),
                     Vendor = LOGGEDIN_USER?.AgencyName,
                     AdminBalance = Utilities.FormatAmount(agencyPos.Balance),
                     AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,

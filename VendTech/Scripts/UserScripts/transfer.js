@@ -314,6 +314,7 @@ var transferHandler = {
     },
 
     transferToVendor: function (sender) {
+        debugger
         if (transferHandler.transferFrom) {
             if (!transferHandler.transferTo) {
                 $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
