@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
@@ -59,7 +58,7 @@ namespace VendTech.Controllers
                     CanTranferToOtherVendors = ModulesModel.Any(s => s.ControllerName.Contains("33")),
                     Vendor = LOGGEDIN_USER?.AgencyName,
                     AdminBalance = Utilities.FormatAmount(agencyPos.Balance),
-                    AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,
+                    AdminName = LOGGEDIN_USER?.AgencyName, //+ " - " + agencyPos.SerialNumber, //agencyPos.User.Name + " " + agencyPos.User.SurName,
                     AdminPos = agencyPos.SerialNumber,
                     AdminPosId = agencyPos.POSId
                 });
@@ -72,7 +71,10 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult GetAllAgencyAdminVendors(FetchItemsModel request)
         {
-            var vendorList = _transferManager.GetAllAgencyAdminVendors(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
+            var vendorList = _transferManager
+                .GetAllAgencyAdminVendors(
+                PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), 
+                LOGGEDIN_USER.AgencyId, LOGGEDIN_USER.UserID);
             return Json(new { result = JsonConvert.SerializeObject(vendorList.List) });
         }
 

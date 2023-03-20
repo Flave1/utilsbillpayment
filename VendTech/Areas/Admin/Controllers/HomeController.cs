@@ -100,8 +100,12 @@ namespace VendTech.Areas.Admin.Controllers
                 JustLoggedin = true;
                 var PermissonAndDetailModel = new PermissonAndDetailModelForAdmin();
                 PermissonAndDetailModel.UserDetails = data.Object; 
-                PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID)
-                    .Where(e => e.ControllerName != "19" && e.ControllerName != "20" && e.ControllerName != "1" && e.ControllerName != "23" && e.ControllerName != "18" && e.ControllerName != "27").ToList(); 
+                PermissonAndDetailModel.ModulesModelList = 
+                    _userManager.GetAllModulesAtAuthentication(data.Object.UserID)
+                        .Where(e => e.ControllerName != "19" && e.ControllerName != "20" 
+                        && e.ControllerName != "1" && e.ControllerName != "23" 
+                        && e.ControllerName != "18" && e.ControllerName != "27" && e.ControllerName != "32" && e.ControllerName != "31" && e.ControllerName != "33")
+                    .ToList();
                 CreateCustomAuthorisationCookie(model.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
             }
             return Json(data, JsonRequestBehavior.AllowGet);

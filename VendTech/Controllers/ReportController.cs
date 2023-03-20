@@ -17,7 +17,6 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using VendTech.Areas.Admin.Controllers;
 using System.Drawing;
 using System.Threading.Tasks;
 using Newtonsoft.Json;

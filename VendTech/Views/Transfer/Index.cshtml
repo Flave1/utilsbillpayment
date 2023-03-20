@@ -1,4 +1,6 @@
-﻿@model TransferViewModel
+﻿@using Newtonsoft.Json;
+@model TransferViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -44,7 +46,7 @@
                                                     <div class=" row align-items-center">
                                                         <div class="col-md-6">
                                                             <h5><label>TRANSFER FROM</label> </h5>
-                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos"  id="filterAgencyFromVendors" autocomplete="off" >
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName - ADMIN - @Model.AdminPos"  id="filterAgencyFromVendors" autocomplete="off" >
                                                             @*<nav class="agencyFromVendors" id="agencyFromVendors"></nav>*@
                                                         </div>
                                                         <div class="col-md-6">
@@ -109,7 +111,7 @@
                                                     <div class="row align-items-center">
                                                         <div class="col-md-6">
                                                             <h5><label>TRANSFER FROM</label> </h5>
-                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName - ADMIN -  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
                                                             <nav class="otherAgencyFromVendors" id="otherAgencyFromVendors"></nav>
                                                         </div>
                                                         <div class="col-md-6">
@@ -172,4 +174,15 @@
 </div>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/UserScripts/transfer.js"></script>
+<script>
+    $(document).ready(function () {
+        const frm = {
+            Balance: '@Model.AdminBalance',
+            POSID: '@Model.AdminPosId',
+            Vendor: '@Model.Vendor' + ' - ADMIN - ' + '@Model.AdminPos',
+        }
 
+        transferHandler.transferFrom = frm
+        console.log('from', transferHandler.transferFrom)
+});
+</script>

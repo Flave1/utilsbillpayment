@@ -347,7 +347,11 @@ var transferHandler = {
             return
         }
 
-        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+        console.log('transferTo', transferHandler.transferTo)
+        $.ConfirmBox("", `TRANSFER CONFIRMATION 
+        \n \n TRANSFER FROM: ${transferHandler.transferFrom.Vendor} 
+        \n \n TRANSFER TO: ${transferHandler.transferTo.Vendor}  -- ${transferHandler.transferTo.SerialNumber}
+        \n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
 
             if (!transferHandler.sentOtp) {
                 transferHandler.sendOtp(sender);
@@ -390,8 +394,10 @@ var transferHandler = {
             transferHandler.sendFormData1(sender, request);
             return
         }
-
-        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+        $.ConfirmBox("", `TRANSFER CONFIRMATION 
+        \n \n  TRANSFER FROM: ${transferHandler.transferFrom.vendor} 
+        \n \n TRANSFER TO: ${transferHandler.transferTo.Vendor} -- ${transferHandler.transferTo.SerialNumber}
+        \n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
 
             if (!transferHandler.sentOtp) {
                 transferHandler.sendOtp(sender);
