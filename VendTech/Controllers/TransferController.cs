@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;

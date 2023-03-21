@@ -3401,14 +3401,6 @@
     <Content Include="Areas\Admin\Views\PlatformApi\EditApiConnection.cshtml" />
     <Content Include="Areas\Admin\Views\PlatformApi\ConfigureApiConnection.cshtml" />
     <Content Include="Areas\Admin\Views\PlatformTransaction\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />

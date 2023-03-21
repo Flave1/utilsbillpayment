@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Models;

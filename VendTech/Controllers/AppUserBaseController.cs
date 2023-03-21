@@ -10,7 +10,6 @@ using System.Web.Security;
 
 #region Custom Namespaces
 using VendTech.Attributes;
-using VendTech.Controllers;
 using VendTech.BLL.Models;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
@@ -18,7 +17,7 @@ using VendTech.BLL.Common;
 using Newtonsoft.Json;
 #endregion
 
-namespace VendTech.Areas.Admin.Controllers
+namespace VendTech.Controllers
 {
     /// <summary>
     /// This controller will work as a base controller for the admin section of the application
@@ -40,13 +39,13 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="filter_context"></param>
         protected override void OnAuthorization(AuthorizationContext filter_context)
         {
-            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie]; 
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
             IAuthenticateManager authenticateManager = new AuthenticateManager();
             var minutes = authenticateManager.GetLogoutTime();
             var model = new PermissonAndDetailModel();
             ViewBag.Minutes = minutes;
             #region If auth cookie is present
-            if (auth_cookie != null  && !string.IsNullOrEmpty(auth_cookie.Value))
+            if (auth_cookie != null && !string.IsNullOrEmpty(auth_cookie.Value))
             {
                 #region If LoggedInUser is null
                 if (LOGGEDIN_USER == null)
@@ -63,7 +62,7 @@ namespace VendTech.Areas.Admin.Controllers
                         }
                         else
                         {
-                           // SignOut();
+                            // SignOut();
                         }
 
                     }
@@ -74,7 +73,7 @@ namespace VendTech.Areas.Admin.Controllers
                             auth_cookie.Expires = DateTime.Now.AddDays(-30);
                             Response.Cookies.Add(auth_cookie);
                             JustLoggedin = false;
-                            filter_context.Result = RedirectToAction("index", "home"); 
+                            filter_context.Result = RedirectToAction("index", "home");
                         }
                         Console.WriteLine(ex.ToString());
                     }
@@ -115,7 +114,8 @@ namespace VendTech.Areas.Admin.Controllers
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
-                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("index", "home", new { returnUrl = Server.UrlEncode(Request.RawUrl) });
+                //, new { returnUrl = Server.UrlEncode(Request.RawUrl) }
+                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("index", "home");
                 else filter_context.Result = Json(new ActionOutput
                 {
                     Status = ActionStatus.Error,
@@ -123,7 +123,7 @@ namespace VendTech.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             #endregion
-         
+
             #region if authorization cookie is not present and the action method being called is marked with the [Public] attribute
             else
             {
@@ -137,7 +137,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated && LOGGEDIN_USER.LastActivityTime != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
             {
                 SignOut();
-                filter_context.Result = RedirectToAction("Index", "Home"); 
+                filter_context.Result = RedirectToAction("Index", "Home");
             }
 
             else if (LOGGEDIN_USER != null && LOGGEDIN_USER.IsAuthenticated)
@@ -160,7 +160,7 @@ namespace VendTech.Areas.Admin.Controllers
         /// <param name="user_name"></param>
         /// <param name="is_persistent"></param>
         /// <param name="custom_data"></param>
-        protected override void CreateCustomAuthorisationCookie(String user_name, Boolean is_persistent, String custom_data)
+        protected override void CreateCustomAuthorisationCookie(string user_name, bool is_persistent, string custom_data)
         {
             FormsAuthenticationTicket auth_ticket =
                 new FormsAuthenticationTicket(
@@ -170,7 +170,7 @@ namespace VendTech.Areas.Admin.Controllers
                     is_persistent, custom_data, ""
                 );
 
-            String encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
+            string encrypted_ticket_ud = FormsAuthentication.Encrypt(auth_ticket);
             HttpCookie auth_cookie_ud = new HttpCookie(Cookies.AuthorizationCookie, encrypted_ticket_ud);
             if (is_persistent) auth_cookie_ud.Expires = auth_ticket.Expiration;
             System.Web.HttpContext.Current.Response.Cookies.Add(auth_cookie_ud);
