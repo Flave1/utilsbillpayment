@@ -1777,7 +1777,68 @@ namespace VendTech.BLL.Managers
 
         }
 
+        //private static IceKloudResponse Make_recharge_request_from_icekloud(RechargeMeterModel model)
+        //{
+        //    IceKloudResponse response = new IceKloudResponse();
+        //    string strings_result = string.Empty;
+        //    IcekloudRequestmodel request_model = new IcekloudRequestmodel();
+        //    HttpResponseMessage icekloud_response = new HttpResponseMessage();
+        //    HttpClient _http_client = new HttpClient();
+        //    string url = (WebConfigurationManager.AppSettings["IsDevelopment"].ToString() == "1") ?
+        //                 WebConfigurationManager.AppSettings["DevIcekloudURL"].ToString() :
+        //                 WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
 
+        //    try
+        //    {
+        //        request_model = Buid_new_request_object(model);
+
+        //        icekloud_response = _http_client.PostAsJsonAsync(url, request_model).Result;
+
+        //        strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
+        //        response = JsonConvert.DeserializeObject<IceKloudResponse>(strings_result);
+        //        response.RequestModel = request_model;
+        //        return response;
+        //    }
+        //    catch (AggregateException err)
+        //    {
+        //        foreach (var errInner in err.InnerExceptions)
+        //        {
+        //            Debug.WriteLine(errInner);
+        //        }
+        //        throw new AggregateException();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        try
+        //        {
+        //            IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
+
+        //            if (error_response.Status == "Error")
+        //            {
+        //                if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
+        //                {
+        //                    response.Status = "unsuccesful";
+        //                    response.Content.Data.Error = error_response.SystemError;
+        //                    response.RequestModel = request_model;
+        //                    return response;
+        //                }
+        //                if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
+        //                {
+        //                    model.TransactionId = model.TransactionId + 1;
+        //                    return Make_recharge_request_from_icekloud(model);
+        //                }
+
+
+        //                response.Status = error_response?.Status;
+        //                response.Content.Data.Error = error_response?.Stack.ToArray()[0]?.Detail ?? error_response?.SystemError;
+        //                response.RequestModel = request_model;
+        //                return response;
+        //            }
+        //        }
+        //        catch (Exception e) { throw e; }
+        //        throw;
+        //    }
+        //}
 
     }
 }

@@ -47,7 +47,7 @@ namespace VendTech.Controllers
             if(LOGGEDIN_USER == null)
             {
                 SignOut();
-                return View("Index", "Home", new {area = ""});
+                return View("Index", "Home");
             }
             var agencyPos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
             if(ModulesModel.Any())

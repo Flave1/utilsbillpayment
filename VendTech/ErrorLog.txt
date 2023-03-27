@@ -316,3 +316,213 @@ c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Vie
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RtsedsaTransaction', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Attempted to access a missing method.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
