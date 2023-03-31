@@ -66,14 +66,28 @@
                             </ul>
                         </li>
                     }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0)
+                    {
+                        <li class="@(ViewBag.SelectedParentTab == SelectedAdminTab.RTSEDSA ? "open" : "")">
+                            <a href="#"><i class="fa fa-th"></i><span>RTS/EDSA</span></a>
+                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Platforms ? "display:block;" : "display:none;")">
+                                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
+                                {
+                                    <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.RTSInquiry ? "active" : "")" href="@Url.Action("Inquiry", "RTSEDSAReport", new { area = "Admin" })"> Customers enquiries</a></li>
+                                    <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.RTSTransaction ? "active" : "")" href="@Url.Action("Transactions", "RTSEDSAReport", new { area = "Admin" })">Shift Enquiry</a></li>
+                                }
+                            </ul>
+                        </li>
+
+                    }
 
                     @if (assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
                     {
-                        @*<li><a href="@Url.Action("ManageReports", "Report", new { area = "Admin" })"><i class="fa fa-list-alt"></i><span>Manage Reports</span></a></li>*@
-                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active" : "")" href="@Url.Action("Index", "RTSEDSAReport", new { area = "Admin" })"><i class="fa fa-th"></i> RTS/EDSA Reports</a></li>
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active" : "")" href="@Url.Action("ManageReports", "Report", new { area = "Admin" })"><i class="fa fa-th"></i> Manage Reports</a></li>
 
                     }
+
+
 
 
 

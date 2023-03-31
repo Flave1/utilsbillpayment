@@ -415,7 +415,7 @@ namespace VendTech.BLL.Models
             PaymentType = obj.PaymentType;
 
             GTBank = obj.BankAccount.BankName;
-            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
+            Payer = obj.PaymentType != 4 ? !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "": obj.User.Agency.User.Vendor;
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");

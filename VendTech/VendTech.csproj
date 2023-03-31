@@ -470,6 +470,7 @@
     <Content Include="Areas\Admin\Views\Agent\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
+    <Content Include="Areas\Admin\Views\RTSEDSAReport\Transactions.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
@@ -534,7 +535,7 @@
     <Content Include="Views\Privacy\Policy.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\partials\_salesListing.cshtml" />
-    <Content Include="Areas\Admin\Views\RTSEDSAReport\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RTSEDSAReport\Inquiry.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -1,4 +1,4 @@
-﻿@model AddUserModel
+﻿﻿@model AddUserModel
 
 @{
     ViewBag.Title = "Edit APP User Details";
@@ -67,25 +67,25 @@
                                     </div>
 
                                     @*<div class="form-group">
-            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
-            <div class="col-sm-12">
-                <div class="input-group">
-                    @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-12"})
-                </div>
-                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
-            </div>
-        </div>
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
+                                            <div class="col-sm-12">
+                                                <div class="input-group">
+                                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-12"})
+                                                </div>
+                                                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+                                            </div>
+                                        </div>
 
 
-        <div class="form-group">
-            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
-            <div class="col-sm-12">
-                <div class="input-group">
-                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control col-md-12" })
-                </div>
-                <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
-            </div>
-        </div>*@
+                                        <div class="form-group">
+                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+                                            <div class="col-sm-12">
+                                                <div class="input-group">
+                                                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control col-md-12" })
+                                                </div>
+                                                <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+                                            </div>
+                                        </div>*@
                                     <div class="form-group">
                                         <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
                                         <div class="col-md-12">
@@ -136,28 +136,28 @@
 
 
                                 @*  @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
-                            {
+                                                        {
 
-                                <div class="row">
-            <div class=" col-md-12">
-                <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
-                <div class="col-md-8">
-                    <input type="file" name="ImagefromWeb">
-                </div>
-            </div>
-        </div>*@
+                                                            <div class="row">
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">Select Profile Pic</label>
+                                            <div class="col-md-8">
+                                                <input type="file" name="ImagefromWeb">
+                                            </div>
+                                        </div>
+                                    </div>*@
 
 
                                 @*<div class="row">
-            <div class=" col-md-12">
-                <label for="inputEmail3" class="col-md-2 control-label">Profile Pic</label>
-                <div class="col-md-2">
-                    <img src="@Model.ProfilePicUrl" style="width:100px;height:100px;" />
-                </div>
-            </div>
+                                        <div class=" col-md-12">
+                                            <label for="inputEmail3" class="col-md-2 control-label">Profile Pic</label>
+                                            <div class="col-md-2">
+                                                <img src="@Model.ProfilePicUrl" style="width:100px;height:100px;" />
+                                            </div>
+                                        </div>
 
-        </div>
-                            }*@
+                                    </div>
+                                                        }*@
 
 
                                 <div class="col-md-4">
@@ -166,12 +166,12 @@
 
                                         <div class=" col-md-12">
                                             @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
-                                                       .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                       .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                       .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                       .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                       .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                       .ToList();
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                        .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                        .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                        .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
@@ -216,18 +216,15 @@
         var value ='@(Model.UserType==appUserVal)'
         var appUserEdit = value == "True";
 
-  
+
 
 
         $(document).ready(function () {
-
-
-
            if ('@Model.UserId' != '0') {
                $("#Password").val('@Model.Password');
                $("#ConfirmPassword").val('@Model.Password');
            }
-            App.init(); 
+            App.init();
         });
     </script>
 }

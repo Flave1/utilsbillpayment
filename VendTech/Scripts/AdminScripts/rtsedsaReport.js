@@ -1,62 +1,53 @@
 ﻿$(document).ready(function () {
 
     $("#btnFilterSearch").live("click", function () {
-        return RtsEdsaHandler.Search($(this));
+        return RtsEdsaHandler.SearchTransactions($(this));
+    });
+    $("#btnFilterSearch2").live("click", function () {
+        return RtsEdsaHandler.SearchInquiry($(this));
+    });
+
+    $('#vendor').on("change", function () {
+        RtsEdsaHandler.GetMeterNumbers($(this).val());
     });
 });
 
 
 
 var RtsEdsaHandler = {
-    Search: function (dated) {
+    SearchInquiry: function (dated) {
         var obj = new Object();
+        var FromDate = $('#FromDate').val();
+        var ToDate = $('#ToDate').val();
+        obj.fromdate = this.getUnixDate(FromDate);
+        obj.todate = this.getUnixDate(ToDate);
+        obj.meterSerial = $('#meterSerial').val();
 
-        debugger
-        var dateString = $('#FromDate').val();
-
-        //const providedDate = new Date(date);
-        //const unixEpochMilliseconds = providedDate.getTime();
-        //const unixEpochSeconds = Math.floor(unixEpochMilliseconds / 1000);
-
-
-        var parts = dateString.split('/');
-        var year = parseInt(parts[2], 10);
-        var month = parseInt(parts[1], 10) - 1; // Months are zero-indexed
-        var day = parseInt(parts[0], 10);
-
-        var date = new Date(year, month, day);
-
-        console.log(date); 
-
-        obj.date = (new Date(date)).getTime();
-
-        //const worker = new Worker('../Scripts/worker.js');
-
-        debugger
-
-        //worker.postMessage({
-        //    type: 'rtsedsa',
-        //    data: [{ data: "some good one" }, { data: "some good one" }]
-        //});
-
-
-        //// Listen for messages from the service worker
-        //worker.addEventListener('message', function (event) {
-        //    if (event.data.type === 'data-fetched') {
-        //        var data = event.data.data;
-
-        //        debugger
-        //        // Do something with the data
-        //    }
-        //});
-
-        disableSubmit(true);
+        disableSubmit2(true);
         $.ajax({
-            url: baseUrl + '/Admin/RTSEDSAReport/GetSalesReportsPagingList',
+            url: baseUrl + '/Admin/RTSEDSAReport/GetSalesInquiry',
             data: $.postifyData(obj),
             type: "POST",
             success: function (result, message) {
-                
+                disableSubmit2(false);
+                InitTable(result.result);
+            },
+            error: function () {
+                disableSubmit2(false);
+            }
+        });
+    },
+    SearchTransactions: function () {
+        var obj = new Object();
+        var FromDate = $('#FromDate').val();
+        obj.date = this.getUnixDate(FromDate);
+        disableSubmit(true);
+        $.ajax({
+            url: baseUrl + '/Admin/RTSEDSAReport/GetTransactionsAsync',
+            data: $.postifyData(obj),
+            type: "POST",
+            success: function (result, message) {
+
                 disableSubmit(false);
                 InitTable(result.result);
             },
@@ -64,8 +55,39 @@ var RtsEdsaHandler = {
                 disableSubmit(false);
             }
         });
+    },
+    getUnixDate: function (dateinput) {
+        var parts = dateinput.split('/');
+        var year = parseInt(parts[2], 10);
+        var month = parseInt(parts[1], 10) - 1; // Months are zero-indexed
+        var day = parseInt(parts[0], 10);
+        var date = new Date(year, month, day);
+        return (new Date(date)).getTime();
+    },
+    GetMeterNumbers: function (userId) {
+        debugger;
+        var obj = new Object();
+        obj.userid = userId;
+        $.ajax({
+            url: baseUrl + '/Admin/RTSEDSAReport/GetMeterNumbers',
+            data: $.postifyData(obj),
+            type: "POST",
+            success: function (data, message) {
+                debugger
+                const response = JSON.parse(data.result);
+                for (var i = 0; i < response.length; i++) {
+
+                    const option =
+                        "<option value='" + response[i].Value +"'>" + response[i].Text + "</option> ";
+
+                    var html = document.getElementById("meterSerial").innerHTML + option;
+                    document.getElementById("meterSerial").innerHTML = html;
+                }
+            }
+        });
     }
 }
+
 
 function disableSubmit(disabled = false) {
     if (disabled) {
@@ -79,8 +101,18 @@ function disableSubmit(disabled = false) {
     }
 
 }
+function disableSubmit2(disabled = false) {
+    if (disabled) {
+        $("#btnFilterSearch2").css({ backgroundColor: '#56bb96' });
+        $("#btnFilterSearch2").val('PROCESSING....');
+        $("#btnFilterSearch2").prop('disabled', true);
+    } else {
+        $("#btnFilterSearch2").css({ backgroundColor: '#f1cf09' });
+        $("#btnFilterSearch2").val('Submit');
+        $("#btnFilterSearch2").prop('disabled', false);
+    }
+}
 function InitTable(result) {
-    debugger
     const response = JSON.parse(result);
     for (var i = 0; i < response.length; i++) {
         const tr =

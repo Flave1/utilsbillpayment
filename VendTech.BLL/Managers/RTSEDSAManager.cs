@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
@@ -22,7 +23,7 @@ namespace VendTech.BLL.Managers
     public class RTSEDSAManager : BaseManager, IRTSEDSAManager
     {
 
-        async Task<PagingResult<RtsedsaTransaction>> IRTSEDSAManager.GetTransactionsAsync(UnixDateRequest model)
+        async Task<PagingResult<RtsedsaTransaction>> IRTSEDSAManager.GetTransactionsAsync(TransactionRequest model)
         {
             var result = new PagingResult<RtsedsaTransaction>();
 
@@ -34,11 +35,41 @@ namespace VendTech.BLL.Managers
                 Password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString(),
             };
 
-            requestObj.Date = Convert.ToInt64(model.Date); //1678917600000;//  
+            requestObj.Date = Convert.ToInt64(model.Date);
 
             var req = JsonConvert.SerializeObject(requestObj, Formatting.Indented);
 
             string url = WebConfigurationManager.AppSettings["RTSEDSATransaction"].ToString();
+            var resp = await SendHttpRequestAsync(url, HttpMethod.Post, req);
+
+            var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
+            
+            result.List = list.Data;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meter recharges fetched successfully.";
+            return result;
+
+        }
+
+        async Task<PagingResult<RtsedsaTransaction>> IRTSEDSAManager.GetSalesInquiry(InquiryRequest model)
+        {
+            var result = new PagingResult<RtsedsaTransaction>();
+
+            RtsedsaInquiryRequest requestObj = new RtsedsaInquiryRequest();
+            requestObj.Header = new Header
+            {
+                System = "SL",
+                UserName = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString(),
+                Password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString(),
+            };
+
+            requestObj.DateFrom = Convert.ToInt64(model.FromDate);
+            requestObj.DateTo = Convert.ToInt64(model.ToDate);
+            requestObj.MeterSerial = model.MeterSerial;
+
+            var req = JsonConvert.SerializeObject(requestObj, Formatting.Indented);
+
+            string url = WebConfigurationManager.AppSettings["RTSEDSAEnquiry"].ToString();
             var resp = await SendHttpRequestAsync(url, HttpMethod.Post, req);
 
             var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
@@ -71,10 +102,24 @@ namespace VendTech.BLL.Managers
                     return responseContent;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
+        }
+
+        List<SelectListItem> IRTSEDSAManager.MeterNumbers(long userID)
+        {
+            var result = new List<SelectListItem>();
+
+                result = Context.Meters
+                 .Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true)
+                 .Select(x => new SelectListItem
+                 {
+                     Text = x.Name,
+                     Value = x.Number
+                 }).ToList();
+            return result;
         }
     }
 }
