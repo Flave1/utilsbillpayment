@@ -2930,7 +2930,6 @@
     <Content Include="Content\themes\skycons\skycons.js" />
     <Content Include="Content\themes\typeahead\bootstrap-typeahead.js" />
     <Content Include="Content\transfer.css" />
-    <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
