@@ -89,4 +89,44 @@ namespace VendTech.BLL.PlatformApi
             return Status == (int)TransactionStatus.Failed;
         }
     }
+
+    public class ExecutionResponseProd
+    {
+        [JsonProperty("errorMsg")]
+        public string ErrorMsg { get; set; }
+        [JsonProperty("isError")]
+        public bool IsError { get; set; }
+        [JsonProperty("status")]
+        public int Status { get; set; }
+        [JsonProperty("operatorReference")]
+        public string OperatorReference { get; set; }
+        [JsonProperty("userReference")]
+        public string UserReference { get; set; }
+        [JsonProperty("apiTransactionId")]
+        public string ApiTransactionId { get; set; }
+        [JsonProperty("pinNumber")]
+        public string PinNumber { get; set; }
+        [JsonProperty("pinSerial")]
+        public string PinSerial { get; set; }
+        [JsonProperty("pinInstructions")]
+        public string PinInstructions { get; set; }
+
+        [JsonProperty("apiCalls")]
+        public List<ApiRequestInfo> ApiCalls { get; }
+
+        public ExecutionResponseProd()
+        {
+            ApiCalls = new List<ApiRequestInfo>();
+        }
+
+        public void AddApiCall(ApiRequestInfo apiReqInfo)
+        {
+            ApiCalls.Add(apiReqInfo);
+        }
+
+        public bool IsErrorResponse()
+        {
+            return Status == (int)TransactionStatus.Failed;
+        }
+    }
 }

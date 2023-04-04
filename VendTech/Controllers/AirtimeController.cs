@@ -77,9 +77,9 @@ namespace VendTech.Controllers
             model.UserId = LOGGEDIN_USER.UserID;
             
             //Fetch the currency
-            if(!model.Beneficiary.StartsWith("234") && !model.Beneficiary.StartsWith("+234"))
+            if(!model.Beneficiary.StartsWith("232") && !model.Beneficiary.StartsWith("+232"))
             {
-                model.Beneficiary = "234" + model.Beneficiary;
+                model.Beneficiary = "232y" + model.Beneficiary;
             }
             model.Currency = "SLE";
 
