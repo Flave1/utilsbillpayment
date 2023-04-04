@@ -40,7 +40,7 @@ namespace VendTech.BLL.Managers
             dbMeter.Number = model.Number;
             dbMeter.MeterMake = model.MeterMake;
             dbMeter.Address = model.Address;
-            dbMeter.Allias = model.Allias;
+            dbMeter.Allias = model.Alias;
             dbMeter.IsSaved = model.isVerified;
             dbMeter.IsVerified = model.isVerified;
             if (model.MeterId == 0)
@@ -65,7 +65,7 @@ namespace VendTech.BLL.Managers
                 Name = dbMeter.Name,
                 Number = dbMeter.Number,
                 isVerified = (bool)dbMeter.IsVerified,
-                Allias = dbMeter.Allias
+                Alias = dbMeter.Allias
             };
         }
         ActionOutput IMeterManager.DeleteMeter(long meterId, long userId)
@@ -850,7 +850,7 @@ namespace VendTech.BLL.Managers
             return new MeterModel
             {
                 Address = "",
-                Allias = "",
+                Alias = "",
                 isVerified = false,
                 MeterId = 0,
                 MeterMake = "",

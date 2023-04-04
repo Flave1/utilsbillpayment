@@ -64,6 +64,21 @@ var RtsEdsaHandler = {
         var date = new Date(year, month, day);
         return (new Date(date)).getTime();
     },
+    getDateFromUnixDate: function (unixTime) {
+        // Epoch time in seconds
+        let epochTime = unixTime;
+
+        // Convert Epoch time to milliseconds
+        let epochTimeMs = epochTime * 1000;
+
+        // Create a new Date object with Epoch time in milliseconds
+        let date = new Date(epochTime);
+
+        // Format the date string as desired
+        let dateString = date.toLocaleString().split(',')[0]; // Example: "4/4/2023, 12:33:05 AM"
+
+        return dateString
+    },
     GetMeterNumbers: function (userId) {
         debugger;
         var obj = new Object();
@@ -119,7 +134,7 @@ function InitTable(result) {
             "<tr>" +
             "<td>" + response[i].Account + "</td> " +
             "<td>" + response[i].CustomerName + "</td>" +
-            "<td>" + response[i].DateTransaction + "</td>" +
+            "<td>" + RtsEdsaHandler.getDateFromUnixDate(response[i].DateTransaction) + "</td>" +
             "<td>" + response[i].DebtPayment + "</td>" +
             "<td>" + response[i].MeterSerial + "</td>" +
             "<td>" + response[i].Receipt + "</td>" +

@@ -212,6 +212,7 @@ namespace VendTech.BLL.Models
         public string CompanyName { get; set; }
         public string AccountStatus { get; set; }
         public string Balance { get; set; }
+        public string Vendor { get; set; }
         public ApiResponseUserDetail(User obj)
         {
             Email = obj.Email;
@@ -222,7 +223,7 @@ namespace VendTech.BLL.Models
             ProfilePic = string.IsNullOrEmpty(obj.ProfilePic) ? "" : Utilities.DomainUrl + obj.ProfilePic;
             UserId = obj.UserId;
             CompanyName = obj.CompanyName;
-
+            Vendor = obj.Vendor;
             DOB = obj.DOB == null ? "" : obj.DOB.Value.ToString("MM/dd/yyyy");
             City = obj.City != null ? obj.City.Name : "";
             Country = obj.Country != null ? obj.Country.Name : "";
