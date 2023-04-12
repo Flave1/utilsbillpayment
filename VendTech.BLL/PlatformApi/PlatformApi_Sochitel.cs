@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -9,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.BLL.Models;
+using static VendTech.BLL.PlatformApi.PlatformApi_Sochitel;
 
 namespace VendTech.BLL.PlatformApi
 {
@@ -138,15 +140,29 @@ namespace VendTech.BLL.PlatformApi
 
             //API Request was successful from a network perspective.
 
-            ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(apiRequestInfo.Response);
-            ApiResponseStatus status = apiResponse.Status;
+            try
+            {
 
-            ProcessStatus(response, status.Id);
-            
-            if (apiResponse.Result != null)
-            { 
-                ProcessResultDictionary(response, apiResponse.Result);
+                ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(apiRequestInfo.Response);
+                ApiResponseStatus status = apiResponse.Status;
+
+                ProcessStatus(response, status.Id);
+
+                if (apiResponse.Result != null)
+                {
+                    ProcessResultDictionary(response, apiResponse.Result);
+                }
             }
+            catch (Exception)
+            {
+
+                ErrorResponse1 apiResponse = JsonConvert.DeserializeObject<ErrorResponse1>(apiRequestInfo.Response);
+
+                response.Status = (int)TransactionStatus.Failed;
+                response.ErrorMsg = apiRequestInfo.ErrorMsg;
+                ApiResponseStatus status = apiResponse.Status;
+            }
+            
 
             return response;
         }
@@ -440,4 +456,65 @@ namespace VendTech.BLL.PlatformApi
             return finalHash;
         }
     }
+
+    public partial class ErrorResponse2
+    {
+        [JsonProperty("version")]
+        public long Version { get; set; }
+
+        [JsonProperty("operator")]
+        public long Operator { get; set; }
+
+        [JsonProperty("productId")]
+        public long ProductId { get; set; }
+
+        [JsonProperty("amount")]
+        public long Amount { get; set; }
+
+        [JsonProperty("msisdn")]
+        public string Msisdn { get; set; }
+
+        [JsonProperty("accountId")]
+        public string AccountId { get; set; }
+
+        [JsonProperty("userReference")]
+        public string UserReference { get; set; }
+
+        [JsonProperty("auth")]
+        public Auth Auth { get; set; }
+
+        [JsonProperty("command")]
+        public string Command { get; set; }
+    }
+
+    public partial class Auth
+    {
+        [JsonProperty("username")]
+        public string Username { get; set; }
+
+        [JsonProperty("password")]
+        public string Password { get; set; }
+
+        [JsonProperty("salt")]
+        public string Salt { get; set; }
+    }
+
+    public partial class ErrorResponse1
+    {
+        [JsonProperty("status")]
+        public ApiResponseStatus Status { get; set; }
+
+        [JsonProperty("command")]
+        public string Command { get; set; }
+
+        [JsonProperty("timestamp")]
+        public long Timestamp { get; set; }
+
+        [JsonProperty("reference")]
+        public long Reference { get; set; }
+
+        [JsonProperty("result")]
+        public object[] Result { get; set; }
+    }
+
 }

@@ -79,7 +79,7 @@ namespace VendTech.Controllers
             //Fetch the currency
             if(!model.Beneficiary.StartsWith("232") && !model.Beneficiary.StartsWith("+232"))
             {
-                model.Beneficiary = "232y" + model.Beneficiary;
+                model.Beneficiary = "232" + model.Beneficiary;
             }
             model.Currency = "SLE";
 
