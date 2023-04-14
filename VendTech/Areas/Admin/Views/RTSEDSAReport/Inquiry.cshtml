@@ -8,36 +8,36 @@
 @{
     var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
 }
+
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
-<link href="~/Content/pos_receipt.css" rel="stylesheet" />
 <div class="container-fluid" id="pcont">
     <style>
-        input {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+            input {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
 
-        select {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+            select {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
 
-        label {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+            label {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
 
-        option {
-            font-weight: bold;
-        }
+            option {
+                font-weight: bold;
+            }
 
 
-        div.dataTables_filter > label::before {
-            content: "Quick Search :";
-        }
-    </style>
+            div.dataTables_filter > label::before {
+                content: "Quick Search :";
+            }
+        </style>
     <div class="page-head">
         <h3><b>Manage RTS/EDSA Inquiry</b></h3>
     </div>
@@ -56,16 +56,12 @@
                                         Export:
                                         <select name="PrintType" id="PrintType">
                                             <option value="Excel">Excel</option>
-                                            @*<option value="PDF">PDF</option>*@
                                         </select>
                                     </label>
 
                                     <label>
                                         <button type="button" id="btnExport">Export</button>
                                     </label>
-                                    @*<label>
-                                            <button type="button" id="btnprint">Print</button>
-                                        </label>*@
                                 </div>
                                 <div class="blwsec">
                                     <div class="blwsec-left">
@@ -82,18 +78,6 @@
 
                                                 <input type="text" name="meterSerial" id="meterSerial" class="form-control" />
                                             </div>
-                                            @*<div class="row">
-                                                <label style=" width:100% !important;">Vendor Name:</label>
-                                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @style = " width:100% !important;", @class = "form-control col-md-6", @id = "vendor" })
-                                            </div>*@
-
-                                             @*<div class="row">
-                                                <label style=" width:100% !important;">Meter Number:</label>
-                                                <select class="form-control" id="meterSerial">
-                                                    <option id="serial">Select Meter </option>
-                                                </select>
-                                            </div>*@
-
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <div class="row">
                                                 <input type="hidden" value="frmD" name="frmD" id="frmD" />
@@ -160,33 +144,19 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalCart2">
-    @Html.Partial("_voucherReprint")
-</div>
-<div class="modal fade" id="modalCart3">
-    @Html.Partial("_RequestResponseJSON")
-</div>
 
 @section scripts{
 
 
-    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script type="text/javascript">
-    </script>
-    <script src="~/Scripts/AdminScripts/rtsedsaReport.js"></script>
     <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
+    <script src="~/Scripts/AdminScripts/rtsedsaReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
-    <script src="~/Scripts/jspdf.min.js"></script>
-    <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
 
     <script src="~/Scripts/Receipt.js"></script>
     <script type="text/javascript">
     var totalCount = "@Model.TotalCount";
-
-        $(document).ready(function () {
-
-        });
+     
 
         $('#PrintType').on("change", function () {
             $('#ExportType').val($(this).val());

@@ -71,7 +71,7 @@
 
                         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.RTSEDSA ? "open" : "open")">
                             <a href="#"><i class="fa fa-file"></i><span>RTS/EDSA</span></a>
-                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "display:block;" : "display:none;")">
+                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.RTSEDSA ? "display:block;" : "display:none;")">
                                 <li><a href="@Url.Action("Inquiry", "RTSEDSAReport", new { area = "Admin" })"> Customers enquiries</a></li>
                                 <li><a href="@Url.Action("Transactions", "RTSEDSAReport", new { area = "Admin" })">Shift Enquiry</a></li>
                             </ul>

@@ -97,18 +97,18 @@ namespace VendTech.Areas.Admin.Controllers
             gv.DataBind();
             if (respponse.List.Count > 0)
             {
-                gv.HeaderRow.Cells[0].Text = "ACCOUNT"; 
-                gv.HeaderRow.Cells[1].Text = "CUSTOMER"; 
-                gv.HeaderRow.Cells[2].Text = "DATE TRANSACTION";
-                gv.HeaderRow.Cells[3].Text = "DEBT PAYMENT";
-                gv.HeaderRow.Cells[4].Text = "METER SERIAL";
-                gv.HeaderRow.Cells[5].Text = "RECEIPT"; 
-                gv.HeaderRow.Cells[6].Text = "AMOUNT"; 
-                gv.HeaderRow.Cells[7].Text = "TRANS ID"; 
-                gv.HeaderRow.Cells[8].Text = "UNIT";
-                gv.HeaderRow.Cells[9].Text = "UNIT PAYMENT";
-                gv.HeaderRow.Cells[10].Text = "UNIT TYPE";
-                if(!respponse.List.Any(x => string.IsNullOrEmpty(x.CodUser))) gv.HeaderRow.Cells[11].Text = "CODEUSER";
+                gv.HeaderRow.Cells[0].Text = "ACCOUNT";
+                gv.HeaderRow.Cells[1].Text = "CODEUSER";
+                gv.HeaderRow.Cells[2].Text = "CUSTOMER"; 
+                gv.HeaderRow.Cells[3].Text = "DATE TRANSACTION";
+                gv.HeaderRow.Cells[4].Text = "DEBT PAYMENT";
+                gv.HeaderRow.Cells[5].Text = "METER SERIAL";
+                gv.HeaderRow.Cells[6].Text = "RECEIPT"; 
+                gv.HeaderRow.Cells[7].Text = "AMOUNT"; 
+                gv.HeaderRow.Cells[8].Text = "TRANS ID"; 
+                gv.HeaderRow.Cells[9].Text = "UNIT";
+                gv.HeaderRow.Cells[10].Text = "UNIT PAYMENT";
+                gv.HeaderRow.Cells[11].Text = "UNIT TYPE";
             }
 
             if (ExportType == "Excel")
@@ -150,17 +150,17 @@ namespace VendTech.Areas.Admin.Controllers
             if (respponse.List.Count > 0)
             {
                 gv.HeaderRow.Cells[0].Text = "ACCOUNT";
-                gv.HeaderRow.Cells[1].Text = "CUSTOMER";
-                gv.HeaderRow.Cells[2].Text = "DATE TRANSACTION";
-                gv.HeaderRow.Cells[3].Text = "DEBT PAYMENT";
-                gv.HeaderRow.Cells[4].Text = "METER SERIAL";
-                gv.HeaderRow.Cells[5].Text = "RECEIPT";
-                gv.HeaderRow.Cells[6].Text = "AMOUNT";
-                gv.HeaderRow.Cells[7].Text = "TRANS ID";
-                gv.HeaderRow.Cells[8].Text = "UNIT";
-                gv.HeaderRow.Cells[9].Text = "UNIT PAYMENT";
-                gv.HeaderRow.Cells[10].Text = "UNIT TYPE";
-                if (!respponse.List.Any(x => string.IsNullOrEmpty(x.CodUser))) gv.HeaderRow.Cells[11].Text = "CODEUSER";
+                gv.HeaderRow.Cells[1].Text = "CODEUSER";
+                gv.HeaderRow.Cells[2].Text = "CUSTOMER";
+                gv.HeaderRow.Cells[3].Text = "DATE TRANSACTION";
+                gv.HeaderRow.Cells[4].Text = "DEBT PAYMENT";
+                gv.HeaderRow.Cells[5].Text = "METER SERIAL";
+                gv.HeaderRow.Cells[6].Text = "RECEIPT";
+                gv.HeaderRow.Cells[7].Text = "AMOUNT";
+                gv.HeaderRow.Cells[8].Text = "TRANS ID";
+                gv.HeaderRow.Cells[9].Text = "UNIT";
+                gv.HeaderRow.Cells[10].Text = "UNIT PAYMENT";
+                gv.HeaderRow.Cells[11].Text = "UNIT TYPE";
             }
 
 

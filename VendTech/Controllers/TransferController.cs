@@ -87,7 +87,7 @@ namespace VendTech.Controllers
 
 
         [AjaxOnly, HttpPost]
-        public async Task<JsonResult> TransferCash(CashTransferModel request)
+        public  JsonResult TransferCash(CashTransferModel request)
         {
             try
             {

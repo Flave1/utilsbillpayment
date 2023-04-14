@@ -80,7 +80,6 @@ var RtsEdsaHandler = {
         return dateString
     },
     GetMeterNumbers: function (userId) {
-        debugger;
         var obj = new Object();
         obj.userid = userId;
         $.ajax({
@@ -127,6 +126,7 @@ function disableSubmit2(disabled = false) {
         $("#btnFilterSearch2").prop('disabled', false);
     }
 }
+
 function InitTable(result) {
     const response = JSON.parse(result);
     for (var i = 0; i < response.length; i++) {
