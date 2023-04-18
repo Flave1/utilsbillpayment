@@ -20,8 +20,8 @@ namespace VendTech.BLL.Models
         [Required]
         public int PlatformId { get; set; }
         public long UserId { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [Required(ErrorMessage = "PHONE NUMBER IS REQUIRED")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "PLEASE ENTER A VALID PHONE NUMBER.")]
         public string Beneficiary { get; set; }
         public string Currency { get; set; }
         

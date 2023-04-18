@@ -1,5 +1,4 @@
 ﻿
-@Html.Partial("Sms/_smsModal")
 <div class="modal-dialog modal-md">
     <div class="modal-content modal-md">
         <div class="modal-body" id="printSection">
@@ -39,36 +38,14 @@
                     <div class="col-md-4 col-sm-6" style="width:50%; float:left">Account #: </div>
                     <div style="text-align: right; width:49%; float:right;" class="col-md-8 col-sm-6" id="customer_account_number"> 234567890</div>
                 </div>
-                <div class="col-md-12" style="display: flex; padding: 0;">
-                    <div class="col-md-4 col-sm-4" style="width:45%; float:left">Address: </div>
-                    <div style="text-align: right; width:53%; float:right;" class="col-md-8 col-sm-8" id="customer_address"> 52 Oshola str. Ogba Ikeja, Lagos Nigeria</div>
-                </div>
 
             </div>
             <div class="row">
-                @*<div class="col-md-12" style="display: flex; padding: 0;">
-                    <div class="col-md-4 col-sm-5" style="width:45%; float:left">Meter #:  </div>
-                    <div style="text-align: right; width: 53%; float: right; font-weight: bold; color: black; padding-right: 6.2px;" class="col-md-8 col-sm-7" id="meter_number"><strong> 22222222222</strong></div>
-                </div>
-                <div class="col-md-12" style="display: flex; padding: 0;">
-                    <div class="col-md-4 col-sm-5" style="width:45%; float:left">Tariff: </div>
-                    <div style="text-align: right; width: 53%; float: right; padding-right: 8px;" class="col-md-8 col-sm-7" id="current_tarrif"> 569</div>
-                </div>*@
                 <div class="col-md-12" style="display: flex; padding: 0;">
                     <div class="col-md-8 col-sm-8" style="width:60%; float:left">AMT Tendered: NLe:  </div>
                     <div style="text-align: right; width: 39%; font-weight: bold; color: black; float: right;" class="col-md-4 col-sm-4" id="amount_tender"> <strong>1000,000</strong></div>
                 </div>
             </div>
-
-          
-            @*<div class="row" style="text-align: center; display: none;" id="pin1_section">
-                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="text-align: center; ">
-                    <p class="dashed_border col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-12" style="border:3px dashed black; border-right: none; border-left: none; ">
-                        <span id="pin1" class="col-md-12 col-sm-12 col-xs-12"
-                              style="font-weight: bold; font-size: 25px; margin :5px; padding: 0;">1234 5678 9011 1213 1411</span>
-                    </p>
-                </div>
-            </div>*@
 
 
             <div class="row modal-footer">
@@ -90,7 +67,7 @@
                         <img src="~/Content/images/vtech-receipt.png" />
                     </div>
                     <div class="row " id="print_section">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" onclick="smsHandler.openSmsModal(false)" style="display:none">SMS</button>
+                        @*<button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" onclick="smsHandler.openSmsModal(false)" style="display:none">SMS</button>*@
                         <button class="btn btn-primary waves-effect waves-light " onclick="Print()" id="showprint_btn" style="display:none">PRINT</button>
                     </div>
                 </div>

@@ -38,9 +38,9 @@ namespace VendTech.Areas.Api.Controllers
 
 
 
-        [HttpPost]
+        //[HttpPost]
         [ResponseType(typeof(ResponseBase))]
-        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         public HttpResponseMessage RechargePhone(AirtimePurchaseModel request)
         {
             var platf = _platformManager.GetSinglePlatform(request.PlatformId);
@@ -56,9 +56,9 @@ namespace VendTech.Areas.Api.Controllers
             request.UserId = LOGGEDIN_USER.UserId;
 
 
-            if (!request.Phone.StartsWith("234") && !request.Phone.StartsWith("+234"))
+            if (!request.Phone.StartsWith("232") && !request.Phone.StartsWith("+232"))
             {
-                request.Phone = "234" + request.Phone;
+                request.Phone = "232" + request.Phone;
             }
             request.Currency = "SLE";
 

@@ -123,7 +123,7 @@
                                                             <label><span style="color:red; text-align:center;"> ENTER</span> PHONE NUMBER</label>
                                                             <span style="display: flex">
                                                                 <select>
-                                                                    <option value="+234">+234</option>
+                                                                    <option value="+232">+232</option>
                                                                 </select>
                                                                 @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
                                                             </span>
@@ -312,6 +312,7 @@
                     const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
                     const amtPay = +$("#Amount").val().replace(",", "");
 
+                  
                     if (amtPay < '@ViewBag.MinumumVend') {
                         $.ShowMessage($('div.messageAlert'), "PLEASE ENTER " + minVend + " & ABOVE", MessageType.Error);
                         $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
@@ -327,12 +328,12 @@
                     //it will be 11 but if entered in local format it will be 9
                     //local format is 076252925
                     //international format is 23276252925
-                    /*if (phoneno.length != 9 && phoneno.length != 11) {
-                        $.ShowMessage($('div.messageAlert'), "Please enter a valid phone number.", MessageType.Error);
+                    if (phoneno.length != 8) {
+                        $.ShowMessage($('div.messageAlert'), "PLEASE ENTER A VALID PHONE NUMBER.", MessageType.Error);
                         return;
-                    }*/
+                    }
 
-                    $("#phoneno").html("+234" + phoneno);
+                    $("#phoneno").html("+232" + phoneno);
                     $("#pamount").html(thousands_separators($("#Amount").val()));
                     //$("#product").html($("#platformIdSelect option:selected").text().trim());
                     $("#form-bp1").modal("show")
