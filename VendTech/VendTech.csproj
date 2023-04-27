@@ -3279,7 +3279,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendTech.BLL\VendTech.BLL.csproj">
-      <Project>{fa1c6f91-21f7-4318-95a6-06624ec3bb52}</Project>
+      <Project>{FA1C6F91-21F7-4318-95A6-06624EC3BB52}</Project>
       <Name>VendTech.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
