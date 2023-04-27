@@ -714,5 +714,15 @@ namespace VendTech.BLL.Common
             long epochTime = (long)timeSpan.TotalSeconds; // Convert the difference to seconds and cast to long
             return epochTime.ToString();
         }
+
+        public static long ToUnixTimestamp(DateTime value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("DateTime to convert to Unix Timestamp cannot be null");
+            }
+
+            return (long)Math.Truncate((value.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+        }
     }
 }
