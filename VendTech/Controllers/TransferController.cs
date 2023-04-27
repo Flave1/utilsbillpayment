@@ -47,7 +47,7 @@ namespace VendTech.Controllers
             if(LOGGEDIN_USER == null)
             {
                 SignOut();
-                return View("Index", "Home", new {area = ""});
+                return View("Index", "Home");
             }
             var agencyPos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
             if(ModulesModel.Any())
@@ -58,7 +58,7 @@ namespace VendTech.Controllers
                     CanTranferToOtherVendors = ModulesModel.Any(s => s.ControllerName.Contains("33")),
                     Vendor = LOGGEDIN_USER?.AgencyName,
                     AdminBalance = Utilities.FormatAmount(agencyPos.Balance),
-                    AdminName = agencyPos.User.Name + " " + agencyPos.User.SurName,
+                    AdminName = LOGGEDIN_USER?.AgencyName, //+ " - " + agencyPos.SerialNumber, //agencyPos.User.Name + " " + agencyPos.User.SurName,
                     AdminPos = agencyPos.SerialNumber,
                     AdminPosId = agencyPos.POSId
                 });
@@ -71,7 +71,10 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult GetAllAgencyAdminVendors(FetchItemsModel request)
         {
-            var vendorList = _transferManager.GetAllAgencyAdminVendors(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
+            var vendorList = _transferManager
+                .GetAllAgencyAdminVendors(
+                PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), 
+                LOGGEDIN_USER.AgencyId, LOGGEDIN_USER.UserID);
             return Json(new { result = JsonConvert.SerializeObject(vendorList.List) });
         }
 
@@ -93,11 +96,11 @@ namespace VendTech.Controllers
                     SignOut();
                 }
                 var reference = Utilities.GenerateByAnyLength(6).ToUpper();
-
+                var frompos = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID);
                 var depositDr = new Deposit
                 {
                     Amount = Decimal.Negate(request.Amount),
-                    POSId = request.FromPosId,
+                    POSId = frompos.POSId,
                     BankAccountId = 0,
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = Decimal.Negate(request.Amount),
@@ -105,7 +108,8 @@ namespace VendTech.Controllers
                     ValueDate = DateTime.UtcNow.ToString(),
                     ValueDateStamp = DateTime.UtcNow
                 };
-                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId);
+
+                var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId, frompos);
 
                 
                 if(result1.Status == ActionStatus.Successfull)
@@ -121,12 +125,12 @@ namespace VendTech.Controllers
                         ValueDate = DateTime.UtcNow.ToString(),
                         ValueDateStamp = DateTime.UtcNow
                     };
-                    var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, request.FromPosId, request.otp);
+                    var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, frompos, request.otp);
 
                     if (result2.Status == ActionStatus.Successfull)
                     {
-                        SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        //await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }
@@ -233,7 +237,7 @@ namespace VendTech.Controllers
                     body = body.Replace("%otp%", result.Object);
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
-                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    //Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
                 }
 
                 var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);

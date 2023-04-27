@@ -1731,7 +1731,7 @@ namespace VendTech.BLL.Managers
             try
             {
 
-                if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
+                if (!IsOtpValalid(model.OTP))
                     return ReturnError<List<long>>("WRONG OTP ENTERED");
 
                 if (model.CancelDepositIds != null)
@@ -1788,7 +1788,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                if (!(Context.DepositOTPs.Any(p => p.OTP == model.OTP && !p.IsUsed)))
+                if (!IsOtpValalid(model.OTP))
                     return ReturnError("Invalid OTP");
 
                 if (model.ReverseDepositIds != null)
@@ -1816,7 +1816,6 @@ namespace VendTech.BLL.Managers
                 dbDepositOTP.CreatedAt = DateTime.UtcNow;
                 dbDepositOTP.IsUsed = false;
                 dbDepositOTP.OTP = otp.ToString();
-                Context.DepositOTPs.ToList().ForEach(p => p.IsUsed = true);
                 Context.DepositOTPs.Add(dbDepositOTP);
                 Context.SaveChanges();
                 return ReturnSuccess<string>(otp.ToString(), "OTP SENT SUCCESSFULLY.");
@@ -2221,44 +2220,45 @@ namespace VendTech.BLL.Managers
             });
         }
 
-        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp, long toPos)
+        ActionOutput IDepositManager.CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp, long toPos, POS fromPos)
         {
             try
             {
-                var befiaryPos = Context.POS.FirstOrDefault(er => er.POSId == toPos);
-                if (befiaryPos == null)
+                var beneficiaryPos = Context.POS.FirstOrDefault(er => er.POSId == toPos);
+                if (beneficiaryPos == null)
                     return ReturnError("POS NOT FOUND");
 
-                var pos = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
-                if (pos == null)
+                if (fromPos == null)
                     return ReturnError("POT NOT FOUND");
 
-                if (dbDeposit.Amount > pos.Balance.Value)
+                if (dbDeposit.Amount > fromPos.Balance.Value)
                     return ReturnError("INSUFFICIENT BALANCE TO MAKE TRANSFER");
 
-                if (!(Context.DepositOTPs.Any(p => p.OTP == otp && !p.IsUsed)))
+                if (!IsOtpValalid(otp))
                     return ReturnError("WRONG OTP ENTERED");
+
+                
 
 
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
-                dbDeposit.POS = pos;
-                dbDeposit.UserId = pos?.VendorId ?? 0;
+                dbDeposit.POS = fromPos;
+                dbDeposit.UserId = fromPos?.VendorId ?? 0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = befiaryPos.User.Vendor;
+                dbDeposit.NameOnCheque = fromPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
-                dbDeposit.BalanceBefore = pos.Balance;
+                dbDeposit.BalanceBefore = fromPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
-                if (Context.Agencies.Select(s => s.Representative).Contains(pos.VendorId))
+                if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
                     //dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
-                    var percntage = pos.User.Agency.Commission.Percentage;
+                    var percntage = fromPos.User.Agency.Commission.Percentage;
                     var commision = amt * percntage / 100;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                     dbDeposit.AgencyCommission = commision;
@@ -2280,7 +2280,7 @@ namespace VendTech.BLL.Managers
                 Context.SaveChanges();
 
                 //Send push to all devices where this user logged in when admin released deposit
-                var deviceTokens = pos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
+                var deviceTokens = fromPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
@@ -2294,7 +2294,7 @@ namespace VendTech.BLL.Managers
                 {
                     obj.DeviceToken = item.DeviceToken;
                     obj.DeviceType = item.AppType.Value;
-                    PushNotification.SendNotification(obj);
+                    //PushNotification.SendNotification(obj);
                 }
                 return ReturnSuccess("TRANSFER SUCCESSFUL");
             }
@@ -2304,12 +2304,11 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        ActionOutput IDepositManager.CreateDepositCreditTransfer(Deposit dbDeposit, long currentUserId, long fromPos, string otp)
+        ActionOutput IDepositManager.CreateDepositCreditTransfer(Deposit dbDeposit, long currentUserId, POS fromPos, string otp)
         {
             try
             {
-                var frompos = Context.POS.FirstOrDefault(er => er.POSId == fromPos);
-                if(frompos == null)
+                if(fromPos == null)
                     return ReturnError("POS NOT FOUND");
 
 
@@ -2319,13 +2318,13 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId??0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = toPos.User.Vendor;
+                dbDeposit.NameOnCheque = toPos.User.Name+" "+ toPos.User.SurName;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
-                if (Context.Agencies.Select(s => s.Representative).Contains(frompos.VendorId))
+                if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
                     var amt = dbDeposit.Amount;
                     var percntage = toPos.Commission.Percentage;
@@ -2361,7 +2360,7 @@ namespace VendTech.BLL.Managers
                 obj.Id = dbDeposit.DepositId;
                 var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
-                obj.Title = $"Transfer from {frompos.User.Vendor}";
+                obj.Title = $"Transfer from {fromPos.User.Vendor}";
                 obj.Message = "Your wallet has been updated with NLe " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
@@ -2369,7 +2368,7 @@ namespace VendTech.BLL.Managers
                 {
                     obj.DeviceToken = item.DeviceToken;
                     obj.DeviceType = item.AppType.Value;
-                    PushNotification.SendNotification(obj);
+                    //PushNotification.SendNotification(obj);
                 }
                 return ReturnSuccess("TRANSFER SUCCESSFUL");
             }
@@ -2383,7 +2382,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                if (!(Context.DepositOTPs.Any(p => p.OTP == OTP && !p.IsUsed)))
+                if (!IsOtpValalid(OTP))
                     return ReturnError("WRONG OTP ENTERED");
 
                 var admin = Context.Users.FirstOrDefault(e => e.UserId == currentUserId);
@@ -2439,6 +2438,17 @@ namespace VendTech.BLL.Managers
             }
         }
 
-
+        bool IsOtpValalid(string otp)
+        {
+            var _otp = Context.DepositOTPs.FirstOrDefault(p => p.OTP == otp && !p.IsUsed);
+            if (_otp == null)
+                return false;
+            else
+            {
+                _otp.IsUsed = true;
+                Context.SaveChanges();
+                return true;
+            }
+        }
     }
 }

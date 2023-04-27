@@ -138,38 +138,38 @@ var transferHandler = {
         });
     },
 
-    agencyFromVendorsLiveSearch: function () {
-        $("#filterAgencyFromVendors").keyup(function () {
-            // Retrieve the input field text and reset the count to zero
-            var filter = $(this).val(), count = 0;
-            $('#agencyFromVendors').css('display', 'block');
-            $('#agencyFromVendors').css('opacity', '1');
+    //agencyFromVendorsLiveSearch: function () {
+    //    $("#filterAgencyFromVendors").keyup(function () {
+    //        // Retrieve the input field text and reset the count to zero
+    //        var filter = $(this).val(), count = 0;
+    //        $('#agencyFromVendors').css('display', 'block');
+    //        $('#agencyFromVendors').css('opacity', '1');
 
-            if (!$(this).val()) {
-                $('#agencyFromVendors').css('display', 'none');
-                $('#agencyFromVendors').css('opacity', '1');
-            }
+    //        if (!$(this).val()) {
+    //            $('#agencyFromVendors').css('display', 'none');
+    //            $('#agencyFromVendors').css('opacity', '1');
+    //        }
 
-            // Loop through the comment list
-            $("nav ul li").each(function () {
+    //        // Loop through the comment list
+    //        $("nav ul li").each(function () {
 
-                // If the list item does not contain the text phrase fade it out
-                if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-                    $(this).fadeOut();
+    //            // If the list item does not contain the text phrase fade it out
+    //            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+    //                $(this).fadeOut();
 
-                    // Show the list item if the phrase matches and increase the count by 1
-                } else {
-                    $(this).show();
-                    $('#agencyFromVendors').css('opacity', '1');
-                    count++;
-                }
-            });
+    //                // Show the list item if the phrase matches and increase the count by 1
+    //            } else {
+    //                $(this).show();
+    //                $('#agencyFromVendors').css('opacity', '1');
+    //                count++;
+    //            }
+    //        });
 
-            // Update the count
-            var numberItems = count;
-            $("#filter-count").text("found  " + count + " vendors");
-        });
-    },
+    //        // Update the count
+    //        var numberItems = count;
+    //        $("#filter-count").text("found  " + count + " vendors");
+    //    });
+    //},
 
     otherAgencyBeneficiaryVendorsLiveSearch: function () {
         $("#otherFilterAgencyToVendors").keyup(function () {
@@ -313,54 +313,51 @@ var transferHandler = {
         });
     },
 
-    transferToVendor: function (sender) {
-        if (transferHandler.transferFrom) {
-            if (!transferHandler.transferTo) {
-                $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
-                return;
-            }
-            transferHandler.transferTo = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === transferHandler.transferTo.SerialNumber)[0];
-            const amountToTransfer = Number($('#amtToTransfer').val()?.replaceAll(',', ''));
-            const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replaceAll(',', ''));
-            if (!amountToTransfer || amountToTransfer === 0) {
-                $.ShowMessage($('div.messageAlert'), "Amount required", MessageType.Error);
-                return;
-            }
-            if (amountToTransfer > amountToTansferFrom) {
-                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
-                return;
-            }
-
-            if (amountToTansferFrom === 0) {
-                $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
-                return;
-            }
-
-            var request = new Object();
-            request.FromPosId = Number(transferHandler.transferFrom.POSID);
-            request.ToPosId = Number(transferHandler.transferTo.POSID);
-            request.Amount = amountToTransfer;
-            request.otp = $('#otp').val();
-
-
-            if (transferHandler.sentOtp) {
-                transferHandler.sendFormData1(sender, request);
-                return
-            }
-
-            $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
-              
-                if (!transferHandler.sentOtp) {
-                    transferHandler.sendOtp(sender);
-                    return
-                }
-            });
-        } else {
-            $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
+    transferToVendor: function (sender, adminAmount) {
+        if (!transferHandler.transferTo) {
+            $.ShowMessage($('div.messageAlert'), "Vendor to transfer to not selected", MessageType.Error);
             return;
         }
-       
+        transferHandler.transferTo = transferHandler.allAgencyVendors[0].filter(er => er.SerialNumber === transferHandler.transferTo.SerialNumber)[0];
+        const amountToTransfer = Number($('#amtToTransfer').val()?.replaceAll(',', ''));
+        const amountToTansferFrom = Number(adminAmount?.replaceAll(',', ''));
+        if (!amountToTransfer || amountToTransfer === 0) {
+            $.ShowMessage($('div.messageAlert'), "Amount required", MessageType.Error);
+            return;
+        }
+        if (amountToTransfer > amountToTansferFrom) {
+            $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
+            return;
+        }
 
+        if (amountToTansferFrom === 0) {
+            $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
+            return;
+        }
+
+        var request = new Object();
+        //request.FromPosId = Number(transferHandler.transferFrom.POSID);
+        request.ToPosId = Number(transferHandler.transferTo.POSID);
+        request.Amount = amountToTransfer;
+        request.otp = $('#otp').val();
+
+
+        if (transferHandler.sentOtp) {
+            transferHandler.sendFormData1(sender, request);
+            return
+        }
+
+        console.log('transferTo', transferHandler.transferTo)
+        $.ConfirmBox("", `TRANSFER CONFIRMATION 
+        \n \n TRANSFER FROM: ${transferHandler.transferFrom.Vendor} 
+        \n \n TRANSFER TO: ${transferHandler.transferTo.Vendor}  -- ${transferHandler.transferTo.SerialNumber}
+        \n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#amtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+
+            if (!transferHandler.sentOtp) {
+                transferHandler.sendOtp(sender);
+                return
+            }
+        });
     },
 
     transferToOtherVendor: function (frmBal, frmPosId, vendor, sender = null) {
@@ -388,7 +385,7 @@ var transferHandler = {
         }
 
         var request = new Object();
-        request.FromPosId = Number(frmPosId);
+        //request.FromPosId = Number(frmPosId);
         request.ToPosId = Number(transferHandler.transferTo.POSID);
         request.Amount = amountToTransfer;
         request.otp = $('#otherotp').val();
@@ -397,8 +394,10 @@ var transferHandler = {
             transferHandler.sendFormData1(sender, request);
             return
         }
-
-        $.ConfirmBox("", `TRANSFER CONFIRMATION \n \n FROM: ${transferHandler.transferFrom.Vendor}\n \n TO: ${transferHandler.transferTo.Vendor}\n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
+        $.ConfirmBox("", `TRANSFER CONFIRMATION 
+        \n \n  TRANSFER FROM: ${transferHandler.transferFrom.vendor} 
+        \n \n TRANSFER TO: ${transferHandler.transferTo.Vendor} -- ${transferHandler.transferTo.SerialNumber}
+        \n \n AMOUNT: NLe: ${transferHandler.returnAmount($('#otherAmtToTransfer').val())}`, null, true, "TRANSFER", true, null, function () {
 
             if (!transferHandler.sentOtp) {
                 transferHandler.sendOtp(sender);
@@ -448,11 +447,11 @@ var transferHandler = {
         });
         ul2 += "</ul>";
         document.getElementById("agencyBeneficiaries").innerHTML = ul1;
-        document.getElementById("agencyFromVendors").innerHTML = ul2;
+        //document.getElementById("agencyFromVendors").innerHTML = ul2;
         transferHandler.agencyBeneficiaryVendorsLiveSearch();
-        transferHandler.agencyFromVendorsLiveSearch();
+        //transferHandler.agencyFromVendorsLiveSearch();
         transferHandler.addTransferToEventListenners();
-        transferHandler.addTransferFromEventListenners();
+        //transferHandler.addTransferFromEventListenners();
     },
 
     initializeOtherVendors: function () {
@@ -475,13 +474,13 @@ var transferHandler = {
         transferHandler.otherAddTransferFromEventListenners();
     },
 
-    displayAmount: function (x) {
-        if (!transferHandler.transferFrom) {
-            $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
-            return;
-        }
+    displayAmount: function (x, adminBal) {
+        //if (!transferHandler.transferFrom) {
+        //    $.ShowMessage($('div.messageAlert'), "Vendor to transfer from not selected", MessageType.Error);
+        //    return;
+        //}
 
-        const amountToTansferFrom = Number(transferHandler.transferFrom.Balance?.replaceAll(',', ''));
+        const amountToTansferFrom = Number(adminBal?.replaceAll(',', ''));
         if (Number(x?.replaceAll(',', '')) > amountToTansferFrom) {
 
             $.ShowMessage($('div.messageAlert'), "INSUFFICIENT BALANCE TO MAKE TRANSFER", MessageType.Error);
@@ -509,8 +508,8 @@ var transferHandler = {
         //document.getElementById("otherAgencyBeneficiaries").innerHTML = '';
         //document.getElementById("otherAgencyFromVendors").innerHTML = '';
 
-        $('#filterAgencyFromVendors').val(``);
-        $('#agencySenderDisplay').text(``);
+        //$('#filterAgencyFromVendors').val(``);
+        //$('#agencySenderDisplay').text(``);
         $('#filterAgencyToVendors').val(``);
         $('#agencyBenficiaryDisplay').text(``);
 

@@ -1,9 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -14,7 +11,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -30,7 +27,7 @@ namespace VendTech
                  s.WithIntervalInMinutes(2).RepeatForever()
               )
             .Build();
-            IJobDetail jobFirst = JobBuilder.Create<VendTech.BLL.Models.ApplicationNotUsedSchedulerJob>().Build();
+            IJobDetail jobFirst = JobBuilder.Create<ApplicationNotUsedSchedulerJob>().Build();
             scheduler.ScheduleJob(jobFirst, firstTrigger);
 
 

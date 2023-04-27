@@ -59,20 +59,33 @@
                                     <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reversal</a></li>
                                 }
                                 @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
-                                    {
-                                        <li><a href="@Url.Action("DepositLogs", "Deposit", new { area = "Admin" })">Transaction History</a></li>
-                                    }*@
+                    {
+                        <li><a href="@Url.Action("DepositLogs", "Deposit", new { area = "Admin" })">Transaction History</a></li>
+                    }*@
 
                             </ul>
                         </li>
                     }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0)
+                    {
+
+                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.RTSEDSA ? "open" : "open")">
+                            <a href="#"><i class="fa fa-file"></i><span>RTS/EDSA</span></a>
+                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "display:block;" : "display:none;")">
+                                <li><a href="@Url.Action("Inquiry", "RTSEDSAReport", new { area = "Admin" })"> Customers enquiries</a></li>
+                                <li><a href="@Url.Action("Transactions", "RTSEDSAReport", new { area = "Admin" })">Shift Enquiry</a></li>
+                            </ul>
+                        </li>
+
+                    }
 
                     @if (assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
                     {
-                        @*<li><a href="@Url.Action("ManageReports", "Report", new { area = "Admin" })"><i class="fa fa-list-alt"></i><span>Manage Reports</span></a></li>*@
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active" : "")" href="@Url.Action("ManageReports", "Report", new { area = "Admin" })"><i class="fa fa-th"></i> Manage Reports</a></li>
 
                     }
+
+
 
 
 
@@ -100,11 +113,13 @@
                                 }
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("Index", "PaymentType", new { area = "Admin" })"><span>Manage Payment Types</span></a></li> 
+                                    <li><a href="@Url.Action("Index", "PaymentType", new { area = "Admin" })"><span>Manage Payment Types</span></a></li>
+
                                 }
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li> 
+                                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
+
                                 }
 
                                 @if (user.UserType != UserRoles.AppUser)
@@ -117,9 +132,9 @@
 
                                 }
                             </ul>
-                            </li>
+                        </li>
 
-                        }
+                    }
 
 
 
@@ -128,15 +143,15 @@
                         <a href="#"><i class="fa fa-user"></i><span>Manage Profile</span></a>
                         <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Profile ? "display:block;" : "display:none;")">
                             @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin)
-                                {
+                {
 
-                                }*@
+                }*@
                             <li><a href="/Admin/Home/EditProfile"><i class="fa fa-user"></i>Edit Profile</a></li>
                             <li> <a class="@(ViewBag.SelectedTab == SelectedAdminTab.Password ? "active" : "")" href="/Admin/Home/ChangePassword"><i class="fa fa-lock"></i> Change Password</a></li>
                         </ul>
                     </li>
 
-                    </ul>
+                </ul>
                 </div>
             </div>
             @*<div class="text-right collapse-button" style="padding:7px 9px;">

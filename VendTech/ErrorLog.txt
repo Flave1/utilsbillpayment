@@ -1,0 +1,666 @@
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'Index' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Transfer/Index.aspx
+~/Views/Transfer/Index.ascx
+~/Views/Shared/Index.aspx
+~/Views/Shared/Index.ascx
+~/Views/Transfer/Home.master
+~/Views/Shared/Home.master
+~/Views/Transfer/Home.cshtml
+~/Views/Transfer/Home.vbhtml
+~/Views/Shared/Home.cshtml
+~/Views/Shared/Home.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Cannot convert type 'VendTech.BLL.Models.UserDetailForAdmin' to 'VendTech.BLL.Models.UserDetails'
+
+
+
+Cannot convert type 'VendTech.BLL.Models.UserDetailForAdmin' to 'VendTech.BLL.Models.UserDetails'
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The view 'Index' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Transfer/Index.aspx
+~/Views/Transfer/Index.ascx
+~/Views/Shared/Index.aspx
+~/Views/Shared/Index.ascx
+~/Views/Transfer/Home.master
+~/Views/Shared/Home.master
+~/Views/Transfer/Home.cshtml
+~/Views/Transfer/Home.vbhtml
+~/Views/Shared/Home.cshtml
+~/Views/Shared/Home.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Home\Index.cshtml(42): error CS0012: The type 'System.Object' is defined in an assembly that is not referenced. You must add a reference to assembly 'netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RtsedsaTransaction', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Attempted to access a missing method.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The view 'Transactions' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/RTSEDSAReport/Transactions.aspx
+~/Areas/Admin/Views/RTSEDSAReport/Transactions.ascx
+~/Areas/Admin/Views/Shared/Transactions.aspx
+~/Areas/Admin/Views/Shared/Transactions.ascx
+~/Views/RTSEDSAReport/Transactions.aspx
+~/Views/RTSEDSAReport/Transactions.ascx
+~/Views/Shared/Transactions.aspx
+~/Views/Shared/Transactions.ascx
+~/Areas/Admin/Views/RTSEDSAReport/Transactions.cshtml
+~/Areas/Admin/Views/RTSEDSAReport/Transactions.vbhtml
+~/Areas/Admin/Views/Shared/Transactions.cshtml
+~/Areas/Admin/Views/Shared/Transactions.vbhtml
+~/Views/RTSEDSAReport/Transactions.cshtml
+~/Views/RTSEDSAReport/Transactions.vbhtml
+~/Views/Shared/Transactions.cshtml
+~/Views/Shared/Transactions.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Input string was not in a correct format.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: index
+
+
+
+Specified argument was out of the range of valid values.
+Parameter name: index
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The view 'GetMeterNumbers' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.aspx
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.ascx
+~/Areas/Admin/Views/Shared/GetMeterNumbers.aspx
+~/Areas/Admin/Views/Shared/GetMeterNumbers.ascx
+~/Views/RTSEDSAReport/GetMeterNumbers.aspx
+~/Views/RTSEDSAReport/GetMeterNumbers.ascx
+~/Views/Shared/GetMeterNumbers.aspx
+~/Views/Shared/GetMeterNumbers.ascx
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.cshtml
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.vbhtml
+~/Areas/Admin/Views/Shared/GetMeterNumbers.cshtml
+~/Areas/Admin/Views/Shared/GetMeterNumbers.vbhtml
+~/Views/RTSEDSAReport/GetMeterNumbers.cshtml
+~/Views/RTSEDSAReport/GetMeterNumbers.vbhtml
+~/Views/Shared/GetMeterNumbers.cshtml
+~/Views/Shared/GetMeterNumbers.vbhtml
+
+
+
+The view 'GetMeterNumbers' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.aspx
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.ascx
+~/Areas/Admin/Views/Shared/GetMeterNumbers.aspx
+~/Areas/Admin/Views/Shared/GetMeterNumbers.ascx
+~/Views/RTSEDSAReport/GetMeterNumbers.aspx
+~/Views/RTSEDSAReport/GetMeterNumbers.ascx
+~/Views/Shared/GetMeterNumbers.aspx
+~/Views/Shared/GetMeterNumbers.ascx
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.cshtml
+~/Areas/Admin/Views/RTSEDSAReport/GetMeterNumbers.vbhtml
+~/Areas/Admin/Views/Shared/GetMeterNumbers.cshtml
+~/Areas/Admin/Views/Shared/GetMeterNumbers.vbhtml
+~/Views/RTSEDSAReport/GetMeterNumbers.cshtml
+~/Views/RTSEDSAReport/GetMeterNumbers.vbhtml
+~/Views/Shared/GetMeterNumbers.cshtml
+~/Views/Shared/GetMeterNumbers.vbhtml
+
+
+
+The remote host closed the connection. The error code is 0x80070040.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

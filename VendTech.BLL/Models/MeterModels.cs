@@ -19,7 +19,7 @@ namespace VendTech.BLL.Models
         public string Number { get; set; }
         public string Address { get; set; }
         public string MeterMake { get; set; }
-        public string Allias { get; set; }
+        public string Alias { get; set; }
         public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
     }
@@ -43,7 +43,7 @@ namespace VendTech.BLL.Models
             CreatedAt = obj.CreatedAt;
             Address = obj.Address;
             Number = obj.Number;
-            Allias = obj.Allias;
+            Alias = obj.Allias;
             isVerified = (bool)obj.IsVerified;
             POSId = pos.POSId;
             POSSerialNumber = pos.SerialNumber;

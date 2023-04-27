@@ -99,7 +99,8 @@ namespace VendTech.Areas.Admin.Controllers
                 body = body.Replace("%passcode%", savePassCodeModel.PassCode);
                 if (!string.IsNullOrEmpty(savePassCodeModel.Email))
                 {
-                    isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                    isEmailed = true;
                 }
 
 

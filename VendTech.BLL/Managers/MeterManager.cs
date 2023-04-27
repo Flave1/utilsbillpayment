@@ -41,7 +41,7 @@ namespace VendTech.BLL.Managers
             dbMeter.Number = model.Number;
             dbMeter.MeterMake = model.MeterMake;
             dbMeter.Address = model.Address;
-            dbMeter.Allias = model.Allias;
+            dbMeter.Allias = model.Alias;
             dbMeter.IsSaved = model.isVerified;
             dbMeter.IsVerified = model.isVerified;
             if (model.MeterId == 0)
@@ -66,7 +66,7 @@ namespace VendTech.BLL.Managers
                 Name = dbMeter.Name,
                 Number = dbMeter.Number,
                 isVerified = (bool)dbMeter.IsVerified,
-                Allias = dbMeter.Allias
+                Alias = dbMeter.Allias
             };
         }
         ActionOutput IMeterManager.DeleteMeter(long meterId, long userId)
@@ -648,6 +648,7 @@ namespace VendTech.BLL.Managers
                 db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
                 db_transaction_detail.PlatFormId = platf.PlatformId;
                 db_transaction_detail.Platform = platf;
+                //db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
                 Context.TransactionDetails.Add(db_transaction_detail);
 
                 SaveSales();
@@ -716,6 +717,7 @@ namespace VendTech.BLL.Managers
 
         }
 
+        long generateTrxTableKey() => Context.TransactionDetails.Max(x => x.TransactionDetailsId) + 1;
 
         private Dictionary<string, TransactionDetail> QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
@@ -828,7 +830,7 @@ namespace VendTech.BLL.Managers
             return new MeterModel
             {
                 Address = "",
-                Allias = "",
+                Alias = "",
                 isVerified = false,
                 MeterId = 0,
                 MeterMake = "",
@@ -1727,7 +1729,7 @@ namespace VendTech.BLL.Managers
             {
                 var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0,2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;
@@ -1757,7 +1759,68 @@ namespace VendTech.BLL.Managers
 
         }
 
+        //private static IceKloudResponse Make_recharge_request_from_icekloud(RechargeMeterModel model)
+        //{
+        //    IceKloudResponse response = new IceKloudResponse();
+        //    string strings_result = string.Empty;
+        //    IcekloudRequestmodel request_model = new IcekloudRequestmodel();
+        //    HttpResponseMessage icekloud_response = new HttpResponseMessage();
+        //    HttpClient _http_client = new HttpClient();
+        //    string url = (WebConfigurationManager.AppSettings["IsDevelopment"].ToString() == "1") ?
+        //                 WebConfigurationManager.AppSettings["DevIcekloudURL"].ToString() :
+        //                 WebConfigurationManager.AppSettings["IcekloudURL"].ToString();
 
+        //    try
+        //    {
+        //        request_model = Buid_new_request_object(model);
+
+        //        icekloud_response = _http_client.PostAsJsonAsync(url, request_model).Result;
+
+        //        strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
+        //        response = JsonConvert.DeserializeObject<IceKloudResponse>(strings_result);
+        //        response.RequestModel = request_model;
+        //        return response;
+        //    }
+        //    catch (AggregateException err)
+        //    {
+        //        foreach (var errInner in err.InnerExceptions)
+        //        {
+        //            Debug.WriteLine(errInner);
+        //        }
+        //        throw new AggregateException();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        try
+        //        {
+        //            IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
+
+        //            if (error_response.Status == "Error")
+        //            {
+        //                if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
+        //                {
+        //                    response.Status = "unsuccesful";
+        //                    response.Content.Data.Error = error_response.SystemError;
+        //                    response.RequestModel = request_model;
+        //                    return response;
+        //                }
+        //                if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
+        //                {
+        //                    model.TransactionId = model.TransactionId + 1;
+        //                    return Make_recharge_request_from_icekloud(model);
+        //                }
+
+
+        //                response.Status = error_response?.Status;
+        //                response.Content.Data.Error = error_response?.Stack.ToArray()[0]?.Detail ?? error_response?.SystemError;
+        //                response.RequestModel = request_model;
+        //                return response;
+        //            }
+        //        }
+        //        catch (Exception e) { throw e; }
+        //        throw;
+        //    }
+        //}
 
     }
 }

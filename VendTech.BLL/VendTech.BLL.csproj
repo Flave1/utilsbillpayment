@@ -136,6 +136,7 @@
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="HttpRequest.cs" />
     <Compile Include="Interfaces\ICurrencyManager.cs" />
     <Compile Include="Interfaces\IPlatformApiManager.cs" />
     <Compile Include="Interfaces\IPlatformTransactionManager.cs" />
@@ -162,6 +163,8 @@
     <Compile Include="Managers\CurrencyManager.cs" />
     <Compile Include="Managers\PlatformApiManager.cs" />
     <Compile Include="Managers\PlatformTransactionManager.cs" />
+    <Compile Include="Interfaces\IRTSEDSAManager.cs" />
+    <Compile Include="Managers\RTSEDSAManager.cs" />
     <Compile Include="Managers\TransferManager.cs" />
     <Compile Include="Managers\PaymentTypeManager.cs" />
     <Compile Include="Managers\DashboardManager.cs" />
@@ -205,6 +208,7 @@
     <Compile Include="Models\PlatformModels.cs" />
     <Compile Include="Models\POSModels.cs" />
     <Compile Include="Models\PushNotificationModels.cs" />
+    <Compile Include="Models\RtsEdsaModels.cs" />
     <Compile Include="Models\SchedulerJob.cs" />
     <Compile Include="Models\SMSModels.cs" />
     <Compile Include="Models\TokenModels.cs" />

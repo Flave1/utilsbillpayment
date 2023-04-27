@@ -432,6 +432,7 @@ function getMonthName(number)
     return number+1;
 }
 
+
 function disableSubmit(disabled = false) {
     if (disabled) {
         $("#miniSalesRPSearch").css({ backgroundColor: '#56bb96' });
@@ -442,5 +443,6 @@ function disableSubmit(disabled = false) {
         $("#miniSalesRPSearch").val('Submit');
         $("#miniSalesRPSearch").prop('disabled', false);
     }
+
 
 }

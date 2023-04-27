@@ -28,7 +28,7 @@ namespace VendTech.BLL.Managers
                 if (model.SearchField.Equals("vendorname"))
                     query = query.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("agency"))
-                    query = query.Where(z => z.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.Agency.AgencyName.ToLower() == model.Search.ToLower());
                 if (model.SearchField.Equals("fisrtname"))
                     query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("lastname"))
