@@ -51,30 +51,4 @@ namespace VendTech.BLL.Models
         public string Status { get; set; }
         public string Message { get; set; }
     }
-
-    public class AirtimeReceiptModel
-    {
-        public string ReceiptNo { get; set; }
-        public string CustomerName { get; set; }
-        public string Phone { get; set; }
-        public string Amount { get; set; }
-        public string Charges { get; set; }
-        public string Discount { get; set; }
-        public string Commission { get; set; }
-        public string SerialNo { get; set; }
-        public string POS { get; set; }
-        public string VendorId { get; set; }
-        public decimal DebitRecovery { get; set; }
-        public string Token { get; set; }
-        public string TransactionDate { get; set; }
-        public string EDSASerial { get; set; }
-        public string VTECHSerial { get; set; }
-        public bool ShouldShowSmsButton { get; set; }
-        public bool ShouldShowPrintButton { get; set; }
-        public bool mobileShowSmsButton { get; set; }
-        public bool mobileShowPrintButton { get; set; }
-        public decimal CurrentBallance { get; set; }
-        public string ReceiptTitle { get; set;}
-        public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
-    }
 }

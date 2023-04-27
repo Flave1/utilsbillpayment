@@ -65,8 +65,8 @@
                                     <label>
                                         <button type="button" id="btnprint">Print</button>
                                     </label>
-                                    <label class="pull-right">
-                                        <button type="button" onclick="miniSalesReportHandler.openMiniSalesReportModal('daily')">SALES SUMMARY</button>
+                                    <label class="pull-right" >
+                                        <button type="button"  onclick="miniSalesReportHandler.openMiniSalesReportModal('daily')">SALES SUMMARY</button>
                                     </label>
 
                                 </div>
@@ -86,10 +86,7 @@
                                                 <label class="col-sm-2 col-md-2" style=" width:31% !important;">POS:</label>
                                                 @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "pos" })
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-md-2" style=" width:31% !important;">PRODUCT:</label>
-                                                @Html.DropDownList("PlatformId", new SelectList(ViewBag.Products, "value", "text"), "-SELECT PRODUCT", new { @style = " width:68% !important;", @class = "form-control col-md-6", @id = "prodId" })
-                                            </div>
+
                                             <hr style="background:#d0cbcb; height:1px;" />
 
                                             <div class="form-group row">
@@ -134,7 +131,7 @@
                                                         <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
                                                         <th>PRODUCT </th>
                                                         <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
-                                                        <th class="sorting" data-sortby="MeterNumber">METER/PHONE #</th>
+                                                        <th class="sorting" data-sortby="MeterNumber">METER #</th>
                                                         <th class="sorting" data-sortby="VendorName">VENDOR</th>
                                                         <th class="sorting" data-sortby="POS">POS ID</th>
                                                         <th>REQUEST/RESPONSE</th>
@@ -168,9 +165,6 @@
 </div>
 <div class="modal fade" id="modalCart3">
     @Html.Partial("_RequestResponseJSON")
-</div>
-<div class="modal fade" id="airtimeReceiptModal">
-    @Html.Partial("_airtimeReceipt")
 </div>
 
 @Html.Partial("Partials/_miniSalesReport")

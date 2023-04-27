@@ -121,11 +121,6 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
-                    ViewBag.Products = new List<SelectListItem> {
-                        new SelectListItem { Value = "1", Text = "ELECTRICITY (EDSA)" },
-                        new SelectListItem { Value = "2", Text = "ORANGE" },
-                        new SelectListItem { Value = "3", Text = "AFRICELL" }
-                    };
                     var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
                     return View("ManageSalesReports", recharges);
                 }
@@ -449,7 +444,7 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "PRODUCT"; //PRODUCT_TYPE
                 gv.HeaderRow.Cells[2].Text = "TRANSACTION ID"; //TRANSACTIONID
-                gv.HeaderRow.Cells[3].Text = "METER/PHONE #"; //METER_NO
+                gv.HeaderRow.Cells[3].Text = "METER #"; //METER_NO
                 gv.HeaderRow.Cells[4].Text = "VENDOR NAME"; //VENDORNAME
                 gv.HeaderRow.Cells[5].Text = "POS ID"; //POSID 
                 gv.HeaderRow.Cells[6].Text = "TOKEN"; gv.HeaderRow.Cells[6].ColumnSpan = 2;  //PIN
@@ -457,21 +452,19 @@ namespace VendTech.Areas.Admin.Controllers
 
                 foreach (GridViewRow row in gv.Rows)
                 {
-                    var isAirtime = false;
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        isAirtime = row.Cells[1].ToString() != "EDSA";
+
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[1].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
-                        row.Cells[3].Text = BLL.Common.Utilities.StringValue(row.Cells[3].Text.ToString());
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
                         var token = row.Cells[6].Text.ToString();
-                        row.Cells[6].Text = isAirtime ? BLL.Common.Utilities.StringValue(token) : token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
+                        row.Cells[6].Text = token != "&nbsp;" ? BLL.Common.Utilities.FormatThisToken(token) : string.Empty;
                         row.Cells[6].ColumnSpan = 2;
                     }
                 }
