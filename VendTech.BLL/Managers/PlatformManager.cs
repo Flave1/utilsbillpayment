@@ -19,7 +19,7 @@ namespace VendTech.BLL.Managers
 
         List<PlatformModel> IPlatformManager.GetPlatforms()
         {
-            var platforms = Context.Platforms.Where(p => !p.IsDeleted).Select(p => new PlatformModel
+            var platforms = Context.Platforms.Where(p => !p.IsDeleted).ToList().Select(p => new PlatformModel
             {
                 PlatformId = p.PlatformId,
                 ShortName = p.ShortName,
@@ -28,9 +28,7 @@ namespace VendTech.BLL.Managers
                 MinimumAmount = p.MinimumAmount,
                 DiabledPlaformMessage = p.DisabledPlatformMessage,
                 DisablePlatform = p.DisablePlatform,
-                Logo = string.IsNullOrEmpty(p.Logo) ? "" : Utilities.DomainUrl + p.Logo,
-                PlatformType = p.PlatformType,
-                PlatformApiConnName = p.PlatformApiConnId > 0 ? p.PlatformApiConnection.Name : null
+                Logo = string.IsNullOrEmpty(p.Logo) ? "" : Utilities.DomainUrl + p.Logo
             }).ToList();
             return platforms;
         }
@@ -45,18 +43,13 @@ namespace VendTech.BLL.Managers
 
                 if (userAssignedPos != null && userAssignedPos.POSId > 0)
                 {
-                    return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled)
-                        .Select(p => new PlatformModel
+                    return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled).ToList().Select(p => new PlatformModel
                     {
                         PlatformId = p.Platform.PlatformId,
                         Title = p.Platform.Title,
                         DisablePlatform = p.Platform.DisablePlatform,
                         Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo,
-                        PlatformType = p.Platform.PlatformType,
-                        PlatformApiConnName = p.Platform.PlatformApiConnId > 0 ? p.Platform.PlatformApiConnection.Name : null
-                    })
-                    .OrderBy(p => p.Title)
-                    .ToList();
+                    }).ToList();
                 }
             }
             catch (Exception)
@@ -104,11 +97,8 @@ namespace VendTech.BLL.Managers
             dbPlatform.Title = model.Title; 
             dbPlatform.ShortName = model.ShortName;
             dbPlatform.MinimumAmount = model.MinimumAmount;
-            dbPlatform.DisabledPlatformMessage = (model.DiabledPlaformMessage != null) ? model.DiabledPlaformMessage.ToString() : "";
+            dbPlatform.DisabledPlatformMessage = model.DiabledPlaformMessage.ToString();
             dbPlatform.DisablePlatform = model.DisablePlatform;
-            dbPlatform.PlatformType = model.PlatformType;
-            dbPlatform.PlatformApiConnId = model.PlatformApiConnId;
-
             if (model.Id == null || model.Id == 0)
             {
                 dbPlatform.CreatedAt = DateTime.UtcNow;
@@ -167,32 +157,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        PlatformModel IPlatformManager.GetPlatformById(long platformId)
-        {
-            try
-            {
-                return Context.Platforms.Where(d => d.PlatformId == platformId)
-                    .Select(d => new PlatformModel
-                    {
-                        Enabled = d.Enabled,
-                        MinimumAmount = d.MinimumAmount,
-                        Title = d.Title,
-                        DiabledPlaformMessage = d.DisabledPlatformMessage,
-                        DisablePlatform = d.DisablePlatform,
-                        PlatformType = d.PlatformType,
-                        PlatformId = d.PlatformId,
-                        PlatformApiConnId = d.PlatformApiConnId
-                    })
-                    .FirstOrDefault();
-
-            }
-            catch (Exception)
-            {
-                return new PlatformModel();
-            }
-        }
-
-        public PlatformModel GetSinglePlatform(long platformId)
+        PlatformModel IPlatformManager.GetSinglePlatform(long platformId)
         {
             try
             { 
@@ -203,9 +168,6 @@ namespace VendTech.BLL.Managers
                         MinimumAmount = d.MinimumAmount, Title = d.Title,
                         DiabledPlaformMessage = d.DisabledPlatformMessage,
                         DisablePlatform = d.DisablePlatform,
-                        PlatformType = d.PlatformType,
-                        PlatformId = d.PlatformId,
-                        PlatformApiConnId = d.PlatformApiConnId
                     })
                     .FirstOrDefault();
                  
@@ -214,33 +176,6 @@ namespace VendTech.BLL.Managers
             {
                 return new PlatformModel();
             }  
-        }
-
-        public List<PlatformModel> GetPlatformsByTypeForRecharge(PlatformTypeEnum type)
-        {
-            try
-            {
-                return Context.Platforms.Where(d => d.PlatformType == (int) type
-                && d.IsDeleted == false
-                && d.Enabled == true)
-                    .Select(d => new PlatformModel
-                    {
-                        Enabled = d.Enabled,
-                        MinimumAmount = d.MinimumAmount,
-                        Title = d.Title,
-                        DiabledPlaformMessage = d.DisabledPlatformMessage,
-                        DisablePlatform = d.DisablePlatform,
-                        PlatformType = d.PlatformType,
-                        PlatformId = d.PlatformId,
-                        PlatformApiConnId = d.PlatformApiConnId
-                    })
-                    .ToList();
-
-            }
-            catch (Exception)
-            {
-                return new List<PlatformModel>();
-            }
         }
 
     }

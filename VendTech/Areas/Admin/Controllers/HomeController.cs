@@ -123,8 +123,6 @@ namespace VendTech.Areas.Admin.Controllers
                 SignOut();
                 return RedirectToAction("Index", "Home", new { area = "admin" });
             }
-
-            //List of products available to the user
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 

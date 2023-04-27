@@ -235,7 +235,7 @@ namespace VendTech.BLL.Models
          
         public string Units { get; set; }
          
-        public string VatNumber { get; set; }
+        public long VatNumber { get; set; }
     }
 
     public partial class Tym2SellVoucher
