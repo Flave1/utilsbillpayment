@@ -66,6 +66,12 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Quartz, Version=2.6.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.6.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
@@ -132,10 +138,14 @@
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\ModelUtils.cs" />
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="HttpRequest.cs" />
+    <Compile Include="Interfaces\ICurrencyManager.cs" />
+    <Compile Include="Interfaces\IPlatformApiManager.cs" />
+    <Compile Include="Interfaces\IPlatformTransactionManager.cs" />
     <Compile Include="Interfaces\ITransferManager.cs" />
     <Compile Include="Interfaces\IPaymentTypeManager.cs" />
     <Compile Include="Interfaces\IDashboardManager.cs" />
@@ -155,6 +165,10 @@
     <Compile Include="Interfaces\IAuthenticateManager.cs" />
     <Compile Include="Interfaces\IAgencyManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Jobs\PendingTransactionCheckJob.cs" />
+    <Compile Include="Managers\CurrencyManager.cs" />
+    <Compile Include="Managers\PlatformApiManager.cs" />
+    <Compile Include="Managers\PlatformTransactionManager.cs" />
     <Compile Include="Interfaces\IRTSEDSAManager.cs" />
     <Compile Include="Managers\RTSEDSAManager.cs" />
     <Compile Include="Managers\TransferManager.cs" />
@@ -183,7 +197,12 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DataResult.cs" />
     <Compile Include="Models\IcekloudModels.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PaymentTypeModel.cs" />
+    <Compile Include="Models\PlatformApiConnectionModel.cs" />
+    <Compile Include="Models\PlatformApiLogModel.cs" />
+    <Compile Include="Models\PlatformApiModel.cs" />
+    <Compile Include="Models\PlatformTransactionModel.cs" />
     <Compile Include="Models\ReceiptModel.cs" />
     <Compile Include="Models\ReportSearchModeluser.cs" />
     <Compile Include="Models\RoleModels.cs" />
@@ -204,6 +223,12 @@
     <Compile Include="Models\UserAssignedModuleModel.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\VendorModels.cs" />
+    <Compile Include="PlatformApi\AbstractPlatformApiConnection.cs" />
+    <Compile Include="PlatformApi\Class1.cs" />
+    <Compile Include="PlatformApi\IPlatformApi.cs" />
+    <Compile Include="PlatformApi\PlatformApiConfig.cs" />
+    <Compile Include="PlatformApi\PlatformApi_Edsa.cs" />
+    <Compile Include="PlatformApi\PlatformApi_Sochitel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -218,8 +243,19 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

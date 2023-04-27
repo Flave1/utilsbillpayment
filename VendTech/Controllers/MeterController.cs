@@ -221,11 +221,6 @@ namespace VendTech.Controllers
         }
 
        
-        public class RequestObject
-        {
-            public string token_string { get; set; }
-        }
-
         [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(RequestObject tokenobject)
         { 

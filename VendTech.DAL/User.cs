@@ -35,6 +35,7 @@ namespace VendTech.DAL
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
             this.Users1 = new HashSet<User>();
+            this.PlatformTransactions = new HashSet<PlatformTransaction>();
         }
     
         public long UserId { get; set; }
@@ -115,5 +116,7 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
         public virtual User User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlatformTransaction> PlatformTransactions { get; set; }
     }
 }

@@ -12,6 +12,9 @@ namespace VendTech.App_Start
     using System.Reflection;
     using Ninject.Web.Common.WebHost;
     using VendTech.BLL;
+    using Quartz.Impl;
+    using Quartz;
+    using VendTech.Jobs;
 
     public static class NinjectWebCommon
     {
@@ -24,8 +27,11 @@ namespace VendTech.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            
+
             bootstrapper.Initialize(CreateKernel);
+
+            //Register jobs and start the Schedulaer
+            NinjectJobFactory.RegisterJobs(bootstrapper.Kernel);
         }
 
         /// <summary>
@@ -48,7 +54,18 @@ namespace VendTech.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel).InRequestScope();
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>().InRequestScope();
                 kernel.Bind<DbContext>().ToSelf().InRequestScope();
+
+                // setup Quartz scheduler that uses our NinjectJobFactory
+                kernel.Bind<IScheduler>().ToMethod(x =>
+                {
+                    var sched = new StdSchedulerFactory().GetScheduler();
+                    sched.JobFactory = new NinjectJobFactory(kernel);
+                    return sched;
+                });
+
+                //Register other services
                 RegisterServices(kernel);
+
                 return kernel;
             }
             catch

@@ -1,0 +1,85 @@
+﻿
+@model IDictionary<string, HtmlFormElement>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+
+}
+
+<style>
+    select.plat-api-cfg-elem {
+        width: 50%;
+    }
+</style>
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@Html.Raw(ViewBag.MainPageHeader)</h2>
+    </div>
+    <div class="cl-mcont">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>@ViewBag.MainPageHeader</h3>
+                    </div>
+                    <div class="content people-form-cs">
+
+                        @if (!string.IsNullOrEmpty(ViewBag.Message))
+                        {
+                            <div class="alert alert-success fade in" role="alert">
+                                @Html.Raw(ViewBag.Message);
+                            </div>
+                        }
+
+                        <form class="form-horizontal" method="post"
+                              action="/Admin/PlatformApi/ConfigureApiConnection/@ViewBag.PlatforApiConnId"
+                              onsubmit="return confirm('Configure PAC?');">
+
+                            <input type="hidden" name="_platformApiConnId" value="@ViewBag.PlatforApiConnId" />
+
+                            <div class="form-group">
+
+                                @{
+                                    foreach (var conf in Model)
+                                    {
+                                        <div class="row">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label">@conf.Value.Name<em>*</em></label>
+                                                <div class="col-md-6">
+                                                    @Html.Raw(@conf.Value.GenerateHtml())
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <a href="@Url.Action("PlatformApiConnections", "PlatformApi", new { area = "Admin", id = @ViewBag.PlatformId })" class="btn btn-default">Cancel</a>
+                                            &nbsp;
+                                            <input type="submit" class="btn btn-primary" value="Configure PAC" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{  
+    <script src="~/Scripts/AdminScripts/platform.js"></script>
+}
+
+
+
+
