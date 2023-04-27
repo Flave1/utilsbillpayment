@@ -261,6 +261,10 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
             }
+            if (!string.IsNullOrEmpty(model.Product))
+            {
+                query = query.Where(p => p.Platform.ShortName.ToLower().Contains(model.Product.ToLower()));
+            }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
@@ -1034,6 +1038,7 @@ namespace VendTech.BLL.Managers
         }
         private ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
         {
+            if (model.POS == null) model.POS = new POS();
             var receipt = new ReceiptModel();
             receipt.AccountNo = model?.AccountNumber;
             receipt.POS = model?.POS?.SerialNumber;
@@ -1228,6 +1233,7 @@ namespace VendTech.BLL.Managers
         }
         ReceiptModel IMeterManager.ReturnVoucherReceipt(string token)
         {
+            token = BLL.Common.Utilities.ReplaceWhitespace(token, "");
             var transaction_by_token = Context.TransactionDetails.Where(e => e.MeterToken1 == token).ToList().FirstOrDefault();
             if (transaction_by_token != null)
             {

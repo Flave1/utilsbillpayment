@@ -684,3 +684,79 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Nullable object must have a value.
+
+
+
+Nullable object must have a value.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value was either too large or too small for an Int32.
+
+
+
+One or more errors occurred.
+
+
+
+One or more errors occurred.
+
+
+

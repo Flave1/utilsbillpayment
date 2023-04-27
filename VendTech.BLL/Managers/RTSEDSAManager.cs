@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
@@ -43,7 +44,11 @@ namespace VendTech.BLL.Managers
             var resp = await SendHttpRequestAsync(url, HttpMethod.Post, req);
 
             var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
-            
+            for (var i = 0; i < list.Data.Count; i++)
+            {
+                list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
+            }
+
             result.List = list.Data;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meter recharges fetched successfully.";
@@ -63,8 +68,8 @@ namespace VendTech.BLL.Managers
                 Password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString(),
             };
 
-            requestObj.DateFrom = Convert.ToInt64(model.FromDate);
-            requestObj.DateTo = Convert.ToInt64(model.ToDate);
+            requestObj.DateFrom = model.FromDate;
+            requestObj.DateTo = model.ToDate;
             requestObj.MeterSerial = model.MeterSerial;
 
             var req = JsonConvert.SerializeObject(requestObj, Formatting.Indented);
@@ -74,6 +79,10 @@ namespace VendTech.BLL.Managers
 
             var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
 
+            for ( var i = 0; i < list.Data.Count; i++)
+            {
+                list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
+            }
             result.List = list.Data;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meter recharges fetched successfully.";

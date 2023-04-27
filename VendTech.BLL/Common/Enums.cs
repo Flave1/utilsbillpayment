@@ -52,6 +52,10 @@ namespace VendTech.BLL.Models
         TransferFromNotification = 15,
         [Description("Transfer To Notification")]
         TransferToNotification = 16,
+        [Description("Receipt Via Email PDF")]
+        SendReceiptViaEmail = 17,
+        [Description("Receipt Via Email Content")]
+        SendReceiptViaEmailContent = 18,
     }
     public enum PosTypeEnum
     {

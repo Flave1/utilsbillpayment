@@ -24,4 +24,9 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }
         public string PhoneNo { get; set; }
     }
+    public class SendViaEmail
+    {
+        public string TransactionId { get; set; }
+        public string Email { get; set; }
+    }
 }

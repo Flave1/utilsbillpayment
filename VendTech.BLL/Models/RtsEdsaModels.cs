@@ -11,7 +11,7 @@ namespace VendTech.BLL.Models
         public long Account { get; set; }
         public string CodUser { get; set; } = "";
         public string CustomerName { get; set; }
-        public long DateTransaction { get; set; }
+        public string DateTransaction { get; set; }
         public long DebtPayment { get; set; }
         public string MeterSerial { get; set; }
         public string Receipt { get; set; }
@@ -26,8 +26,8 @@ namespace VendTech.BLL.Models
     {
         public Header Header { get; set; }
         public string MeterSerial { get; set; }
-        public long DateFrom { get; set; }
-        public long DateTo { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
     }
     public class RtsedsaTransactionRequest
     {
@@ -44,13 +44,13 @@ namespace VendTech.BLL.Models
 
     public class InquiryRequest
     {
-        public long FromDate { get; set; }
-        public long ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
         public string MeterSerial { get; set; }
     }
     public class TransactionRequest
     {
-        public long Date { get; set; }
+        public string Date { get; set; }
     }
 }
 

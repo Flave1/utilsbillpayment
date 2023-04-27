@@ -74,6 +74,7 @@ var miniSalesReportHandler = {
         obj.ReportType = $("#reportType").val();
         obj.Meter = $('#meterNo').val();
         obj.TransactionId = $('#tranId').val();
+        obj.Product = $('#productId').val();
         if (isInitial === true) {
             obj.To = $('#ToDate').val();
             obj.From = $('#FromDate').val();
@@ -357,6 +358,7 @@ function Paging(sender) {
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
 
+    obj.Product = $('#productId').val();
     if (obj.From) {
         $("#fromSpan").text($("#FromDate").val())
     }

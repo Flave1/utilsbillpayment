@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using Castle.Core.Internal;
 using VendTech.BLL.Managers;
+using VendTech.BLL.Common;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -61,7 +62,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new TransactionRequest
             {
-                Date = Convert.ToInt64(date),
+                Date = date,
             };
             var respponse = manager.GetTransactionsAsync(model).Result;
             return Json(new {result = JsonConvert.SerializeObject(respponse.List) });
@@ -73,8 +74,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new InquiryRequest
             {
-                FromDate = Convert.ToInt64(fromdate),
-                ToDate = Convert.ToInt64(todate),
+                FromDate = Utilities.ConvertDateToEpochDate(fromdate),
+                ToDate = Utilities.ConvertDateToEpochDate(todate),
                 MeterSerial = meterSerial
             };
             var respponse = manager.GetSalesInquiry(model).Result;
@@ -87,7 +88,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new TransactionRequest
             {
-                Date = Convert.ToInt64(frmD),
+                Date = Utilities.ConvertDateToEpochDate(frmD),
             };
             var respponse = manager.GetTransactionsAsync(model).Result;
             var gv = new GridView
@@ -136,8 +137,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new InquiryRequest
             {
-                FromDate = Convert.ToInt64(frmD),
-                ToDate = Convert.ToInt64(toD),
+                FromDate = BLL.Common.Utilities.ConvertDateToEpochDate(frmD),
+                ToDate = BLL.Common.Utilities.ConvertDateToEpochDate(toD),
                 MeterSerial = meterSerial
             };
             var respponse = manager.GetSalesInquiry(model).Result;

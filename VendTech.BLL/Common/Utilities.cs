@@ -13,8 +13,10 @@ using System.Net.Mail;
 using System.Net;
 using VendTech.DAL;
 using System.Globalization;
-using VendTech.BLL.Interfaces;
-using System.Xml.Linq;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using System.Text.RegularExpressions;
 
 namespace VendTech.BLL.Common
 {
@@ -423,6 +425,73 @@ namespace VendTech.BLL.Common
 
         }
 
+        public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
+        {
+            string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
+            try
+            {
+
+                var mimeMsg = new MimeMessage();
+                var frms = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, from),
+                };
+                var tos = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, to),
+                };
+                mimeMsg.From.AddRange(frms);
+                mimeMsg.To.AddRange(tos);
+                mimeMsg.Subject = sub;
+
+                var multipart = new Multipart("mixed");
+                var content = new TextPart("html")
+                {
+                    Text = body
+                };
+
+                multipart.Add(content);
+
+                if (!string.IsNullOrEmpty(file))
+                {
+                    var attachment = new MimePart("application", "pdf")
+                    {
+                        Content = new MimeContent(File.OpenRead(file)),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = Path.GetFileName(name)
+                    };
+                    multipart.Add(attachment);
+                }
+
+                mimeMsg.Body = multipart;
+
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    client.Connect("smtp.gmail.com", 465);
+
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    client.Authenticate(from, password);
+
+                    client.Send(mimeMsg);
+
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception x)
+            {
+                LogExceptionToDatabase(x);
+                //return true;
+            }
+
+        }
+
+
         static void LogExceptionToDatabase(Exception exc)
         {
             var context = new VendtechEntities();
@@ -570,6 +639,66 @@ namespace VendTech.BLL.Common
                 weeks.Add(CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dates[i].AddDays(4 - (day == 0 ? 7 : day)), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
             }
             return weeks.Distinct().ToList();
+        }
+
+        private static readonly Regex sWhitespace = new Regex(@"\s+");
+        public static string ReplaceWhitespace(string input, string replacement)
+        {
+            return sWhitespace.Replace(input, replacement);
+        }
+
+        public static string CreatePdf(string content, string transctionId)
+        {
+
+            // create a new PDF document
+            Document document = new Document();
+            try
+            {
+                string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string path = rootDirectory + "/Receipts/" + transctionId + "_receipt.pdf";
+                // create a PDF writer to write the document to a file
+                var writer = PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
+
+                // open the document
+                document.Open();
+
+                // create a new XML parser
+                XMLWorkerHelper parser = XMLWorkerHelper.GetInstance();
+
+                // create a string with the HTML content to be converted to PDF
+                string htmlContent = content;
+
+                // convert the HTML content to PDF and add it to the document
+                parser.ParseXHtml(writer, document, new StringReader(content));
+
+                // close the document
+                document.Close();
+                return path;
+
+            }
+            catch (Exception)
+            {
+                document.Close();
+                throw;
+            }
+        }
+
+        public static DateTime ConvertEpochTimeToDate(long epochTime)
+        {
+            //long epochTime = 1622697228; // Unix epoch time in seconds
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                    .AddSeconds(epochTime);
+            return dateTime;
+        }
+
+        public static string ConvertDateToEpochDate(string dateString)
+        {
+            var splited = dateString.Split('/').Select(int.Parse).ToList();
+            DateTime date = new DateTime(splited[2], splited[1], splited[0]); // Set your desired date
+            DateTime epoch = new DateTime(1970, 1, 1); // Set the epoch date
+            TimeSpan timeSpan = date - epoch; // Get the difference between the two dates
+            long epochTime = (long)timeSpan.TotalSeconds; // Convert the difference to seconds and cast to long
+            return epochTime.ToString();
         }
     }
 }
