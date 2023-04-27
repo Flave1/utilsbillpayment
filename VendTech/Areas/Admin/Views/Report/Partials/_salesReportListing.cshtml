@@ -19,7 +19,7 @@
                 </a>
             </strong>
         </td>
-        <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchVoucherDetailsByToken('@VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin)')" id="@item.RechargePin"> @VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin) </a></strong></td>
+        <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchSaleInformation('@item.RechargePin', '@item.PlatformId')" id="@item.RechargePin"> @VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin) </a></strong></td>
 
         <td style="text-align:right;"> <strong> @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</strong></td>
     </tr>

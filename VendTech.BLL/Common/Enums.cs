@@ -11,7 +11,8 @@ namespace VendTech.BLL.Models
         Successfull = 1,
         Error = 2,
         LoggedOut = 3,
-        Unauthorized = 4
+        Unauthorized = 4,
+        Pending = 5,
     }
     public enum NotificationStatusEnum
     {
@@ -176,4 +177,78 @@ namespace VendTech.BLL.Models
         MeterRecharge=1,
         DepositStatusChange = 2
     }
+
+    /**
+     * An Enum for the product (platform) types.
+     */
+    public enum PlatformTypeEnum
+    {
+        AIRTIME = 1,
+        CABLE_TV = 2,
+        DATA = 3,
+        ELECTRICITY = 4,
+    }
+
+    public enum StatusEnum
+    {
+        Active = 0,
+        Disabled = 1,
+        Deleted = 2,
+    }
+
+    public enum TransactionStatus
+    {
+        InProgress = 0,
+        Pending = 1,
+        Successful = 2,
+        Failed = 3,
+        Error = 4,
+    }
+
+    public enum ApiLogType
+    {
+        InitialRequest = 1,
+        PendingCheckRequest = 2,
+    }
+
+    public class EnumUtils
+    {
+        public static IEnumerable<T> GetEnumValues<T>()
+        {
+            // Can't use type constraints on value types, so have to do check like this
+            if (typeof(T).BaseType != typeof(Enum))
+            {
+                throw new ArgumentException("T must be of type System.Enum");
+            }
+
+            return Enum.GetValues(typeof(T)).Cast<T>();
+        }
+
+        public static string GetEnumName<T>(int value)
+        {
+            ValidateType<T>();
+            return Enum.GetName(typeof(T), value);
+        }
+
+        private static void ValidateType<T>()
+        {
+            // Can't use type constraints on value types, so have to do check like this
+            if (typeof(T).BaseType != typeof(Enum))
+            {
+                throw new ArgumentException("T must be of type System.Enum");
+            }
+        }
+    }
+
+
+
+    /**
+     * A helper class
+     */
+    public class NameValueModel
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    
 }

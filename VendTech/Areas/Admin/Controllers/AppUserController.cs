@@ -209,7 +209,7 @@ namespace VendTech.Areas.Admin.Controllers
 
 
             return JsonResult(result);
-        }
+        }   
 
         [AjaxOnly, HttpPost]
         public JsonResult UpdateUserDetails(AddUserModel model)
