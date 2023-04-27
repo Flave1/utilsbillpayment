@@ -1,4 +1,6 @@
-﻿@model TransferViewModel
+﻿@using Newtonsoft.Json;
+@model TransferViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -44,11 +46,11 @@
                                                     <div class=" row align-items-center">
                                                         <div class="col-md-6">
                                                             <h5><label>TRANSFER FROM</label> </h5>
-                                                            <input type="text" class="form-control mb-2 rounded" id="filterAgencyFromVendors" autocomplete="off" placeholder="Search vendors to transfer from.... ">
-                                                            <nav class="agencyFromVendors" id="agencyFromVendors"></nav>
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName - ADMIN - @Model.AdminPos"  id="filterAgencyFromVendors" autocomplete="off" >
+                                                            @*<nav class="agencyFromVendors" id="agencyFromVendors"></nav>*@
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <h5><strong id="agencySenderDisplay"></strong></h5>
+                                                            <h5><strong id="agencySenderDisplay">BALANCE: NLe @Model.AdminBalance</strong></h5>
                                                         </div>
                                                     </div>
                                                     <div class="row align-items-center">
@@ -64,7 +66,7 @@
                                                     <div class="row align-items-center">
                                                         <div class="col-md-4">
                                                             <h5><label>TRANSFER AMOUNT</label> </h5>
-                                                            <input type="text" class="form-control mb-2 rounded" onkeypress="javascript:return transferHandler.isNumber(event)" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value)">
+                                                            <input type="text" class="form-control mb-2 rounded" onkeypress="javascript:return transferHandler.isNumber(event)" autocomplete="off" id="amtToTransfer" onkeyup="transferHandler.displayAmount(this.value, '@Model.AdminBalance')">
                                                         </div>
                                                     </div>
                                                     <div class="row push-item-right col-md-6">
@@ -81,7 +83,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <button type="button" onclick="transferHandler.transferToVendor(this)" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
+                                                    <button type="button" onclick="transferHandler.transferToVendor(this, '@Model.AdminBalance')" id="submitTransferFromBtn" disabled class="btn btn-primary mb-2 pull-right">Transfer</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -109,7 +111,7 @@
                                                     <div class="row align-items-center">
                                                         <div class="col-md-6">
                                                             <h5><label>TRANSFER FROM</label> </h5>
-                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName --  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
+                                                            <input type="text" readonly class="form-control mb-2 rounded" value="@Model.AdminName - ADMIN -  @Model.AdminPos" id="otherFilterAgencyFromVendors" placeholder="Search vendors to transfer from.... ">
                                                             <nav class="otherAgencyFromVendors" id="otherAgencyFromVendors"></nav>
                                                         </div>
                                                         <div class="col-md-6">
@@ -172,5 +174,15 @@
 </div>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/UserScripts/transfer.js"></script>
-<script src="~/Scripts/UserScripts/transfer.js"></script>
+<script>
+    $(document).ready(function () {
+        const frm = {
+            Balance: '@Model.AdminBalance',
+            POSID: '@Model.AdminPosId',
+            Vendor: '@Model.Vendor' + ' - ADMIN - ' + '@Model.AdminPos',
+        }
 
+        transferHandler.transferFrom = frm
+        console.log('from', transferHandler.transferFrom)
+});
+</script>

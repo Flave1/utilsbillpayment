@@ -96,7 +96,16 @@
                         {
                             <tr>
                                 <td>COMMISSION @@ %1</td>
-                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100)</td>
+                                <td>
+                                    @{
+                                        var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100);
+                                        if (amt.Split('.')[1].Length != 2)
+                                        {
+                                            amt = amt.Split('.')[0] + ".00";
+                                        }
+                                    }
+                                    @amt
+                                </td>
                             </tr>
 
                         }
@@ -110,10 +119,19 @@
                         }
                         else
                         {
-                            <tr>
-                                <td>TOTAL TRANSACTION AMOUNT</td>
-                                <td>@VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount)</td>
-                            </tr>
+                    <tr>
+                        <td>TOTAL TRANSACTION AMOUNT</td>
+                        <td>
+                            @{
+                                var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount);
+                                if (amt.Split('.')[1].Length != 2)
+                                {
+                                    amt = amt.Split('.')[0] + ".00";
+                                }
+                            }
+                            @amt
+                        </td>
+                    </tr>
                         }
 
 

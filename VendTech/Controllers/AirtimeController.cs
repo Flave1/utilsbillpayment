@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 using VendTech.BLL.Interfaces;
 
 namespace VendTech.Controllers

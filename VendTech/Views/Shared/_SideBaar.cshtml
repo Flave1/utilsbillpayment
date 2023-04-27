@@ -33,6 +33,7 @@
                     {
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "active" : "")" href="@Url.Action("Index", "Deposit")"><i class="fa fa-money"></i><span>Wallet</span></a></li>
                     }
+                   
                     @if (assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active" : "")" href="@Url.Action("SalesReport", "Report")"><i class="fa  fa-file-text"></i><span>Reports</span></a></li>

@@ -1,0 +1,190 @@
+﻿@model PagingResult<RtsedsaTransaction>
+@{
+    ViewBag.Title = "Manage Sales Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+}
+
+
+@{
+    var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<div class="container-fluid" id="pcont">
+    <style>
+            input {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            select {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            label {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            option {
+                font-weight: bold;
+            }
+
+
+            div.dataTables_filter > label::before {
+                content: "Quick Search :";
+            }
+        </style>
+    <div class="page-head">
+        <h3><b>Manage RTS/EDSA Inquiry</b></h3>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="content">
+                        <div class="table-responsive">
+                            <div id="divResult">
+                                <div class="topsec">
+                                    <h2>INQUIRY REPORTS</h2>
+                                    <label>From: <span id="fromSpan">_</span>&nbsp;&nbsp;&nbsp;&nbsp; To: <span id="toSpan">_</span> </label>
+                                    <label>Printed on: <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                                    <label>
+                                        Export:
+                                        <select name="PrintType" id="PrintType">
+                                            <option value="Excel">Excel</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        <button type="button" id="btnExport">Export</button>
+                                    </label>
+                                </div>
+                                <div class="blwsec">
+                                    <div class="blwsec-left">
+                                        <form action="Report/ExportSalesReportTo" method="post" id="salesform">
+                                            <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                                            <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+
+                                            <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                            <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+
+
+                                            <div class="row">
+                                                <label style=" width:100% !important;">Meter Number:</label>
+
+                                                <input type="text" name="meterSerial" id="meterSerial" class="form-control" />
+                                            </div>
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <div class="row">
+                                                <input type="hidden" value="frmD" name="frmD" id="frmD" />
+                                                <input type="hidden" value="toD" name="toD" id="toD" />
+                                                <label style="width:100%;">TRANSACTION PERIOD</label>
+
+                                                <div style="width: 49%; float: left; ">
+                                                    <label>From:</label>
+                                                    <input type="text" name="FromDate" id="FromDate">
+                                                    <input type="hidden" id="frmDt" />
+                                                </div>
+
+                                                <div style="width: 49%; float: right; ">
+                                                    <label>To:</label>
+                                                    <input type="text" name="ToDate" id="ToDate">
+                                                    <input type="hidden" id="toDt" />
+                                                </div>
+
+                                            </div>
+
+                                            <hr style="background:#d0cbcb; height:1px;" />
+                                            <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch2" />
+                                        </form>
+                                    </div>
+
+
+
+                                    <div class="blwsec-right">
+                                        <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
+                                            <table class="table table-bordered" id="datatable-icons">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ACCOUNT</th>
+                                                        <th>CUSTOMER</th>
+                                                        <th>DATE TRANSACTION</th>
+                                                        <th>DEBT PAYMENT</th>
+                                                        <th>METER SERIAL </th>
+                                                        <th>RECEIPT</th>
+                                                        <th>AMOUNT</th>
+                                                        <th>TRANS ID</th>
+                                                        <th>UNIT</th>
+                                                        <th>UNIT PAYMENT</th>
+                                                        <th>UNIT TYPE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableBody">
+                                                    @Html.Partial("Partials/_salesListing", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="CreatedAt" id="SortBy" />
+                                    <input type="hidden" value="Desc" id="SortOrder" />
+                                    <div style="clear:both"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
+    <script src="~/Scripts/AdminScripts/rtsedsaReport.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+
+    <script src="~/Scripts/Receipt.js"></script>
+    <script type="text/javascript">
+    var totalCount = "@Model.TotalCount";
+     
+
+        $('#PrintType').on("change", function () {
+            $('#ExportType').val($(this).val());
+        });
+
+        $("#btnExport").click(function (e) {
+            var frm = $("#FromDate").val();
+            var to = $("#ToDate").val();
+            if (frm) {
+                $("#frmD").val(RtsEdsaHandler.getUnixDate(frm));
+            }
+            else {
+                $("#frmD").val('');
+
+            }
+            if (to) {
+                $("#toD").val(RtsEdsaHandler.getUnixDate(to));
+            }
+            else {
+                $("#toD").val('');
+            }
+
+            $('#salesform').attr('action', '/RTSEDSAReport/ExportRTSEDSASaleInquiry');
+            $("#salesform").attr("method", "Post");
+            $("#salesform").submit();
+        })
+
+
+    </script>
+}
+

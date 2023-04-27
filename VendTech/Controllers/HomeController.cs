@@ -14,7 +14,6 @@ using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using System.Web.Configuration;
-using VendTech.Areas.Admin.Controllers;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using VendTech.DAL;
@@ -145,7 +144,7 @@ namespace VendTech.Controllers
                 PermissonAndDetailModel.UserDetails = data.Object;
                 PermissonAndDetailModel.ModulesModelList = _userManager.GetAllModulesAtAuthentication(data.Object.UserID);
                 CreateCustomAuthorisationCookie(data.Object.UserName, false, new JavaScriptSerializer().Serialize(PermissonAndDetailModel));
-                SendEmailOnLogin();
+
 
             }
             return Json(data, JsonRequestBehavior.AllowGet);

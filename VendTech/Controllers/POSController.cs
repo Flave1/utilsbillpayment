@@ -1,7 +1,6 @@
 ﻿#region Default Namespaces
 using System.Collections.Generic;
 using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 #endregion
 
 #region Custom Namespaces

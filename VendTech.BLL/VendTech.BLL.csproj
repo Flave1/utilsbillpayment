@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.8.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.BouncyCastle.1.8.8\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
@@ -47,6 +47,12 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
     <Reference Include="MailKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.2.10.0\lib\net45\MailKit.dll</HintPath>
@@ -129,6 +135,7 @@
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="HttpRequest.cs" />
     <Compile Include="Interfaces\ITransferManager.cs" />
     <Compile Include="Interfaces\IPaymentTypeManager.cs" />
     <Compile Include="Interfaces\IDashboardManager.cs" />
@@ -148,6 +155,8 @@
     <Compile Include="Interfaces\IAuthenticateManager.cs" />
     <Compile Include="Interfaces\IAgencyManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
+    <Compile Include="Interfaces\IRTSEDSAManager.cs" />
+    <Compile Include="Managers\RTSEDSAManager.cs" />
     <Compile Include="Managers\TransferManager.cs" />
     <Compile Include="Managers\PaymentTypeManager.cs" />
     <Compile Include="Managers\DashboardManager.cs" />
@@ -186,6 +195,7 @@
     <Compile Include="Models\PlatformModels.cs" />
     <Compile Include="Models\POSModels.cs" />
     <Compile Include="Models\PushNotificationModels.cs" />
+    <Compile Include="Models\RtsEdsaModels.cs" />
     <Compile Include="Models\SchedulerJob.cs" />
     <Compile Include="Models\SMSModels.cs" />
     <Compile Include="Models\TokenModels.cs" />

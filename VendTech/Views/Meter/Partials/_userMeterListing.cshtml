@@ -25,7 +25,7 @@
                     <tbody>
                         @if (Model.List != null)
                         {
-                            var allMeters = Model.List.Select(x => new { value = x.MeterId, text = x.Number + " - " + x.Allias }).ToArray();
+                            var allMeters = Model.List.Select(x => new { value = x.MeterId, text = x.Number + " - " + x.Alias }).ToArray();
                             JavaScriptSerializer js = new JavaScriptSerializer();
                             int i = 0;
                             foreach (var item in Model.List)
@@ -36,7 +36,7 @@
                                     <th scope="row">@i</th>
                                     <td> <a onclick="purchaseUnitsByAdmin.openForm('@item.UserName', '@item.Number', '@item.MeterId', '@item.POSId', '@item.UserId', '@item.Balance', '@item.POSSerialNumber', '@js.Serialize(allMeters)')" href="#">@item.Number</a> </td>
                                     <td>@item.Name</td>
-                                    <td>@item.Allias</td>
+                                    <td>@item.Alias</td>
                                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
                                 </tr>
                         }

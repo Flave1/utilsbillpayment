@@ -74,6 +74,7 @@ var miniSalesReportHandler = {
         obj.ReportType = $("#reportType").val();
         obj.Meter = $('#meterNo').val();
         obj.TransactionId = $('#tranId').val();
+        obj.Product = $('#productId').val();
         if (isInitial === true) {
             obj.To = $('#ToDate').val();
             obj.From = $('#FromDate').val();
@@ -357,6 +358,7 @@ function Paging(sender) {
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
 
+    obj.Product = $('#productId').val();
     if (obj.From) {
         $("#fromSpan").text($("#FromDate").val())
     }
@@ -430,6 +432,7 @@ function getMonthName(number)
     return number+1;
 }
 
+
 function disableSubmit(disabled = false) {
     if (disabled) {
         $("#miniSalesRPSearch").css({ backgroundColor: '#56bb96' });
@@ -440,5 +443,6 @@ function disableSubmit(disabled = false) {
         $("#miniSalesRPSearch").val('Submit');
         $("#miniSalesRPSearch").prop('disabled', false);
     }
+
 
 }

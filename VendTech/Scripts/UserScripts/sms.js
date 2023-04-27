@@ -43,6 +43,9 @@ var smsHandler = {
             success: function (data) {
                 $("#smsNumber").val('');
                 $.ShowMessage($('div.messageAlert'), "SMS SENT", MessageType.Success);
+                setTimeout(function () {
+                    window.location.reload()
+                }, 3000)
             },
             error: function (res) {
                 console.log('err', res)
@@ -70,6 +73,9 @@ var smsHandler = {
                 $("#smsNumber2").val('');
                 smsHandler.closeSmsModal2()
                 $.ShowMessage($('div.messageAlert'), "SMS SENT", MessageType.Success);
+                setTimeout(function () {
+                    window.location.reload()
+                }, 3000)
             },
             error: function (res) {
                 console.log('err', res)

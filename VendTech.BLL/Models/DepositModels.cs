@@ -351,6 +351,7 @@ namespace VendTech.BLL.Models
         public long? AgencyId { get; set; }
         public string ReportType { get; set; }
         public string ProductShortName { get; set; }
+        public string Product { get; set; }
         public long? PosId { get; set; } = 0;
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? From { get; set; } = null;
@@ -415,7 +416,7 @@ namespace VendTech.BLL.Models
             PaymentType = obj.PaymentType;
 
             GTBank = obj.BankAccount.BankName;
-            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
+            Payer = obj.PaymentType != 4 ? !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "": obj.User.Agency.User.Vendor;
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");

@@ -8,7 +8,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Http.Description;
 using System.Web.Mvc;
-using VendTech.Areas.Admin.Controllers;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;

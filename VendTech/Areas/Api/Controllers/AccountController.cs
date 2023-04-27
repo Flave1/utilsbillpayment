@@ -129,7 +129,7 @@ namespace VendTech.Areas.Api.Controllers
                 if (userDetails == null)
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else if (userDetails.UserId == 0)
-                    return new JsonContent(model.UserId.ToString(), Status.Failed).ConvertToHttpResponseOK();
+                    return new JsonContent("ACCOUNT DETAILS FOR EMAIL IS NOT AVAILABLE", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
                     var isEnabled = _posManager.GetPosDetails(model.PassCode).Enabled;
@@ -283,7 +283,7 @@ namespace VendTech.Areas.Api.Controllers
                         body = body.Replace("%OTP%", otp);
                         if (!string.IsNullOrEmpty(user.Email))
                         {
-                            Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
                         }
 
                         var msg = new SendSMSRequest
@@ -339,7 +339,8 @@ namespace VendTech.Areas.Api.Controllers
                     body = body.Replace("%passcode%", savePassCodeModel.PassCode);
                     if (!string.IsNullOrEmpty(savePassCodeModel.Email))
                     {
-                        isEmailed = Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                        Utilities.SendEmail(savePassCodeModel.Email, emailTemplate.EmailSubject, body);
+                        isEmailed = true;
                     }
                     //if (isEmailed && !string.IsNullOrEmpty(savePassCodeModel.Phone))
                     //{

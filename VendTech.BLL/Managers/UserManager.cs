@@ -343,7 +343,7 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetailForAdmin> IUserManager.AdminLogin(LoginModal model)
         { 
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
+            string encryptPasswordde = Utilities.DecryptPassword("dkB0ZWNoMjAyMQ==");
             var user = Context.Users.FirstOrDefault(p =>
             (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
             (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) &&

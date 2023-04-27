@@ -17,7 +17,6 @@ using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using VendTech.Areas.Admin.Controllers;
 using System.Drawing;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -797,7 +796,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 13,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='110' height='110' />",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1017,7 +1016,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 10,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='110' height='110' />",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -1241,7 +1240,7 @@ namespace VendTech.Controllers
                 var imgHeader = new TableHeaderCell
                 {
                     ColumnSpan = 9,
-                    Text = "<img src='http://vendtechsl.net/Content/images/ventech.png' width='60'  style='border:1px solid red; text-align:center; margin:auto;'/>",
+                    Text = "<img src='https://vendtechsl.com/Content/images/ventech.png' width='110' height='110' />",
                     HorizontalAlign = HorizontalAlign.NotSet,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),

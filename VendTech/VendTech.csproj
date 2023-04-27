@@ -234,6 +234,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlatformController.cs" />
     <Compile Include="Areas\Admin\Controllers\AppUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RTSEDSAReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestingController.cs" />
     <Compile Include="Areas\Admin\Controllers\VendorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CMSController.cs" />
@@ -416,6 +417,7 @@
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\reportFilter.js" />
     <Content Include="Scripts\AdminScripts\role.js" />
+    <Content Include="Scripts\AdminScripts\rtsedsaReport.js" />
     <Content Include="Scripts\AdminScripts\salesReport.js" />
     <Content Include="Scripts\AdminScripts\purchaseUnitsByAdmin.js" />
     <Content Include="Scripts\AdminScripts\templates.js" />
@@ -468,6 +470,9 @@
     <Content Include="Areas\Admin\Views\Agent\Partials\_widgetsListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
+    <Content Include="Areas\Admin\Views\RTSEDSAReport\Transactions.cshtml" />
+    <None Include="Scripts\VendorScripts\_references.js" />
+    <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
     <Content Include="Areas\Admin\Views\ReleaseDeposit\ManageDepositRelease2.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
@@ -529,6 +534,8 @@
     <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
     <Content Include="Views\Privacy\Policy.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
+    <Content Include="Areas\Admin\Views\RTSEDSAReport\partials\_salesListing.cshtml" />
+    <Content Include="Areas\Admin\Views\RTSEDSAReport\Inquiry.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -611,6 +618,7 @@
     <Folder Include="Areas\Audit\Data\" />
     <Folder Include="Areas\Audit\Views\Shared\" />
     <Folder Include="Images\ProductImages\" />
+    <Folder Include="Receipts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Project_Readme.html" />

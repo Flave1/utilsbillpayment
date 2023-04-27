@@ -34,13 +34,13 @@
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
+                        <div class="widget widget-tile" style="background-color: #e6e8e8">
                             <div class="data-info ">
-                                <div class="desc">RTS Balance</div>
-                                <div class="value">
-                                    <span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number" id="dealerBal"></span>
+                                <div class="desc" style="font-weight: bold; color: #404042">VENDTECH BALANCE (WITH RTS)</div><br>
+                                <div class="value" style="font-weight: bold; color: red">
+                                    <span class="indicator indicator-negative mdi mdi-chevron-down"></span>NLe: <span data-toggle="counter" data-end="113" class="number" id="dealerBal"></span>
                                 </div>
-                                <div class="transDate">
+                                <div class="transDate" style="font-weight: bold; color: #56bde3;">
                                     <small id="transDate"></small>
                                 </div>
                             </div>
@@ -48,32 +48,21 @@
                         </div>
                     </div>
                 }
-                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
-                {
-                    <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            <div class="data-info">
-                                <div class="desc">Current wallet balance</div>
-                                <div class="value">
-                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @Utilities.FormatAmount(Model.walletBalance)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 2))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
+                        <div class="widget widget-tile" style="background-color: #d9dcde">
                             <div class="data-info">
-                                <div class="desc"><a href="@Url.Action("ManageReports", "Report")">Total daily sales(today)</a></div>
-                                <div class="value">
+                                <div class="desc" style="font-weight: bold; color: #404042">SALES (TODAY)</div>
+                                <div class="value" style="font-weight: bold; color: green;">
+                                    <br>
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        SSL @Utilities.FormatAmount(Model.totalSales)
-
+                                        NLe: @Utilities.FormatAmount(Model.totalSales)
                                     </span>
+
+                                </div>
+                                <div class="transDate" style="font-weight: bold; color: #56bde3;">
+                                    <small><a style="font-weight: bold; color: #56bde3" href="@Url.Action("ManageReports", "Report")">GO TO SALES REPORT</a></small>
                                 </div>
                             </div>
                         </div>
@@ -82,28 +71,51 @@
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 3))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
-                        <div class="widget widget-tile">
-                            @*<div id="spark2" class="chart sparkline"></div>
-                                &from=06/20/2022&to=06/20/2022
-                            *@
+                        <div class="widget widget-tile" style="background-color: #e6e8e8">
                             <div class="data-info">
-                                <div class="desc"><a href="@depositActionURL">Total daily deposits(today)</a></div>
-                                <div class="value">
+                                <div class="desc" style="font-weight: bold; color: #404042">
+                                    DEPOSITS (TODAY)
+                                </div>
+                                <div class="value" style="font-weight: bold; color: orange;">
+                                    <br>
                                     <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
-                                        SSL @Utilities.FormatAmount(Model.totalDeposit)
+                                        NLe: @Utilities.FormatAmount(Model.totalDeposit)
+                                    </span>
+                                </div>
+                                <div class="transDate" style="font-weight: bold; color: #56bde3;">
+                                    <small><a style="font-weight: bold; color: #56bde3" href="@depositActionURL">GO TO DEPOSITS REPORT</a></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
+                {
+                    <div class="col-xs-12 col-md-6 col-lg-2">
+                        <div class="widget widget-tile" style="background-color: #e6e8e8">
+                            <div class="data-info">
+                                <div class="desc" style="font-weight: bold; color: #404042">
+                                    CURRENT WALLET BALANCE
+                                </div>
+                                <div class="value" style="font-weight: bold; color: black;">
+                                    <br>
+                                    <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
+                                        NLe: @Utilities.FormatAmount(Model.walletBalance)
+                                        <br><br>
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
+
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 4))
                 {
                     <div class="col-xs-12 col-md-6 col-lg-2">
                         <div class="widget widget-tile">
                             @*<div id="spark3" class="chart sparkline"></div>*@
                             <div class="data-info">
-                                <div class="desc">Active POS</div>
+                                <div class="desc" style="font-weight: bold; color: #404042">ACTIVE POS</div>
                                 <div class="value">
                                     <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">@Model.posCount</span>
                                 </div>
@@ -117,7 +129,7 @@
                         <div class="widget widget-tile">
                             @*<div id="spark4" class="chart sparkline"></div>*@
                             <div class="data-info">
-                                <div class="desc">Active users</div>
+                                <div class="desc" style="font-weight: bold; color: #404042">ACTIVE USERS</div>
                                 <div class="value">
                                     <span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number">@Model.userCount</span>
                                 </div>
@@ -151,6 +163,17 @@
     @*<script src="~/Content/assets/lib/jquery/jquery.min.js" type="text/javascript"></script>*@
 
     <script type="text/javascript">
+
+
+        setInterval(function () {
+            $.ajax({
+                url: '/Admin/Home/ReturnDealerBalance',
+                success: function (data) {
+                    $("#dealerBal").text(data.result.LastDealerBalance);
+                    $("#transDate").text(data.result.RequestDate);
+                }
+            })
+        }, 3000);
 
 
         setInterval(function () {
