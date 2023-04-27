@@ -21,5 +21,6 @@ namespace VendTech.DAL
         public Nullable<bool> IsAddedFromAgency { get; set; }
     
         public virtual User User { get; set; }
+        public virtual Widget Widget { get; set; }
     }
 }

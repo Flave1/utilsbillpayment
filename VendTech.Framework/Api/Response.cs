@@ -76,7 +76,6 @@ namespace VendTech.Framework.Api
         public const string NOT_AVAIL = "Not Avialable";
         public const string FREE_TICKS_SEND = "2 free tickets has been sent to you.";
         public const string GCM_SESSION_EXPIRED = "Session has been expired";
-        public const string AIRTIME_RECHARGE_SUCCESS = "Airtime recharge successful";
     }
 
     public static class EmailSubjects

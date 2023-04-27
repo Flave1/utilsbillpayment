@@ -20,9 +20,6 @@ namespace VendTech.DAL
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
             this.TransactionDetails = new HashSet<TransactionDetail>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
-            this.PlatformApiConnections = new HashSet<PlatformApiConnection>();
-            this.PlatformPacParams = new HashSet<PlatformPacParam>();
-            this.PlatformTransactions = new HashSet<PlatformTransaction>();
         }
     
         public int PlatformId { get; set; }
@@ -35,9 +32,6 @@ namespace VendTech.DAL
         public decimal MinimumAmount { get; set; }
         public bool DisablePlatform { get; set; }
         public string DisabledPlatformMessage { get; set; }
-        public int PlatformType { get; set; }
-        public Nullable<int> PlatformApiConnId { get; set; }
-        public Nullable<int> PlatformApiConnBackupId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
@@ -45,13 +39,5 @@ namespace VendTech.DAL
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlatformApiConnection> PlatformApiConnections { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlatformPacParam> PlatformPacParams { get; set; }
-        public virtual PlatformApiConnection PlatformApiConnection { get; set; }
-        public virtual PlatformApiConnection PlatformApiConnection1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlatformTransaction> PlatformTransactions { get; set; }
     }
 }

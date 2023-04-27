@@ -111,13 +111,6 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Currencies">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="75" Nullable="false" />
-        </EntityType>
         <EntityType Name="DepositLogs">
           <Key>
             <PropertyRef Name="DepositLogId" />
@@ -323,81 +316,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="MinimumAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DisablePlatform" Type="bit" Nullable="false" />
           <Property Name="DisabledPlatformMessage" Type="varchar(max)" />
-          <Property Name="PlatformType" Type="int" Nullable="false" />
-          <Property Name="PlatformApiConnId" Type="int" />
-          <Property Name="PlatformApiConnBackupId" Type="int" />
-        </EntityType>
-        <EntityType Name="PlatformApiConnections">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PlatformId" Type="int" Nullable="false" />
-          <Property Name="PlatformApiId" Type="int" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PlatformApiLogs">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TransactionId" Type="bigint" Nullable="false" />
-          <Property Name="ApiLog" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="LogType" Type="int" Nullable="false" />
-          <Property Name="LogDate" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PlatformApis">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="ApiType" Type="int" Nullable="false" />
-          <Property Name="Balance" Type="decimal" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" />
-          <Property Name="UpdatedAt" Type="datetime" />
-          <Property Name="Currency" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Config" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="PlatformPacParams">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PlatformId" Type="int" Nullable="false" />
-          <Property Name="PlatformApiConnectionId" Type="int" Nullable="false" />
-          <Property Name="Config" Type="nvarchar" MaxLength="4000" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PlatformTransactions">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="PlatformId" Type="int" Nullable="false" />
-          <Property Name="Amount" Type="decimal" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="AmountPlatform" Type="decimal" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="Beneficiary" Type="nvarchar" MaxLength="150" />
-          <Property Name="UserReference" Type="nvarchar" MaxLength="32" />
-          <Property Name="ApiConnectionId" Type="int" />
-          <Property Name="Currency" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
-          <Property Name="PosId" Type="bigint" />
-          <Property Name="OperatorReference" Type="nvarchar" MaxLength="150" />
-          <Property Name="PinSerial" Type="nvarchar" MaxLength="150" />
-          <Property Name="PinNumber" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PinInstructions" Type="nvarchar(max)" />
-          <Property Name="ApiTransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastPendingCheck" Type="bigint" Nullable="false" />
-          <Property Name="TransactionDetailId" Type="bigint" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -622,147 +540,495 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Platform_PlatformApiConnections">
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
-          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Platform">
-              <PropertyRef Name="PlatformApiConnId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Platform_PlatformApiConnections_Backup">
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
-          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Platform">
-              <PropertyRef Name="PlatformApiConnBackupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformApiConnections_Platform">
-          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformApiConnections">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformApiConnections_PlatformApis">
-          <End Role="PlatformApis" Type="Self.PlatformApis" Multiplicity="0..1" />
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApis">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformApiConnections">
-              <PropertyRef Name="PlatformApiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformApis_Currencies">
-          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
-          <End Role="PlatformApis" Type="Self.PlatformApis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currencies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformApis">
-              <PropertyRef Name="Currency" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformPacParams_Platform">
-          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
-          <End Role="PlatformPacParams" Type="Self.PlatformPacParams" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformPacParams">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformPacParams_PlatformApiConnections">
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="1" />
-          <End Role="PlatformPacParams" Type="Self.PlatformPacParams" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformPacParams">
-              <PropertyRef Name="PlatformApiConnectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_Currencies">
-          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
-          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currencies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformTransactions">
-              <PropertyRef Name="Currency" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_Platform">
-          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
-          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformTransactions">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_PlatformApiConnections">
-          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
-          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformTransactions">
-              <PropertyRef Name="ApiConnectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_POS">
-          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
-          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="PlatformTransactions">
-              <PropertyRef Name="PosId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_Users">
+        <Association Name="FK_AccountVerificationOTP_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <End Role="AccountVerificationOTP" Type="Self.AccountVerificationOTP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="PlatformTransactions">
+            <Dependent Role="AccountVerificationOTP">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agency_Commissions">
+          <End Role="Commissions" Type="Self.Commissions" Multiplicity="0..1" />
+          <End Role="Agency" Type="Self.Agency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commissions">
+              <PropertyRef Name="CommissionId" />
+            </Principal>
+            <Dependent Role="Agency">
+              <PropertyRef Name="CommissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agency_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Agency" Type="Self.Agency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Agency">
+              <PropertyRef Name="Representative" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_City_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactUs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ContactUs" Type="Self.ContactUs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ContactUs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepositLogs_Deposits">
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="1" />
+          <End Role="DepositLogs" Type="Self.DepositLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deposits">
+              <PropertyRef Name="DepositId" />
+            </Principal>
+            <Dependent Role="DepositLogs">
+              <PropertyRef Name="DepositId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepositLogs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="DepositLogs" Type="Self.DepositLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="DepositLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deposits_BankAccounts">
+          <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="1" />
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccounts">
+              <PropertyRef Name="BankAccountId" />
+            </Principal>
+            <Dependent Role="Deposits">
+              <PropertyRef Name="BankAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deposits_PaymentType">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="Deposits">
+              <PropertyRef Name="PaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deposits_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="1" />
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="Deposits">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deposits_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Deposits" Type="Self.Deposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Deposits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailConfirmationRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="EmailConfirmationRequests" Type="Self.EmailConfirmationRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="EmailConfirmationRequests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ForgotPasswordRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ForgotPasswordRequests" Type="Self.ForgotPasswordRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ForgotPasswordRequests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meters_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Meters" Type="Self.Meters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Meters">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modules_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="Modules1" Type="Self.Modules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ModuleId" />
+            </Principal>
+            <Dependent Role="Modules1">
+              <PropertyRef Name="SubMenuOf" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_PaymentType">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentTypeId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="PaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PendingDeposits_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PendingDeposits" Type="Self.PendingDeposits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PendingDeposits">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POS_Commissions">
+          <End Role="Commissions" Type="Self.Commissions" Multiplicity="0..1" />
+          <End Role="POS" Type="Self.POS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commissions">
+              <PropertyRef Name="CommissionId" />
+            </Principal>
+            <Dependent Role="POS">
+              <PropertyRef Name="CommissionPercentage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POS_Vendors">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="POS" Type="Self.POS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="POS">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POSAssignedPlatforms_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="POSAssignedPlatforms" Type="Self.POSAssignedPlatforms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="POSAssignedPlatforms">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POSAssignedPlatforms_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="1" />
+          <End Role="POSAssignedPlatforms" Type="Self.POSAssignedPlatforms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="POSAssignedPlatforms">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReferralCodes_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ReferralCodes" Type="Self.ReferralCodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ReferralCodes">
+              <PropertyRef Name="FK_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TokensManager_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TokensManager" Type="Self.TokensManager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TokensManager">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Meters">
+          <End Role="Meters" Type="Self.Meters" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meters">
+              <PropertyRef Name="MeterId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="MeterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Platforms">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="PlatFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="POSId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionDetails_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedModules_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+          <End Role="UserAssignedModules" Type="Self.UserAssignedModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ModuleId" />
+            </Principal>
+            <Dependent Role="UserAssignedModules">
+              <PropertyRef Name="ModuleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedModules_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignedModules" Type="Self.UserAssignedModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAssignedModules">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedPlatforms_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="UserAssignedPlatforms" Type="Self.UserAssignedPlatforms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="UserAssignedPlatforms">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedPlatforms_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignedPlatforms" Type="Self.UserAssignedPlatforms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAssignedPlatforms">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedWidgets_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidgets">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignedWidgets_Widget">
+          <End Role="Widgets" Type="Self.Widgets" Multiplicity="1" />
+          <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widgets">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidgets">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Agency">
+          <End Role="Agency" Type="Self.Agency" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="AgencyId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_City">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Commissions">
+          <End Role="Commissions" Type="Self.Commissions" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commissions">
+              <PropertyRef Name="CommissionId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="VendorCommissionPercentage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Users1" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Users1">
+              <PropertyRef Name="FKVendorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -789,7 +1055,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Commissions" EntityType="Self.Commissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Currencies" EntityType="Self.Currencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepositLogs" EntityType="Self.DepositLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepositOTP" EntityType="Self.DepositOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Deposits" EntityType="Self.Deposits" Schema="dbo" store:Type="Tables" />
@@ -803,11 +1068,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlatformApiConnections" EntityType="Self.PlatformApiConnections" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlatformApiLogs" EntityType="Self.PlatformApiLogs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlatformApis" EntityType="Self.PlatformApis" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlatformPacParams" EntityType="Self.PlatformPacParams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlatformTransactions" EntityType="Self.PlatformTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
@@ -829,53 +1089,169 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
     [Nations].[isd_code] AS [isd_code]
     FROM [dbo].[Nations] AS [Nations]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_Platform_PlatformApiConnections" Association="Self.FK_Platform_PlatformApiConnections">
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-            <End Role="Platform" EntitySet="Platform" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Platform_PlatformApiConnections_Backup" Association="Self.FK_Platform_PlatformApiConnections_Backup">
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-            <End Role="Platform" EntitySet="Platform" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformApiConnections_Platform" Association="Self.FK_PlatformApiConnections_Platform">
-            <End Role="Platform" EntitySet="Platform" />
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformApiConnections_PlatformApis" Association="Self.FK_PlatformApiConnections_PlatformApis">
-            <End Role="PlatformApis" EntitySet="PlatformApis" />
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformApis_Currencies" Association="Self.FK_PlatformApis_Currencies">
-            <End Role="Currencies" EntitySet="Currencies" />
-            <End Role="PlatformApis" EntitySet="PlatformApis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformPacParams_Platform" Association="Self.FK_PlatformPacParams_Platform">
-            <End Role="Platform" EntitySet="Platform" />
-            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformPacParams_PlatformApiConnections" Association="Self.FK_PlatformPacParams_PlatformApiConnections">
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_Currencies" Association="Self.FK_PlatformTransactions_Currencies">
-            <End Role="Currencies" EntitySet="Currencies" />
-            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_Platform" Association="Self.FK_PlatformTransactions_Platform">
-            <End Role="Platform" EntitySet="Platform" />
-            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_PlatformApiConnections" Association="Self.FK_PlatformTransactions_PlatformApiConnections">
-            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
-            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_POS" Association="Self.FK_PlatformTransactions_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_Users" Association="Self.FK_PlatformTransactions_Users">
+          <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+            <End Role="AccountVerificationOTP" EntitySet="AccountVerificationOTP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agency_Commissions" Association="Self.FK_Agency_Commissions">
+            <End Role="Commissions" EntitySet="Commissions" />
+            <End Role="Agency" EntitySet="Agency" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agency_Users" Association="Self.FK_Agency_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Agency" EntitySet="Agency" />
+          </AssociationSet>
+          <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactUs_Users" Association="Self.FK_ContactUs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ContactUs" EntitySet="ContactUs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepositLogs_Deposits" Association="Self.FK_DepositLogs_Deposits">
+            <End Role="Deposits" EntitySet="Deposits" />
+            <End Role="DepositLogs" EntitySet="DepositLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepositLogs_Users" Association="Self.FK_DepositLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DepositLogs" EntitySet="DepositLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deposits_BankAccounts" Association="Self.FK_Deposits_BankAccounts">
+            <End Role="BankAccounts" EntitySet="BankAccounts" />
+            <End Role="Deposits" EntitySet="Deposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deposits_PaymentType" Association="Self.FK_Deposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="Deposits" EntitySet="Deposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deposits_POS" Association="Self.FK_Deposits_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="Deposits" EntitySet="Deposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deposits_Users" Association="Self.FK_Deposits_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Deposits" EntitySet="Deposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailConfirmationRequests_Users" Association="Self.FK_EmailConfirmationRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="EmailConfirmationRequests" EntitySet="EmailConfirmationRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ForgotPasswordRequests_Users" Association="Self.FK_ForgotPasswordRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ForgotPasswordRequests" EntitySet="ForgotPasswordRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meters_Users" Association="Self.FK_Meters_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Meters" EntitySet="Meters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modules_Modules" Association="Self.FK_Modules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Modules1" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_PaymentType" Association="Self.FK_PendingDeposits_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_POS" Association="Self.FK_PendingDeposits_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PendingDeposits_Users" Association="Self.FK_PendingDeposits_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PendingDeposits" EntitySet="PendingDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POS_Commissions" Association="Self.FK_POS_Commissions">
+            <End Role="Commissions" EntitySet="Commissions" />
+            <End Role="POS" EntitySet="POS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POS_Vendors" Association="Self.FK_POS_Vendors">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="POS" EntitySet="POS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POSAssignedPlatforms_Platform" Association="Self.FK_POSAssignedPlatforms_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="POSAssignedPlatforms" EntitySet="POSAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POSAssignedPlatforms_POS" Association="Self.FK_POSAssignedPlatforms_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="POSAssignedPlatforms" EntitySet="POSAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReferralCodes_Users" Association="Self.FK_ReferralCodes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ReferralCodes" EntitySet="ReferralCodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TokensManager_Users" Association="Self.FK_TokensManager_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TokensManager" EntitySet="TokensManager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Meters" Association="Self.FK_TransactionDetails_Meters">
+            <End Role="Meters" EntitySet="Meters" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="Self.FK_TransactionDetails_Platforms">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_POS" Association="Self.FK_TransactionDetails_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionDetails_Users" Association="Self.FK_TransactionDetails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedModules_Modules" Association="Self.FK_UserAssignedModules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="UserAssignedModules" EntitySet="UserAssignedModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedModules_Users" Association="Self.FK_UserAssignedModules_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignedModules" EntitySet="UserAssignedModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedPlatforms_Platform" Association="Self.FK_UserAssignedPlatforms_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="UserAssignedPlatforms" EntitySet="UserAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedPlatforms_Users" Association="Self.FK_UserAssignedPlatforms_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignedPlatforms" EntitySet="UserAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_User" Association="Self.FK_UserAssignedWidgets_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_Widget" Association="Self.FK_UserAssignedWidgets_Widget">
+            <End Role="Widgets" EntitySet="Widgets" />
+            <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Agency" Association="Self.FK_Users_Agency">
+            <End Role="Agency" EntitySet="Agency" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_City" Association="Self.FK_Users_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Commissions" Association="Self.FK_Users_Commissions">
+            <End Role="Commissions" EntitySet="Commissions" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserRoles" Association="Self.FK_Users_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Users1" Association="Self.FK_Users_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Vendors_Agency" Association="Self.FK_Vendors_Agency">
             <End Role="Agency" EntitySet="Agency" />
@@ -910,7 +1286,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="Commission" Relationship="Self.FK_Agency_Commissions" FromRole="Agency" ToRole="Commissions" />
           <NavigationProperty Name="User" Relationship="Self.FK_Agency_Users" FromRole="Agency" ToRole="Users" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Users_Agency" FromRole="Agency" ToRole="Users" />
-          <NavigationProperty Name="Vendors" Relationship="ABC_PRODUCTIONModel.FK_Vendors_Agency" FromRole="Agency" ToRole="Vendor" />
+          <NavigationProperty Name="Vendors" Relationship="Self.FK_Vendors_Agency" FromRole="Agency" ToRole="Vendors" />
         </EntityType>
         <EntityType Name="AppSetting">
           <Key>
@@ -1220,14 +1596,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetails" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="Self.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatforms" />
-          <Property Name="PlatformType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PlatformApiConnections" Relationship="ABC_PRODUCTIONModel.FK_PlatformApiConnections_Platform" FromRole="Platform" ToRole="PlatformApiConnection" />
-          <NavigationProperty Name="PlatformPacParams" Relationship="ABC_PRODUCTIONModel.FK_PlatformPacParams_Platform" FromRole="Platform" ToRole="PlatformPacParam" />
-          <Property Name="PlatformApiConnId" Type="Int32" />
-          <NavigationProperty Name="PlatformApiConnection" Relationship="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections" FromRole="Platform" ToRole="PlatformApiConnection" />
-          <Property Name="PlatformApiConnBackupId" Type="Int32" />
-          <NavigationProperty Name="PlatformApiConnection1" Relationship="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections_Backup" FromRole="Platform" ToRole="PlatformApiConnection" />
-          <NavigationProperty Name="PlatformTransactions" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Platform" FromRole="Platform" ToRole="PlatformTransaction" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -1264,7 +1632,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
-          <NavigationProperty Name="PlatformTransactions" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_POS" FromRole="POS" ToRole="PlatformTransaction" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -1397,6 +1764,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsAddedFromAgency" Type="Boolean" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserAssignedWidgets_User" FromRole="UserAssignedWidgets" ToRole="Users" />
+          <NavigationProperty Name="Widget" Relationship="Self.FK_UserAssignedWidgets_Widget" FromRole="UserAssignedWidgets" ToRole="Widgets" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -1470,7 +1838,34 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
           <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PlatformTransactions" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Users" FromRole="User" ToRole="PlatformTransaction" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Vendor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AgencyId" Type="Int64" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentType" Type="Int32" />
+          <Property Name="CommissionPercentage" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Agency" Relationship="Self.FK_Vendors_Agency" FromRole="Vendors" ToRole="Agency" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserAssignedWidgets" Relationship="Self.FK_UserAssignedWidgets_Widget" FromRole="Widgets" ToRole="UserAssignedWidgets" />
         </EntityType>
         <EntityType Name="Nation">
           <Key>
@@ -1529,6 +1924,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendors_Agency">
+          <End Role="Agency" Type="Self.Agency" Multiplicity="1" />
+          <End Role="Vendors" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="AgencyId" />
+            </Principal>
+            <Dependent Role="Vendors">
+              <PropertyRef Name="AgencyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1940,6 +2347,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAssignedWidgets_Widget">
+          <End Role="Widgets" Type="Self.Widget" Multiplicity="1" />
+          <End Role="UserAssignedWidgets" Type="Self.UserAssignedWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widgets">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="UserAssignedWidgets">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_UserRoles">
           <End Role="UserRoles" Type="Self.UserRole" Multiplicity="1" />
           <End Role="Users" Type="Self.User" Multiplicity="*" />
@@ -1999,6 +2418,8 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidget" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Vendors" EntityType="Self.Vendor" />
+          <EntitySet Name="Widgets" EntityType="Self.Widget" />
           <EntitySet Name="Nations" EntityType="Self.Nation" />
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
             <End Role="Users" EntitySet="Users" />
@@ -2015,6 +2436,10 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <AssociationSet Name="FK_Users_Agency" Association="Self.FK_Users_Agency">
             <End Role="Agency" EntitySet="Agencies" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendors_Agency" Association="Self.FK_Vendors_Agency">
+            <End Role="Agency" EntitySet="Agencies" />
+            <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
           <AssociationSet Name="FK_Deposits_BankAccounts" Association="Self.FK_Deposits_BankAccounts">
             <End Role="BankAccounts" EntitySet="BankAccounts" />
@@ -2152,6 +2577,10 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserAssignedWidgets_Widget" Association="Self.FK_UserAssignedWidgets_Widget">
+            <End Role="Widgets" EntitySet="Widgets" />
+            <End Role="UserAssignedWidgets" EntitySet="UserAssignedWidgets" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_UserRoles" Association="Self.FK_Users_UserRoles">
             <End Role="UserRoles" EntitySet="UserRoles" />
             <End Role="Users" EntitySet="Users" />
@@ -2160,347 +2589,8 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="PlatformApiConnections" EntityType="ABC_PRODUCTIONModel.PlatformApiConnection" />
-          <EntitySet Name="PlatformApis" EntityType="ABC_PRODUCTIONModel.PlatformApi" />
-          <EntitySet Name="Currencies" EntityType="ABC_PRODUCTIONModel.Currency" />
-          <AssociationSet Name="FK_PlatformApis_Currencies" Association="ABC_PRODUCTIONModel.FK_PlatformApis_Currencies">
-            <End Role="Currency" EntitySet="Currencies" />
-            <End Role="PlatformApi" EntitySet="PlatformApis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformApiConnections_PlatformApis" Association="ABC_PRODUCTIONModel.FK_PlatformApiConnections_PlatformApis">
-            <End Role="PlatformApi" EntitySet="PlatformApis" />
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformApiConnections_Platform" Association="ABC_PRODUCTIONModel.FK_PlatformApiConnections_Platform">
-            <End Role="Platform" EntitySet="Platforms" />
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-          </AssociationSet>
-          <EntitySet Name="PlatformPacParams" EntityType="ABC_PRODUCTIONModel.PlatformPacParam" />
-          <AssociationSet Name="FK_PlatformPacParams_Platform" Association="ABC_PRODUCTIONModel.FK_PlatformPacParams_Platform">
-            <End Role="Platform" EntitySet="Platforms" />
-            <End Role="PlatformPacParam" EntitySet="PlatformPacParams" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformPacParams_PlatformApiConnections" Association="ABC_PRODUCTIONModel.FK_PlatformPacParams_PlatformApiConnections">
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-            <End Role="PlatformPacParam" EntitySet="PlatformPacParams" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Platform_PlatformApiConnections" Association="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections">
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-            <End Role="Platform" EntitySet="Platforms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Platform_PlatformApiConnections_Backup" Association="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections_Backup">
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-            <End Role="Platform" EntitySet="Platforms" />
-          </AssociationSet>
-          <EntitySet Name="PlatformApiLogs" EntityType="ABC_PRODUCTIONModel.PlatformApiLog" />
-          <EntitySet Name="PlatformTransactions" EntityType="ABC_PRODUCTIONModel.PlatformTransaction" />
-          <AssociationSet Name="FK_PlatformTransactions_Currencies" Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_Currencies">
-            <End Role="Currency" EntitySet="Currencies" />
-            <End Role="PlatformTransaction" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_Platform" Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_Platform">
-            <End Role="Platform" EntitySet="Platforms" />
-            <End Role="PlatformTransaction" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_PlatformApiConnections" Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_PlatformApiConnections">
-            <End Role="PlatformApiConnection" EntitySet="PlatformApiConnections" />
-            <End Role="PlatformTransaction" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_POS" Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_POS">
-            <End Role="POS" EntitySet="POS" />
-            <End Role="PlatformTransaction" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlatformTransactions_Users" Association="ABC_PRODUCTIONModel.FK_PlatformTransactions_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="PlatformTransaction" EntitySet="PlatformTransactions" />
-          </AssociationSet>
-          <EntitySet Name="Vendors" EntityType="ABC_PRODUCTIONModel.Vendor" />
-          <EntitySet Name="Widgets" EntityType="ABC_PRODUCTIONModel.Widget" />
-          <AssociationSet Name="FK_Vendors_Agency" Association="ABC_PRODUCTIONModel.FK_Vendors_Agency">
-            <End Role="Agency" EntitySet="Agencies" />
-            <End Role="Vendor" EntitySet="Vendors" />
-          </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="PlatformApiConnection">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PlatformApiId" Type="Int32" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PlatformApi" Relationship="ABC_PRODUCTIONModel.FK_PlatformApiConnections_PlatformApis" FromRole="PlatformApiConnection" ToRole="PlatformApi" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PlatformId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Platform" Relationship="ABC_PRODUCTIONModel.FK_PlatformApiConnections_Platform" FromRole="PlatformApiConnection" ToRole="Platform" />
-          <NavigationProperty Name="PlatformPacParams" Relationship="ABC_PRODUCTIONModel.FK_PlatformPacParams_PlatformApiConnections" FromRole="PlatformApiConnection" ToRole="PlatformPacParam" />
-          <NavigationProperty Name="Platforms" Relationship="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections" FromRole="PlatformApiConnection" ToRole="Platform" />
-          <NavigationProperty Name="Platforms1" Relationship="ABC_PRODUCTIONModel.FK_Platform_PlatformApiConnections_Backup" FromRole="PlatformApiConnection" ToRole="Platform" />
-          <NavigationProperty Name="PlatformTransactions" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_PlatformApiConnections" FromRole="PlatformApiConnection" ToRole="PlatformTransaction" />
-        </EntityType>
-        <EntityType Name="PlatformApi">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="ApiType" Type="Int32" Nullable="false" />
-          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
-          <Property Name="Currency" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Currency1" Relationship="ABC_PRODUCTIONModel.FK_PlatformApis_Currencies" FromRole="PlatformApi" ToRole="Currency" />
-          <Property Name="Config" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PlatformApiConnections" Relationship="ABC_PRODUCTIONModel.FK_PlatformApiConnections_PlatformApis" FromRole="PlatformApi" ToRole="PlatformApiConnection" />
-        </EntityType>
-        <EntityType Name="Currency">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PlatformApis" Relationship="ABC_PRODUCTIONModel.FK_PlatformApis_Currencies" FromRole="Currency" ToRole="PlatformApi" />
-          <NavigationProperty Name="PlatformTransactions" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Currencies" FromRole="Currency" ToRole="PlatformTransaction" />
-        </EntityType>
-        <Association Name="FK_PlatformApis_Currencies">
-          <End Type="ABC_PRODUCTIONModel.Currency" Role="Currency" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformApi" Role="PlatformApi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currency">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformApi">
-              <PropertyRef Name="Currency" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformApiConnections_PlatformApis">
-          <End Type="ABC_PRODUCTIONModel.PlatformApi" Role="PlatformApi" Multiplicity="0..1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApi">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformApiConnection">
-              <PropertyRef Name="PlatformApiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformApiConnections_Platform">
-          <End Type="ABC_PRODUCTIONModel.Platform" Role="Platform" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformApiConnection">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="PlatformPacParam">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="PlatformId" Type="Int32" Nullable="false" />
-          <Property Name="PlatformApiConnectionId" Type="Int32" Nullable="false" />
-          <Property Name="Config" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Platform" Relationship="ABC_PRODUCTIONModel.FK_PlatformPacParams_Platform" FromRole="PlatformPacParam" ToRole="Platform" />
-          <NavigationProperty Name="PlatformApiConnection" Relationship="ABC_PRODUCTIONModel.FK_PlatformPacParams_PlatformApiConnections" FromRole="PlatformPacParam" ToRole="PlatformApiConnection" />
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <Association Name="FK_PlatformPacParams_Platform">
-          <End Type="ABC_PRODUCTIONModel.Platform" Role="Platform" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformPacParam" Role="PlatformPacParam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformPacParam">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformPacParams_PlatformApiConnections">
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformPacParam" Role="PlatformPacParam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnection">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformPacParam">
-              <PropertyRef Name="PlatformApiConnectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Platform_PlatformApiConnections">
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="0..1" />
-          <End Type="ABC_PRODUCTIONModel.Platform" Role="Platform" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnection">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Platform">
-              <PropertyRef Name="PlatformApiConnId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Platform_PlatformApiConnections_Backup">
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="0..1" />
-          <End Type="ABC_PRODUCTIONModel.Platform" Role="Platform" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnection">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Platform">
-              <PropertyRef Name="PlatformApiConnBackupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="PlatformApiLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TransactionId" Type="Int64" Nullable="false" />
-          <Property Name="ApiLog" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LogType" Type="Int32" Nullable="false" />
-          <Property Name="LogDate" Type="DateTime" Precision="3" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PlatformTransaction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="PlatformId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="AmountPlatform" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Beneficiary" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="UserReference" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="ApiConnectionId" Type="Int32" />
-          <Property Name="Currency" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PosId" Type="Int64" />
-          <Property Name="OperatorReference" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PinSerial" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PinNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PinInstructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ApiTransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastPendingCheck" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Currency1" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Currencies" FromRole="PlatformTransaction" ToRole="Currency" />
-          <NavigationProperty Name="Platform" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Platform" FromRole="PlatformTransaction" ToRole="Platform" />
-          <NavigationProperty Name="PlatformApiConnection" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_PlatformApiConnections" FromRole="PlatformTransaction" ToRole="PlatformApiConnection" />
-          <NavigationProperty Name="POS" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_POS" FromRole="PlatformTransaction" ToRole="POS" />
-          <NavigationProperty Name="User" Relationship="ABC_PRODUCTIONModel.FK_PlatformTransactions_Users" FromRole="PlatformTransaction" ToRole="User" />
-          <Property Name="TransactionDetailId" Type="Int64" />
-        </EntityType>
-        <Association Name="FK_PlatformTransactions_Currencies">
-          <End Type="ABC_PRODUCTIONModel.Currency" Role="Currency" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformTransaction" Role="PlatformTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currency">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformTransaction">
-              <PropertyRef Name="Currency" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_Platform">
-          <End Type="ABC_PRODUCTIONModel.Platform" Role="Platform" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformTransaction" Role="PlatformTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Platform">
-              <PropertyRef Name="PlatformId" />
-            </Principal>
-            <Dependent Role="PlatformTransaction">
-              <PropertyRef Name="PlatformId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_PlatformApiConnections">
-          <End Type="ABC_PRODUCTIONModel.PlatformApiConnection" Role="PlatformApiConnection" Multiplicity="0..1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformTransaction" Role="PlatformTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlatformApiConnection">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PlatformTransaction">
-              <PropertyRef Name="ApiConnectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_POS">
-          <End Type="ABC_PRODUCTIONModel.POS" Role="POS" Multiplicity="0..1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformTransaction" Role="PlatformTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="POS">
-              <PropertyRef Name="POSId" />
-            </Principal>
-            <Dependent Role="PlatformTransaction">
-              <PropertyRef Name="PosId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlatformTransactions_Users">
-          <End Type="ABC_PRODUCTIONModel.User" Role="User" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.PlatformTransaction" Role="PlatformTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="PlatformTransaction">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="VendorId" />
-          </Key>
-          <Property Name="VendorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Vendor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="AgencyId" Type="Int64" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentType" Type="Int32" />
-          <Property Name="CommissionPercentage" Type="Int32" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Agency" Relationship="ABC_PRODUCTIONModel.FK_Vendors_Agency" FromRole="Vendor" ToRole="Agency" />
-        </EntityType>
-        <EntityType Name="Widget">
-          <Key>
-            <PropertyRef Name="WidgetId" />
-          </Key>
-          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <Association Name="FK_Vendors_Agency">
-          <End Type="ABC_PRODUCTIONModel.Agency" Role="Agency" Multiplicity="1" />
-          <End Type="ABC_PRODUCTIONModel.Vendor" Role="Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agency">
-              <PropertyRef Name="AgencyId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="AgencyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -2814,9 +2904,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySetMapping Name="Platforms">
             <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
-                <ScalarProperty Name="PlatformApiConnBackupId" ColumnName="PlatformApiConnBackupId" />
-                <ScalarProperty Name="PlatformApiConnId" ColumnName="PlatformApiConnId" />
-                <ScalarProperty Name="PlatformType" ColumnName="PlatformType" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
@@ -3038,6 +3125,34 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendors">
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="Vendor1" ColumnName="Vendor" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="AgentType" ColumnName="AgentType" />
+                <ScalarProperty Name="CommissionPercentage" ColumnName="CommissionPercentage" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Widgets">
+            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Widget">
+              <MappingFragment StoreEntitySet="Widgets">
+                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Nations">
             <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
@@ -3045,119 +3160,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="isd_code" ColumnName="isd_code" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlatformApiConnections">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PlatformApiConnection">
-              <MappingFragment StoreEntitySet="PlatformApiConnections">
-                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PlatformApiId" ColumnName="PlatformApiId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlatformApis">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PlatformApi">
-              <MappingFragment StoreEntitySet="PlatformApis">
-                <ScalarProperty Name="Config" ColumnName="Config" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="ApiType" ColumnName="ApiType" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Currencies">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Currency">
-              <MappingFragment StoreEntitySet="Currencies">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlatformPacParams">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PlatformPacParam">
-              <MappingFragment StoreEntitySet="PlatformPacParams">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Config" ColumnName="Config" />
-                <ScalarProperty Name="PlatformApiConnectionId" ColumnName="PlatformApiConnectionId" />
-                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlatformApiLogs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PlatformApiLog">
-              <MappingFragment StoreEntitySet="PlatformApiLogs">
-                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
-                <ScalarProperty Name="LogType" ColumnName="LogType" />
-                <ScalarProperty Name="ApiLog" ColumnName="ApiLog" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlatformTransactions">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PlatformTransaction">
-              <MappingFragment StoreEntitySet="PlatformTransactions">
-                <ScalarProperty Name="TransactionDetailId" ColumnName="TransactionDetailId" />
-                <ScalarProperty Name="LastPendingCheck" ColumnName="LastPendingCheck" />
-                <ScalarProperty Name="ApiTransactionId" ColumnName="ApiTransactionId" />
-                <ScalarProperty Name="PinInstructions" ColumnName="PinInstructions" />
-                <ScalarProperty Name="PinNumber" ColumnName="PinNumber" />
-                <ScalarProperty Name="PinSerial" ColumnName="PinSerial" />
-                <ScalarProperty Name="OperatorReference" ColumnName="OperatorReference" />
-                <ScalarProperty Name="PosId" ColumnName="PosId" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="ApiConnectionId" ColumnName="ApiConnectionId" />
-                <ScalarProperty Name="UserReference" ColumnName="UserReference" />
-                <ScalarProperty Name="Beneficiary" ColumnName="Beneficiary" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="AmountPlatform" ColumnName="AmountPlatform" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Vendor">
-              <MappingFragment StoreEntitySet="Vendors">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CommissionPercentage" ColumnName="CommissionPercentage" />
-                <ScalarProperty Name="AgentType" ColumnName="AgentType" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Vendor1" ColumnName="Vendor" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Widget">
-              <MappingFragment StoreEntitySet="Widgets">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

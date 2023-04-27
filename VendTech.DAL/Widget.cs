@@ -14,10 +14,19 @@ namespace VendTech.DAL
     
     public partial class Widget
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Widget()
+        {
+            this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
+        }
+    
         public int WidgetId { get; set; }
         public string Title { get; set; }
         public bool IsDeleted { get; set; }
         public bool Enabled { get; set; }
         public System.DateTime CreatedAt { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAssignedWidget> UserAssignedWidgets { get; set; }
     }
 }
