@@ -1,0 +1,93 @@
+﻿@model ICollection<PlatformApiModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@Html.Raw(ViewBag.MainPageHeader)</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header noborder">
+                        <h3> 
+                        <a href="@Url.Action("CreateOrEditApi", "PlatformApi", new { area = "Admin" })" class="btn btn-primary pull-right" title="Create Platform API"><i class="fa fa-plus"></i></a></h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            @*@Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })*@
+
+                            <div id="divResult">
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>#ID</th>
+                                            <th class="alignL">NAME</th>
+                                            <th>API TYPE</th>
+                                            <th>CURRENCY</th>
+                                            <th>STATUS</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="odd gradeX">
+                                                    <td class="alignC">@item.Id</td>
+                                                    <td>@item.Name</td>
+                                                    <td class="alignC">@item.ApiTypeName</td>
+                                                    <td class="alignC">
+                                                        <b>@item.CurrencyName</b>
+                                                        <br />
+                                                        @item.Currency
+                                                    </td>
+                                                    <td class="alignC">@item.StatusName</td>
+                                                    <td class="alignC">
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Action("CreateOrEditApi", "PlatformApi", new { area = "Admin", id = @item.Id })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Action("ConfigureApi", "PlatformApi", new { area = "Admin", id = @item.Id })" data-original-title="Edit" data-toggle="tooltip">Config</a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td colspan="5">No Record Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+    </script>
+    <script src="~/Scripts/AdminScripts/platform.js"></script>
+    <script src="~/Scripts/AdminScripts/bankAccount.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+        });
+    </script>
+}
+
+
+
