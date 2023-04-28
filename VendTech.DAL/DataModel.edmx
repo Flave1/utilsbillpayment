@@ -2808,7 +2808,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VendtechEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="VENDTECH_MAINEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AccountVerificationOTPs" EntityType="Self.AccountVerificationOTP" />
           <EntitySet Name="Agencies" EntityType="Self.Agency" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSetting" />
@@ -3058,7 +3058,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VendtechModelStoreContainer" CdmEntityContainer="VendtechEntities">
+        <EntityContainerMapping StorageEntityContainer="VendtechModelStoreContainer" CdmEntityContainer="VENDTECH_MAINEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
             <EntityTypeMapping TypeName="VendtechModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">

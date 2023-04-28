@@ -18,8 +18,7 @@ namespace VendTech.DAL
         public long UserId { get; set; }
         public int PlatformId { get; set; }
         public System.DateTime CreatedAt { get; set; }
-
-        public virtual Platform Platform { get; set; }
+    
         public virtual User User { get; set; }
     }
 }
