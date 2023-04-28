@@ -109,6 +109,7 @@ namespace VendTech.BLL.Models
         public long MeterRechargeId { get; set; }
         public long? MeterId { get; set; }
         public long TransactionDetailsId { get; set; }
+        public int PlatformId { get; set; }
         public DateTime CreatedAtDate { get; set; }
         public MeterRechargeApiListingModel() { }
         public MeterRechargeApiListingModel(TransactionDetail x)
@@ -126,6 +127,7 @@ namespace VendTech.BLL.Models
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.MeterToken1;
+            PlatformId = (int)x.PlatFormId;
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
