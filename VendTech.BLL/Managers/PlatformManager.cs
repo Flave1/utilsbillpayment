@@ -59,7 +59,7 @@ namespace VendTech.BLL.Managers
                     .ToList();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                return new List<PlatformModel>();
             } 
