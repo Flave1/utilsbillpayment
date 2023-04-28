@@ -20,6 +20,9 @@ namespace VendTech.DAL
             this.PlatformApiConnections = new HashSet<PlatformApiConnection>();
             this.PlatformPacParams = new HashSet<PlatformPacParam>();
             this.PlatformTransactions = new HashSet<PlatformTransaction>();
+            this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
+            this.TransactionDetails = new HashSet<TransactionDetail>();
+            this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
         }
     
         public int PlatformId { get; set; }
@@ -44,5 +47,11 @@ namespace VendTech.DAL
         public virtual ICollection<PlatformPacParam> PlatformPacParams { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PlatformTransaction> PlatformTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAssignedPlatform> UserAssignedPlatforms { get; set; }
     }
 }
