@@ -136,6 +136,9 @@
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="HttpRequest.cs" />
+    <Compile Include="Interfaces\ICurrencyManager.cs" />
+    <Compile Include="Interfaces\IPlatformApiManager.cs" />
+    <Compile Include="Interfaces\IPlatformTransactionManager.cs" />
     <Compile Include="Interfaces\ITransferManager.cs" />
     <Compile Include="Interfaces\IPaymentTypeManager.cs" />
     <Compile Include="Interfaces\IDashboardManager.cs" />
@@ -156,6 +159,10 @@
     <Compile Include="Interfaces\IAgencyManager.cs" />
     <Compile Include="Interfaces\IUserManager.cs" />
     <Compile Include="Interfaces\IRTSEDSAManager.cs" />
+    <Compile Include="Jobs\PendingTransactionCheckJob.cs" />
+    <Compile Include="Managers\CurrencyManager.cs" />
+    <Compile Include="Managers\PlatformApiManager.cs" />
+    <Compile Include="Managers\PlatformTransactionManager.cs" />
     <Compile Include="Managers\RTSEDSAManager.cs" />
     <Compile Include="Managers\TransferManager.cs" />
     <Compile Include="Managers\PaymentTypeManager.cs" />
@@ -204,6 +211,12 @@
     <Compile Include="Models\UserAssignedModuleModel.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\VendorModels.cs" />
+    <Compile Include="PlatformApi\AbstractPlatformApiConnection.cs" />
+    <Compile Include="PlatformApi\Class1.cs" />
+    <Compile Include="PlatformApi\IPlatformApi.cs" />
+    <Compile Include="PlatformApi\PlatformApiConfig.cs" />
+    <Compile Include="PlatformApi\PlatformApi_Edsa.cs" />
+    <Compile Include="PlatformApi\PlatformApi_Sochitel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
