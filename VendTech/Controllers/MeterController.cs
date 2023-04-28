@@ -220,11 +220,6 @@ namespace VendTech.Controllers
             return JsonResult(_meterManager.RechargeMeter(model));
         }
 
-       
-        public class RequestObject
-        {
-            public string token_string { get; set; }
-        }
 
         [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(RequestObject tokenobject)
