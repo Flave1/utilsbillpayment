@@ -206,4 +206,14 @@ namespace VendTech.BLL.Models
         public string DateTime { get; set; }
         public string TAmount { get; set; }
     }
+
+    public class RequestObject
+    {
+        public string token_string { get; set; }
+    }
+
+    public class RequestObject1
+    {
+        public string Id { get; set; }
+    }
 }
