@@ -191,6 +191,10 @@
     <Compile Include="Models\DataResult.cs" />
     <Compile Include="Models\IcekloudModels.cs" />
     <Compile Include="Models\PaymentTypeModel.cs" />
+    <Compile Include="Models\PlatformApiConnectionModel.cs" />
+    <Compile Include="Models\PlatformApiLogModel.cs" />
+    <Compile Include="Models\PlatformApiModel.cs" />
+    <Compile Include="Models\PlatformTransactionModel.cs" />
     <Compile Include="Models\ReceiptModel.cs" />
     <Compile Include="Models\ReportSearchModeluser.cs" />
     <Compile Include="Models\RoleModels.cs" />
