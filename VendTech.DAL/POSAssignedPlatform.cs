@@ -18,7 +18,8 @@ namespace VendTech.DAL
         public long POSId { get; set; }
         public int PlatformId { get; set; }
         public System.DateTime CreatedAt { get; set; }
-    
+
+        public virtual Platform Platform { get; set; }
         public virtual POS POS { get; set; }
     }
 }
