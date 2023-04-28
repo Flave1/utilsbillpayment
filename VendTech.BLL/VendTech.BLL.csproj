@@ -132,6 +132,7 @@
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\ModelUtils.cs" />
     <Compile Include="Common\PushNotification.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DataResult.cs" />
     <Compile Include="Models\IcekloudModels.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PaymentTypeModel.cs" />
     <Compile Include="Models\PlatformApiConnectionModel.cs" />
     <Compile Include="Models\PlatformApiLogModel.cs" />
