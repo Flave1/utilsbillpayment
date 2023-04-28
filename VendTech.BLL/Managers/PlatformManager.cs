@@ -45,18 +45,11 @@ namespace VendTech.BLL.Managers
 
                 if (userAssignedPos != null && userAssignedPos.POSId > 0)
                 {
-                    return userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled)
-                        .Select(p => new PlatformModel
-                    {
-                        PlatformId = p.Platform.PlatformId,
-                        Title = p.Platform.Title,
-                        DisablePlatform = p.Platform.DisablePlatform,
-                        Logo = string.IsNullOrEmpty(p.Platform.Logo) ? "" : Utilities.DomainUrl + p.Platform.Logo,
-                        PlatformType = p.Platform.PlatformType,
-                        PlatformApiConnName = p.Platform.PlatformApiConnId > 0 ? p.Platform.PlatformApiConnection.Name : null
-                    })
+                    var res =  userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled)
+                        .Select(p => new PlatformModel(p))
                     .OrderBy(p => p.Title)
                     .ToList();
+                    return res;
                 }
             }
             catch (Exception ex)

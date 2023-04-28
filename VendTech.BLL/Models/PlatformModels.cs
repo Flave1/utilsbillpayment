@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using VendTech.BLL.Common;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Models
 {
@@ -18,7 +20,19 @@ namespace VendTech.BLL.Models
         public int PlatformType { get; set; }
         public int? PlatformApiConnId { get; set; }
         public string PlatformApiConnName { get; set; }
-
+        public PlatformModel(POSAssignedPlatform p)
+        {
+            PlatformId = p.PlatformId;
+            Title = p.Platform?.Title;
+            DisablePlatform = p.Platform != null ? p.Platform.DisablePlatform : false;
+            Logo = string.IsNullOrEmpty(p.Platform?.Logo) ? "" : Utilities.DomainUrl + p.Platform?.Logo;
+            PlatformType = p.Platform?.PlatformType ?? 0;
+            PlatformApiConnName = p.Platform?.PlatformApiConnId > 0 ? p.Platform?.PlatformApiConnection?.Name : null;
+        }
+        public PlatformModel()
+        {
+            
+        }
         private string _typeName;
         public string PlatformTypeName
         {

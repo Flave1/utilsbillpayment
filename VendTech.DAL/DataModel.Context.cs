@@ -13,10 +13,10 @@ namespace VendTech.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class VENDTECH_MAINEntities : DbContext
+    public partial class VendtechEntities : DbContext
     {
-        public VENDTECH_MAINEntities()
-            : base("name=VENDTECH_MAINEntities")
+        public VendtechEntities()
+            : base("name=VendtechEntities")
         {
         }
     

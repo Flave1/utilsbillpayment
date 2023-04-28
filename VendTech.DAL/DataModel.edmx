@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VendtechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VENDTECH_MAINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1225,7 +1225,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VendtechModelStoreContainer">
+        <EntityContainer Name="VENDTECH_MAINModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
@@ -1489,7 +1489,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VendtechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VENDTECH_MAINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -2808,7 +2808,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VENDTECH_MAINEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="VendtechEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AccountVerificationOTPs" EntityType="Self.AccountVerificationOTP" />
           <EntitySet Name="Agencies" EntityType="Self.Agency" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSetting" />
@@ -3058,9 +3058,9 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VendtechModelStoreContainer" CdmEntityContainer="VENDTECH_MAINEntities">
+        <EntityContainerMapping StorageEntityContainer="VENDTECH_MAINModelStoreContainer" CdmEntityContainer="VendtechEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.AccountVerificationOTP">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">
                 <ScalarProperty Name="AccountVerificationOTPId" ColumnName="AccountVerificationOTPId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3070,7 +3070,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Agencies">
-            <EntityTypeMapping TypeName="VendtechModel.Agency">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Agency">
               <MappingFragment StoreEntitySet="Agency">
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="AgencyName" ColumnName="AgencyName" />
@@ -3083,7 +3083,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AppSettings">
-            <EntityTypeMapping TypeName="VendtechModel.AppSetting">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.AppSetting">
               <MappingFragment StoreEntitySet="AppSettings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3092,7 +3092,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BankAccounts">
-            <EntityTypeMapping TypeName="VendtechModel.BankAccount">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.BankAccount">
               <MappingFragment StoreEntitySet="BankAccounts">
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -3105,7 +3105,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
-            <EntityTypeMapping TypeName="VendtechModel.ChequeBank">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BankCode" ColumnName="BankCode" />
@@ -3117,7 +3117,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
-            <EntityTypeMapping TypeName="VendtechModel.City">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3128,7 +3128,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CMSPages">
-            <EntityTypeMapping TypeName="VendtechModel.CMSPage">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.CMSPage">
               <MappingFragment StoreEntitySet="CMSPages">
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
@@ -3143,7 +3143,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commissions">
-            <EntityTypeMapping TypeName="VendtechModel.Commission">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Commission">
               <MappingFragment StoreEntitySet="Commissions">
                 <ScalarProperty Name="CommissionId" ColumnName="CommissionId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -3153,7 +3153,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="VendtechModel.ContactU">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.ContactU">
               <MappingFragment StoreEntitySet="ContactUs">
                 <ScalarProperty Name="ContactUsId" ColumnName="ContactUsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3166,7 +3166,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="VendtechModel.Country">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3176,7 +3176,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Currencies">
-            <EntityTypeMapping TypeName="VendtechModel.Currency">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Currency">
               <MappingFragment StoreEntitySet="Currencies">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3184,7 +3184,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositLogs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositLog">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.DepositLog">
               <MappingFragment StoreEntitySet="DepositLogs">
                 <ScalarProperty Name="DepositLogId" ColumnName="DepositLogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3196,7 +3196,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositOTPs">
-            <EntityTypeMapping TypeName="VendtechModel.DepositOTP">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.DepositOTP">
               <MappingFragment StoreEntitySet="DepositOTP">
                 <ScalarProperty Name="DepositOTPId" ColumnName="DepositOTPId" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
@@ -3206,7 +3206,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deposits">
-            <EntityTypeMapping TypeName="VendtechModel.Deposit">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3235,7 +3235,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailConfirmationRequests">
-            <EntityTypeMapping TypeName="VendtechModel.EmailConfirmationRequest">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.EmailConfirmationRequest">
               <MappingFragment StoreEntitySet="EmailConfirmationRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3245,7 +3245,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailTemplates">
-            <EntityTypeMapping TypeName="VendtechModel.EmailTemplate">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
@@ -3263,7 +3263,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ErrorLogs">
-            <EntityTypeMapping TypeName="VendtechModel.ErrorLog">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
@@ -3278,7 +3278,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForgotPasswordRequests">
-            <EntityTypeMapping TypeName="VendtechModel.ForgotPasswordRequest">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.ForgotPasswordRequest">
               <MappingFragment StoreEntitySet="ForgotPasswordRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3288,7 +3288,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="VendtechModel.Module">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Module">
               <MappingFragment StoreEntitySet="Modules">
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
@@ -3300,7 +3300,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nations">
-            <EntityTypeMapping TypeName="VendtechModel.Nation">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
@@ -3310,7 +3310,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="VendtechModel.Notification">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3325,7 +3325,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentTypes">
-            <EntityTypeMapping TypeName="VendtechModel.PaymentType">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PaymentType">
               <MappingFragment StoreEntitySet="PaymentType">
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3337,7 +3337,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PendingDeposits">
-            <EntityTypeMapping TypeName="VendtechModel.PendingDeposit">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3365,7 +3365,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
-            <EntityTypeMapping TypeName="VendtechModel.Platform">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3384,7 +3384,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApiConnections">
-            <EntityTypeMapping TypeName="VendtechModel.PlatformApiConnection">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PlatformApiConnection">
               <MappingFragment StoreEntitySet="PlatformApiConnections">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
@@ -3397,7 +3397,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApiLogs">
-            <EntityTypeMapping TypeName="VendtechModel.PlatformApiLog">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PlatformApiLog">
               <MappingFragment StoreEntitySet="PlatformApiLogs">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
@@ -3408,7 +3408,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApis">
-            <EntityTypeMapping TypeName="VendtechModel.PlatformApi">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PlatformApi">
               <MappingFragment StoreEntitySet="PlatformApis">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3423,7 +3423,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformPacParams">
-            <EntityTypeMapping TypeName="VendtechModel.PlatformPacParam">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PlatformPacParam">
               <MappingFragment StoreEntitySet="PlatformPacParams">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
@@ -3435,7 +3435,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformTransactions">
-            <EntityTypeMapping TypeName="VendtechModel.PlatformTransaction">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.PlatformTransaction">
               <MappingFragment StoreEntitySet="PlatformTransactions">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3461,7 +3461,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POS">
-            <EntityTypeMapping TypeName="VendtechModel.POS">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.POS">
               <MappingFragment StoreEntitySet="POS">
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
@@ -3492,7 +3492,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POSAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.POSAssignedPlatform">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.POSAssignedPlatform">
               <MappingFragment StoreEntitySet="POSAssignedPlatforms">
                 <ScalarProperty Name="AssignPOSPlatformId" ColumnName="AssignPOSPlatformId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -3502,7 +3502,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReferralCodes">
-            <EntityTypeMapping TypeName="VendtechModel.ReferralCode">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.ReferralCode">
               <MappingFragment StoreEntitySet="ReferralCodes">
                 <ScalarProperty Name="ReferralCodeId" ColumnName="ReferralCodeId" />
                 <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
@@ -3513,7 +3513,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StanTables">
-            <EntityTypeMapping TypeName="VendtechModel.StanTable">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.StanTable">
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
@@ -3521,7 +3521,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
-            <EntityTypeMapping TypeName="VendtechModel.TokensManager">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3535,7 +3535,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="VendtechModel.TransactionDetail">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3587,7 +3587,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedModule">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3598,7 +3598,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedPlatform">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.UserAssignedPlatform">
               <MappingFragment StoreEntitySet="UserAssignedPlatforms">
                 <ScalarProperty Name="AssignUserPlatformId" ColumnName="AssignUserPlatformId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3608,7 +3608,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedWidgets">
-            <EntityTypeMapping TypeName="VendtechModel.UserAssignedWidget">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3619,7 +3619,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="VendtechModel.UserRole">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.UserRole">
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -3628,7 +3628,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VendtechModel.User">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3669,7 +3669,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="VendtechModel.Vendor">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Vendor">
               <MappingFragment StoreEntitySet="Vendors">
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3686,7 +3686,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="VendtechModel.Widget">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Widget">
               <MappingFragment StoreEntitySet="Widgets">
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3697,7 +3697,7 @@ warning 6002: The table/view 'VENDTECH_MAIN.dbo.Meters' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meters">
-            <EntityTypeMapping TypeName="VendtechModel.Meter">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
                 <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
