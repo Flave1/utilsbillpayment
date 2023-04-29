@@ -625,6 +625,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
+    <Content Include="Views\Shared\_airtimeReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
