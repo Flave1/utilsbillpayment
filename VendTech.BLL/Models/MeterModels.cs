@@ -116,7 +116,16 @@ namespace VendTech.BLL.Models
         {
             TransactionDetailsId = x.TransactionDetailsId;
             Amount = x.Amount;
-            ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName;
+            if (x.Platform.ShortName != null)
+            {
+                if (x.Platform.PlatformId == 1)
+                    ProductShortName = x.Platform.ShortName;
+                else if (x.PlatFormId == 2)
+                    ProductShortName = "ORANGE";
+                else if (x.PlatFormId == 3)
+                    ProductShortName = "AFRICELL";
+
+            }
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
@@ -126,7 +135,8 @@ namespace VendTech.BLL.Models
             RechargeId = x.TransactionDetailsId;
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.MeterToken1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
+            PlatformId = (int)x.PlatFormId;
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
@@ -136,14 +146,24 @@ namespace VendTech.BLL.Models
             MeterRechargeId = x.TransactionDetailsId;
             RechargeId = x.TransactionDetailsId;
             UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
-            ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName;
+            if (x.Platform.ShortName != null)
+            {
+                if (x.Platform.PlatformId == 1)
+                    ProductShortName = x.Platform.ShortName;
+                else if (x.Platform.PlatformId == 2)
+                    ProductShortName = "ORANGE";
+                else if (x.Platform.PlatformId == 3)
+                    ProductShortName = "AFRICELL";
+
+            }
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
             Status = ((RechargeMeterStatusEnum)x.Status).ToString();
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.MeterToken1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             CreatedAtDate = x.CreatedAt;
+            PlatformId = (int)x.PlatFormId;
         }
     }
 
