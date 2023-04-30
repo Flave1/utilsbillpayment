@@ -127,7 +127,6 @@ namespace VendTech.BLL.Models
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.MeterToken1;
-            PlatformId = (int)x.PlatFormId;
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
