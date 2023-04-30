@@ -14,6 +14,11 @@ namespace VendTech.DAL
     
     public partial class Meter
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Meter()
+        {
+            this.TransactionDetails = new HashSet<TransactionDetail>();
+        }
         public long MeterId { get; set; }
         public long UserId { get; set; }
         public string Number { get; set; }
@@ -28,5 +33,7 @@ namespace VendTech.DAL
         public bool IsSaved { get; set; }
     
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
     }
 }
