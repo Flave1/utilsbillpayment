@@ -463,8 +463,9 @@
                     const response = JSON.parse(data)
                     disableSubmit(false);
 
+                    debugger
 
-                    if (response.Code === 302) {
+                    if (response.Code !== 200) {
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                         return false;
                     }

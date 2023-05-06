@@ -374,6 +374,7 @@ namespace VendTech.BLL.Models
         public string Status { get; set; }
         public bool IsInitialLoad { get; set; } = false; 
         public string MiniSaleRpType { get; set; }
+        public int PlatformId { get;set; }
     }
 
     public class DepositAuditModel

@@ -53,7 +53,8 @@ namespace VendTech.Controllers
                 SortBy = "CreatedAt",
                 SortOrder = "Desc",
                 PageNo = 1,
-                VendorId = LOGGEDIN_USER.UserID
+                VendorId = LOGGEDIN_USER.UserID,
+                PlatformId = Convert.ToInt32(provider)
             };
 
             var deposits = _platformTransactionManager.GetUserAirtimeRechargeTransactionDetailsHistory(hostory_model);

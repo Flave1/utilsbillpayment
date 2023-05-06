@@ -289,7 +289,7 @@ namespace VendTech.BLL.Managers
             }
             var result = new PagingResult<MeterRechargeApiListingModel>();
             var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
-                .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && p.Platform.PlatformType == (int) PlatformTypeEnum.AIRTIME);
+                .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && p.Platform.PlatformType == (int) PlatformTypeEnum.AIRTIME && p.PlatFormId == model.PlatformId);
 
             if (model.VendorId > 0)
             {
