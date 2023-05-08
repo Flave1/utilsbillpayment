@@ -263,7 +263,7 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Product))
             {
-                query = query.Where(p => p.Platform.ShortName.ToLower().Contains(model.Product.ToLower()));
+                query = query.Include("Platform").Where(p => p.Platform.Title.ToLower().Contains(model.Product.ToLower()));
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -1845,6 +1845,7 @@ namespace VendTech.BLL.Managers
         //        throw;
         //    }
         //}
+       
 
     }
 }

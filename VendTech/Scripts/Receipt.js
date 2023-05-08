@@ -61,7 +61,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchSaleInformation(token, platFormId) {
-
+    debugger
     switch (platFormId) {
         case '1':
             fetchVoucherDetailsByToken(token);

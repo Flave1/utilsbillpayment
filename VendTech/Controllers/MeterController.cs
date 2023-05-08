@@ -13,6 +13,8 @@ using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
+using Newtonsoft.Json;
+using VendTech.BLL.Managers;
 #endregion
 
 namespace VendTech.Controllers
@@ -30,11 +32,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IPlatformManager _platformManager;
         private readonly IPOSManager _posManager;
+        private readonly IPlatformTransactionManager _platformTransactionManager;
 
 
         #endregion
 
-        public MeterController(IUserManager userManager,IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager,IPOSManager posManager)
+        public MeterController(IUserManager userManager, IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager, IPOSManager posManager, IPlatformTransactionManager platformTransactionManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -43,7 +46,7 @@ namespace VendTech.Controllers
             _meterManager = meterManager;
             _platformManager = platformManager;
             _posManager = posManager;
-
+            _platformTransactionManager = platformTransactionManager;
         }
 
         /// <summary>
@@ -307,12 +310,16 @@ namespace VendTech.Controllers
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
 
-        //[HttpGet]
-        //public ActionResult GetUserMeterRecharges(int pageNo, int pageSize)
-        //{
-        //    var result = _meterManager.GetUserMeterRecharges(LOGGEDIN_USER.UserID, 1, 10);
-        //    return JsonResult(result)
-        //}
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetAirtimeReceipt(RequestObject1 requestObject)
+        {
+            var result = _platformTransactionManager.GetAirtimeReceipt(requestObject.Id);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
+            return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
+        }
+
+
 
     }
 }

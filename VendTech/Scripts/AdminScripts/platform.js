@@ -58,7 +58,7 @@ function previewFile(input) {
 
 function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
 
-    
+    debugger
     if (id === '1') {
         $("#statusLabel").text('DISABLE VEND');
     } else {
