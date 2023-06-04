@@ -74,7 +74,7 @@
 
                                             <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
                                             <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
-                                             
+
                                             @{
                                                 var pos = (List<SelectListItem>)ViewBag.userPos;
                                             }
@@ -128,6 +128,11 @@
                                             <div class="form-group row">
                                                 <label style="width:30%;  float:left;">VT Trans ID:</label>
                                                 <input style="width:65%; float:right;" type="text" id="tranId" name="TransactionId" class="form-control">
+                                            </div>
+                                            <div class="form-group  row">
+                                                <label style="width:30%;  float:left;">PRODUCT:</label>
+                                                @*<input name="ProductId" type="text" id="productId" style="width:65%; float:right;" class="form-control">*@
+                                                @Html.DropDownList("ProductId", new SelectList(ViewBag.Products, "value", "text"), null, new { @id = "productId", @class = "form-control", @style = "width:65%; float:right;" })
                                             </div>
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>

@@ -797,3 +797,51 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+

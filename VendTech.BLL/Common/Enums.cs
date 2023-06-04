@@ -186,6 +186,7 @@ namespace VendTech.BLL.Models
      */
     public enum PlatformTypeEnum
     {
+        All = 0,
         AIRTIME = 1,
         CABLE_TV = 2,
         DATA = 3,

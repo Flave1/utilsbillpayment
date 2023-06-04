@@ -105,7 +105,7 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("ENABLED"))
                     query = query.Where(z => z.Enabled.ToString().ToLower().Contains(model.Search.ToLower()));
             }
-            var list = query.Where(r => r.Enabled == model.IsActive).Take(model.RecordsPerPage)
+            var list = query.Where(r => r.Enabled == model.IsActive)//.Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))

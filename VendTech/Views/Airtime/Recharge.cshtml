@@ -446,12 +446,13 @@
             if (!$("#Amount").val() || $("#Amount").val() == "0") {
                 $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
                 return;
-            }
+            }   
 
-            if ( ! $("#Beneficiary").val() ) {
+            if (!$("#Beneficiary").val() ) {
                 $.ShowMessage($('div.messageAlert'), "Please enter phone number", MessageType.Error);
                 return;
             }
+            var reuestObj = $("#rechargeAirtimeForm").serializeArray();
 
             disableSubmit(true)
             $.ajax({
@@ -496,6 +497,10 @@
 
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                     }
+/*                    Recharge ? provider = ${ reuestObj[1].value }*/
+                    setTimeout(() => {
+                        window.location.href = `https://vendtechsl.com/Meter/Utility`
+                    }, 3000)
                     Paging(this);
                 },
                 error: function () {

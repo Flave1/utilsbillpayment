@@ -110,6 +110,7 @@ namespace VendTech.BLL.Models
         public long? MeterId { get; set; }
         public long TransactionDetailsId { get; set; }
         public int PlatformId { get; set; }
+        public string PlatformName { get; set; }
         public DateTime CreatedAtDate { get; set; }
         public MeterRechargeApiListingModel() { }
         public MeterRechargeApiListingModel(TransactionDetail x)
@@ -137,6 +138,7 @@ namespace VendTech.BLL.Models
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             PlatformId = (int)x.PlatFormId;
+            PlatformName = x.Platform.Title;
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
@@ -164,6 +166,7 @@ namespace VendTech.BLL.Models
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             CreatedAtDate = x.CreatedAt;
             PlatformId = (int)x.PlatFormId;
+            PlatformName = x.Platform.Title;
         }
     }
 
@@ -206,6 +209,28 @@ namespace VendTech.BLL.Models
         //public string Response { get; set; }
         public string PIN { get; set; }
         public string AMOUNT { get; set; }
+        public SalesReportExcelModel() { }
+        public SalesReportExcelModel(TransactionDetail x)
+        {
+            Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+            if (x.PlatFormId == 1)
+                PRODUCT_TYPE = x.Platform.ShortName;
+            else if (x.PlatFormId == 2)
+                PRODUCT_TYPE = "ORANGE";
+            else if (x.PlatFormId == 3)
+                PRODUCT_TYPE = "AFRICELL";
+            if (x.PlatFormId == 1)
+                PIN = x.MeterToken1;
+            else if (x.PlatFormId == 2)
+                PIN = x.MeterNumber1;
+            else if (x.PlatFormId == 3)
+                PIN = x.MeterNumber1;
+            AMOUNT = Utilities.FormatAmount(x.Amount);
+            TRANSACTIONID = x.TransactionId;
+            METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor;
+            POSID = x.POSId == null ? "" : x.POS.SerialNumber;
+        }
     }
 
     //public class GSTSalesReportExcelModel

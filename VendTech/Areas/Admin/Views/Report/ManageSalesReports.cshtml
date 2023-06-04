@@ -121,7 +121,8 @@
                                             </div>
                                             <div class="form-group  row">
                                                 <label style="width:30%;  float:left;">PRODUCT:</label>
-                                                <input name="ProductId" type="text" id="productId" style="width:65%; float:right;" class="form-control">
+                                                @*<input name="ProductId" type="text" id="productId" style="width:65%; float:right;" class="form-control">*@
+                                                @Html.DropDownList("ProductId", new SelectList(ViewBag.Products, "value", "text"), null, new { @id = "productId", @class = "form-control", @style="width:65%; float:right;" })
                                             </div>
                                             <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
                                         </div>

@@ -121,6 +121,14 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
+
+                    ViewBag.Products = new List<SelectListItem> {
+                        new SelectListItem { Value = "", Text = "SELECT PRODUCT" },
+                        new SelectListItem { Value = "EDSA", Text = "EDSA" },
+                        new SelectListItem { Value = "ORANGE", Text = "ORANGE" },
+                        new SelectListItem { Value = "AFRICELL", Text = "AFRICELL" }
+                    };
+
                     var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
                     return View("ManageSalesReports", recharges);
                 }

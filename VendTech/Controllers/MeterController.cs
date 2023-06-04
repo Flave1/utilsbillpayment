@@ -203,7 +203,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
 
             if (deposits.List.Any())
                 model.History = deposits.List;
@@ -251,7 +251,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
             var recharges = deposits.List;
             return PartialView("Partials/_salesListing", recharges);
         }

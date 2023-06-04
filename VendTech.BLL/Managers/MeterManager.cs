@@ -161,19 +161,7 @@ namespace VendTech.BLL.Managers
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder);
             }
-            var list = query.ToList().Select(x => new SalesReportExcelModel
-            {
-                Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                PRODUCT_TYPE = x?.Platform?.ShortName,
-                PIN = x.MeterToken1,
-                AMOUNT = Utilities.FormatAmount(x.Amount),
-                TRANSACTIONID = x.TransactionId,
-                METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
-                VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor,
-                POSID = x.POSId == null ? "" : x.POS.SerialNumber,
-                //Request = x?.Request,
-                //Response = x?.Response
-            }).ToList();
+            var list = query.ToList().Select(x => new SalesReportExcelModel(x)).ToList();
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             {
                 if (model.SortBy == "VendorName")
@@ -259,7 +247,8 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+                query = query.Where(p => p.MeterNumber1.ToLower().Contains(model.Meter.ToLower()));
+                //query = query.Include("Meter").Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
             }
             if (!string.IsNullOrEmpty(model.Product))
             {
@@ -385,14 +374,21 @@ namespace VendTech.BLL.Managers
             return result;
 
         }
-        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin, PlatformTypeEnum platform)
         {
             if(model.RecordsPerPage != 20)
             {
                 model.RecordsPerPage = 10;
             }
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            IQueryable<TransactionDetail> query = null;
+            if(platform != PlatformTypeEnum.All)
+                query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
+                .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && (int)platform == p.Platform.PlatformType);
+            else
+                query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
+                 .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -403,6 +399,8 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
+
+
 
             var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
@@ -1260,7 +1258,8 @@ namespace VendTech.BLL.Managers
 
         TransactionDetail IMeterManager.GetLastTransaction()
         {
-            var lstTr = Context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success).OrderByDescending(d => d.CreatedAt).FirstOrDefault() ?? null;
+            var lstTr = Context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success 
+            && e.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).OrderByDescending(d => d.CreatedAt).FirstOrDefault() ?? null;
             if (lstTr != null)
             {
                 lstTr.CurrentDealerBalance = lstTr.CurrentDealerBalance - lstTr.TenderedAmount;

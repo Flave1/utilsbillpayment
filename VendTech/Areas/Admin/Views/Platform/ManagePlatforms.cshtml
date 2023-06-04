@@ -107,7 +107,14 @@
                                             <td style="text-align:right;">@Utilities.FormatAmount(item.MinimumAmount)</td>
                                             <td>@item.PlatformApiConnName</td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.PlatformType', '@item.PlatformApiConnId', '@item.Title', '@item.PlatformId', '@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                                                <a class="btn btn-primary btn-xs" 
+                                                   onclick="editPlatform('@item.PlatformType', '@item.PlatformApiConnId', '@item.Title', '@item.PlatformId', '@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')"
+                                                   data-title="@item.Title" 
+                                                   data-short_name="@item.ShortName" 
+                                                   data-original-short_name="Edit" 
+                                                   data-original-title="Edit" 
+                                                   data-toggle="tooltip">Edit</a>
+
                                                 <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
                                                 @if (item.Enabled)

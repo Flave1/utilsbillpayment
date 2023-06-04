@@ -108,7 +108,8 @@ function Paging(sender) {
     obj.ReportType = $("#reportType").val();
     obj.Meter = $('#meterNo').val();
     obj.TransactionId = $('#tranId').val();
-     
+
+    obj.Product = $('#productId').val();
 
     if (obj.From) {
 

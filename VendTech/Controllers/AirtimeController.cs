@@ -76,8 +76,8 @@ namespace VendTech.Controllers
         public JsonResult Recharge(PlatformTransactionModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            
             //Fetch the currency
+            //return null;
             if(!model.Beneficiary.StartsWith("232") && !model.Beneficiary.StartsWith("+232"))
             {
                 model.Beneficiary = "232" + model.Beneficiary;
