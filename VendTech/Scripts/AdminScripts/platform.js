@@ -26,6 +26,7 @@ function addPlatform(statusLabel = 'DISABLE') {
     $("#short_name").val('');
     $("#title").val('');
     $("#minAmount").val('');
+    $("#platformType").val('');
     $('#stopSale').val('false');
     $('#diabledPlaformMessage').val('');
     $("#platformModal").modal('show');
@@ -33,7 +34,7 @@ function addPlatform(statusLabel = 'DISABLE') {
 
 
 function previewFile(input) {
-    
+
     var file = $("input[type=file]").get(0).files[0];
 
     if (file) {
@@ -56,9 +57,9 @@ function previewFile(input) {
     }
 }
 
-function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
+function editPlatform(type, apiConnId, title, id, short_name, logo, minAmount, saleStatus = false, message = '', statusLabel = 'DISABLE') {
 
-    debugger
+
     if (id === '1') {
         $("#statusLabel").text('DISABLE VEND');
     } else {
@@ -68,7 +69,40 @@ function editPlatform(title, id, short_name, logo, minAmount, saleStatus = false
     $("#hdnPlatformId").val(id);
     $("#short_name").val(short_name);
     $("#minAmount").val(minAmount);
-    $("#title").val(title); 
+    $("#platformType").val(type);
+
+
+
+    //fetch the list of API Connections
+    $.ajax('/Admin/Platform/GetApiConnectionsForPlatform?platformId=' + id, {
+        dataType: 'json',
+        timeout: 60000,
+        success: function (data, status, xhr) {
+            //append the options to the select
+            var htmlSelect = "<option value=''>Select API Connection</option>";
+
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    let apiConn = data[i];
+                    htmlSelect += "<option value='" + apiConn.Id + "'" + (apiConnId == apiConn.Id ? " selected" : "") + ">" + apiConn.Name + "</option>";
+                }
+            }
+
+            document.getElementById("platformApiConnId").innerHTML = htmlSelect;
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            alert("Error fetching Platform API Connections list for Platform. Please reload page if issue continues.");
+        }
+    });
+
+
+
+
+    //$("#platformApiConnId").html(htmlSelect);
+
+    $("#platformApiConnId").val(apiConnId);
+
+    $("#title").val(title);
     $("#ImagefromWeb").val(logo.fileName);
     $('#stopSale').val(saleStatus);
 
@@ -96,8 +130,12 @@ function savePlatform(sender) {
         $.ShowMessage($('div.messageAlert'), "Title is required", MessageType.Error);
         return;
     }
-    if ( !$("#short_name").val()) {
+    if (!$("#short_name").val()) {
         $.ShowMessage($('div.messageAlert'), "ShortName field is required", MessageType.Error);
+        return;
+    }
+    if (!$("#platformType").val()) {
+        $.ShowMessage($('div.messageAlert'), "Type field is required", MessageType.Error);
         return;
     }
 
@@ -148,25 +186,25 @@ function savePlatform(sender) {
 }
 
 function deletePlatform(sender) {
-     $.ConfirmBox("", "Are you sure to delete this platform?", null, true, "Yes", true, null, function () {
-            $.ajaxExt({
-                url: baseUrl + '/Admin/Platform/DeletePlatform',
-                type: 'POST',
-                validate: false,
-                showErrorMessage: true,
-                messageControl: $('div.messageAlert'),
-                showThrobber: true,
-                button: $(sender),
-                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                data: { id: $(sender).attr("data-id") },
-                success: function (results, message) {
-                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
-                }
-            });
+    $.ConfirmBox("", "Are you sure to delete this platform?", null, true, "Yes", true, null, function () {
+        $.ajaxExt({
+            url: baseUrl + '/Admin/Platform/DeletePlatform',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            button: $(sender),
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: { id: $(sender).attr("data-id") },
+            success: function (results, message) {
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            }
         });
+    });
 }
 
 function disablePlatform(sender) {
