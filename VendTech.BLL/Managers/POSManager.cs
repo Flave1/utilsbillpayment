@@ -95,6 +95,8 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("AGENCY"))
                     query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("PRODUCT"))
+                    query = query.Where(z => z.POSAssignedPlatforms.Select(d =>d.Platform.Title).Contains(model.Search.ToLower()));
 
                 if (model.SearchField.Equals("COMMISSION"))
                     query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));

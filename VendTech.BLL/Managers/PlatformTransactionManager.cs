@@ -429,7 +429,7 @@ namespace VendTech.BLL.Managers
 
                     transactionDetail.TenderedAmount = model.Amount;
                     transactionDetail.Amount = model.Amount;
-                    transactionDetail.CurrentVendorBalance = (pos.Balance - model.Amount);
+                    transactionDetail.CurrentVendorBalance = pos.Balance;
                     transactionDetail.BalanceBefore = (pos.Balance + model.Amount);
                     Context.SaveChanges();
                     response = GenerateReceipt(transactionDetail);

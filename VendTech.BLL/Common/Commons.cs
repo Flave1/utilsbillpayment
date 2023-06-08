@@ -59,6 +59,7 @@ namespace VendTech.BLL.Models
         public string SearchField { get; set; }
         public string VendorId { get; set; }
         public bool IsActive { get; set; } = true;
+        public string Product { get; set; }
 
         public static PagingModel DefaultModel(string sortBy = "CreatedOn", string sortOder = "Asc")
         {

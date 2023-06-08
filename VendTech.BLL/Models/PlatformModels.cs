@@ -25,6 +25,8 @@ namespace VendTech.BLL.Models
             PlatformId = p.PlatformId;
             Title = p.Platform?.Title;
             DisablePlatform = p.Platform != null ? p.Platform.DisablePlatform : false;
+            if (DisablePlatform)
+                DiabledPlaformMessage = p.Platform.DisabledPlatformMessage;
             Logo = string.IsNullOrEmpty(p.Platform?.Logo) ? "" : Utilities.DomainUrl + p.Platform?.Logo;
             PlatformType = p.Platform?.PlatformType ?? 0;
             PlatformApiConnName = p.Platform?.PlatformApiConnId > 0 ? p.Platform?.PlatformApiConnection?.Name : null;

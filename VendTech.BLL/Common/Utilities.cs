@@ -387,7 +387,7 @@ namespace VendTech.BLL.Common
                 var mimeMsg = new MimeMessage();
                 var frms = new List<MailboxAddress>
                 {
-                     new MailboxAddress(displayName, from),
+                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
                 };
                 var tos = new List<MailboxAddress>
                 {

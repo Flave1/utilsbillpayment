@@ -68,6 +68,7 @@
                                         <tr>
                                             <th class="sorting" data-sortby="POSId">POS ID</th>
                                             <th class="sorting" data-sortby="VendorId">VENDOR NAME</th>
+                                            <th class="sorting" data-sortby="Product">PRODUCT</th>
                                             <th class="sorting" data-sortby="Agency">AGENCY</th>
                                             <th class="sorting" data-sortby="COMMISSION">COMMISSION %</th>
                                             <th class="sorting" data-sortby="Number">POS SIM #</th>
@@ -137,7 +138,7 @@
             return AdminPOS.SortPOS($(this));
         }
         $("#searchField").show();
-        var searchFields = ["POS ID", "VENDOR NAME", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
+        var searchFields = ["POS ID", "VENDOR NAME", "PRODUCT", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }
