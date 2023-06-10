@@ -379,7 +379,7 @@ namespace VendTech.BLL.Common
         public static void SendEmail(string to, string sub, string body)
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -428,7 +428,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
