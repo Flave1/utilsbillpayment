@@ -11,6 +11,7 @@ using System.Linq;
 using Castle.Core.Internal;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
+using System.Collections.Generic;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -19,10 +20,20 @@ namespace VendTech.Areas.Admin.Controllers
         #region Variable Declaration
         private readonly IRTSEDSAManager manager;
         private readonly IVendorManager _vendorManager;
-        public RTSEDSAReportController(IErrorLogManager errorLogManager, IRTSEDSAManager manager, IVendorManager vendorManager) : base(errorLogManager)
+        private readonly IBankAccountManager _bankAccountManager;
+        private readonly IAgencyManager _agencyManager;
+        private readonly IPaymentTypeManager _paymentTypeManager;
+        private readonly IDepositManager _depositManager;
+        private readonly IMeterManager _meterManager;
+        public RTSEDSAReportController(IErrorLogManager errorLogManager, IRTSEDSAManager manager, IVendorManager vendorManager, IBankAccountManager bankAccountManager, IAgencyManager agencyManager, IPaymentTypeManager paymentTypeManager, IDepositManager depositManager, IMeterManager meterManager) : base(errorLogManager)
         {
             this.manager = manager;
             _vendorManager = vendorManager;
+            _bankAccountManager = bankAccountManager;
+            _agencyManager = agencyManager;
+            _paymentTypeManager = paymentTypeManager;
+            _depositManager = depositManager;
+            _meterManager = meterManager;
         }
         #endregion
 
@@ -40,6 +51,91 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
             return View(new PagingResult<RtsedsaTransaction>());
         }
+        //[HttpGet]
+        //public ActionResult Inquiry(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
+        //{
+        //    ViewBag.SelectedTab = SelectedAdminTab.RTSInquiry;
+        //    ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
+
+        //    ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+
+        //    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+        //    ViewBag.PosId = _vendorManager.GetPosSelectList();
+        //    ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+        //    var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+
+        //    ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
+        //    //ViewBag.SelectedTab = SelectedAdminTab.Reports;
+
+        //    if (source == "dashboard")
+        //    {
+        //        from = DateTime.UtcNow.ToString();
+        //        to = DateTime.UtcNow.ToString();
+        //    }
+        //    if (from == null)
+        //    {
+        //        from = DateTime.UtcNow.ToString();
+        //    }
+        //    if (to == null)
+        //    {
+        //        to = DateTime.UtcNow.ToString();
+        //    }
+
+        //    var model = new ReportSearchModel
+        //    {
+        //        SortBy = "CreatedAt",
+        //        SortOrder = "Desc",
+        //        PageNo = 1,
+        //        VendorId = vendorId,
+        //        PosId = pos,
+        //        Meter = meter,
+        //        TransactionId = transactionId,
+        //        From = DateTime.Parse(from),
+        //        To = DateTime.Parse(to)
+        //    };
+
+        //    var deposits = new PagingResult<DepositListingModel>();
+        //    var depositAudit = new PagingResult<DepositAuditModel>();
+
+        //    ViewBag.AssignedReports = assignedReportModule;
+        //    var bankAccounts = _bankAccountManager.GetBankAccounts();
+        //    ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+
+        //    if (assignedReportModule.Count > 0 && (type > 0 ? assignedReportModule.Any(x => x.Value == type.ToString()) : true))
+        //    {
+        //        var val = assignedReportModule[0].Value;
+        //        var rec = assignedReportModule.FirstOrDefault(p => p.Value == type.ToString());
+        //        if (rec != null)
+        //        {
+        //            val = type.ToString();
+        //            val = type.ToString();
+        //        }
+        //        /// This Is Used For Fetching DEPOSITS REPORT
+        //        if (val == "17")
+        //        {
+        //            deposits = _depositManager.GetReportsPagedList(model, true);
+        //            return View(deposits);
+        //        }
+        //        /// This Is Used For Fetching SALES REPORT
+        //        if (val == "16")
+        //        {
+        //            model.IsInitialLoad = true;
+
+        //            ViewBag.Products = new List<SelectListItem> {
+        //                new SelectListItem { Value = "", Text = "SELECT PRODUCT" },
+        //                new SelectListItem { Value = "EDSA", Text = "EDSA" },
+        //                new SelectListItem { Value = "ORANGE", Text = "ORANGE" },
+        //                new SelectListItem { Value = "AFRICELL", Text = "AFRICELL" }
+        //            };
+
+        //            var recharges = new PagingResult<MeterRechargeApiListingModel>();  // ??new PagingResult<MeterRechargeApiListingModel>();
+        //            return View(recharges);
+        //        }
+
+        //    }
+        //    return View(deposits);
+        //}
+
         [HttpGet]
         public ActionResult Transactions()
         {

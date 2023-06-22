@@ -4,8 +4,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\bin\app.publish\</_PublishTargetUrl>
-    <History>True|2023-06-08T05:03:59.4305007Z;True|2023-06-06T17:48:04.8621221+01:00;True|2023-06-06T17:47:52.6366528+01:00;True|2023-06-02T08:26:46.3008035+01:00;True|2023-05-31T17:02:28.4529206+01:00;True|2023-05-31T17:01:39.3077402+01:00;True|2023-05-31T17:01:24.0013748+01:00;True|2023-05-30T13:37:31.2298664+01:00;True|2023-05-29T15:28:09.6115127+01:00;True|2023-05-29T15:06:00.0378342+01:00;True|2023-05-28T07:25:18.6021219+01:00;True|2023-05-24T10:48:58.0575119+01:00;True|2023-05-24T03:17:06.8073016+01:00;True|2023-05-24T03:15:52.6482971+01:00;True|2023-05-23T13:45:33.9707695+01:00;True|2023-05-23T08:09:49.3602949+01:00;True|2023-05-18T07:41:03.9769533+01:00;True|2023-05-18T07:23:36.2815189+01:00;True|2023-05-17T07:46:45.4546403+01:00;True|2023-05-16T11:15:15.7150746+01:00;True|2023-05-16T11:13:10.9138960+01:00;True|2023-05-14T05:58:43.9659008+01:00;True|2023-05-08T16:34:20.4262279+01:00;True|2023-05-06T05:28:32.0972143+01:00;True|2023-05-06T05:27:30.8724277+01:00;True|2023-04-30T05:13:17.0884361+01:00;True|2023-04-29T02:56:59.4029192+01:00;True|2023-04-26T13:59:03.7713280+01:00;True|2023-04-21T06:41:10.4261755+01:00;True|2023-04-20T16:45:58.0383294+01:00;</History>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAw3BXM+/Ic0uBNtFy28dIbgAAAAACAAAAAAAQZgAAAAEAACAAAADNxhayVokaXhz0NbLG3D+m2BIj8p+waOWu/vSilcsVYQAAAAAOgAAAAAIAACAAAAAmQ0++4rsleZjVQhMALJN4qpAz2Ap8CkyuhcT+1oOQ6yAAAAAjeYdGGP9VMI0cf9+OvyYHnJNGf8hddD9yBWRF6rivrkAAAAB+wXmlkuCuzxpsz0BpWZGXwZtsNi7K+NI2ltuJJV55BNXKJywLdQ2ZdZ+8l6RQM5k5plcUEq99NqYbTT0g9A5I</EncryptedPassword>
+    <_PublishTargetUrl>ftp://160.153.155.205/vendtechsl.net</_PublishTargetUrl>
+    <History>False|2023-06-21T04:42:00.8124639Z;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -301,13 +303,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/RTSEDSAReport/Inquiry.cshtml">
-      <publishTime>06/05/2023 11:07:19</publishTime>
+      <publishTime>06/13/2023 07:46:08</publishTime>
     </File>
     <File Include="Areas/Admin/Views/RTSEDSAReport/partials/_salesListing.cshtml">
       <publishTime>06/05/2023 11:07:19</publishTime>
     </File>
     <File Include="Areas/Admin/Views/RTSEDSAReport/Transactions.cshtml">
-      <publishTime>06/05/2023 11:07:19</publishTime>
+      <publishTime>06/13/2023 07:47:34</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
       <publishTime>06/05/2023 11:07:19</publishTime>
@@ -352,9 +354,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/AddEditVendor.cshtml">
-      <publishTime>11/30/2022 07:21:35</publishTime>
-    </File>
-    <File Include="Areas/Admin/Views/Vendor/Detail.cshtml">
       <publishTime>11/30/2022 07:21:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/ManageVendors.cshtml">
@@ -628,7 +627,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2023 17:47:46</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/10/2023 15:08:13</publishTime>
+      <publishTime>06/21/2023 05:14:24</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
       <publishTime>06/10/2023 15:05:04</publishTime>
@@ -640,7 +639,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/10/2023 15:05:04</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
-      <publishTime>06/10/2023 15:08:13</publishTime>
+      <publishTime>06/21/2023 05:14:24</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
@@ -649,7 +648,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:09:00</publishTime>
     </File>
     <File Include="ErrorLog.txt">
-      <publishTime>06/09/2023 12:45:22</publishTime>
+      <publishTime>06/19/2023 14:17:52</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/11/2022 07:08:58</publishTime>
@@ -880,9 +879,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:57</publishTime>
     </File>
     <File Include="Scripts/UserScripts/balanceSheetReport.js">
-      <publishTime>11/30/2022 07:21:57</publishTime>
-    </File>
-    <File Include="Scripts/UserScripts/depositReport.js">
       <publishTime>11/30/2022 07:21:57</publishTime>
     </File>
     <File Include="Scripts/UserScripts/gstSalesReport.js">
@@ -1147,7 +1143,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/10/2023 15:05:06</publishTime>
+      <publishTime>06/21/2023 05:14:29</publishTime>
     </File>
   </ItemGroup>
 </Project>
