@@ -127,6 +127,14 @@ namespace VendTech.BLL.Models
         Company = 20,
     }
 
+    public enum NumberTypeEnum
+    {
+        [Description("Meter Meter")]
+        MeterNumber = 0,
+        [Description("Phone Number")]
+        PhoneNumber = 1,
+    }
+
     public enum AppUserTypeEnumApi
     {
         [Description("Personal Account")]

@@ -16,50 +16,32 @@
                         <div class="tabcont-row current">
                             <form>
                                 @Html.HiddenFor(m => m.MeterId)
-
-
                                 <div class="editpro-row">
                                     <div class="editpro-row50">
                                         <label>Meter # <sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:11 DIGITS METER NUMBER)</span></label>
                                         @Html.TextBoxFor(m => m.Number)
                                         @Html.ValidationMessageFor(x => x.Number)
-
-
                                     </div>
                                     <div class="editpro-row50">
                                         <label>Name on Meter <sup style="color:red !important;">*</sup></label>
                                         @Html.TextBoxFor(m => m.Name)
                                         @Html.ValidationMessageFor(x => x.Name)
-
-
-
-
                                     </div>
                                     <div class="editpro-row50">
                                         <label>ALIAS <sup style="color:red;">*</sup><span style="font-size:11px !important">(EG:HOME/OFFICE/SHOP METER)</span></label>
                                         @Html.TextBoxFor(m => m.Alias)
                                         @Html.ValidationMessageFor(x => x.Alias)
-
-
-
-
                                     </div>
                                     <div class="editpro-row50">
                                         <label>Address</label>
                                         @Html.TextAreaFor(m => m.Address)
                                         @Html.ValidationMessageFor(x => x.Address)
-
-
-
-
                                     </div>
                                     <div class="editpro-row50">
                                         <label>Meter Make <span style="font-size:11px !important"> (NOT REQUIRED IF YOU DO NOT KNOW)</span></label>
                                         @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { })
                                         @Html.ValidationMessageFor(x => x.MeterMake)
-
                                     </div>
-
                                     <div class="editpro-row50" style="display:inline-block">
                                         <label style="width: 10%">ACTIVE</label>
                                         <span style="width: 10%">@Html.CheckBoxFor(m => m.isVerified)</span>

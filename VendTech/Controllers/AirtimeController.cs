@@ -24,7 +24,7 @@ namespace VendTech.Controllers
             _platformTransactionManager = platformTransactionManager;
         }
 
-        public ActionResult Recharge(string provider = "")
+        public ActionResult Recharge(string provider = "", string number= "")
         {
             //list of airtime products
             List<SelectListItem> productsSelectList = new List<SelectListItem>();
@@ -69,6 +69,10 @@ namespace VendTech.Controllers
             else
                 ViewBag.walletBalance = 0;
 
+            if (!string.IsNullOrEmpty(number))
+            {
+                model.Beneficiary = number;
+            }
             return View(model);
         }
 

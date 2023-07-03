@@ -268,6 +268,7 @@
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
     <Compile Include="Controllers\AirtimeController.cs" />
+    <Compile Include="Controllers\SavedPhoneNumbersController.cs" />
     <Compile Include="Controllers\PrivacyController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
@@ -555,6 +556,9 @@
     <Content Include="Views\PlatformTransaction\Execute.cshtml" />
     <Content Include="Views\PlatformTransaction\ExecuteOutcome.cshtml" />
     <Content Include="Views\PlatformTransaction\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

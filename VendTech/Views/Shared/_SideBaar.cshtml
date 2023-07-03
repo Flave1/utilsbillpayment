@@ -23,8 +23,21 @@
                     }
                     @if (assignerModules.Where(X => X.ControllerName == "20").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
-                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "active" : "")" href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a></li>
+                        @*<li class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "open" : "") hidden-md hidden-lg">
+                            <a href="@Url.Action("EditProfile", "User")"><i class="fa fa-user"></i><span>Saved Meters</span></a>
+                        </li>*@
+                        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "open" : "") hidden-sm hidden-xs">
+                            <a href="#"><i class="fa fa-tachometer"></i><span>Saved Numbers</span></a>
+                            <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
+                                <li><a href="@Url.Action("Index", "Meter")">Meter Numbers</a></li>
+                                <li><a href="@Url.Action("Index", "SavedPhoneNumbers")">Phone Numbers</a></li>
+                            </ul>
+                        </li>
                     }
+                    @*@if (assignerModules.Where(X => X.ControllerName == "20").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+                    {
+                        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "active" : "")" href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a></li>
+                    }*@
                     @if (assignerModules.Where(X => X.ControllerName == "4").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.POS ? "active" : "")" href="@Url.Action("ManagePos", "POS")"><i class="fa fa-user"></i><span>Manage POS</span></a></li>
@@ -33,7 +46,7 @@
                     {
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "active" : "")" href="@Url.Action("Index", "Deposit")"><i class="fa fa-money"></i><span>Wallet</span></a></li>
                     }
-                   
+
                     @if (assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                     {
                         <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active" : "")" href="@Url.Action("SalesReport", "Report")"><i class="fa  fa-file-text"></i><span>Reports</span></a></li>

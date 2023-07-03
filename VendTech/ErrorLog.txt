@@ -1002,3 +1002,55 @@ Error occurred during a cryptographic operation.
 
 
 
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+Input string was not in a correct format.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'AddEditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/SavedPhoneNumbers/AddEditMeter.aspx
+~/Views/SavedPhoneNumbers/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Views/SavedPhoneNumbers/AddEditMeter.cshtml
+~/Views/SavedPhoneNumbers/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+The view 'AddEditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/SavedPhoneNumbers/AddEditMeter.aspx
+~/Views/SavedPhoneNumbers/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Views/SavedPhoneNumbers/AddEditMeter.cshtml
+~/Views/SavedPhoneNumbers/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

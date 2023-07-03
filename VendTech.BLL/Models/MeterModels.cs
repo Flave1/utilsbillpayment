@@ -22,6 +22,23 @@ namespace VendTech.BLL.Models
         public string Alias { get; set; }
         public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
+        public int NumberType { get; set; }
+    }
+
+    public class NumberModel
+    {
+        public long UserId { get; set; }
+        public long MeterId { get; set; }
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Number # is required"), MaxLength(8, ErrorMessage = "Number # must be of 8 digits"), MinLength(8, ErrorMessage = "Number # must be of 8 digits")]
+        public string Number { get; set; }
+        public string Address { get; set; }
+        public string MeterMake { get; set; }
+        public string Alias { get; set; }
+        public bool isVerified { get; set; } = true;
+        public bool IsSaved { get; set; }
+        public int NumberType { get; set; }
     }
 
     public class MeterAPIListingModel : MeterModel

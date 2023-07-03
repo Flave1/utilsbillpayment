@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAw3BXM+/Ic0uBNtFy28dIbgAAAAACAAAAAAAQZgAAAAEAACAAAACwtCHchRb6KJy0FZNmyDMNHhEW4Fq93lTiptknJx1fgQAAAAAOgAAAAAIAACAAAADaHOWyuw5PcouwrcpQDCbsQKVqh2WJti5a69KuIQRFQSAAAAAYJ0LnysY9cpLjssDBo4e76yu9fNO5q1tQcn9narueTEAAAACGGz5t1aiOkTmobPDLD0ktn4XK47cRMy0SEdeV4gB3ns0dldQtS/w5+EClHZE5TX1nvaodQsR6AgMJptwhRTK1</EncryptedPassword>
+    <_PublishTargetUrl>ftp://92.205.181.48/httpdocs</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/VendTech.BLL.dll">
+      <publishTime>06/30/2023 11:49:08</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.dll.config">
+      <publishTime>05/06/2023 11:07:19</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.dll">
+      <publishTime>06/30/2023 11:49:26</publishTime>
+    </File>
+    <File Include="bin/VendTech.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll.config">
+      <publishTime>05/06/2023 11:07:19</publishTime>
+    </File>
+    <File Include="Scripts/UserScripts/meter.js">
+      <publishTime>06/30/2023 11:45:16</publishTime>
+    </File>
+    <File Include="Views/Shared/_SideBaar.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

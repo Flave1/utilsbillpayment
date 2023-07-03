@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.SqlServer;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -26,13 +25,13 @@ namespace VendTech.BLL.Managers
             var dbMeter = new Meter();
             if (model.MeterId > 0)
             {
-                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false);
+                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.MeterNumber);
                 if (dbMeter == null)
                     return ReturnError("Meter not exist.");
             }
             else
             {
-                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false);
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.MeterNumber);
                 if (met != null)
                     return ReturnError(met.MeterId, "Same meter number already exist for you.");
             }
@@ -42,6 +41,7 @@ namespace VendTech.BLL.Managers
             dbMeter.Address = model.Address;
             dbMeter.Allias = model.Alias;
             dbMeter.IsSaved = model.isVerified;
+            dbMeter.NumberType = (int)NumberTypeEnum.MeterNumber;
             dbMeter.IsVerified = model.isVerified;
             if (model.MeterId == 0)
             {
@@ -52,9 +52,41 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess(dbMeter.MeterId, "Meter details saved successfully.");
         }
+
+        ActionOutput IMeterManager.SavePhoneNUmber(NumberModel model)
+        {
+            var dbMeter = new Meter();
+            if (model.MeterId > 0)
+            {
+                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+                if (dbMeter == null)
+                    return ReturnError("Phone number not exist.");
+            }
+            else
+            {
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+                if (met != null)
+                    return ReturnError(met.MeterId, "Same number already exist for you.");
+            }
+            dbMeter.Name = model.Name;
+            dbMeter.Number = model.Number;
+            dbMeter.MeterMake = model.MeterMake;
+            dbMeter.Allias = model.Alias;
+            dbMeter.IsSaved = model.isVerified;
+            dbMeter.NumberType = (int)NumberTypeEnum.PhoneNumber;
+            dbMeter.IsVerified = model.isVerified;
+            if (model.MeterId == 0)
+            {
+                dbMeter.UserId = model.UserId;
+                dbMeter.CreatedAt = DateTime.UtcNow;
+                Context.Meters.Add(dbMeter);
+            }
+            Context.SaveChanges();
+            return ReturnSuccess(dbMeter.MeterId, "Phone Number details saved successfully.");
+        }
         MeterModel IMeterManager.GetMeterDetail(long meterId)
         {
-            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId);
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.NumberType == (int)NumberTypeEnum.MeterNumber);
             if (dbMeter == null)
                 return null;
             return new MeterModel
@@ -65,22 +97,52 @@ namespace VendTech.BLL.Managers
                 Name = dbMeter.Name,
                 Number = dbMeter.Number,
                 isVerified = (bool)dbMeter.IsVerified,
-                Alias = dbMeter.Allias
+                Alias = dbMeter.Allias,
+                NumberType = (int)NumberTypeEnum.MeterNumber
+            };
+        }
+
+        NumberModel IMeterManager.GetPhoneNumberDetail(long Id)
+        {
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == Id && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+            if (dbMeter == null)
+                return null;
+            return new NumberModel
+            {
+                Address = dbMeter.Address,
+                MeterId = dbMeter.MeterId,
+                MeterMake = dbMeter.MeterMake,
+                Name = dbMeter.Name,
+                Number = dbMeter.Number,
+                isVerified = (bool)dbMeter.IsVerified,
+                Alias = dbMeter.Allias,
+                NumberType = (int)NumberTypeEnum.PhoneNumber
             };
         }
         ActionOutput IMeterManager.DeleteMeter(long meterId, long userId)
         {
 
-            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.UserId == userId);
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.UserId == userId && p.NumberType == (int)NumberTypeEnum.MeterNumber);
             if (dbMeter == null)
                 return ReturnError("Meter not exist.");
             dbMeter.IsDeleted = true;
             Context.SaveChanges();
             return ReturnSuccess("Meter deleted successfully.");
         }
+
+        ActionOutput IMeterManager.DeletePhoneNumber(long id, long userId)
+        {
+
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == id && p.UserId == userId && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+            if (dbMeter == null)
+                return ReturnError("Phone number does not exist.");
+            dbMeter.IsDeleted = true;
+            Context.SaveChanges();
+            return ReturnSuccess("Phone number deleted successfully.");
+        }
         List<SelectListItem> IMeterManager.GetMetersDropDown(long userID)
         {
-            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true)
+            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true && p.NumberType == (int)NumberTypeEnum.MeterNumber)
                 .Select(p => new SelectListItem
                 {
                     Text = p.Number + " - " + p.Allias ?? string.Empty,
@@ -91,7 +153,18 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterAPIListingModel> IMeterManager.GetMeters(long userID, int pageNo, int pageSize, bool isActive)
         {
             var result = new PagingResult<MeterAPIListingModel>();
-            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == isActive).ToList();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.MeterNumber).ToList();
+            result.TotalCount = query.Count();
+            var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meters fetched successfully.";
+            return result;
+        }
+        PagingResult<MeterAPIListingModel> IMeterManager.GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive)
+        {
+            var result = new PagingResult<MeterAPIListingModel>();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.PhoneNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             result.List = list;

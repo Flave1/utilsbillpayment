@@ -26,13 +26,11 @@
                         align-items: center;
                         text-align: center;
                     }
-
                         .separator::before, .separator::after {
                             content: '';
                             flex: 1;
                             border-bottom: 2px solid #f6eded;
                         }
-
                         .separator::before {
                             margin-right: .25em;
                         }
@@ -95,27 +93,27 @@
                                                     <input type="hidden" id="platformIdSelect" name="PlatformId" />
                                                     @*<div class="row padded" style="display:inline-block">
 
-                                                        @foreach (var nOperator in ViewBag.PlatformList)
-                                                        {
-                                                            if (nOperator.Value == "3")
+                                                            @foreach (var nOperator in ViewBag.PlatformList)
                                                             {
-                                                                <span>
-                                                                    <img id="platformIdSelect_3" onclick="selectOperator('@nOperator.Value')" src="https://zenprospect-production.s3.amazonaws.com/uploads/pictures/63b4403abdcffa0001a01d04/picture" alt="Company logo"
-                                                                         height="100" width="100" style="margin: auto; border-radius: 10px;" />
-                                                                </span>
+                                                                if (nOperator.Value == "3")
+                                                                {
+                                                                    <span>
+                                                                        <img id="platformIdSelect_3" onclick="selectOperator('@nOperator.Value')" src="https://zenprospect-production.s3.amazonaws.com/uploads/pictures/63b4403abdcffa0001a01d04/picture" alt="Company logo"
+                                                                             height="100" width="100" style="margin: auto; border-radius: 10px;" />
+                                                                    </span>
+                                                                }
+                                                                else if (nOperator.Value == "2")
+                                                                {
+                                                                    <span>
+                                                                        <img id="platformIdSelect_2" onclick="selectOperator('@nOperator.Value')" src="https://investadvocate.com.ng/wp-content/uploads/2016/07/Orange.jpg" alt="Company logo"
+                                                                             height="100" width="100" style="margin: auto; border-radius:10px;" />
+                                                                    </span>
+                                                                }
+
+
                                                             }
-                                                            else if (nOperator.Value == "2")
-                                                            {
-                                                                <span>
-                                                                    <img id="platformIdSelect_2" onclick="selectOperator('@nOperator.Value')" src="https://investadvocate.com.ng/wp-content/uploads/2016/07/Orange.jpg" alt="Company logo"
-                                                                         height="100" width="100" style="margin: auto; border-radius:10px;" />
-                                                                </span>
-                                                            }
 
-
-                                                        }
-
-                                                    </div>*@
+                                                        </div>*@
 
 
                                                     <div class="row padded">
@@ -252,10 +250,10 @@
     </div>
 
 
-    @Html.Partial("Partials/_downTimeNotification")
+    @*@Html.Partial("Partials/_downTimeNotification")
     <div class="modal fade" id="airtimeReceiptModal">
         @Html.Partial("_airtimeReceipt")
-    </div>
+    </div>*@
 
 </div>
 
@@ -276,7 +274,6 @@
 
             $(function () {
                 selectOperator(params.provider)
-
             });
 
             if ('@ViewBag.IsDisable' === 'True') {
@@ -312,7 +309,7 @@
                     const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
                     const amtPay = +$("#Amount").val().replace(",", "");
 
-                  
+
                     if (amtPay < '@ViewBag.MinumumVend') {
                         $.ShowMessage($('div.messageAlert'), "PLEASE ENTER " + minVend + " & ABOVE", MessageType.Error);
                         $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
@@ -356,6 +353,11 @@
 
         });
 
+        
+
+    </script>
+
+    @*<script>
         function selectOperator(value) {
 
             $('#platformIdSelect').val(value)
@@ -370,18 +372,19 @@
             }
         }
 
-        $(function () {
-            $("#posDrp").on("change", function () {
-                $.ajax({
-                    url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
-                    success: function (res) {
-                        $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
-                    }
-                })
-            }
-            )
-        });
-                function isNumber(evt) {
+            $(function () {
+                $("#posDrp").on("change", function () {
+                    $.ajax({
+                        url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
+                        success: function (res) {
+                            $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                        }
+                    })
+                }
+                )
+            });
+
+        function isNumber(evt) {
                     var iKeyCode = (evt.which) ? evt.which : evt.keyCode
                     if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
                         return false;
@@ -446,7 +449,7 @@
             if (!$("#Amount").val() || $("#Amount").val() == "0") {
                 $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
                 return;
-            }   
+            }
 
             if (!$("#Beneficiary").val() ) {
                 $.ShowMessage($('div.messageAlert'), "Please enter phone number", MessageType.Error);
@@ -460,7 +463,7 @@
                 data: $("#rechargeAirtimeForm").serialize(),
                 type: 'POST',
                 success: function (data) {
-                    
+
                     const response = JSON.parse(data)
                     disableSubmit(false);
 
@@ -497,7 +500,6 @@
 
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                     }
-/*                    Recharge ? provider = ${ reuestObj[1].value }*/
                     setTimeout(() => {
                         window.location.href = `https://vendtechsl.com/Meter/Utility`
                     }, 3000)
@@ -508,15 +510,14 @@
                 }
             });
         }
-
-    </script>
-}
-<style type="text/css">
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
+    </script>*@
     }
-</style>
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+    </style>

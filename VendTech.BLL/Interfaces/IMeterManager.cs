@@ -35,6 +35,10 @@ namespace VendTech.BLL.Interfaces
         decimal ReturnMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
         PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
+        PagingResult<MeterAPIListingModel> GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive);
+        NumberModel GetPhoneNumberDetail(long Id);
+        ActionOutput SavePhoneNUmber(NumberModel model);
+        ActionOutput DeletePhoneNumber(long id, long userId);
     }
     
 }
