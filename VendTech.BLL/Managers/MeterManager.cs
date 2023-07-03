@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.SqlServer;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -26,13 +25,13 @@ namespace VendTech.BLL.Managers
             var dbMeter = new Meter();
             if (model.MeterId > 0)
             {
-                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false);
+                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.MeterNumber);
                 if (dbMeter == null)
                     return ReturnError("Meter not exist.");
             }
             else
             {
-                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false);
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.MeterNumber);
                 if (met != null)
                     return ReturnError(met.MeterId, "Same meter number already exist for you.");
             }
@@ -42,6 +41,7 @@ namespace VendTech.BLL.Managers
             dbMeter.Address = model.Address;
             dbMeter.Allias = model.Alias;
             dbMeter.IsSaved = model.isVerified;
+            dbMeter.NumberType = (int)NumberTypeEnum.MeterNumber;
             dbMeter.IsVerified = model.isVerified;
             if (model.MeterId == 0)
             {
@@ -52,9 +52,41 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess(dbMeter.MeterId, "Meter details saved successfully.");
         }
+
+        ActionOutput IMeterManager.SavePhoneNUmber(NumberModel model)
+        {
+            var dbMeter = new Meter();
+            if (model.MeterId > 0)
+            {
+                dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == model.MeterId && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+                if (dbMeter == null)
+                    return ReturnError("Phone number not exist.");
+            }
+            else
+            {
+                var met = Context.Meters.FirstOrDefault(p => p.Number.Trim() == model.Number.Trim() && p.UserId == model.UserId && p.IsDeleted == false && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+                if (met != null)
+                    return ReturnError(met.MeterId, "Same number already exist for you.");
+            }
+            dbMeter.Name = model.Name;
+            dbMeter.Number = model.Number;
+            dbMeter.MeterMake = model.MeterMake;
+            dbMeter.Allias = model.Alias;
+            dbMeter.IsSaved = model.isVerified;
+            dbMeter.NumberType = (int)NumberTypeEnum.PhoneNumber;
+            dbMeter.IsVerified = model.isVerified;
+            if (model.MeterId == 0)
+            {
+                dbMeter.UserId = model.UserId;
+                dbMeter.CreatedAt = DateTime.UtcNow;
+                Context.Meters.Add(dbMeter);
+            }
+            Context.SaveChanges();
+            return ReturnSuccess(dbMeter.MeterId, "Phone Number details saved successfully.");
+        }
         MeterModel IMeterManager.GetMeterDetail(long meterId)
         {
-            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId);
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.NumberType == (int)NumberTypeEnum.MeterNumber);
             if (dbMeter == null)
                 return null;
             return new MeterModel
@@ -65,22 +97,52 @@ namespace VendTech.BLL.Managers
                 Name = dbMeter.Name,
                 Number = dbMeter.Number,
                 isVerified = (bool)dbMeter.IsVerified,
-                Alias = dbMeter.Allias
+                Alias = dbMeter.Allias,
+                NumberType = (int)NumberTypeEnum.MeterNumber
+            };
+        }
+
+        NumberModel IMeterManager.GetPhoneNumberDetail(long Id)
+        {
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == Id && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+            if (dbMeter == null)
+                return null;
+            return new NumberModel
+            {
+                Address = dbMeter.Address,
+                MeterId = dbMeter.MeterId,
+                MeterMake = dbMeter.MeterMake,
+                Name = dbMeter.Name,
+                Number = dbMeter.Number,
+                isVerified = (bool)dbMeter.IsVerified,
+                Alias = dbMeter.Allias,
+                NumberType = (int)NumberTypeEnum.PhoneNumber
             };
         }
         ActionOutput IMeterManager.DeleteMeter(long meterId, long userId)
         {
 
-            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.UserId == userId);
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == meterId && p.UserId == userId && p.NumberType == (int)NumberTypeEnum.MeterNumber);
             if (dbMeter == null)
                 return ReturnError("Meter not exist.");
             dbMeter.IsDeleted = true;
             Context.SaveChanges();
             return ReturnSuccess("Meter deleted successfully.");
         }
+
+        ActionOutput IMeterManager.DeletePhoneNumber(long id, long userId)
+        {
+
+            var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == id && p.UserId == userId && p.NumberType == (int)NumberTypeEnum.PhoneNumber);
+            if (dbMeter == null)
+                return ReturnError("Phone number does not exist.");
+            dbMeter.IsDeleted = true;
+            Context.SaveChanges();
+            return ReturnSuccess("Phone number deleted successfully.");
+        }
         List<SelectListItem> IMeterManager.GetMetersDropDown(long userID)
         {
-            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true)
+            return Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == true && p.NumberType == (int)NumberTypeEnum.MeterNumber)
                 .Select(p => new SelectListItem
                 {
                     Text = p.Number + " - " + p.Allias ?? string.Empty,
@@ -91,7 +153,18 @@ namespace VendTech.BLL.Managers
         PagingResult<MeterAPIListingModel> IMeterManager.GetMeters(long userID, int pageNo, int pageSize, bool isActive)
         {
             var result = new PagingResult<MeterAPIListingModel>();
-            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsSaved == true && p.IsVerified == isActive).ToList();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.MeterNumber).ToList();
+            result.TotalCount = query.Count();
+            var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "Meters fetched successfully.";
+            return result;
+        }
+        PagingResult<MeterAPIListingModel> IMeterManager.GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive)
+        {
+            var result = new PagingResult<MeterAPIListingModel>();
+            var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.PhoneNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             result.List = list;
@@ -161,19 +234,7 @@ namespace VendTech.BLL.Managers
             {
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder);
             }
-            var list = query.ToList().Select(x => new SalesReportExcelModel
-            {
-                Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm"),//ToString("dd/MM/yyyy HH:mm"),
-                PRODUCT_TYPE = x?.Platform?.ShortName,
-                PIN = x.MeterToken1,
-                AMOUNT = Utilities.FormatAmount(x.Amount),
-                TRANSACTIONID = x.TransactionId,
-                METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
-                VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor,
-                POSID = x.POSId == null ? "" : x.POS.SerialNumber,
-                //Request = x?.Request,
-                //Response = x?.Response
-            }).ToList();
+            var list = query.ToList().Select(x => new SalesReportExcelModel(x)).ToList();
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             {
                 if (model.SortBy == "VendorName")
@@ -259,11 +320,12 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+                query = query.Where(p => p.MeterNumber1.ToLower().Contains(model.Meter.ToLower()));
+                //query = query.Include("Meter").Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
             }
             if (!string.IsNullOrEmpty(model.Product))
             {
-                query = query.Where(p => p.Platform.ShortName.ToLower().Contains(model.Product.ToLower()));
+                query = query.Include("Platform").Where(p => p.Platform.Title.ToLower().Contains(model.Product.ToLower()));
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -385,14 +447,21 @@ namespace VendTech.BLL.Managers
             return result;
 
         }
-        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin)
+        PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin, PlatformTypeEnum platform)
         {
             if(model.RecordsPerPage != 20)
             {
                 model.RecordsPerPage = 10;
             }
             var result = new PagingResult<MeterRechargeApiListingModel>();
-            var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt).Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+            IQueryable<TransactionDetail> query = null;
+            if(platform != PlatformTypeEnum.All)
+                query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
+                .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && (int)platform == p.Platform.PlatformType);
+            else
+                query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
+                 .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null);
+
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -403,6 +472,8 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
+
+
 
             var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
@@ -1260,7 +1331,8 @@ namespace VendTech.BLL.Managers
 
         TransactionDetail IMeterManager.GetLastTransaction()
         {
-            var lstTr = Context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success).OrderByDescending(d => d.CreatedAt).FirstOrDefault() ?? null;
+            var lstTr = Context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success 
+            && e.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).OrderByDescending(d => d.CreatedAt).FirstOrDefault() ?? null;
             if (lstTr != null)
             {
                 lstTr.CurrentDealerBalance = lstTr.CurrentDealerBalance - lstTr.TenderedAmount;
@@ -1845,6 +1917,7 @@ namespace VendTech.BLL.Managers
         //        throw;
         //    }
         //}
+       
 
     }
 }

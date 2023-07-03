@@ -13,6 +13,8 @@ using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
+using Newtonsoft.Json;
+using VendTech.BLL.Managers;
 #endregion
 
 namespace VendTech.Controllers
@@ -30,11 +32,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IPlatformManager _platformManager;
         private readonly IPOSManager _posManager;
+        private readonly IPlatformTransactionManager _platformTransactionManager;
 
 
         #endregion
 
-        public MeterController(IUserManager userManager,IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager,IPOSManager posManager)
+        public MeterController(IUserManager userManager, IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager, IPOSManager posManager, IPlatformTransactionManager platformTransactionManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -43,7 +46,7 @@ namespace VendTech.Controllers
             _meterManager = meterManager;
             _platformManager = platformManager;
             _posManager = posManager;
-
+            _platformTransactionManager = platformTransactionManager;
         }
 
         /// <summary>
@@ -165,7 +168,6 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
-
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
@@ -200,7 +202,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
 
             if (deposits.List.Any())
                 model.History = deposits.List;
@@ -220,11 +222,6 @@ namespace VendTech.Controllers
             return JsonResult(_meterManager.RechargeMeter(model));
         }
 
-       
-        public class RequestObject
-        {
-            public string token_string { get; set; }
-        }
 
         [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(RequestObject tokenobject)
@@ -253,7 +250,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
             var recharges = deposits.List;
             return PartialView("Partials/_salesListing", recharges);
         }
@@ -312,12 +309,16 @@ namespace VendTech.Controllers
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
 
-        //[HttpGet]
-        //public ActionResult GetUserMeterRecharges(int pageNo, int pageSize)
-        //{
-        //    var result = _meterManager.GetUserMeterRecharges(LOGGEDIN_USER.UserID, 1, 10);
-        //    return JsonResult(result)
-        //}
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetAirtimeReceipt(RequestObject1 requestObject)
+        {
+            var result = _platformTransactionManager.GetAirtimeReceipt(requestObject.Id);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
+            return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
+        }
+
+
 
     }
 }

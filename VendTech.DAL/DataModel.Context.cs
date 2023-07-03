@@ -35,6 +35,7 @@ namespace VendTech.DAL
         public virtual DbSet<Commission> Commissions { get; set; }
         public virtual DbSet<ContactU> ContactUs { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<DepositLog> DepositLogs { get; set; }
         public virtual DbSet<DepositOTP> DepositOTPs { get; set; }
         public virtual DbSet<Deposit> Deposits { get; set; }
@@ -44,10 +45,16 @@ namespace VendTech.DAL
         public virtual DbSet<ForgotPasswordRequest> ForgotPasswordRequests { get; set; }
         public virtual DbSet<Meter> Meters { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
+        public virtual DbSet<Nation> Nations { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<PendingDeposit> PendingDeposits { get; set; }
         public virtual DbSet<Platform> Platforms { get; set; }
+        public virtual DbSet<PlatformApiConnection> PlatformApiConnections { get; set; }
+        public virtual DbSet<PlatformApiLog> PlatformApiLogs { get; set; }
+        public virtual DbSet<PlatformApi> PlatformApis { get; set; }
+        public virtual DbSet<PlatformPacParam> PlatformPacParams { get; set; }
+        public virtual DbSet<PlatformTransaction> PlatformTransactions { get; set; }
         public virtual DbSet<POS> POS { get; set; }
         public virtual DbSet<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         public virtual DbSet<ReferralCode> ReferralCodes { get; set; }
@@ -61,6 +68,5 @@ namespace VendTech.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
-        public virtual DbSet<Nation> Nations { get; set; }
     }
 }

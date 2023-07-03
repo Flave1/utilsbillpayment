@@ -138,6 +138,16 @@ namespace VendTech.Controllers
                 To = DateTime.Parse(to)
 
             };
+
+            ViewBag.Products = new List<SelectListItem>
+             {
+                        new SelectListItem { Value = "", Text = "SELECT PRODUCT" },
+                        new SelectListItem { Value = "EDSA", Text = "EDSA" },
+                        new SelectListItem { Value = "ORANGE", Text = "ORANGE" },
+                        new SelectListItem { Value = "AFRICELL", Text = "AFRICELL" }
+                    };
+
+
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);

@@ -138,6 +138,7 @@ namespace VendTech.Controllers
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
                             body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
                             Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                         }
 
                     }

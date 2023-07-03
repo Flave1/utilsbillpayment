@@ -141,6 +141,7 @@
     <Reference Include="Ninject.WebApi.DependencyResolver, Version=0.1.4758.24814, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1" />
     <Reference Include="Quartz, Version=2.6.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.6.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
@@ -227,6 +228,8 @@
     <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PlatformApiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PlatformTransactionController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommissionController.cs" />
@@ -249,6 +252,7 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
     <Compile Include="Areas\Api\Controllers\ContactUsController.cs" />
@@ -264,6 +268,7 @@
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
     <Compile Include="Controllers\AirtimeController.cs" />
+    <Compile Include="Controllers\SavedPhoneNumbersController.cs" />
     <Compile Include="Controllers\PrivacyController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
@@ -278,6 +283,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\NinjectJobFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -471,6 +477,15 @@
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\Transactions.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\ConfigureApi.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\ConfigureApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\CreateApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\CreateOrEditApi.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\EditApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\PlatformApiConnections.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\PlatformApis.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformTransaction\Index.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
@@ -536,6 +551,14 @@
     <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\partials\_salesListing.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\Inquiry.cshtml" />
+    <Content Include="Views\Airtime\Partials\_downTimeNotification.cshtml" />
+    <Content Include="Views\Airtime\Partials\_salesListing.cshtml" />
+    <Content Include="Views\PlatformTransaction\Execute.cshtml" />
+    <Content Include="Views\PlatformTransaction\ExecuteOutcome.cshtml" />
+    <Content Include="Views\PlatformTransaction\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -607,6 +630,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
+    <Content Include="Views\Shared\_airtimeReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

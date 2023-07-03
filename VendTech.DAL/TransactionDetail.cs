@@ -61,7 +61,7 @@ namespace VendTech.DAL
         public Nullable<decimal> BalanceBefore { get; set; }
         public Nullable<int> QueryStatusCount { get; set; }
     
-        public virtual Meter Meter { get; set; }
+        public Meter Meter { get; set; }
         public virtual Platform Platform { get; set; }
         public virtual POS POS { get; set; }
         public virtual User User { get; set; }

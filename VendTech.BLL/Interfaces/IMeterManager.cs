@@ -20,7 +20,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<MeterRechargeApiListingModel> GetRechargeDetail(long rechargeId);
         MeterModel GetMeterDetail(long meterId);
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesReportAsync(ReportSearchModel model,bool callFromAdmin=false, long agentId = 0);
-        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false);
+        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false, PlatformTypeEnum platform = 0);
         List<SelectListItem> GetMetersDropDown(long userID);
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
         Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model);
@@ -35,6 +35,10 @@ namespace VendTech.BLL.Interfaces
         decimal ReturnMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
         PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
+        PagingResult<MeterAPIListingModel> GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive);
+        NumberModel GetPhoneNumberDetail(long Id);
+        ActionOutput SavePhoneNUmber(NumberModel model);
+        ActionOutput DeletePhoneNumber(long id, long userId);
     }
     
 }

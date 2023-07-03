@@ -98,6 +98,8 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
                     Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    //Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                 }
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
@@ -122,6 +124,7 @@ namespace VendTech.Areas.Admin.Controllers
                     var currentUser = LOGGEDIN_USER.UserID;
                     //"favouremmanuel433@gmail.com"
                     Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                 }
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });

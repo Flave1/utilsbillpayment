@@ -1,0 +1,387 @@
+﻿@model PagedList.IPagedList<PlatformTransactionModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Transactions";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+
+    string SearchFormDisplayCss = ViewBag.IsSearchForm ? "display:" : "display: none;";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@ViewBag.MainPageHeader</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="content">
+                        <div class="table-responsive">
+                            <div style="margin-top: 70px;">
+                                <a id="searchFormLink" href="javascript:void(0)" onclick="handleSearchForm();">
+                                    @if (ViewBag.IsSearchForm)
+                                    {
+                                        <i class="fa fa-multiply"></i>
+                                        <span>Close Search Form</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-search"></i>
+                                        <span>Open Search Form</span>
+                                    }
+                                </a>
+
+
+                                <div id="search-box" class="search-box" style="@SearchFormDisplayCss">
+                                    <form class="form-horizontal" action="@Url.Action("Index", "PlatformTransaction", new { pid = ViewBag.PlatformId, area = "Admin" })" method="post">
+                                        <input type="hidden" value="yes" name="_searchForm" />
+                                        <div class="form-group">
+
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="fromDate">Tranx Date</label>
+                                                <div class="col-md-7">
+                                                    <span>From:</span>
+                                                    <input name="fromDate" value="@ViewBag.QueryModel.FromDateFormatted" class="form-control" id="fromDate" />
+                                                    &nbsp;&nbsp;
+                                                    <span>To:</span>
+                                                    <input name="toDate" value="@ViewBag.QueryModel.ToDateFormatted" class="form-control" id="toDate" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="PlatformId">Platform Product</label>
+                                                <div class="col-md-4 form-control-sm">
+                                                    @Html.Raw(ModelUtils.CreateSelectList("pid", (List<SelectListItem>)ViewBag.Products, ViewBag.PlatformIdStr, "form-control"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="Reference">Reference</label>
+                                                <div class="col-md-4 form-control-sm">
+                                                    <input value="@ViewBag.QueryModel.Reference" name="reference" class="form-control" id="Reference" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="Beneficiary">Beneficiary</label>
+                                                <div class="col-md-4 form-control-sm">
+                                                    <input value="@ViewBag.QueryModel.Beneficiary" name="beneficiary" class="form-control form-control-sm" id="Beneficiary" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="Status">Transaction Status</label>
+                                                <div class="col-md-3">
+                                                    @Html.Raw(ModelUtils.CreateSelectList("status", (List<SelectListItem>)ViewBag.StatusList, ViewBag.QueryModel.Status.ToString(), "form-control"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-md-12">
+                                                <label class="col-md-2 control-label" for="Status">API Connections</label>
+                                                <div class="col-md-4">
+                                                    @Html.Raw(ModelUtils.CreateSelectList("apiConnId", (List<SelectListItem>)ViewBag.ApiConnList, ViewBag.QueryModel.ApiConnId.ToString(), "form-control"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label"></label>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn">Search</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div id="divResult">
+
+                                <div style="padding-top: 10px;">
+                                    Total Records: @Model.TotalItemCount
+                                    <br />
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index", "PlatformTransaction",
+                                        new
+                                        {
+                                            area = "Admin",
+                                            page,
+                                            reference = ViewBag.QueryModel.Reference,
+                                            beneficiary = ViewBag.QueryModel.Beneficiary,
+                                            pid = ViewBag.PlatformId,
+                                            toDate = ViewBag.QueryModel.ToDateFormatted,
+                                            fromDate = ViewBag.QueryModel.FromDateFormatted,
+                                            status = ViewBag.QueryModel.Status,
+                                            apiConnId = ViewBag.QueryModel.ApiConnId
+                                        }))
+                                </div>
+
+                                <table class="table table-bordered" id="datatable-icons">
+                                    <thead>
+                                        <tr>
+                                            <th>#ID</th>
+                                            <th class="alignL">Date</th>
+                                            <th class="alignL">Product</th>
+                                            <th class="alignL">Beneficiary</th>
+                                            <th class="alignL">Amount</th>
+                                            <th class="alignL">API Connection</th>
+                                            <th class="alignL">Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+
+                                                    @Html.DisplayFor(modelItem => item.Id)
+                                                    <br />
+                                                    <span class="boldFont">User Ref</span>: @item.UserReference
+                                                </td>
+                                                <td>@item.CreatedAtStr</td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PlatformTypeName)
+                                                    <br />
+                                                    <span class="italic">@item.PlatformName (#@item.PlatformId)</span>
+                                                    <br />
+                                                    <b>Ref</b>: @item.OperatorReference
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Beneficiary)
+                                                    @if (item.PinNumber != null)
+                                                    {
+                                                        <br />
+                                                        <b>PIN No</b>@Html.Raw(":") @item.PinNumber
+                                                    }
+                                                    @if (item.PinSerial != null)
+                                                    {
+                                                        <br />
+                                                        <b>PIN Serial</b>@Html.Raw(":") @item.PinSerial
+                                                    }
+                                                    @if (item.PinInstructions != null)
+                                                    {
+                                                        <br />
+                                                        <b>Instructions</b>@Html.Raw(":") @item.PinInstructions
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)&nbsp;@item.Currency
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ApiConnectionName) (#@item.Id)
+                                                    <br/>
+                                                    <span class="italic">@item.PlatformName - @item.PlatformApiName (#@item.PlatformApiId)</span>
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.StatusName)</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-primary" onclick="displayTranxLog(@item.Id, @item.PlatformId); return false;">LOG</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top: 10px;">
+                                    Total Records: @Model.TotalItemCount
+                                    <br />
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index", "PlatformTransaction",
+                                        new
+                                        {
+                                            area = "Admin",
+                                            page,
+                                            reference = ViewBag.QueryModel.Reference,
+                                            beneficiary = ViewBag.QueryModel.Beneficiary,
+                                            pid = ViewBag.PlatformId,
+                                            toDate = ViewBag.QueryModel.ToDateFormatted,
+                                            fromDate = ViewBag.QueryModel.FromDateFormatted,
+                                            status = ViewBag.QueryModel.Status,
+                                            apiConnId = ViewBag.QueryModel.ApiConnId
+                                        }))
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="logModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="apiLogModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <p>API Request Details (ID: <span id="logId"></span>)</p>
+                <div id="logDetailsDiv">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+
+    <script>
+        var FADE_STATUS = {
+            fadeOut: @ViewBag.IsSearchForm.ToString().ToLower()
+        };
+        $(document).ready(function () {
+            App.init();
+
+            var d = new Date();
+            //cannot serach past today
+            var todayMax = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+            var minDate = new Date(2000, 1, 1, 0, 0, 0, 0);
+            var interval = 5;
+
+            $("#fromDate").kendoDateTimePicker({
+                min: minDate,
+                max: todayMax,
+                format: "dd/MM/yyyy HH:mm",
+                interval: interval
+            });
+            var datePicker1 = $("#fromDate").data("kendoDateTimePicker");
+            $("#fromDate").click(function () {
+                datePicker1.open();
+            });
+            $("#toDate").kendoDateTimePicker({
+                min: minDate,
+                max: todayMax,
+                format: "dd/MM/yyyy HH:mm",
+                interval: interval
+            });
+            var datePicker2 = $("#toDate").data("kendoDateTimePicker");
+            $("#toDate").click(function () {
+                datePicker2.open();
+            });
+        });
+
+        function handleSearchForm() {
+            $("#search-box").fadeToggle(250);
+            if (FADE_STATUS.fadeOut) {
+                document.getElementById("searchFormLink").innerHTML = "<i class='fa fa-search'></i><span>Open Search Form</span>";
+            } else {
+
+                document.getElementById("searchFormLink").innerHTML = "<i class='fa fa-close'></i><span>Close Search Form</span>";
+            }
+            FADE_STATUS.fadeOut = !FADE_STATUS.fadeOut;
+        }
+
+        function displayTranxLog(tranxId, platformId) {
+            $.ajax(
+                {
+                    "url": '/Admin/PlatformTransaction/GetTranxLogs?tranxId=' + tranxId,
+                    "dataType": "json",
+                    "success": function (data, status, xhr) {
+                        let html = "";
+                        if (data && data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                var log = data[i];
+                                let section = "Pending Check";
+                                if (i == 0) {
+                                    $("#logId").text(log.TransactionId);
+                                    section = "Initial Call";
+                                }
+                                html += createLogDetails(section, log, platformId);
+                            }
+                        }
+                        else {
+                            html += "<span>No log data available</span>";
+                        }
+
+                        $("#logDetailsDiv").html(html);
+                        $("#logModal").modal('show');
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) { // error callback 
+                        alert("Error Message: " + errorMessage);
+                        alert("Error fetching logs for transaction #" + tranxId);
+                    }
+                }
+            );
+        }
+
+        function createLogDetails(type, log, pid) {
+            //var apiLogJSON = JSON.parse(log.apiLog);
+            var apiLogJSON = log.ApiLogJson;
+
+            var html = "<div><div style='background-color: grey; font-weight:bold;'>" + type + " (" + log.LogDateStr + ")</div>"
+                + "<div class='logDetails'>"
+                + "[id] => " + log.TransactionId + "<br/>"
+                + "[status] => " + apiLogJSON.Status + "<br/>"
+                + "[platformId] => " + pid + "<br/>"
+                + "[operatorReference] => " + apiLogJSON.OperatorReference + "<br/>"
+                + "[userReference] => " + apiLogJSON.UserReference + "<br/>"
+                + "[apiTransactionId] => " + apiLogJSON.ApiTransactionId + "<br/>"
+                + "[isError] => " + apiLogJSON.IsError + "<br/>"
+                + "[errorMsg] => " + apiLogJSON.ErrorMsg + "<br/>";
+
+            if (apiLogJSON.PinNumber) {
+                html += "[pinNumber] => " + apiLogJSON.PinNumber + "<br/>";
+            }
+            if (apiLogJSON.PinSerial) {
+                html += "[pinSerial] => " + apiLogJSON.PinSerial + "<br/>";
+            }
+            if (apiLogJSON.PinInstructions) {
+                html += "[pinInstructions] => " + apiLogJSON.PinInstructions + "<br/>";
+            }
+
+            html += "[apiCalls] => [<br/>";
+
+            if (apiLogJSON.ApiCalls && apiLogJSON.ApiCalls.length > 0) {
+                for (var i = 0; i < apiLogJSON.ApiCalls.length; i++) {
+                    let apiCall = apiLogJSON.ApiCalls[i];
+
+                    if (i > 0) {
+                        html += ",<br/>";
+                    }
+
+                    html += "{" + "<br/>";
+                    html += "&nbsp;&nbsp;[requestSent] => " + apiCall.RequestSentStr + "<br/>"
+                        + "&nbsp;&nbsp;[responseReceived] => " + apiCall.ResponseReceivedStr + "<br/>"
+                        + "&nbsp;&nbsp;[request] => " + apiCall.Request + "<br/>"
+                        + "&nbsp;&nbsp;[response] => " + apiCall.Response + "<br/>";
+
+                    if (apiCall.Timeout) {
+                        html += "&nbsp;&nbsp;[timeout] => " + apiCall.Timeout + "<br/>"
+                            + "&nbsp;&nbsp;[timeoutTime] => " + apiCall.TimeoutTime + "<br/>";
+                    }
+                    if (apiCall.ErrorMsg) {
+                        html += "&nbsp;&nbsp;[errorMsg] => " + apiCall.errorMsg + "<br/>";
+                    }
+
+                    html += "}"
+                }
+            }
+
+            html += "]";
+            html += "</div></div>";
+
+            return html;
+        }
+    </script>
+}

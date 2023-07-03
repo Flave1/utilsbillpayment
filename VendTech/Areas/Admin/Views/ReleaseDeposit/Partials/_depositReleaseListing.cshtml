@@ -5,37 +5,37 @@
 {
     foreach (var item in Model.List)
     {
-    <tr class="odd gradeX">
-        <td style="text-align:right;"> @item.CreatedAt</td>
-        <td style="text-align:right;"> @item.ValueDate</td>
-        <td style="text-align:right;">@item.PosNumber</td>
-        <td>@item.VendorName</td>
-        <td> @item.Type</td>
-        <td style="text-align:right;"> @item.ChkNoOrSlipId</td>
-        <td style="text-align:right;">
-            @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
-        </td>
-        <td style="text-align:right;">
-            @VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)
-        </td>
-        <td>
-            @item.Status
-        </td>
-        <td style="text-align:center">
-            @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
-            {
-                <input type="checkbox" id="@("cancelChk"+item.DepositId)" onclick="deleteDepositRequest()" class="cancelChkBox" value="@item.DepositId" />
-                @*<a data-depositid="@item.DepositId" class="btn btn-danger btn-xs rejectReleaseDepositBtn" href="javascript:void(0);" data-original-title="Reject Release" data-toggle="tooltip">Reject</a>
-                <a data-depositid="@item.DepositId" class="btn btn-primary btn-xs releaseDepositBtn" href="javascript:void(0);" data-original-title="Release" data-toggle="tooltip">Release</a>*@
-            }
-        </td>
-        <td style="text-align:center">
-            @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
-            {
-                <input type="checkbox" id="@("releaseChk"+item.DepositId)" class="releaseChkBox" value="@item.DepositId" />
-            }
-        </td>
-    </tr>
+        <tr class="odd gradeX">
+            <td style="text-align:right;"> @item.CreatedAt</td>
+            <td style="text-align:right;"> @item.ValueDate</td>
+            <td style="text-align:right;">@item.PosNumber</td>
+            <td style="font-weight:bold; color:green;">@item.VendorName</td>
+            <td> @item.Type</td>
+            <td style="text-align:right;"> @item.ChkNoOrSlipId</td>
+            <td style="text-align: right; font-weight: bold; color: blue;">
+                @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)
+            </td>
+            <td style="text-align:right; font-weight:bold; color:red;">
+                @VendTech.BLL.Common.Utilities.FormatAmount(item.PercentageAmount)
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td style="text-align:center">
+                @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
+                {
+                    <input type="checkbox" id="@("cancelChk"+item.DepositId)" onclick="deleteDepositRequest()" class="cancelChkBox" value="@item.DepositId" />
+                    @*<a data-depositid="@item.DepositId" class="btn btn-danger btn-xs rejectReleaseDepositBtn" href="javascript:void(0);" data-original-title="Reject Release" data-toggle="tooltip">Reject</a>
+                        <a data-depositid="@item.DepositId" class="btn btn-primary btn-xs releaseDepositBtn" href="javascript:void(0);" data-original-title="Release" data-toggle="tooltip">Release</a>*@
+                }
+            </td>
+            <td style="text-align:center">
+                @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
+                {
+                    <input type="checkbox" id="@("releaseChk"+item.DepositId)" class="releaseChkBox" value="@item.DepositId" />
+                }
+            </td>
+        </tr>
     }
 }
 else

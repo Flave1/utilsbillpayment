@@ -89,7 +89,9 @@
                                             @*<th>Service Status</th>*@
                                             <th>CODE</th>
                                             <th>TITLE</th>
-                                            <th>MINIMUM ANOUNT</th>
+                                            <th>TYPE</th>
+                                            <th>MIN AMOUNT</th>
+                                            <th>API CONN.</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>
@@ -101,9 +103,18 @@
                                         <tr class="odd gradeX">
                                             <td>@item.ShortName</td>
                                             <td>@item.Title</td>
+                                            <td>@item.PlatformTypeName</td>
                                             <td style="text-align:right;">@Utilities.FormatAmount(item.MinimumAmount)</td>
+                                            <td>@item.PlatformApiConnName</td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs" onclick="editPlatform('@item.Title','@item.PlatformId','@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')" data-title="@item.Title" data-short_name="@item.ShortName" data-original-short_name="Edit" data-original-title="Edit" data-toggle="tooltip">Edit</a> 
+                                                <a class="btn btn-primary btn-xs" 
+                                                   onclick="editPlatform('@item.PlatformType', '@item.PlatformApiConnId', '@item.Title', '@item.PlatformId', '@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')"
+                                                   data-title="@item.Title" 
+                                                   data-short_name="@item.ShortName" 
+                                                   data-original-short_name="Edit" 
+                                                   data-original-title="Edit" 
+                                                   data-toggle="tooltip">Edit</a>
+
                                                 <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
                                                 @if (item.Enabled)
@@ -111,12 +122,12 @@
                                                     <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
 
                                                 }
-
                                                 else
                                                 {
                                                     <a data-id="@item.PlatformId" class="btn btn-primary btn-xs enablePlatform" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
 
                                                 }
+                                                <a class="btn btn-primary btn-xs" href="/Admin/PlatformApi/PlatformApiConnections/@item.PlatformId">PAC</a>
                                             </td>
                                         </tr>
                                             }
@@ -162,6 +173,28 @@
                             <label for="title" class="col-md-4 control-label">TITLE<em>*</em></label>
                             <div class="col-md-8">
                                 <input type="text" name="title" id="title" class="form-control" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">TYPE<em>*</em></label>
+                            <div class="col-md-8">
+                                <select id="platformType" name="PlatformType" class="form-control">
+                                    @{
+                                        foreach (var type in PlatformModel.GetPlatformTypes())
+                                        {
+                                            <option value="@type.Value">@type.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <br /><br />  <br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">API CONNECTION<em>*</em></label>
+                            <div class="col-md-8">
+                                <select id="platformApiConnId" name="PlatformApiConnId" class="form-control">
+                                    
+                                </select>
                             </div>
                         </div>
                         <br /><br />  <br />

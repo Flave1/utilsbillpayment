@@ -111,6 +111,7 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
                     Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                 }
 
                 var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);

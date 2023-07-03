@@ -764,3 +764,293 @@ Error occurred during a cryptographic operation.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Airtime\Partials\_salesListing.cshtml(13): error CS1061: 'VendTech.BLL.Models.MeterRechargeApiListingModel' does not contain a definition for 'PlatformId' and no extension method 'PlatformId' accepting a first argument of type 'VendTech.BLL.Models.MeterRechargeApiListingModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+The specified type member 'Meter' is not supported in LINQ to Entities. Only initializers, entity members, and entity navigation properties are supported.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The view 'ManageSalesReports' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/RTSEDSAReport/ManageSalesReports.aspx
+~/Areas/Admin/Views/RTSEDSAReport/ManageSalesReports.ascx
+~/Areas/Admin/Views/Shared/ManageSalesReports.aspx
+~/Areas/Admin/Views/Shared/ManageSalesReports.ascx
+~/Views/RTSEDSAReport/ManageSalesReports.aspx
+~/Views/RTSEDSAReport/ManageSalesReports.ascx
+~/Views/Shared/ManageSalesReports.aspx
+~/Views/Shared/ManageSalesReports.ascx
+~/Areas/Admin/Views/RTSEDSAReport/ManageSalesReports.cshtml
+~/Areas/Admin/Views/RTSEDSAReport/ManageSalesReports.vbhtml
+~/Areas/Admin/Views/Shared/ManageSalesReports.cshtml
+~/Areas/Admin/Views/Shared/ManageSalesReports.vbhtml
+~/Views/RTSEDSAReport/ManageSalesReports.cshtml
+~/Views/RTSEDSAReport/ManageSalesReports.vbhtml
+~/Views/Shared/ManageSalesReports.cshtml
+~/Views/Shared/ManageSalesReports.vbhtml
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DepositListingModel]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.RtsedsaTransaction', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.RtsedsaTransaction]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.MeterRechargeApiListingModel]'.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+Input string was not in a correct format.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'AddEditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/SavedPhoneNumbers/AddEditMeter.aspx
+~/Views/SavedPhoneNumbers/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Views/SavedPhoneNumbers/AddEditMeter.cshtml
+~/Views/SavedPhoneNumbers/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+The view 'AddEditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/SavedPhoneNumbers/AddEditMeter.aspx
+~/Views/SavedPhoneNumbers/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Views/SavedPhoneNumbers/AddEditMeter.cshtml
+~/Views/SavedPhoneNumbers/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.MeterModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.NumberModel'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

@@ -1,43 +1,34 @@
-﻿@model PagingResult<RtsedsaTransaction>
+﻿﻿@model PagingResult<RtsedsaTransaction>
 @{
-    ViewBag.Title = "Manage Sales Reports";
+    /**/
+
+    ViewBag.Title = "Manage Deposits Reports";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
-
-
-@{
-    var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
-}
-
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<style>
+    input {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    select {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    option {
+        font-weight: bold;
+    }
+</style>
 <div class="container-fluid" id="pcont">
-    <style>
-            input {
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-
-            select {
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-
-            label {
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-
-            option {
-                font-weight: bold;
-            }
-
-
-            div.dataTables_filter > label::before {
-                content: "Quick Search :";
-            }
-        </style>
     <div class="page-head">
         <h3><b>Manage RTS/EDSA Inquiry</b></h3>
     </div>
@@ -45,6 +36,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat">
+                    @*<div class="header text-center">
+                            <h4 align="center"><b>ADMIN - MANAGE RESPORTS</b></h4>
+                        </div>*@
+
                     <div class="content">
                         <div class="table-responsive">
                             <div id="divResult">
@@ -64,8 +59,9 @@
                                     </label>
                                 </div>
                                 <div class="blwsec">
-                                    <div class="blwsec-left">
-                                        <form action="Report/ExportSalesReportTo" method="post" id="salesform">
+                                    @using (Html.BeginForm("ExportDepositReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
+                                    {
+                                        <div class="blwsec-left">
                                             <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
                                             <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
 
@@ -100,11 +96,9 @@
 
                                             <hr style="background:#d0cbcb; height:1px;" />
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch2" />
-                                        </form>
-                                    </div>
 
-
-
+                                        </div>
+                                    }
                                     <div class="blwsec-right">
                                         <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <table class="table table-bordered" id="datatable-icons">
@@ -124,7 +118,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tableBody">
-                                                    @Html.Partial("Partials/_salesListing", Model)
+                                                    @*@Html.Partial("Partials/_salesListing", Model)*@
                                                 </tbody>
                                             </table>
                                         </div>
@@ -145,45 +139,69 @@
 </div>
 
 
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
+</div>
+
+
+
 @section scripts{
-
-
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
     <script src="~/Scripts/AdminScripts/rtsedsaReport.js"></script>
     <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
-
     <script src="~/Scripts/Receipt.js"></script>
+
     <script type="text/javascript">
-    var totalCount = "@Model.TotalCount";
-     
+        var totalCount = "@Model.TotalCount";
 
-        $('#PrintType').on("change", function () {
-            $('#ExportType').val($(this).val());
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+        $(document).ready(function () {
+            App.init();
+            const date = new Date();
+            const formattedDate = date.toLocaleDateString('en-GB', {
+                day: '2-digit', month: '2-digit', year: 'numeric'
+            }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+
+            $("#printedDate").text(formattedDate);
+            $("#PrintedDateServer").val(formattedDate);
+
+
+            $('#PrintType').on("change", function () {
+                $('#ExportType').val($(this).val());
+            });
+
+            $("#btnExport").click(function (e) {
+                var frm = $("#FromDate").val();
+                var to = $("#ToDate").val();
+                if (frm) {
+                    $("#frmD").val(RtsEdsaHandler.getUnixDate(frm));
+                }
+                else {
+                    $("#frmD").val('');
+
+                }
+                if (to) {
+                    $("#toD").val(RtsEdsaHandler.getUnixDate(to));
+                }
+                else {
+                    $("#toD").val('');
+                }
+
+                $('#salesform').attr('action', '/RTSEDSAReport/ExportRTSEDSASaleInquiry');
+                $("#salesform").attr("method", "Post");
+                $("#salesform").submit();
+            })
+
         });
-
-        $("#btnExport").click(function (e) {
-            var frm = $("#FromDate").val();
-            var to = $("#ToDate").val();
-            if (frm) {
-                $("#frmD").val(RtsEdsaHandler.getUnixDate(frm));
-            }
-            else {
-                $("#frmD").val('');
-
-            }
-            if (to) {
-                $("#toD").val(RtsEdsaHandler.getUnixDate(to));
-            }
-            else {
-                $("#toD").val('');
-            }
-
-            $('#salesform').attr('action', '/RTSEDSAReport/ExportRTSEDSASaleInquiry');
-            $("#salesform").attr("method", "Post");
-            $("#salesform").submit();
-        })
-
 
     </script>
 }

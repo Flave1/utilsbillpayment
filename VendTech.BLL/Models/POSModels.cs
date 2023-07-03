@@ -14,6 +14,7 @@ namespace VendTech.BLL.Models
     {
         public long POSId { get; set; }
         public string VendorName { get; set; }
+        public string Products { get; set; }
 
         public string Agency { get; set; }
         public string SerialNumber { get; set; }
@@ -61,6 +62,7 @@ namespace VendTech.BLL.Models
             PosBarcode = obj?.PosBarcode ?? false;
             Agency = obj?.User?.Agency?.AgencyName;
             MobileAppVersion = obj.User?.MobileAppVersion ?? "2.2";
+            Products = string.Join(", ", obj?.POSAssignedPlatforms.Select(x => x.Platform.Title).ToList());
         } 
     }
     public class PosAPiListingModel

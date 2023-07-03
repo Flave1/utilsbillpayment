@@ -313,7 +313,7 @@ namespace VendTech.BLL.Managers
             else if (!string.IsNullOrWhiteSpace(status))
                 query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
             var list = query
-               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+               .Skip(model.PageNo - 1)//.Take(model.RecordsPerPage)
                .ToList().Select(x => new UserListingModel(x)).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;

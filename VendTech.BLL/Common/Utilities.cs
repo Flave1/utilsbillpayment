@@ -379,7 +379,7 @@ namespace VendTech.BLL.Common
         public static void SendEmail(string to, string sub, string body)
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -387,7 +387,7 @@ namespace VendTech.BLL.Common
                 var mimeMsg = new MimeMessage();
                 var frms = new List<MailboxAddress>
                 {
-                     new MailboxAddress(displayName, from),
+                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
                 };
                 var tos = new List<MailboxAddress>
                 {
@@ -428,7 +428,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {

@@ -95,6 +95,8 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("AGENCY"))
                     query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("PRODUCT"))
+                    query = query.Where(z => z.POSAssignedPlatforms.Select(d =>d.Platform.Title).Contains(model.Search.ToLower()));
 
                 if (model.SearchField.Equals("COMMISSION"))
                     query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));
@@ -105,7 +107,7 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("ENABLED"))
                     query = query.Where(z => z.Enabled.ToString().ToLower().Contains(model.Search.ToLower()));
             }
-            var list = query.Where(r => r.Enabled == model.IsActive).Take(model.RecordsPerPage)
+            var list = query.Where(r => r.Enabled == model.IsActive)//.Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
