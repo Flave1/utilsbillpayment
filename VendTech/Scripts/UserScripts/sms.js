@@ -1,11 +1,4 @@
-﻿
-
-
-(function () {
-
-})();
-
-var smsHandler = {
+﻿var smsHandler = {
     transactionId: '',
     isReprint: false,
     openSmsModal: function (isReprint) {
@@ -13,7 +6,7 @@ var smsHandler = {
         $(".smsOverlay").css("display", "block");
      
     },
-     closeSmsModal: function () {
+    closeSmsModal: function () {
          $(".smsOverlay").css("display", "none");
     },
     openSmsModal2: function (isReprint) {

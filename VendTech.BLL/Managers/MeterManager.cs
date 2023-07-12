@@ -952,6 +952,7 @@ namespace VendTech.BLL.Managers
             data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
+            data.PlatformId = recharge.PlatFormId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             var thisTransactionNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
             if(thisTransactionNotification != null)
@@ -1107,7 +1108,7 @@ namespace VendTech.BLL.Managers
                        },
             };
         }
-        private ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
+        public ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
         {
             if (model.POS == null) model.POS = new POS();
             var receipt = new ReceiptModel();
@@ -1135,6 +1136,7 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
+            receipt.PlatformId = model.PlatFormId;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)

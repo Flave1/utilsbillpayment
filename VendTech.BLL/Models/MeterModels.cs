@@ -126,7 +126,7 @@ namespace VendTech.BLL.Models
         public long MeterRechargeId { get; set; }
         public long? MeterId { get; set; }
         public long TransactionDetailsId { get; set; }
-        public int PlatformId { get; set; }
+        public int? PlatformId { get; set; }
         public string PlatformName { get; set; }
         public DateTime CreatedAtDate { get; set; }
         public MeterRechargeApiListingModel() { }
@@ -134,6 +134,7 @@ namespace VendTech.BLL.Models
         {
             TransactionDetailsId = x.TransactionDetailsId;
             Amount = x.Amount;
+            PlatformId = (int)x.PlatFormId;
             if (x.Platform.ShortName != null)
             {
                 if (x.Platform.PlatformId == 1)
@@ -154,7 +155,6 @@ namespace VendTech.BLL.Models
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
-            PlatformId = (int)x.PlatFormId;
             PlatformName = x.Platform.Title;
         }
 
@@ -165,6 +165,7 @@ namespace VendTech.BLL.Models
             MeterRechargeId = x.TransactionDetailsId;
             RechargeId = x.TransactionDetailsId;
             UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            PlatformId = (int)x.PlatFormId;
             if (x.Platform.ShortName != null)
             {
                 if (x.Platform.PlatformId == 1)
@@ -173,7 +174,6 @@ namespace VendTech.BLL.Models
                     ProductShortName = "ORANGE";
                 else if (x.Platform.PlatformId == 3)
                     ProductShortName = "AFRICELL";
-
             }
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
@@ -182,7 +182,6 @@ namespace VendTech.BLL.Models
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             CreatedAtDate = x.CreatedAt;
-            PlatformId = (int)x.PlatFormId;
             PlatformName = x.Platform.Title;
         }
     }
@@ -199,6 +198,7 @@ namespace VendTech.BLL.Models
         public decimal? UnitsCost { get; set; }
         public decimal? Tarrif { get; set; }
         public double Units { get; set; }
+        public int? PlatformId { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
         {
@@ -212,6 +212,7 @@ namespace VendTech.BLL.Models
             Tarrif = Convert.ToDecimal(x.Tariff);
             Units = Convert.ToDouble(x.Units);
             Amount = x.Amount;
+            PlatformId = x.PlatFormId;
         }
     }
     public class SalesReportExcelModel

@@ -9,11 +9,24 @@
         history = new List<MeterRechargeApiListingModel>();
     }
 }
+
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+@*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
+
+
 <div class="container-fluid" id="pcont">
     <div class="dashright ">
 
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        @*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
 
         <div class="page-head">
             <h2>Airtime Recharge</h2>
@@ -26,11 +39,13 @@
                         align-items: center;
                         text-align: center;
                     }
+
                         .separator::before, .separator::after {
                             content: '';
                             flex: 1;
                             border-bottom: 2px solid #f6eded;
                         }
+
                         .separator::before {
                             margin-right: .25em;
                         }
@@ -251,9 +266,9 @@
 
 
     @*@Html.Partial("Partials/_downTimeNotification")
-    <div class="modal fade" id="airtimeReceiptModal">
-        @Html.Partial("_airtimeReceipt")
-    </div>*@
+        <div class="modal fade" id="airtimeReceiptModal">
+            @Html.Partial("_airtimeReceipt")
+        </div>*@
 
 </div>
 
@@ -350,14 +365,24 @@
             $("#rechargeAirtime").on("click", function () {
                 return sendAirtimePurchase($(this));
             });
-
+            $(function () {
+                $("#posDrp").on("change", function () {
+                    $.ajax({
+                        url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
+                        success: function (res) {
+                            $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                        }
+                    })
+                }
+                )
+            });
         });
 
-        
+
 
     </script>
 
-    @*<script>
+    <script>
         function selectOperator(value) {
 
             $('#platformIdSelect').val(value)
@@ -372,18 +397,6 @@
             }
         }
 
-            $(function () {
-                $("#posDrp").on("change", function () {
-                    $.ajax({
-                        url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
-                        success: function (res) {
-                            $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
-                        }
-                    })
-                }
-                )
-            });
-
         function isNumber(evt) {
                     var iKeyCode = (evt.which) ? evt.which : evt.keyCode
                     if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
@@ -392,12 +405,13 @@
                     return true;
                 }
 
-                function thousands_separators(num) {
-                    var num_parts = num.toString().split(".");
-                    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    return num_parts.join(".");
-                }
-                function amountFormatter() {
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+
+        function amountFormatter() {
                     $("#pay_Now_Btn").prop('disabled', false);
 
                     var displayVal = $("#AmountDisplay").val();
@@ -417,20 +431,19 @@
                         }
                         $("#AmountDisplay").val();
                     }
-                }
+        }
 
-                function isNumber(evt) {
-                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-                    if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-                        return false;
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
 
-                    return true;
-                }
+            return true;
+        }
 
         function closeDowntimeNotify() {
             window.location.href = 'Meter/Utility';
         }
-
 
         function disableSubmit(disabled = false) {
             if (disabled) {
@@ -510,14 +523,7 @@
                 }
             });
         }
-    </script>*@
-    }
-    <style type="text/css">
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            margin: 0;
-        }
-    </style>
+
+    </script>
+
+}

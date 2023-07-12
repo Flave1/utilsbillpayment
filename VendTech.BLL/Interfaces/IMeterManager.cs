@@ -39,6 +39,7 @@ namespace VendTech.BLL.Interfaces
         NumberModel GetPhoneNumberDetail(long Id);
         ActionOutput SavePhoneNUmber(NumberModel model);
         ActionOutput DeletePhoneNumber(long id, long userId);
+        ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model);
     }
     
 }

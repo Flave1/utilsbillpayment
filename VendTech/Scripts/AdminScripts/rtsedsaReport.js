@@ -19,8 +19,8 @@ var RtsEdsaHandler = {
         var obj = new Object();
         var FromDate = $('#FromDate').val();
         var ToDate = $('#ToDate').val();
-        obj.fromdate = this.getUnixDate(FromDate);
-        obj.todate = this.getUnixDate(ToDate);
+        obj.fromdate = FromDate // this.getUnixDate(FromDate);
+        obj.todate = ToDate// this.getUnixDate(ToDate);
         obj.meterSerial = $('#meterSerial').val();
 
         disableSubmit2(true);
@@ -40,7 +40,7 @@ var RtsEdsaHandler = {
     SearchTransactions: function () {
         var obj = new Object();
         var FromDate = $('#FromDate').val();
-        obj.date = this.getUnixDate(FromDate);
+        obj.date = FromDate // this.getUnixDate(FromDate);
         disableSubmit(true);
         $.ajax({
             url: baseUrl + '/Admin/RTSEDSAReport/GetTransactionsAsync',

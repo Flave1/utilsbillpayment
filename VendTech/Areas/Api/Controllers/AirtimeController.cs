@@ -14,6 +14,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
+using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
 
@@ -79,6 +80,13 @@ namespace VendTech.Areas.Api.Controllers
 
         }
 
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage TransactionDetail(Tokenobject tokenobject)
+        {
+            var result = _platformTransactionManager.ReturnAirtimeReceipt(tokenobject.Token.Trim());
+            return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
+        }
 
     }
 }

@@ -36,7 +36,7 @@ namespace VendTech.BLL.Managers
                 Password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString(),
             };
 
-            requestObj.Date = Convert.ToInt64(model.Date);
+            requestObj.Date = Convert.ToInt64(Utilities.ConvertDateToEpochDate(model.Date));
 
             var req = JsonConvert.SerializeObject(requestObj, Formatting.Indented);
 
