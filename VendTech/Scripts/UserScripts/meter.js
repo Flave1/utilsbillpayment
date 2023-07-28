@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
     
-    $("input[type=button]#addUserBtn").live("click", function () {
+    $("input[type=button]#addUserBtn").on("click", function () {
         return UserMeters.AddUser($(this));
     });
-    $("input[type=button]#addPhoneBtn").live("click", function () {
+    $("input[type=button]#addPhoneBtn").on("click", function () {
         return UserMeters.AddPhone($(this));
     });
     $("input[type=button]#rechargeBtn").on("click", function () {
@@ -12,41 +12,41 @@
     $("button#rechargeBtn").on("click", function () {
         return UserMeters.RechargeMeter2($(this));
     });
-    $("input[type=button]#editUserBtn").live("click", function () {
+    $("input[type=button]#editUserBtn").on("click", function () {
         return UserMeters.UpdateUser($(this));
     });
-    $("a.deletethis").live("click", function () {
+    $("a.deletethis").on("click", function () {
         return UserMeters.DeleteUser($(this));
     });
-    $("a.activateUser").live("click", function () {
+    $("a.activateUser").on("click", function () {
         return UserMeters.ActivateUser($(this));
     });
-    $("a.declinedUser").live("click", function () {
+    $("a.declinedUser").on("click", function () {
         return UserMeters.DeclineUser($(this));
     });
-    $("a.blockUser").live("click", function () {
+    $("a.blockUser").on("click", function () {
         return UserMeters.BlockUser($(this));
     });
-    $("a.unBlockUser").live("click", function () {
+    $("a.unBlockUser").on("click", function () {
         return UserMeters.UnBlockUser($(this));
     });
-    $("input[type=button]#btnFilterVersion").live("click", function () {
+    $("input[type=button]#btnFilterVersion").on("click", function () {
         return UserMeters.ManageUsers($(this));
     });
-    //$("input[type=button]#btnFilterVersion2").live("click", function () {
+    //$("input[type=button]#btnFilterVersion2").on("click", function () {
     //    return UserMeters.ManagePhones($(this));
     //});
     $("select#showRecords").on("change", function () {
         return UserMeters.ShowRecords($(this));
     });
-    $('.sorting').live("click", function () {
+    $('.sorting').on("click", function () {
         return UserMeters.SortUserMeters($(this));
     });
-    $("#btnFilterSearch").live("click", function () {
+    $("#btnFilterSearch").on("click", function () {
         return UserMeters.SearchUsers($(this));
     });
 
-    $("#btnResetSearch").live("click", function () {
+    $("#btnResetSearch").on("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
         return UserMeters.SearchUsers($(this));

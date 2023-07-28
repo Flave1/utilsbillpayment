@@ -173,7 +173,7 @@ namespace VendTech.Controllers
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
-
+            ViewBag.title = "Bill Payment";
             return View(model);
         }
 
@@ -183,6 +183,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            ViewBag.title = "EDSA Recharge";
             var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
             ViewBag.IsDisable = platform.DisablePlatform;
             ViewBag.DisabledMessage = platform.DiabledPlaformMessage;

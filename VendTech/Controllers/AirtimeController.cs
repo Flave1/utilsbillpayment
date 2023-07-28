@@ -73,6 +73,7 @@ namespace VendTech.Controllers
             {
                 model.Beneficiary = number;
             }
+            model.PlatformId = Convert.ToInt32(provider);
             return View(model);
         }
 

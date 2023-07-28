@@ -1731,7 +1731,7 @@ namespace VendTech.BLL.Managers
             try
             {
 
-                if (!IsOtpValalid(model.OTP))
+                if (!IsOtpValid(model.OTP))
                     return ReturnError<List<long>>("WRONG OTP ENTERED");
 
                 if (model.CancelDepositIds != null)
@@ -1788,7 +1788,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                if (!IsOtpValalid(model.OTP))
+                if (!IsOtpValid(model.OTP))
                     return ReturnError("Invalid OTP");
 
                 if (model.ReverseDepositIds != null)
@@ -2234,7 +2234,7 @@ namespace VendTech.BLL.Managers
                 if (dbDeposit.Amount > fromPos.Balance.Value)
                     return ReturnError("INSUFFICIENT BALANCE TO MAKE TRANSFER");
 
-                if (!IsOtpValalid(otp))
+                if (!IsOtpValid(otp))
                     return ReturnError("WRONG OTP ENTERED");
 
                 
@@ -2382,7 +2382,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                if (!IsOtpValalid(OTP))
+                if (!IsOtpValid(OTP))
                     return ReturnError("WRONG OTP ENTERED");
 
                 var admin = Context.Users.FirstOrDefault(e => e.UserId == currentUserId);
@@ -2438,7 +2438,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        bool IsOtpValalid(string otp)
+        bool IsOtpValid(string otp)
         {
             var _otp = Context.DepositOTPs.FirstOrDefault(p => p.OTP == otp && !p.IsUsed);
             if (_otp == null)

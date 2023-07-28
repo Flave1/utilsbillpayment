@@ -1,0 +1,418 @@
+﻿@model  RechargeMeterModel
+@{ ViewBag.Title = "Recharge";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<MeterRechargeApiListingModel> history = Model.History;
+    if (history == null)
+    {
+        history = new List<MeterRechargeApiListingModel>();
+    }
+}
+<div class="container-fluid" id="pcont">
+    <div class="dashright ">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        @*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
+
+        <div class="page-head">
+            <h2>EDSA Recharge</h2>
+        </div>
+        <div class="cl-mcont">
+            <div class="row">
+                <style>
+                    .separator {
+                        display: flex;
+                        align-items: center;
+                        text-align: center;
+                    }
+
+                        .separator::before, .separator::after {
+                            content: '';
+                            flex: 1;
+                            border-bottom: 2px solid #f6eded;
+                        }
+
+                        .separator::before {
+                            margin-right: .25em;
+                        }
+
+                        .separator::after {
+                            margin-left: .25em;
+                        }
+
+                    label {
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+
+                    .input {
+                        font-weight: bold;
+                    }
+                </style>
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+                        {
+                            <div class="contarea meterpage row">
+                                <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
+                                    <span class="alert-danger" id="error_reponse" style=" display:none; float:left;"></span>
+                                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+                                </div>
+                                <div class="tabcont-row current">
+                                    <div class="row">
+                                        <div class="col-md-4" style=" border-right:2px solid #f6eded;">
+                                            <form id="rechargeForm" style="box-shadow:0 0 1px #8f7e7e; border:none; ">
+                                                <div class="row">
+                                                    <div class="row padded">
+                                                        @{
+                                                            var pos = (List<SelectListItem>)ViewBag.userPos;
+                                                        }
+                                                        @if (pos.Count > 1)
+                                                        {
+                                                            <div class=" col-md-4">
+                                                                <label class="control-label">SELECT POS ID</label>
+                                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class=" col-md-12">
+                                                                <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+
+                                                            </div>
+                                                            <br />
+                                                            <br />
+                                                            <br />
+
+                                                        }
+
+                                                        <div class="form-group col-md-8">
+                                                            <label class="control-label ">SELECT SAVED METER</label>
+                                                            @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="separator padded">OR</div>*@
+                                                    <div class="row padded">
+                                                        <div class="col-md-6">
+                                                            <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>
+                                                            @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
+                                                            @Html.ValidationMessageFor(x => x.MeterNumber)
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <br /><br />
+                                                            <label class="col-md-10">SAVE AS NEW METER </label>
+                                                            @*<input id="saveMeterChk" name="SaveAsNewMeter" type="checkbox" class="col-md-2" />*@
+                                                            @Html.CheckBoxFor(m => m.SaveAsNewMeter, new { @checked = Model.SaveAsNewMeter, @class = "col-md-2", @id = "saveMeterChk" })
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row padded">
+
+                                                        <div class="col-md-8">
+                                                            <label>AMOUNT</label>
+                                                            <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
+                                                                   id="AmountDisplay" type="text"
+                                                                   onkeypress="javascript:return isNumber(event)"
+                                                                   onkeyup="amountFormatter()"
+                                                                   class="form-control " />
+
+                                                            @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(x => x.Amount)
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <div class="row">
+                                                                <input type="button"
+                                                                       style="height:50px;
+                                                                   font-weight:bold;
+                                                                   text-transform:uppercase;
+                                                                   border:none; margin-top:7px;
+                                                                   width:100%; background: #ffd800;
+                                                                   border-radius:5px;" disabled
+                                                                       class="savebttn addDepositBtn"
+                                                                       id="pay_Now_Btn" value="PAY NOW">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-8 hidden-sm  hidden-xs">
+                                            <h4>Latest (10) recharge history</h4>
+                                            <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
+                                                <table class="table table-bordered  mb-0" id="datatable-icons">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>DATE/TIME</th>
+                                                            <th>PRODUCT</th>
+                                                            <th>TRANSACTION ID</th>
+                                                            <th>METER #</th>
+                                                            <th>POS ID</th>
+                                                            <th>TOKEN</th>
+                                                            <th>AMOUNT</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @Html.Partial("Partials/_salesListing", history)
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="contarea">
+                                <p>
+                                    Service not assigned<br />
+                                    Please contact VENDTECH on +23279990990
+                                </p>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-colored" style="background-color: #e4c200">
+                    <h3 class="modal-title" style="color:black; font-weight:bold; text-transform:capitalize;">PLEASE CONFIRM YOUR PURCHASE</h3>
+                    <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="row" style="margin-top:55px; margin-bottom: 25px ">
+                            <div class="col-md-6 col-item">
+                                <span class="adv-company-name">Meter No:</span>
+                            </div>
+                            <div class="col-md-6 col-item">
+                                <span id="meterno" class="adv-company-name" style="font-weight: bold; font-size: 30px;">Peter Bamidele</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:55px; margin-bottom: 25px">
+                            <div class="col-md-6 col-item">
+                                <span class="adv-company-name text-muted">ALIAS:</span>
+                            </div>
+                            <div class="col-md-6 col-item">
+                                <span id="allias" class="adv-company-name" style="font-weight: bold; font-size: 30px;">N/A</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-item adv-company-name">
+                                <span class="adv-company-name">Amount:</span>
+                            </div>
+                            <div class="col-md-6 col-item">
+                                <span class="amount-currency">SSL :</span>
+                                <span id="pamount" class="adv-amount-figure" style="font-weight:bold; font-size:30px;">100.00</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary md-close" id="rechargeBtn" type="button" data-dismiss="modal">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("Partials/_downTimeNotification", "")
+    <div class="modal fade" id="modalCart2">
+        @Html.Partial("_voucherReprint")
+    </div>
+
+    <div class="modal fade" id="modalCart">
+        @Html.Partial("_voucherReceipt")
+    </div>
+
+    <div class="modal fade" id="modalCart3">
+        @Html.Partial("_RequestResponseJSON")
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserScripts/meter.js"></script>
+    <link href="~/Content/transdetails.css" rel="stylesheet" />
+    <link href="~/Content/pos_receipt.css" rel="stylesheet" />
+    <script src="~/Scripts/Receipt.js"></script>
+    <script src="~/Scripts/UserScripts/sms.js"></script>
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            if ('@ViewBag.IsDisable' === 'True') {
+                var message = '@Html.Raw(ViewBag.DisabledMessage)';
+                if (message) {
+                    message = escape(message);
+                    const decoded = atob(unescape(message));
+                    $("#downtimeNotifyMessage").text(decoded);
+                }
+                $("#downtimeNotifyModal").modal('show');
+                $('#downtimeNotifyModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+
+                onSelectMeter();
+
+                $(".savebttn").click(function () {
+
+                    if (!$("#Amount").val() || $("#Amount").val() == "0") {
+                        $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
+                        return;
+                    } else if (!$("#MeterNumber").val() && !$("#meterDrp").val()) {
+                        $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
+                        return;
+                    } else {
+
+                        const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
+                        const amtPay = +$("#Amount").val().replace(",", "");
+
+                        if (amtPay < '@ViewBag.MinumumVend') {
+                            $.ShowMessage($('div.messageAlert'), "PLEASE TENDER " + minVend + " & ABOVE", MessageType.Error);
+                            $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
+                            $("#pay_Now_Btn").val('PAY NOW');
+                            $("#pay_Now_Btn").prop('disabled', false);
+                            return;
+                        }
+
+
+                        let meterno = ""
+                        if ($("#MeterNumber").val() == "") {
+                            meterno = $("#meterDrp option:selected").text().split("-")[0].trim()
+                        } else {
+                            meterno = $("#MeterNumber").val();
+                        }
+                        console.log(meterno.length);
+                        if (meterno.length != 11) {
+                            $.ShowMessage($('div.messageAlert'), "Please enter a valid meter number.", MessageType.Error);
+                            return;
+                        }
+
+                        $("#meterno").html(meterno);
+                        $("#allias").html($("#meterDrp option:selected").text().split("-")[1])
+                        $("#pamount").html(thousands_separators($("#Amount").val()))
+                        $("#form-bp1").modal("show")
+                    }
+                })
+
+                $("#AmountDisplay").on('keyup', function (evt) {
+                    if ($("#AmountDisplay").val() == "") {
+                        return false;
+                    }
+                    if (evt.which != 110 ){//not a fullstop
+                        var n = parseFloat($(this).val().replace(/\,/g,''),10);
+                        $(this).val(n.toLocaleString());
+                    }
+                });
+              })
+                $(function () {
+                    $("#posDrp").on("change", function () {
+                        $.ajax({
+                            url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
+                            success: function (res) {
+                                $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                            }
+                        })
+                    }
+                    )
+                })
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                }
+                function onSelectMeter() {
+                    if ($("#meterDrp").val()) {
+                        $("#MeterNumber").attr("disabled", "disabled");
+                        $("#saveMeterChk").attr("disabled", "disabled");
+                        $("#saveMeterChk").removeAttr("checked");
+                    }
+                    else {
+                        $("#MeterNumber").removeAttr("disabled");
+                        $("#saveMeterChk").removeAttr("disabled");
+
+                    }
+                }
+                function onChangeMeterNumber() {
+                    var val = $("#MeterNumber").val();
+                    if (val && val.length > 0) {
+                        $("#meterDrp").attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#meterDrp").removeAttr("disabled");
+                    }
+                }
+                function thousands_separators(num) {
+                    var num_parts = num.toString().split(".");
+                    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    return num_parts.join(".");
+                }
+                function amountFormatter() {
+                    $("#pay_Now_Btn").prop('disabled', false);
+
+                    var displayVal = $("#AmountDisplay").val();
+                    var val = "";
+                    if (displayVal) {
+                        var cc = displayVal.replace(/\,/g, "");
+                        $("#Amount").val(cc);
+                        val = $("#Amount").val();
+
+                        var amt_to_display = thousands_separators(val);
+                        var wallet_balance = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)';
+
+                        if (Number(amt_to_display.replace(/,/g,"")) > Number(wallet_balance.replace(/,/g,""))) {
+                            $("#pay_Now_Btn").prop('disabled', true);
+                            $.ShowMessage($('div.messageAlert'), "WALLET BALANCE IS INSUFFICIENT TO MAKE PURCHASE.", MessageType.Error);
+                            return false;
+                        }
+                        $("#AmountDisplay").val();
+                    }
+                }
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+        }
+
+        function closeDowntimeNotify() {
+            window.location.href = 'Meter/Utility';
+        }
+
+
+    </script>
+}
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>

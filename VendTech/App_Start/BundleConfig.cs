@@ -85,22 +85,33 @@ namespace VendTech
 
             bundles.Add(new StyleBundle("~/Content/adminLayoutCSS").Include(
                    "~/Content/themes/bootstrap/dist/css/bootstrap.css",
-                   "~/Content/fonts/font-awesome-4/css/font-awesome.min.css",
-                   "~/Content/themes/jquery.gritter/css/jquery.gritter.css",
-                   "~/Content/themes/jquery.nanoscroller/nanoscroller.css",
-                   "~/Content/themes/jquery.easypiechart/jquery.easy-pie-chart.css",
-                   "~/Content/themes/bootstrap.switch/bootstrap-switch.css",
-                   "~/Content/themes/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css",
-                   "~/Content/themes/jquery.select2/select2.css",
-                   "~/Content/themes/bootstrap.slider/css/slider.css",
-                   "~/Content/themes/intro.js/introjs.css",
-                   "~/Content/themes/jquery.vectormaps/jquery-jvectormap-1.2.2.css",
-                   "~/Content/themes/jquery.magnific-popup/dist/magnific-popup.css",
-                   "~/Content/themes/jquery.niftymodals/css/component.css",
-                   "~/Content/themes/intro.js/bootstrap.summernote/dist/summernote.css",
+                    "~/Content/fonts/font-awesome-4/css/font-awesome.min.css",
+                    "~/Content/themes/jquery.gritter/css/jquery.gritter.css",
+                    "~/Content/themes/jquery.nanoscroller/nanoscroller.css",
+                    "~/Content/themes/jquery.easypiechart/jquery.easy-pie-chart.css",
+                    "~/Content/themes/bootstrap.switch/bootstrap-switch.css",
+                    "~/Content/themes/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css",
+                    "~/Content/themes/jquery.select2/select2.css",
+                    "~/Content/themes/bootstrap.slider/css/slider.css",
+                    "~/Content/themes/intro.js/introjs.css",
+                    "~/Content/themes/jquery.vectormaps/jquery-jvectormap-1.2.2.css",
+                    "~/Content/themes/jquery.magnific-popup/dist/magnific-popup.css",
+                    "~/Content/themes/jquery.niftymodals/css/component.css",
+                    "~/Content/themes/intro.js/bootstrap.summernote/dist/summernote.css",
                     "~/Content/themes/jquery.datatables/bootstrap-adapter/css/datatables.css",
                     "~/Content/sweetalert.css",
-                   "~/Content/adminStyle.css"));
+                   "~/Content/adminStyle.css"
+                   ));
+
+            bundles.Add(new StyleBundle("~/Content/customerLayoutCSS").Include(
+                        "~/Content/themes/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css",
+
+                        "~/Content/themes/jquery.select2/select2.css",
+                        "~/Content/themes/bootstrap.slider/css/slider.css",
+                        "~/Content/themes/intro.js/introjs.css",
+                        "~/Content/themes/jquery.vectormaps/jquery-jvectormap-1.2.2.css",
+                        "~/Content/sweetalert.css"
+                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/extendedjs").Include(
                  "~/Content/themes/jquery.gritter/js/jquery.gritter.js",

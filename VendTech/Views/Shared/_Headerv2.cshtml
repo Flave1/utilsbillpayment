@@ -1,0 +1,27 @@
+﻿
+@{
+    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+}
+<div class="upper-bar">
+    <div class="logo">
+        <a href="@Url.Action("Dashboard", "Home")"><img src="~/Contentv2/imgs/logos/logo1.jpg" width="150" alt="Logo"></a>
+    </div>
+    <div class="user-profile">
+        <i>
+            @if (!string.IsNullOrEmpty(user.ProfilePicPath))
+            {
+                <img alt="" width="50" src="@(user.ProfilePicPath!=null?user.ProfilePicPath:@Url.Content("~/Content/images/avatar2.jpg"))" />
+            }
+        </i>
+        @*<i class="fas fa-user"></i>*@
+        @user.VendorName <i class="fas fa-caret-down"></i>
+        <div class="dropdown-content">
+            @*<a href="@Url.Action("EditProfile", "User")">Edit Profile</a>
+            <a href="@Url.Action("ChangePassword", "Home")">Change Password</a>
+            <hr>*@
+            <a href="@Url.Action("SignOut", "Home")">LOG OUT</a>
+        </div>
+
+    </div>
+    <button class="menu-icon">MENU&#9776;</button>
+</div>

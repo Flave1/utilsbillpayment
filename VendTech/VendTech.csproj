@@ -289,6 +289,19 @@
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
+    <Content Include="Contentv2\css\bill_payment.css" />
+    <Content Include="Contentv2\css\styles.css" />
+    <Content Include="Contentv2\imgs\logos\africell.png" />
+    <Content Include="Contentv2\imgs\logos\bulb.png" />
+    <Content Include="Contentv2\imgs\logos\dstv.jpg" />
+    <Content Include="Contentv2\imgs\logos\logo1.jpg" />
+    <Content Include="Contentv2\imgs\logos\notification.jpg" />
+    <Content Include="Contentv2\imgs\logos\notification.png" />
+    <Content Include="Contentv2\imgs\logos\orange2.jpg" />
+    <Content Include="Contentv2\imgs\logos\ventech.png" />
+    <Content Include="Contentv2\imgs\logos\vtech-receipt.png" />
+    <Content Include="Contentv2\imgs\logos\vt_logo.PNG" />
+    <Content Include="Contentv2\imgs\logos\water.png" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -448,6 +461,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jspdf.min.js" />
+    <Content Include="Scriptsv2\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\respond.js" />
@@ -493,14 +507,6 @@
     <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReport.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReportButtons.cshtml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
@@ -548,7 +554,6 @@
     <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
     <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
     <Content Include="Views\Privacy\Policy.cshtml" />
-    <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\partials\_salesListing.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\Inquiry.cshtml" />
     <Content Include="Views\Airtime\Partials\_downTimeNotification.cshtml" />
@@ -559,6 +564,11 @@
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Meter\Utility_old.cshtml" />
+    <Content Include="Views\Airtime\Recharge.cshtml" />
+    <Content Include="Views\Meter\Recharge_old.cshtml" />
+    <Content Include="Views\Airtime\Recharge_old.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -579,7 +589,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Shared\_beforeLoginUserLayout.cshtml" />
     <Content Include="Views\Shared\_FunctionCallMessage.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\Dashboard_old.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Paging.cshtml" />
     <Content Include="Views\Shared\_SearchFilter.cshtml" />
@@ -631,6 +641,11 @@
     <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
     <Content Include="Views\Shared\_airtimeReceipt.cshtml" />
+    <Content Include="Views\Shared\_Headerv2.cshtml" />
+    <Content Include="Views\Shared\_Layoutv2.cshtml" />
+    <Content Include="Views\Shared\_BalanceBar.cshtml" />
+    <Content Include="Views\Shared\_SideBarv2.cshtml" />
+    <Content Include="Views\Shared\_Title.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -642,6 +657,7 @@
     <Folder Include="Areas\Audit\Data\" />
     <Folder Include="Areas\Audit\Views\Shared\" />
     <Folder Include="Images\ProductImages\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Receipts\" />
   </ItemGroup>
   <ItemGroup>

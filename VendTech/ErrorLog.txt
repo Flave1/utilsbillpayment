@@ -1071,3 +1071,121 @@ Parameter name: source
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Meter\Utility.cshtml(4): error CS1525: Invalid expression term '='
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Unexpected "foreach" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "foreach" with "@".
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(47): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(48): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(48): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+"<" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
