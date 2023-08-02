@@ -1,0 +1,117 @@
+﻿@model PagingResult<MeterAPIListingModel>
+
+@{
+    ViewBag.Title = "Manage Meters";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
+
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+
+    .notActive {
+        color: black;
+        background: grey
+    }
+
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Meters</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front">
+                    <a class="addmeter" href="/Meter/AddEditMeter"><i class="fa fa-plus-circle"></i> <label>Add Meter</label></a>
+                    <br /><br />
+                    <div class="table-responsive ">
+
+                        <div id="divResult">
+                            <input id="IsActive" value="true" hidden />
+                            <div style='text-align: center; width:20%; height:40px; display:flex; '>
+                                <button id="true"
+                                        style="width: 49%; border: none;" class="isActive"
+                                        onclick="openTab('true')">
+                                    ACTIVE METERS
+                                </button>
+                                <button id="false"
+                                        style="width: 49%; border:none;" class="notActive"
+                                        onclick="openTab('false')">
+                                    INACTIVE METERS
+                                </button>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">METER #</th>
+                                        <th scope="col">NAME ON METER</th>
+                                        <th scope="col">ADDRESS</th>
+                                        <th scope="col">ALIAS</th>
+                                        <th scope="col">METER MAKE</th>
+                                        <th scope="col">DATE SAVED</th>
+                                        <th scope="col">ACTIVE</th>
+                                        <th sope="col">EDIT</th>
+                                        <th sope="col">RECHARGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @Html.Partial("Partials/_meterListing", Model)
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    @*@Html.Partial("_Paging")*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+            var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/UserScripts/meter.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        function openTab(status) {
+            var otherTabStatus = status === 'true' ? 'false' : 'true';
+            document.getElementById(status).className = 'isActive';
+            document.getElementById(otherTabStatus).className = 'notActive';
+
+            $('#IsActive').val(status === 'true' ? true : false);
+
+            return UserMeters.SortUserMeters($(this));
+        }
+
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+            UserMeters.ManageUsers(totalCount);
+
+        });
+    </script>
+}

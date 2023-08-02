@@ -255,7 +255,7 @@ var UserMeters = {
     },
 
     AddUser: function (sender) {
-        $.ajaxExt({
+        $.ajax({
             url: baseUrl + '/Meter/AddEditMeter',
             type: 'POST',
             validate: true,
@@ -279,7 +279,7 @@ var UserMeters = {
     },
 
     AddPhone: function (sender) {
-        $.ajaxExt({
+        $.ajax({
             url: baseUrl + '/SavedPhoneNumbers/AddEditPhoneNumbers',
             type: 'POST',
             validate: true,
@@ -483,6 +483,7 @@ function GetPOSBalanceAfterPurchase() {
 }
 
 function Paging(sender) {
+    $('#divResult table:first tbody').html("")
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
@@ -491,7 +492,7 @@ function Paging(sender) {
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
     obj.IsActive = $('#IsActive').val();
-    $.ajaxExt({
+    $.ajax({
         type: "POST",
         validate: false,
         parentControl: $(sender).parents("form:first"),
@@ -501,15 +502,15 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Meter/GetMetersPagingList',
         success: function (results, message) {
-            //$('#meterList').html(results[0]);
-            $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
+            $('#divResult table:first tbody').html(results.Results[0]);
+            PageNumbering(results.Results[1]);
 
         }
     });
 }
 
 function PagingForNumber(sender) {
+    $('#divResult table:first tbody').html("")
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
@@ -518,7 +519,7 @@ function PagingForNumber(sender) {
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
     obj.IsActive = $('#IsActive').val();
-    $.ajaxExt({
+    $.ajax({
         type: "POST",
         validate: false,
         parentControl: $(sender).parents("form:first"),
@@ -528,9 +529,8 @@ function PagingForNumber(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/SavedPhoneNumbers/GetSavedPhoneNumbersPagingList',
         success: function (results, message) {
-            //$('#meterList').html(results[0]);
-            $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
+            $('#divResult table:first tbody').html(results.Results[0]);
+            PageNumbering(results.Results[1]);
 
         }
     });

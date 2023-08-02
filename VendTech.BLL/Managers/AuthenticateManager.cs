@@ -202,8 +202,7 @@ namespace VendTech.BLL.Managers
                 || UserRoles.Vendor == x.UserRole.Role)
                 && (x.Status == (int)UserStatusEnum.Active
                 || x.Status == (int)UserStatusEnum.Pending
-                || x.Status == (int)UserStatusEnum.PasswordNotReset))
-                    .ToList()
+                || x.Status == (int)UserStatusEnum.PasswordNotReset)).AsEnumerable()
                     .Select(x => new UserModel(x))
                     .FirstOrDefault();
                 if (result != null)

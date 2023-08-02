@@ -1,89 +1,69 @@
 ﻿@model PagingResult<MeterAPIListingModel>
 
 @{
-    ViewBag.Title = "Manage Numbers";
-    Layout = "~/Views/Shared/_LayOut.cshtml";
+    ViewBag.title = "Manage Numbers";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
 }
 
-<style>
-    .isActive {
-        background: black;
-        color: white;
-        font-weight: bold;
-    }
 
-    .notActive {
-        color: black;
-        background: grey
-    }
-
-    .isActive:hover {
-        color: black;
-        background: grey
-    }
-
-    .notActive:hover {
-        background: black;
-        color: white;
-        font-weight: bold;
-    }
-</style>
+@Html.Partial("_Title")
 
 
-<div class="container-fluid" id="pcont">
-    <div class="page-head">
-        <h2>Manage Phone Numbers</h2>
-    </div>
-    <div class="cl-mcont">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat front">
-                    <a class="addmeter" href="/SavedPhoneNumbers/AddEditPhoneNumbers"><i class="fa fa-plus-circle"></i> <label>Add Phone Number</label></a>
-                    <br /><br />
-                    <div class="table-responsive ">
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn submitBtn" href="/SavedPhoneNumbers/AddEditPhoneNumbers">
+        <i class="fas fa-plus-circle"></i> Add Number
+    </a>
+</div>
+<div class="mt-5">
 
-                        <div id="divResult">
-                            <input id="IsActive" value="true" hidden />
-                            <div style='text-align: center; width:20%; height:40px; display:flex; '>
-                                <button id="true"
-                                        style="width: 49%; border: none;" class="isActive"
-                                        onclick="openTab('true')">
-                                    ACTIVE NUMBERS
-                                </button>
-                                <button id="false"
-                                        style="width: 49%; border:none;" class="notActive"
-                                        onclick="openTab('false')">
-                                    INACTIVE NUMBERS
-                                </button>
-                            </div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">NUMBER #</th>
-                                        <th scope="col">NAME ON NUMBER</th>
-                                        <th scope="col">ALIAS</th>
-                                        <th scope="col">NUMBER MAKE</th>
-                                        <th scope="col">DATE SAVED</th>
-                                        <th scope="col">ACTIVE</th>
-                                        <th sope="col">EDIT</th>
-                                        <th sope="col">RECHARGE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @Html.Partial("Partials/_numberListing", Model)
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                    </div>
-                    @*@Html.Partial("_Paging")*@
-                </div>
+    <input id="IsActive" value="true" hidden />
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a id="true"
+               class="nav-link active cancelBtn"
+               onclick="openTab('true')"
+               data-toggle="tab"
+               href="#home"
+               role="tab"
+               aria-controls="home"
+               aria-selected="true">ACTIVE NUMBERS</a>
+
+        </li>
+        <li class="nav-item">
+            <a id="false"
+               class="nav-link submitBtn"
+               onclick="openTab('false')"
+               data-toggle="tab"
+               href="#profile" role="tab"
+               aria-controls="profile"
+               aria-selected="false">INACTIVE NUMBERS</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="true">
+            <div id="divResult">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NUMBER #</th>
+                            <th scope="col">NAME ON NUMBER</th>
+                            <th scope="col">ALIAS</th>
+                            <th scope="col">NUMBER MAKE</th>
+                            <th scope="col">DATE SAVED</th>
+                            <th scope="col">ACTIVE</th>
+                            <th sope="col">EDIT</th>
+                            <th sope="col">RECHARGE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("Partials/_numberListing", Model)
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
-
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -97,12 +77,14 @@
     <script type="text/javascript">
 
         function openTab(status) {
+
+            $('.divResult table:first tbody').html('')
             var otherTabStatus = status === 'true' ? 'false' : 'true';
-            document.getElementById(status).className = 'isActive';
-            document.getElementById(otherTabStatus).className = 'notActive';
+            document.getElementById(status).className = 'nav-link cancelBtn';
+            document.getElementById(otherTabStatus).className = 'nav-link submitBtn';
 
             $('#IsActive').val(status === 'true' ? true : false);
-
+            console.log($('#IsActive').val())
             return UserMeters.SortPhoneNumbers($(this));
         }
 

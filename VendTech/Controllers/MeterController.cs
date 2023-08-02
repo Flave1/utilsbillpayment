@@ -55,7 +55,9 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            ViewBag.title = "Manage Meters";
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
             return View(meters);
 

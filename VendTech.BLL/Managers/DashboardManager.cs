@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.UI.WebControls;
 using VendTech.BLL.Interfaces;
@@ -146,19 +147,34 @@ namespace VendTech.BLL.Managers
 
 
                 List<TransactionChartData> tDatas = new List<TransactionChartData>();
-                var total_deposits = new decimal();
-                var total_sales = new decimal();
 
-                var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList() 
-                    : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList();
-
-                total_deposits = Context.Deposits.ToList().Where(e => current_user_pos_ids.Contains(e.POSId) && e.IsDeleted == false && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)DepositPaymentStatusEnum.Released).Sum(s => s.Amount);
-                total_sales = Context.TransactionDetails.ToList().Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.CreatedAt.Date == DateTime.UtcNow.Date && e.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
 
                 var agentBalance = user?.POS?.FirstOrDefault(d => d.IsDeleted == false)?.Balance ?? 0;
-
                 if (user.UserRole.Role == UserRoles.AppUser || user.UserRole.Role == UserRoles.Vendor) //user.UserRole.Role == UserRoles.Vendor ||
                 {
+                    var total_deposits = new decimal();
+                    var total_sales = new decimal();
+
+                    var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId
+                        && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList()
+                        : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin
+                        && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList();
+
+                    var dtotal_deposits = Context.Deposits
+                            .Where(e => current_user_pos_ids.Contains(e.POSId) && e.IsDeleted == false && e.Status == (int)DepositPaymentStatusEnum.Released
+                            && e.CreatedAt != null && DbFunctions.TruncateTime(e.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)); //.Sum(s => s.Amount)
+
+                    var dtotal_sales = Context.TransactionDetails
+                        .Where(e => current_user_pos_ids.Contains(e.POSId ?? 0) && e.Status == (int)RechargeMeterStatusEnum.Success
+                        && e.CreatedAt != null && DbFunctions.TruncateTime(e.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)); //.Sum(s => s.Amount);
+
+                    if (dtotal_deposits != null)
+                        total_deposits = dtotal_deposits.AsEnumerable().Sum(e => e.Amount);
+
+                    if (dtotal_sales != null)
+                        total_sales = dtotal_sales.AsEnumerable().Sum(e => e.Amount);
+
+
 
                     return new DashboardViewModel
                     {
@@ -173,11 +189,11 @@ namespace VendTech.BLL.Managers
                 }
                 else if (user.UserRole.Role != UserRoles.AppUser)
                 {
-                    total_deposits = new decimal();
-                    total_sales = new decimal();
+                    var total_deposits = new decimal();
+                    var total_sales = new decimal();
                     var date = DateTime.UtcNow.Date;
-                    total_deposits = Context.Deposits.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).Sum(s => s.Amount);
-                    total_sales = Context.TransactionDetails.ToList().Where(d => d.CreatedAt.Date == DateTime.UtcNow.Date && d.Status == (int)RechargeMeterStatusEnum.Success).Sum(s => s.Amount);
+                    total_deposits = Context.Deposits.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).AsEnumerable().Sum(s => s.Amount);
+                    total_sales = Context.TransactionDetails.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)RechargeMeterStatusEnum.Success).AsEnumerable().Sum(s => s.Amount);
 
                     return new DashboardViewModel
                     {
@@ -195,8 +211,8 @@ namespace VendTech.BLL.Managers
 
                     return new DashboardViewModel
                     {
-                        totalSales = total_sales,
-                        totalDeposit = total_deposits,
+                        totalSales = 0,
+                        totalDeposit = 0,
                         revenue = agentBalance,
                         posCount = user.POS.Where(p => !p.IsDeleted && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(user),

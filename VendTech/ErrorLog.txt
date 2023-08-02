@@ -1189,3 +1189,31 @@ Object reference not set to an instance of an object.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.NumberModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.MeterModel'.
+
+
+
