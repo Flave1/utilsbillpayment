@@ -574,6 +574,7 @@
     <Content Include="Views\SavedPhoneNumbers\Index_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
     <Content Include="Views\Deposit\Index_old.cshtml" />
+    <Content Include="Views\Home\ChangePassword_old.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -651,6 +652,7 @@
     <Content Include="Views\Shared\_BalanceBar.cshtml" />
     <Content Include="Views\Shared\_SideBarv2.cshtml" />
     <Content Include="Views\Shared\_Title.cshtml" />
+    <Content Include="Views\User\EditProfile_old.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
