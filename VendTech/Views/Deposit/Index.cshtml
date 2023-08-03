@@ -5,7 +5,7 @@
     /**/
 
     ViewBag.Title = "Manage Wallet";
-    Layout = "~/Views/Shared/_LayOut.cshtml";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
     //var list = Model.List;
 
     var walletHistory = new List<DepositListingModel>();
@@ -20,125 +20,108 @@
 
 }
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
 
 
-<div class="container-fluid" id="pcont">
-    <div class="dashright ">
+<style>
+    label {
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 10px
+    }
 
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
-        <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
-        <link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
-        @*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
-        <div class="page-head">
-            <h2>Manage Wallet</h2>
-        </div>
-        <div class="cl-mcont">
+    .input {
+        font-weight: bold;
+        font-size: 15px;
+        height: 40px;
+    }
+
+    .sweet-alert h2 {
+        color: red;
+        font-weight: bold;
+    }
+
+    .sweet-alert p {
+        font-weight: bold !important;
+    }
+</style>
+
+
+<div class="">
+    @Html.Partial("_Title")
+    @Html.Partial("_BalanceBar")
+
+    <div class="col-12 mt-5">
+        @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+        {
             <div class="row">
-                <style>
-                    label {
-                        text-transform: uppercase;
-                        font-weight: bold;
-                    }
+                <div class="col-md-4" style="border-right:2px solid #f6eded;">
+                    <form style="box-shadow: 0 0 1px #8f7e7e; border: none; padding: 20px !important; ">
 
-                    .input {
-                        font-weight: bold;
-                        font-size: 15px;
-                        height: 40px;
-                    }
+                        @{
+                            var pos = (List<SelectListItem>)ViewBag.userPos;
+                        }
+                        @if (pos.Count > 1)
+                        {
+                            <div class="form-row">
+                                <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
+                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;  font-weight:bold; font-size:14px;", @id = "posDrp" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class=" col-md-12">
+                                <label class="control-label" style="font-weight:bold; font-size:30px">POS ID: @pos.FirstOrDefault().Text</label>
+                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
-                    .sweet-alert h2 {
-                        color: red;
-                        font-weight: bold;
-                    }
+                            </div>
 
-                    .sweet-alert p {
-                        font-weight: bold !important;
-                    }
-                </style>
+                        }
 
-                <div class="col-md-21">
-                    <div class="block-flat">
-                        <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                            <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+                        <input type="hidden" name="ContinueDepoit" id="ContinueDepoit" value="0" />
+                        <div class="form-row mt-2">
+                            <div class="col-6">
+                                <label class="control-label">PAYMENT TYPE</label>
+                                @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control co-12", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                            </div>
+                            <div class="col-6 chkBankDiv" style="display: none;">
+                                <label class="control-label">VALUE DATE</label>
+                                <input type="text" style="font-weight:bold; text-align:right;" name="ValueDate" id="ValueDate" class="form-control col-12 chkBankDiv">
+                            </div>
                         </div>
-                        <div class="contarea meterpage">
-                            <div class="container-fluid" style="background:white; ">
+                        <div class="form-row chkBankDiv mt-2" style="display: none ">
+                            <label class="control-label">ISSUING BANK</label>
+                            @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "input form-control", })
+                        </div>
+                        <div class="form-row chkBankDiv" style="display:none">
+                            <label>NAME ON CHEQUE</label>
+                            <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
+                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-5 col-lg-4 current" id="tab-1" style=" border-right:1px solid #f4e8e8 ;">
-                                        <form style="padding-left:11px;">
+                        <div class="form-row mt-2">
+                            <label>Cheque # or Deposit Slip #</label>
+                            <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" value="0" class="form-control input" style="width: 100% !important; text-align: right; color:red; font-weight:bold">
 
-                                            <div class="row">
-                                                @{
-                                                    var pos = (List<SelectListItem>)ViewBag.userPos;
-                                                }
-                                                @if (pos.Count > 1)
-                                                {
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-2 col-md-2" style=" width:20% !important;"> POS:</label>
-                                                        @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), "SELECT POS", new { @class = "form-control col-md-6", style = " width:70% !important;  font-weight:bold; font-size:14px;", @id = "posDrp" })
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div class=" col-md-12">
-                                                        <label class="control-label" style="font-weight:bold; font-size:30px">POS ID: @pos.FirstOrDefault().Text</label>
-                                                        @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+                        </div>
 
-                                                    </div>
-                                                    <br />
-                                                    <br />
-                                                    <br />
-
-                                                }
-                                                <div class="form-group row">
-                                                    <div class="col-md-6">
-                                                        <label>PAYMENT TYPE</label>
-                                                        @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control input", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
-                                                    </div>
-                                                    <div class="col-md-4 chkBankDiv" style="display: none ">
-                                                        <label>VALUE DATE</label>
-                                                        <input type="text" style="font-weight:bold; text-align:right;" name="ValueDate" id="ValueDate" class="form-control col-md-8 chkBankDiv">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-11 chkBankDiv" style="display: none ">
-                                                        <label>ISSUING BANK</label>
-                                                        @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "input form-control", })
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-11 chkBankDiv" style="display:none">
-                                                        <label>NAME ON CHEQUE</label>
-                                                        <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-11">
-                                                        <label>Cheque # or Deposit Slip #</label>
-                                                        <input type="text" id="ChkOrSlipNo" name="ChkOrSlipNo" value="0" class="form-control input" style="width: 100% !important; text-align: right; color:red; font-weight:bold">
-                                                    </div>
-                                                </div>
-
-                                                <input type="hidden" name="ContinueDepoit" id="ContinueDepoit" value="0" />
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-11">
-                                                        <label>VENDTECH BANK DETAILS</label>
-                                                        @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-11">
-                                                        <label>Deposit Amount</label>
-                                                        <input type="text" value="" style="font-size: 24px; text-align:right; border-radius:10px; border:1px solid #808080; font-weight:bold; color: #000000 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
-                                                        <input type="hidden" id="amount" name="Amount">
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
-                                                        <input class="form-control" type="text" id="percentageAmount" style="font-size: 45px;
+                        <div class="form-row mt-2">
+                            <div class="col-md-11">
+                                <label>VENDTECH BANK DETAILS</label>
+                                @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
+                            </div>
+                        </div>
+                        <div class="form-row mt-2">
+                            <div class="col-md-11">
+                                <label>Deposit Amount</label>
+                                <input type="text" value="" style="font-size: 24px; text-align:right; border-radius:10px; border:1px solid #808080; font-weight:bold; color: #000000 !important;" id="amountDisplay" onkeypress="javascript:return isNumber(event)" onkeyup="getAmountWithPercentage()" class="form-control">
+                                <input type="hidden" id="amount" name="Amount">
+                            </div>
+                            <div class="col-md-11">
+                                <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
+                                <input class="form-control" type="text" id="percentageAmount" style="font-size: 45px;
                                                                 height: 80px;
                                                                 border-radius: 10px;
                                                                 border: none;
@@ -146,58 +129,57 @@
                                                                 background: #ffffff;
                                                                 text-align:right;
                                                                 color: #ff0000 !important;" readonly />
-                                                        <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="editpro-row submt " style="padding-right : 20px;">
-                                                    @*<input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">*@
-                                                    <button type="button" class="savebttn btn btn-primary pull-left addDepositBtn " id="btnAdd">ADD DEPOSIT</button>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                    <div class="col-md-7 col-lg-8 hidden-xs hidden-sm">
-                                        <h4>Latest deposit history</h4>
-                                        <div class="exportdata">
-                                            <table class="table table-bordered" id="datatable-icons">
-                                                <thead>
-                                                    <tr>
-                                                        <th>DATE/TIME</th>
-                                                        <th>VALUE DATE</th>
-                                                        <th>POS ID</th>
-                                                        <th>VENDOR</th>
-                                                        <th>TYPE</th>
-                                                        <th>BANK</th>
-                                                        <th>REF #</th>
-                                                        <th>AMOUNT</th>
-                                                        <th>%</th>
-                                                        <th>NEW BALANCE</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="depositListing">
-                                                    @Html.Partial("Partials/_depositListing", walletHistory)
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
                             </div>
+
                         </div>
+
+                        <div class="editpro-row submt " style="padding-right : 20px;">
+                            @*<input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">*@
+                            <button type="button" class="savebttn btn submitBtn addDepositBtn " id="btnAdd">ADD DEPOSIT</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="col-md-8 d-none d-sm-block">
+                    <h4>Latest (10) deposit history</h4>
+                    <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-bordered" id="datatable-icons">
+                            <thead>
+                                <tr>
+                                    <th>DATE/TIME</th>
+                                    <th>VALUE DATE</th>
+                                    <th>POS ID</th>
+                                    <th>VENDOR</th>
+                                    <th>TYPE</th>
+                                    <th>BANK</th>
+                                    <th>REF #</th>
+                                    <th>AMOUNT</th>
+                                    <th>%</th>
+                                    <th>NEW BALANCE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="depositListing">
+                                @Html.Partial("Partials/_depositListing", walletHistory)
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
+
+        }
+        else
+        {
+            <div class="contarea">
+                <p>
+                    Service not assigned<br />
+                    Please contact VENDTECH on +23279990990
+                </p>
+            </div>
+        }
     </div>
-
 </div>
-
-@*<div id="smartkorpor" style="display:none;">
-    @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
-</div>*@
 
 
 
@@ -205,7 +187,7 @@
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script> 
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script type="text/javascript">
         var totalCount = "@Model.TotalCount";
@@ -213,7 +195,7 @@
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
             function thousands_separators(num) {
                 var num_parts = num.toString().split(".");
                 num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -314,14 +296,14 @@
                 if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
 
                     var posEd = '@ViewBag.posId';
-                    if (posEd < 1) { 
+                    if (posEd < 1) {
                         $("#posDrp").val(' ');
                     } else {
                         $("#posDrp").val('@ViewBag.posId');
                     }
                 }
                 App.init();
-                $('.addDepositBtn').live("click", function () {
+                $('.addDepositBtn').on("click", function () {
                     return AddDeposit($(this));
                 });
                 onBankAccountChange();
@@ -372,7 +354,7 @@
         }
 
         else {
-          
+
 
             var amt = thousands_separators($("#amount").val());
             var invalidAmt = thousands_separators($("#amount").val() / 1000);
@@ -380,7 +362,7 @@
             $.ConfirmBox("REDENOMINATION ALERT", "PLEASE CONFIRM DEPOSIT \n\n AMOUNT: NLe  " + amt +"", null, true, null, true, null, function () {
                 disableSubmit(true);
                 $("#ContinueDepoit").val(0);
-                $.ajaxExt({
+                $.ajax({
                     url: baseUrl + '/Deposit/AddDeposit',
                     type: 'POST',
                     validate: true,
@@ -410,7 +392,7 @@
                 });
 
             })
-            
+
         }
 
     }
@@ -442,7 +424,7 @@
         $("#ContinueDepoit").val(0);
         $.ConfirmBox("DUPLICATE DEPOSIT ALERT ", "YOU HAVE DEPOSITS WAITING APPROVAL! \n\n NLe: " + amt + "\n\n YOU CANNOT DO ANOTHER DEPOSIT UNTIL THE \n PENDING DEPOSIT IS APPROVED", null, true, null, true, null, function () {
 
-            $.ajaxExt({
+            $.ajax({
                 url: baseUrl + '/Deposit/AddDeposit',
                 type: 'POST',
                 validate: true,
@@ -492,6 +474,6 @@
         return num_parts.join(".");
     }
 
-</script>
+    </script>
 }
 

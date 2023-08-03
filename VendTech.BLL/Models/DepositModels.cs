@@ -73,12 +73,13 @@ namespace VendTech.BLL.Models
         public string NameOnCheque { get; set; }
         public decimal PercentageCommission { get; set; }
         public POS POS { get; set; } = new POS();
+        public DepositListingModel() { }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
         { 
             Type = obj.PaymentType1.Name;
-            UserName = obj.DepositLogs.Any() ?
-                obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
-                obj.User.Name +" "+ obj.User.SurName;
+            //UserName = obj.DepositLogs.Any() ?
+            //    obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
+            //    obj.User.Name +" "+ obj.User.SurName;
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
             ChkNoOrSlipId = obj.CheckNumberOrSlipId; 

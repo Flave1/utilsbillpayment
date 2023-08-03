@@ -1186,8 +1186,7 @@ namespace VendTech.BLL.Managers
                 }
             }
 
-            var list = query.Take(10)
-               .ToList().Select(x => new DepositListingModel(x.Deposit)).ToList();
+            var list = query.Take(10).ToList().Select(x => new DepositListingModel(x.Deposit, false)).ToList();
             if (model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
             {
                 if (model.SortBy == "UserName")

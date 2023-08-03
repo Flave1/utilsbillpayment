@@ -1,93 +1,69 @@
 ﻿@model  UpdateProfileModel
 @{
-    ViewBag.Title = "Edit Profile";
-    Layout = "~/Views/Shared/_LayOut.cshtml";
+    ViewBag.title = "Edit Profile";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
 }
 
-<div class="container-fluid" id="pcont">
-    <div class="page-head">
-        <h2>Edit Profile</h2>
-
-    </div>
-    <div class="cl-mcont">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat front">
-                    <div class="editpro">
-                        <form id="profileForm" enctype="multipart/form-data">
-                            <div class="editpro-left">
-                                @*editpro-left*@
-                                <div class="" >
-                                    <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.com/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <input type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
-                                </div>
-                            </div>
-                            <div class="editpro-right">
-                                <div class="editpro-row">
-                                    <div class="editpro-row50">
-                                        <label>First Name</label>
-                                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Name)
 
 
-                                    </div>
-                                    <div class="editpro-row50">
-                                        <label>Last Name</label>
-                                        @Html.TextBoxFor(x => x.SurName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.SurName)
-                                        
-                                    </div>
-                                </div>
-                                <div class="editpro-row">
+@Html.Partial("_Title")
 
-                                    <div class="editpro-row50 phnno">
-                                        <label>Phone</label>
-                                        <select name="CountryCode">
-                                            <option value="+232">+232</option>
-                                        </select>
-                                        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Phone)
-
-
-                                    </div>
-                                    <div class="editpro-row50">
-                                        <label>Address</label>
-                                        @Html.TextAreaFor(x => x.Address, new { @class = "form-control" })
-                                    </div>
-
-                                </div>
-                                <div class="editpro-row">
-
-
-                                    <div class="editpro-row50">
-                                        <label>Country</label>
-                                        @Html.DropDownListFor(x => x.Country, new SelectList(ViewBag.countries, "value", "text"), "Select Country")
-
-                                    </div>
-                                    <div class="editpro-row50">
-                                        <label>City</label>
-                                        <select id="City" name="City"></select>
-                                    </div>
-                                </div>
-                                <div class="editpro-row submt">
-                                    <input type="button" value="Submit" id="saveProfileBtn">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+<div class="mt-5">
+    <form id="profileForm" enctype="multipart/form-data" class="row">
+        <div class="col-md-4">
+            <div class="">
+                <img id="previewImg" class="dummyimg" width="300" src="@(Model.ProfilePicUrl==null?"http://vendtech.com/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
+                <br />
+                <input type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb" class="mt-4">
             </div>
         </div>
-    </div>
-</div>
+        <div class="col-md-8">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label>First Name</label>
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+                <div class="col-md-6">
+                    <label>Last Name</label>
+                    @Html.TextBoxFor(x => x.SurName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SurName)
 
-<style>
-    .profpic {
-    }
-</style>
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="col-md-6">
+                    <label>Phone</label>
+                    <div class="d-flex justify-content-between">
+                        <select name="CountryCode">
+                            <option value="+232">+232</option>
+                        </select>
+                        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(x => x.Phone)
+                </div>
+                <div class="col-md-6">
+                    <label>Address</label>
+                    @Html.TextAreaFor(x => x.Address, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label>Country</label>
+                    @Html.DropDownListFor(x => x.Country, new SelectList(ViewBag.countries, "value", "text"), "Select Country", new { @class = "form-control"})
+                </div>
+                <div class="col-md-6">
+                    <label>City</label>
+                    <select id="City" class="form-control" name="City"></select>
+                </div>
+            </div>
+            <div class="form-row pl-1 mt-3">
+                <input type="button" class="submitBtn btn" value="Submit" id="saveProfileBtn">
+            </div>
+        </div>
+    </form>
+</div>
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
@@ -124,7 +100,7 @@
         }
 
         function UpdateProfile(sender) {
-           
+
             $.ajaxExt({
                 url:  '/User/EditProfile',
                 type: 'POST',
@@ -164,7 +140,7 @@
         //}
 
         function previewFile(input) {
-           
+
 
             var file = $("input[type=file]").get(0).files[0];
 
@@ -179,7 +155,7 @@
                 }
                 else
                 {
-                   
+
                     reader.onload = function () {
                         $("#previewImg").attr("src", reader.result);
                         //reader.readAsDataURL(file);

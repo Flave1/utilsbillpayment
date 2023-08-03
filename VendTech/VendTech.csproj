@@ -573,6 +573,7 @@
     <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
+    <Content Include="Views\Deposit\Index_old.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

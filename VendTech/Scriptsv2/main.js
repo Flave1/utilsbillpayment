@@ -9,8 +9,12 @@ menuIcon.addEventListener('click', () => {
 
 // Toggle the dropdown when clicking on a parent menu item
 dropdowns.forEach((dropdown) => {
-    dropdown.addEventListener('click', () => {
-        dropdown.classList.toggle('open');
+    const parentLink = dropdown.querySelector('a'); // Get the parent link
+    parentLink.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the link from navigating
+        dropdown.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.classList.toggle('opened')
+        });
     });
 });
 

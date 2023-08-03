@@ -64,17 +64,19 @@
         </li>
     }
 
-   
+
 
     @if (user.UserType == UserRoles.AppUser)
     {
-        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "") ">
-            <a href="#"><i class="fas fa-user-cog nav-icon"></i>Manage Profile<i class="fas fa-caret-down"></i></a>
-            <ul class="submenu" >
+
+        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "active-menu" : "") has-dropdown">
+            <a href="#"><i class="fas fa-tachometer-alt nav-icon"></i>Manage Profile<i class="fas fa-caret-down"></i></a>
+            <ul class="submenu @(ViewBag.SelectedTab == SelectedAdminTab.Users ? "opened" : "")">
                 <li><a href="@Url.Action("EditProfile", "User")">Edit Profile</a></li>
                 <li><a href="@Url.Action("ChangePassword", "Home")">Change Password</a></li>
                 <li><a href="@Url.Action("SignOut", "Home")">Sign Out</a></li>
             </ul>
         </li>
+
     }
 </ul>
