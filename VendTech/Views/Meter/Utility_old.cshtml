@@ -49,14 +49,14 @@
                                                 electricityIconCreated = true;
                                                 createIcon = true;
                                                 urlPath = "/Meter/Recharge";
-                                                title = "Electricity( (EDSA)";
+                                                title = item.Title;
                                             }
                                             else if (item.PlatformType == 1)//&& (!airtimeIconCreated)
                                             {
                                                 airtimeIconCreated = true;
                                                 createIcon = true;
                                                 urlPath = "/Airtime/Recharge?provider=" + item.PlatformId;
-                                                title = item.PlatformId == 3 ? "Africell PHONE TOPUP" : "Orange PHONE TOPUP";
+                                                title = item.Title;
                                             }
                                             if (item.DisablePlatform)
                                             {

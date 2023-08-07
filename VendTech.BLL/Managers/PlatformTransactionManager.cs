@@ -301,7 +301,7 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-            var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(model.RecordsPerPage).OrderByDescending(x => x.CreatedAt).AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
