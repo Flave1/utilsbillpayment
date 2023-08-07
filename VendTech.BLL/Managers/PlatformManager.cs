@@ -172,7 +172,8 @@ namespace VendTech.BLL.Managers
                         DisablePlatform = d.DisablePlatform,
                         PlatformType = d.PlatformType,
                         PlatformId = d.PlatformId,
-                        PlatformApiConnId = d.PlatformApiConnId
+                        PlatformApiConnId = d.PlatformApiConnId,
+                        Logo = d.Logo,
                     })
                     .FirstOrDefault();
 

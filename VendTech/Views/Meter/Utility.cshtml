@@ -29,12 +29,12 @@
                 urlPath = "/Meter/Recharge";
                 title = item.Title;
             }
-            else if (item.PlatformType == 1)//&& (!airtimeIconCreated)
+            else if (item.PlatformType == 1)
             {
                 airtimeIconCreated = true;
                 createIcon = true;
                 urlPath = "/Airtime/Recharge?provider=" + item.PlatformId;
-                title = item.Title; //item.PlatformId == 3 ? "Africell PHONE TOPUP" : "Orange PHONE TOPUP"
+                title = item.Title;
             }
             if (item.DisablePlatform)
             {

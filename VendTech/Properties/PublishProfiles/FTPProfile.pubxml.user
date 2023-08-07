@@ -627,34 +627,34 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/07/2023 10:53:21</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
-      <publishTime>05/06/2023 11:07:19</publishTime>
+      <publishTime>06/05/2023 11:07:19</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/30/2023 11:49:06</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/29/2023 14:58:27</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/07/2023 10:53:22</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/02/2023 13:52:56</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/07/2023 10:53:21</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
-      <publishTime>05/06/2023 11:07:19</publishTime>
+      <publishTime>06/05/2023 11:07:19</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -669,7 +669,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 07:09:00</publishTime>
     </File>
     <File Include="Contentv2/css/bill_payment.css">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/07/2023 09:21:15</publishTime>
     </File>
     <File Include="Contentv2/css/styles.css">
       <publishTime>02/08/2023 15:01:32</publishTime>
@@ -727,6 +727,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Global.asax">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Images/ProductImages/68c14ce5-9e94-44af-ace6-8b776d703ac8.jpg">
+      <publishTime>08/04/2023 10:58:46</publishTime>
     </File>
     <File Include="Images/ProfileImages/0456a21a-8b02-4cda-9f59-78d853ed20da.jpg">
       <publishTime>04/11/2022 07:08:58</publishTime>
@@ -1029,7 +1032,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/ChangePassword.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/08/2023 23:20:09</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1206,7 +1209,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/_Headerv2.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/07/2023 10:30:04</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>06/05/2023 11:07:19</publishTime>

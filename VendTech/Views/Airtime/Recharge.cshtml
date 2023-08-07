@@ -22,20 +22,10 @@
            <div class="col-md-4" style=" border-right:2px solid #f6eded;">
                <form id="rechargeAirtimeForm" style="box-shadow: 0 0 1px #8f7e7e; border: none; padding: 20px !important; ">
                    <div class="form-row" style="display:inline-block">
-                       @if (Model.PlatformId == 3)
-                       {
-                       <span>
-                           <img src="~/Contentv2/imgs/logos/africell.png" 
-                                height="100" width="100" style="margin: auto; border-radius: 10px;" />
-                       </span>
-                       }
-                       else if (Model.PlatformId == 2)
-                       {
-                       <span>
-                           <img src="~/Contentv2/imgs/logos/orange2.jpg"
-                                height="100" width="100" style="margin: auto; border-radius: 10px;" />
-                       </span>
-                       }
+                      <span>
+                          <img src="@Model.Logo"
+                               height="100" width="100" style="margin: auto; border-radius: 10px;" />
+                      </span>
 
 
                    </div>

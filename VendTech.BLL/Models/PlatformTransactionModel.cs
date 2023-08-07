@@ -48,6 +48,7 @@ namespace VendTech.BLL.Models
         public string PlatformApiName { get; set; }
         public int PlatformApiId { get; set; }
         public long? TransactionDetailId { get; set; }
+        public string Logo { get; set; }
 
         public string CreatedAtStr { 
             get { return CreatedAt.ToString(ModelUtils.DISPLAY_DATE_FORMAT); } 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using VendTech.Attributes;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 
@@ -60,9 +61,7 @@ namespace VendTech.Controllers
             var deposits = _platformTransactionManager.GetUserAirtimeRechargeTransactionDetailsHistory(hostory_model);
 
             if (deposits.List.Count > 0)
-            {
                 model.History = deposits.List;
-            }  
             
             if (posList.Count > 0)
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
@@ -70,10 +69,10 @@ namespace VendTech.Controllers
                 ViewBag.walletBalance = 0;
 
             if (!string.IsNullOrEmpty(number))
-            {
                 model.Beneficiary = number;
-            }
             model.PlatformId = Convert.ToInt32(provider);
+            var platForm = _platformManager.GetPlatformById(model.PlatformId);
+            model.Logo = string.IsNullOrEmpty(platForm?.Logo) ? "" : Utilities.DomainUrl + platForm?.Logo;
             return View(model);
         }
 

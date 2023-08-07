@@ -1257,3 +1257,24 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+Value cannot be null.
+Parameter name: source
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Airtime\Recharge.cshtml(28): error CS1061: 'VendTech.BLL.Models.PlatformTransactionModel' does not contain a definition for 'Logo' and no extension method 'Logo' accepting a first argument of type 'VendTech.BLL.Models.PlatformTransactionModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
