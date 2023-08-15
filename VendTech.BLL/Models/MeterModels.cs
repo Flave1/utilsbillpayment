@@ -137,12 +137,13 @@ namespace VendTech.BLL.Models
             PlatformId = (int)x.PlatFormId;
             if (x.Platform.ShortName != null)
             {
-                if (x.Platform.PlatformId == 1)
-                    ProductShortName = x.Platform.ShortName;
-                else if (x.PlatFormId == 2)
-                    ProductShortName = "ORANGE";
-                else if (x.PlatFormId == 3)
-                    ProductShortName = "AFRICELL";
+                ProductShortName = x.Platform.Title;
+                //if (x.Platform.PlatformId == 1)
+                //    ProductShortName = x.Platform.ShortName;
+                //else if (x.PlatFormId == 2)
+                //    ProductShortName = "ORANGE";
+                //else if (x.PlatFormId == 3)
+                //    ProductShortName = "AFRICELL";
 
             }
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
@@ -168,12 +169,15 @@ namespace VendTech.BLL.Models
             PlatformId = (int)x.PlatFormId;
             if (x.Platform.ShortName != null)
             {
-                if (x.Platform.PlatformId == 1)
-                    ProductShortName = x.Platform.ShortName;
-                else if (x.Platform.PlatformId == 2)
-                    ProductShortName = "ORANGE";
-                else if (x.Platform.PlatformId == 3)
-                    ProductShortName = "AFRICELL";
+                ProductShortName = x.Platform.Title;
+                //if (x.Platform.PlatformId == 1)
+                //    ProductShortName = x.Platform.ShortName;
+                //else if (x.Platform.PlatformId == 2)
+                //    ProductShortName = "ORANGE";
+                //else if (x.Platform.PlatformId == 3)
+                //    ProductShortName = "AFRICELL";
+                //else if (x.Platform.PlatformId == 4)
+                //    ProductShortName = "QCELL";
             }
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
@@ -231,12 +235,7 @@ namespace VendTech.BLL.Models
         public SalesReportExcelModel(TransactionDetail x)
         {
             Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-            if (x.PlatFormId == 1)
-                PRODUCT_TYPE = x.Platform.ShortName;
-            else if (x.PlatFormId == 2)
-                PRODUCT_TYPE = "ORANGE";
-            else if (x.PlatFormId == 3)
-                PRODUCT_TYPE = "AFRICELL";
+            PRODUCT_TYPE = x.Platform.Title;
             if (x.PlatFormId == 1)
                 PIN = x.MeterToken1;
             else if (x.PlatFormId == 2)

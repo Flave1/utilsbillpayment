@@ -694,11 +694,16 @@ namespace VendTech.BLL.Common
         public static string ConvertDateToEpochDate(string dateString)
         {
             var splited = dateString.Split('/').Select(int.Parse).ToList();
-            DateTime date = new DateTime(splited[2], splited[1], splited[0]); // Set your desired date
-            DateTime epoch = new DateTime(1970, 1, 1); // Set the epoch date
+            DateTime date = new DateTime(splited[2], splited[1], splited[0]); // Corrected day, month, year order
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // Set the epoch date
             TimeSpan timeSpan = date - epoch; // Get the difference between the two dates
             long epochTime = (long)timeSpan.TotalSeconds; // Convert the difference to seconds and cast to long
             return epochTime.ToString();
+
+            //DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            //TimeSpan timeSpan = date - epoch;
+            //long epochTimeInSeconds = (long)timeSpan.TotalSeconds;
+            //return epochTimeInSeconds.ToString();
         }
 
         public static long ToUnixTimestamp(DateTime value)

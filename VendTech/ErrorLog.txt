@@ -1282,3 +1282,167 @@ An error occurred while executing the command definition. See the inner exceptio
 
 
 
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+

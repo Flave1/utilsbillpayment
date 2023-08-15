@@ -16,11 +16,13 @@
 
 var RtsEdsaHandler = {
     SearchInquiry: function (dated) {
+        debugger
         var obj = new Object();
         var FromDate = $('#FromDate').val();
         var ToDate = $('#ToDate').val();
-        obj.fromdate = FromDate // this.getUnixDate(FromDate);
-        obj.todate = ToDate// this.getUnixDate(ToDate);
+        debugger
+        obj.fromdate = this.getUnixDate(FromDate);
+        obj.todate = this.getUnixDate(ToDate);
         obj.meterSerial = $('#meterSerial').val();
 
         disableSubmit2(true);

@@ -325,7 +325,11 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Product))
             {
-                query = query.Include("Platform").Where(p => p.Platform.Title.ToLower().Contains(model.Product.ToLower()));
+                int parsedProductId = int.Parse(model.Product);
+                if(parsedProductId > 0)
+                {
+                    query = query.Include("Platform").Where(p => p.Platform.PlatformId == parsedProductId);
+                }
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -1352,6 +1356,22 @@ namespace VendTech.BLL.Managers
             }
             else
                 return null;
+        }
+
+        void IMeterManager.LogSms(TransactionDetail td, string phone)
+        {
+            var smsObj = new SMS_LOG
+            {
+                Date_Time = td.CreatedAt,
+                Meter_Number = td.MeterNumber1,
+                Phone_number = phone,
+                POSID = td.POSId,
+                TransactionID = td.TransactionId,
+                UserID = td.UserId,
+                AgentID = td.User.AgentId
+            };
+            Context.SMS_LOG.Add(smsObj);
+            Context.SaveChanges();
         }
 
         IQueryable<BalanceSheetListingModel> IMeterManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)

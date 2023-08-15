@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VendtechModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -443,6 +443,19 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsUsed" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SMS_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date_Time" Type="datetime" />
+          <Property Name="UserID" Type="bigint" />
+          <Property Name="POSID" Type="bigint" />
+          <Property Name="TransactionID" Type="varchar" MaxLength="20" />
+          <Property Name="Phone_number" Type="varchar" MaxLength="20" />
+          <Property Name="Meter_Number" Type="varchar" MaxLength="20" />
+          <Property Name="AgentID" Type="bigint" />
         </EntityType>
         <EntityType Name="StanTable">
           <Key>
@@ -1254,7 +1267,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VendtechModelsStoreContainer">
+        <EntityContainer Name="DataModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
@@ -1288,6 +1301,7 @@
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
@@ -1511,11 +1525,10 @@
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VendtechModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -2022,6 +2035,19 @@
           <Property Name="IsUsed" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_ReferralCodes_Users" FromRole="ReferralCodes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SMS_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date_Time" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int64" />
+          <Property Name="POSID" Type="Int64" />
+          <Property Name="TransactionID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Meter_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AgentID" Type="Int64" />
         </EntityType>
         <EntityType Name="StanTable">
           <Key>
@@ -2905,6 +2931,7 @@
           <EntitySet Name="POS" EntityType="Self.POS" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatform" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCode" />
+          <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" />
           <EntitySet Name="StanTables" EntityType="Self.StanTable" />
           <EntitySet Name="TokensManagers" EntityType="Self.TokensManager" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetail" />
@@ -3133,9 +3160,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VendtechModelsStoreContainer" CdmEntityContainer="VendtechEntities">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="VendtechEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
-            <EntityTypeMapping TypeName="VendtechModels.AccountVerificationOTP">
+            <EntityTypeMapping TypeName="DataModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">
                 <ScalarProperty Name="AccountVerificationOTPId" ColumnName="AccountVerificationOTPId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3145,7 +3172,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Agencies">
-            <EntityTypeMapping TypeName="VendtechModels.Agency">
+            <EntityTypeMapping TypeName="DataModel.Agency">
               <MappingFragment StoreEntitySet="Agency">
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="AgencyName" ColumnName="AgencyName" />
@@ -3158,7 +3185,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AppSettings">
-            <EntityTypeMapping TypeName="VendtechModels.AppSetting">
+            <EntityTypeMapping TypeName="DataModel.AppSetting">
               <MappingFragment StoreEntitySet="AppSettings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3167,7 +3194,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BankAccounts">
-            <EntityTypeMapping TypeName="VendtechModels.BankAccount">
+            <EntityTypeMapping TypeName="DataModel.BankAccount">
               <MappingFragment StoreEntitySet="BankAccounts">
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -3180,7 +3207,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
-            <EntityTypeMapping TypeName="VendtechModels.ChequeBank">
+            <EntityTypeMapping TypeName="DataModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BankCode" ColumnName="BankCode" />
@@ -3192,7 +3219,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
-            <EntityTypeMapping TypeName="VendtechModels.City">
+            <EntityTypeMapping TypeName="DataModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3203,7 +3230,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CMSPages">
-            <EntityTypeMapping TypeName="VendtechModels.CMSPage">
+            <EntityTypeMapping TypeName="DataModel.CMSPage">
               <MappingFragment StoreEntitySet="CMSPages">
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
@@ -3218,7 +3245,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commissions">
-            <EntityTypeMapping TypeName="VendtechModels.Commission">
+            <EntityTypeMapping TypeName="DataModel.Commission">
               <MappingFragment StoreEntitySet="Commissions">
                 <ScalarProperty Name="CommissionId" ColumnName="CommissionId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -3228,7 +3255,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="VendtechModels.ContactU">
+            <EntityTypeMapping TypeName="DataModel.ContactU">
               <MappingFragment StoreEntitySet="ContactUs">
                 <ScalarProperty Name="ContactUsId" ColumnName="ContactUsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3241,7 +3268,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="VendtechModels.Country">
+            <EntityTypeMapping TypeName="DataModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3251,7 +3278,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Currencies">
-            <EntityTypeMapping TypeName="VendtechModels.Currency">
+            <EntityTypeMapping TypeName="DataModel.Currency">
               <MappingFragment StoreEntitySet="Currencies">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3259,7 +3286,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositLogs">
-            <EntityTypeMapping TypeName="VendtechModels.DepositLog">
+            <EntityTypeMapping TypeName="DataModel.DepositLog">
               <MappingFragment StoreEntitySet="DepositLogs">
                 <ScalarProperty Name="DepositLogId" ColumnName="DepositLogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3271,7 +3298,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositOTPs">
-            <EntityTypeMapping TypeName="VendtechModels.DepositOTP">
+            <EntityTypeMapping TypeName="DataModel.DepositOTP">
               <MappingFragment StoreEntitySet="DepositOTP">
                 <ScalarProperty Name="DepositOTPId" ColumnName="DepositOTPId" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
@@ -3281,7 +3308,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deposits">
-            <EntityTypeMapping TypeName="VendtechModels.Deposit">
+            <EntityTypeMapping TypeName="DataModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3310,7 +3337,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailConfirmationRequests">
-            <EntityTypeMapping TypeName="VendtechModels.EmailConfirmationRequest">
+            <EntityTypeMapping TypeName="DataModel.EmailConfirmationRequest">
               <MappingFragment StoreEntitySet="EmailConfirmationRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3320,7 +3347,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailTemplates">
-            <EntityTypeMapping TypeName="VendtechModels.EmailTemplate">
+            <EntityTypeMapping TypeName="DataModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
@@ -3338,7 +3365,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ErrorLogs">
-            <EntityTypeMapping TypeName="VendtechModels.ErrorLog">
+            <EntityTypeMapping TypeName="DataModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
@@ -3353,7 +3380,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForgotPasswordRequests">
-            <EntityTypeMapping TypeName="VendtechModels.ForgotPasswordRequest">
+            <EntityTypeMapping TypeName="DataModel.ForgotPasswordRequest">
               <MappingFragment StoreEntitySet="ForgotPasswordRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3363,7 +3390,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meters">
-            <EntityTypeMapping TypeName="VendtechModels.Meter">
+            <EntityTypeMapping TypeName="DataModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
                 <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3382,7 +3409,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="VendtechModels.Module">
+            <EntityTypeMapping TypeName="DataModel.Module">
               <MappingFragment StoreEntitySet="Modules">
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
@@ -3394,7 +3421,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nations">
-            <EntityTypeMapping TypeName="VendtechModels.Nation">
+            <EntityTypeMapping TypeName="DataModel.Nation">
               <MappingFragment StoreEntitySet="Nations">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sortname" ColumnName="sortname" />
@@ -3404,7 +3431,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="VendtechModels.Notification">
+            <EntityTypeMapping TypeName="DataModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3419,7 +3446,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentTypes">
-            <EntityTypeMapping TypeName="VendtechModels.PaymentType">
+            <EntityTypeMapping TypeName="DataModel.PaymentType">
               <MappingFragment StoreEntitySet="PaymentType">
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3431,7 +3458,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PendingDeposits">
-            <EntityTypeMapping TypeName="VendtechModels.PendingDeposit">
+            <EntityTypeMapping TypeName="DataModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3459,7 +3486,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
-            <EntityTypeMapping TypeName="VendtechModels.Platform">
+            <EntityTypeMapping TypeName="DataModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -3478,7 +3505,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApiConnections">
-            <EntityTypeMapping TypeName="VendtechModels.PlatformApiConnection">
+            <EntityTypeMapping TypeName="DataModel.PlatformApiConnection">
               <MappingFragment StoreEntitySet="PlatformApiConnections">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
@@ -3491,7 +3518,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApiLogs">
-            <EntityTypeMapping TypeName="VendtechModels.PlatformApiLog">
+            <EntityTypeMapping TypeName="DataModel.PlatformApiLog">
               <MappingFragment StoreEntitySet="PlatformApiLogs">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
@@ -3502,7 +3529,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformApis">
-            <EntityTypeMapping TypeName="VendtechModels.PlatformApi">
+            <EntityTypeMapping TypeName="DataModel.PlatformApi">
               <MappingFragment StoreEntitySet="PlatformApis">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3517,7 +3544,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformPacParams">
-            <EntityTypeMapping TypeName="VendtechModels.PlatformPacParam">
+            <EntityTypeMapping TypeName="DataModel.PlatformPacParam">
               <MappingFragment StoreEntitySet="PlatformPacParams">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
@@ -3529,7 +3556,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlatformTransactions">
-            <EntityTypeMapping TypeName="VendtechModels.PlatformTransaction">
+            <EntityTypeMapping TypeName="DataModel.PlatformTransaction">
               <MappingFragment StoreEntitySet="PlatformTransactions">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3555,7 +3582,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POS">
-            <EntityTypeMapping TypeName="VendtechModels.POS">
+            <EntityTypeMapping TypeName="DataModel.POS">
               <MappingFragment StoreEntitySet="POS">
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
@@ -3586,7 +3613,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POSAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModels.POSAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.POSAssignedPlatform">
               <MappingFragment StoreEntitySet="POSAssignedPlatforms">
                 <ScalarProperty Name="AssignPOSPlatformId" ColumnName="AssignPOSPlatformId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -3596,7 +3623,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReferralCodes">
-            <EntityTypeMapping TypeName="VendtechModels.ReferralCode">
+            <EntityTypeMapping TypeName="DataModel.ReferralCode">
               <MappingFragment StoreEntitySet="ReferralCodes">
                 <ScalarProperty Name="ReferralCodeId" ColumnName="ReferralCodeId" />
                 <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
@@ -3606,8 +3633,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SMS_LOG">
+            <EntityTypeMapping TypeName="DataModel.SMS_LOG">
+              <MappingFragment StoreEntitySet="SMS_LOG">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date_Time" ColumnName="Date_Time" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="POSID" ColumnName="POSID" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
+                <ScalarProperty Name="Meter_Number" ColumnName="Meter_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StanTables">
-            <EntityTypeMapping TypeName="VendtechModels.StanTable">
+            <EntityTypeMapping TypeName="DataModel.StanTable">
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
@@ -3615,7 +3656,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
-            <EntityTypeMapping TypeName="VendtechModels.TokensManager">
+            <EntityTypeMapping TypeName="DataModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3629,7 +3670,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="VendtechModels.TransactionDetail">
+            <EntityTypeMapping TypeName="DataModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3681,7 +3722,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
-            <EntityTypeMapping TypeName="VendtechModels.UserAssignedModule">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3692,7 +3733,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedPlatforms">
-            <EntityTypeMapping TypeName="VendtechModels.UserAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedPlatform">
               <MappingFragment StoreEntitySet="UserAssignedPlatforms">
                 <ScalarProperty Name="AssignUserPlatformId" ColumnName="AssignUserPlatformId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3702,7 +3743,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedWidgets">
-            <EntityTypeMapping TypeName="VendtechModels.UserAssignedWidget">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3713,7 +3754,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="VendtechModels.UserRole">
+            <EntityTypeMapping TypeName="DataModel.UserRole">
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -3722,7 +3763,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VendtechModels.User">
+            <EntityTypeMapping TypeName="DataModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3763,7 +3804,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="VendtechModels.Vendor">
+            <EntityTypeMapping TypeName="DataModel.Vendor">
               <MappingFragment StoreEntitySet="Vendors">
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3780,7 +3821,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="VendtechModels.Widget">
+            <EntityTypeMapping TypeName="DataModel.Widget">
               <MappingFragment StoreEntitySet="Widgets">
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

@@ -9,6 +9,7 @@ using VendTech.BLL.Common;
 using System.Web;
 using System.IO;
 using System.Reflection;
+using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
 {
@@ -30,6 +31,16 @@ namespace VendTech.BLL.Managers
                 PlatformType = p.PlatformType,
                 PlatformApiConnName = p.PlatformApiConnId > 0 ? p.PlatformApiConnection.Name : null
             }).ToList();
+            return platforms;
+        }
+        List<SelectListItem> IPlatformManager.GetActivePlatformsSelectList()
+        {
+            var platforms = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled).Select(p => new SelectListItem {
+                Value = p.PlatformId.ToString(),
+                Text = p.Title,
+                    }).ToList();
+            platforms.Add(new SelectListItem { Value = "0", Text = "SELECT PRODUCT" });
+            platforms = platforms.OrderBy(x => x.Value).ToList();
             return platforms;
         }
         List<PlatformModel> IPlatformManager.GetUserAssignedPlatforms(long userId)

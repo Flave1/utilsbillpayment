@@ -41,7 +41,7 @@
     }
 
 .bill-title-container {
-    background-color: #282828;
+    background-color: #D2D2D2;
     border-radius: 8px;
     padding: 8px;
 }
@@ -49,7 +49,7 @@
 .bill-title {
     font-size: 20px;
     font-weight: bold;
-    color: #e4c200;
+    color: #282828;
     text-align: center;
     white-space: nowrap; /* Prevent title from wrapping */
     margin: auto;

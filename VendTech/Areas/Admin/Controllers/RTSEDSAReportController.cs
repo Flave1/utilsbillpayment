@@ -170,8 +170,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new InquiryRequest
             {
-                FromDate = Utilities.ConvertDateToEpochDate(fromdate),
-                ToDate = Utilities.ConvertDateToEpochDate(todate),
+                FromDate = fromdate, //Utilities.ConvertDateToEpochDate(
+                ToDate = todate, //Utilities.ConvertDateToEpochDate(,
                 MeterSerial = meterSerial
             };
             var respponse = manager.GetSalesInquiry(model).Result;

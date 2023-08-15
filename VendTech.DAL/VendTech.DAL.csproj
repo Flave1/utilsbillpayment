@@ -166,6 +166,9 @@
     <Compile Include="ReferralCode.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SMS_LOG.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="StanTable.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

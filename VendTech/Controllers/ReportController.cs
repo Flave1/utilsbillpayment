@@ -139,13 +139,7 @@ namespace VendTech.Controllers
 
             };
 
-            ViewBag.Products = new List<SelectListItem>
-             {
-                        new SelectListItem { Value = "", Text = "SELECT PRODUCT" },
-                        new SelectListItem { Value = "EDSA", Text = "EDSA" },
-                        new SelectListItem { Value = "ORANGE", Text = "ORANGE" },
-                        new SelectListItem { Value = "AFRICELL", Text = "AFRICELL" }
-                    };
+            ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
 
 
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
