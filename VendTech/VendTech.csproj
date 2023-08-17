@@ -575,6 +575,7 @@
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
     <Content Include="Views\Deposit\Index_old.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
+    <Content Include="Views\Report\SalesReport_old.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

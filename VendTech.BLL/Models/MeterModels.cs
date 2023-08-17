@@ -135,7 +135,7 @@ namespace VendTech.BLL.Models
             TransactionDetailsId = x.TransactionDetailsId;
             Amount = x.Amount;
             PlatformId = (int)x.PlatFormId;
-            if (x.Platform.ShortName != null)
+            if (x.Platform.Title != null)
             {
                 ProductShortName = x.Platform.Title;
                 //if (x.Platform.PlatformId == 1)
