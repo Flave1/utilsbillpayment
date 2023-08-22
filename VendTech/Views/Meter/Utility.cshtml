@@ -1,158 +1,127 @@
 ﻿@model  IEnumerable<PlatformModel>
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+
 }
+@Html.Partial("_Title")
+@Html.Partial("_BalanceBar")
+<link href="~/Contentv2/css/bill_payment.css" rel="stylesheet" />
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>BillPayment </title>
-    <style>
-        platformLogo {
-        }
-    </style>
-</head>
-<body>
+<div class="bill-widgets">
 
-    <div class="container-fluid" id="pcont">
-        <div class="dashright">
-            <div class="page-head">
-                <h2>Bill Payment</h2>
-                <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
-                    <span id="balanceSpan" style="color: #00a2e8; ">SSL: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
-                </div>
-            </div>
-            <div class="cl-mcont">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="block-flat">
+    @if (Model.Count() > 0)
+    {
+        bool airtimeIconCreated = false;
+        bool electricityIconCreated = false;
+        string title = "";
 
-                            @if (Model.Count() > 0)
-                            {
-                                bool airtimeIconCreated = false;
-                                bool electricityIconCreated = false;
-                                string title = "";
+        foreach (var item in Model.OrderBy(x => x.PlatformId))
+        {
+            // Use the product types to create the icons
+            // For electricity we are only doing EDSA so we direct to
+            Boolean createIcon = false;
+            string urlPath = null;
+            //Electricity
+            if (item.PlatformType == 4 && (!electricityIconCreated))
+            {
+                electricityIconCreated = true;
+                createIcon = true;
+                urlPath = "/Meter/Recharge";
+                title = item.Title;
+            }
+            else if (item.PlatformType == 1)
+            {
+                airtimeIconCreated = true;
+                createIcon = true;
+                urlPath = "/Airtime/Recharge?provider=" + item.PlatformId;
+                title = item.Title;
+            }
+            if (item.DisablePlatform)
+            {
+                title = "PLATFORM DISABLED";
+            }
+            //TODO add other product types
 
-                                <div class="contarea">
+            if (createIcon)
+            {
+                //type="button" data-toggle="modal" data-target="#exampleModal"
 
-                                    <ul>
-                                        @foreach (var item in Model.OrderBy(x => x.PlatformId))
-                                        {
-                                            // Use the product types to create the icons
-                                            // For electricity we are only doing EDSA so we direct to
-                                            Boolean createIcon = false;
-                                            string urlPath = null;
-                                            //Electricity
-                                            if (item.PlatformType == 4 && (!electricityIconCreated))
-                                            {
-                                                electricityIconCreated = true;
-                                                createIcon = true;
-                                                urlPath = "/Meter/Recharge";
-                                                title = "Electricity";
-                                            }
-                                            else if (item.PlatformType == 1)//&& (!airtimeIconCreated)
-                                            {
-                                                airtimeIconCreated = true;
-                                                createIcon = true;
-                                                urlPath = "/Airtime/Recharge?provider=" + item.PlatformId;
-                                                title = item.PlatformId == 3 ? "Africell" : "Orange";
-                                            }
-                                            if (item.DisablePlatform)
-                                            {
-                                                title = title + " (disabled)";
-                                            }
-                                            //TODO add other product types
-
-                                            if (createIcon)
-                                            {
-                                                //type="button" data-toggle="modal" data-target="#exampleModal"
-
-                                                if (item.DisablePlatform)
-                                                {
-                                                    <li class="productBox" onclick="disableAlert('@item.DiabledPlaformMessage')" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">
-                                                        <a href="javascript:void(0)">
-                                                            <div class="platformLogo" style="width:17%; width:60px;height:75px;display:inline-block;background:url(@item.Logo) no-repeat;background-size:100%;"></div>
-                                                            <label style="font-weight:bold;">@title</label>
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="productBox" onclick="onProductTypeClick('@urlPath')" style="cursor: pointer;">
-                                                        <a href="javascript:void(0)">
-                                                            <div class="platformLogo" style="width:17%; width:60px;height:75px;display:inline-block;background:url(@item.Logo) no-repeat;background-size:100%;"></div>
-                                                            <label style="font-weight:bold;">@title</label>
-                                                        </a>
-                                                    </li>
-                                                }
-                                            }
-
-
-                                        }
-                                    </ul>
-
-
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="contarea">
-                                    <p>
-                                        Service not assigned<br />
-                                        Please contact VENDTECH on +23279990990
-                                    </p>
-                                </div>
-                            }
+                if (item.DisablePlatform)
+                {
+                    <div class="bill-widget" onclick="disableAlert('@item.DiabledPlaformMessage')" data-toggle="modal" data-target="#disablePlatformMsg">
+                        <div class="bill-image">
+                            <img src="@item.Logo" alt="Bill Image 1">
+                        </div>
+                        <div class="alert alert-warning text-center" style="white-space: nowrap;" role="alert">
+                            <h4 >@title</h4>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><strong>ALERT</strong></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                }
+                else
+                {
+                    <div class="bill-widget" onclick="onProductTypeClick('@urlPath')" style="cursor: pointer;">
+                        <div class="bill-image">
+                            <img src="@item.Logo" alt="Bill Image 1">
+                        </div>
+                        <div class="bill-title-container">
+                            <h3 class="bill-title">@title</h3>
+                        </div>
                     </div>
-                    <div class="modal-body" id="disableMessage" style="border: none; width: 400px; height: auto; font-weight: bold; font-size: 20px;">
-                       
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    @section scripts{
-        @*<link href="~/Content/assets/css/style.min.css" rel="stylesheet" />*@
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                App.init();
-            });
-
-            function onProductTypeClick(urlPath) {
-                if (urlPath == null || urlPath == "") alert("No path to product type. Please contact Administrator.");
-
-                window.location.href = urlPath;
+                }
             }
 
-            function disableAlert(msg) {
-                const decoded = atob(unescape(msg));
-                //$("#downtimeNotifyMessage").text(decoded);
-                document.getElementById('disableMessage').textContent = decoded;
-            }
-        </script>
+
+        }
+
+    }
+    else
+    {
+        <p>
+            Service not assigned<br />
+            Please contact VENDTECH on +23279990990
+        </p>
     }
 
-</body>
-</html>
+    <div class="modal fade" id="disablePlatformMsg" tabindex="-1" role="dialog" aria-labelledby="disablePlatformMsgLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>ALERT</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="disableMessage" style="border: none; width: 400px; height: auto; font-weight: bold; font-size: 20px;">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            App.init();
+        });
+
+        function onProductTypeClick(urlPath) {
+            if (urlPath == null || urlPath == "") alert("No path to product type. Please contact Administrator.");
+
+            window.location.href = urlPath;
+        }
+
+        function disableAlert(msg) {
+            debugger
+            const decoded = atob(unescape(msg));
+            //$("#downtimeNotifyMessage").text(decoded);
+            document.getElementById('disableMessage').textContent = decoded;
+        }
+    </script>
+}

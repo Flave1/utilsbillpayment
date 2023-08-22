@@ -19,7 +19,6 @@ namespace VendTech.BLL.Managers
     {
         private IPlatformApiManager _platformApiManager;
         private IPlatformManager _platformManager;
-
         public PlatformTransactionManager(IPlatformApiManager platformApiManager,
             IPlatformManager platformManager)
         {
@@ -302,7 +301,7 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-            var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(model.RecordsPerPage).OrderByDescending(x => x.CreatedAt).AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -482,7 +481,15 @@ namespace VendTech.BLL.Managers
             receipt.mobileShowSmsButton = (bool)trax.POS.PosSms;
             receipt.ShouldShowSmsButton = (bool)trax.POS.WebSms;
             receipt.ShouldShowPrintButton = (bool)trax.POS.WebPrint;
-            receipt.ReceiptTitle = trax.PlatFormId == 2 ? "ORANGE" : "AFRICELL";
+
+            if(trax.PlatFormId == 2)
+                receipt.ReceiptTitle = "ORANGE";
+            if (trax.PlatFormId == 3)
+                receipt.ReceiptTitle = "AFRICELL";
+            if (trax.PlatFormId == 4)
+                receipt.ReceiptTitle = "QCELL";
+
+            receipt.IsNewRecharge = true;
             return receipt;
         }
         private static void ReverseBalanceDeduction(VendtechEntities dbCtx, VendTech.DAL.POS pos, decimal amount)
@@ -569,7 +576,40 @@ namespace VendTech.BLL.Managers
             }
             return new AirtimeReceiptModel { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
         }
+
+        ReceiptModel IPlatformTransactionManager.ReturnAirtimeReceipt(string rechargeId)
+        {
+            var transaction_by_token = Context.TransactionDetails.Where(e => e.TransactionId == rechargeId).FirstOrDefault();
+            if (transaction_by_token != null)
+            {
+                var receipt = Build_receipt_model_from_dbtransaction_detail(transaction_by_token);
+                receipt.ShouldShowSmsButton = (bool)transaction_by_token.POS.WebSms;
+                receipt.ShouldShowPrintButton = (bool)transaction_by_token.POS.WebPrint;
+                receipt.mobileShowSmsButton = (bool)transaction_by_token.POS.PosSms;
+                receipt.mobileShowPrintButton = (bool)transaction_by_token.POS.PosPrint;
+                return receipt;
+            }
+            return new ReceiptModel { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
+        }
+
+        public ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
+        {
+            if (model.POS == null) model.POS = new POS();
+            var receipt = new ReceiptModel();
+            receipt.AccountNo = model?.MeterNumber1;
+            receipt.POS = model?.POS?.SerialNumber;
+            receipt.CustomerName = model?.Customer;
+            receipt.ReceiptNo = model?.ReceiptNumber;
+            receipt.Amount = Utilities.FormatAmount(Convert.ToDecimal(model.Amount));
+            receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            receipt.VendorId = model.User.Vendor;
+            receipt.EDSASerial = model.SerialNumber;
+            receipt.VTECHSerial = model.TransactionId;
+            receipt.PlatformId = model.PlatFormId;
+            return receipt;
+        }
     }
+
 
     internal class Logs
     {

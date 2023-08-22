@@ -1,0 +1,82 @@
+﻿@using VendTech.BLL.Models
+@{
+    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+}
+
+
+<ul class="menu">
+
+
+    @if (assignerModules.Where(X => X.ControllerName == "26").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.Agents ? "active-menu" : "")"
+               href="@Url.Action("ManageAgents", "Agents")"><i class="fas fa-shopping-cart nav-icon"></i>Manage Vendors</a>
+        </li>
+    }
+
+    @if (assignerModules.Where(X => X.ControllerName == "19").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.BillPayment ? "active-menu" : "")"
+               href="@Url.Action("Utility", "Meter")"><i class="fas fa-shopping-cart nav-icon"></i>Bill Payment</a>
+        </li>
+    }
+
+    @if (assignerModules.Where(X => X.ControllerName == "20").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "active-menu" : "") has-dropdown">
+            <a href="#"><i class="fas fa-tachometer-alt nav-icon"></i>Saved Numbers <i class="fas fa-caret-down"></i></a>
+            <ul class="submenu @(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "opened" : "")">
+                <li><a href="@Url.Action("Index", "Meter")">Meter Numbers</a></li>
+                <li><a href="@Url.Action("Index", "SavedPhoneNumbers")">Phone Numbers</a></li>
+            </ul>
+        </li>
+    }
+    @if (assignerModules.Where(X => X.ControllerName == "4").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.POS ? "active-menu" : "")"
+               href="@Url.Action("ManagePos", "POS")"><i class="fa fa-user nav-icon"></i>Manage POS</a>
+        </li>
+    }
+    @if (assignerModules.Where(X => X.ControllerName == "18").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "active-menu" : "")"
+               href="@Url.Action("Index", "Deposit")"><i class="fas fa-wallet nav-icon nav-icon"></i>Wallet</a>
+        </li>
+    }
+
+    @if (assignerModules.Where(X => X.ControllerName == "9").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.Reports ? "active-menu" : "")"
+               href="@Url.Action("SalesReport", "Report")"><i class="fa  fa-chart-bar nav-icon"></i>Reports</a>
+        </li>
+    }
+    @if (assignerModules.Where(X => X.ControllerName == "31").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
+    {
+        <li>
+            <a class="@(ViewBag.SelectedTab == SelectedAdminTab.Transfer ? "active-menu" : "")"
+               href="@Url.Action("Index", "Transfer")"><i class="fa  fa fa-exchange nav-icon"></i>Transfer</a>
+        </li>
+    }
+
+
+
+    @if (user.UserType == UserRoles.AppUser)
+    {
+
+        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "active-menu" : "") has-dropdown">
+            <a href="#"><i class="fas fa-tachometer-alt nav-icon"></i>Manage Profile<i class="fas fa-caret-down"></i></a>
+            <ul class="submenu @(ViewBag.SelectedTab == SelectedAdminTab.Users ? "opened" : "")">
+                <li><a href="@Url.Action("EditProfile", "User")">Edit Profile</a></li>
+                <li><a href="@Url.Action("ChangePassword", "Home")">Change Password</a></li>
+                <li><a href="@Url.Action("SignOut", "Home")">Sign Out</a></li>
+            </ul>
+        </li>
+
+    }
+</ul>

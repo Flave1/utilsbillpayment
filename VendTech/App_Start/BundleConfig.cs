@@ -24,7 +24,7 @@ namespace VendTech
                         "~/Scripts/html5.js",
                          "~/Scripts/UserDefinedScripts/Common.js",
                           "~/Content/themes/jquery.datatables/jqueryDataTable.js",
-						 "~/Content/themes/jquery.datatables/bootstrap-adapter/js/datatables.js"));
+                         "~/Content/themes/jquery.datatables/bootstrap-adapter/js/datatables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                              "~/Content/themes/bootstrap/dist/js/bootstrap.js"));
@@ -83,6 +83,14 @@ namespace VendTech
                      "~/Content/themes/intro.js/bootstrap.summernote/dist/summernote.css",
                      "~/Content/style.css"));
 
+            bundles.Add(new StyleBundle("~/Content/customerLayoutCSS").Include(
+                      "~/Content/themes/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css",
+                      "~/Content/themes/jquery.select2/select2.css",
+                      "~/Content/themes/bootstrap.slider/css/slider.css",
+                      "~/Content/themes/intro.js/introjs.css",
+                      "~/Content/themes/jquery.vectormaps/jquery-jvectormap-1.2.2.css",
+                      "~/Content/sweetalert.css"));
+
             bundles.Add(new StyleBundle("~/Content/adminLayoutCSS").Include(
                    "~/Content/themes/bootstrap/dist/css/bootstrap.css",
                    "~/Content/fonts/font-awesome-4/css/font-awesome.min.css",
@@ -112,8 +120,8 @@ namespace VendTech
                    "~/Content/themes/jquery.nestable/jquery.nestable.js",
                  "~/Content/themes/bootstrap.switch/bootstrap-switch.min.js",
                  "~/Content/themes/bootstrap.datetimepicker/js/bootstrap-datetimepicker.js",
-                //"~/Content/themes/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js",
-                //"~/Content/themes/jquery.select2/select2.min.js",
+                 //"~/Content/themes/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js",
+                 //"~/Content/themes/jquery.select2/select2.min.js",
                  "~/Content/themes/jquery.select2/select2.js",
                  "~/Content/themes/skycons/skycons.js",
                  "~/Content/themes/bootstrap.slider/js/bootstrap-slider.js",
@@ -137,6 +145,6 @@ namespace VendTech
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = false;
         }
-       
+
     }
 }

@@ -22,66 +22,35 @@
         display: none;
         overflow: hidden;
     }
-    .smsBoxSection {
-        margin: auto;
-        display: block;
-        height:200px;
-    }
-        .smsBoxSection form {
-            padding: 50px;
-        }
-
-    .input-group {
-        display: table
-    }
-
-        .input-group select {
-            display: table-cell;
-            border: 1px solid lightgrey;
-            width: 23%;
-            height: 35px;
-        }
-
-        .input-group input {
-            display: table-cell;
-            margin-left: 2px;
-            
-        }
-
-    .btnClose {
-        background: none;
-        border: none;
-    }
-
-        .btnClose i {
-            margin: 10px;
-            padding: 5px;
-            color: grey;
-            font-size: 30px;
-            font-weight:normal;
-        }
 </style>
 <div class="smsOverlay2">
-    <div class="smsModal2">
-        <div class="table-responsive" style="background: white;">
-            <button class="pull-right btnClose" onclick="smsHandler.closeSmsModal2()"><i class="fa fa-times"></i></button>
-            <div class="smsBoxSection">
-                <form class="row"> 
-                    <div class="col-md-12 mb-3">
-                        <label>SEND VOUCHER BY SMS TO:</label>
-                        <div class="input-group">
-                            <select>
-                                <option value="+232">+232</option>
+
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="smsHandler.closeSmsModal2()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <label  for="countryCode">SEND VOUCHER BY SMS TO:</label>
+                    <div class="input-group mb-2 d-flex justify-content-center">
+                        <div class="input-group-prepend col-3">
+                            <select class="custom-select input-group-text" id="countryCode">
+                                <option selected>+232</option>
                             </select>
-                            <input type="text" class="form-control" style="width: 70%; float:right;" id="smsNumber2" placeholder="enter number here...." required>
                         </div>
+                        <input type="text" class="form-control col-9" id="smsNumber2" placeholder="enter number here...." required>
                     </div>
 
-                    <a style="position:relative; right:80px;" onclick="smsHandler.sendSms2()" class="btn btn-primary pull-right" a href="#">Send</a>
                 </form>
-            </div> 
+            </div>
+            <div class="modal-footer">
+                <a  onclick="smsHandler.sendSms2()" class="btn submitBtn pull-right" a href="#">Send</a>
+            </div>
         </div>
-
     </div>
+
 </div>
 

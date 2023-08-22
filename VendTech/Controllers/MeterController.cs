@@ -55,7 +55,9 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            ViewBag.title = "Manage Meters";
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
             return View(meters);
 
@@ -173,7 +175,7 @@ namespace VendTech.Controllers
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
-
+            ViewBag.title = "Bill Payment";
             return View(model);
         }
 
@@ -183,6 +185,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            ViewBag.title = "EDSA Recharge";
             var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
             ViewBag.IsDisable = platform.DisablePlatform;
             ViewBag.DisabledMessage = platform.DiabledPlaformMessage;

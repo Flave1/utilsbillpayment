@@ -452,13 +452,10 @@ namespace VendTech.BLL.Managers
         public IList<ModulesModel> GetAllModulesAtAuthentication(long userId)
         {
             var moduleListModel = new List<ModulesModel>();
-            var modulesPermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).ToList().Select(x => x.ModuleId);
+            var modulesPermissons = Context.UserAssignedModules.Where(x => x.UserId == userId).Select(x => x.ModuleId).ToList();
             var modules = Context.Modules.Where(c => modulesPermissons.Contains(c.ModuleId)).ToList();
-            if (modules.Count() > 0)
-            {
-                moduleListModel = modules.Select(x => new ModulesModel(x))
-                    .ToList();
-            }
+            if (modules.Any())
+                moduleListModel = modules.Select(x => new ModulesModel(x)).ToList();
             return moduleListModel;
         }
          

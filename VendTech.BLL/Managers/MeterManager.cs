@@ -325,7 +325,11 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Product))
             {
-                query = query.Include("Platform").Where(p => p.Platform.Title.ToLower().Contains(model.Product.ToLower()));
+                int parsedProductId = int.Parse(model.Product);
+                if(parsedProductId > 0)
+                {
+                    query = query.Include("Platform").Where(p => p.Platform.PlatformId == parsedProductId);
+                }
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -952,6 +956,7 @@ namespace VendTech.BLL.Managers
             data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
             data.TransactionId = recharge.TransactionId;
             data.MeterId = recharge.MeterId;
+            data.PlatformId = recharge.PlatFormId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             var thisTransactionNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
             if(thisTransactionNotification != null)
@@ -1107,7 +1112,7 @@ namespace VendTech.BLL.Managers
                        },
             };
         }
-        private ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
+        public ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model)
         {
             if (model.POS == null) model.POS = new POS();
             var receipt = new ReceiptModel();
@@ -1135,6 +1140,7 @@ namespace VendTech.BLL.Managers
             receipt.VendorId = model.User.Vendor;
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
+            receipt.PlatformId = model.PlatFormId;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
@@ -1352,6 +1358,22 @@ namespace VendTech.BLL.Managers
                 return null;
         }
 
+        void IMeterManager.LogSms(TransactionDetail td, string phone)
+        {
+            var smsObj = new SMS_LOG
+            {
+                Date_Time = td.CreatedAt,
+                Meter_Number = td.MeterNumber1,
+                Phone_number = phone,
+                POSID = td.POSId,
+                TransactionID = td.TransactionId,
+                UserID = td.UserId,
+                AgentID = td.User.AgentId
+            };
+            Context.SMS_LOG.Add(smsObj);
+            Context.SaveChanges();
+        }
+
         IQueryable<BalanceSheetListingModel> IMeterManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 999999999;
@@ -1366,7 +1388,7 @@ namespace VendTech.BLL.Managers
                             DateTime = a.CreatedAt,  
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
-                            TransactionType = "EDSA",
+                            TransactionType = a.Platform.Title,
                             DepositAmount = 0,
                             SaleAmount = a.Amount,
                             Balance = 0,
@@ -1384,7 +1406,7 @@ namespace VendTech.BLL.Managers
                             DateTime = a.CreatedAt,  
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
-                            TransactionType = "EDSA",
+                            TransactionType = a.Platform.Title,
                             DepositAmount = 0,
                             SaleAmount = a.Amount,
                             Balance = 0,

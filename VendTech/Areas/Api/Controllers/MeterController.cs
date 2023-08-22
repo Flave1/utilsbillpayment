@@ -14,6 +14,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
+using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
 
@@ -225,6 +226,8 @@ namespace VendTech.Areas.Api.Controllers
                             "VENDTECH"
             };
 
+
+            _meterManager.LogSms(td, request.PhoneNo);
             var json = JsonConvert.SerializeObject(requestmsg);
 
             HttpClient client = new HttpClient();

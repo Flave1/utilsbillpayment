@@ -1,0 +1,193 @@
+﻿@model  UpdateProfileModel
+@{
+    ViewBag.Title = "Edit Profile";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
+}
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Edit Profile</h2>
+
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front">
+                    <div class="editpro">
+                        <form id="profileForm" enctype="multipart/form-data">
+                            <div class="editpro-left">
+                                @*editpro-left*@
+                                <div class="" >
+                                    <img id="previewImg" class="dummyimg" src="@(Model.ProfilePicUrl==null?"http://vendtech.com/Content/images/dummyimg.jpg":Model.ProfilePicUrl)" />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <input type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
+                                </div>
+                            </div>
+                            <div class="editpro-right">
+                                <div class="editpro-row">
+                                    <div class="editpro-row50">
+                                        <label>First Name</label>
+                                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Name)
+
+
+                                    </div>
+                                    <div class="editpro-row50">
+                                        <label>Last Name</label>
+                                        @Html.TextBoxFor(x => x.SurName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.SurName)
+                                        
+                                    </div>
+                                </div>
+                                <div class="editpro-row">
+
+                                    <div class="editpro-row50 phnno">
+                                        <label>Phone</label>
+                                        <select name="CountryCode">
+                                            <option value="+232">+232</option>
+                                        </select>
+                                        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Phone)
+
+
+                                    </div>
+                                    <div class="editpro-row50">
+                                        <label>Address</label>
+                                        @Html.TextAreaFor(x => x.Address, new { @class = "form-control" })
+                                    </div>
+
+                                </div>
+                                <div class="editpro-row">
+
+
+                                    <div class="editpro-row50">
+                                        <label>Country</label>
+                                        @Html.DropDownListFor(x => x.Country, new SelectList(ViewBag.countries, "value", "text"), "Select Country")
+
+                                    </div>
+                                    <div class="editpro-row50">
+                                        <label>City</label>
+                                        <select id="City" name="City"></select>
+                                    </div>
+                                </div>
+                                <div class="editpro-row submt">
+                                    <input type="button" value="Submit" id="saveProfileBtn">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profpic {
+    }
+</style>
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    @*<script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+        </script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select#Country").change(onCountryChange);
+            onCountryChange();
+            $("input[type=button]#saveProfileBtn").live("click", function () {
+                return UpdateProfile($(this));
+            });
+            //initialize the javascript
+            App.init();
+            //Templates.ManageTemplates(totalCount);
+        });
+
+        function onCountryChange() {
+                $("#City").empty();
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records=   array.filter(p=>p.CountryId==val);
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
+
+                        }
+                        $("#City").val('@Model.City');
+                    }
+                }
+        }
+
+        function UpdateProfile(sender) {
+           
+            $.ajaxExt({
+                url:  '/User/EditProfile',
+                type: 'POST',
+                validate: true,
+                showErrorMessage: true,
+                messageControl: $('div#status-division'),
+                formToValidate: $("#profileForm"),
+                formToPost: $("#profileForm"),
+                isAjaxForm: true,
+                showThrobber: true,
+                containFiles:true,
+                button: $(sender),
+                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+                success: function (results, message) {
+                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                }
+            });
+            return false;
+
+        }
+
+        //function previewFile(input) {
+        //    var file = $("input[type=file]").get(0).files[0];
+
+        //    if (file) {
+        //        var reader = new FileReader();
+
+        //        reader.onload = function () {
+        //            $("#previewImg").attr("src", reader.result);
+        //        }
+
+        //        reader.readAsDataURL(file);
+        //    }
+        //}
+
+        function previewFile(input) {
+           
+
+            var file = $("input[type=file]").get(0).files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                var fileType = file["type"];
+                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                if ($.inArray(fileType, validImageTypes) < 0)
+                {
+                    alert("Only image file is allowed");
+                    $('#ImagefromWeb').val('');
+                }
+                else
+                {
+                   
+                    reader.onload = function () {
+                        $("#previewImg").attr("src", reader.result);
+                        //reader.readAsDataURL(file);
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+            }
+        }
+    </script>
+}

@@ -1054,3 +1054,499 @@ Object reference not set to an instance of an object.
 
 
 
+Value was either too large or too small for an Int32.
+
+
+
+Value was either too large or too small for an Int32.
+
+
+
+One or more errors occurred.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Meter\Utility.cshtml(4): error CS1525: Invalid expression term '='
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Unexpected "foreach" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "foreach" with "@".
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(47): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Views/Shared/_Layoutv2.cshtml": "scripts".
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(48): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_Layoutv2.cshtml(48): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+"<" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.NumberModel', but this dictionary requires a model item of type 'VendTech.BLL.Models.MeterModel'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Airtime\Recharge.cshtml(28): error CS1061: 'VendTech.BLL.Models.PlatformTransactionModel' does not contain a definition for 'Logo' and no extension method 'Logo' accepting a first argument of type 'VendTech.BLL.Models.PlatformTransactionModel' could be found (are you missing a using directive or an assembly reference?)
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+LINQ to Entities does not recognize the method 'Int32 ToInt32(System.String)' method, and this method cannot be translated into a store expression.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+String was not recognized as a valid DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.DashboardBalanceSheetModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResult`1[VendTech.BLL.Models.VendorStatus]'.
+
+
+
+One or more errors occurred.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Year, Month, and Day parameters describe an un-representable DateTime.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'PrintBalancesheetReport' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/PrintBalancesheetReport.aspx
+~/Views/Report/PrintBalancesheetReport.ascx
+~/Views/Shared/PrintBalancesheetReport.aspx
+~/Views/Shared/PrintBalancesheetReport.ascx
+~/Views/Report/PrintBalancesheetReport.cshtml
+~/Views/Report/PrintBalancesheetReport.vbhtml
+~/Views/Shared/PrintBalancesheetReport.cshtml
+~/Views/Shared/PrintBalancesheetReport.vbhtml
+
+
+
+The view 'PrintBalancesheetReport' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/PrintBalancesheetReport.aspx
+~/Views/Report/PrintBalancesheetReport.ascx
+~/Views/Shared/PrintBalancesheetReport.aspx
+~/Views/Shared/PrintBalancesheetReport.ascx
+~/Views/Report/PrintBalancesheetReport.cshtml
+~/Views/Report/PrintBalancesheetReport.vbhtml
+~/Views/Shared/PrintBalancesheetReport.cshtml
+~/Views/Shared/PrintBalancesheetReport.vbhtml
+
+
+
+The view 'PrintBalancesheetReport' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/PrintBalancesheetReport.aspx
+~/Views/Report/PrintBalancesheetReport.ascx
+~/Views/Shared/PrintBalancesheetReport.aspx
+~/Views/Shared/PrintBalancesheetReport.ascx
+~/Views/Report/PrintBalancesheetReport.cshtml
+~/Views/Report/PrintBalancesheetReport.vbhtml
+~/Views/Shared/PrintBalancesheetReport.cshtml
+~/Views/Shared/PrintBalancesheetReport.vbhtml
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+

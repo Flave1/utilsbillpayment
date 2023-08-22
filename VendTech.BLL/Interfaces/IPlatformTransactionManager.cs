@@ -19,5 +19,6 @@ namespace VendTech.BLL.Interfaces
         PagingResult<MeterRechargeApiListingModel> GetUserAirtimeRechargeTransactionDetailsHistory(ReportSearchModel model, bool callFromAdmin = false);
         AirtimeReceiptModel RechargeAirtime(PlatformTransactionModel model);
         AirtimeReceiptModel GetAirtimeReceipt(string traxId);
+        ReceiptModel ReturnAirtimeReceipt(string rechargeId);
     }
 }

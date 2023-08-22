@@ -37,17 +37,16 @@ namespace VendTech.BLL.Managers
             };
 
             requestObj.Date = Convert.ToInt64(model.Date);
-
             var req = JsonConvert.SerializeObject(requestObj, Formatting.Indented);
 
             string url = WebConfigurationManager.AppSettings["RTSEDSATransaction"].ToString();
             var resp = await SendHttpRequestAsync(url, HttpMethod.Post, req);
 
             var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
-            for (var i = 0; i < list.Data.Count; i++)
-            {
-                list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
-            }
+            //for (var i = 0; i < list.Data.Count; i++)
+            //{
+            //    list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
+            //}
 
             result.List = list.Data;
             result.Status = ActionStatus.Successfull;
@@ -59,7 +58,7 @@ namespace VendTech.BLL.Managers
         async Task<PagingResult<RtsedsaTransaction>> IRTSEDSAManager.GetSalesInquiry(InquiryRequest model)
         {
             var result = new PagingResult<RtsedsaTransaction>();
-
+            //return null;
             RtsedsaInquiryRequest requestObj = new RtsedsaInquiryRequest();
             requestObj.Header = new Header
             {
@@ -79,10 +78,10 @@ namespace VendTech.BLL.Managers
 
             var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
 
-            for ( var i = 0; i < list.Data.Count; i++)
-            {
-                list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
-            }
+            //for ( var i = 0; i < list.Data.Count; i++)
+            //{
+            //    list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
+            //}
             result.List = list.Data;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meter recharges fetched successfully.";
