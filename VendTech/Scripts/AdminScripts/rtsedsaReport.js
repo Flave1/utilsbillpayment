@@ -82,7 +82,7 @@ var RtsEdsaHandler = {
         const timestampInMilliseconds = new Date(formatted).getTime();
         return timestampInMilliseconds;
     },
-    getDateFromUnixDate: function (unixTime) {
+    getDateFromUnixEpochTimeStamp: function (unixTime) {
         const date = new Date(unixTime);
 
         if (!isNaN(date)) {
@@ -160,7 +160,7 @@ function InitTable(result) {
         tr.innerHTML = `
             <td>${response[i].Account}</td>
             <td>${response[i].CustomerName}</td>
-            <td>${RtsEdsaHandler.getDateFromUnixDate(response[i].DateTransaction)}</td>
+            <td>${RtsEdsaHandler.getDateFromUnixEpochTimeStamp(response[i].DateTransaction)}</td>
             <td>${response[i].DebtPayment}</td>
             <td>${response[i].MeterSerial}</td>
             <td>${response[i].Receipt}</td>
