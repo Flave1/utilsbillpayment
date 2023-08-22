@@ -14,15 +14,19 @@
             </td>
             <td style="text-align:right; @deposit"> @item.Reference</td>
             <td style="text-align:right; @deposit">
+                <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.BalanceBefore)</span>
+            </td>
+            <td style="text-align:right; @deposit">
                 @if (item.DepositAmount == 0)
                 {
                     <span>-</span>
                 }
                 else
                 {
-            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.DepositAmount)</span>  
+                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.DepositAmount)</span>
                 }
             </td>
+
             <td style="text-align:right;">
                 @if (item.SaleAmount == 0)
                 {
@@ -30,7 +34,7 @@
                 }
                 else
                 {
-            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.SaleAmount)</span>
+                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.SaleAmount)</span>
                 }
             </td>
             <td style="text-align:right;">
@@ -40,7 +44,7 @@
                 }
                 else
                 {
-            <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</span>
+                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</span>
                 }
             </td>
         </tr>

@@ -2111,7 +2111,7 @@ namespace VendTech.BLL.Managers
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId,
-                            BalanceBefore = 0,
+                            BalanceBefore = a.BalanceBefore.Value,
                         };
             }
             else
@@ -2127,7 +2127,7 @@ namespace VendTech.BLL.Managers
                             SaleAmount = 0,
                             Balance = 0,
                             POSId = a.POSId,
-                            BalanceBefore = 0,
+                            BalanceBefore = a.BalanceBefore.Value,
                         };
             }
 

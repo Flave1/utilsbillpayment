@@ -1,5 +1,17 @@
 ﻿$(document).ready(function () {
 
+    $("#FromDate").kendoDatePicker({
+        culture: "en-GB",
+        value: new Date(),
+        format: "dd/MM/yyyy"
+    });
+    $("#ToDate").kendoDatePicker({
+        culture: "en-GB",
+        value: new Date(),
+        format: "dd/MM/yyyy"
+    });
+
+
     $("#btnFilterSearch").live("click", function () {
         return RtsEdsaHandler.SearchTransactions($(this));
     });
@@ -20,7 +32,7 @@ var RtsEdsaHandler = {
         var obj = new Object();
         var FromDate = $('#FromDate').val();
         var ToDate = $('#ToDate').val();
-        debugger
+
         obj.fromdate = this.getUnixDate(FromDate);
         obj.todate = this.getUnixDate(ToDate);
         obj.meterSerial = $('#meterSerial').val();
@@ -31,6 +43,7 @@ var RtsEdsaHandler = {
             data: $.postifyData(obj),
             type: "POST",
             success: function (result, message) {
+                debugger
                 disableSubmit2(false);
                 InitTable(result.result);
             },
@@ -40,16 +53,17 @@ var RtsEdsaHandler = {
         });
     },
     SearchTransactions: function () {
+        debugger
         var obj = new Object();
         var FromDate = $('#FromDate').val();
-        obj.date = FromDate // this.getUnixDate(FromDate);
+        obj.date = this.getUnixDate(FromDate);
         disableSubmit(true);
         $.ajax({
             url: baseUrl + '/Admin/RTSEDSAReport/GetTransactionsAsync',
             data: $.postifyData(obj),
             type: "POST",
             success: function (result, message) {
-
+                debugger
                 disableSubmit(false);
                 InitTable(result.result);
             },
@@ -59,27 +73,31 @@ var RtsEdsaHandler = {
         });
     },
     getUnixDate: function (dateinput) {
-        var parts = dateinput.split('/');
-        var year = parseInt(parts[2], 10);
-        var month = parseInt(parts[1], 10) - 1; // Months are zero-indexed
-        var day = parseInt(parts[0], 10);
-        var date = new Date(year, month, day);
-        return (new Date(date)).getTime();
+        debugger
+        const splitted = dateinput.split('/');
+        const day = splitted[0];
+        const month = splitted[1];
+        const year = splitted[2];
+        const formatted = month + '/' + day + '/' + year;
+        const timestampInMilliseconds = new Date(formatted).getTime();
+        return timestampInMilliseconds;
     },
     getDateFromUnixDate: function (unixTime) {
-        // Epoch time in seconds
-        let epochTime = unixTime;
+        const date = new Date(unixTime);
 
-        // Convert Epoch time to milliseconds
-        let epochTimeMs = epochTime * 1000;
+        if (!isNaN(date)) {
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // Months are zero-indexed
+            const day = date.getDate();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
 
-        // Create a new Date object with Epoch time in milliseconds
-        let date = new Date(epochTime);
-
-        // Format the date string as desired
-        let dateString = date.toLocaleString().split(',')[0]; // Example: "4/4/2023, 12:33:05 AM"
-
-        return dateString
+            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            return formattedDate;
+        } else {
+            return unixTime
+        }
     },
     GetMeterNumbers: function (userId) {
         var obj = new Object();
@@ -131,23 +149,33 @@ function disableSubmit2(disabled = false) {
 
 function InitTable(result) {
     const response = JSON.parse(result);
-    for (var i = 0; i < response.length; i++) {
-        const tr =
-            "<tr>" +
-            "<td>" + response[i].Account + "</td> " +
-            "<td>" + response[i].CustomerName + "</td>" +
-            "<td>" + RtsEdsaHandler.getDateFromUnixDate(response[i].DateTransaction) + "</td>" +
-            "<td>" + response[i].DebtPayment + "</td>" +
-            "<td>" + response[i].MeterSerial + "</td>" +
-            "<td>" + response[i].Receipt + "</td>" +
-            "<td>" + response[i].TotalAmount + "</td>" +
-            "<td>" + response[i].TransactionId + "</td>" +
-            "<td>" + response[i].Unit + "</td>" +
-            "<td>" + response[i].UnitPayment + "</td>" +
-            "<td>" + response[i].UnitType + "</td>" +
-            "</tr >";
+    const tableBody = document.getElementById("tableBody");
 
-        var html = document.getElementById("tableBody").innerHTML + tr;
-        document.getElementById("tableBody").innerHTML = html;
+    // Clear existing table content (if needed)
+    tableBody.innerHTML = '';
+
+    for (var i = 0; i < response.length; i++) {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${response[i].Account}</td>
+            <td>${response[i].CustomerName}</td>
+            <td>${RtsEdsaHandler.getDateFromUnixDate(response[i].DateTransaction)}</td>
+            <td>${response[i].DebtPayment}</td>
+            <td>${response[i].MeterSerial}</td>
+            <td>${response[i].Receipt}</td>
+            <td>${response[i].TotalAmount}</td>
+            <td>${response[i].TransactionId}</td>
+            <td>${response[i].Unit}</td>
+            <td>${response[i].UnitPayment}</td>
+            <td>${response[i].UnitType}</td>
+        `;
+
+        tableBody.appendChild(tr);
     }
 }
+
+
+
+
+

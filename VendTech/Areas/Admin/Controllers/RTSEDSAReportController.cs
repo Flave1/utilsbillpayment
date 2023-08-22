@@ -6,12 +6,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.IO;
 using Newtonsoft.Json;
-using System;
-using System.Linq;
-using Castle.Core.Internal;
-using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
-using System.Collections.Generic;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -184,7 +179,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new TransactionRequest
             {
-                Date = Utilities.ConvertDateToEpochDate(frmD),
+                Date = frmD,
             };
             var respponse = manager.GetTransactionsAsync(model).Result;
             var gv = new GridView
@@ -233,8 +228,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             var model = new InquiryRequest
             {
-                FromDate = BLL.Common.Utilities.ConvertDateToEpochDate(frmD),
-                ToDate = BLL.Common.Utilities.ConvertDateToEpochDate(toD),
+                FromDate = frmD,
+                ToDate = toD,
                 MeterSerial = meterSerial
             };
             var respponse = manager.GetSalesInquiry(model).Result;

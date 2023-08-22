@@ -18,6 +18,7 @@ namespace VendTech.BLL.Models
         public string TRANSACTIONID { get; set; }
         public string TYPE { get; set; } 
         public string REFERENCE { get; set; }
+        public decimal BALANCEBEFORE { get; set; }
         public decimal DEPOSITAMOUNT { get; set; }
         public decimal SALEAMOUNT { get; set; }
         public decimal BALANCE { get; set; } 

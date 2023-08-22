@@ -136,7 +136,6 @@ namespace VendTech.Controllers
                 TransactionId = transactionId == "undefined" ? "" : transactionId,
                 From = DateTime.Parse(from),
                 To = DateTime.Parse(to)
-
             };
 
             ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
@@ -417,6 +416,7 @@ namespace VendTech.Controllers
             balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
+
             var list = balanceSheet.List.Select(a => new BalanceSheetReportExcelModel
             {
                 BALANCE = a.Balance,
@@ -425,7 +425,8 @@ namespace VendTech.Controllers
                 REFERENCE = a.Reference,
                 SALEAMOUNT = a.SaleAmount,
                 TRANSACTIONID = a.TransactionId,
-                TYPE = a.TransactionType
+                TYPE = a.TransactionType,
+                BALANCEBEFORE = a.BalanceBefore.Value,
             }).ToList();
 
             var gv = new GridView
@@ -484,14 +485,10 @@ namespace VendTech.Controllers
                 detailRow.Controls.Add(openingClosingHeader);
 
 
-
-
-
-
                 GridViewRow emptyRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var space = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -505,7 +502,7 @@ namespace VendTech.Controllers
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "VENDTECH BALANCE SHEET REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -524,9 +521,10 @@ namespace VendTech.Controllers
                 gv.HeaderRow.Cells[1].Text = "TRANS ID"; //TRANSACTION ID
                 gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE 
                 gv.HeaderRow.Cells[3].Text = "REFERENCE"; //REFERENCE
-                gv.HeaderRow.Cells[4].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
-                gv.HeaderRow.Cells[5].Text = "SALES"; //SALES AMOUNT  
-                gv.HeaderRow.Cells[6].Text = "BALANCE"; //BALANCE
+                gv.HeaderRow.Cells[4].Text = "BALANCE BEFORE"; //BEFORE BALANCE
+                gv.HeaderRow.Cells[5].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
+                gv.HeaderRow.Cells[6].Text = "SALES"; //SALES AMOUNT  
+                gv.HeaderRow.Cells[7].Text = "BALANCE"; //BALANCE
 
                 decimal balance = 0;
                 foreach (GridViewRow row in gv.Rows)
@@ -543,14 +541,15 @@ namespace VendTech.Controllers
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
 
-                        saleAmount = Convert.ToDecimal(row.Cells[5].Text);
-                        depositAmount = Convert.ToDecimal(row.Cells[4].Text);
+                        saleAmount = Convert.ToDecimal(row.Cells[6].Text);
+                        depositAmount = Convert.ToDecimal(row.Cells[5].Text);
                         balance = balance + depositAmount - saleAmount;
 
-                        row.Cells[4].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
-                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
-                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(balance);
+                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
+                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
+                        row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(balance);
                         if (row.Cells[2].Text == "Deposit")
                         {
                             row.Cells[0].BackColor = Color.LightGray;
@@ -560,20 +559,20 @@ namespace VendTech.Controllers
                             row.Cells[4].BackColor = Color.LightGray;
                             row.Cells[5].BackColor = Color.LightGray;
                             row.Cells[6].BackColor = Color.LightGray;
+                            row.Cells[7].BackColor = Color.LightGray;
+                        }
+                        else //(row.Cells[2].Text == "ELECTRICITY (EDSA)")
+                        {
+                            row.Cells[6].ForeColor = Color.Red;
                         }
 
-                        if (row.Cells[2].Text == "EDSA")
-                        {
-                            row.Cells[5].ForeColor = Color.Red;
-                        }
-
-                        if (row.Cells[4].Text == "0.00")
-                        {
-                            row.Cells[4].Text = "";
-                        }
                         if (row.Cells[5].Text == "0.00")
                         {
                             row.Cells[5].Text = "";
+                        }
+                        if (row.Cells[6].Text == "0.00")
+                        {
+                            row.Cells[6].Text = "";
                         }
                     }
                 }
