@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VendTech.BLL.Common;
 using VendTech.DAL;
 
@@ -75,7 +73,7 @@ namespace VendTech.BLL.Models
         public bool IsSaved { get; set; }
         public long UserId { get; set; }
         public long? MeterId { get; set; }
-        public long? PlatformId { get; set; }
+        public Nullable<int> PlatformId { get; set; }
         [Required(ErrorMessage = "Pos Id is Required")]
         public long POSId { get; set; }
         [Required(ErrorMessage = "Amount is Required")]
@@ -135,17 +133,17 @@ namespace VendTech.BLL.Models
             TransactionDetailsId = x.TransactionDetailsId;
             Amount = x.Amount;
             PlatformId = (int)x.PlatFormId;
-            if (x.Platform.Title != null)
-            {
-                ProductShortName = x.Platform.Title;
-                //if (x.Platform.PlatformId == 1)
-                //    ProductShortName = x.Platform.ShortName;
-                //else if (x.PlatFormId == 2)
-                //    ProductShortName = "ORANGE";
-                //else if (x.PlatFormId == 3)
-                //    ProductShortName = "AFRICELL";
+            ProductShortName = x.Platform.Title;
+            //if (x.Platform.Title != null)
+            //{
+            //if (x.Platform.PlatformId == 1)
+            //    ProductShortName = x.Platform.ShortName;
+            //else if (x.PlatFormId == 2)
+            //    ProductShortName = "ORANGE";
+            //else if (x.PlatFormId == 3)
+            //    ProductShortName = "AFRICELL";
 
-            }
+            //}
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
@@ -167,18 +165,18 @@ namespace VendTech.BLL.Models
             RechargeId = x.TransactionDetailsId;
             UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             PlatformId = (int)x.PlatFormId;
-            if (x.Platform.ShortName != null)
-            {
-                ProductShortName = x.Platform.Title;
-                //if (x.Platform.PlatformId == 1)
-                //    ProductShortName = x.Platform.ShortName;
-                //else if (x.Platform.PlatformId == 2)
-                //    ProductShortName = "ORANGE";
-                //else if (x.Platform.PlatformId == 3)
-                //    ProductShortName = "AFRICELL";
-                //else if (x.Platform.PlatformId == 4)
-                //    ProductShortName = "QCELL";
-            }
+            ProductShortName = x.Platform.Title;
+            //if (x.Platform.ShortName != null)
+            //{
+            //if (x.Platform.PlatformId == 1)
+            //    ProductShortName = x.Platform.ShortName;
+            //else if (x.Platform.PlatformId == 2)
+            //    ProductShortName = "ORANGE";
+            //else if (x.Platform.PlatformId == 3)
+            //    ProductShortName = "AFRICELL";
+            //else if (x.Platform.PlatformId == 4)
+            //    ProductShortName = "QCELL";
+            //}
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;

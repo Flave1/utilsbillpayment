@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.DAL;
@@ -31,7 +30,6 @@ namespace VendTech.BLL.Interfaces
         IQueryable<BalanceSheetListingModel> GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId);
         PagingResult<GSTRechargeApiListingModel> GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports(DateTime date);
-        void RedenominateBalnces();
         decimal ReturnMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
         PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
@@ -39,8 +37,9 @@ namespace VendTech.BLL.Interfaces
         NumberModel GetPhoneNumberDetail(long Id);
         ActionOutput SavePhoneNUmber(NumberModel model);
         ActionOutput DeletePhoneNumber(long id, long userId);
-        ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model);
+        ReceiptModel BuildRceipt(TransactionDetail model);
         void LogSms(TransactionDetail td, string phone);
+        //ReceiptModel RechargeMeterReturn_old(RechargeMeterModel model);
     }
     
 }

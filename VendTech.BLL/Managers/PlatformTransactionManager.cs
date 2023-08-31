@@ -514,7 +514,7 @@ namespace VendTech.BLL.Managers
                 MeterNumber1 = tranxModel.Beneficiary,
                 Amount = tranxModel.Amount,
                 PlatFormId = tranxModel.PlatformId,
-                TransactionId = Utilities.GetLastMeterRechardeId(),
+                TransactionId = Utilities.GetLastMeterRechardeId().ToString(),
                 IsDeleted = false,
                 Status = (int)RechargeMeterStatusEnum.Success,
                 CreatedAt = now,

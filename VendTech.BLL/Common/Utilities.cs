@@ -41,12 +41,11 @@ namespace VendTech.BLL.Common
             return string.Format("{0:x}", i - DateTime.Now.Ticks);
         }
 
-        public static string GetLastMeterRechardeId()
+        public static long GetLastMeterRechardeId()
         {
             VendtechEntities context = new VendtechEntities();
             var lastRecord = context.TransactionDetails.OrderByDescending(d =>  d.TransactionDetailsId).FirstOrDefault();
-            var trId = Convert.ToInt64(lastRecord.TransactionId) + 1;
-            return trId.ToString();
+            return Convert.ToInt64(lastRecord.TransactionId) + 1;
         }
 
         public static string GetLastDepositTransactionId()

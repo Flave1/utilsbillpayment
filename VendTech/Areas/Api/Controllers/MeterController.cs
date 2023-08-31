@@ -292,20 +292,6 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent("Sms successfully sent.", Status.Success, "").ConvertToHttpResponseOK();
         }
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
-        [ResponseType(typeof(ResponseBase))]
-        public HttpResponseMessage Redenominate()
-        {
-            try
-            {
-                 _meterManager.RedenominateBalnces();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return new JsonContent("Sms successfully sent.", Status.Success, null).ConvertToHttpResponseOK();
-        }
 
     }
     public class Tokenobject

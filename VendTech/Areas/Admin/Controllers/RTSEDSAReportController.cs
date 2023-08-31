@@ -139,12 +139,12 @@ namespace VendTech.Areas.Admin.Controllers
             return View(new PagingResult<RtsedsaTransaction>());
         }
 
-        [AjaxOnly, HttpPost]
-        public ActionResult GetMeterNumbers(long userid)
-        {
-            var meterNumbers = manager.MeterNumbers(userid);
-            return Json(new { result = JsonConvert.SerializeObject(meterNumbers) });
-        }
+        //[AjaxOnly, HttpPost]
+        //public ActionResult GetMeterNumbers(long userid)
+        //{
+        //    var meterNumbers = manager.MeterNumbers(userid);
+        //    return Json(new { result = JsonConvert.SerializeObject(meterNumbers) });
+        //}
 
 
         [AjaxOnly, HttpPost]

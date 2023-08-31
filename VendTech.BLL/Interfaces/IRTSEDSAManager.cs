@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -9,6 +10,7 @@ namespace VendTech.BLL.Interfaces
     {
         Task<PagingResult<RtsedsaTransaction>> GetSalesInquiry(InquiryRequest model);
         Task<PagingResult<RtsedsaTransaction>> GetTransactionsAsync(TransactionRequest model);
-        List<SelectListItem> MeterNumbers(long userID);
+        Task<Dictionary<string, IcekloudQueryResponse>> QueryVendStatus(RechargeMeterModel model, TransactionDetail transDetail);
+        Task<IceKloudResponse> RequestVendAsync(RechargeMeterModel model);
     }
 }

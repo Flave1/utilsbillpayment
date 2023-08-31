@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
 using VendTech.BLL.Managers;
+using System.Web.Http.Results;
 #endregion
 
 namespace VendTech.Controllers
@@ -274,16 +275,23 @@ namespace VendTech.Controllers
         [HttpPost, AjaxOnly]
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
-            model.UserId = LOGGEDIN_USER.UserID;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
-            if(result.ReceiptStatus.Status == "unsuccessful")
+            try
             {
-                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
+                model.UserId = LOGGEDIN_USER.UserID;
+                var result = _meterManager.RechargeMeterReturn(model).Result;
+                if (result.ReceiptStatus.Status == "unsuccessful")
+                {
+                    return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+                }
+
+                if (result != null)
+                    return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
             }
-         
-            if (result != null)
-                return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
-            return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
+            catch (Exception)
+            {
+                return Json(new { Success = false, Code = 302, Msg = "Error occurred! Meter recharged not successful." });
+            }
 
         }
 
