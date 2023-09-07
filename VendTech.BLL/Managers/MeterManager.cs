@@ -156,6 +156,10 @@ namespace VendTech.BLL.Managers
             var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.MeterNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
+            for(var i = 0; i < list.Count; i++)
+            {
+                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).DisablePlatform;
+            }
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meters fetched successfully.";
@@ -167,6 +171,10 @@ namespace VendTech.BLL.Managers
             var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.PhoneNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
+            for (var i = 0; i < list.Count; i++)
+            {
+                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).DisablePlatform;
+            }
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "Meters fetched successfully.";
@@ -1802,7 +1810,7 @@ namespace VendTech.BLL.Managers
 
             IQueryable<TransactionDetail> query = null;
 
-            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && p.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);

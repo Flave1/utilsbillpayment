@@ -575,7 +575,7 @@
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
     <Content Include="Views\Deposit\Index_old.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
-    <Content Include="Views\Report\SalesReport_old.cshtml" />
+    <Content Include="Views\Report\SalesReport.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -611,7 +611,7 @@
     <Content Include="Views\Meter\Recharge.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
-    <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Report\SalesReport_new.cshtml" />
     <Content Include="Views\Report\DepositReport.cshtml" />
     <Content Include="Views\Report\partials\_depositListing.cshtml" />
     <Content Include="Views\Report\partials\_salesListing.cshtml" />

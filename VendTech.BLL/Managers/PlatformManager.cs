@@ -160,6 +160,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 platform.Enabled = value;
+                platform.DisablePlatform = !value;
                 Context.SaveChanges();
                 return new ActionOutput
                 {
