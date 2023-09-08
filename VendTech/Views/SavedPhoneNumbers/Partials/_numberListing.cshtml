@@ -1,12 +1,4 @@
 ﻿@model PagingResult<MeterAPIListingModel>
-
-<style>
-    .disabled-link {
-        pointer-events: none;
-        cursor: not-allowed;
-        text-decoration: none;
-    }
-</style>
 @{ int i = 0;
 
     
@@ -25,7 +17,7 @@
     }
 
     i += 1;
-    <tr id="meterList">
+    <tr>
         <th scope="row">@i</th>
         <td>  <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.Number" href='@Url.Action("Recharge", "Airtime", new {provider = provider, number = item.Number })'> @item.Number</a>   </td>
         <td>@item.Name</td>
@@ -37,7 +29,7 @@
         <td>
             @if (item.isVerified)
             {
-                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Airtime", new {provider = provider,  number = item.Number })'><i class="fa fa-charging-station text-success"></i></a>
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Airtime", new {provider = provider,  number = item.Number })'><i class="fa fa-money text-success"></i></a>
             }
         </td>
     </tr>

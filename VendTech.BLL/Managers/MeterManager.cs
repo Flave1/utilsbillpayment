@@ -171,9 +171,13 @@ namespace VendTech.BLL.Managers
             var query = Context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.PhoneNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
-            for (var i = 0; i < list.Count; i++)
+            var meterMakes = list.Select(item => item.MeterMake).ToList();
+            var platforms = Context.Platforms
+                .Where(p => meterMakes.Any(mm => p.ShortName.Contains(mm)))
+                .ToList();
+            foreach (var item in list)
             {
-                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).DisablePlatform;
+                item.PlatformDisabled = (bool)platforms.FirstOrDefault(p => p.ShortName.Contains(item.MeterMake))?.DisablePlatform;
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -390,7 +394,7 @@ namespace VendTech.BLL.Managers
 
             IQueryable<TransactionDetail> query = null;
             if (!model.IsInitialLoad)
-                query = Context.TransactionDetails.OrderByDescending(x => x.CreatedAt).Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
+                query = Context.TransactionDetails.OrderByDescending(x => x.CreatedAt).Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && p.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY);
             else
                 query = Context.TransactionDetails.OrderByDescending(x => x.CreatedAt).Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && DbFunctions.TruncateTime(p.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
 

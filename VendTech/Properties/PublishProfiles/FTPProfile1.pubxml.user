@@ -12,8 +12,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/Platform/ManagePlatforms.cshtml">
       <publishTime>09/06/2023 07:07:18</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_balanceSheetReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>09/06/2023 08:23:48</publishTime>
+      <publishTime>09/08/2023 09:56:47</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>08/07/2023 11:57:04</publishTime>
@@ -25,13 +28,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/11/2023 11:22:57</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>09/06/2023 08:23:50</publishTime>
+      <publishTime>09/08/2023 09:56:49</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
       <publishTime>08/31/2023 13:41:56</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>09/06/2023 08:23:49</publishTime>
+      <publishTime>09/08/2023 09:56:48</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>08/07/2023 11:57:04</publishTime>
@@ -51,8 +54,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/UserScripts/reportFilter.js">
       <publishTime>05/09/2023 04:18:32</publishTime>
     </File>
+    <File Include="Views/Meter/Index.cshtml">
+      <publishTime>07/09/2023 10:38:34</publishTime>
+    </File>
     <File Include="Views/Meter/Partials/_meterListing.cshtml">
-      <publishTime>09/06/2023 07:55:26</publishTime>
+      <publishTime>07/09/2023 10:44:57</publishTime>
     </File>
     <File Include="Views/Meter/Utility.cshtml">
       <publishTime>07/08/2023 22:22:36</publishTime>
@@ -60,8 +66,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Report/SalesReport.cshtml">
       <publishTime>05/09/2023 04:15:44</publishTime>
     </File>
+    <File Include="Views/SavedPhoneNumbers/Index.cshtml">
+      <publishTime>07/09/2023 10:21:38</publishTime>
+    </File>
     <File Include="Views/SavedPhoneNumbers/Partials/_numberListing.cshtml">
-      <publishTime>09/06/2023 06:59:06</publishTime>
+      <publishTime>07/09/2023 10:47:09</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>

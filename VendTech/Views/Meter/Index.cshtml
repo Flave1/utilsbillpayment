@@ -2,65 +2,89 @@
 
 @{
     ViewBag.Title = "Manage Meters";
-    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+    Layout = "~/Views/Shared/_LayOut.cshtml";
 }
 
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
 
-@Html.Partial("_Title")
+    .notActive {
+        color: black;
+        background: grey
+    }
 
-<div class="d-flex justify-content-end mb-3">
-    <a class="btn submitBtn" href="/Meter/AddEditMeter">
-        <i class="fas fa-plus-circle"></i> Add Meter
-    </a>
-</div>
-<div class="mt-5">
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
 
-    <input id="IsActive" value="true" hidden />
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a id="true"
-               class="nav-link active cancelBtn"
-               onclick="openTab('true')"
-               data-toggle="tab"
-               href="#home"
-               role="tab"
-               aria-controls="home"
-               aria-selected="true">ACTIVE METERS</a>
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+    .disabled-link {
+        pointer-events: none;
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+</style>
 
-        </li>
-        <li class="nav-item">
-            <a 
-               id="false"
-               class="nav-link submitBtn"
-               onclick="openTab('false')"
-               data-toggle="tab"
-               href="#profile" role="tab"
-               aria-controls="profile"
-               aria-selected="false">INACTIVE METERS</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="true">
-            <div id="divResult">
-                <table id="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">METER #</th>
-                            <th scope="col">NAME ON METER</th>
-                            <th scope="col">ADDRESS</th>
-                            <th scope="col">ALIAS</th>
-                            <th scope="col">METER MAKE</th>
-                            <th scope="col">DATE SAVED</th>
-                            <th scope="col">ACTIVE</th>
-                            <th sope="col">EDIT</th>
-                            <th sope="col">RECHARGE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @Html.Partial("Partials/_meterListing", Model)
-                    </tbody>
-                </table>
+
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>Manage Meters</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front">
+                    <a class="addmeter" href="/Meter/AddEditMeter"><i class="fa fa-plus-circle"></i> <label>Add Meter</label></a>
+                    <br /><br />
+                    <div class="table-responsive ">
+
+                        <div id="divResult">
+                            <input id="IsActive" value="true" hidden />
+                            <div style='text-align: center; width:20%; height:40px; display:flex; '>
+                                <button id="true"
+                                        style="width: 49%; border: none;" class="isActive"
+                                        onclick="openTab('true')">
+                                    ACTIVE METERS
+                                </button>
+                                <button id="false"
+                                        style="width: 49%; border:none;" class="notActive"
+                                        onclick="openTab('false')">
+                                    INACTIVE METERS
+                                </button>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">METER #</th>
+                                        <th scope="col">NAME ON METER</th>
+                                        <th scope="col">ADDRESS</th>
+                                        <th scope="col">ALIAS</th>
+                                        <th scope="col">METER MAKE</th>
+                                        <th scope="col">DATE SAVED</th>
+                                        <th scope="col">ACTIVE</th>
+                                        <th sope="col">EDIT</th>
+                                        <th sope="col">RECHARGE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @Html.Partial("Partials/_meterListing", Model)
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    @*@Html.Partial("_Paging")*@
+                </div>
             </div>
         </div>
     </div>
@@ -79,14 +103,12 @@
     <script type="text/javascript">
 
         function openTab(status) {
-
-            $('.divResult table:first tbody').html('')
             var otherTabStatus = status === 'true' ? 'false' : 'true';
-            document.getElementById(status).className = 'nav-link cancelBtn';
-            document.getElementById(otherTabStatus).className = 'nav-link submitBtn';
+            document.getElementById(status).className = 'isActive';
+            document.getElementById(otherTabStatus).className = 'notActive';
 
             $('#IsActive').val(status === 'true' ? true : false);
-            console.log($('#IsActive').val())
+
             return UserMeters.SortUserMeters($(this));
         }
 

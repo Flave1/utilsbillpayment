@@ -89,34 +89,36 @@ namespace VendTech.Controllers
             MeterModel model = new MeterModel();
             //if (meterId.HasValue && meterId > 0)
             //    model = _meterManager.GetMeterDetail(meterId.Value);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
+            var list = new List<SelectListItem>
             {
-                Text = "CONLOG",
-                Value = "CONLOG"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "HOLLEY",
-                Value = "HOLLEY"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "SAGEMCOM",
-                Value = "SAGEMCOM"
-            });
+                new SelectListItem
+                {
+                    Text = "CONLOG",
+                    Value = "CONLOG"
+                },
+                new SelectListItem
+                {
+                    Text = "HOLLEY",
+                    Value = "HOLLEY"
+                },
+                new SelectListItem
+                {
+                    Text = "SAGEMCOM",
+                    Value = "SAGEMCOM"
+                },
 
-            list.Add(new SelectListItem
-            {
-                Text = "APATOR",
-                Value = "APATOR"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "CLOU",
-                Value = "CLOU"
-            });
-           
+                new SelectListItem
+                {
+                    Text = "APATOR",
+                    Value = "APATOR"
+                },
+                new SelectListItem
+                {
+                    Text = "CLOU",
+                    Value = "CLOU"
+                }
+            };
+
             ViewBag.meterMakes = list;
             model.Number = number;
             return View(model);
@@ -127,32 +129,34 @@ namespace VendTech.Controllers
             MeterModel model = new MeterModel();
             if (meterId > 0)
                 model = _meterManager.GetMeterDetail(meterId);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
+            var list = new List<SelectListItem>
             {
-                Text = "CONLOG",
-                Value = "CONLOG"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "HOLLEY",
-                Value = "HOLLEY"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "SAGEMCOM",
-                Value = "SAGEMCOM"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "APATOR",
-                Value = "APATOR"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "CLOU",
-                Value = "CLOU"
-            });
+                new SelectListItem
+                {
+                    Text = "CONLOG",
+                    Value = "CONLOG"
+                },
+                new SelectListItem
+                {
+                    Text = "HOLLEY",
+                    Value = "HOLLEY"
+                },
+                new SelectListItem
+                {
+                    Text = "SAGEMCOM",
+                    Value = "SAGEMCOM"
+                },
+                new SelectListItem
+                {
+                    Text = "APATOR",
+                    Value = "APATOR"
+                },
+                new SelectListItem
+                {
+                    Text = "CLOU",
+                    Value = "CLOU"
+                }
+            };
 
             ViewBag.meterMakes = list;
             return View("AddEditMeter",model);
