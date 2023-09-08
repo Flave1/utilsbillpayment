@@ -86,18 +86,7 @@ namespace VendTech.Controllers
             NumberModel model = new NumberModel();
             //if (meterId.HasValue && meterId > 0)
             //    model = _meterManager.GetMeterDetail(meterId.Value);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
-            {
-                Text = "AFRICELL",
-                Value = "AFRICELL"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "ORANGE",
-                Value = "ORANGE"
-            });
-
+            var list = _platformManager.GetOperatorType(PlatformTypeEnum.AIRTIME);
             ViewBag.meterMakes = list;
             model.Number = number;
             return View(model);
@@ -108,17 +97,7 @@ namespace VendTech.Controllers
             NumberModel model = new NumberModel();
             if (id > 0)
                 model = _meterManager.GetPhoneNumberDetail(id);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
-            {
-                Text = "AFRICELL",
-                Value = "AFRICELL"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "ORANGE",
-                Value = "ORANGE"
-            });
+            var list = _platformManager.GetOperatorType(PlatformTypeEnum.AIRTIME);
 
             ViewBag.meterMakes = list;
             return View("AddEditPhoneNumbers", model);

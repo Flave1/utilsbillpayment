@@ -1550,3 +1550,31 @@ Error occurred during a cryptographic operation.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+LINQ to Entities does not recognize the method 'VendTech.BLL.Models.MeterAPIListingModel get_Item(Int32)' method, and this method cannot be translated into a store expression.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Input string was not in a correct format.
+
+
+
+Input string was not in a correct format.
+
+
+
+Input string was not in a correct format.
+
+
+

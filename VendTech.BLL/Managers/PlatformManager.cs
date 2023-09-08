@@ -35,7 +35,7 @@ namespace VendTech.BLL.Managers
         }
         List<SelectListItem> IPlatformManager.GetActivePlatformsSelectList()
         {
-            var platforms = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled).Select(p => new SelectListItem {
+            var platforms = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled && !p.DisablePlatform).Select(p => new SelectListItem {
                 Value = p.PlatformId.ToString(),
                 Text = p.Title,
                     }).ToList();
@@ -160,6 +160,7 @@ namespace VendTech.BLL.Managers
             else
             {
                 platform.Enabled = value;
+                platform.DisablePlatform = !value;
                 Context.SaveChanges();
                 return new ActionOutput
                 {
@@ -246,6 +247,17 @@ namespace VendTech.BLL.Managers
             }
         }
 
+        List<SelectListItem> IPlatformManager.GetOperatorType(PlatformTypeEnum type)
+        {
+            var platforms = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled && !p.DisablePlatform && p.PlatformType == (int)type).Select(p => new SelectListItem
+            {
+                Value = p.ShortName.ToString(),
+                Text = p.ShortName,
+            }).ToList();
+            //platforms.Add(new SelectListItem { Value = "0", Text = "SELECT PRODUCT" });
+            platforms = platforms.OrderBy(x => x.Value).ToList();
+            return platforms;
+        }
     }
 
 

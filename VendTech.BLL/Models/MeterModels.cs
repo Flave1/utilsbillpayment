@@ -48,6 +48,7 @@ namespace VendTech.BLL.Models
         public long POSId { get; set; }
         public string POSSerialNumber { get; set; }
         public string Balance { get; set; }
+        public bool PlatformDisabled { get; set; }
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
@@ -210,11 +211,11 @@ namespace VendTech.BLL.Models
             MeterNumber = x.MeterNumber1; 
             TransactionId = x.TransactionId;
             Receipt = x.ReceiptNumber;
-            ServiceCharge = Convert.ToDecimal(x.ServiceCharge); ;
-            Gst = Convert.ToDecimal(x.TaxCharge);
-            UnitsCost = Convert.ToDecimal(x.CostOfUnits);
-            Tarrif = Convert.ToDecimal(x.Tariff);
-            Units = Convert.ToDouble(x.Units);
+            ServiceCharge = x.ServiceCharge != null ? Convert.ToDecimal(x.ServiceCharge): 0 ;
+            Gst = x.TaxCharge != "" ? Convert.ToDecimal(x.TaxCharge) : 0;
+            UnitsCost = x.CostOfUnits != "" ? Convert.ToDecimal(x.CostOfUnits) : 0;
+            Tarrif = x.Tariff != null ? Convert.ToDecimal(x.Tariff) : 0;
+            Units = x.Units != "" ? Convert.ToDouble(x.Units): 0;
             Amount = x.Amount;
             PlatformId = x.PlatFormId;
         }

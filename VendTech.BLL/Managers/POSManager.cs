@@ -400,7 +400,7 @@ namespace VendTech.BLL.Managers
         IList<PlatformCheckbox> IPOSManager.GetAllPlatforms(long posId)
         {
             IList<PlatformCheckbox> chekboxListOfModules = null;
-            IList<Platform> modules = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled).ToList();
+            IList<Platform> modules = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled && !p.DisablePlatform).ToList();
             if (modules.Count() > 0)
             {
                 chekboxListOfModules = modules.Select(x =>

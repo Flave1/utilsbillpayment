@@ -529,6 +529,8 @@ function PagingForNumber(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/SavedPhoneNumbers/GetSavedPhoneNumbersPagingList',
         success: function (results, message) {
+
+            console.log('results.Results[0]', results.Results[0])
             $('#divResult table:first tbody').html(results.Results[0]);
             PageNumbering(results.Results[1]);
 

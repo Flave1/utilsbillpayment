@@ -117,10 +117,9 @@
 
                                                 <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
 
-                                                @if (item.Enabled)
+                                                @if (!item.DisablePlatform)
                                                 {
                                                     <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
-
                                                 }
                                                 else
                                                 {
