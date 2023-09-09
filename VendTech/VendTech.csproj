@@ -566,9 +566,9 @@
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Meter\Utility_old.cshtml" />
-    <Content Include="Views\Airtime\Recharge.cshtml" />
+    <Content Include="Views\Airtime\Recharge_e.cshtml" />
     <Content Include="Views\Meter\Recharge_old.cshtml" />
-    <Content Include="Views\Airtime\Recharge_old.cshtml" />
+    <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Views\Meter\Index.cshtml" />
     <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
