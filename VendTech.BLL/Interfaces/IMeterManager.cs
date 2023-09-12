@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.DAL;
@@ -41,6 +40,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput DeletePhoneNumber(long id, long userId);
         ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model);
         void LogSms(TransactionDetail td, string phone);
+        PagingResult<VendorStatus> RunStoredProcParams();
     }
     
 }

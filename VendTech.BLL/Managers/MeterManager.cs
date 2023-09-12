@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -19,7 +21,6 @@ namespace VendTech.BLL.Managers
 {
     public class MeterManager : BaseManager, IMeterManager
     {
-
         ActionOutput IMeterManager.SaveMeter(MeterModel model)
         {
             var dbMeter = new Meter();
@@ -158,7 +159,7 @@ namespace VendTech.BLL.Managers
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             for(var i = 0; i < list.Count; i++)
             {
-                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).DisablePlatform;
+                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).DisablePlatform;
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -286,7 +287,6 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
-        
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesReportAsync(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
@@ -386,7 +386,6 @@ namespace VendTech.BLL.Managers
             return result;
 
         }
-
         PagingResult<GSTRechargeApiListingModel> IMeterManager.GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 10000000;
@@ -827,9 +826,7 @@ namespace VendTech.BLL.Managers
             }
 
         }
-
         long generateTrxTableKey() => Context.TransactionDetails.Max(x => x.TransactionDetailsId) + 1;
-
         private Dictionary<string, TransactionDetail> QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
             var response = new Dictionary<string, TransactionDetail>();
@@ -909,8 +906,6 @@ namespace VendTech.BLL.Managers
             response.ReceiptStatus.Status = "success";
             return response;
         }
-
-
         private void SaveSales()
         {
             try
@@ -935,7 +930,6 @@ namespace VendTech.BLL.Managers
                 throw raise;
             }
         }
-
         private MeterModel StackNewMeterToDbObject(RechargeMeterModel model)
         { 
             return new MeterModel
@@ -951,7 +945,6 @@ namespace VendTech.BLL.Managers
                 IsSaved = model.IsSaved
             };  
         }
-
         ActionOutput<MeterRechargeApiListingModel> IMeterManager.GetRechargeDetail(long rechargeId)
         {
             var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
@@ -979,7 +972,6 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
-
         RechargeDetailPDFData IMeterManager.GetRechargePDFData(long rechargeId)
         {
             var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
@@ -1335,7 +1327,6 @@ namespace VendTech.BLL.Managers
             }
             return new ReceiptModel { ReceiptStatus = new ReceiptStatus { Status = "unsuccessful", Message = "Unable to find voucher" } };
         }
-
         RequestResponse IMeterManager.ReturnRequestANDResponseJSON(string token)
         {
             var transaction_by_token = Context.TransactionDetails.Where(e => e.TransactionId == token).ToList().FirstOrDefault();
@@ -1598,6 +1589,63 @@ namespace VendTech.BLL.Managers
             {
                 throw;
             }
+            return res;
+        }
+
+        public PagingResult<VendorStatus> RunStoredProcParams()
+        {
+            SqlConnection conn = null;
+            SqlDataReader rdr = null;
+            var res = new PagingResult<VendorStatus>();
+
+            var vendorStatus = new List<VendorStatus>();
+            try
+            {
+                conn = new SqlConnection("Data Source=92.205.181.48;Initial Catalog=VENDTECH_MAIN;user id=vendtech_main;password=85236580@Ve;MultipleActiveResultSets=True;");
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("CalculateRunningBalance", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var status = new VendorStatus();
+                    status.overage = Convert.ToDecimal(rdr["overage"]);
+                    status.PercentageAmount = Convert.ToDecimal(rdr["PercentageAmount"]);
+                    status.POSBalance = Convert.ToDecimal(rdr["POSBalance"]);
+                    status.runningbalance = Convert.ToDecimal(rdr["runningbalance"]);
+                    status.totalsales = Convert.ToDecimal(rdr["totalsales"]);
+                    status.userid = Convert.ToInt64(rdr["userid"]);
+                    status.vendor = rdr["vendor"].ToString();
+                    
+                    vendorStatus.Add(status);
+                }
+            }
+
+            catch(Exception)
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+            }
+            res.List = vendorStatus;
             return res;
         }
 

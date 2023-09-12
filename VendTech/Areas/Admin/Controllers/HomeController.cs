@@ -402,7 +402,7 @@ namespace VendTech.Areas.Admin.Controllers
             try
             {
 
-                var vendorStatus = _meterManager.GetVendorStatus();
+                var vendorStatus = _meterManager.RunStoredProcParams();
 
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";
