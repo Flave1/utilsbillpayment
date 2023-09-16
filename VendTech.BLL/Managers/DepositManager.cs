@@ -2326,6 +2326,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
+
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
                     var amt = dbDeposit.Amount;
