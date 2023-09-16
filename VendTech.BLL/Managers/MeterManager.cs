@@ -178,7 +178,7 @@ namespace VendTech.BLL.Managers
                 .ToList();
             foreach (var item in list)
             {
-                item.PlatformDisabled = (bool)platforms.FirstOrDefault(p => p.ShortName.Contains(item.MeterMake))?.DisablePlatform;
+                item.PlatformDisabled = (bool)platforms.FirstOrDefault(p => p.ShortName.Contains(item?.MeterMake))?.DisablePlatform;
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;

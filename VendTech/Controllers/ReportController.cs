@@ -229,7 +229,6 @@ namespace VendTech.Controllers
 
         }
 
-
         public ActionResult AgentRevenueReport(long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null)
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");

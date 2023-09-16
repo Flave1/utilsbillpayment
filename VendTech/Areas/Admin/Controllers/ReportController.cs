@@ -276,7 +276,7 @@ namespace VendTech.Areas.Admin.Controllers
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).Take(100).ToList();
 
             decimal balance = 0;
             

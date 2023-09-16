@@ -66,6 +66,7 @@ namespace VendTech.BLL.Models
             POSId = pos.POSId;
             POSSerialNumber = pos.SerialNumber;
             Balance = Utilities.FormatAmount(pos.Balance);
+            NumberType = obj.NumberType;
         }
     }
 

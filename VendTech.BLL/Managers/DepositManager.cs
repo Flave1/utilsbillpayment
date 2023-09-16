@@ -2236,9 +2236,6 @@ namespace VendTech.BLL.Managers
                 if (!IsOtpValid(otp))
                     return ReturnError("WRONG OTP ENTERED");
 
-                
-
-
                 dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
                 dbDeposit.POS = fromPos;
                 dbDeposit.UserId = fromPos?.VendorId ?? 0;
@@ -2299,7 +2296,13 @@ namespace VendTech.BLL.Managers
             }
             catch (Exception e)
             {
+
+                Context.Dispose();
                 throw e;
+            }
+            finally
+            {
+               Context.Dispose();
             }
         }
 
@@ -2373,7 +2376,13 @@ namespace VendTech.BLL.Managers
             }
             catch (Exception e)
             {
+
+                Context.Dispose();
                 throw e;
+            }
+            finally
+            {
+                Context.Dispose();
             }
         }
 
