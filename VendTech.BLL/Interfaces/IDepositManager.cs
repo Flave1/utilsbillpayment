@@ -57,6 +57,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp, long toPos, POS fromPos);
         ActionOutput DepositToAgencyAdminAccount(Deposit dbDeposit, long currentUserId, string OTP);
         ActionOutput<string> CancelDeposit(CancelDepositModel model);
+        PagingResult<DepositListingModelMobile> GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
     }
 
 }

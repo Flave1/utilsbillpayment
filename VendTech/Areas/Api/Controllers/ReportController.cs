@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
@@ -23,7 +24,7 @@ namespace VendTech.Areas.Api.Controllers
         {
             model.SortBy = "CreatedAt";
             model.SortOrder = "Desc";
-            model.VendorId = LOGGEDIN_USER.UserId;
+            model.VendorId =  LOGGEDIN_USER.UserId;
             model.PageNo = ((model.PageNo - 1) * model.RecordsPerPage) + 1;
 
             //CultureInfo provider = CultureInfo.InvariantCulture;
@@ -40,8 +41,8 @@ namespace VendTech.Areas.Api.Controllers
 
 
 
-            var deposits = new PagingResult<MeterRechargeApiListingModel>();
-            deposits = _meterManager.GetUserMeterRechargesReportAsync(model);
+            var deposits = new PagingResult<MeterRechargeApiListingModelMobile>();
+            deposits = _meterManager.GetUserMeterRechargesReportMobileAsync(model);
             return new JsonContent(deposits.TotalCount, deposits.Message, Status.Success, deposits.List).ConvertToHttpResponseOK();
         }
         [HttpPost]
@@ -65,8 +66,8 @@ namespace VendTech.Areas.Api.Controllers
             //}
 
 
-            var deposits = new PagingResult<DepositListingModel>();
-            deposits = _depositManager.GetReportsPagedList(model);
+            var deposits = new PagingResult<DepositListingModelMobile>();
+            deposits = _depositManager.GetReportsMobilePagedList(model);
             return new JsonContent(deposits.TotalCount, deposits.Message, Status.Success, deposits.List).ConvertToHttpResponseOK();
         }
     }

@@ -41,6 +41,7 @@ namespace VendTech.BLL.Interfaces
         ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model);
         void LogSms(TransactionDetail td, string phone);
         PagingResult<VendorStatus> RunStoredProcParams();
+        PagingResult<MeterRechargeApiListingModelMobile> GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
     }
     
 }

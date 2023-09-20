@@ -1,4 +1,5 @@
-﻿@model PagingResult<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
+
 @{ ViewBag.Title = "Manage Reports";
     Layout = "~/Views/Shared/_LayOut.cshtml"; }
 
@@ -129,7 +130,7 @@
                                     <div class="blwsec-right">
                                         <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <div class="row" style="text-align:right; margin-right:20px; font-weight:bold; font-size:20px; margin-bottom:5px;">
-                                                Opening Balance: NLe <strong> 100,000</strong>
+                                                Opening Balance: NLe <strong> @Model.Amount</strong>
                                             </div>
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>
@@ -191,7 +192,7 @@
             var totalCount = "@Model.TotalCount";
 
         $(document).ready(function () {
-            App.init(); 
+            App.init();
         });
 
         $('#PrintType').on("change", function () {

@@ -77,19 +77,19 @@ $(document).ready(function () {
     $("#FromDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy",
-        change: function (e) {
-            selectedFrmDate = this.value();
-            validateDate();
-        }
+        //change: function (e) {
+        //    selectedFrmDate = this.value();
+        //    validateDate();
+        //}
     });
 
     $("#ToDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
         format: "dd/MM/yyyy",
-        change: function (e) {
-            selectedToDate = this.value();
-            validateDate();
-        }
+        //change: function (e) {
+        //    selectedToDate = this.value();
+        //    validateDate();
+        //}
     });
     var datePicker1 = $("#FromDate").data("kendoDatePicker");
     $("#FromDate").click(function () {
@@ -202,6 +202,9 @@ $(document).ready(function () {
             $("#pos").append("<option value=''> SELECT POS</option>")
         }
     });
+
+
+  
 
 });
 

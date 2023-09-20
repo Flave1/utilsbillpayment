@@ -17,6 +17,10 @@ using System.Data;
 using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using VendTech.Framework.Api;
+using Twilio.Converters;
+using Twilio.Http;
+using VendTech.BLL.Common;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -130,7 +134,7 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "27")
                 {
 
-                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
                     ViewBag.OpeningBalance = 0;
                     return View("BalanceSheetReports", balanceSheet);
                 }
@@ -209,11 +213,11 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             model.RecordsPerPage = 100000000;
-            var modal = new PagingResult<DepositListingModel>();
+            var response = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "17")
             {
-                modal = _depositManager.GetReportsPagedList(model, true);
+                response = _depositManager.GetReportsPagedList(model, true);
 
             }
             if (model.ReportType == "21")
@@ -222,11 +226,16 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (model.ReportType == "17")
             {
-                var resultString = new List<string> {
-                   RenderRazorViewToString("Partials/_reportListing", modal),
-                   modal.TotalCount.ToString()
-                };
-                return JsonResult(resultString);
+                //var resultString = new List<string> {
+                //   RenderRazorViewToString("Partials/_reportListing", modal),
+                //   modal.TotalCount.ToString()
+                //};
+                //return JsonResult(resultString);
+
+                var serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 999999999;
+                var stringVal = serializer.Serialize(response);
+                return Json(new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
             }
 
             if (model.ReportType == "21")
@@ -243,13 +252,15 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
-            var modal = _meterManager.GetUserMeterRechargesReportAsync(model, true);
+            var response = _meterManager.GetUserMeterRechargesReportAsync(model, true);
 
 
-            var sum = modal.List.Select(d => d.Amount).Sum(); 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
-           };
-            return JsonResult(resultString);
+            //var sum = modal.List.Select(d => d.Amount).Sum();
+            //var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString() };
+            var serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 999999999;
+            var stringVal = serializer.Serialize(response);
+            return  Json( new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
         }
 
         [AjaxOnly, HttpPost]
@@ -272,30 +283,53 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000; 
 
-            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
+            balanceSheet.List = new List<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).Take(100).ToList();
+            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).Take(100).ToList();
 
             decimal balance = 0;
-            
-            foreach (var item in balanceSheet.List)
+            decimal openingBalance = 0;
+            decimal gOpeningBalance = 0;
+
+
+            foreach (var item in result)
             {
-                balance = balance + item.DepositAmount - item.SaleAmount;
-                item.Balance = balance;
+                if (item.TransactionType == "Deposit")
+                {
+                    item.BalanceBefore = openingBalance;
+                    openingBalance = openingBalance + item.DepositAmount;
+                }
+                else
+                {
+                    item.BalanceBefore = openingBalance;
+                    openingBalance = item.SaleAmount - openingBalance;
+                }
+                if(gOpeningBalance == 0)
+                    gOpeningBalance = openingBalance;
+
+                item.Balance = openingBalance;
+                balanceSheet.List.Add(new BalanceSheetListingModel2(item));
             }
-            var firstRecord = balanceSheet.List.FirstOrDefault();
-            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance);
+
+            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(gOpeningBalance);
+
+
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
-           
-            
-            };
-            return JsonResult(resultString);
+
+
+            var serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 999999999;
+            var stringVal = serializer.Serialize(balanceSheet);
+            return Json(new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
+
+            //var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString() };
+            //return JsonResult(resultString);
         }
 
         [AjaxOnly, HttpPost]

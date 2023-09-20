@@ -214,7 +214,7 @@ namespace VendTech.BLL.Managers
             query = query.Where(p => posIds.Contains(p.POSId.Value));
             result.Result1 = query.OrderByDescending(x => x.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterRechargeApiListingModel
             {
-                Amount = x.Amount,
+                Amount = Utilities.FormatAmount(x.Amount),
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 TransactionId = x.TransactionId,

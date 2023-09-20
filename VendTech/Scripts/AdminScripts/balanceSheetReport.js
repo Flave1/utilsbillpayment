@@ -301,14 +301,19 @@ function Paging(sender) {
         showThrobber: false,
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Admin/Report/GetBalanceSheetReportsPagingList',
-        success: function (results, message)
+        success: async function (results, message)
         {
-            $('#divResult table:first tbody').html(results[0]);
+            debugger
+            const jsoneValue = JSON.parse(results);
+
+            await initTable(jsoneValue);
+            //$('#divResult table:first tbody').html(results[0]);
            
             //var table = $('#datatable-icons').DataTable(); 
             //table.destroy();
             //table.draw();
              
+
              
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false); 
@@ -335,4 +340,51 @@ function getMonthName(number)
     month[11] = "DEC";
   //  return month[number];
     return number+1;
+}
+
+async function initTable(result) {
+    const response = result.List;
+    const tableBody = document.getElementById("tableBody");
+
+    debugger
+    tableBody.innerHTML = '';
+    const opBalRow = document.createElement("tr");
+
+    opBalRow.innerHTML = `<tr>
+                            <td colspan="6" style="text-align:right;"><strong>OPENING BALANCE</strong></td>
+                            <td style="text-align:right; font-weight: bold; font-size:20px; color:red;" id="openingBal">${result.Amount}</td>
+                        </tr> `;
+    tableBody.appendChild(opBalRow);
+    for (var i = 0; i < response.length; i++) {
+        const tr = document.createElement("tr");
+        tr.classList.add('odd', 'gradeX')
+        const deposit = response[i].TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
+        const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[0].BalanceBefore}</span>`;
+        const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit}">${response[0].DepositAmount}</span>`;
+        const saleAmount = response[i].SaleAmount == "0" ? '-' : `<span style="${deposit}">${response[0].SaleAmount}</span>`;
+        const balance = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[0].Balance}</span>`;
+        debugger
+        tr.innerHTML = `
+
+            <td style='text-align: right; ${deposit}'>${response[i].DateTime}</td>
+            <td style="text-align:right; ${deposit}"> ${response[i].TransactionId}</td>
+            <td style="text-align:left; text-transform:uppercase; ${deposit}">
+                ${response[i].TransactionType}
+            </td>
+            <td style="text-align:right; ${deposit}"> ${response[i].Reference}</td>
+            <td style="text-align:right; ${deposit}">
+                ${balBefore}
+            </td>
+            <td style="text-align:right; ${deposit}">
+                ${depositAmount}
+            </td>
+            <td style="text-align:right;">
+                ${saleAmount}
+            </td>
+            <td style="text-align:right;">
+                ${balance}  
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    }
 }

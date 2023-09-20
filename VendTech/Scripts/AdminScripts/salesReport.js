@@ -396,18 +396,20 @@ function Paging(sender) {
         showThrobber: false,
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Admin/Report/GetSalesReportsPagingList',
-        success: function (results, message)
+        success: async function (results, message)
         {
-            $('#divResult table:first tbody').html(results[0]);
-           
-            //var table = $('#datatable-icons').DataTable(); 
-            //table.destroy();
-            //table.draw();
-             
-             
+            const jsoneValue = JSON.parse(results);
+            console.log('jsoneValue', jsoneValue)
+
+            await initTable(jsoneValue.List);
+
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false); 
-            PageNumbering(results[1]);
+            //PageNumbering(results[1]);
+        },
+        error: function (e) {
+            $("#btnFilterSearch").val('SEARCH');
+            $("#btnFilterSearch").prop('disabled', false); 
         }
     });
 }
@@ -445,4 +447,35 @@ function disableSubmit(disabled = false) {
     }
 
 
+}
+
+async function initTable(response) {
+    const tableBody = document.getElementById("tableBody");
+
+    tableBody.innerHTML = '';
+
+    for (var i = 0; i < response.length; i++) {
+        const tr = document.createElement("tr");
+        tr.classList.add('odd', 'gradeX')
+
+        tr.innerHTML = `
+            <td style="text-align:right;"> ${response[i].CreatedAtDate}</td>
+            <td style="text-align:left;"> ${response[i].ProductShortName}</td>
+            <td style="text-align:right;"> ${response[i].TransactionId}</td>
+            <td style="text-align:right;"> ${response[i].MeterNumber}</td>
+            <td> ${response[i].VendorName}</td>
+            <td style="text-align:right;">  ${response[i].POSId}</td>
+
+             <td style="text-align:center;">
+                <strong>
+                    <a href="javascript:void(0);" data-title="sd" data-token="${response[i].TransactionId}" onclick="GetRequestANDResponse( {{{  ${response[i].TransactionId}   }}})" id="${response[i].RechargePin}">
+                        {{{  ${response[i].TransactionId}   }}}
+                    </a>
+                </strong>
+            </td>
+             <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="${response[i].RechargePin}" onclick="fetchSaleInformation('${response[i].RechargePin}', '${response[i].PlatformId}')" id="${response[i].RechargePin}"> '${response[i].RechargePin}' </a></strong></td>
+            <td style="text-align:right;"> <strong> ${response[i].Amount}</strong></td>
+        `;
+        tableBody.appendChild(tr);
+    }
 }

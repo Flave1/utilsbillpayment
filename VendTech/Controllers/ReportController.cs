@@ -140,7 +140,6 @@ namespace VendTech.Controllers
 
             ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
 
-
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
             ViewBag.AssignedReports = assignedReportModule;
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
@@ -220,7 +219,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
 
 
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
             ViewBag.userPos = posList;
 
 
@@ -319,7 +318,7 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 1000000000; 
 
             model.VendorId = LOGGEDIN_USER.UserID;
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
 
@@ -330,6 +329,14 @@ namespace VendTech.Controllers
             {
                 balance = balance + item.DepositAmount - item.SaleAmount;
                 item.Balance = balance;
+            }
+
+            var firstRecord = balanceSheet.List.FirstOrDefault();
+            var firstRec = firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance;
+            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRec);
+            if (firstRecord.Balance < 1)
+            {
+                balanceSheet.List[0].Balance = firstRec;
             }
 
             balanceSheet.Status = ActionStatus.Successfull;
