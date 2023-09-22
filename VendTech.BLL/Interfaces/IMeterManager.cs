@@ -42,6 +42,7 @@ namespace VendTech.BLL.Interfaces
         void LogSms(TransactionDetail td, string phone);
         PagingResult<VendorStatus> RunStoredProcParams();
         PagingResult<MeterRechargeApiListingModelMobile> GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
+        ActionOutput<MeterRechargeApiListingModelMobile> GetMobileRechargeDetail(long rechargeId);
     }
     
 }

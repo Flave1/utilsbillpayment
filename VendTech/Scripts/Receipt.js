@@ -5,7 +5,7 @@ function onViewDepositDetails(depositId) {
         var inputParam = new Object();
         inputParam.token_string = depositId;
         $.ajax({
-            url: baseUrl + '/Deposit/GetDepositDetails',
+            url: baseUrl + '/Admin/Deposit/GetDepositDetails',
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {

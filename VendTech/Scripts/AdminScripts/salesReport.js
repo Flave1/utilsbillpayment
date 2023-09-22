@@ -75,6 +75,7 @@ var miniSalesReportHandler = {
         obj.Meter = $('#meterNo').val();
         obj.TransactionId = $('#tranId').val();
         obj.Product = $('#productId').val();
+
         if (isInitial === true) {
             obj.To = $('#ToDate').val();
             obj.From = $('#FromDate').val();

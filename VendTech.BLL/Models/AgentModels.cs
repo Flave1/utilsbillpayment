@@ -56,7 +56,7 @@ namespace VendTech.BLL.Models
             POSID = obj.POSId;
             SerialNumber = obj.SerialNumber;
             AgencyName = obj?.User?.Agency?.AgencyName;
-            CellPhone = "+232" + obj.Phone;
+            CellPhone = "+232" + obj.User.Phone;
             AgentName = $"{obj?.User?.Name} {obj?.User?.SurName}";
             Enabled = (bool)obj.Enabled;
             TodaySales = Utilities.FormatAmount(sale);

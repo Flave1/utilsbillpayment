@@ -303,7 +303,7 @@ function Paging(sender) {
         url: baseUrl + '/Admin/Report/GetBalanceSheetReportsPagingList',
         success: async function (results, message)
         {
-            debugger
+
             const jsoneValue = JSON.parse(results);
 
             await initTable(jsoneValue);
@@ -346,7 +346,6 @@ async function initTable(result) {
     const response = result.List;
     const tableBody = document.getElementById("tableBody");
 
-    debugger
     tableBody.innerHTML = '';
     const opBalRow = document.createElement("tr");
 
@@ -359,13 +358,12 @@ async function initTable(result) {
         const tr = document.createElement("tr");
         tr.classList.add('odd', 'gradeX')
         const deposit = response[i].TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
-        const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[0].BalanceBefore}</span>`;
-        const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit}">${response[0].DepositAmount}</span>`;
-        const saleAmount = response[i].SaleAmount == "0" ? '-' : `<span style="${deposit}">${response[0].SaleAmount}</span>`;
-        const balance = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[0].Balance}</span>`;
-        debugger
+        const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[i].BalanceBefore}</span>`;
+        const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit}">${response[i].DepositAmount}</span>`;
+        const saleAmount = response[i].SaleAmount == "0" ? '-' : `<span style="${deposit}">${response[i].SaleAmount}</span>`;
+        const balance = response[i].Balance == "0" ? '-' : `<span style="${deposit}">${response[i].Balance}</span>`;
+        
         tr.innerHTML = `
-
             <td style='text-align: right; ${deposit}'>${response[i].DateTime}</td>
             <td style="text-align:right; ${deposit}"> ${response[i].TransactionId}</td>
             <td style="text-align:left; text-transform:uppercase; ${deposit}">

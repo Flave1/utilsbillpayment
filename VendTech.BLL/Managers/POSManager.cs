@@ -50,17 +50,9 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
             }
-            else if (model.SortBy == "MeterCount")
-            {
-                if (model.SortOrder == "Asc")
-                {
-                    query = query.Where(p => !p.IsDeleted).OrderBy(s => s.User.Meters.Count());
-                }
-                else if (model.SortOrder == "Desc")
-                {
-                    query = query.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
-                }
-            }
+           
+
+           
 
             else if (model.SortBy == "POSId")
             {
@@ -74,10 +66,10 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("User.MobileAppVersion" + " " + model.SortOrder);
             }
-            else
-            {
-                query = query.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
-            }
+            //else
+            //{
+            //    query = query.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
+            //}
             if (vendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == vendorId);
@@ -109,6 +101,25 @@ namespace VendTech.BLL.Managers
             }
             var list = query.Where(r => r.Enabled == model.IsActive)//.Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
+
+            if (model.SortBy == "Product")
+            {
+                if (model.SortOrder == "Asc")
+                    list = list.OrderBy(d => d.Products).ToList();
+                else if (model.SortOrder == "Desc")
+                    list = list.OrderByDescending(d => d.Products).ToList();
+            }
+            else if (model.SortBy == "MeterCount")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    list = list.OrderBy(d => d.POSCount).ToList();
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    list = list.OrderBy(d => d.POSCount).ToList();
+                }
+            }
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {

@@ -1073,6 +1073,34 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<MeterRechargeApiListingModel>(data, "Recharge detail fetched successfully.");
 
         }
+
+        ActionOutput<MeterRechargeApiListingModelMobile> IMeterManager.GetMobileRechargeDetail(long rechargeId)
+        {
+            var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
+            if (recharge == null)
+                return ReturnError<MeterRechargeApiListingModelMobile>("Recharge not exist.");
+            var data = new MeterRechargeApiListingModelMobile();
+            data.Amount = recharge.Amount;
+            data.CreatedAt = recharge.CreatedAt.ToString();
+            data.MeterNumber = recharge.Meter == null ? recharge.MeterNumber1 : recharge.Meter.Number;
+            data.Status = ((RechargeMeterStatusEnum)recharge.Status).ToString();
+            data.RechargeId = recharge.TransactionDetailsId;
+            data.VendorName = recharge.POS == null || recharge.POS.User == null ? "" : recharge.POS.User.Vendor;
+            data.VendorId = recharge.POS == null || recharge.POS.User == null ? 0 : recharge.POS.VendorId.Value;
+            data.RechargePin = Utilities.FormatThisToken(recharge.MeterToken1);
+            data.TransactionId = recharge.TransactionId;
+            data.MeterId = recharge.MeterId;
+            data.PlatformId = recharge.PlatFormId;
+            data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
+            var thisTransactionNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
+            if (thisTransactionNotification != null)
+            {
+                thisTransactionNotification.MarkAsRead = true;
+                Context.SaveChanges();
+            }
+            return ReturnSuccess<MeterRechargeApiListingModelMobile>(data, "Recharge detail fetched successfully.");
+
+        }
         RechargeDetailPDFData IMeterManager.GetRechargePDFData(long rechargeId)
         {
             var recharge = Context.TransactionDetails.FirstOrDefault(p => p.TransactionDetailsId == rechargeId);
@@ -1963,7 +1991,7 @@ namespace VendTech.BLL.Managers
 
             IQueryable<TransactionDetail> query = null;
 
-            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true && p.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY);
+            query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -2002,6 +2030,13 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(model.Product))
+            {
+                int prod = Convert.ToInt32(model.Product);
+                if(prod > 0)
+                    query = query.Where(p => p.PlatFormId == prod);
             }
 
             if (type == "daily")

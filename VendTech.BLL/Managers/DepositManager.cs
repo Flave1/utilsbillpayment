@@ -1993,12 +1993,12 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        ActionOutput<DepositListingModel> IDepositManager.GetDepositDetail(long depositId)
+        ActionOutput<DepositListingModel> IDepositManager.GetDepositDetail(long depositId, bool isAdmin)
         {
             var dbDeposit = Context.Deposits.FirstOrDefault(p => p.DepositId == depositId);
 
             var thisDepositNotification = Context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.DepositStatusChange && d.RowId == depositId);
-            if (thisDepositNotification != null)
+            if (thisDepositNotification != null && !isAdmin)
             {
                 thisDepositNotification.MarkAsRead = true;
                 Context.SaveChanges();
@@ -2171,7 +2171,6 @@ namespace VendTech.BLL.Managers
             var dbDeposit = Context.Deposits
                 .FirstOrDefault(x => x.DepositId == depositAuditModel.DepositId);
 
-
             var posId = Convert.ToInt64(depositAuditModel.PosId);
 
             pos = dbDeposit.POS;
@@ -2208,7 +2207,7 @@ namespace VendTech.BLL.Managers
                         recordWithSimilarRef.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
                         recordWithSimilarRef.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
                         recordWithSimilarRef.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
-                        recordWithSimilarRef.BalanceBefore = dbDeposit.BalanceBefore == null ? 0 : dbDeposit.BalanceBefore;
+                        //recordWithSimilarRef.BalanceBefore = dbDeposit.BalanceBefore == null ? 0 : dbDeposit.BalanceBefore;
                     }
                 }
                 SaveChanges();

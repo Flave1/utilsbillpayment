@@ -87,7 +87,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetRechargeDetail(long rechargeId)
         {
-            var result = _meterManager.GetRechargeDetail(rechargeId);
+            var result = _meterManager.GetMobileRechargeDetail(rechargeId);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
         }
 

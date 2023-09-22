@@ -218,7 +218,6 @@ namespace VendTech.Areas.Admin.Controllers
             if (model.ReportType == "17")
             {
                 response = _depositManager.GetReportsPagedList(model, true);
-
             }
             if (model.ReportType == "21")
             {
@@ -235,15 +234,19 @@ namespace VendTech.Areas.Admin.Controllers
                 var serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 999999999;
                 var stringVal = serializer.Serialize(response);
-                return Json(new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
+                return Json(new { Status = ActionStatus.Successfull, Message = "deposit", Results = stringVal });
             }
 
             if (model.ReportType == "21")
             {
                 var resultString = new List<string> {
-               RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
-               depositAuditModel.TotalCount.ToString()};
-                return JsonResult(resultString);
+                RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
+                depositAuditModel.TotalCount.ToString()};
+                return Json(new ActionOutput { Status = ActionStatus.Successfull, Message = "audit", Results = resultString }, JsonRequestBehavior.AllowGet); ;
+                //var serializer = new JavaScriptSerializer();
+                //serializer.MaxJsonLength = 999999999;
+                //var stringVal = serializer.Serialize(depositAuditModel);
+                //return Json(new { Status = ActionStatus.Successfull, Message = "audit", Results = stringVal });
             }
             return JsonResult(new List<string>() { });
         }
@@ -288,33 +291,32 @@ namespace VendTech.Areas.Admin.Controllers
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
-            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).Take(100).ToList();
+            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
-            decimal balance = 0;
             decimal openingBalance = 0;
-            decimal gOpeningBalance = 0;
+            decimal prevBal = 0;
 
 
             foreach (var item in result)
             {
                 if (item.TransactionType == "Deposit")
                 {
-                    item.BalanceBefore = openingBalance;
-                    openingBalance = openingBalance + item.DepositAmount;
+                    item.Balance = prevBal == 0? item.DepositAmount: item.BalanceBefore.Value + item.DepositAmount;
+                    prevBal = prevBal + item.DepositAmount;
                 }
                 else
                 {
-                    item.BalanceBefore = openingBalance;
-                    openingBalance = item.SaleAmount - openingBalance;
+                    item.Balance = prevBal == 0 ? item.BalanceBefore.Value - item.SaleAmount : prevBal - item.SaleAmount;
+                    prevBal = item.Balance;
                 }
-                if(gOpeningBalance == 0)
-                    gOpeningBalance = openingBalance;
 
-                item.Balance = openingBalance;
+                if (openingBalance == 0)
+                    openingBalance = item.BalanceBefore.Value;
+
                 balanceSheet.List.Add(new BalanceSheetListingModel2(item));
             }
 
-            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(gOpeningBalance);
+            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(openingBalance);
 
 
             balanceSheet.Status = ActionStatus.Successfull;

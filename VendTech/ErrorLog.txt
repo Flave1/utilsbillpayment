@@ -2090,3 +2090,63 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Shared\_depositReceipt.cshtml(93): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+

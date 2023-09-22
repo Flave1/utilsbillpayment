@@ -308,14 +308,17 @@ function Paging(sender) {
             url: baseUrl + '/Admin/Report/GetReportsPagingList',
             success: async function (results, message) {
 
-                const jsoneValue = JSON.parse(results);
-
-                await initTable(jsoneValue.List);
-                
-                $("#btnFilterSearch").val('SEARCH');
-                $("#btnFilterSearch").prop('disabled', false);
-                //$('#divResult table:first tbody').html(results[0]);
-                //PageNumbering(results[1]);
+                if (message == "audit") {
+                    $("#btnFilterSearch").val('SEARCH');
+                    $("#btnFilterSearch").prop('disabled', false);
+                    $('#divResult table:first tbody').html(results[0]);
+                    PageNumbering(results[1]);
+                } else if (message == "deposit") {
+                    $("#btnFilterSearch").val('SEARCH');
+                    $("#btnFilterSearch").prop('disabled', false);
+                    const jsoneValue = JSON.parse(results);
+                    await initTable(jsoneValue.List);
+                }
 
             },
             error: function (e) {

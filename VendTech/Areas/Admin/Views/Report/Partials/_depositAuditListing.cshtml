@@ -24,6 +24,7 @@
 
                     </td>
             <td style="text-align:left" id="_bnk">@(!string.IsNullOrEmpty(item.IssuingBank) ? item.IssuingBank.Substring(0, item.IssuingBank.IndexOf("-")) : "")</td>
+            <td style="text-align:right" id="_ref">@item.TransactionId</td>
             <td style="text-align:right" id="_ref">@item.DepositRef</td>
             <td style="text-align:left" id="_gt">@item.GTBank</td>
             <td style="text-align:right;font-weight: 1000;" id="_amt">@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</td>
