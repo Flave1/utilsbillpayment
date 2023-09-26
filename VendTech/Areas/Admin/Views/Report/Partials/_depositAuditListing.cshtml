@@ -9,6 +9,7 @@
             <input type="hidden" id="hdnId" value="@item.Id" />
             <td style="text-align:right" id="_date">@item.CreatedAt</td>
             <td style="text-align:right" id="_valuedate">@item.ValueDateModel</td>
+            <td style="text-align:right" id="_ref">@item.TransactionId</td>
             <td style="text-align:right" id="_pos">@item.PosId</td>
             <td style="text-align:left" id="_usr">@item.DepositBy</td>
             <td style="text-align:left" id="_typ">@item.Type</td>
@@ -20,26 +21,26 @@
                 else
                 {
                     <span>@item.VendorName</span>
-                    }
+                }
 
-                    </td>
+            </td>
             <td style="text-align:left" id="_bnk">@(!string.IsNullOrEmpty(item.IssuingBank) ? item.IssuingBank.Substring(0, item.IssuingBank.IndexOf("-")) : "")</td>
-            <td style="text-align:right" id="_ref">@item.TransactionId</td>
+
             <td style="text-align:right" id="_ref">@item.DepositRef</td>
             <td style="text-align:left" id="_gt">@item.GTBank</td>
             <td style="text-align:right;font-weight: 1000;" id="_amt">@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</td>
             <td>
                 @if (!item.isAudit)
                 {
-                    <a href="javascript:void" id="_sts" 
+                    <a href="javascript:void" id="_sts"
                        style="border-radius:5px" class="btn btn-success"
                        onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel','@item.PaymentType', '@item.Comment')" data-original-short_name="Open" data-original-title="Open" data-toggle="tooltip">Open</a>
                 }
                 else
                 {
-                    <a href="javascript:void" id="_sts" 
-                       style="border-radius:5px" class="btn btn-clear" 
-                       data-original-short_name="Cleared" 
+                    <a href="javascript:void" id="_sts"
+                       style="border-radius:5px" class="btn btn-clear"
+                       data-original-short_name="Cleared"
                        onclick="editDeposit('@item.Id','@item.PosId','@item.DepositBy','@item.Payer','@item.IssuingBank','@item.DepositRef','@item.GTBank','@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)','@item.isAudit','@item.UserId','@item.CreatedAt','@item.ValueDateModel','@item.PaymentType', '@item.Comment')" data-original-title="Cleared" data-toggle="tooltip">Cleared</a>
                 }
             </td>

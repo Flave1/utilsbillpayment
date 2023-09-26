@@ -24,6 +24,7 @@ using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web.Http.Results;
 #endregion
 
 namespace VendTech.Controllers
@@ -412,27 +413,35 @@ namespace VendTech.Controllers
             }
 
             model.VendorId = LOGGEDIN_USER.UserID;
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
+
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
 
 
             KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+
+            balanceSheet = _posManager.CalculateBalancesheet(result);
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
+
+           
+
 
 
             var list = balanceSheet.List.Select(a => new BalanceSheetReportExcelModel
             {
                 BALANCE = a.Balance,
-                DATE_TIME = a.DateTime.ToString("dd/MM/yyyy hh:mm"),
+                DATE_TIME = a.DateTime,
                 DEPOSITAMOUNT = a.DepositAmount,
                 REFERENCE = a.Reference,
                 SALEAMOUNT = a.SaleAmount,
                 TRANSACTIONID = a.TransactionId,
                 TYPE = a.TransactionType,
-                BALANCEBEFORE = a.BalanceBefore.Value,
+                BALANCEBEFORE = a.BalanceBefore,
             }).ToList();
 
             var gv = new GridView
@@ -461,7 +470,6 @@ namespace VendTech.Controllers
                 };
                 detailRow.Controls.Add(detail);
 
-
                 //IMAGE
                 var imgHeader = new TableHeaderCell
                 {
@@ -473,17 +481,13 @@ namespace VendTech.Controllers
                 };
                 detailRow.Controls.Add(imgHeader);
 
-                // openingClosingHeader
-                var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
-                var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
-                var openingBal = openBal > 0 ? "OPENING BAL:  " + BLL.Common.Utilities.FormatAmount(openBal) : "OPENING BAL: 0";
-                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + BLL.Common.Utilities.FormatAmount(closeBal) : "CLOSING BAL:  0";
+                var openingBal ="OPENING BAL:  " + balanceSheet.Amount;
                 var openingClosingHeader = new TableHeaderCell
                 {
                     ColumnSpan = 2,
                     Text = "<br />" +
                     openingBal +
-                     "<br />" + closingBal,
+                     "<br />" + "",
                     HorizontalAlign = HorizontalAlign.Right,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),

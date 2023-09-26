@@ -560,7 +560,36 @@ namespace VendTech.BLL.Managers
         {
             return Context.POS.FirstOrDefault(e => e.VendorId == userId);
         }
-    
-        
+
+        PagingResultWithDefaultAmount<BalanceSheetListingModel2> IPOSManager.CalculateBalancesheet(List<BalanceSheetListingModel> result)
+        {
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
+            balanceSheet.List = new List<BalanceSheetListingModel2>();
+            decimal openingBalance = 0;
+            decimal prevBal = 0;
+
+            foreach (var item in result)
+            {
+                if (item.TransactionType == "Deposit")
+                {
+                    item.Balance = prevBal == 0 ? item.DepositAmount : item.BalanceBefore.Value + item.DepositAmount;
+                    prevBal = prevBal + item.DepositAmount;
+                }
+                else
+                {
+                    item.Balance = prevBal == 0 ? item.BalanceBefore.Value - item.SaleAmount : prevBal - item.SaleAmount;
+                    prevBal = item.Balance;
+                }
+
+                if (openingBalance == 0)
+                    openingBalance = item.BalanceBefore.Value;
+
+                balanceSheet.List.Add(new BalanceSheetListingModel2(item));
+            }
+
+            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(openingBalance);
+            return balanceSheet;
+        }
+
     }
 }

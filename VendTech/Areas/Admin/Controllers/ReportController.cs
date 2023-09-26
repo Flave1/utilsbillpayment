@@ -21,6 +21,7 @@ using VendTech.Framework.Api;
 using Twilio.Converters;
 using Twilio.Http;
 using VendTech.BLL.Common;
+using System.Web.Http.Results;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -287,37 +288,12 @@ namespace VendTech.Areas.Admin.Controllers
             model.RecordsPerPage = 1000000000; 
 
             var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
-            balanceSheet.List = new List<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
             var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
-            decimal openingBalance = 0;
-            decimal prevBal = 0;
-
-
-            foreach (var item in result)
-            {
-                if (item.TransactionType == "Deposit")
-                {
-                    item.Balance = prevBal == 0? item.DepositAmount: item.BalanceBefore.Value + item.DepositAmount;
-                    prevBal = prevBal + item.DepositAmount;
-                }
-                else
-                {
-                    item.Balance = prevBal == 0 ? item.BalanceBefore.Value - item.SaleAmount : prevBal - item.SaleAmount;
-                    prevBal = item.Balance;
-                }
-
-                if (openingBalance == 0)
-                    openingBalance = item.BalanceBefore.Value;
-
-                balanceSheet.List.Add(new BalanceSheetListingModel2(item));
-            }
-
-            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(openingBalance);
-
+            balanceSheet = _posManager.CalculateBalancesheet(result);
 
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
@@ -334,6 +310,7 @@ namespace VendTech.Areas.Admin.Controllers
             //return JsonResult(resultString);
         }
 
+       
         [AjaxOnly, HttpPost]
         public JsonResult GetGSTSalesReportsPagingList(ReportSearchModel model)
         {
@@ -829,27 +806,32 @@ namespace VendTech.Areas.Admin.Controllers
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
-
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
 
             KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            var result  = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+            balanceSheet = _posManager.CalculateBalancesheet(result);
+
+
+
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
             var list = balanceSheet.List.Select(a => new BalanceSheetReportExcelModel
             { 
                 BALANCE = a.Balance,
-                DATE_TIME = a.DateTime.ToString("dd/MM/yyyy hh:mm"),
+                DATE_TIME = a.DateTime,
                 DEPOSITAMOUNT =  a.DepositAmount, 
                 REFERENCE = a.Reference,
                 SALEAMOUNT = a.SaleAmount,
                 TRANSACTIONID = a.TransactionId,
                 TYPE = a.TransactionType,
-                BALANCEBEFORE = a.BalanceBefore.Value
+                BALANCEBEFORE = a.BalanceBefore,
+                
             }).ToList();
              
             var gv = new GridView
@@ -890,17 +872,13 @@ namespace VendTech.Areas.Admin.Controllers
                 };
                 detailRow.Controls.Add(imgHeader);
 
-                // openingClosingHeader
-                var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
-                var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
-                var openingBal = openBal > 0 ? "OPENING BAL:  " + BLL.Common.Utilities.FormatAmount(openBal) : "OPENING BAL: 0";
-                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + BLL.Common.Utilities.FormatAmount(closeBal) : "CLOSING BAL:  0";
+                var openingBal = "OPENING BAL:  " + balanceSheet.Amount;
                 var openingClosingHeader = new TableHeaderCell
                 {
                     ColumnSpan = 2,
                     Text = "<br />"+
                     openingBal +
-                     "<br />" + closingBal,
+                     "<br />" + "",
                     HorizontalAlign = HorizontalAlign.Right,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -949,11 +927,9 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Cells[6].Text = "SALES"; //SALES AMOUNT
                 gv.HeaderRow.Cells[7].Text = "BALANCE"; //BALANCE
 
-                decimal balance = 0;
                 foreach (GridViewRow row in gv.Rows)
                 {
-                    decimal saleAmount = 0;
-                    decimal depositAmount = 0;
+                 
                     if (row.RowType == DataControlRowType.DataRow)
                     {
 
@@ -966,13 +942,12 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
 
-                        saleAmount = Convert.ToDecimal(row.Cells[6].Text);
-                        depositAmount = Convert.ToDecimal(row.Cells[5].Text);
-                        balance = balance + depositAmount - saleAmount;
+                        //depositAmount = Convert.ToDecimal(row.Cells[5].Text);
+                        //balance = balance + depositAmount - saleAmount;
 
-                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
-                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
-                        row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(balance); 
+                        //row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
+                        //row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
+                        //row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(balance); 
                         if(row.Cells[2].Text == "Deposit")
                         {
                             row.Cells[0].BackColor = Color.LightGray;
