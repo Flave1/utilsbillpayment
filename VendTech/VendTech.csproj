@@ -574,9 +574,11 @@
     <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
-    <Content Include="Views\Deposit\Index_old.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
     <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Deposit\Index.cshtml" />
+    <Content Include="Views\Deposit\Index_e.cshtml" />
+    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -604,7 +606,6 @@
     <Content Include="Views\Shared\_SideBaar.cshtml" />
     <Content Include="Views\Home\TermsAndConditions.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
-    <Content Include="Views\Deposit\Index.cshtml" />
     <Content Include="Views\User\EditProfile.cshtml" />
     <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
@@ -625,7 +626,6 @@
     <Content Include="Views\Meter\Utility.cshtml" />
     <Content Include="Views\Shared\_footer.cshtml" />
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
-    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
     <Content Include="Views\Shared\_voucherReprint.cshtml" />

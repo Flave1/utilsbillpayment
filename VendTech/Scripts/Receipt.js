@@ -86,6 +86,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
             type: "POST",
             success: function (data) {
 
+                debugger
                 const response = JSON.parse(data)
                 DisableAndEnablelinks(false, traxId);
 
@@ -145,7 +146,7 @@ function fetchVoucherDetailsByToken(token) {
             type: "POST",
             success: function (data) {
 
-
+                debugger
                 DisableAndEnablelinks(false, token);
                 if (data.Code === 302) {
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);

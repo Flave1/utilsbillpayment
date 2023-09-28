@@ -848,7 +848,7 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Parent.Controls.AddAt(0, detailRow);
                 var detail = new TableHeaderCell
                 {
-                    ColumnSpan = 3, 
+                    ColumnSpan = 4,
                     Text = "POS ID:  " + GetVendorDetail.Key +
                     "<br /><br />VENDOR:  " + GetVendorDetail.Value +
                     "<br /><br />FROM DATE:  " + fromdate +
@@ -1354,32 +1354,33 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
                 gv.HeaderRow.Cells[1].Text = "VALUE DATE";
-                gv.HeaderRow.Cells[2].Text = "POS ID";
-                gv.HeaderRow.Cells[3].Text = "VENDOR";
-                gv.HeaderRow.Cells[4].Text = "TYPE";
-                gv.HeaderRow.Cells[5].Text = "PAYER";
-                gv.HeaderRow.Cells[6].Text = "PAYER BANK";
-                gv.HeaderRow.Cells[7].Text = "REF#";
-                gv.HeaderRow.Cells[8].Text = "GTBANK#";
-                gv.HeaderRow.Cells[9].Text = "AMOUNT";
-                gv.HeaderRow.Cells[10].Text = "STATUS";
+                gv.HeaderRow.Cells[2].Text = "TRANS ID";
+                gv.HeaderRow.Cells[3].Text = "POS ID";
+                gv.HeaderRow.Cells[4].Text = "VENDOR";
+                gv.HeaderRow.Cells[5].Text = "TYPE";
+                gv.HeaderRow.Cells[6].Text = "PAYER";
+                gv.HeaderRow.Cells[7].Text = "PAYER BANK";
+                gv.HeaderRow.Cells[8].Text = "REF#";
+                gv.HeaderRow.Cells[9].Text = "GTBANK#";
+                gv.HeaderRow.Cells[10].Text = "AMOUNT";
+                gv.HeaderRow.Cells[11].Text = "STATUS";
 
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        var data = row.Cells[1].Text;
-                        row.Cells[1].Text = row.Cells[10].Text;
-                        row.Cells[10].Text = row.Cells[9].Text;
-                        row.Cells[9].Text = row.Cells[8].Text;
+                        //var data = row.Cells[2].Text;
+                        //row.Cells[2].Text = row.Cells[11].Text;
+                        //row.Cells[11].Text = row.Cells[10].Text;
+                        //row.Cells[10].Text = row.Cells[9].Text;
 
-                        var swapPayer = row.Cells[5].Text;
-                        row.Cells[5].Text = row.Cells[6].Text;
-                        row.Cells[6].Text = swapPayer;
+                        //var swapPayer = row.Cells[6].Text;
+                        //row.Cells[6].Text = row.Cells[7].Text;
+                        //row.Cells[7].Text = swapPayer;
 
-                        row.Cells[8].Text = row.Cells[2].Text;
-                        row.Cells[2].Text = data;
+                        //row.Cells[9].Text = row.Cells[3].Text;
+                        //row.Cells[3].Text = data;
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
@@ -1391,6 +1392,7 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[10].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[11].HorizontalAlign = HorizontalAlign.Left;
                     }
                 }
             }

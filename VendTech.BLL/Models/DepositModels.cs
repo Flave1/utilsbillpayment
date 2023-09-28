@@ -323,13 +323,14 @@ namespace VendTech.BLL.Models
     {
         [DisplayName("Date/Time")]
         public string DATE_TIME { get; set; }
-        //public string VALUEDATE { get; set; }
+        public string VALUEDATE { get; set; }
+        public string TRANSACTIONID { get; set; }
         public string POSID { get; set; }
-        public string GTBANK { get; set; }
         [DisplayName("DepositBy")]
         public string DEPOSIT_BY { get; set; }
         [DisplayName("DepositType")]
         public string DEPOSIT_TYPE { get; set; }
+        public string GTBANK { get; set; }
         [DisplayName("PayerBank")]
         public string ISSUINGBANK { get; set; }
         public string PAYER { get; set; }
@@ -337,7 +338,6 @@ namespace VendTech.BLL.Models
         public string DEPOSIT_REF_NO { get; set; }
         public string AMOUNT { get; set; }
         public string STATUS { get; set; }
-        public string VALUEDATE { get; set; }
 
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
@@ -352,6 +352,7 @@ namespace VendTech.BLL.Models
             GTBANK = obj.BankAccount.BankName;
             AMOUNT = Utilities.FormatAmount(obj.Amount);
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
+            TRANSACTIONID = obj.TransactionId;
         }
 
         public DepositAuditExcelReportModel()

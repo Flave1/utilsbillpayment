@@ -50,9 +50,13 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
             }
-           
+            else if (model.SortBy == "Balance")
+            {
+                query = query.Where(p => !p.IsDeleted).OrderBy("Balance" + " " + model.SortOrder);
+            }
 
-           
+
+
 
             else if (model.SortBy == "POSId")
             {
@@ -223,6 +227,31 @@ namespace VendTech.BLL.Managers
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
                 Text = p.SerialNumber.ToUpper(),
+                Value = p.POSId.ToString()
+            }).ToList();
+        }
+
+        List<SelectListItem> IPOSManager.GetPOSWithNameSelectList(long userId, long agentId)
+        {
+            var query = new List<POS>();
+            var userPos = new List<POS>();
+            if (userId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
+                if (user != null)
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted && !p.SerialNumber.StartsWith("AGT")) && !p.IsAdmin).ToList();
+            }
+            else
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
+
+
+            if (agentId > 0)
+            {
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
+            }
+            return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
+            {
+                Text = p.User.Vendor + " - " + p.SerialNumber.ToUpper(),
                 Value = p.POSId.ToString()
             }).ToList();
         }
