@@ -97,10 +97,13 @@ namespace VendTech.BLL.Models
         public string ValueDate { get; set; }
         public string NameOnCheque { get; set; }
         public decimal PercentageCommission { get; set; }
+
+        public string NotType { get; set; }
         public POS POS { get; set; } = new POS();
         public DepositListingModel() { }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
-        { 
+        {
+            NotType = "deposit";
             Type = obj.PaymentType1.Name;
             UserName = "";
             //UserName = obj.DepositLogs.Any() ?
@@ -140,6 +143,7 @@ namespace VendTech.BLL.Models
 
         public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
         {
+            NotType = "deposit";
             Type = obj.PaymentType1.Name;
             UserName = "";
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";

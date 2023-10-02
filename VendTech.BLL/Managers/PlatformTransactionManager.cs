@@ -432,6 +432,7 @@ namespace VendTech.BLL.Managers
                     transactionDetail.BalanceBefore = (pos.Balance + model.Amount);
                     Context.SaveChanges();
                     response = GenerateReceipt(transactionDetail);
+                    Push_notification_to_user(user, model, transactionDetail.TransactionDetailsId);
                     return response;
                 }
                 else if (Status == (int)TransactionStatus.Pending)
@@ -458,6 +459,24 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Status = "pending";
                 response.ReceiptStatus.Message = "Airtime recharge failed due to an error. Please contact Administrator";
                 return response;
+            }
+        }
+
+
+        private void Push_notification_to_user(User user, PlatformTransactionModel model, long MeterRechargeId)
+        {
+            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+            var obj = new PushNotificationModel();
+            obj.UserId = model.UserId;
+            obj.Id = MeterRechargeId;
+            obj.Title = "Airtime recharged successfully";
+            obj.Message = $"Your phone has successfully recharged with NLe {Utilities.FormatAmount(model.Amount)}";
+            obj.NotificationType = NotificationTypeEnum.AirtimeRecharge;
+            foreach (var item in deviceTokens)
+            {
+                obj.DeviceToken = item.DeviceToken;
+                obj.DeviceType = item.AppType.Value;
+                PushNotification.SendNotification(obj);
             }
         }
 

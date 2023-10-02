@@ -131,6 +131,7 @@ namespace VendTech.BLL.Models
         public int? PlatformId { get; set; }
         public string PlatformName { get; set; }
         public string CreatedAtDate { get; set; }
+        public string NotType { get; set; }
         public MeterRechargeApiListingModel() { }
         public MeterRechargeApiListingModel(TransactionDetail x)
         {
@@ -149,6 +150,7 @@ namespace VendTech.BLL.Models
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             PlatformName = x.Platform.Title;
+            NotType = "sale";
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
@@ -168,6 +170,7 @@ namespace VendTech.BLL.Models
             RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             CreatedAtDate = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             PlatformName = x.Platform.Title;
+            NotType = "sale";
         }
     }
 

@@ -469,7 +469,7 @@ async function initTable(response) {
 
              <td style="text-align:center;">
                 <strong>
-                    <a href="javascript:void(0);" data-title="sd" data-token="${response[i].TransactionId}" onclick="GetRequestANDResponse( {{{  ${response[i].TransactionId}   }}})" id="${response[i].RechargePin}">
+                    <a href="javascript:void(0);" data-title="sd" data-token="${response[i].TransactionId}" onclick="GetRequestANDResponse('{{{  ${response[i].TransactionId}   }}}')" id="${response[i].RechargePin}">
                         {{{  ${response[i].TransactionId}   }}}
                     </a>
                 </strong>

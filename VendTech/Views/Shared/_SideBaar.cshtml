@@ -24,7 +24,7 @@
                         }
                         @if (assignerModules.Where(X => X.ControllerName == "20").ToList().Count() > 0 && user.UserType == UserRoles.AppUser)
                         {
-                            <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "open" : "") hidden-md hidden-lg">
+                            <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Meters ? "open" : "")">
                                     <a href="@Url.Action("Index", "Meter")"><i class="fa fa-tachometer"></i><span>Saved Meters</span></a>
                                 </li>
                             //hidden - sm hidden - xs

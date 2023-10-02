@@ -186,7 +186,8 @@ namespace VendTech.BLL.Models
     public enum NotificationTypeEnum
     {
         MeterRecharge=1,
-        DepositStatusChange = 2
+        DepositStatusChange = 2,
+        AirtimeRecharge = 3
     }
 
     /**

@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Globalization;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
@@ -24,17 +26,17 @@ namespace VendTech.Areas.Api.Controllers
         {
             model.SortBy = "CreatedAt";
             model.SortOrder = "Desc";
-            model.VendorId =  LOGGEDIN_USER.UserId;
+            model.VendorId = LOGGEDIN_USER.UserId;
             model.PageNo = ((model.PageNo - 1) * model.RecordsPerPage) + 1;
 
             //CultureInfo provider = CultureInfo.InvariantCulture;
 
-            //if (model.From!=null)
+            //if (model.From != null)
             //{
             //    model.From = DateTime.ParseExact(model.From.Value.Date.ToString(), "dd/MM/yyyy", provider);
             //}
 
-            //if (model.To!=null)
+            //if (model.To != null)
             //{
             //    model.To = DateTime.ParseExact(model.To.Value.ToString(), "dd/MM/yyyy", provider);
             //}

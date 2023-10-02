@@ -478,7 +478,7 @@ namespace VendTech.BLL.Managers
 
         PagingResult<DepositListingModelMobile> IDepositManager.GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
-            model.RecordsPerPage = 10000000;
+            //model.RecordsPerPage = 10000000;
             IQueryable<DepositLog> query = null;
             var result = new PagingResult<DepositListingModelMobile>();
 

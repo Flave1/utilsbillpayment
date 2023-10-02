@@ -389,7 +389,7 @@ namespace VendTech.BLL.Managers
 
         PagingResult<MeterRechargeApiListingModelMobile> IMeterManager.GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
-            model.RecordsPerPage = 10000000;
+            //model.RecordsPerPage = 10000000;
             var result = new PagingResult<MeterRechargeApiListingModelMobile>();
 
             IQueryable<TransactionDetail> query = null;
