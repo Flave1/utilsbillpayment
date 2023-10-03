@@ -568,7 +568,7 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Meter\Utility_old.cshtml" />
     <Content Include="Views\Airtime\Recharge_e.cshtml" />
-    <Content Include="Views\Meter\Recharge_old.cshtml" />
+    <Content Include="Views\Meter\Recharge.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Views\Meter\Index.cshtml" />
     <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
@@ -610,7 +610,7 @@
     <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
     <Content Include="Views\Meter\AddEditMeter.cshtml" />
-    <Content Include="Views\Meter\Recharge.cshtml" />
+    <Content Include="Views\Meter\Recharge_e.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Report\SalesReport_new.cshtml" />

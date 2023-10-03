@@ -179,7 +179,7 @@ namespace VendTech.Controllers
         {
             ViewBag.title = "Dasboard";
             DashboardViewModel dashBoard = new DashboardViewModel();
-            if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
+            if (LOGGEDIN_USER == null)
             {
                 SignOut();
                 return RedirectToAction("Index", "Home");
