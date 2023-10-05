@@ -159,7 +159,9 @@ namespace VendTech.BLL.Managers
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
             for(var i = 0; i < list.Count; i++)
             {
-                list[i].PlatformDisabled = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).DisablePlatform;
+                var platform = Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY);
+                list[i].PlatformDisabled = platform.DisablePlatform;
+                list[i].PlatformId = platform.PlatformId;
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -176,9 +178,12 @@ namespace VendTech.BLL.Managers
             var platforms = Context.Platforms
                 .Where(p => meterMakes.Any(mm => p.ShortName.Contains(mm)))
                 .ToList();
+
             foreach (var item in list)
             {
-                item.PlatformDisabled = (bool)platforms.FirstOrDefault(p => p.ShortName.Contains(item?.MeterMake))?.DisablePlatform;
+                var selectedPlatform = platforms.FirstOrDefault(p => p.ShortName.Contains(item?.MeterMake));
+                item.PlatformDisabled = (bool)selectedPlatform?.DisablePlatform;
+                item.PlatformId = selectedPlatform.PlatformId;
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;

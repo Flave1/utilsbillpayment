@@ -443,7 +443,7 @@ namespace VendTech.BLL.Managers
                 }
 
                 //Transaction failed so reverse the balance
-                ReverseBalanceDeduction(Context, pos, model.Amount);
+                //ReverseBalanceDeduction(Context, pos, model.Amount);
 
                 response.ReceiptStatus.Status = "pending";
                 response.ReceiptStatus.Message = "Airtime recharge failed.";
