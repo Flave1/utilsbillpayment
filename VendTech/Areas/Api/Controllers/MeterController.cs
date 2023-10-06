@@ -83,8 +83,8 @@ namespace VendTech.Areas.Api.Controllers
             var result = _meterManager.GetUserMeterRecharges(LOGGEDIN_USER.UserId, pageNo, pageSize);
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
-        //[HttpGet]
-        [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpGet]
+        //[HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetRechargeDetail(long rechargeId)
         {
