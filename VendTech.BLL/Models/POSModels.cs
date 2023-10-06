@@ -42,7 +42,7 @@ namespace VendTech.BLL.Models
             POSId = obj.POSId;
             VendorName = (obj.User == null ? "" : obj.User.Vendor);
             SerialNumber = obj.SerialNumber;
-            Phone = obj.Phone;
+            Phone = obj.User.Phone;
             VendorType = obj.VendorType == null ? "" : ((PosTypeEnum)obj.VendorType).ToString();
             Enabled = obj.Enabled == null ? false : obj.Enabled.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
