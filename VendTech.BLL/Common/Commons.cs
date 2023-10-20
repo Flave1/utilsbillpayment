@@ -7,7 +7,7 @@ namespace VendTech.BLL.Models
     {
         public ActionStatus Status { get; set; }
         public string Message { get; set; }
-        public dynamic Results { get; set; }
+        public List<string> Results { get; set; }
     }
 
     public class ActionOutput<T> : ActionOutputBase
