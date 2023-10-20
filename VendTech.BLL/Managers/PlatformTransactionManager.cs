@@ -19,11 +19,14 @@ namespace VendTech.BLL.Managers
     {
         private IPlatformApiManager _platformApiManager;
         private IPlatformManager _platformManager;
+        private IErrorLogManager _errorLog;
         public PlatformTransactionManager(IPlatformApiManager platformApiManager,
-            IPlatformManager platformManager)
+            IPlatformManager platformManager,
+            IErrorLogManager errorLog)
         {
             _platformApiManager = platformApiManager;
             _platformManager = platformManager;
+            _errorLog = errorLog;
         }
 
         public PlatformTransactionModel New(long userId, int platformId, long posId, decimal amount, string beneficiary, string currency, int? apiConnId)
@@ -440,10 +443,20 @@ namespace VendTech.BLL.Managers
                     response.ReceiptStatus.Status = "pending";
                     response.ReceiptStatus.Message = "Airtime recharge is pending";
                     return response;
+                }else if(Status == (int)TransactionStatus.Failed)
+                {
+                    if (balanceDeducted)
+                    {
+                        ReverseBalanceDeduction(Context, pos, model.Amount);
+                    }
                 }
-
-                //Transaction failed so reverse the balance
-                //ReverseBalanceDeduction(Context, pos, model.Amount);
+                else
+                {
+                    if (balanceDeducted)
+                    {
+                        ReverseBalanceDeduction(Context, pos, model.Amount);
+                    }
+                }
 
                 response.ReceiptStatus.Status = "pending";
                 response.ReceiptStatus.Message = "Airtime recharge failed.";
@@ -451,6 +464,7 @@ namespace VendTech.BLL.Managers
             }
             catch(Exception ex)
             {
+                _errorLog.LogExceptionToDatabase(ex);
                 //If balance was deducted before exception then reverse
                 if (balanceDeducted)
                 {

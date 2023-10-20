@@ -768,7 +768,7 @@ namespace VendTech.BLL.Managers
 
         //}
 
-        async Task<ReceiptModel> IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
+        ReceiptModel IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
         {
             var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
 
@@ -783,7 +783,7 @@ namespace VendTech.BLL.Managers
 
             if (platf.DisablePlatform)
             {
-                response.ReceiptStatus.Status = "unsuccessful";
+                response.ReceiptStatus.Status = "disabled";
                 response.ReceiptStatus.Message = platf.DisabledPlatformMessage;
                 return response;
             }

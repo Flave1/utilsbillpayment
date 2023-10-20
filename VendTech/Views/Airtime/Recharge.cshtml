@@ -76,7 +76,7 @@
                         {
                             <div class="contarea meterpage row">
                                 <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                                    <span class="alert-danger" id="error_reponse" style=" display:none; float:left;"></span>
+                                    <span class="alert-danger" id="error_reponse" style=" display: none; float: left;">some code there</span>
                                     <span id="balanceSpan" style="color: #00a2e8; ">SLE: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                                 </div>
                                 <div class="tabcont-row current">
@@ -462,11 +462,14 @@
                     const response = JSON.parse(data)
                     disableSubmit(false);
 
-                    debugger
-
                     if (response.Code !== 200) {
+
                         errorDisplay.style.display = 'block';
-                        errorDisplay.innerHTML = atob(response.Msg)
+                        if (response.Code === 403) {
+                            errorDisplay.innerHTML = atob(response.Msg)
+                        } else {
+                            errorDisplay.innerHTML = response.Msg
+                        }
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                         return false;
                     }

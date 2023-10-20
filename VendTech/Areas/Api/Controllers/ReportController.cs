@@ -41,8 +41,6 @@ namespace VendTech.Areas.Api.Controllers
             //    model.To = DateTime.ParseExact(model.To.Value.ToString(), "dd/MM/yyyy", provider);
             //}
 
-
-
             var deposits = new PagingResult<MeterRechargeApiListingModelMobile>();
             deposits = _meterManager.GetUserMeterRechargesReportMobileAsync(model);
             return new JsonContent(deposits.TotalCount, deposits.Message, Status.Success, deposits.List).ConvertToHttpResponseOK();

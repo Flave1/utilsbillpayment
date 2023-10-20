@@ -593,6 +593,7 @@
                                 $(this).find("#_gt").text(data.GTBank);
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_transId").text(data.TransactionId);
                                 $(this).find("#_pay").text(data.Payer);
                                 $(this).find("#_valuedate").text(data.ValueDateModel);
                                 if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
@@ -671,7 +672,6 @@
                 type: 'POST',
                 data: $.postifyData(inputParam),
                 success: function (data) {
-                    console.log('data', data)
                     if (data != null) {
                         $("#depositModal").modal('hide');
                         $.ShowMessage($('div.messageAlert'), "DEPOSIT CLEARED SUCCESSFULLY", MessageType.Success);
@@ -684,6 +684,7 @@
                             if ($(this).find("#hdnId").val() == data.DepositId) {
                                 $(this).find("#_date").text(data.DateTime);
                                 $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_transId").text(data.TransactionId);
                                 $(this).find("#_usr").text(data.DepositBy);
                                 $(this).find("#_typ").text(data.Type);
                                 $(this).find("#_gt").text(data.GTBank);

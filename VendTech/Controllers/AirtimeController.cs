@@ -83,7 +83,7 @@ namespace VendTech.Controllers
             var selectProd = _platformManager.GetSinglePlatform(model.PlatformId);
             if (selectProd.DisablePlatform)
             {
-                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = selectProd.DiabledPlaformMessage }));
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 403, Msg = selectProd.DiabledPlaformMessage }));
             }
             model.UserId = LOGGEDIN_USER.UserID;
             //Fetch the currency

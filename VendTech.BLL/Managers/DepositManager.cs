@@ -478,7 +478,6 @@ namespace VendTech.BLL.Managers
 
         PagingResult<DepositListingModelMobile> IDepositManager.GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
-            //model.RecordsPerPage = 10000000;
             IQueryable<DepositLog> query = null;
             var result = new PagingResult<DepositListingModelMobile>();
 
@@ -2161,6 +2160,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.PosId = pos?.SerialNumber;
             depositAuditModel.ValueDateModel = dbDeposit.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             depositAuditModel.Comment = dbDeposit.Comments;
+            depositAuditModel.TransactionId = dbDeposit.TransactionId;
             return depositAuditModel;
         }
         DepositAuditModel IDepositManager.SaveDepositAuditRequest(DepositAuditModel depositAuditModel)
@@ -2228,6 +2228,7 @@ namespace VendTech.BLL.Managers
             depositAuditModel.Price = Utilities.FormatAmount(Convert.ToDecimal(dbDeposit.Amount));
             depositAuditModel.PosId = pos?.SerialNumber;
             depositAuditModel.ValueDateModel = depositAuditModel.ValueDateModel;
+            depositAuditModel.TransactionId = dbDeposit.TransactionId;
             return depositAuditModel;
         }
         

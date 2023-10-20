@@ -332,7 +332,7 @@
                         $.ajax({
                             url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
                             success: function (res) {
-                                $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                                $("#balanceSpan").text("NLe : " + thousands_separators(res.balance));
                             }
                         })
                     }

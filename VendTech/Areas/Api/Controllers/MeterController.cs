@@ -190,7 +190,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }
             model.UserId = LOGGEDIN_USER.UserId;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            var result = _meterManager.RechargeMeterReturn(model);
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
         }
 
