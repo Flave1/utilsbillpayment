@@ -15,6 +15,10 @@ namespace VendTech.BLL.Managers
 
         PagingResult<VendorListingModel> IVendorManager.GetVendorsPagedList(PagingModel model, long agentId)
         {
+            if(model.RecordsPerPage == 10)
+            {
+                model.RecordsPerPage = 100000000;
+            }
             var result = new PagingResult<VendorListingModel>();
             var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).OrderBy(model.SortBy + " " + model.SortOrder);
             if (agentId > 0)

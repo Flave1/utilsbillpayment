@@ -34,7 +34,7 @@ namespace VendTech.BLL.Managers
             //TODO - validate input
 
 
-            VendTech.DAL.PlatformTransaction platformTransaction = new VendTech.DAL.PlatformTransaction
+            PlatformTransaction platformTransaction = new VendTech.DAL.PlatformTransaction
             {
                 UserId = userId,
                 PlatformId = platformId,
@@ -59,7 +59,7 @@ namespace VendTech.BLL.Managers
         {
             if (transactionId > 0)
             {
-                VendTech.DAL.PlatformTransaction tranx = GetPendingTransactionById(transactionId);
+                PlatformTransaction tranx = GetPendingTransactionById(transactionId);
                 PlatformModel platform;
                 if (tranx != null)
                 {
@@ -161,6 +161,7 @@ namespace VendTech.BLL.Managers
                         pendingTranx = DbCtx.PlatformTransactions
                                         .Where(t => t.Status == (int)TransactionStatus.Pending)
                                         .Where(t => t.LastPendingCheck < lastPendingCheck)
+                                        .OrderByDescending(d => d.Id)
                                         .FirstOrDefault();
                     }
                     catch (EntityCommandExecutionException)
@@ -216,9 +217,21 @@ namespace VendTech.BLL.Managers
 
                             //Fetch from DB
                             pendingTranx = DbCtx.PlatformTransactions.Where(t => t.Id == pendingTranx.Id).FirstOrDefault();
-                            if (execResponse.Status != (int)TransactionStatus.Pending)
+                            if (execResponse.Status == (int)OuterTransactionStatus.Successful)
                             {
-                                pendingTranx.Status = execResponse.Status;
+                                var response = JsonConvert.DeserializeObject<Response>(execResponse.ApiCalls[0].Response);
+                                if(response.Result.Status.TypeName == "Failure")
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Failed;
+                                }
+                                else if(response.Result.Status.TypeName == "Success")
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Successful;
+                                }
+                                else
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Failed;
+                                }
                                 pendingTranx.OperatorReference = execResponse.OperatorReference;
                                 pendingTranx.PinNumber = execResponse.PinNumber;
                                 pendingTranx.PinSerial = execResponse.PinSerial;
@@ -235,7 +248,7 @@ namespace VendTech.BLL.Managers
                                                                             .Select(PlatformTransactionModel.Projection)
                                                                             .FirstOrDefault();
 
-                                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+                                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel, (int)RechargeMeterStatusEnum.Success);
                                     List<PlatformApiLogModel> logs = DbCtx.PlatformApiLogs
                                                                             .Select(PlatformApiLogModel.Projection)
                                                                             .Where(l => l.TransactionId == pendingTranx.Id)
@@ -418,7 +431,8 @@ namespace VendTech.BLL.Managers
                 //If it succeeds, then transfer to TransactionDetail 
                 if (Status == (int)TransactionStatus.Successful)
                 {
-                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+
+                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel, (int)RechargeMeterStatusEnum.Success);
                     List<PlatformApiLogModel> logs = GetTransactionLogs(tranxModel.Id);
                     Logs tranxLogs = CreateLogs( logs );
 
@@ -531,7 +545,7 @@ namespace VendTech.BLL.Managers
             dbCtx.SaveChanges();
         }
 
-        private static TransactionDetail CreateTransactionDetail(PlatformTransactionModel tranxModel)
+        private static TransactionDetail CreateTransactionDetail(PlatformTransactionModel tranxModel, int status)
         {
             if (tranxModel == null)
             {
@@ -549,7 +563,7 @@ namespace VendTech.BLL.Managers
                 PlatFormId = tranxModel.PlatformId,
                 TransactionId = Utilities.GetLastMeterRechardeId(),
                 IsDeleted = false,
-                Status = (int)RechargeMeterStatusEnum.Success,
+                Status = status, // (int)RechargeMeterStatusEnum.Success,
                 CreatedAt = now,
                 RequestDate = now,
                 Finalised = true,

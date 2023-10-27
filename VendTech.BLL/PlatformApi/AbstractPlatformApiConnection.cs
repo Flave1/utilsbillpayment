@@ -101,4 +101,130 @@ namespace VendTech.BLL.PlatformApi
         }
     }
 
+
+    public partial class Response
+    {
+        [JsonProperty("status")]
+        public ResponseStatus Status { get; set; }
+
+        [JsonProperty("command")]
+        public string Command { get; set; }
+
+        [JsonProperty("timestamp")]
+        public long Timestamp { get; set; }
+
+        [JsonProperty("reference")]
+        public long Reference { get; set; }
+
+        [JsonProperty("result")]
+        public Result Result { get; set; }
+    }
+
+    public partial class Result
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("productType")]
+        public Country ProductType { get; set; }
+
+        [JsonProperty("userReference")]
+        public string UserReference { get; set; }
+
+        [JsonProperty("operator")]
+        public Operator Operator { get; set; }
+
+        [JsonProperty("country")]
+        public Country Country { get; set; }
+
+        [JsonProperty("status")]
+        public ResultStatus Status { get; set; }
+
+        [JsonProperty("date")]
+        public DateTimeOffset Date { get; set; }
+
+        [JsonProperty("amount")]
+        public Amount Amount { get; set; }
+
+        [JsonProperty("currency")]
+        public Amount Currency { get; set; }
+
+        [JsonProperty("channel")]
+        public Channel Channel { get; set; }
+
+        [JsonProperty("note")]
+        public string Note { get; set; }
+
+        [JsonProperty("msisdn")]
+        public string Msisdn { get; set; }
+    }
+
+    public partial class Amount
+    {
+        [JsonProperty("user")]
+        public string User { get; set; }
+
+        [JsonProperty("operator")]
+        public string Operator { get; set; }
+    }
+
+    public partial class Channel
+    {
+        [JsonProperty("channel")]
+        public string ChannelChannel { get; set; }
+
+        [JsonProperty("reference")]
+        public string Reference { get; set; }
+    }
+
+    public partial class Country
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
+
+    public partial class Operator
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("reference")]
+        public string Reference { get; set; }
+    }
+
+    public partial class ResultStatus
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("type")]
+        public int Type { get; set; }
+
+        [JsonProperty("typeName")]
+        public string TypeName { get; set; }
+    }
+
+    public partial class ResponseStatus
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("type")]
+        public long Type { get; set; }
+
+        [JsonProperty("typeName")]
+        public string TypeName { get; set; }
+    }
 }

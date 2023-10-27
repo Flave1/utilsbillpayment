@@ -144,9 +144,12 @@ namespace VendTech.BLL.Models
     }
     public enum RechargeMeterStatusEnum
     {
+        InProgress = 0,
         [Description("Success")]
         Success = 1,
         Pending = 2,
+        Failed = 3,
+        Error = 4,
 
     }
     public enum DepositPaymentTypeEnum
@@ -216,6 +219,19 @@ namespace VendTech.BLL.Models
         Successful = 2,
         Failed = 3,
         Error = 4,
+    }
+    public enum InnerTransactionStatus
+    {
+        InProgress = 0,
+        Pending = 1,
+        Successful = 2,
+        Failed = 3,
+        Error = 4,
+    }
+    public enum OuterTransactionStatus
+    {
+        Failed = 0,
+        Successful = 2
     }
 
     public enum ApiLogType

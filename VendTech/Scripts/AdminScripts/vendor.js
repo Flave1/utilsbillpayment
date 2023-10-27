@@ -158,6 +158,16 @@ function Paging(sender) {
     obj.SortBy = $('#SortBy').val();
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
+
+    console.log("Code is executed");
+    const searchParams = new URLSearchParams(window.location.search);
+    console.log(searchParams); // Log the searchParams object to the console.
+    debugger;
+
+    if (searchParams.has("vendor")) {
+        obj.Search = searchParams.get("vendor");
+        obj.SearchField = "agency";
+    }
     $.ajaxExt({
         type: "POST",
         validate: false,

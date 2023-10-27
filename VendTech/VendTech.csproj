@@ -252,6 +252,7 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\JobsController.cs" />
     <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
