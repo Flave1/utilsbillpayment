@@ -56,6 +56,8 @@ namespace VendTech.BLL.Models
         SendReceiptViaEmail = 17,
         [Description("Receipt Via Email Content")]
         SendReceiptViaEmailContent = 18,
+        [Description("Balance running low reminder")]
+        BalanceLowReminder = 19,
     }
     public enum PosTypeEnum
     {
@@ -234,6 +236,18 @@ namespace VendTech.BLL.Models
         Successful = 2
     }
 
+    public enum UserScheduleTypes
+    {
+        LowBalnce = 0,
+        PolicyUpdate = 1
+    }
+    public enum UserScheduleStatus
+    {
+        Pending = 0,
+        Sent = 1,
+        Funded = 2,
+        NotSent = 3
+    }
     public enum ApiLogType
     {
         InitialRequest = 1,

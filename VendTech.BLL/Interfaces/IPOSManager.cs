@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using static VendTech.BLL.Managers.POSManager;
 using VendTech.DAL;
+using static VendTech.BLL.Jobs.BalanceLowSheduleJob;
 
 namespace VendTech.BLL.Interfaces
 {
@@ -38,6 +39,14 @@ namespace VendTech.BLL.Interfaces
         POS ReturnAgencyAdminPOS(long userId);
         PagingResultWithDefaultAmount<BalanceSheetListingModel2> CalculateBalancesheet(List<BalanceSheetListingModel> result);
         List<SelectListItem> GetPOSWithNameSelectList(long userId, long agentId);
+        List<UserScheduleDTO> GetAllUserRunningLow();
+        bool BalanceLowMessageIsSent(long userId, UserScheduleTypes type);
+        void SaveUserSchedule(long userId, string balance);
+        bool BalanceLowScheduleExist(long userId, UserScheduleTypes type);
+        List<UserScheduleDTO> GetUserSchedule();
+        void UpdateUserSchedule(long userId, UserScheduleStatus status);
+        void RemoveFromSchedule(long userId);
+        bool IsWalletFunded(long userId);
     }
 
 }

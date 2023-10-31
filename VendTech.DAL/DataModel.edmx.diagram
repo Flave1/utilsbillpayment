@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="877a233ce4034bcdb87402287470efd1" Name="Diagram1">
+      <Diagram DiagramId="5f2bf9aaca134c7091872ee94edc6a47" Name="Diagram1">
         <EntityTypeShape EntityType="DataModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Agency" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -41,12 +41,13 @@
         <EntityTypeShape EntityType="DataModel.SMS_LOG" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.StanTable" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.TokensManager" Width="1.5" PointX="10.5" PointY="84.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.TransactionDetail" Width="1.5" PointX="18.75" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.TransactionDetail" Width="1.5" PointX="18.75" PointY="41.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserAssignedModule" Width="1.5" PointX="16.5" PointY="36.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserAssignedPlatform" Width="1.5" PointX="16.5" PointY="46.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserAssignedWidget" Width="1.5" PointX="16.5" PointY="49.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserRole" Width="1.5" PointX="6" PointY="45.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="8.25" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="8.25" PointY="36.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.UserSchedule" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Vendor" Width="1.5" PointX="5.25" PointY="41.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Widget" Width="1.5" PointX="14.25" PointY="55.75" IsExpanded="true" />
         <AssociationConnector Association="DataModel.FK_AccountVerificationOTP_Users" ManuallyRouted="false" />

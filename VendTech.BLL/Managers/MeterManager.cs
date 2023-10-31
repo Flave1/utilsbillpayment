@@ -195,16 +195,7 @@ namespace VendTech.BLL.Managers
             var result = new PagingResult<SalesReportExcelModel>();
 
             var query = Context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
-            //            if (model.SortBy == "UserName" )
-            //            {
-            //                query = query.OrderBy(p =>"Name" + " " + model.SortOrder);
-            //            }
-            //else if(model.SortBy == "MeterNumber"){
-            //    query = query.OrderBy(p => model.SortBy + " " + ( p.MeterNumber));
-
-            //}
-            //            else
-            //                query = query.OrderBy(model.SortBy + " " + model.SortOrder);
+       
             if (model.VendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -216,11 +207,7 @@ namespace VendTech.BLL.Managers
                     posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
-            Console.WriteLine(query);
-            //if(model.AgencyId > 0)
-            //{
-            //    query = query.Where(p => p.User.AgentId == agentId);
-            //}
+
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));

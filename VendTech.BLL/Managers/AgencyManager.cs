@@ -104,7 +104,6 @@ namespace VendTech.BLL.Managers
                 {
                     var ena = Convert.ToBoolean(model.Search.ToLower());
                     query = query.Where(z => z.Enabled == ena);
-
                 }
                 else if (model.SearchField.Equals("BALANCE"))
                     query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.Replace(",", "").ToLower()));

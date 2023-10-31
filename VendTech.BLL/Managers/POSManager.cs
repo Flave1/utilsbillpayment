@@ -6,6 +6,10 @@ using System.Linq;
 using System.Linq.Dynamic;
 using VendTech.DAL;
 using System.Web.Mvc;
+using static VendTech.BLL.Jobs.BalanceLowSheduleJob;
+using System.Data.Entity;
+using Quartz;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace VendTech.BLL.Managers
 {
@@ -620,5 +624,71 @@ namespace VendTech.BLL.Managers
             return balanceSheet;
         }
 
+        List<UserScheduleDTO> IPOSManager.GetAllUserRunningLow()
+        {
+            decimal commmission1 = Convert.ToDecimal(0.00);
+            decimal commmission2 = Convert.ToDecimal(0.50);
+            return Context.POS.Where(d => d.User != null 
+            && (d.Commission.Percentage == commmission1 
+            ||  d.Commission.Percentage == commmission2)
+            && d.Balance < 1 && d.User.Status == (int)UserStatusEnum.Active
+            ).AsEnumerable().Select(e => new UserScheduleDTO
+            {
+                CreatedAt = DateTime.UtcNow,
+                ScheduleType = (int)UserScheduleTypes.LowBalnce,
+                Status = (int)UserScheduleStatus.NotSent,
+                UserId = e.User.UserId,
+                Balance = e.Balance.ToString(),
+            }).ToList();
+        }
+
+        bool IPOSManager.BalanceLowMessageIsSent(long userId, UserScheduleTypes type) => 
+            Context.UserSchedules.Any(d => d.UserId == userId && d.ScheduleType == (int)type && d.Status == (int)UserScheduleStatus.NotSent);
+
+        void IPOSManager.SaveUserSchedule(long userId, string balance)
+        {
+            var userSchedule = new UserSchedule
+            {
+                CreatedAt = DateTime.UtcNow,
+                ScheduleType = (int)UserScheduleTypes.LowBalnce,
+                Status = (int)UserScheduleStatus.NotSent,
+                UserId = userId,
+                Balance = balance
+            };
+            Context.UserSchedules.Add(userSchedule);
+            Context.SaveChanges();
+        }
+
+        void IPOSManager.RemoveFromSchedule(long userId)
+        {
+            var schedule = Context.UserSchedules.FirstOrDefault(d => d.UserId == userId && d.ScheduleType == (int)UserScheduleTypes.LowBalnce);
+            Context.UserSchedules.Remove(schedule);
+            Context.SaveChanges();
+        }
+
+        bool IPOSManager.BalanceLowScheduleExist(long userId, UserScheduleTypes type) =>
+            Context.UserSchedules.Any(d => d.UserId == userId && d.ScheduleType == (int)type);
+
+        List<UserScheduleDTO> IPOSManager.GetUserSchedule()
+        {
+            return Context.UserSchedules.Where(d =>  d.ScheduleType == (int)UserScheduleTypes.LowBalnce)
+                .AsEnumerable().Select(e => new UserScheduleDTO
+            {
+                CreatedAt = e.CreatedAt,
+                ScheduleType = (int)UserScheduleTypes.LowBalnce,
+                Status = e.Status,
+                UserId = e.UserId
+            }).ToList();
+        }
+
+        void IPOSManager.UpdateUserSchedule(long userId, UserScheduleStatus status)
+        {
+            var schedule = Context.UserSchedules.FirstOrDefault(d => d.UserId == userId && d.ScheduleType == (int)UserScheduleTypes.LowBalnce);
+            schedule.Status = (int)status;
+            Context.SaveChanges();
+        }
+
+        bool IPOSManager.IsWalletFunded(long userId) =>
+           Context.POS.FirstOrDefault(d => d.VendorId == userId && d.Balance != null).Balance > 1;
     }
 }
