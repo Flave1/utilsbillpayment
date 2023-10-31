@@ -67,6 +67,7 @@ namespace VendTech.DAL
         public virtual DbSet<UserAssignedWidget> UserAssignedWidgets { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserSchedule> UserSchedules { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
     }

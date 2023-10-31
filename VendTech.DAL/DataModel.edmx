@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -604,6 +604,18 @@
           <Property Name="IsCompany" Type="bit" />
           <Property Name="UserSerialNo" Type="bigint" />
           <Property Name="MobileAppVersion" Type="varchar" MaxLength="10" />
+          <Property Name="IsRedominated" Type="int" />
+        </EntityType>
+        <EntityType Name="UserSchedule">
+          <Key>
+            <PropertyRef Name="UserScheduleId" />
+          </Key>
+          <Property Name="UserScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="ScheduleType" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="Balance" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vendors">
           <Key>
@@ -1310,6 +1322,7 @@
           <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSchedule" EntityType="Self.UserSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendors" EntityType="Self.Vendors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
@@ -1525,7 +1538,8 @@
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2207,6 +2221,7 @@
           <Property Name="IsCompany" Type="Boolean" />
           <Property Name="UserSerialNo" Type="Int64" />
           <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsRedominated" Type="Int32" />
           <NavigationProperty Name="AccountVerificationOTPs" Relationship="Self.FK_AccountVerificationOTP_Users" FromRole="Users" ToRole="AccountVerificationOTP" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agency_Users" FromRole="Users" ToRole="Agency" />
           <NavigationProperty Name="Agency" Relationship="Self.FK_Users_Agency" FromRole="Users" ToRole="Agency" />
@@ -2232,6 +2247,17 @@
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserSchedule">
+          <Key>
+            <PropertyRef Name="UserScheduleId" />
+          </Key>
+          <Property Name="UserScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="ScheduleType" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -2940,6 +2966,7 @@
           <EntitySet Name="UserAssignedWidgets" EntityType="Self.UserAssignedWidget" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserSchedules" EntityType="Self.UserSchedule" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
           <EntitySet Name="Widgets" EntityType="Self.Widget" />
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
@@ -3636,7 +3663,6 @@
           <EntitySetMapping Name="SMS_LOG">
             <EntityTypeMapping TypeName="DataModel.SMS_LOG">
               <MappingFragment StoreEntitySet="SMS_LOG">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date_Time" ColumnName="Date_Time" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -3644,6 +3670,7 @@
                 <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
                 <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
                 <ScalarProperty Name="Meter_Number" ColumnName="Meter_Number" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3800,6 +3827,19 @@
                 <ScalarProperty Name="IsCompany" ColumnName="IsCompany" />
                 <ScalarProperty Name="UserSerialNo" ColumnName="UserSerialNo" />
                 <ScalarProperty Name="MobileAppVersion" ColumnName="MobileAppVersion" />
+                <ScalarProperty Name="IsRedominated" ColumnName="IsRedominated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSchedules">
+            <EntityTypeMapping TypeName="DataModel.UserSchedule">
+              <MappingFragment StoreEntitySet="UserSchedule">
+                <ScalarProperty Name="UserScheduleId" ColumnName="UserScheduleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ScheduleType" ColumnName="ScheduleType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

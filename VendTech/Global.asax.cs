@@ -1,5 +1,4 @@
-﻿using Microsoft.Ajax.Utilities;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using System;
 using System.Web;
@@ -7,9 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Services.Description;
 using VendTech.App_Start;
-using VendTech.BLL.Interfaces;
 using VendTech.BLL.Jobs;
 using VendTech.BLL.Models;
 
@@ -19,24 +16,32 @@ namespace VendTech
     {
         protected void Application_Start()
         {
-            //JobScheduler.Start();
-
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
 
+            /////
             ITrigger firstTrigger = TriggerBuilder.Create().StartNow()
-            .WithSimpleSchedule (s => s.WithIntervalInMinutes(2).RepeatForever()).Build();
-
-            var posService = DependencyResolver.Current.GetService<IPOSManager>();
-
+            .WithSimpleSchedule (s => s.WithIntervalInMinutes(1).RepeatForever()).Build();
             IJobDetail jobFirst = JobBuilder.Create<ApplicationNotUsedSchedulerJob>().Build();
+            /////
 
+
+            /////
             ITrigger secondTrigger = TriggerBuilder.Create().StartNow()
             .WithSimpleSchedule (s =>  s.WithIntervalInSeconds(30).RepeatForever()).Build();
             IJobDetail jobSecond = JobBuilder.Create<PendingTransactionCheckJob>().Build();
+            /////
+
+
+            /////
+            ITrigger thirdTrigger = TriggerBuilder.Create().StartNow()
+            .WithSimpleSchedule(s => s.WithIntervalInMinutes(30).RepeatForever()).Build();
+            IJobDetail jobThird = JobBuilder.Create<BalanceLowSheduleJob>().Build();
+            /////
 
             scheduler.ScheduleJob(jobFirst, firstTrigger);
             scheduler.ScheduleJob(jobSecond, secondTrigger);
+            scheduler.ScheduleJob(jobThird, thirdTrigger);
 
 
 
