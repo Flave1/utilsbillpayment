@@ -22,6 +22,23 @@ namespace VendTech.BLL.Models
         public string Alias { get; set; }
         public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
+        public int NumberType { get; set; }
+    }
+
+    public class NumberModel
+    {
+        public long UserId { get; set; }
+        public long MeterId { get; set; }
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Number # is required"), MaxLength(8, ErrorMessage = "Number # must be of 8 digits"), MinLength(8, ErrorMessage = "Number # must be of 8 digits")]
+        public string Number { get; set; }
+        public string Address { get; set; }
+        public string MeterMake { get; set; }
+        public string Alias { get; set; }
+        public bool isVerified { get; set; } = true;
+        public bool IsSaved { get; set; }
+        public int NumberType { get; set; }
     }
 
     public class MeterAPIListingModel : MeterModel
@@ -31,6 +48,8 @@ namespace VendTech.BLL.Models
         public long POSId { get; set; }
         public string POSSerialNumber { get; set; }
         public string Balance { get; set; }
+        public bool PlatformDisabled { get; set; }
+        public int PlatformId { get; set; }
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
@@ -48,6 +67,7 @@ namespace VendTech.BLL.Models
             POSId = pos.POSId;
             POSSerialNumber = pos.SerialNumber;
             Balance = Utilities.FormatAmount(pos.Balance);
+            NumberType = obj.NumberType;
         }
     }
 
@@ -102,21 +122,25 @@ namespace VendTech.BLL.Models
         public string UserName { get; set; }
         public string VendorName { get; set; }
         public long VendorId { get; set; }
-        public decimal Amount { get; set; }
+        public string Amount { get; set; }
         public string CreatedAt { get; set; }
         public string Status { get; set; }
         public string TransactionId { get; set; }
         public long MeterRechargeId { get; set; }
         public long? MeterId { get; set; }
         public long TransactionDetailsId { get; set; }
-        public DateTime CreatedAtDate { get; set; }
+        public int? PlatformId { get; set; }
+        public string PlatformName { get; set; }
+        public string CreatedAtDate { get; set; }
+        public string NotType { get; set; }
         public MeterRechargeApiListingModel() { }
         public MeterRechargeApiListingModel(TransactionDetail x)
         {
             TransactionDetailsId = x.TransactionDetailsId;
-            Amount = x.Amount;
-            ProductShortName = x.Platform?.ShortName == null ? "" : x.Platform.ShortName;
-            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            Amount = Utilities.FormatAmount(x.Amount);
+            PlatformId = (int)x.PlatFormId;
+            ProductShortName = x.Platform.Title;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
             Status = ((RechargeMeterStatusEnum)x.Status).ToString();
@@ -125,24 +149,89 @@ namespace VendTech.BLL.Models
             RechargeId = x.TransactionDetailsId;
             UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.MeterToken1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
+            PlatformName = x.Platform.Title;
+            NotType = "sale";
         }
 
         public MeterRechargeApiListingModel(TransactionDetail x, int v)
+        {
+            Amount = Utilities.FormatAmount(x.Amount);
+            TransactionId = x.TransactionId;
+            MeterRechargeId = x.TransactionDetailsId;
+            RechargeId = x.TransactionDetailsId;
+            UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            PlatformId = (int)x.PlatFormId;
+            ProductShortName = x.Platform.Title;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
+            MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            POSId = x.POSId == null ? "" : x.POS.SerialNumber;
+            Status = ((RechargeMeterStatusEnum)x.Status).ToString();
+            VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
+            CreatedAtDate = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            PlatformName = x.Platform.Title;
+            NotType = "sale";
+        }
+    }
+
+    public class MeterRechargeApiListingModelMobile
+    {
+        public long RechargeId { get; set; }
+        public string MeterNumber { get; set; }
+        public string ProductShortName { get; set; }
+        public string RechargePin { get; set; }
+        public string POSId { get; set; }
+        public string UserName { get; set; }
+        public string VendorName { get; set; }
+        public long VendorId { get; set; }
+        public decimal Amount { get; set; }
+        public string CreatedAt { get; set; }
+        public string Status { get; set; }
+        public string TransactionId { get; set; }
+        public long MeterRechargeId { get; set; }
+        public long? MeterId { get; set; }
+        public long TransactionDetailsId { get; set; }
+        public int? PlatformId { get; set; }
+        public string PlatformName { get; set; }
+        public DateTime  CreatedAtDate { get; set; }
+        public MeterRechargeApiListingModelMobile() { }
+        public MeterRechargeApiListingModelMobile(TransactionDetail x)
+        {
+            TransactionDetailsId = x.TransactionDetailsId;
+            Amount = x.Amount;
+            PlatformId = (int)x.PlatFormId;
+            ProductShortName = x.Platform.Title;
+            CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            POSId = x.POSId == null ? "" : x.POS.SerialNumber;
+            Status = ((RechargeMeterStatusEnum)x.Status).ToString();
+            TransactionId = x.TransactionId;
+            MeterRechargeId = x.TransactionDetailsId;
+            RechargeId = x.TransactionDetailsId;
+            UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
+            VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
+            PlatformName = x.Platform.Title;
+        }
+
+        public MeterRechargeApiListingModelMobile(TransactionDetail x, int v)
         {
             Amount = x.Amount;
             TransactionId = x.TransactionId;
             MeterRechargeId = x.TransactionDetailsId;
             RechargeId = x.TransactionDetailsId;
             UserName = x.User.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : "");
-            ProductShortName = x.Platform.ShortName == null ? "" : x.Platform.ShortName;
+            PlatformId = (int)x.PlatFormId;
+            ProductShortName = x.Platform.Title;
             CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm"),
             MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
             POSId = x.POSId == null ? "" : x.POS.SerialNumber;
             Status = ((RechargeMeterStatusEnum)x.Status).ToString();
             VendorName = x.POS.User == null ? "" : x.POS.User.Vendor;
-            RechargePin = x.MeterToken1;
+            RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId;
             CreatedAtDate = x.CreatedAt;
+            PlatformName = x.Platform.Title;
         }
     }
 
@@ -158,6 +247,7 @@ namespace VendTech.BLL.Models
         public decimal? UnitsCost { get; set; }
         public decimal? Tarrif { get; set; }
         public double Units { get; set; }
+        public int? PlatformId { get; set; }
         public GSTRechargeApiListingModel() { }
         public GSTRechargeApiListingModel(TransactionDetail x)
         {
@@ -165,12 +255,13 @@ namespace VendTech.BLL.Models
             MeterNumber = x.MeterNumber1; 
             TransactionId = x.TransactionId;
             Receipt = x.ReceiptNumber;
-            ServiceCharge = Convert.ToDecimal(x.ServiceCharge); ;
-            Gst = Convert.ToDecimal(x.TaxCharge);
-            UnitsCost = Convert.ToDecimal(x.CostOfUnits);
-            Tarrif = Convert.ToDecimal(x.Tariff);
-            Units = Convert.ToDouble(x.Units);
+            ServiceCharge = x.ServiceCharge != null ? Convert.ToDecimal(x.ServiceCharge): 0 ;
+            Gst = x.TaxCharge != "" ? Convert.ToDecimal(x.TaxCharge) : 0;
+            UnitsCost = x.CostOfUnits != "" ? Convert.ToDecimal(x.CostOfUnits) : 0;
+            Tarrif = x.Tariff != null ? Convert.ToDecimal(x.Tariff) : 0;
+            Units = x.Units != "" ? Convert.ToDouble(x.Units): 0;
             Amount = x.Amount;
+            PlatformId = x.PlatFormId;
         }
     }
     public class SalesReportExcelModel
@@ -185,6 +276,23 @@ namespace VendTech.BLL.Models
         //public string Response { get; set; }
         public string PIN { get; set; }
         public string AMOUNT { get; set; }
+        public SalesReportExcelModel() { }
+        public SalesReportExcelModel(TransactionDetail x)
+        {
+            Date_TIME = x.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+            PRODUCT_TYPE = x.Platform.Title;
+            if (x.PlatFormId == 1)
+                PIN = x.MeterToken1;
+            else if (x.PlatFormId == 2)
+                PIN = x.MeterNumber1;
+            else if (x.PlatFormId == 3)
+                PIN = x.MeterNumber1;
+            AMOUNT = Utilities.FormatAmount(x.Amount);
+            TRANSACTIONID = x.TransactionId;
+            METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;
+            VENDORNAME = x.POS.User == null ? "" : x.POS.User.Vendor;
+            POSID = x.POSId == null ? "" : x.POS.SerialNumber;
+        }
     }
 
     //public class GSTSalesReportExcelModel
@@ -205,5 +313,15 @@ namespace VendTech.BLL.Models
     {
         public string DateTime { get; set; }
         public string TAmount { get; set; }
+    }
+
+    public class RequestObject
+    {
+        public string token_string { get; set; }
+    }
+
+    public class RequestObject1
+    {
+        public string Id { get; set; }
     }
 }

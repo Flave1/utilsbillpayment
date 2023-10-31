@@ -127,7 +127,7 @@ namespace VendTech.Areas.Api.Controllers
         public HttpResponseMessage GetUserNotificationsApi(int pageNo, int pageSize)
         {
 
-            var result = _userManager.GetUserNotificationApi(pageNo, pageSize, LOGGEDIN_USER.UserId);
+            var result = _userManager.GetUserNotificationApi(pageNo, pageSize, LOGGEDIN_USER.UserId);//40251
             if (result.Result3 == ActionStatus.Error)
                 return new JsonContent("Error In Retrieving Data!!", Status.Failed).ConvertToHttpResponseOK();
             return new JsonContent(0, "Notification Received For this user!", Status.Success, result).ConvertToHttpResponseOK();

@@ -50,17 +50,13 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("Phone" + " " + model.SortOrder);
             }
-            else if (model.SortBy == "MeterCount")
+            else if (model.SortBy == "Balance")
             {
-                if (model.SortOrder == "Asc")
-                {
-                    query = query.Where(p => !p.IsDeleted).OrderBy(s => s.User.Meters.Count());
-                }
-                else if (model.SortOrder == "Desc")
-                {
-                    query = query.Where(p => !p.IsDeleted).OrderByDescending(s => s.User.Meters.Count());
-                }
+                query = query.Where(p => !p.IsDeleted).OrderBy("Balance" + " " + model.SortOrder);
             }
+
+
+
 
             else if (model.SortBy == "POSId")
             {
@@ -74,10 +70,10 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => !p.IsDeleted).OrderBy("User.MobileAppVersion" + " " + model.SortOrder);
             }
-            else
-            {
-                query = query.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
-            }
+            //else
+            //{
+            //    query = query.Where(p => !p.IsDeleted).OrderBy(model?.SortBy ?? "User.Vendor " + model.SortOrder);
+            //}
             if (vendorId > 0)
             {
                 var user = Context.Users.FirstOrDefault(p => p.UserId == vendorId);
@@ -95,6 +91,8 @@ namespace VendTech.BLL.Managers
 
                 if (model.SearchField.Equals("AGENCY"))
                     query = query.Where(z => z.User.Agency.AgencyName.ToLower().Contains(model.Search.ToLower()));
+                if (model.SearchField.Equals("PRODUCT"))
+                    query = query.Where(z => z.POSAssignedPlatforms.Select(d =>d.Platform.Title).Contains(model.Search.ToLower()));
 
                 if (model.SearchField.Equals("COMMISSION"))
                     query = query.Where(z => z.Commission.Percentage.ToString().ToLower().Contains(model.Search.ToLower()));
@@ -105,8 +103,27 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("ENABLED"))
                     query = query.Where(z => z.Enabled.ToString().ToLower().Contains(model.Search.ToLower()));
             }
-            var list = query.Where(r => r.Enabled == model.IsActive).Take(model.RecordsPerPage)
+            var list = query.Where(r => r.Enabled == model.IsActive)//.Take(model.RecordsPerPage)
                .ToList().Select(x => new POSListingModel(x)).ToList();
+
+            if (model.SortBy == "Product")
+            {
+                if (model.SortOrder == "Asc")
+                    list = list.OrderBy(d => d.Products).ToList();
+                else if (model.SortOrder == "Desc")
+                    list = list.OrderByDescending(d => d.Products).ToList();
+            }
+            else if (model.SortBy == "MeterCount")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    list = list.OrderBy(d => d.POSCount).ToList();
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    list = list.OrderBy(d => d.POSCount).ToList();
+                }
+            }
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
@@ -210,6 +227,31 @@ namespace VendTech.BLL.Managers
             return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
             {
                 Text = p.SerialNumber.ToUpper(),
+                Value = p.POSId.ToString()
+            }).ToList();
+        }
+
+        List<SelectListItem> IPOSManager.GetPOSWithNameSelectList(long userId, long agentId)
+        {
+            var query = new List<POS>();
+            var userPos = new List<POS>();
+            if (userId > 0)
+            {
+                var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
+                if (user != null)
+                    query = Context.POS.Where(p => (p.VendorId != null && p.VendorId == user.FKVendorId && p.Enabled != false && !p.IsDeleted && !p.SerialNumber.StartsWith("AGT")) && !p.IsAdmin).ToList();
+            }
+            else
+                query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
+
+
+            if (agentId > 0)
+            {
+                query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
+            }
+            return query.OrderBy(p => p.SerialNumber).Select(p => new SelectListItem
+            {
+                Text = p.User.Vendor + " - " + p.SerialNumber.ToUpper(),
                 Value = p.POSId.ToString()
             }).ToList();
         }
@@ -398,7 +440,7 @@ namespace VendTech.BLL.Managers
         IList<PlatformCheckbox> IPOSManager.GetAllPlatforms(long posId)
         {
             IList<PlatformCheckbox> chekboxListOfModules = null;
-            IList<Platform> modules = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled).ToList();
+            IList<Platform> modules = Context.Platforms.Where(p => !p.IsDeleted && p.Enabled && !p.DisablePlatform).ToList();
             if (modules.Count() > 0)
             {
                 chekboxListOfModules = modules.Select(x =>
@@ -547,7 +589,36 @@ namespace VendTech.BLL.Managers
         {
             return Context.POS.FirstOrDefault(e => e.VendorId == userId);
         }
-    
-        
+
+        PagingResultWithDefaultAmount<BalanceSheetListingModel2> IPOSManager.CalculateBalancesheet(List<BalanceSheetListingModel> result)
+        {
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
+            balanceSheet.List = new List<BalanceSheetListingModel2>();
+            decimal openingBalance = 0;
+            decimal prevBal = 0;
+
+            foreach (var item in result)
+            {
+                if (item.TransactionType == "Deposit")
+                {
+                    item.Balance = prevBal == 0 ? item.DepositAmount : item.BalanceBefore.Value + item.DepositAmount;
+                    prevBal = prevBal + item.DepositAmount;
+                }
+                else
+                {
+                    item.Balance = prevBal == 0 ? item.BalanceBefore.Value - item.SaleAmount : prevBal - item.SaleAmount;
+                    prevBal = item.Balance;
+                }
+
+                if (openingBalance == 0)
+                    openingBalance = item.BalanceBefore.Value;
+
+                balanceSheet.List.Add(new BalanceSheetListingModel2(item));
+            }
+
+            balanceSheet.Amount = BLL.Common.Utilities.FormatAmount(openingBalance);
+            return balanceSheet;
+        }
+
     }
 }

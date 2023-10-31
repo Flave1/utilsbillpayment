@@ -97,8 +97,6 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(resultString);
         }
 
-
-
         [HttpGet]
         public ActionResult DepositLogs()
         {
@@ -210,6 +208,15 @@ namespace VendTech.Areas.Admin.Controllers
             {
                 return PartialView("Partials/_depositListing", new PagingResult<DepositListingModel>());
             }
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetDepositDetails(RequestObject tokenobject)
+        {
+            var result = _depositManager.GetDepositDetail(Convert.ToInt64(tokenobject.token_string), true);
+            if (result.Object == null)
+                return Json(new { Success = false, Code = 302, Msg = result.Message });
+            return PartialView("_depositReceipt", result.Object);
         }
         #endregion
     }

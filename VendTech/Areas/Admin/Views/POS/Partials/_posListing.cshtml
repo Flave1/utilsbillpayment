@@ -5,38 +5,38 @@
 {
     foreach (var item in Model.List)
     {
-<tr class="odd gradeX">
-    <td style="text-align:right;">@item.SerialNumber</td>
-    <td> @item.VendorName</td>
-    <td>@item.Agency</td>
-    <td> @item.Percentage</td>
-    <td style="text-align:right;">
-        @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
-    </td>
-    <td style="text-align:right;">
-        <a href="#" onclick="onSavedMeterClicked('@item.UserId', '@item.VendorName', '@item.SerialNumber')">@item.POSCount</a>
-    </td>
+        <tr class="odd gradeX">
+            <td style="text-align:right;">@item.SerialNumber</td>
+            <td> @item.VendorName</td>
+            <td> @item.Products</td>
+            <td>@item.Agency</td>
+            <td> @item.Percentage</td>
+            <td style="text-align:right;">
+                @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
+            </td>
+            <td style="text-align:right;">
+                <a href="#" onclick="onSavedMeterClicked('@item.UserId', '@item.VendorName', '@item.SerialNumber')">@item.POSCount</a>
+            </td>
+            <td>@item.VendorType</td>
+            <td style="text-align:left;">
+                @item.MobileAppVersion
+            </td>
+            <td style="text-align:right; font-size: 15px; color:blue;"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</strong></td>
+            <td>
+                <a class="btn btn-primary btn-xs" style="padding-left:10px; padding-right:10px; border:none;" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" style=" border:none;" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+                @if (item.Enabled)
+                {
+                    <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+                }
+                else
+                {
+                    <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" ; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+                }
 
-    <td>@item.VendorType</td>
-    <td style="text-align:left;">
-        @item.MobileAppVersion
-    </td>
-    <td style="text-align:right; font-size: 15px; color:blue;"><strong>@VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</strong></td>
-    <td>
-        <a class="btn btn-primary btn-xs" style="padding-left:10px; padding-right:10px; border:none;" href="@Url.Action("AddEditPos", "POS", new { area = "Admin", id = @item.POSId })" data-original-title="Edit" data-toggle="tooltip">Edit</a>
-        <a data-userid="@item.POSId" class="btn btn-danger btn-xs deleteUser" style=" border:none;" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
-        @if (item.Enabled)
-        {
-            <a data-id="@item.POSId" class="btn btn-success btn-xs disablePOS " href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
-        }
-        else
-        {
-            <a data-id="@item.POSId" class="btn btn-warning btn-xs enablePOS" href="javascript:void(0);" ; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
-        }
+            </td>
 
-    </td>
-
-</tr>
+        </tr>
     }
 }
 else

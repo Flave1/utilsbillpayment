@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.DAL;
@@ -20,10 +19,10 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<MeterRechargeApiListingModel> GetRechargeDetail(long rechargeId);
         MeterModel GetMeterDetail(long meterId);
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesReportAsync(ReportSearchModel model,bool callFromAdmin=false, long agentId = 0);
-        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false);
+        PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false, PlatformTypeEnum platform = 0);
         List<SelectListItem> GetMetersDropDown(long userID);
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
-        Task<ReceiptModel> RechargeMeterReturn(RechargeMeterModel model);
+        ReceiptModel RechargeMeterReturn(RechargeMeterModel model);
         ReceiptModel ReturnVoucherReceipt(string token);
         RequestResponse ReturnRequestANDResponseJSON(string token);
         TransactionDetail GetLastTransaction();
@@ -35,6 +34,15 @@ namespace VendTech.BLL.Interfaces
         decimal ReturnMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
         PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
+        PagingResult<MeterAPIListingModel> GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive);
+        NumberModel GetPhoneNumberDetail(long Id);
+        ActionOutput SavePhoneNUmber(NumberModel model);
+        ActionOutput DeletePhoneNumber(long id, long userId);
+        ReceiptModel Build_receipt_model_from_dbtransaction_detail(TransactionDetail model);
+        void LogSms(TransactionDetail td, string phone);
+        PagingResult<VendorStatus> RunStoredProcParams();
+        PagingResult<MeterRechargeApiListingModelMobile> GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
+        ActionOutput<MeterRechargeApiListingModelMobile> GetMobileRechargeDetail(long rechargeId);
     }
     
 }

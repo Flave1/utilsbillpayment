@@ -13,7 +13,7 @@
                     <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size:20px;" aria-hidden="true"></i>
                     <span class="sr-only">Refreshing...</span>
                 </th>
-                <th colspan="6">
+                <th colspan="7">
                     <strong style="font-size: 20px;">
                         LAST 10 SALES
                     </strong>
@@ -22,6 +22,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">DATETIME</th>
+                <th scope="col">PRODUCT</th>
                 <th scope="col">TRANS ID</th>
                 <th scope="col">POSID</th>
                 <th scope="col">VENDOR</th>
@@ -42,11 +43,12 @@
                         <td style="text-align:right">
                             @item.CreatedAt
                         </td>
+                        <td style="text-align:left;"> @item.PlatformName </td>
                         <td style="text-align:right;"> @item.TransactionId </td>
                         <td style="text-align: right; ">@item.POSId</td>
                         <td style="font-weight: bold; color:green;">@item.VendorName</td>
                         <td style="text-align: right;">@item.MeterNumber</td>
-                        <td style="font-weight: bold; text-align: right; color:red;">@VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</td>
+                        <td style="font-weight: bold; text-align: right; color:red;">@item.Amount</td>
                     </tr>
                 }
             }

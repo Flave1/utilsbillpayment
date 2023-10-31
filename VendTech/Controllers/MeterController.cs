@@ -13,6 +13,8 @@ using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
+using Newtonsoft.Json;
+using VendTech.BLL.Managers;
 #endregion
 
 namespace VendTech.Controllers
@@ -30,11 +32,12 @@ namespace VendTech.Controllers
         private readonly IMeterManager _meterManager;
         private readonly IPlatformManager _platformManager;
         private readonly IPOSManager _posManager;
+        private readonly IPlatformTransactionManager _platformTransactionManager;
 
 
         #endregion
 
-        public MeterController(IUserManager userManager,IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager,IPOSManager posManager)
+        public MeterController(IUserManager userManager, IPlatformManager platformManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IMeterManager meterManager, IPOSManager posManager, IPlatformTransactionManager platformTransactionManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -43,7 +46,7 @@ namespace VendTech.Controllers
             _meterManager = meterManager;
             _platformManager = platformManager;
             _posManager = posManager;
-
+            _platformTransactionManager = platformTransactionManager;
         }
 
         /// <summary>
@@ -52,7 +55,9 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            ViewBag.title = "Manage Meters";
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
             return View(meters);
 
@@ -84,34 +89,36 @@ namespace VendTech.Controllers
             MeterModel model = new MeterModel();
             //if (meterId.HasValue && meterId > 0)
             //    model = _meterManager.GetMeterDetail(meterId.Value);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
+            var list = new List<SelectListItem>
             {
-                Text = "CONLOG",
-                Value = "CONLOG"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "HOLLEY",
-                Value = "HOLLEY"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "SAGEMCOM",
-                Value = "SAGEMCOM"
-            });
+                new SelectListItem
+                {
+                    Text = "CONLOG",
+                    Value = "CONLOG"
+                },
+                new SelectListItem
+                {
+                    Text = "HOLLEY",
+                    Value = "HOLLEY"
+                },
+                new SelectListItem
+                {
+                    Text = "SAGEMCOM",
+                    Value = "SAGEMCOM"
+                },
 
-            list.Add(new SelectListItem
-            {
-                Text = "APATOR",
-                Value = "APATOR"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "CLOU",
-                Value = "CLOU"
-            });
-           
+                new SelectListItem
+                {
+                    Text = "APATOR",
+                    Value = "APATOR"
+                },
+                new SelectListItem
+                {
+                    Text = "CLOU",
+                    Value = "CLOU"
+                }
+            };
+
             ViewBag.meterMakes = list;
             model.Number = number;
             return View(model);
@@ -122,32 +129,34 @@ namespace VendTech.Controllers
             MeterModel model = new MeterModel();
             if (meterId > 0)
                 model = _meterManager.GetMeterDetail(meterId);
-            var list = new List<SelectListItem>();
-            list.Add(new SelectListItem
+            var list = new List<SelectListItem>
             {
-                Text = "CONLOG",
-                Value = "CONLOG"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "HOLLEY",
-                Value = "HOLLEY"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "SAGEMCOM",
-                Value = "SAGEMCOM"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "APATOR",
-                Value = "APATOR"
-            });
-            list.Add(new SelectListItem
-            {
-                Text = "CLOU",
-                Value = "CLOU"
-            });
+                new SelectListItem
+                {
+                    Text = "CONLOG",
+                    Value = "CONLOG"
+                },
+                new SelectListItem
+                {
+                    Text = "HOLLEY",
+                    Value = "HOLLEY"
+                },
+                new SelectListItem
+                {
+                    Text = "SAGEMCOM",
+                    Value = "SAGEMCOM"
+                },
+                new SelectListItem
+                {
+                    Text = "APATOR",
+                    Value = "APATOR"
+                },
+                new SelectListItem
+                {
+                    Text = "CLOU",
+                    Value = "CLOU"
+                }
+            };
 
             ViewBag.meterMakes = list;
             return View("AddEditMeter",model);
@@ -165,13 +174,12 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
-
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
-
+            ViewBag.title = "Bill Payment";
             return View(model);
         }
 
@@ -181,6 +189,7 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            ViewBag.title = "EDSA Recharge";
             var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
             ViewBag.IsDisable = platform.DisablePlatform;
             ViewBag.DisabledMessage = platform.DiabledPlaformMessage;
@@ -200,7 +209,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
 
             if (deposits.List.Any())
                 model.History = deposits.List;
@@ -220,11 +229,6 @@ namespace VendTech.Controllers
             return JsonResult(_meterManager.RechargeMeter(model));
         }
 
-       
-        public class RequestObject
-        {
-            public string token_string { get; set; }
-        }
 
         [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(RequestObject tokenobject)
@@ -253,7 +257,7 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model);
+            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
             var recharges = deposits.List;
             return PartialView("Partials/_salesListing", recharges);
         }
@@ -275,10 +279,14 @@ namespace VendTech.Controllers
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            var result = _meterManager.RechargeMeterReturn(model);
             if(result.ReceiptStatus.Status == "unsuccessful")
             {
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
+            }
+            else if(result.ReceiptStatus.Status == "disabled")
+            {
+                return Json(new { Success = false, Code = 403, Msg = result.ReceiptStatus.Message });
             }
          
             if (result != null)
@@ -290,8 +298,8 @@ namespace VendTech.Controllers
         [HttpPost, AjaxOnly, Public]
         public JsonResult RechargeReturn2(RechargeMeterModel model)
         {
-            model.UserId = model.UserId;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            //model.UserId = model.UserId;
+            var result = _meterManager.RechargeMeterReturn(model);
             if (result.ReceiptStatus.Status == "unsuccessful")
             {
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
@@ -312,12 +320,16 @@ namespace VendTech.Controllers
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
 
-        //[HttpGet]
-        //public ActionResult GetUserMeterRecharges(int pageNo, int pageSize)
-        //{
-        //    var result = _meterManager.GetUserMeterRecharges(LOGGEDIN_USER.UserID, 1, 10);
-        //    return JsonResult(result)
-        //}
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult GetAirtimeReceipt(RequestObject1 requestObject)
+        {
+            var result = _platformTransactionManager.GetAirtimeReceipt(requestObject.Id);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
+            return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
+        }
+
+
 
     }
 }

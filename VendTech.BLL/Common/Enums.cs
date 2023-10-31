@@ -127,6 +127,14 @@ namespace VendTech.BLL.Models
         Company = 20,
     }
 
+    public enum NumberTypeEnum
+    {
+        [Description("Meter Meter")]
+        MeterNumber = 0,
+        [Description("Phone Number")]
+        PhoneNumber = 1,
+    }
+
     public enum AppUserTypeEnumApi
     {
         [Description("Personal Account")]
@@ -136,9 +144,12 @@ namespace VendTech.BLL.Models
     }
     public enum RechargeMeterStatusEnum
     {
+        InProgress = 0,
         [Description("Success")]
         Success = 1,
         Pending = 2,
+        Failed = 3,
+        Error = 4,
 
     }
     public enum DepositPaymentTypeEnum
@@ -178,6 +189,95 @@ namespace VendTech.BLL.Models
     public enum NotificationTypeEnum
     {
         MeterRecharge=1,
-        DepositStatusChange = 2
+        DepositStatusChange = 2,
+        AirtimeRecharge = 3
     }
+
+    /**
+     * An Enum for the product (platform) types.
+     */
+    public enum PlatformTypeEnum
+    {
+        All = 0,
+        AIRTIME = 1,
+        CABLE_TV = 2,
+        DATA = 3,
+        ELECTRICITY = 4,
+    }
+
+    public enum StatusEnum
+    {
+        Active = 0,
+        Disabled = 1,
+        Deleted = 2,
+    }
+
+    public enum TransactionStatus
+    {
+        InProgress = 0,
+        Pending = 1,
+        Successful = 2,
+        Failed = 3,
+        Error = 4,
+    }
+    public enum InnerTransactionStatus
+    {
+        InProgress = 0,
+        Pending = 1,
+        Successful = 2,
+        Failed = 3,
+        Error = 4,
+    }
+    public enum OuterTransactionStatus
+    {
+        Failed = 0,
+        Successful = 2
+    }
+
+    public enum ApiLogType
+    {
+        InitialRequest = 1,
+        PendingCheckRequest = 2,
+    }
+
+    public class EnumUtils
+    {
+        public static IEnumerable<T> GetEnumValues<T>()
+        {
+            // Can't use type constraints on value types, so have to do check like this
+            if (typeof(T).BaseType != typeof(Enum))
+            {
+                throw new ArgumentException("T must be of type System.Enum");
+            }
+
+            return Enum.GetValues(typeof(T)).Cast<T>();
+        }
+
+        public static string GetEnumName<T>(int value)
+        {
+            ValidateType<T>();
+            return Enum.GetName(typeof(T), value);
+        }
+
+        private static void ValidateType<T>()
+        {
+            // Can't use type constraints on value types, so have to do check like this
+            if (typeof(T).BaseType != typeof(Enum))
+            {
+                throw new ArgumentException("T must be of type System.Enum");
+            }
+        }
+    }
+
+
+
+    /**
+     * A helper class
+     */
+    public class NameValueModel
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
 }

@@ -194,7 +194,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 string encryptPassword = Utilities.EncryptPassword(password.Trim());
-                var decryptedPass = Utilities.DecryptPassword("VGVtcE1hY2swMQ==");
+                var decryptedPass = Utilities.DecryptPassword("dkB0ZWNoMjAyMw==");
                 var result = Context.Users
                     .Where(x => (x.Email == email || x.UserName.ToLower() == email.ToLower())
                 && x.Password == encryptPassword
@@ -202,8 +202,7 @@ namespace VendTech.BLL.Managers
                 || UserRoles.Vendor == x.UserRole.Role)
                 && (x.Status == (int)UserStatusEnum.Active
                 || x.Status == (int)UserStatusEnum.Pending
-                || x.Status == (int)UserStatusEnum.PasswordNotReset))
-                    .ToList()
+                || x.Status == (int)UserStatusEnum.PasswordNotReset)).AsEnumerable()
                     .Select(x => new UserModel(x))
                     .FirstOrDefault();
                 if (result != null)

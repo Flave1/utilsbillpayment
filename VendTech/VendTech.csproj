@@ -141,6 +141,7 @@
     <Reference Include="Ninject.WebApi.DependencyResolver, Version=0.1.4758.24814, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1" />
     <Reference Include="Quartz, Version=2.6.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.6.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
@@ -227,6 +228,8 @@
     <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PlatformApiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PlatformTransactionController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommissionController.cs" />
@@ -249,9 +252,12 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\JobsController.cs" />
+    <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
     <Compile Include="Areas\Api\Controllers\ContactUsController.cs" />
+    <Compile Include="Areas\Api\Controllers\NumberController.cs" />
     <Compile Include="Areas\Api\Controllers\MeterController.cs" />
     <Compile Include="Areas\Api\Controllers\AccountController.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
@@ -264,6 +270,7 @@
     <Compile Include="Areas\Vendor\Controllers\POSController.cs" />
     <Compile Include="Attributes\Attribute.cs" />
     <Compile Include="Controllers\AirtimeController.cs" />
+    <Compile Include="Controllers\SavedPhoneNumbersController.cs" />
     <Compile Include="Controllers\PrivacyController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
@@ -278,11 +285,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\NinjectJobFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
+    <Content Include="Contentv2\css\bill_payment.css" />
+    <Content Include="Contentv2\css\styles.css" />
+    <Content Include="Contentv2\imgs\logos\africell.png" />
+    <Content Include="Contentv2\imgs\logos\bulb.png" />
+    <Content Include="Contentv2\imgs\logos\dstv.jpg" />
+    <Content Include="Contentv2\imgs\logos\logo1.jpg" />
+    <Content Include="Contentv2\imgs\logos\notification.jpg" />
+    <Content Include="Contentv2\imgs\logos\notification.png" />
+    <Content Include="Contentv2\imgs\logos\orange2.jpg" />
+    <Content Include="Contentv2\imgs\logos\ventech.png" />
+    <Content Include="Contentv2\imgs\logos\vtech-receipt.png" />
+    <Content Include="Contentv2\imgs\logos\vt_logo.PNG" />
+    <Content Include="Contentv2\imgs\logos\water.png" />
     <Content Include="ErrorLog.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -442,6 +463,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jspdf.min.js" />
+    <Content Include="Scriptsv2\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\respond.js" />
@@ -471,6 +493,15 @@
     <Content Include="Areas\Admin\Views\Agent\Partials\_modulesListing.cshtml" />
     <Content Include="Areas\Admin\Views\Agent\Partials\_depositForm.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\Transactions.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\ConfigureApi.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\ConfigureApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\CreateApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\CreateOrEditApi.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\EditApiConnection.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\PlatformApiConnections.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformApi\PlatformApis.cshtml" />
+    <Content Include="Areas\Admin\Views\PlatformTransaction\Index.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
@@ -478,14 +509,6 @@
     <Content Include="Areas\Admin\Views\POS\Partials\_purchaseUnitsForm.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReport.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_miniSalesReportButtons.cshtml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\flavetech-001-site9 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\sub.vendtechsl.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.com - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\vendtechsl.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Meter\Partials\_userMeterListing.cshtml" />
     <Content Include="Areas\Admin\Views\ChequeBanks\AddChequeBanks.cshtml" />
@@ -533,9 +556,30 @@
     <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
     <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
     <Content Include="Views\Privacy\Policy.cshtml" />
-    <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\partials\_salesListing.cshtml" />
     <Content Include="Areas\Admin\Views\RTSEDSAReport\Inquiry.cshtml" />
+    <Content Include="Views\Airtime\Partials\_downTimeNotification.cshtml" />
+    <Content Include="Views\Airtime\Partials\_salesListing.cshtml" />
+    <Content Include="Views\PlatformTransaction\Execute.cshtml" />
+    <Content Include="Views\PlatformTransaction\ExecuteOutcome.cshtml" />
+    <Content Include="Views\PlatformTransaction\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Index_e.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Meter\Utility_old.cshtml" />
+    <Content Include="Views\Airtime\Recharge_e.cshtml" />
+    <Content Include="Views\Meter\Recharge.cshtml" />
+    <Content Include="Views\Airtime\Recharge.cshtml" />
+    <Content Include="Views\Meter\Index.cshtml" />
+    <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
+    <Content Include="Views\Home\ChangePassword_old.cshtml" />
+    <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Deposit\Index.cshtml" />
+    <Content Include="Views\Deposit\Index_e.cshtml" />
+    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -556,22 +600,21 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Shared\_beforeLoginUserLayout.cshtml" />
     <Content Include="Views\Shared\_FunctionCallMessage.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\Dashboard_old.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Paging.cshtml" />
     <Content Include="Views\Shared\_SearchFilter.cshtml" />
     <Content Include="Views\Shared\_SideBaar.cshtml" />
     <Content Include="Views\Home\TermsAndConditions.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
-    <Content Include="Views\Deposit\Index.cshtml" />
     <Content Include="Views\User\EditProfile.cshtml" />
-    <Content Include="Views\Meter\Index.cshtml" />
+    <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
     <Content Include="Views\Meter\AddEditMeter.cshtml" />
-    <Content Include="Views\Meter\Recharge.cshtml" />
+    <Content Include="Views\Meter\Recharge_e.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
-    <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Report\SalesReport_new.cshtml" />
     <Content Include="Views\Report\DepositReport.cshtml" />
     <Content Include="Views\Report\partials\_depositListing.cshtml" />
     <Content Include="Views\Report\partials\_salesListing.cshtml" />
@@ -584,7 +627,6 @@
     <Content Include="Views\Meter\Utility.cshtml" />
     <Content Include="Views\Shared\_footer.cshtml" />
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
-    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
     <Content Include="Views\Shared\_voucherReprint.cshtml" />
@@ -607,6 +649,13 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\Transfer\_transferToVedorsListing.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
+    <Content Include="Views\Shared\_airtimeReceipt.cshtml" />
+    <Content Include="Views\Shared\_Headerv2.cshtml" />
+    <Content Include="Views\Shared\_Layoutv2.cshtml" />
+    <Content Include="Views\Shared\_BalanceBar.cshtml" />
+    <Content Include="Views\Shared\_SideBarv2.cshtml" />
+    <Content Include="Views\Shared\_Title.cshtml" />
+    <Content Include="Views\User\EditProfile_old.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -618,6 +667,7 @@
     <Folder Include="Areas\Audit\Data\" />
     <Folder Include="Areas\Audit\Views\Shared\" />
     <Folder Include="Images\ProductImages\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Receipts\" />
   </ItemGroup>
   <ItemGroup>

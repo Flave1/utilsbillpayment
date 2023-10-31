@@ -14,6 +14,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
+using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
 
@@ -83,10 +84,11 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
         [HttpGet]
+        //[HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetRechargeDetail(long rechargeId)
         {
-            var result = _meterManager.GetRechargeDetail(rechargeId);
+            var result = _meterManager.GetMobileRechargeDetail(rechargeId);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
         }
 
@@ -188,7 +190,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }
             model.UserId = LOGGEDIN_USER.UserId;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            var result = _meterManager.RechargeMeterReturn(model);
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
         }
 
@@ -225,6 +227,8 @@ namespace VendTech.Areas.Api.Controllers
                             "VENDTECH"
             };
 
+
+            _meterManager.LogSms(td, request.PhoneNo);
             var json = JsonConvert.SerializeObject(requestmsg);
 
             HttpClient client = new HttpClient();
@@ -257,20 +261,20 @@ namespace VendTech.Areas.Api.Controllers
             if (emailTemplate.TemplateStatus)
             {
                 string body = emailTemplate.TemplateContent;
-                body = body.Replace("%vendor%", td.Customer);
-                body = body.Replace("%posid%", td.POSId.ToString());
+                body = body.Replace("%vendor%", vendor.Vendor);
+                body = body.Replace("%posid%", td.User.POS.FirstOrDefault().SerialNumber);
                 body = body.Replace("%customerName%", td.Customer);
                 body = body.Replace("%account%", td.AccountNumber);
                 body = body.Replace("%address%", td.CustomerAddress);
                 body = body.Replace("%meterNumber%", td.MeterNumber1);
                 body = body.Replace("%tarrif%", td.Tariff);
                 body = body.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
-                body = body.Replace("%gst%", td.Units);
-                body = body.Replace("%serviceCharge%", td.ServiceCharge);
+                body = body.Replace("%gst%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge)));
+                body = body.Replace("%serviceCharge%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge)));
                 body = body.Replace("%debitRecovery%", td.DebitRecovery);
                 body = body.Replace("%costOfUnits%", td.CostOfUnits);
                 body = body.Replace("%units%", td.Units);
-                body = body.Replace("%pin%", td.MeterToken1);
+                body = body.Replace("%pin%", BLL.Common.Utilities.FormatThisToken(td.MeterToken1));
                 body = body.Replace("%edsaSerial%", td.SerialNumber);
                 body = body.Replace("%vendtechSerial%", td.TransactionId);
                 body = body.Replace("%barcode%", td.MeterNumber1);

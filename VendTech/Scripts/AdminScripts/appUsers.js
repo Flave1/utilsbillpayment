@@ -1,46 +1,46 @@
 ﻿$(document).ready(function () {
-    //$("input[type=button]#addUserBtn").live("click", function () {
-    //    return Users.AddUser($(this));
-    //});
-    //$("input[type=button]#editUserBtn").live("click", function () {
-    //    return Users.UpdateUser($(this));
-    //});
-    //$("input[type=button]#reactivateUserBtn").live("click", function () {
-    //    return Users.ReactivateUser($(this));
-    //});
-    //$("a.deleteUser").live("click", function () {
-    //    return Users.DeleteUser($(this));
-    //});
-    //$("a.activateUser").live("click", function () {
-    //    return Users.ActivateUser($(this));
-    //});
-    //$("a.declinedUser").live("click", function () {
-    //    return Users.DeclineUser($(this));
-    //});
-    //$("a.blockUser").live("click", function () {
-    //    return Users.BlockUser($(this));
-    //});
-    //$("a.unBlockUser").live("click", function () {
-    //    return Users.UnBlockUser($(this));
-    //});
-    //$("input[type=button]#btnFilterVersion").live("click", function () {
-    //    return Users.ManageUsers($(this));
-    //});
-    //$("select#showRecords").on("change", function () {
-    //    return Users.ShowRecords($(this));
-    //});
-    //$('.sorting').live("click", function () {
-    //    return Users.SortUsers($(this));
-    //});
-    //$("#btnFilterSearch").live("click", function () {
-    //    return Users.SearchUsers($(this));
-    //});
+    $("input[type=button]#addUserBtn").live("click", function () {
+        return Users.AddUser($(this));
+    });
+    $("input[type=button]#editUserBtn").live("click", function () {
+        return Users.UpdateUser($(this));
+    });
+    $("input[type=button]#reactivateUserBtn").live("click", function () {
+        return Users.ReactivateUser($(this));
+    });
+    $("a.deleteUser").live("click", function () {
+        return Users.DeleteUser($(this));
+    });
+    $("a.activateUser").live("click", function () {
+        return Users.ActivateUser($(this));
+    });
+    $("a.declinedUser").live("click", function () {
+        return Users.DeclineUser($(this));
+    });
+    $("a.blockUser").live("click", function () {
+        return Users.BlockUser($(this));
+    });
+    $("a.unBlockUser").live("click", function () {
+        return Users.UnBlockUser($(this));
+    });
+    $("input[type=button]#btnFilterVersion").live("click", function () {
+        return Users.ManageUsers($(this));
+    });
+    $("select#showRecords").on("change", function () {
+        return Users.ShowRecords($(this));
+    });
+    $('.sorting').live("click", function () {
+        return Users.SortUsers($(this));
+    });
+    $("#btnFilterSearch").live("click", function () {
+        return Users.SearchUsers($(this));
+    });
 
-    //$("#btnResetSearch").live("click", function () {
-    //    $('#searchField').val('');
-    //    $('#Search').val('');
-    //    return Users.SearchUsers($(this));
-    //});
+    $("#btnResetSearch").live("click", function () {
+        $('#searchField').val('');
+        $('#Search').val('');
+        return Users.SearchUsers($(this));
+    });
 });
 
 var Users = {

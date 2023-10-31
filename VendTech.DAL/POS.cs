@@ -19,6 +19,7 @@ namespace VendTech.DAL
         {
             this.Deposits = new HashSet<Deposit>();
             this.PendingDeposits = new HashSet<PendingDeposit>();
+            this.PlatformTransactions = new HashSet<PlatformTransaction>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
             this.TransactionDetails = new HashSet<TransactionDetail>();
         }
@@ -54,6 +55,8 @@ namespace VendTech.DAL
         public virtual ICollection<Deposit> Deposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PendingDeposit> PendingDeposits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlatformTransaction> PlatformTransactions { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }

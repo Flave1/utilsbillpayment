@@ -379,7 +379,7 @@ namespace VendTech.BLL.Common
         public static void SendEmail(string to, string sub, string body)
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -387,7 +387,7 @@ namespace VendTech.BLL.Common
                 var mimeMsg = new MimeMessage();
                 var frms = new List<MailboxAddress>
                 {
-                     new MailboxAddress(displayName, from),
+                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
                 };
                 var tos = new List<MailboxAddress>
                 {
@@ -428,7 +428,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPasswordtest"].ToString();
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -694,11 +694,16 @@ namespace VendTech.BLL.Common
         public static string ConvertDateToEpochDate(string dateString)
         {
             var splited = dateString.Split('/').Select(int.Parse).ToList();
-            DateTime date = new DateTime(splited[2], splited[1], splited[0]); // Set your desired date
-            DateTime epoch = new DateTime(1970, 1, 1); // Set the epoch date
+            DateTime date = new DateTime(splited[2], splited[1], splited[0]); // Corrected day, month, year order
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // Set the epoch date
             TimeSpan timeSpan = date - epoch; // Get the difference between the two dates
             long epochTime = (long)timeSpan.TotalSeconds; // Convert the difference to seconds and cast to long
             return epochTime.ToString();
+
+            //DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            //TimeSpan timeSpan = date - epoch;
+            //long epochTimeInSeconds = (long)timeSpan.TotalSeconds;
+            //return epochTimeInSeconds.ToString();
         }
 
         public static long ToUnixTimestamp(DateTime value)

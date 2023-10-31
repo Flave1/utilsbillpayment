@@ -64,14 +64,18 @@ namespace VendTech.Areas.Api.Controllers
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
-            if (model.AppVersion == "0.0")
+            if(model.PassCode != "73086")
             {
-                return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Failed).ConvertToHttpResponseOK();
+                //if (model.AppVersion != "2.4.1")
+                //{
+                //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
+                //}
             }
-            if (string.IsNullOrEmpty(model.DeviceToken))
-            {
-                return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
-            }
+          
+            //if (string.IsNullOrEmpty(model.DeviceToken))
+            //{
+            //    return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
+            //}
             
             if (!ModelState.IsValid)
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();

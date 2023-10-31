@@ -17,6 +17,9 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Platform()
         {
+            this.PlatformApiConnections = new HashSet<PlatformApiConnection>();
+            this.PlatformPacParams = new HashSet<PlatformPacParam>();
+            this.PlatformTransactions = new HashSet<PlatformTransaction>();
             this.POSAssignedPlatforms = new HashSet<POSAssignedPlatform>();
             this.TransactionDetails = new HashSet<TransactionDetail>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
@@ -32,7 +35,18 @@ namespace VendTech.DAL
         public decimal MinimumAmount { get; set; }
         public bool DisablePlatform { get; set; }
         public string DisabledPlatformMessage { get; set; }
+        public int PlatformType { get; set; }
+        public Nullable<int> PlatformApiConnId { get; set; }
+        public Nullable<int> PlatformApiConnBackupId { get; set; }
     
+        public virtual PlatformApiConnection PlatformApiConnection { get; set; }
+        public virtual PlatformApiConnection PlatformApiConnection1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlatformApiConnection> PlatformApiConnections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlatformPacParam> PlatformPacParams { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlatformTransaction> PlatformTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POSAssignedPlatform> POSAssignedPlatforms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,0 +1,30 @@
+﻿<style>
+    .balance-box {
+        display: flex;
+        align-items: center;
+        background-color: #e4c200;
+        color: #282828;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .icon {
+        font-size: 30px;
+        margin-right: 10px;
+    }
+
+    .balance {
+        font-size: 24px;
+        font-weight:bold;
+        font-weight:bold;
+        font-size:30px;
+    }
+</style>
+
+<div class="balance-box d-flex justify-content-between">
+    <i class="fas fa-wallet icon d-none d-sm-block">WALLET BALANCE</i>
+    <i class="fas fa-wallet icon d-block d-sm-none"></i>
+    <div class="balance ">NLe: <span >@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span> </div>
+</div>
+

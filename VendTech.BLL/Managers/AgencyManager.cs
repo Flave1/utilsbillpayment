@@ -11,6 +11,7 @@ using VendTech.BLL.Common;
 using System.Web;
 using System.IO;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace VendTech.BLL.Managers
 {
@@ -19,6 +20,14 @@ namespace VendTech.BLL.Managers
 
         PagingResult<AgencyListingModel> IAgencyManager.GetAgenciesPagedList(PagingModel model)
         {
+            if(model.RecordsPerPage != 10)
+            {
+                model.RecordsPerPage = model.RecordsPerPage;
+            }
+            else
+            {
+                model.RecordsPerPage = 10000000;
+            }
             var result = new PagingResult<AgencyListingModel>();
             var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
@@ -47,10 +56,10 @@ namespace VendTech.BLL.Managers
         PagingResult<AgentListingModel> IAgencyManager.GetAgentsPagedList(PagingModel model, long agency)
         {
             var result = new PagingResult<AgentListingModel>();
-            model.RecordsPerPage = 10000000;
+            model.RecordsPerPage = 10;// 000000;
             IQueryable<POS> query = null;
 
-            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency && !f.IsAdmin && !f.SerialNumber.StartsWith("AGT")).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
+            query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency && !f.IsAdmin && !f.SerialNumber.StartsWith("AGT") && f.User.Status != 3).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
 
             if (model.SortBy.Equals("AGENCY"))
             {
@@ -101,8 +110,22 @@ namespace VendTech.BLL.Managers
                     query = query.Where(z => z.Balance.ToString().ToLower().Contains(model.Search.Replace(",", "").ToLower()));
             }
             var list = query
-               .Skip(model.PageNo - 1).Take(model.RecordsPerPage)
-               .ToList().Select(x => new AgentListingModel(x)).ToList();
+               .Skip(model.PageNo - 1).Take(model.RecordsPerPage).AsEnumerable()
+               .Select(x => new AgentListingModel(x)).ToList();
+
+            for(var i =  0; i < list.Count; i++)
+            {
+                var posId = list[i].POSID;
+                var currentDate = DateTime.UtcNow.Date;
+
+                var sale = Context.TransactionDetails
+                    .Where(f => f.POSId == posId && DbFunctions.TruncateTime(f.CreatedAt) == DbFunctions.TruncateTime(currentDate) && f.Finalised == true)
+                    .Select(d => d.Amount)
+                    .DefaultIfEmpty(0)
+                    .Sum();
+
+                list[i].TodaySales = Utilities.FormatAmount(sale);
+            }
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {

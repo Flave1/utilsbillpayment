@@ -14,6 +14,7 @@ namespace VendTech.BLL.Models
     {
         public long POSId { get; set; }
         public string VendorName { get; set; }
+        public string Products { get; set; }
 
         public string Agency { get; set; }
         public string SerialNumber { get; set; }
@@ -41,7 +42,7 @@ namespace VendTech.BLL.Models
             POSId = obj.POSId;
             VendorName = (obj.User == null ? "" : obj.User.Vendor);
             SerialNumber = obj.SerialNumber;
-            Phone = obj.Phone;
+            Phone = obj?.User?.Phone ?? "";
             VendorType = obj.VendorType == null ? "" : ((PosTypeEnum)obj.VendorType).ToString();
             Enabled = obj.Enabled == null ? false : obj.Enabled.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
@@ -51,7 +52,7 @@ namespace VendTech.BLL.Models
             SMSNotificationSales = Convert.ToBoolean(obj.SMSNotificationSales); // == null ? 0 : obj.SMSNotificationDeposit.Value;
             Balance = obj.Balance == null ? 0 : obj.Balance.Value;
             UserId = obj?.User?.UserId??0;
-            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true && d.IsVerified == true) ??0;
+            POSCount = obj?.User?.Meters?.Count(d => d.IsDeleted == false && d.IsSaved == true && d.IsVerified == true && d.NumberType == (int)NumberTypeEnum.MeterNumber) ??0;
             Percentage = obj.Commission.Percentage;
             WebSms = obj?.WebSms ?? false;
             PosSms = obj?.PosSms ?? false;
@@ -61,6 +62,7 @@ namespace VendTech.BLL.Models
             PosBarcode = obj?.PosBarcode ?? false;
             Agency = obj?.User?.Agency?.AgencyName;
             MobileAppVersion = obj.User?.MobileAppVersion ?? "2.2";
+            Products = string.Join(", ", obj?.POSAssignedPlatforms.Select(x => x.Platform.ShortName).ToList());
         } 
     }
     public class PosAPiListingModel

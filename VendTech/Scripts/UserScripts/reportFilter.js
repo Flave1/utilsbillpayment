@@ -47,9 +47,29 @@ $(document).ready(function () {
 
 
     var d = new Date();
+
+    var selectedFrmDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var selectedToDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+    function validateDate() {
+        var daysDifference = Math.floor((selectedToDate - selectedFrmDate) / (1000 * 3600 * 24));
+        if (daysDifference != "NaN" && daysDifference > 30) {
+            $.ShowMessage($('div.messageAlert'), "Date range cannot be more than 30 days", MessageType.Error);
+            $("#btnFilterSearch").prop('disabled', true);
+            return;
+        }
+        $("#btnFilterSearch").prop('disabled', false);
+    }
+    
+    
+
     $("#FromDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-        format: "dd/MM/yyyy"
+        format: "dd/MM/yyyy",
+        change: function (e) {
+            selectedFrmDate = this.value();
+            validateDate();
+        }
     });
     var datePicker1 = $("#FromDate").data("kendoDatePicker");
     $("#FromDate").click(function () {
@@ -57,7 +77,12 @@ $(document).ready(function () {
     });
     $("#ToDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-        format: "dd/MM/yyyy"
+        format: "dd/MM/yyyy",
+        change: function (e) {
+            selectedToDate = this.value();
+            validateDate();
+        }
+        
     });
     var datePicker2 = $("#ToDate").data("kendoDatePicker");
     $("#ToDate").click(function () {

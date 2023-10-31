@@ -1,7 +1,10 @@
 ﻿$(document).ready(function () {
     
-    $("input[type=button]#addUserBtn").live("click", function () {
+    $("input[type=button]#addUserBtn").on("click", function () {
         return UserMeters.AddUser($(this));
+    });
+    $("input[type=button]#addPhoneBtn").on("click", function () {
+        return UserMeters.AddPhone($(this));
     });
     $("input[type=button]#rechargeBtn").on("click", function () {
         return UserMeters.RechargeMeter($(this));
@@ -9,38 +12,41 @@
     $("button#rechargeBtn").on("click", function () {
         return UserMeters.RechargeMeter2($(this));
     });
-    $("input[type=button]#editUserBtn").live("click", function () {
+    $("input[type=button]#editUserBtn").on("click", function () {
         return UserMeters.UpdateUser($(this));
     });
-    $("a.deletethis").live("click", function () {
+    $("a.deletethis").on("click", function () {
         return UserMeters.DeleteUser($(this));
     });
-    $("a.activateUser").live("click", function () {
+    $("a.activateUser").on("click", function () {
         return UserMeters.ActivateUser($(this));
     });
-    $("a.declinedUser").live("click", function () {
+    $("a.declinedUser").on("click", function () {
         return UserMeters.DeclineUser($(this));
     });
-    $("a.blockUser").live("click", function () {
+    $("a.blockUser").on("click", function () {
         return UserMeters.BlockUser($(this));
     });
-    $("a.unBlockUser").live("click", function () {
+    $("a.unBlockUser").on("click", function () {
         return UserMeters.UnBlockUser($(this));
     });
-    $("input[type=button]#btnFilterVersion").live("click", function () {
+    $("input[type=button]#btnFilterVersion").on("click", function () {
         return UserMeters.ManageUsers($(this));
     });
+    //$("input[type=button]#btnFilterVersion2").on("click", function () {
+    //    return UserMeters.ManagePhones($(this));
+    //});
     $("select#showRecords").on("change", function () {
         return UserMeters.ShowRecords($(this));
     });
-    $('.sorting').live("click", function () {
+    $('.sorting').on("click", function () {
         return UserMeters.SortUserMeters($(this));
     });
-    $("#btnFilterSearch").live("click", function () {
+    $("#btnFilterSearch").on("click", function () {
         return UserMeters.SearchUsers($(this));
     });
 
-    $("#btnResetSearch").live("click", function () {
+    $("#btnResetSearch").on("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
         return UserMeters.SearchUsers($(this));
@@ -87,6 +93,27 @@ var UserMeters = {
             paging.startIndex = 1;
             paging.currentPage = 0;
             Paging();
+        }
+    },
+    SortPhoneNumbers: function (sender) {
+        if ($(sender).hasClass("sorting_asc")) {
+            $('.sorting').removeClass("sorting_asc");
+            $('.sorting').removeClass("sorting_desc")
+            $(sender).addClass("sorting_desc");
+            $('#SortBy').val($(sender).attr('data-sortby'));
+            $('#SortOrder').val('Desc');
+            paging.startIndex = 1;
+            paging.currentPage = 0;
+            Paging();
+        } else {
+            $('.sorting').removeClass("sorting_asc");
+            $('.sorting').removeClass("sorting_desc");
+            $(sender).addClass("sorting_asc");
+            $('#SortBy').val($(sender).attr('data-sortby'));
+            $('#SortOrder').val('Asc');
+            paging.startIndex = 1;
+            paging.currentPage = 0;
+            PagingForNumber();
         }
     },
     RechargeMeter: function (sender) {
@@ -166,7 +193,8 @@ var UserMeters = {
                 $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                 $("#pay_Now_Btn").val('PAY NOW');
                 $("#pay_Now_Btn").prop('disabled', false);
-                console.log(data);
+
+
                 if (data.Code === 302)
                 { 
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
@@ -174,11 +202,16 @@ var UserMeters = {
                     $("#error_reponse").html(data.Msg); 
                     return false;
                 }
-                //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
-                if (data.Code === 200) {
 
-                    
-                    console.log(data);
+                if (data.Code === 403) {
+                    const msg = atob(data.Msg)
+                    $.ShowMessage($('div.messageAlert'), msg, MessageType.Failed);
+                    $("#error_reponse").show();
+                    $("#error_reponse").html(msg);
+                    return false;
+                }
+
+                if (data.Code === 200) {
 
                     $("#sales_date").html(data.Data.TransactionDate);
                     $("#customer_name").html(data.Data.CustomerName);
@@ -228,7 +261,7 @@ var UserMeters = {
     },
 
     AddUser: function (sender) {
-        $.ajaxExt({
+        $.ajax({
             url: baseUrl + '/Meter/AddEditMeter',
             type: 'POST',
             validate: true,
@@ -246,6 +279,29 @@ var UserMeters = {
                     window.location.href = baseUrl + '/Meter/Index';
                 }, 1500);
 
+            }
+        });
+
+    },
+
+    AddPhone: function (sender) {
+        $.ajax({
+            url: baseUrl + '/SavedPhoneNumbers/AddEditPhoneNumbers',
+            type: 'POST',
+            validate: true,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            formToValidate: $(sender).parents("form:first"),
+            formToPost: $(sender).parents("form:first"),
+            isAjaxForm: true,
+            showThrobber: true,
+            button: $(sender),
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            success: function (results, message) {
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    window.location.href = baseUrl + '/SavedPhoneNumbers/Index';
+                }, 1500);
             }
         });
 
@@ -384,6 +440,13 @@ var UserMeters = {
         PageNumbering(totalRecords);
     },
 
+    ManagePhones: function (totalCount) {
+        var totalRecords = 0;
+        totalRecords = parseInt(totalCount);
+        //alert(totalRecords);
+        PageNumbering(totalRecords);
+    },
+
     SearchUsers: function (sender) {
         paging.startIndex = 1;
         Paging(sender);
@@ -426,6 +489,7 @@ function GetPOSBalanceAfterPurchase() {
 }
 
 function Paging(sender) {
+    $('#divResult table:first tbody').html("")
     var obj = new Object();
     obj.Search = $('#Search').val();
     obj.PageNo = paging.startIndex;
@@ -434,7 +498,7 @@ function Paging(sender) {
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
     obj.IsActive = $('#IsActive').val();
-    $.ajaxExt({
+    $.ajax({
         type: "POST",
         validate: false,
         parentControl: $(sender).parents("form:first"),
@@ -444,9 +508,37 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Meter/GetMetersPagingList',
         success: function (results, message) {
-            //$('#meterList').html(results[0]);
-            $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
+            $('#divResult table:first tbody').html(results.Results[0]);
+            PageNumbering(results.Results[1]);
+
+        }
+    });
+}
+
+function PagingForNumber(sender) {
+    $('#divResult table:first tbody').html("")
+    var obj = new Object();
+    obj.Search = $('#Search').val();
+    obj.PageNo = paging.startIndex;
+    obj.RecordsPerPage = paging.pageSize;
+    obj.SortBy = $('#SortBy').val();
+    obj.SortOrder = $('#SortOrder').val();
+    obj.SearchField = $('#searchField').val();
+    obj.IsActive = $('#IsActive').val();
+    $.ajax({
+        type: "POST",
+        validate: false,
+        parentControl: $(sender).parents("form:first"),
+        data: $.postifyData(obj),
+        messageControl: null,
+        showThrobber: false,
+        throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
+        url: baseUrl + '/SavedPhoneNumbers/GetSavedPhoneNumbersPagingList',
+        success: function (results, message) {
+
+            console.log('results.Results[0]', results.Results[0])
+            $('#divResult table:first tbody').html(results.Results[0]);
+            PageNumbering(results.Results[1]);
 
         }
     });

@@ -127,7 +127,7 @@ namespace VendTech.Areas.Admin.Controllers
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
 
             DashboardViewModel dashBoard = new DashboardViewModel();
-            //dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
+            dashBoard = _dashboardManager.getDashboardData(LOGGEDIN_USER.UserID);
             dashBoard.platFormModels = model;
             dashBoard.currentUser = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID);
             return View(dashBoard);
@@ -402,7 +402,7 @@ namespace VendTech.Areas.Admin.Controllers
             try
             {
 
-                var vendorStatus = _meterManager.GetVendorStatus();
+                var vendorStatus = _meterManager.RunStoredProcParams();
 
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";
@@ -421,7 +421,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             try
             { 
-               result = _meterManager.GetUserMeterRechargesHistory(new ReportSearchModel { RecordsPerPage = 10 }, true);
+               
+                result = _meterManager.GetUserMeterRechargesHistory(new ReportSearchModel { RecordsPerPage = 10 }, true, PlatformTypeEnum.All);
                  
                 result.Status = ActionStatus.Successfull;
                 result.Message = "Successfully.";

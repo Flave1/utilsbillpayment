@@ -222,6 +222,8 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost]
         public async Task<JsonResult> SendOTP()
         {
+
+            //return JsonResult(new ActionOutput { Message = "Please try again later", Status = ActionStatus.Error });
             if (LOGGEDIN_USER.UserID == 0 || LOGGEDIN_USER == null)
             {
                 SignOut();

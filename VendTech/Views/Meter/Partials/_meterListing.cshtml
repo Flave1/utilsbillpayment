@@ -1,30 +1,37 @@
 ﻿@model PagingResult<MeterAPIListingModel>
 
 
-            @{ int i = 0;}
-            @foreach (var item in Model.List)
+@*id="meterList"*@
+@{ int i = 0;}
+@foreach (var item in Model.List)
+{
+    string disable = item.PlatformDisabled ? "disabled-link" : "";
+    i += 1;
+    <tr>
+        <th scope="row">@i</th>
+        <td>
+            @if (item.isVerified)
             {
-                i += 1;
-                <tr id="meterList">
-                    <th scope="row">@i</th>
-                    <td>  <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>   </td>
-                    <td>@item.Name</td>
-                    <td>@item.Address</td>
-                    <td>@item.Alias</td>
-                    <td>@item.MeterMake</td>
-                    <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
-                    <td>@item.isVerified</td>
-                    @*<td>
-                        <a title="Delete" class="deletethis col-md-4" data-id="@item.MeterId" href="javascript:void(0)"><i class="fa fa-trash-o text-danger"></i></a>
-
-
-                    </td>*@
-                    <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a></td>
-                    <td>
-                        @if (item.isVerified)
-                        {
-                            <a title="Recharge" class="recharge col-md-4" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a>
-                        }
-                    </td>
-                </tr>
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>
             }
+            else
+            {
+
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='#'> @item.Number</a>
+            }
+        </td>
+        <td>@item.Name</td>
+        <td>@item.Address</td>
+        <td>@item.Alias</td>
+        <td>@item.MeterMake</td>
+        <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+        <td>@item.isVerified</td>
+        <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditMeter", "Meter", new {meterId=item.MeterId })'><i class="fa fa-edit"></i></a></td>
+        <td>
+            @if (item.isVerified)
+            {
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'><i class="fa fa-money text-success"></i></a>
+            }
+        </td>
+    </tr>
+}

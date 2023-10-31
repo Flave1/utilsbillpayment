@@ -232,7 +232,7 @@
     </div>
 
 
-    @Html.Partial("Partials/_downTimeNotification")
+    @Html.Partial("Partials/_downTimeNotification", "")
     <div class="modal fade" id="modalCart2">
         @Html.Partial("_voucherReprint")
     </div>
@@ -332,7 +332,7 @@
                         $.ajax({
                             url: '/Pos/GetPosBalance?posId=' + $("#posDrp").val(),
                             success: function (res) {
-                                $("#balanceSpan").text("SSL : " + thousands_separators(res.balance));
+                                $("#balanceSpan").text("NLe : " + thousands_separators(res.balance));
                             }
                         })
                     }
@@ -404,6 +404,11 @@
             window.location.href = 'Meter/Utility';
         }
 
+        function closeModal() {
+            $("#modalCart").modal("hide");
+            $("#modalCart2").modal("hide");
+            $("#modalCart3").modal("hide");
+        }
 
     </script>
 }

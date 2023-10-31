@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ABC_PRODUCTIONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -38,7 +38,7 @@
           <Key>
             <PropertyRef Name="BankAccountId" />
           </Key>
-          <Property Name="BankAccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankAccountId" Type="int" Nullable="false" />
           <Property Name="BankName" Type="nvarchar" MaxLength="500" />
           <Property Name="AccountName" Type="nvarchar" MaxLength="500" />
           <Property Name="AccountNumber" Type="nvarchar" MaxLength="50" />
@@ -50,7 +50,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BankCode" Type="nvarchar" MaxLength="200" />
           <Property Name="BankName" Type="nvarchar" MaxLength="200" />
           <Property Name="isactive" Type="bit" />
@@ -106,10 +106,17 @@
           <Key>
             <PropertyRef Name="CountryId" />
           </Key>
-          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="75" Nullable="false" />
         </EntityType>
         <EntityType Name="DepositLogs">
           <Key>
@@ -224,28 +231,24 @@
           <Property Name="IsVerified" Type="bit" />
           <Property Name="Allias" Type="nvarchar" MaxLength="50" />
           <Property Name="IsSaved" Type="bit" Nullable="false" />
+          <Property Name="NumberType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
             <PropertyRef Name="ModuleId" />
           </Key>
-          <Property Name="ModuleId" Type="int" Nullable="false" />
+          <Property Name="ModuleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModuleName" Type="nvarchar" MaxLength="500" />
           <Property Name="ControllerName" Type="nvarchar" MaxLength="500" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsAdmin" Type="bit" />
           <Property Name="SubMenuOf" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Nations">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="sortname" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="isd_code" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="sortname" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="isd_code" Type="int" Nullable="false" />
@@ -316,6 +319,81 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="MinimumAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DisablePlatform" Type="bit" Nullable="false" />
           <Property Name="DisabledPlatformMessage" Type="varchar(max)" />
+          <Property Name="PlatformType" Type="int" Nullable="false" />
+          <Property Name="PlatformApiConnId" Type="int" />
+          <Property Name="PlatformApiConnBackupId" Type="int" />
+        </EntityType>
+        <EntityType Name="PlatformApiConnections">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlatformId" Type="int" Nullable="false" />
+          <Property Name="PlatformApiId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlatformApiLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionId" Type="bigint" Nullable="false" />
+          <Property Name="ApiLog" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LogType" Type="int" Nullable="false" />
+          <Property Name="LogDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlatformApis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="ApiType" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Config" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PlatformPacParams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlatformId" Type="int" Nullable="false" />
+          <Property Name="PlatformApiConnectionId" Type="int" Nullable="false" />
+          <Property Name="Config" Type="nvarchar" MaxLength="4000" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlatformTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="PlatformId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="AmountPlatform" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Beneficiary" Type="nvarchar" MaxLength="150" />
+          <Property Name="UserReference" Type="nvarchar" MaxLength="32" />
+          <Property Name="ApiConnectionId" Type="int" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+          <Property Name="PosId" Type="bigint" />
+          <Property Name="OperatorReference" Type="nvarchar" MaxLength="150" />
+          <Property Name="PinSerial" Type="nvarchar" MaxLength="150" />
+          <Property Name="PinNumber" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PinInstructions" Type="nvarchar(max)" />
+          <Property Name="ApiTransactionId" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastPendingCheck" Type="bigint" Nullable="false" />
+          <Property Name="TransactionDetailId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -365,6 +443,19 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsUsed" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SMS_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date_Time" Type="datetime" />
+          <Property Name="UserID" Type="bigint" />
+          <Property Name="POSID" Type="bigint" />
+          <Property Name="TransactionID" Type="varchar" MaxLength="20" />
+          <Property Name="Phone_number" Type="varchar" MaxLength="20" />
+          <Property Name="Meter_Number" Type="varchar" MaxLength="20" />
+          <Property Name="AgentID" Type="bigint" />
         </EntityType>
         <EntityType Name="StanTable">
           <Key>
@@ -768,6 +859,150 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Platform_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
+          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Platform">
+              <PropertyRef Name="PlatformApiConnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Platform_PlatformApiConnections_Backup">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
+          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Platform">
+              <PropertyRef Name="PlatformApiConnBackupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformApiConnections_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformApiConnections">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformApiConnections_PlatformApis">
+          <End Role="PlatformApis" Type="Self.PlatformApis" Multiplicity="0..1" />
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformApiConnections">
+              <PropertyRef Name="PlatformApiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformApis_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="PlatformApis" Type="Self.PlatformApis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformApis">
+              <PropertyRef Name="Currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformPacParams_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformPacParams" Type="Self.PlatformPacParams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformPacParams">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformPacParams_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="1" />
+          <End Role="PlatformPacParams" Type="Self.PlatformPacParams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformPacParams">
+              <PropertyRef Name="PlatformApiConnectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="Currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnections" Multiplicity="0..1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="ApiConnectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="PosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_POS_Commissions">
           <End Role="Commissions" Type="Self.Commissions" Multiplicity="0..1" />
           <End Role="POS" Type="Self.POS" Multiplicity="*" />
@@ -840,19 +1075,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TransactionDetails_Meters">
-          <End Role="Meters" Type="Self.Meters" Multiplicity="0..1" />
-          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meters">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="TransactionDetails">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TransactionDetails_Platforms">
+        <Association Name="FK_TransactionDetails_Platform">
           <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
           <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1044,7 +1267,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ABC_PRODUCTIONModelStoreContainer">
+        <EntityContainer Name="DataModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
@@ -1055,6 +1278,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Commissions" EntityType="Self.Commissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepositLogs" EntityType="Self.DepositLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepositOTP" EntityType="Self.DepositOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Deposits" EntityType="Self.Deposits" Schema="dbo" store:Type="Tables" />
@@ -1064,13 +1288,20 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="ForgotPasswordRequests" EntityType="Self.ForgotPasswordRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meters" EntityType="Self.Meters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nations" EntityType="Self.Nations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlatformApiConnections" EntityType="Self.PlatformApiConnections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlatformApiLogs" EntityType="Self.PlatformApiLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlatformApis" EntityType="Self.PlatformApis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlatformPacParams" EntityType="Self.PlatformPacParams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlatformTransactions" EntityType="Self.PlatformTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POS" EntityType="Self.POS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatforms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
@@ -1081,14 +1312,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendors" EntityType="Self.Vendors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Nations" EntityType="Self.Nations" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Nations].[id] AS [id], 
-    [Nations].[sortname] AS [sortname], 
-    [Nations].[name] AS [name], 
-    [Nations].[isd_code] AS [isd_code]
-    FROM [dbo].[Nations] AS [Nations]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="AccountVerificationOTP" EntitySet="AccountVerificationOTP" />
@@ -1165,6 +1388,54 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="PendingDeposits" EntitySet="PendingDeposits" />
           </AssociationSet>
+          <AssociationSet Name="FK_Platform_PlatformApiConnections" Association="Self.FK_Platform_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="Platform" EntitySet="Platform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Platform_PlatformApiConnections_Backup" Association="Self.FK_Platform_PlatformApiConnections_Backup">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="Platform" EntitySet="Platform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformApiConnections_Platform" Association="Self.FK_PlatformApiConnections_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformApiConnections_PlatformApis" Association="Self.FK_PlatformApiConnections_PlatformApis">
+            <End Role="PlatformApis" EntitySet="PlatformApis" />
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformApis_Currencies" Association="Self.FK_PlatformApis_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PlatformApis" EntitySet="PlatformApis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformPacParams_Platform" Association="Self.FK_PlatformPacParams_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformPacParams_PlatformApiConnections" Association="Self.FK_PlatformPacParams_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Currencies" Association="Self.FK_PlatformTransactions_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Platform" Association="Self.FK_PlatformTransactions_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_PlatformApiConnections" Association="Self.FK_PlatformTransactions_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_POS" Association="Self.FK_PlatformTransactions_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Users" Association="Self.FK_PlatformTransactions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
           <AssociationSet Name="FK_POS_Commissions" Association="Self.FK_POS_Commissions">
             <End Role="Commissions" EntitySet="Commissions" />
             <End Role="POS" EntitySet="POS" />
@@ -1189,11 +1460,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="TokensManager" EntitySet="TokensManager" />
           </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Meters" Association="Self.FK_TransactionDetails_Meters">
-            <End Role="Meters" EntitySet="Meters" />
-            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="Self.FK_TransactionDetails_Platforms">
+          <AssociationSet Name="FK_TransactionDetails_Platform" Association="Self.FK_TransactionDetails_Platform">
             <End Role="Platform" EntitySet="Platform" />
             <End Role="TransactionDetails" EntitySet="TransactionDetails" />
           </AssociationSet>
@@ -1261,7 +1528,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ABC_PRODUCTIONModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1300,7 +1567,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Key>
             <PropertyRef Name="BankAccountId" />
           </Key>
-          <Property Name="BankAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankAccountId" Type="Int32" Nullable="false" />
           <Property Name="BankName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="AccountName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1313,7 +1580,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BankCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BankName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="isactive" Type="Boolean" />
@@ -1375,12 +1642,21 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Key>
             <PropertyRef Name="CountryId" />
           </Key>
-          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Cities" Relationship="Self.FK_City_Country" FromRole="Country" ToRole="City" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Users_Country" FromRole="Country" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlatformApis" Relationship="Self.FK_PlatformApis_Currencies" FromRole="Currencies" ToRole="PlatformApis" />
+          <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_Currencies" FromRole="Currencies" ToRole="PlatformTransactions" />
         </EntityType>
         <EntityType Name="DepositLog">
           <Key>
@@ -1504,14 +1780,14 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsVerified" Type="Boolean" />
           <Property Name="Allias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsSaved" Type="Boolean" Nullable="false" />
+          <Property Name="NumberType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Meters_Users" FromRole="Meters" ToRole="Users" />
-          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Meters" FromRole="Meters" ToRole="TransactionDetails" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
             <PropertyRef Name="ModuleId" />
           </Key>
-          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ModuleName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ControllerName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1520,6 +1796,15 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="Modules1" Relationship="Self.FK_Modules_Modules" FromRole="Modules" ToRole="Modules1" />
           <NavigationProperty Name="Module1" Relationship="Self.FK_Modules_Modules" FromRole="Modules1" ToRole="Modules" />
           <NavigationProperty Name="UserAssignedModules" Relationship="Self.FK_UserAssignedModules_Modules" FromRole="Modules" ToRole="UserAssignedModules" />
+        </EntityType>
+        <EntityType Name="Nation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sortname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isd_code" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1593,9 +1878,104 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="MinimumAmount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DisablePlatform" Type="Boolean" Nullable="false" />
           <Property Name="DisabledPlatformMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PlatformType" Type="Int32" Nullable="false" />
+          <Property Name="PlatformApiConnId" Type="Int32" />
+          <Property Name="PlatformApiConnBackupId" Type="Int32" />
+          <NavigationProperty Name="PlatformApiConnection" Relationship="Self.FK_Platform_PlatformApiConnections" FromRole="Platform" ToRole="PlatformApiConnections" />
+          <NavigationProperty Name="PlatformApiConnection1" Relationship="Self.FK_Platform_PlatformApiConnections_Backup" FromRole="Platform" ToRole="PlatformApiConnections" />
+          <NavigationProperty Name="PlatformApiConnections" Relationship="Self.FK_PlatformApiConnections_Platform" FromRole="Platform" ToRole="PlatformApiConnections" />
+          <NavigationProperty Name="PlatformPacParams" Relationship="Self.FK_PlatformPacParams_Platform" FromRole="Platform" ToRole="PlatformPacParams" />
+          <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_Platform" FromRole="Platform" ToRole="PlatformTransactions" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_Platform" FromRole="Platform" ToRole="POSAssignedPlatforms" />
-          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="Platform" ToRole="TransactionDetails" />
+          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_Platform" FromRole="Platform" ToRole="TransactionDetails" />
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="Self.FK_UserAssignedPlatforms_Platform" FromRole="Platform" ToRole="UserAssignedPlatforms" />
+        </EntityType>
+        <EntityType Name="PlatformApiConnection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlatformId" Type="Int32" Nullable="false" />
+          <Property Name="PlatformApiId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Platforms" Relationship="Self.FK_Platform_PlatformApiConnections" FromRole="PlatformApiConnections" ToRole="Platform" />
+          <NavigationProperty Name="Platforms1" Relationship="Self.FK_Platform_PlatformApiConnections_Backup" FromRole="PlatformApiConnections" ToRole="Platform" />
+          <NavigationProperty Name="Platform" Relationship="Self.FK_PlatformApiConnections_Platform" FromRole="PlatformApiConnections" ToRole="Platform" />
+          <NavigationProperty Name="PlatformApi" Relationship="Self.FK_PlatformApiConnections_PlatformApis" FromRole="PlatformApiConnections" ToRole="PlatformApis" />
+          <NavigationProperty Name="PlatformPacParams" Relationship="Self.FK_PlatformPacParams_PlatformApiConnections" FromRole="PlatformApiConnections" ToRole="PlatformPacParams" />
+          <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_PlatformApiConnections" FromRole="PlatformApiConnections" ToRole="PlatformTransactions" />
+        </EntityType>
+        <EntityType Name="PlatformApiLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransactionId" Type="Int64" Nullable="false" />
+          <Property Name="ApiLog" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LogType" Type="Int32" Nullable="false" />
+          <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PlatformApi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApiType" Type="Int32" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Config" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Currency1" Relationship="Self.FK_PlatformApis_Currencies" FromRole="PlatformApis" ToRole="Currencies" />
+          <NavigationProperty Name="PlatformApiConnections" Relationship="Self.FK_PlatformApiConnections_PlatformApis" FromRole="PlatformApis" ToRole="PlatformApiConnections" />
+        </EntityType>
+        <EntityType Name="PlatformPacParam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlatformId" Type="Int32" Nullable="false" />
+          <Property Name="PlatformApiConnectionId" Type="Int32" Nullable="false" />
+          <Property Name="Config" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Platform" Relationship="Self.FK_PlatformPacParams_Platform" FromRole="PlatformPacParams" ToRole="Platform" />
+          <NavigationProperty Name="PlatformApiConnection" Relationship="Self.FK_PlatformPacParams_PlatformApiConnections" FromRole="PlatformPacParams" ToRole="PlatformApiConnections" />
+        </EntityType>
+        <EntityType Name="PlatformTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="PlatformId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="AmountPlatform" Type="Decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Beneficiary" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UserReference" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ApiConnectionId" Type="Int32" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PosId" Type="Int64" />
+          <Property Name="OperatorReference" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PinSerial" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PinNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PinInstructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApiTransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastPendingCheck" Type="Int64" Nullable="false" />
+          <Property Name="TransactionDetailId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Currency1" Relationship="Self.FK_PlatformTransactions_Currencies" FromRole="PlatformTransactions" ToRole="Currencies" />
+          <NavigationProperty Name="Platform" Relationship="Self.FK_PlatformTransactions_Platform" FromRole="PlatformTransactions" ToRole="Platform" />
+          <NavigationProperty Name="PlatformApiConnection" Relationship="Self.FK_PlatformTransactions_PlatformApiConnections" FromRole="PlatformTransactions" ToRole="PlatformApiConnections" />
+          <NavigationProperty Name="POS" Relationship="Self.FK_PlatformTransactions_POS" FromRole="PlatformTransactions" ToRole="POS" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PlatformTransactions_Users" FromRole="PlatformTransactions" ToRole="Users" />
         </EntityType>
         <EntityType Name="POS">
           <Key>
@@ -1629,6 +2009,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="Commission" Relationship="Self.FK_POS_Commissions" FromRole="POS" ToRole="Commissions" />
           <NavigationProperty Name="Deposits" Relationship="Self.FK_Deposits_POS" FromRole="POS" ToRole="Deposits" />
           <NavigationProperty Name="PendingDeposits" Relationship="Self.FK_PendingDeposits_POS" FromRole="POS" ToRole="PendingDeposits" />
+          <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_POS" FromRole="POS" ToRole="PlatformTransactions" />
           <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
@@ -1654,6 +2035,19 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="IsUsed" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_ReferralCodes_Users" FromRole="ReferralCodes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SMS_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date_Time" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int64" />
+          <Property Name="POSID" Type="Int64" />
+          <Property Name="TransactionID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Meter_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AgentID" Type="Int64" />
         </EntityType>
         <EntityType Name="StanTable">
           <Key>
@@ -1726,8 +2120,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="CurrentVendorBalance" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="QueryStatusCount" Type="Int32" />
-          <NavigationProperty Name="Meter" Relationship="Self.FK_TransactionDetails_Meters" FromRole="TransactionDetails" ToRole="Meters" />
-          <NavigationProperty Name="Platform" Relationship="Self.FK_TransactionDetails_Platforms" FromRole="TransactionDetails" ToRole="Platform" />
+          <NavigationProperty Name="Platform" Relationship="Self.FK_TransactionDetails_Platform" FromRole="TransactionDetails" ToRole="Platform" />
           <NavigationProperty Name="POS" Relationship="Self.FK_TransactionDetails_POS" FromRole="TransactionDetails" ToRole="POS" />
           <NavigationProperty Name="User" Relationship="Self.FK_TransactionDetails_Users" FromRole="TransactionDetails" ToRole="Users" />
         </EntityType>
@@ -1813,6 +2206,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="TotalPendingData" Type="Int32" />
           <Property Name="IsCompany" Type="Boolean" />
           <Property Name="UserSerialNo" Type="Int64" />
+          <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AccountVerificationOTPs" Relationship="Self.FK_AccountVerificationOTP_Users" FromRole="Users" ToRole="AccountVerificationOTP" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agency_Users" FromRole="Users" ToRole="Agency" />
           <NavigationProperty Name="Agency" Relationship="Self.FK_Users_Agency" FromRole="Users" ToRole="Agency" />
@@ -1827,6 +2221,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="Meters" Relationship="Self.FK_Meters_Users" FromRole="Users" ToRole="Meters" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_Users" FromRole="Users" ToRole="Notifications" />
           <NavigationProperty Name="PendingDeposits" Relationship="Self.FK_PendingDeposits_Users" FromRole="Users" ToRole="PendingDeposits" />
+          <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_Users" FromRole="Users" ToRole="PlatformTransactions" />
           <NavigationProperty Name="POS" Relationship="Self.FK_POS_Vendors" FromRole="Users" ToRole="POS" />
           <NavigationProperty Name="ReferralCodes" Relationship="Self.FK_ReferralCodes_Users" FromRole="Users" ToRole="ReferralCodes" />
           <NavigationProperty Name="TokensManagers" Relationship="Self.FK_TokensManager_Users" FromRole="Users" ToRole="TokensManager" />
@@ -1837,7 +2232,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
-          <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -1866,18 +2260,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="UserAssignedWidgets" Relationship="Self.FK_UserAssignedWidgets_Widget" FromRole="Widgets" ToRole="UserAssignedWidgets" />
-        </EntityType>
-        <EntityType Name="Nation">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="sortname" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="isd_code" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="sortname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="isd_code" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_AccountVerificationOTP_Users">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -2023,6 +2405,30 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PlatformApis_Currencies">
+          <End Role="Currencies" Type="Self.Currency" Multiplicity="1" />
+          <End Role="PlatformApis" Type="Self.PlatformApi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformApis">
+              <PropertyRef Name="Currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Currencies">
+          <End Role="Currencies" Type="Self.Currency" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="Currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DepositLogs_Deposits">
           <End Role="Deposits" Type="Self.Deposit" Multiplicity="1" />
           <End Role="DepositLogs" Type="Self.DepositLog" Multiplicity="*" />
@@ -2119,18 +2525,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TransactionDetails_Meters">
-          <End Role="Meters" Type="Self.Meter" Multiplicity="0..1" />
-          <End Role="TransactionDetails" Type="Self.TransactionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Meters">
-              <PropertyRef Name="MeterId" />
-            </Principal>
-            <Dependent Role="TransactionDetails">
-              <PropertyRef Name="MeterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Modules_Modules">
           <End Role="Modules" Type="Self.Module" Multiplicity="0..1" />
           <End Role="Modules1" Type="Self.Module" Multiplicity="*" />
@@ -2203,6 +2597,66 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Platform_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="0..1" />
+          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Platform">
+              <PropertyRef Name="PlatformApiConnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Platform_PlatformApiConnections_Backup">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="0..1" />
+          <End Role="Platform" Type="Self.Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Platform">
+              <PropertyRef Name="PlatformApiConnBackupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformApiConnections_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformApiConnections">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformPacParams_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformPacParams" Type="Self.PlatformPacParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformPacParams">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_POSAssignedPlatforms_Platform">
           <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
           <End Role="POSAssignedPlatforms" Type="Self.POSAssignedPlatform" Multiplicity="*" />
@@ -2215,7 +2669,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TransactionDetails_Platforms">
+        <Association Name="FK_TransactionDetails_Platform">
           <End Role="Platform" Type="Self.Platform" Multiplicity="0..1" />
           <End Role="TransactionDetails" Type="Self.TransactionDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2236,6 +2690,66 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </Principal>
             <Dependent Role="UserAssignedPlatforms">
               <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformApiConnections_PlatformApis">
+          <End Role="PlatformApis" Type="Self.PlatformApi" Multiplicity="0..1" />
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformApiConnections">
+              <PropertyRef Name="PlatformApiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformPacParams_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="1" />
+          <End Role="PlatformPacParams" Type="Self.PlatformPacParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformPacParams">
+              <PropertyRef Name="PlatformApiConnectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_PlatformApiConnections">
+          <End Role="PlatformApiConnections" Type="Self.PlatformApiConnection" Multiplicity="0..1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlatformApiConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="ApiConnectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_POS">
+          <End Role="POS" Type="Self.POS" Multiplicity="0..1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POS">
+              <PropertyRef Name="POSId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="PosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlatformTransactions_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PlatformTransactions" Type="Self.PlatformTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PlatformTransactions">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2394,6 +2908,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Commissions" EntityType="Self.Commission" />
           <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
           <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Currencies" EntityType="Self.Currency" />
           <EntitySet Name="DepositLogs" EntityType="Self.DepositLog" />
           <EntitySet Name="DepositOTPs" EntityType="Self.DepositOTP" />
           <EntitySet Name="Deposits" EntityType="Self.Deposit" />
@@ -2403,13 +2918,20 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="ForgotPasswordRequests" EntityType="Self.ForgotPasswordRequest" />
           <EntitySet Name="Meters" EntityType="Self.Meter" />
           <EntitySet Name="Modules" EntityType="Self.Module" />
+          <EntitySet Name="Nations" EntityType="Self.Nation" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <EntitySet Name="PendingDeposits" EntityType="Self.PendingDeposit" />
           <EntitySet Name="Platforms" EntityType="Self.Platform" />
+          <EntitySet Name="PlatformApiConnections" EntityType="Self.PlatformApiConnection" />
+          <EntitySet Name="PlatformApiLogs" EntityType="Self.PlatformApiLog" />
+          <EntitySet Name="PlatformApis" EntityType="Self.PlatformApi" />
+          <EntitySet Name="PlatformPacParams" EntityType="Self.PlatformPacParam" />
+          <EntitySet Name="PlatformTransactions" EntityType="Self.PlatformTransaction" />
           <EntitySet Name="POS" EntityType="Self.POS" />
           <EntitySet Name="POSAssignedPlatforms" EntityType="Self.POSAssignedPlatform" />
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCode" />
+          <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" />
           <EntitySet Name="StanTables" EntityType="Self.StanTable" />
           <EntitySet Name="TokensManagers" EntityType="Self.TokensManager" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetail" />
@@ -2420,7 +2942,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
           <EntitySet Name="Widgets" EntityType="Self.Widget" />
-          <EntitySet Name="Nations" EntityType="Self.Nation" />
           <AssociationSet Name="FK_AccountVerificationOTP_Users" Association="Self.FK_AccountVerificationOTP_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="AccountVerificationOTP" EntitySet="AccountVerificationOTPs" />
@@ -2469,6 +2990,14 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Country" EntitySet="Countries" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_PlatformApis_Currencies" Association="Self.FK_PlatformApis_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PlatformApis" EntitySet="PlatformApis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Currencies" Association="Self.FK_PlatformTransactions_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
           <AssociationSet Name="FK_DepositLogs_Deposits" Association="Self.FK_DepositLogs_Deposits">
             <End Role="Deposits" EntitySet="Deposits" />
             <End Role="DepositLogs" EntitySet="DepositLogs" />
@@ -2501,10 +3030,6 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="Meters" EntitySet="Meters" />
           </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Meters" Association="Self.FK_TransactionDetails_Meters">
-            <End Role="Meters" EntitySet="Meters" />
-            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Modules_Modules" Association="Self.FK_Modules_Modules">
             <End Role="Modules" EntitySet="Modules" />
             <End Role="Modules1" EntitySet="Modules" />
@@ -2529,17 +3054,57 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="PendingDeposits" EntitySet="PendingDeposits" />
           </AssociationSet>
+          <AssociationSet Name="FK_Platform_PlatformApiConnections" Association="Self.FK_Platform_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="Platform" EntitySet="Platforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Platform_PlatformApiConnections_Backup" Association="Self.FK_Platform_PlatformApiConnections_Backup">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="Platform" EntitySet="Platforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformApiConnections_Platform" Association="Self.FK_PlatformApiConnections_Platform">
+            <End Role="Platform" EntitySet="Platforms" />
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformPacParams_Platform" Association="Self.FK_PlatformPacParams_Platform">
+            <End Role="Platform" EntitySet="Platforms" />
+            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Platform" Association="Self.FK_PlatformTransactions_Platform">
+            <End Role="Platform" EntitySet="Platforms" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
           <AssociationSet Name="FK_POSAssignedPlatforms_Platform" Association="Self.FK_POSAssignedPlatforms_Platform">
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="POSAssignedPlatforms" EntitySet="POSAssignedPlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_TransactionDetails_Platforms" Association="Self.FK_TransactionDetails_Platforms">
+          <AssociationSet Name="FK_TransactionDetails_Platform" Association="Self.FK_TransactionDetails_Platform">
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="TransactionDetails" EntitySet="TransactionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_UserAssignedPlatforms_Platform" Association="Self.FK_UserAssignedPlatforms_Platform">
             <End Role="Platform" EntitySet="Platforms" />
             <End Role="UserAssignedPlatforms" EntitySet="UserAssignedPlatforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformApiConnections_PlatformApis" Association="Self.FK_PlatformApiConnections_PlatformApis">
+            <End Role="PlatformApis" EntitySet="PlatformApis" />
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformPacParams_PlatformApiConnections" Association="Self.FK_PlatformPacParams_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="PlatformPacParams" EntitySet="PlatformPacParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_PlatformApiConnections" Association="Self.FK_PlatformTransactions_PlatformApiConnections">
+            <End Role="PlatformApiConnections" EntitySet="PlatformApiConnections" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_POS" Association="Self.FK_PlatformTransactions_POS">
+            <End Role="POS" EntitySet="POS" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlatformTransactions_Users" Association="Self.FK_PlatformTransactions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PlatformTransactions" EntitySet="PlatformTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_POS_Vendors" Association="Self.FK_POS_Vendors">
             <End Role="Users" EntitySet="Users" />
@@ -2595,9 +3160,9 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ABC_PRODUCTIONModelStoreContainer" CdmEntityContainer="VendtechEntities">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="VendtechEntities">
           <EntitySetMapping Name="AccountVerificationOTPs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.AccountVerificationOTP">
+            <EntityTypeMapping TypeName="DataModel.AccountVerificationOTP">
               <MappingFragment StoreEntitySet="AccountVerificationOTP">
                 <ScalarProperty Name="AccountVerificationOTPId" ColumnName="AccountVerificationOTPId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2607,7 +3172,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Agencies">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Agency">
+            <EntityTypeMapping TypeName="DataModel.Agency">
               <MappingFragment StoreEntitySet="Agency">
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="AgencyName" ColumnName="AgencyName" />
@@ -2620,7 +3185,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AppSettings">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.AppSetting">
+            <EntityTypeMapping TypeName="DataModel.AppSetting">
               <MappingFragment StoreEntitySet="AppSettings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2629,7 +3194,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BankAccounts">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.BankAccount">
+            <EntityTypeMapping TypeName="DataModel.BankAccount">
               <MappingFragment StoreEntitySet="BankAccounts">
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -2642,7 +3207,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.ChequeBank">
+            <EntityTypeMapping TypeName="DataModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="BankCode" ColumnName="BankCode" />
@@ -2654,7 +3219,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.City">
+            <EntityTypeMapping TypeName="DataModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2665,7 +3230,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CMSPages">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.CMSPage">
+            <EntityTypeMapping TypeName="DataModel.CMSPage">
               <MappingFragment StoreEntitySet="CMSPages">
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
@@ -2680,7 +3245,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commissions">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Commission">
+            <EntityTypeMapping TypeName="DataModel.Commission">
               <MappingFragment StoreEntitySet="Commissions">
                 <ScalarProperty Name="CommissionId" ColumnName="CommissionId" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -2690,7 +3255,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.ContactU">
+            <EntityTypeMapping TypeName="DataModel.ContactU">
               <MappingFragment StoreEntitySet="ContactUs">
                 <ScalarProperty Name="ContactUsId" ColumnName="ContactUsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2703,7 +3268,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Country">
+            <EntityTypeMapping TypeName="DataModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2712,8 +3277,16 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="DataModel.Currency">
+              <MappingFragment StoreEntitySet="Currencies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DepositLogs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.DepositLog">
+            <EntityTypeMapping TypeName="DataModel.DepositLog">
               <MappingFragment StoreEntitySet="DepositLogs">
                 <ScalarProperty Name="DepositLogId" ColumnName="DepositLogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2725,7 +3298,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DepositOTPs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.DepositOTP">
+            <EntityTypeMapping TypeName="DataModel.DepositOTP">
               <MappingFragment StoreEntitySet="DepositOTP">
                 <ScalarProperty Name="DepositOTPId" ColumnName="DepositOTPId" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
@@ -2735,7 +3308,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deposits">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Deposit">
+            <EntityTypeMapping TypeName="DataModel.Deposit">
               <MappingFragment StoreEntitySet="Deposits">
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2764,7 +3337,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailConfirmationRequests">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.EmailConfirmationRequest">
+            <EntityTypeMapping TypeName="DataModel.EmailConfirmationRequest">
               <MappingFragment StoreEntitySet="EmailConfirmationRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2774,7 +3347,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmailTemplates">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.EmailTemplate">
+            <EntityTypeMapping TypeName="DataModel.EmailTemplate">
               <MappingFragment StoreEntitySet="EmailTemplates">
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
@@ -2792,7 +3365,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ErrorLogs">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.ErrorLog">
+            <EntityTypeMapping TypeName="DataModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
@@ -2807,7 +3380,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForgotPasswordRequests">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.ForgotPasswordRequest">
+            <EntityTypeMapping TypeName="DataModel.ForgotPasswordRequest">
               <MappingFragment StoreEntitySet="ForgotPasswordRequests">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2817,7 +3390,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meters">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Meter">
+            <EntityTypeMapping TypeName="DataModel.Meter">
               <MappingFragment StoreEntitySet="Meters">
                 <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2831,11 +3404,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="Allias" ColumnName="Allias" />
                 <ScalarProperty Name="IsSaved" ColumnName="IsSaved" />
+                <ScalarProperty Name="NumberType" ColumnName="NumberType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Module">
+            <EntityTypeMapping TypeName="DataModel.Module">
               <MappingFragment StoreEntitySet="Modules">
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
@@ -2846,8 +3420,18 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Nations">
+            <EntityTypeMapping TypeName="DataModel.Nation">
+              <MappingFragment StoreEntitySet="Nations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="sortname" ColumnName="sortname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="isd_code" ColumnName="isd_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Notification">
+            <EntityTypeMapping TypeName="DataModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2862,7 +3446,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentTypes">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PaymentType">
+            <EntityTypeMapping TypeName="DataModel.PaymentType">
               <MappingFragment StoreEntitySet="PaymentType">
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2874,7 +3458,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PendingDeposits">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.PendingDeposit">
+            <EntityTypeMapping TypeName="DataModel.PendingDeposit">
               <MappingFragment StoreEntitySet="PendingDeposits">
                 <ScalarProperty Name="PendingDepositId" ColumnName="PendingDepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2902,7 +3486,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Platforms">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Platform">
+            <EntityTypeMapping TypeName="DataModel.Platform">
               <MappingFragment StoreEntitySet="Platform">
                 <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -2914,11 +3498,91 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="MinimumAmount" ColumnName="MinimumAmount" />
                 <ScalarProperty Name="DisablePlatform" ColumnName="DisablePlatform" />
                 <ScalarProperty Name="DisabledPlatformMessage" ColumnName="DisabledPlatformMessage" />
+                <ScalarProperty Name="PlatformType" ColumnName="PlatformType" />
+                <ScalarProperty Name="PlatformApiConnId" ColumnName="PlatformApiConnId" />
+                <ScalarProperty Name="PlatformApiConnBackupId" ColumnName="PlatformApiConnBackupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlatformApiConnections">
+            <EntityTypeMapping TypeName="DataModel.PlatformApiConnection">
+              <MappingFragment StoreEntitySet="PlatformApiConnections">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+                <ScalarProperty Name="PlatformApiId" ColumnName="PlatformApiId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlatformApiLogs">
+            <EntityTypeMapping TypeName="DataModel.PlatformApiLog">
+              <MappingFragment StoreEntitySet="PlatformApiLogs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="ApiLog" ColumnName="ApiLog" />
+                <ScalarProperty Name="LogType" ColumnName="LogType" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlatformApis">
+            <EntityTypeMapping TypeName="DataModel.PlatformApi">
+              <MappingFragment StoreEntitySet="PlatformApis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ApiType" ColumnName="ApiType" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Config" ColumnName="Config" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlatformPacParams">
+            <EntityTypeMapping TypeName="DataModel.PlatformPacParam">
+              <MappingFragment StoreEntitySet="PlatformPacParams">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+                <ScalarProperty Name="PlatformApiConnectionId" ColumnName="PlatformApiConnectionId" />
+                <ScalarProperty Name="Config" ColumnName="Config" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlatformTransactions">
+            <EntityTypeMapping TypeName="DataModel.PlatformTransaction">
+              <MappingFragment StoreEntitySet="PlatformTransactions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AmountPlatform" ColumnName="AmountPlatform" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Beneficiary" ColumnName="Beneficiary" />
+                <ScalarProperty Name="UserReference" ColumnName="UserReference" />
+                <ScalarProperty Name="ApiConnectionId" ColumnName="ApiConnectionId" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="PosId" ColumnName="PosId" />
+                <ScalarProperty Name="OperatorReference" ColumnName="OperatorReference" />
+                <ScalarProperty Name="PinSerial" ColumnName="PinSerial" />
+                <ScalarProperty Name="PinNumber" ColumnName="PinNumber" />
+                <ScalarProperty Name="PinInstructions" ColumnName="PinInstructions" />
+                <ScalarProperty Name="ApiTransactionId" ColumnName="ApiTransactionId" />
+                <ScalarProperty Name="LastPendingCheck" ColumnName="LastPendingCheck" />
+                <ScalarProperty Name="TransactionDetailId" ColumnName="TransactionDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POS">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.POS">
+            <EntityTypeMapping TypeName="DataModel.POS">
               <MappingFragment StoreEntitySet="POS">
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
@@ -2949,7 +3613,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POSAssignedPlatforms">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.POSAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.POSAssignedPlatform">
               <MappingFragment StoreEntitySet="POSAssignedPlatforms">
                 <ScalarProperty Name="AssignPOSPlatformId" ColumnName="AssignPOSPlatformId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
@@ -2959,7 +3623,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReferralCodes">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.ReferralCode">
+            <EntityTypeMapping TypeName="DataModel.ReferralCode">
               <MappingFragment StoreEntitySet="ReferralCodes">
                 <ScalarProperty Name="ReferralCodeId" ColumnName="ReferralCodeId" />
                 <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
@@ -2969,8 +3633,22 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SMS_LOG">
+            <EntityTypeMapping TypeName="DataModel.SMS_LOG">
+              <MappingFragment StoreEntitySet="SMS_LOG">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date_Time" ColumnName="Date_Time" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="POSID" ColumnName="POSID" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
+                <ScalarProperty Name="Meter_Number" ColumnName="Meter_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StanTables">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.StanTable">
+            <EntityTypeMapping TypeName="DataModel.StanTable">
               <MappingFragment StoreEntitySet="StanTable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stan" ColumnName="Stan" />
@@ -2978,7 +3656,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.TokensManager">
+            <EntityTypeMapping TypeName="DataModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -2992,7 +3670,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionDetails">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.TransactionDetail">
+            <EntityTypeMapping TypeName="DataModel.TransactionDetail">
               <MappingFragment StoreEntitySet="TransactionDetails">
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3044,7 +3722,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedModules">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.UserAssignedModule">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedModule">
               <MappingFragment StoreEntitySet="UserAssignedModules">
                 <ScalarProperty Name="AssignUserModuleId" ColumnName="AssignUserModuleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3055,7 +3733,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedPlatforms">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.UserAssignedPlatform">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedPlatform">
               <MappingFragment StoreEntitySet="UserAssignedPlatforms">
                 <ScalarProperty Name="AssignUserPlatformId" ColumnName="AssignUserPlatformId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3065,7 +3743,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignedWidgets">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.UserAssignedWidget">
+            <EntityTypeMapping TypeName="DataModel.UserAssignedWidget">
               <MappingFragment StoreEntitySet="UserAssignedWidgets">
                 <ScalarProperty Name="AssignWidgetId" ColumnName="AssignWidgetId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -3076,7 +3754,7 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.UserRole">
+            <EntityTypeMapping TypeName="DataModel.UserRole">
               <MappingFragment StoreEntitySet="UserRoles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -3085,9 +3763,8 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.User">
+            <EntityTypeMapping TypeName="DataModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="MobileAppVersion" ColumnName="MobileAppVersion" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
@@ -3122,11 +3799,12 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
                 <ScalarProperty Name="TotalPendingData" ColumnName="TotalPendingData" />
                 <ScalarProperty Name="IsCompany" ColumnName="IsCompany" />
                 <ScalarProperty Name="UserSerialNo" ColumnName="UserSerialNo" />
+                <ScalarProperty Name="MobileAppVersion" ColumnName="MobileAppVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Vendor">
+            <EntityTypeMapping TypeName="DataModel.Vendor">
               <MappingFragment StoreEntitySet="Vendors">
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3143,23 +3821,13 @@ warning 6002: The table/view 'Vendtechnov.dbo.Nations' does not have a primary k
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Widget">
+            <EntityTypeMapping TypeName="DataModel.Widget">
               <MappingFragment StoreEntitySet="Widgets">
                 <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Nations">
-            <EntityTypeMapping TypeName="ABC_PRODUCTIONModel.Nation">
-              <MappingFragment StoreEntitySet="Nations">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="sortname" ColumnName="sortname" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="isd_code" ColumnName="isd_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -7,9 +7,20 @@
                 <div style="width:29%; float:left;">
                     <img src="~/Content/images/ventech.png" height="100" width="100" />
                 </div>
-                <div style="width:69%;  float:right;">
+                <div style="width:63%;  float:right;">
                     <div style="font-weight:bold; margin-left:45px; margin-bottom:14px; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
                     <h3>ELECTRICITY PURCHASE</h3>
+                </div>
+                <div style="width: 6%;
+                            cursor:pointer;
+                            float: right;
+                            border: 4px solid black;
+                            border-radius: 40px;
+                            text-align: center;
+                            margin:auto;
+                            padding-bottom:3px"
+                     onclick="closeModal()">
+                    <strong><a style="color: black;  font-weight: bold; font-size: 17px">x</a></strong>
                 </div>
             </div>
             <hr class="bg-dark" style="border:1px solid grey; background: grey; ">
@@ -132,9 +143,9 @@
                     <div class="row" style="text-align:right;">
                         <img src="~/Content/images/vtech-receipt.png" />
                     </div>
-                    <div class="row " id="print_section">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light " id="showsms_btn" onclick="smsHandler.openSmsModal(false)" style="display:none">SMS</button>
-                        <button class="btn btn-primary waves-effect waves-light " onclick="Print()" id="showprint_btn" style="display:none">PRINT</button>
+                    <div class="d-flex justify-content-right" id="print_section">
+                        <button type="button" class="btn cancelBtn waves-effect waves-light " id="showsms_btn" onclick="smsHandler.openSmsModal(false)" style="display:none">SMS</button>
+                        <button class="btn submitBtn waves-effect waves-light " onclick="Print()" id="showprint_btn" style="display:none">PRINT</button>
                     </div>
                 </div>
             </div>

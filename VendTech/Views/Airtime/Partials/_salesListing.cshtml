@@ -1,0 +1,26 @@
+﻿@model List<MeterRechargeApiListingModel>
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+<tr class="odd gradeX">
+    <td style="text-align:right;"> @item.CreatedAt</td>
+    <td style="text-align:right;"> @item.ProductShortName</td>
+    <td style="text-align:right;"> @item.TransactionId</td>
+    <td style="text-align:right;"> @item.MeterNumber</td>
+    <td style="text-align:right;"> @item.POSId</td>
+    <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchSaleInformation('@item.RechargePin', '@item.PlatformId')" id="@item.RechargePin"> @item.RechargePin </a></strong></td>
+    <td style="text-align:right;"> <strong>@item.Amount</strong> </td>
+</tr>
+    }
+}
+else
+{
+    @*<tr class="odd gradeX">
+            <td colspan="8" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+        </tr>*@
+}
+
+
+

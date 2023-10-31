@@ -104,16 +104,17 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-11 chkBankDiv" style="display: none ">
-                                                        <label>ISSUING BANK</label>
+                                                        <label>YOUR BANK</label>
                                                         @Html.DropDownList("ChkBankName", null, "-Select Bank-", new { @class = "input form-control", })
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                @*<div class="form-group row">
                                                     <div class="col-md-11 chkBankDiv" style="display:none">
                                                         <label>NAME ON CHEQUE</label>
                                                         <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
                                                     </div>
-                                                </div>
+                                                </div>*@
+                                                <input type="hidden" id="NameOnCheque" name="NameOnCheque" class="form-control input">
 
                                                 <div class="form-group row">
                                                     <div class="col-md-11">
@@ -124,12 +125,13 @@
 
                                                 <input type="hidden" name="ContinueDepoit" id="ContinueDepoit" value="0" />
 
-                                                <div class="form-group row">
+                                                @*<div class="form-group row">
                                                     <div class="col-md-11">
                                                         <label>VENDTECH BANK DETAILS</label>
                                                         @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
                                                     </div>
-                                                </div>
+                                                </div>*@
+                                                @*@Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })*@
                                                 <div class="form-group row">
                                                     <div class="col-md-11">
                                                         <label>Deposit Amount</label>
@@ -153,7 +155,7 @@
 
                                                 <div class="editpro-row submt " style="padding-right : 20px;">
                                                     @*<input type="button" class="savebttn addDepositBtn pull-left" id="btnAdd" value="ADD DEPOSIT">*@
-                                                    <button type="button" class="savebttn btn btn-primary pull-left addDepositBtn " id="btnAdd">ADD DEPOSIT</button>
+                                                    <button type="button" class="savebttn btn btn-primary pull-left addDepositBtn " id="btnAdd">ADD FUNDS TO WALLET</button>
                                                 </div>
                                             </div>
 
@@ -324,30 +326,30 @@
                 $('.addDepositBtn').live("click", function () {
                     return AddDeposit($(this));
                 });
-                onBankAccountChange();
+                //onBankAccountChange();
                 //Templates.ManageTemplates(totalCount);
             });
-            function onBankAccountChange() {
-                var id = $("#bankAccountDrp").val();
-                $.ajax({
-                    url: '/Deposit/GetBankAccountDetail?bankAccountId=' + id,
-                    success: function (data) {
+            //function onBankAccountChange() {
+            //    var id = $("#bankAccountDrp").val();
+            //    $.ajax({
+            //        url: '/Deposit/GetBankAccountDetail?bankAccountId=' + id,
+            //        success: function (data) {
 
-                        if (data != null) {
+            //            if (data != null) {
 
-                            var trailingCharsIntactCount = 4;
-                            data.bankAccount.AccountNumber = new Array(data.bankAccount.AccountNumber.length - trailingCharsIntactCount + 1).join('x')
-                                   + data.bankAccount.AccountNumber.slice(-trailingCharsIntactCount);
+            //                var trailingCharsIntactCount = 4;
+            //                data.bankAccount.AccountNumber = new Array(data.bankAccount.AccountNumber.length - trailingCharsIntactCount + 1).join('x')
+            //                       + data.bankAccount.AccountNumber.slice(-trailingCharsIntactCount);
 
-                            $("#bankName").text("(" + data.bankAccount.BankName + " - " + data.bankAccount.AccountNumber+" )");
-                            //$("#holderName").text(data.bankAccount.AccountName);
-                            //$("#accNo").text(data.bankAccount.AccountNumber);
-                            //$("#bban").text(data.bankAccount.BBAN);
+            //                $("#bankName").text("(" + data.bankAccount.BankName + " - " + data.bankAccount.AccountNumber+" )");
+            //                //$("#holderName").text(data.bankAccount.AccountName);
+            //                //$("#accNo").text(data.bankAccount.AccountNumber);
+            //                //$("#bban").text(data.bankAccount.BBAN);
 
-                        }
-                    }
-                })
-        }
+            //            }
+            //        }
+            //    })
+            //}
 
 
 

@@ -17,6 +17,11 @@ using System.Data;
 using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using VendTech.Framework.Api;
+using Twilio.Converters;
+using Twilio.Http;
+using VendTech.BLL.Common;
+using System.Web.Http.Results;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -121,13 +126,16 @@ namespace VendTech.Areas.Admin.Controllers
                 if (val == "16")
                 {
                     model.IsInitialLoad = true;
+
+                    ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
+
                     var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
                 {
 
-                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
                     ViewBag.OpeningBalance = 0;
                     return View("BalanceSheetReports", balanceSheet);
                 }
@@ -206,12 +214,11 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             model.RecordsPerPage = 100000000;
-            var modal = new PagingResult<DepositListingModel>();
+            var response = new PagingResult<DepositListingModel>();
             var depositAuditModel = new PagingResult<DepositAuditModel>();
             if (model.ReportType == "17")
             {
-                modal = _depositManager.GetReportsPagedList(model, true);
-
+                response = _depositManager.GetReportsPagedList(model, true);
             }
             if (model.ReportType == "21")
             {
@@ -219,19 +226,28 @@ namespace VendTech.Areas.Admin.Controllers
             }
             if (model.ReportType == "17")
             {
-                var resultString = new List<string> {
-                   RenderRazorViewToString("Partials/_reportListing", modal),
-                   modal.TotalCount.ToString()
-                };
-                return JsonResult(resultString);
+                //var resultString = new List<string> {
+                //   RenderRazorViewToString("Partials/_reportListing", modal),
+                //   modal.TotalCount.ToString()
+                //};
+                //return JsonResult(resultString);
+
+                var serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 999999999;
+                var stringVal = serializer.Serialize(response);
+                return Json(new { Status = ActionStatus.Successfull, Message = "deposit", Results = stringVal });
             }
 
             if (model.ReportType == "21")
             {
                 var resultString = new List<string> {
-               RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
-               depositAuditModel.TotalCount.ToString()};
-                return JsonResult(resultString);
+                RenderRazorViewToString("Partials/_depositAuditListing",depositAuditModel),
+                depositAuditModel.TotalCount.ToString()};
+                return Json(new ActionOutput { Status = ActionStatus.Successfull, Message = "audit", Results = resultString }, JsonRequestBehavior.AllowGet); ;
+                //var serializer = new JavaScriptSerializer();
+                //serializer.MaxJsonLength = 999999999;
+                //var stringVal = serializer.Serialize(depositAuditModel);
+                //return Json(new { Status = ActionStatus.Successfull, Message = "audit", Results = stringVal });
             }
             return JsonResult(new List<string>() { });
         }
@@ -240,13 +256,15 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000;
-            var modal = _meterManager.GetUserMeterRechargesReportAsync(model, true);
+            var response = _meterManager.GetUserMeterRechargesReportAsync(model, true);
 
 
-            var sum = modal.List.Select(d => d.Amount).Sum(); 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString()
-           };
-            return JsonResult(resultString);
+            //var sum = modal.List.Select(d => d.Amount).Sum();
+            //var resultString = new List<string> { RenderRazorViewToString("Partials/_salesReportListing", modal), modal.TotalCount.ToString() };
+            var serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 999999999;
+            var stringVal = serializer.Serialize(response);
+            return  Json( new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
         }
 
         [AjaxOnly, HttpPost]
@@ -269,32 +287,30 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
             model.RecordsPerPage = 1000000000; 
 
-            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
-            decimal balance = 0;
-            
-            foreach (var item in balanceSheet.List)
-            {
-                balance = balance + item.DepositAmount - item.SaleAmount;
-                item.Balance = balance;
-            }
-            var firstRecord = balanceSheet.List.FirstOrDefault();
-            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance);
+            balanceSheet = _posManager.CalculateBalancesheet(result);
+
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
-            var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
-           
-            
-            };
-            return JsonResult(resultString);
+
+
+            var serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 999999999;
+            var stringVal = serializer.Serialize(balanceSheet);
+            return Json(new { Status = ActionStatus.Successfull, Message = "", Results = stringVal });
+
+            //var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString() };
+            //return JsonResult(resultString);
         }
 
+       
         [AjaxOnly, HttpPost]
         public JsonResult GetGSTSalesReportsPagingList(ReportSearchModel model)
         {
@@ -790,26 +806,32 @@ namespace VendTech.Areas.Admin.Controllers
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
-
-            var balanceSheet = new PagingResult<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
 
 
             KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            var result  = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+            balanceSheet = _posManager.CalculateBalancesheet(result);
+
+
+
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
             var list = balanceSheet.List.Select(a => new BalanceSheetReportExcelModel
             { 
                 BALANCE = a.Balance,
-                DATE_TIME = a.DateTime.ToString("dd/MM/yyyy hh:mm"),
+                DATE_TIME = a.DateTime,
                 DEPOSITAMOUNT =  a.DepositAmount, 
                 REFERENCE = a.Reference,
                 SALEAMOUNT = a.SaleAmount,
                 TRANSACTIONID = a.TransactionId,
-                TYPE = a.TransactionType
+                TYPE = a.TransactionType,
+                BALANCEBEFORE = a.BalanceBefore,
+                
             }).ToList();
              
             var gv = new GridView
@@ -826,7 +848,7 @@ namespace VendTech.Areas.Admin.Controllers
                 gv.HeaderRow.Parent.Controls.AddAt(0, detailRow);
                 var detail = new TableHeaderCell
                 {
-                    ColumnSpan = 3, 
+                    ColumnSpan = 4,
                     Text = "POS ID:  " + GetVendorDetail.Key +
                     "<br /><br />VENDOR:  " + GetVendorDetail.Value +
                     "<br /><br />FROM DATE:  " + fromdate +
@@ -850,17 +872,13 @@ namespace VendTech.Areas.Admin.Controllers
                 };
                 detailRow.Controls.Add(imgHeader);
 
-                // openingClosingHeader
-                var openBal = list.FirstOrDefault().DEPOSITAMOUNT;
-                var closeBal = depositsBS.ToList().Select(d => d.DepositAmount).Sum() - salesBS.ToList().Select(d => d.SaleAmount).Sum();
-                var openingBal = openBal > 0 ? "OPENING BAL:  " + BLL.Common.Utilities.FormatAmount(openBal) : "OPENING BAL: 0";
-                var closingBal = closeBal > 0 ? "CLOSING BAL:  " + BLL.Common.Utilities.FormatAmount(closeBal) : "CLOSING BAL:  0";
+                var openingBal = "OPENING BAL:  " + balanceSheet.Amount;
                 var openingClosingHeader = new TableHeaderCell
                 {
                     ColumnSpan = 2,
                     Text = "<br />"+
                     openingBal +
-                     "<br />" + closingBal,
+                     "<br />" + "",
                     HorizontalAlign = HorizontalAlign.Right,
                     BorderStyle = BorderStyle.None,
                     BorderWidth = Unit.Pixel(20),
@@ -871,7 +889,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow emptyRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal); 
                 var space = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -885,7 +903,7 @@ namespace VendTech.Areas.Admin.Controllers
                 GridViewRow row1 = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
                 var tec1 = new TableHeaderCell
                 {
-                    ColumnSpan = 7,
+                    ColumnSpan = 8,
                     Text = "VENDTECH BALANCE SHEET REPORTS",
                     HorizontalAlign = HorizontalAlign.Center,
                     BorderStyle = BorderStyle.None,
@@ -902,17 +920,16 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME"; //DATE_TIME
                 gv.HeaderRow.Cells[1].Text = "TRANS ID"; //TRANSACTION ID
-                gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE 
+                gv.HeaderRow.Cells[2].Text = "TYPE"; //TRANS TYPE
                 gv.HeaderRow.Cells[3].Text = "REFERENCE"; //REFERENCE
-                gv.HeaderRow.Cells[4].Text = "DEPOSIT"; //DEPOSIT AMOUNT 
-                gv.HeaderRow.Cells[5].Text = "SALES"; //SALES AMOUNT  
-                gv.HeaderRow.Cells[6].Text = "BALANCE"; //BALANCE
+                gv.HeaderRow.Cells[4].Text = "BALANCE BEFORE"; //BEFORE BALANCE
+                gv.HeaderRow.Cells[5].Text = "DEPOSIT"; //DEPOSIT AMOUNT
+                gv.HeaderRow.Cells[6].Text = "SALES"; //SALES AMOUNT
+                gv.HeaderRow.Cells[7].Text = "BALANCE"; //BALANCE
 
-                decimal balance = 0;
                 foreach (GridViewRow row in gv.Rows)
                 {
-                    decimal saleAmount = 0;
-                    decimal depositAmount = 0;
+                 
                     if (row.RowType == DataControlRowType.DataRow)
                     {
 
@@ -923,14 +940,14 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[5].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[6].HorizontalAlign = HorizontalAlign.Right;
+                        row.Cells[7].HorizontalAlign = HorizontalAlign.Right;
 
-                        saleAmount = Convert.ToDecimal(row.Cells[5].Text);
-                        depositAmount = Convert.ToDecimal(row.Cells[4].Text);
-                        balance = balance + depositAmount - saleAmount;
+                        //depositAmount = Convert.ToDecimal(row.Cells[5].Text);
+                        //balance = balance + depositAmount - saleAmount;
 
-                        row.Cells[4].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
-                        row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
-                        row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(balance); 
+                        //row.Cells[5].Text = BLL.Common.Utilities.FormatAmount(depositAmount);
+                        //row.Cells[6].Text = BLL.Common.Utilities.FormatAmount(saleAmount);
+                        //row.Cells[7].Text = BLL.Common.Utilities.FormatAmount(balance); 
                         if(row.Cells[2].Text == "Deposit")
                         {
                             row.Cells[0].BackColor = Color.LightGray;
@@ -939,21 +956,21 @@ namespace VendTech.Areas.Admin.Controllers
                             row.Cells[3].BackColor = Color.LightGray;
                             row.Cells[4].BackColor = Color.LightGray;
                             row.Cells[5].BackColor = Color.LightGray;
-                            row.Cells[6].BackColor = Color.LightGray; 
+                            row.Cells[6].BackColor = Color.LightGray;
+                            row.Cells[7].BackColor = Color.LightGray;
+                        }
+                        else //(row.Cells[2].Text == "EDSA")
+                        {
+                            row.Cells[6].ForeColor = Color.Red;  
                         }
 
-                        if (row.Cells[2].Text == "EDSA")
-                        {
-                            row.Cells[5].ForeColor = Color.Red;  
-                        }
-
-                        if (row.Cells[4].Text == "0.00")
-                        {
-                            row.Cells[4].Text = "";
-                        }
                         if (row.Cells[5].Text == "0.00")
                         {
                             row.Cells[5].Text = "";
+                        }
+                        if (row.Cells[6].Text == "0.00")
+                        {
+                            row.Cells[6].Text = "";
                         }
                     }
                 }
@@ -1337,32 +1354,33 @@ namespace VendTech.Areas.Admin.Controllers
 
                 gv.HeaderRow.Cells[0].Text = "DATE/TIME";
                 gv.HeaderRow.Cells[1].Text = "VALUE DATE";
-                gv.HeaderRow.Cells[2].Text = "POS ID";
-                gv.HeaderRow.Cells[3].Text = "VENDOR";
-                gv.HeaderRow.Cells[4].Text = "TYPE";
-                gv.HeaderRow.Cells[5].Text = "PAYER";
-                gv.HeaderRow.Cells[6].Text = "PAYER BANK";
-                gv.HeaderRow.Cells[7].Text = "REF#";
-                gv.HeaderRow.Cells[8].Text = "GTBANK#";
-                gv.HeaderRow.Cells[9].Text = "AMOUNT";
-                gv.HeaderRow.Cells[10].Text = "STATUS";
+                gv.HeaderRow.Cells[2].Text = "TRANS ID";
+                gv.HeaderRow.Cells[3].Text = "POS ID";
+                gv.HeaderRow.Cells[4].Text = "VENDOR";
+                gv.HeaderRow.Cells[5].Text = "TYPE";
+                gv.HeaderRow.Cells[6].Text = "PAYER";
+                gv.HeaderRow.Cells[7].Text = "PAYER BANK";
+                gv.HeaderRow.Cells[8].Text = "REF#";
+                gv.HeaderRow.Cells[9].Text = "GTBANK#";
+                gv.HeaderRow.Cells[10].Text = "AMOUNT";
+                gv.HeaderRow.Cells[11].Text = "STATUS";
 
 
                 foreach (GridViewRow row in gv.Rows)
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        var data = row.Cells[1].Text;
-                        row.Cells[1].Text = row.Cells[10].Text;
-                        row.Cells[10].Text = row.Cells[9].Text;
-                        row.Cells[9].Text = row.Cells[8].Text;
+                        //var data = row.Cells[2].Text;
+                        //row.Cells[2].Text = row.Cells[11].Text;
+                        //row.Cells[11].Text = row.Cells[10].Text;
+                        //row.Cells[10].Text = row.Cells[9].Text;
 
-                        var swapPayer = row.Cells[5].Text;
-                        row.Cells[5].Text = row.Cells[6].Text;
-                        row.Cells[6].Text = swapPayer;
+                        //var swapPayer = row.Cells[6].Text;
+                        //row.Cells[6].Text = row.Cells[7].Text;
+                        //row.Cells[7].Text = swapPayer;
 
-                        row.Cells[8].Text = row.Cells[2].Text;
-                        row.Cells[2].Text = data;
+                        //row.Cells[9].Text = row.Cells[3].Text;
+                        //row.Cells[3].Text = data;
                         row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[3].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[4].HorizontalAlign = HorizontalAlign.Left;
@@ -1374,6 +1392,7 @@ namespace VendTech.Areas.Admin.Controllers
                         row.Cells[8].HorizontalAlign = HorizontalAlign.Left;
                         row.Cells[9].HorizontalAlign = HorizontalAlign.Right;
                         row.Cells[10].HorizontalAlign = HorizontalAlign.Left;
+                        row.Cells[11].HorizontalAlign = HorizontalAlign.Left;
                     }
                 }
             }
