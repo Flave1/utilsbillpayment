@@ -306,14 +306,24 @@ function Paging(sender) {
             showThrobber: false,
             throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
             url: baseUrl + '/Admin/Report/GetReportsPagingList',
-            success: function (results, message) {
+            success: async function (results, message) {
 
-                
+                if (message == "audit") {
+                    $("#btnFilterSearch").val('SEARCH');
+                    $("#btnFilterSearch").prop('disabled', false);
+                    $('#divResult table:first tbody').html(results[0]);
+                    PageNumbering(results[1]);
+                } else if (message == "deposit") {
+                    $("#btnFilterSearch").val('SEARCH');
+                    $("#btnFilterSearch").prop('disabled', false);
+                    const jsoneValue = JSON.parse(results);
+                    await initTable(jsoneValue.List);
+                }
+
+            },
+            error: function (e) {
                 $("#btnFilterSearch").val('SEARCH');
                 $("#btnFilterSearch").prop('disabled', false);
-                $('#divResult table:first tbody').html(results[0]);
-                PageNumbering(results[1]);
-
             }
         });
 
@@ -338,4 +348,31 @@ function getMonthName(number) {
     month[10] = "NOV";
     month[11] = "DEC";
     return month[number];
+}
+
+async function initTable(response) {
+    const tableBody = document.getElementById("tableBody");
+
+    tableBody.innerHTML = '';
+
+    for (var i = 0; i < response.length; i++) {
+        const tr = document.createElement("tr");
+        tr.classList.add('odd', 'gradeX')
+
+        tr.innerHTML = `
+           <td style="text-align:right"> ${response[i].CreatedAt}</td>
+            <td style="text-align:right"> ${response[i].ValueDate}</td>
+            <td style="text-align:right">${response[i].PosNumber}</td>
+            <td style="text-align:left">${response[i].VendorName}</td>
+            <td style="text-align:left">${response[i].UserName}</td>
+            <td> ${response[i].Type}</td>
+            <td> ${response[i].Bank}</td>
+            <td style=" text-align:center;"> ${response[i].TransactionId}</td>
+            <td style="text-align:right"> ${response[i].ChkNoOrSlipId}</td>
+            <td style="text-align:right"><strong><a href="#" onclick="onViewDepositDetails(${response[i].DepositId})">${response[i].Amount} </a></strong></td>
+            <td style="text-align:right"><strong>${response[i].PercentageAmount}</strong></td>
+            <td style="text-align:right"><strong>${response[i].NewBalance}</strong></td>
+        `;
+        tableBody.appendChild(tr);
+    }
 }

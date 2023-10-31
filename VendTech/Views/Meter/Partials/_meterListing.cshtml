@@ -9,7 +9,17 @@
     i += 1;
     <tr>
         <th scope="row">@i</th>
-        <td>  <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>   </td>
+        <td>
+            @if (item.isVerified)
+            {
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='@Url.Action("Recharge", "Meter", new { meterId = item.MeterId })'> @item.Number</a>
+            }
+            else
+            {
+
+                <a title="Recharge" class="recharge col-md-4 @disable" data-id="@item.MeterId" href='#'> @item.Number</a>
+            }
+        </td>
         <td>@item.Name</td>
         <td>@item.Address</td>
         <td>@item.Alias</td>

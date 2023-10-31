@@ -18,10 +18,10 @@ namespace VendTech.BLL.Models
         public string TRANSACTIONID { get; set; }
         public string TYPE { get; set; } 
         public string REFERENCE { get; set; }
-        public decimal BALANCEBEFORE { get; set; }
-        public decimal DEPOSITAMOUNT { get; set; }
-        public decimal SALEAMOUNT { get; set; }
-        public decimal BALANCE { get; set; } 
+        public string BALANCEBEFORE { get; set; }
+        public string DEPOSITAMOUNT { get; set; }
+        public string SALEAMOUNT { get; set; }
+        public string BALANCE { get; set; } 
     }
     public class BalanceSheetModel
     {
@@ -39,6 +39,30 @@ namespace VendTech.BLL.Models
         public decimal Balance { get; set; } = 0; 
         public long? POSId { get; set; }
         public decimal? BalanceBefore { get; set; } = 0;
+    }
+    public class BalanceSheetListingModel2
+    {
+        public string DateTime { get; set; }
+        public string TransactionId { get; set; }
+        public string TransactionType { get; set; }
+        public string Reference { get; set; }
+        public string DepositAmount { get; set; }
+        public string SaleAmount { get; set; }
+        public string Balance { get; set; }
+        public long? POSId { get; set; }
+        public string BalanceBefore { get; set; }
+        public BalanceSheetListingModel2(BalanceSheetListingModel x)
+        {
+            DateTime = x.DateTime.ToString("dd/MM/yyyy hh:mm");
+            TransactionId = x.TransactionId;
+            TransactionType = x.TransactionType;
+            Reference = x.Reference;
+            DepositAmount = Utilities.FormatAmount(x.DepositAmount);
+            SaleAmount = Utilities.FormatAmount(x.SaleAmount);
+            Balance = Utilities.FormatAmount(x.Balance);
+            BalanceBefore = Utilities.FormatAmount(x.BalanceBefore);
+            POSId = x.POSId;
+        }
     }
 
     public class DashboardBalanceSheetModel
@@ -63,6 +87,98 @@ namespace VendTech.BLL.Models
         public string PosNumber { get; set; }
         public string CreatedAt { get; set; }
         public string TransactionId { get; set; }
+        public string Amount { get; set; }
+        public decimal Balance { get; set; }
+        public string NewBalance { get; set; }
+        public string PercentageAmount { get; set; }
+        public long DepositId { get; set; }
+        public string Payer { get; set; }
+        public string IssuingBank { get; set; }
+        public string ValueDate { get; set; }
+        public string NameOnCheque { get; set; }
+        public decimal PercentageCommission { get; set; }
+
+        public string NotType { get; set; }
+        public POS POS { get; set; } = new POS();
+        public DepositListingModel() { }
+        public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
+        {
+            NotType = "deposit";
+            Type = obj.PaymentType1.Name;
+            UserName = "";
+            //UserName = obj.DepositLogs.Any() ?
+            //    obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
+            //    obj.User.Name +" "+ obj.User.SurName;
+            PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
+            VendorName = obj.POS.User.Vendor;
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            Comments = obj.Comments;
+            Bank = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
+            if (!changeStatusForApi)
+                Status = ((DepositPaymentStatusEnum)obj.Status).ToString();
+            else
+            {
+                if (obj.Status == (int)DepositPaymentStatusEnum.Pending)
+                    Status = "Pending";
+                else if (obj.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant || obj.Status == (int)DepositPaymentStatusEnum.Rejected)
+                    Status = "Rejected";
+                else if (obj.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
+                    Status = "Processing";
+                else if (obj.Status == (int)DepositPaymentStatusEnum.Released)
+                    Status = "Approved";
+            }
+            Amount = Utilities.FormatAmount(obj.Amount);
+            NewBalance = obj.NewBalance == null ? Utilities.FormatAmount(obj.Amount) : Utilities.FormatAmount(obj.NewBalance.Value);
+            PercentageAmount = Utilities.FormatAmount(obj.PercentageAmount);
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            TransactionId = obj.TransactionId;
+            DepositId = obj.DepositId;
+            //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
+            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
+            IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
+            PercentageCommission = obj.POS.Commission.Percentage;
+            ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+        }
+
+        public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
+        {
+            NotType = "deposit";
+            Type = obj.PaymentType1.Name;
+            UserName = "";
+            PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
+            VendorName = obj.POS.User.Vendor;
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            Comments = obj.Comments;
+            // Bank = obj.PendingBankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
+            Status = "Pending";
+            Amount = Utilities.FormatAmount(obj.Amount);
+            NewBalance = obj.NewBalance == null ? Utilities.FormatAmount(obj.Amount) : Utilities.FormatAmount(obj.NewBalance.Value);
+            PercentageAmount = Utilities.FormatAmount(obj.PercentageAmount);
+            CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");//ToString("dd/MM/yyyy HH:mm");
+            TransactionId = obj.TransactionId;
+            DepositId = obj.PendingDepositId;
+            //Balance = obj.User.Balance == null ? 0 : obj.User.Balance.Value;
+            Payer = !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "";
+            IssuingBank = obj.ChequeBankName; //!= null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
+            ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
+            PercentageCommission = obj.POS.Commission.Percentage;
+            ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+        }
+    }
+
+    public class DepositListingModelMobile
+    {
+        public string UserName { get; set; }
+        public string VendorName { get; set; }
+        public string ChkNoOrSlipId { get; set; }
+        public string Type { get; set; }
+        public string Comments { get; set; }
+        public string Bank { get; set; }
+        public string Status { get; set; }
+        public string PosNumber { get; set; }
+        public string CreatedAt { get; set; }
+        public string TransactionId { get; set; }
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
         public decimal NewBalance { get; set; }
@@ -74,16 +190,14 @@ namespace VendTech.BLL.Models
         public string NameOnCheque { get; set; }
         public decimal PercentageCommission { get; set; }
         public POS POS { get; set; } = new POS();
-        public DepositListingModel() { }
-        public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
-        { 
+        public DepositListingModelMobile() { }
+        public DepositListingModelMobile(Deposit obj, bool changeStatusForApi = false)
+        {
             Type = obj.PaymentType1.Name;
-            //UserName = obj.DepositLogs.Any() ?
-            //    obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.Name + " " + obj.DepositLogs.FirstOrDefault(s => s.DepositId == obj.DepositId)?.User?.SurName :
-            //    obj.User.Name +" "+ obj.User.SurName;
+            UserName = "";
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Comments = obj.Comments;
             Bank = obj.BankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             if (!changeStatusForApi)
@@ -113,13 +227,13 @@ namespace VendTech.BLL.Models
             ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
 
-        public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
+        public DepositListingModelMobile(PendingDeposit obj, bool changeStatusForApi = false)
         {
             Type = obj.PaymentType1.Name;
             UserName = "";
             PosNumber = obj.POS != null ? obj.POS.SerialNumber : "";
             VendorName = obj.POS.User.Vendor;
-            ChkNoOrSlipId = obj.CheckNumberOrSlipId; 
+            ChkNoOrSlipId = obj.CheckNumberOrSlipId;
             Comments = obj.Comments;
             // Bank = obj.PendingBankAccount == null ? "GTBANK" : obj.BankAccount.BankName;
             Status = "Pending";
@@ -137,6 +251,7 @@ namespace VendTech.BLL.Models
             ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
     }
+
     public class DepositExcelReportModel
     {
         [DisplayName("Date/Time")]
@@ -212,13 +327,14 @@ namespace VendTech.BLL.Models
     {
         [DisplayName("Date/Time")]
         public string DATE_TIME { get; set; }
-        //public string VALUEDATE { get; set; }
+        public string VALUEDATE { get; set; }
+        public string TRANSACTIONID { get; set; }
         public string POSID { get; set; }
-        public string GTBANK { get; set; }
         [DisplayName("DepositBy")]
         public string DEPOSIT_BY { get; set; }
         [DisplayName("DepositType")]
         public string DEPOSIT_TYPE { get; set; }
+        public string GTBANK { get; set; }
         [DisplayName("PayerBank")]
         public string ISSUINGBANK { get; set; }
         public string PAYER { get; set; }
@@ -226,7 +342,6 @@ namespace VendTech.BLL.Models
         public string DEPOSIT_REF_NO { get; set; }
         public string AMOUNT { get; set; }
         public string STATUS { get; set; }
-        public string VALUEDATE { get; set; }
 
         public DepositAuditExcelReportModel(Deposit obj, bool changeStatusForApi = false)
         {
@@ -241,6 +356,7 @@ namespace VendTech.BLL.Models
             GTBANK = obj.BankAccount.BankName;
             AMOUNT = Utilities.FormatAmount(obj.Amount);
             STATUS = Convert.ToBoolean(obj.isAudit) ? "Cleared" : "Open";
+            TRANSACTIONID = obj.TransactionId;
         }
 
         public DepositAuditExcelReportModel()

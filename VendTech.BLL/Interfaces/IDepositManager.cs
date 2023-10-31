@@ -29,7 +29,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<PendingDeposit> SaveDepositRequest(DepositModel model);
         ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
         PagingResult<DepositListingModel> GetUserDepositList(int pageNo, int pageSize, long userId);
-        ActionOutput<DepositListingModel> GetDepositDetail(long depositId);
+        ActionOutput<DepositListingModel> GetDepositDetail(long depositId, bool isAdmin = false);
         PagingResult<DepositListingModel> GetReportsPagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         PagingResult<DepositAuditModel> GetAuditReportsPagedList(ReportSearchModel model, bool callFromAdmin = false);
         PagingResult<DepositAuditModel> GetDepositAuditReports(ReportSearchModel model, bool callFromAdmin = false);
@@ -57,6 +57,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput CreateDepositDebitTransfer(Deposit dbDeposit, long currentUserId, string otp, long toPos, POS fromPos);
         ActionOutput DepositToAgencyAdminAccount(Deposit dbDeposit, long currentUserId, string OTP);
         ActionOutput<string> CancelDeposit(CancelDepositModel model);
+        PagingResult<DepositListingModelMobile> GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
     }
 
 }

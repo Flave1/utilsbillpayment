@@ -212,15 +212,18 @@ namespace VendTech.BLL.Managers
             var posIds = new List<long>();
             posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
             query = query.Where(p => posIds.Contains(p.POSId.Value));
-            result.Result1 = query.OrderByDescending(x => x.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterRechargeApiListingModel
+            result.Result1 = query.Where(no => Context.Notifications.Where(d => d.MarkAsRead == false && d.UserId == user.UserId).Select(i => i.RowId).AsEnumerable().Contains(no.TransactionDetailsId))
+                .OrderByDescending(x => x.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterRechargeApiListingModel
             {
-                Amount = x.Amount,
+                Amount = Utilities.FormatAmount(x.Amount),
                 CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),//ToString("dd/MM/yyyy HH:mm"),
                 MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
                 TransactionId = x.TransactionId,
                 MeterRechargeId = x.TransactionDetailsId,
                 RechargePin = x?.MeterToken1,
-                POSId = x.POSId == null ? "" : x.POS.SerialNumber
+                POSId = x.POSId == null ? "" : x.POS.SerialNumber,
+                NotType = "sale",
+                PlatformId = x.PlatFormId
             }).ToList();
             IQueryable<DepositLog> query1 = null;
 
@@ -229,8 +232,8 @@ namespace VendTech.BLL.Managers
             posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
             query1 = query1.OrderByDescending(x => x.CreatedAt).Where(p => posIds.Contains(p.Deposit.POSId));
             var totalrecoed = query.ToList().Count();
-            result.Result2 = query1
-               .Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new DepositListingModel(x.Deposit)).ToList();
+            result.Result2 = query1.Where(no => Context.Notifications.Where(d => d.MarkAsRead == false && d.UserId == user.UserId).Select(i => i.RowId).AsEnumerable().Contains(no.DepositId))
+               .Skip((pageNo - 1) * pageSize).Take(pageSize).AsEnumerable().Select(x => new DepositListingModel(x.Deposit)).ToList();
             result.Result3 = ActionStatus.Successfull;
             return result;
         }
@@ -343,7 +346,7 @@ namespace VendTech.BLL.Managers
         ActionOutput<UserDetailForAdmin> IUserManager.AdminLogin(LoginModal model)
         { 
             string encryptPassword = Utilities.EncryptPassword(model.Password.Trim());
-            string encryptPasswordde = Utilities.DecryptPassword("dkB0ZWNoMjAyMQ==");
+            string encryptPasswordde = Utilities.DecryptPassword("dnRlY2hAdnRlY2gqMjAyMQ==");
             var user = Context.Users.FirstOrDefault(p =>
             (UserRoles.AppUser != p.UserRole.Role) && (UserRoles.Vendor != p.UserRole.Role) && (UserRoles.Agent != p.UserRole.Role) &&
             (p.Status == (int)UserStatusEnum.Active || p.Status == (int)UserStatusEnum.PasswordNotReset) &&

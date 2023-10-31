@@ -6,8 +6,8 @@ namespace VendTech.BLL.Models
     public class ActionOutputBase
     {
         public ActionStatus Status { get; set; }
-        public String Message { get; set; }
-        public List<String> Results { get; set; }
+        public string Message { get; set; }
+        public List<string> Results { get; set; }
     }
 
     public class ActionOutput<T> : ActionOutputBase
@@ -34,7 +34,7 @@ namespace VendTech.BLL.Models
         public List<T> List { get; set; }
         public int TotalCount { get; set; }
         public ActionStatus Status { get; set; }
-        public String Message { get; set; }
+        public string Message { get; set; }
         public string Amount { get; set; }
     }
     public class PagingModel

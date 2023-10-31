@@ -3,13 +3,9 @@ using VendTech.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
 using VendTech.BLL.Common;
-using System.Web;
-using System.IO;
 using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
@@ -19,8 +15,12 @@ namespace VendTech.BLL.Managers
 
         PagingResult<VendorListingModel> IVendorManager.GetVendorsPagedList(PagingModel model, long agentId)
         {
+            if(model.RecordsPerPage == 10)
+            {
+                model.RecordsPerPage = 100000000;
+            }
             var result = new PagingResult<VendorListingModel>();
-            var query = Context.Users.Where(p => p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).OrderBy(model.SortBy + " " + model.SortOrder);
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
@@ -204,7 +204,7 @@ namespace VendTech.BLL.Managers
         {
             try
             {
-                IQueryable<User> query = Context.Users.Where(p => p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
+                IQueryable<User> query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
                 if (agentId > 0)
                     query = query.Where(p => p.AgentId == agentId);
                 return query.ToList().Select(p =>   new SelectListItem

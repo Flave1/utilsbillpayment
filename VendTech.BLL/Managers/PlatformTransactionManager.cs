@@ -19,11 +19,14 @@ namespace VendTech.BLL.Managers
     {
         private IPlatformApiManager _platformApiManager;
         private IPlatformManager _platformManager;
+        private IErrorLogManager _errorLog;
         public PlatformTransactionManager(IPlatformApiManager platformApiManager,
-            IPlatformManager platformManager)
+            IPlatformManager platformManager,
+            IErrorLogManager errorLog)
         {
             _platformApiManager = platformApiManager;
             _platformManager = platformManager;
+            _errorLog = errorLog;
         }
 
         public PlatformTransactionModel New(long userId, int platformId, long posId, decimal amount, string beneficiary, string currency, int? apiConnId)
@@ -31,7 +34,7 @@ namespace VendTech.BLL.Managers
             //TODO - validate input
 
 
-            VendTech.DAL.PlatformTransaction platformTransaction = new VendTech.DAL.PlatformTransaction
+            PlatformTransaction platformTransaction = new VendTech.DAL.PlatformTransaction
             {
                 UserId = userId,
                 PlatformId = platformId,
@@ -56,7 +59,7 @@ namespace VendTech.BLL.Managers
         {
             if (transactionId > 0)
             {
-                VendTech.DAL.PlatformTransaction tranx = GetPendingTransactionById(transactionId);
+                PlatformTransaction tranx = GetPendingTransactionById(transactionId);
                 PlatformModel platform;
                 if (tranx != null)
                 {
@@ -158,6 +161,7 @@ namespace VendTech.BLL.Managers
                         pendingTranx = DbCtx.PlatformTransactions
                                         .Where(t => t.Status == (int)TransactionStatus.Pending)
                                         .Where(t => t.LastPendingCheck < lastPendingCheck)
+                                        .OrderByDescending(d => d.Id)
                                         .FirstOrDefault();
                     }
                     catch (EntityCommandExecutionException)
@@ -213,9 +217,21 @@ namespace VendTech.BLL.Managers
 
                             //Fetch from DB
                             pendingTranx = DbCtx.PlatformTransactions.Where(t => t.Id == pendingTranx.Id).FirstOrDefault();
-                            if (execResponse.Status != (int)TransactionStatus.Pending)
+                            if (execResponse.Status == (int)OuterTransactionStatus.Successful)
                             {
-                                pendingTranx.Status = execResponse.Status;
+                                var response = JsonConvert.DeserializeObject<Response>(execResponse.ApiCalls[0].Response);
+                                if(response.Result.Status.TypeName == "Failure")
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Failed;
+                                }
+                                else if(response.Result.Status.TypeName == "Success")
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Successful;
+                                }
+                                else
+                                {
+                                    pendingTranx.Status = (int)TransactionStatus.Failed;
+                                }
                                 pendingTranx.OperatorReference = execResponse.OperatorReference;
                                 pendingTranx.PinNumber = execResponse.PinNumber;
                                 pendingTranx.PinSerial = execResponse.PinSerial;
@@ -232,7 +248,7 @@ namespace VendTech.BLL.Managers
                                                                             .Select(PlatformTransactionModel.Projection)
                                                                             .FirstOrDefault();
 
-                                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+                                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel, (int)RechargeMeterStatusEnum.Success);
                                     List<PlatformApiLogModel> logs = DbCtx.PlatformApiLogs
                                                                             .Select(PlatformApiLogModel.Projection)
                                                                             .Where(l => l.TransactionId == pendingTranx.Id)
@@ -415,7 +431,8 @@ namespace VendTech.BLL.Managers
                 //If it succeeds, then transfer to TransactionDetail 
                 if (Status == (int)TransactionStatus.Successful)
                 {
-                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel);
+
+                    TransactionDetail transactionDetail = CreateTransactionDetail(tranxModel, (int)RechargeMeterStatusEnum.Success);
                     List<PlatformApiLogModel> logs = GetTransactionLogs(tranxModel.Id);
                     Logs tranxLogs = CreateLogs( logs );
 
@@ -432,6 +449,7 @@ namespace VendTech.BLL.Managers
                     transactionDetail.BalanceBefore = (pos.Balance + model.Amount);
                     Context.SaveChanges();
                     response = GenerateReceipt(transactionDetail);
+                    Push_notification_to_user(user, model, transactionDetail.TransactionDetailsId);
                     return response;
                 }
                 else if (Status == (int)TransactionStatus.Pending)
@@ -439,10 +457,20 @@ namespace VendTech.BLL.Managers
                     response.ReceiptStatus.Status = "pending";
                     response.ReceiptStatus.Message = "Airtime recharge is pending";
                     return response;
+                }else if(Status == (int)TransactionStatus.Failed)
+                {
+                    if (balanceDeducted)
+                    {
+                        ReverseBalanceDeduction(Context, pos, model.Amount);
+                    }
                 }
-
-                //Transaction failed so reverse the balance
-                ReverseBalanceDeduction(Context, pos, model.Amount);
+                else
+                {
+                    if (balanceDeducted)
+                    {
+                        ReverseBalanceDeduction(Context, pos, model.Amount);
+                    }
+                }
 
                 response.ReceiptStatus.Status = "pending";
                 response.ReceiptStatus.Message = "Airtime recharge failed.";
@@ -450,6 +478,7 @@ namespace VendTech.BLL.Managers
             }
             catch(Exception ex)
             {
+                _errorLog.LogExceptionToDatabase(ex);
                 //If balance was deducted before exception then reverse
                 if (balanceDeducted)
                 {
@@ -458,6 +487,24 @@ namespace VendTech.BLL.Managers
                 response.ReceiptStatus.Status = "pending";
                 response.ReceiptStatus.Message = "Airtime recharge failed due to an error. Please contact Administrator";
                 return response;
+            }
+        }
+
+
+        private void Push_notification_to_user(User user, PlatformTransactionModel model, long MeterRechargeId)
+        {
+            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+            var obj = new PushNotificationModel();
+            obj.UserId = model.UserId;
+            obj.Id = MeterRechargeId;
+            obj.Title = "Airtime recharged successfully";
+            obj.Message = $"Your phone has successfully recharged with NLe {Utilities.FormatAmount(model.Amount)}";
+            obj.NotificationType = NotificationTypeEnum.AirtimeRecharge;
+            foreach (var item in deviceTokens)
+            {
+                obj.DeviceToken = item.DeviceToken;
+                obj.DeviceType = item.AppType.Value;
+                PushNotification.SendNotification(obj);
             }
         }
 
@@ -498,7 +545,7 @@ namespace VendTech.BLL.Managers
             dbCtx.SaveChanges();
         }
 
-        private static TransactionDetail CreateTransactionDetail(PlatformTransactionModel tranxModel)
+        private static TransactionDetail CreateTransactionDetail(PlatformTransactionModel tranxModel, int status)
         {
             if (tranxModel == null)
             {
@@ -516,7 +563,7 @@ namespace VendTech.BLL.Managers
                 PlatFormId = tranxModel.PlatformId,
                 TransactionId = Utilities.GetLastMeterRechardeId(),
                 IsDeleted = false,
-                Status = (int)RechargeMeterStatusEnum.Success,
+                Status = status, // (int)RechargeMeterStatusEnum.Success,
                 CreatedAt = now,
                 RequestDate = now,
                 Finalised = true,

@@ -252,10 +252,12 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\JobsController.cs" />
     <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\DepositController.cs" />
     <Compile Include="Areas\Api\Controllers\ContactUsController.cs" />
+    <Compile Include="Areas\Api\Controllers\NumberController.cs" />
     <Compile Include="Areas\Api\Controllers\MeterController.cs" />
     <Compile Include="Areas\Api\Controllers\AccountController.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
@@ -566,16 +568,18 @@
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Meter\Utility_old.cshtml" />
+    <Content Include="Views\Airtime\Recharge_e.cshtml" />
+    <Content Include="Views\Meter\Recharge.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
-    <Content Include="Views\Meter\Recharge_old.cshtml" />
-    <Content Include="Views\Airtime\Recharge_old.cshtml" />
     <Content Include="Views\Meter\Index.cshtml" />
     <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
-    <Content Include="Views\Deposit\Index_old.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
     <Content Include="Views\Report\SalesReport.cshtml" />
+    <Content Include="Views\Deposit\Index.cshtml" />
+    <Content Include="Views\Deposit\Index_e.cshtml" />
+    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -603,12 +607,11 @@
     <Content Include="Views\Shared\_SideBaar.cshtml" />
     <Content Include="Views\Home\TermsAndConditions.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
-    <Content Include="Views\Deposit\Index.cshtml" />
     <Content Include="Views\User\EditProfile.cshtml" />
     <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
     <Content Include="Views\Meter\AddEditMeter.cshtml" />
-    <Content Include="Views\Meter\Recharge.cshtml" />
+    <Content Include="Views\Meter\Recharge_e.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Report\SalesReport_new.cshtml" />
@@ -624,7 +627,6 @@
     <Content Include="Views\Meter\Utility.cshtml" />
     <Content Include="Views\Shared\_footer.cshtml" />
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
-    <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
     <Content Include="Views\Shared\_voucherReceipt.cshtml" />
     <Content Include="Views\Shared\_voucherReprint.cshtml" />

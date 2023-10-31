@@ -56,16 +56,40 @@ $(document).ready(function () {
     $("#toSpan").text($("#ToDate").val())
     $("#printedDate").text($("#ToDate").val())
 
-
+   
     var d = new Date();
+
+    var selectedFrmDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var selectedToDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+    function validateDate() {
+        var daysDifference = Math.floor((selectedToDate - selectedFrmDate) / (1000 * 3600 * 24));
+        var days = daysDifference != "NaN" && daysDifference;
+        if (days > 230) {
+            $.ShowMessage($('div.messageAlert'), "Date range must be 7 months or less", MessageType.Error);
+            $("#btnFilterSearch").prop('disabled', true);
+            return;
+        }
+        $("#btnFilterSearch").prop('disabled', false);
+    }
+
+
     $("#FromDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-        format: "dd/MM/yyyy"
+        format: "dd/MM/yyyy",
+        //change: function (e) {
+        //    selectedFrmDate = this.value();
+        //    validateDate();
+        //}
     });
 
     $("#ToDate").kendoDatePicker({
         max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-        format: "dd/MM/yyyy"
+        format: "dd/MM/yyyy",
+        //change: function (e) {
+        //    selectedToDate = this.value();
+        //    validateDate();
+        //}
     });
     var datePicker1 = $("#FromDate").data("kendoDatePicker");
     $("#FromDate").click(function () {
@@ -178,6 +202,9 @@ $(document).ready(function () {
             $("#pos").append("<option value=''> SELECT POS</option>")
         }
     });
+
+
+  
 
 });
 

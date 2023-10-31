@@ -1,7 +1,7 @@
 ﻿@model  PlatformTransactionModel
 
 @{ ViewBag.Title = "Recharge Airtime";
-    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<MeterRechargeApiListingModel> history = Model.History;
     if (history == null)
@@ -10,130 +10,190 @@
     }
 }
 
-@Html.Partial("_Title")
-@Html.Partial("_BalanceBar")
-<link href="~/Contentv2/css/bill_payment.css" rel="stylesheet" />
-
-<div class="bill-screen">
-
-    @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
-    {
-       <div class="row">
-           <div class="col-md-4" style=" border-right:2px solid #f6eded;">
-               <form id="rechargeAirtimeForm" style="box-shadow: 0 0 1px #8f7e7e; border: none; padding: 20px !important; ">
-                   <div class="form-row" style="display:inline-block">
-                      <span>
-                          <img src="@Model.Logo"
-                               height="100" width="100" style="margin: auto; border-radius: 10px;" />
-                      </span>
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+@*<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">*@
 
 
-                   </div>
-                   <div class="form-row">
-                       @{
-                           var pos = (List<SelectListItem>)ViewBag.userPos;
-                       }
-                       @if (pos.Count > 1)
-                       {
-                           <div class=" col-md-4">
-                               <label class="control-label">SELECT POS ID</label>
-                               @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
-                           </div>
-                       }
-                       else
-                       {
-                           <div class=" col-md-12">
-                               <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
-                               @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
-
-                           </div>
-                       }
-                   </div>
-                   <input type="hidden" id="platformIdSelect" name="PlatformId" />
+<div class="container-fluid" id="pcont">
+    <div class="dashright ">
 
 
-                   <div class="form-row">
-                       <div class="col-md-12">
-                           <label><span style="color:red; text-align:center;"> ENTER</span> PHONE NUMBER</label>
-                           <span style="display: flex">
-                               <select>
-                                   <option value="+232">+232</option>
-                               </select>
-                               @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
-                           </span>
-                           @Html.ValidationMessageFor(x => x.Beneficiary)
-                       </div>
-                   </div>
+        <div class="page-head">
+            <h2>Airtime Recharge</h2>
+        </div>
+        <div class="cl-mcont">
+            <div class="row">
+                <style>
+                    .separator {
+                        display: flex;
+                        align-items: center;
+                        text-align: center;
+                    }
+
+                        .separator::before, .separator::after {
+                            content: '';
+                            flex: 1;
+                            border-bottom: 2px solid #f6eded;
+                        }
+
+                        .separator::before {
+                            margin-right: .25em;
+                        }
+
+                        .separator::after {
+                            margin-left: .25em;
+                        }
+
+                    label {
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+
+                    .input {
+                        font-weight: bold;
+                    }
+
+                    .selectedOperator {
+                        border: 3px solid #1f2127;
+                    }
+
+                    .deselectOperator {
+                        border: none;
+                    }
+                </style>
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
+                        {
+                            <div class="contarea meterpage row">
+                                <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
+                                    <span class="alert-danger" id="error_reponse" style=" display: none; float: left;">some code there</span>
+                                    <span id="balanceSpan" style="color: #00a2e8; ">SLE: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+                                </div>
+                                <div class="tabcont-row current">
+                                    <div class="row">
+                                        <div class="col-md-4" style=" border-right:2px solid #f6eded;">
+                                            <form id="rechargeAirtimeForm" style="box-shadow:0 0 1px #8f7e7e; border:none; ">
+                                                <div class="row">
+                                                    <div class="row padded">
+                                                        @{
+                                                            var pos = (List<SelectListItem>)ViewBag.userPos;
+                                                        }
+                                                        @if (pos.Count > 1)
+                                                        {
+                                                            <div class=" col-md-4">
+                                                                <label class="control-label">SELECT POS ID</label>
+                                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; ", @class = " input form-control", @id = "posDrp" })
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class=" col-md-12">
+                                                                <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                                @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
+
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <input type="hidden" id="platformIdSelect" name="PlatformId" />
+
+
+                                                    <div class="row padded">
+                                                        <div class="col-md-8">
+                                                            <label><span style="color:red; text-align:center;"> ENTER</span> PHONE NUMBER</label>
+                                                            <span style="display: flex">
+                                                                <select>
+                                                                    <option value="+232">+232</option>
+                                                                </select>
+                                                                @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
+                                                            </span>
+                                                            @Html.ValidationMessageFor(x => x.Beneficiary)
+                                                        </div>
+                                                    </div>
 
 
 
-                   <div class="form-row">
+                                                    <div class="row padded">
 
-                       <div class="col-md-8">
-                           <label>AMOUNT</label>
+                                                        <div class="col-md-8">
+                                                            <label>AMOUNT</label>
 
-                           <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
-                                  id="AmountDisplay" type="text"
-                                  onkeypress="javascript:return isNumber(event)"
-                                  onkeyup="amountFormatter()"
-                                  class="form-control" />
+                                                            <input style="font-weight:bold; color: red; text-align:right;  height:50px; font-size:35px;"
+                                                                   id="AmountDisplay" type="text"
+                                                                   onkeypress="javascript:return isNumber(event)"
+                                                                   onkeyup="amountFormatter()"
+                                                                   class="form-control " />
 
-                           @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
-                           @Html.ValidationMessageFor(x => x.Amount)
-                       </div>
-                       <div class="col-md-4">
+                                                            @Html.HiddenFor(x => x.Amount, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(x => x.Amount)
+                                                        </div>
 
-                           <br />
-                           <input type="button"
-                                  style="height:50px;
+                                                        <div class="col-md-4">
+                                                            <div class="row">
+                                                                <input type="button"
+                                                                       style="height:50px;
                                                                    font-weight:bold;
                                                                    text-transform:uppercase;
                                                                    border:none; margin-top:7px;
                                                                    width:100%; background: #ffd800;
                                                                    border-radius:5px;" disabled
-                                  class="savebttn addDepositBtn submitBtn"
-                                  id="pay_Now_Btn" value="PAY NOW">
-                       </div>
-                   </div>
-               </form>
-           </div>
-           <div class="col-md-8 d-none d-sm-block">
-               <h4>Latest (10) recharge history</h4>
-               <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
-                   <table class="table table-bordered  mb-0" id="datatable-icons">
-                       <thead>
-                           <tr>
-                               <th>DATE/TIME</th>
-                               <th>PRODUCT</th>
-                               <th>TRANSACTION ID</th>
-                               <th>PHONE #</th>
-                               <th>POS ID</th>
-                               <th>TOKEN</th>
-                               <th>AMOUNT</th>
-                           </tr>
-                       </thead>
-                       <tbody>
-                           @Html.Partial("Partials/_salesListing", history)
-                       </tbody>
-                   </table>
-               </div>
-           </div>
-       </div>
-    }
-    else
-    {
-        <div class="contarea">
-            <p>
-                Airtime Service not assigned<br />
-                Please contact VENDTECH on +23279990990
-            </p>
+                                                                       class="savebttn addDepositBtn"
+                                                                       id="pay_Now_Btn" value="PAY NOW">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-8 hidden-sm  hidden-xs">
+                                            <h4>Latest (10) recharge history</h4>
+                                            <div class="exportdata table-wrapper-scroll-y my-custom-scrollbar">
+                                                <table class="table table-bordered  mb-0" id="datatable-icons">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>DATE/TIME</th>
+                                                            <th>PRODUCT</th>
+                                                            <th>TRANSACTION ID</th>
+                                                            <th>PHONE #</th>
+                                                            <th>POS ID</th>
+                                                            <th>TOKEN</th>
+                                                            <th>AMOUNT</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @Html.Partial("Partials/_salesListing", history)
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="contarea">
+                                <p>
+                                    Airtime Service not assigned<br />
+                                    Please contact VENDTECH on +23279990990
+                                </p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-    }
-
-</div>
-
-<div class="container-fluid" id="pcont">
-
+    </div>
 
     <div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -173,8 +233,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn cancelBtn md-close" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn submitBtn md-close" id="rechargeAirtime" type="button" data-dismiss="modal">Proceed</button>
+                    <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary md-close" id="rechargeAirtime" type="button" data-dismiss="modal">Proceed</button>
                 </div>
             </div>
         </div>
@@ -294,6 +354,9 @@
             });
         });
 
+        function closeSmsReceiptModal() {
+            $("#airtimeReceiptModal").modal("hide");
+        }
 
 
     </script>
@@ -374,7 +437,9 @@
 
         }
 
-        function sendAirtimePurchase (sender) {
+        function sendAirtimePurchase(sender) {
+
+            var errorDisplay = document.getElementById("error_reponse");
             if (!$("#Amount").val() || $("#Amount").val() == "0") {
                 $.ShowMessage($('div.messageAlert'), "Please Enter Amount", MessageType.Error);
                 return;
@@ -386,7 +451,8 @@
             }
             var reuestObj = $("#rechargeAirtimeForm").serializeArray();
 
-            disableSubmit(true)
+            disableSubmit(true);
+            errorDisplay.style.display = 'none';
             $.ajax({
                 url: baseUrl + '/Airtime/Recharge',
                 data: $("#rechargeAirtimeForm").serialize(),
@@ -396,9 +462,14 @@
                     const response = JSON.parse(data)
                     disableSubmit(false);
 
-                    debugger
-
                     if (response.Code !== 200) {
+
+                        errorDisplay.style.display = 'block';
+                        if (response.Code === 403) {
+                            errorDisplay.innerHTML = atob(response.Msg)
+                        } else {
+                            errorDisplay.innerHTML = response.Msg
+                        }
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                         return false;
                     }
@@ -430,7 +501,7 @@
                         $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                     }
                     setTimeout(() => {
-                        window.location.href = `http://vendtechsl.net/Meter/Utility`
+                        window.location.href = `https://vendtechsl.com/Meter/Utility`
                     }, 3000)
                     Paging(this);
                 },

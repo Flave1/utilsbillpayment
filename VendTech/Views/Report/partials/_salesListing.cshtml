@@ -6,7 +6,7 @@
     foreach (var item in Model.List)
     {
         <tr class="odd gradeX">
-            <td style="text-align:right;"> @item.CreatedAtDate.ToString("dd/MM/yyyy hh:mm")</td>
+            <td style="text-align:right;"> @item.CreatedAtDate</td>
             <td style="text-align:left;"> @item.ProductShortName</td>
 
             <td style="text-align:right;"> @item.TransactionId</td>
@@ -14,7 +14,7 @@
             <td> @item.VendorName</td>
             <td style="text-align:right;"> @item.POSId</td>
             <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchSaleInformation('@item.RechargePin', '@item.PlatformId')" id="@item.RechargePin"> @item.RechargePin </a></strong></td>
-            <td style="text-align:right;"> <strong>  @VendTech.BLL.Common.Utilities.FormatAmount(item.Amount)</strong> </td>
+            <td style="text-align:right;"> <strong> @item.Amount</strong> </td>
         </tr>
     }
 }

@@ -54,7 +54,7 @@ namespace VendTech.BLL.Managers
 
                 if (userAssignedPos != null && userAssignedPos.POSId > 0)
                 {
-                    var res =  userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted && p.Platform.Enabled)
+                    var res =  userAssignedPos.POSAssignedPlatforms.Where(p => !p.Platform.IsDeleted)
                         .Select(p => new PlatformModel(p))
                     .OrderBy(p => p.PlatformId)
                     .ToList();

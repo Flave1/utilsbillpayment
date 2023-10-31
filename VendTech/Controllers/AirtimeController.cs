@@ -79,6 +79,12 @@ namespace VendTech.Controllers
         [HttpPost, AjaxOnly]
         public JsonResult Recharge(PlatformTransactionModel model)
         {
+
+            var selectProd = _platformManager.GetSinglePlatform(model.PlatformId);
+            if (selectProd.DisablePlatform)
+            {
+                return Json(JsonConvert.SerializeObject(new { Success = false, Code = 403, Msg = selectProd.DiabledPlaformMessage }));
+            }
             model.UserId = LOGGEDIN_USER.UserID;
             //Fetch the currency
             //return null;

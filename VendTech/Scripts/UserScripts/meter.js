@@ -193,7 +193,8 @@ var UserMeters = {
                 $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                 $("#pay_Now_Btn").val('PAY NOW');
                 $("#pay_Now_Btn").prop('disabled', false);
-                console.log(data);
+
+
                 if (data.Code === 302)
                 { 
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
@@ -201,11 +202,16 @@ var UserMeters = {
                     $("#error_reponse").html(data.Msg); 
                     return false;
                 }
-                //$.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Success);
-                if (data.Code === 200) {
 
-                    
-                    console.log(data);
+                if (data.Code === 403) {
+                    const msg = atob(data.Msg)
+                    $.ShowMessage($('div.messageAlert'), msg, MessageType.Failed);
+                    $("#error_reponse").show();
+                    $("#error_reponse").html(msg);
+                    return false;
+                }
+
+                if (data.Code === 200) {
 
                     $("#sales_date").html(data.Data.TransactionDate);
                     $("#customer_name").html(data.Data.CustomerName);

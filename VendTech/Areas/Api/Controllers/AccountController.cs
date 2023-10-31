@@ -66,16 +66,16 @@ namespace VendTech.Areas.Api.Controllers
         {
             if(model.PassCode != "73086")
             {
-                if (model.AppVersion != "2.4.1")
-                {
-                    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
-                }
+                //if (model.AppVersion != "2.4.1")
+                //{
+                //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
+                //}
             }
           
-            if (string.IsNullOrEmpty(model.DeviceToken))
-            {
-                return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
-            }
+            //if (string.IsNullOrEmpty(model.DeviceToken))
+            //{
+            //    return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
+            //}
             
             if (!ModelState.IsValid)
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();

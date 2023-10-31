@@ -1,4 +1,4 @@
-﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel2>
 @{
 
     ViewBag.Title = "Manage Balance Sheet Reports";
@@ -94,9 +94,7 @@
                                                     <input type="hidden" id="toDt" />
                                                 </div>
                                             </div>
-                                            <hr style="        background: #d0cbcb !important;
-        height: 1px;
-" />
+                                            <hr style="background: #d0cbcb !important; height: 1px;" />
                                             <div class="form-group row">
                                                 <label>Report</label>
                                                 @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control" })
@@ -131,7 +129,7 @@
                                                         <th data-sortby="BALANCE">BALANCE</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="tableBody">
                                                     @Html.Partial("Partials/_balanceSheetReportListing", Model)
                                                 </tbody>
                                             </table>

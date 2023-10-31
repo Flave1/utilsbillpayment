@@ -84,10 +84,11 @@ namespace VendTech.Areas.Api.Controllers
             return new JsonContent(result.TotalCount, result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.List).ConvertToHttpResponseOK();
         }
         [HttpGet]
+        //[HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetRechargeDetail(long rechargeId)
         {
-            var result = _meterManager.GetRechargeDetail(rechargeId);
+            var result = _meterManager.GetMobileRechargeDetail(rechargeId);
             return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed, result.Object).ConvertToHttpResponseOK();
         }
 
@@ -189,7 +190,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }
             model.UserId = LOGGEDIN_USER.UserId;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            var result = _meterManager.RechargeMeterReturn(model);
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
         }
 

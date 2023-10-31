@@ -144,7 +144,7 @@
                                                         <th class="sorting" data-sortby="Amount">AMOUNT</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="tableBody">
                                                     @Html.Partial("Partials/_salesReportListing", Model)
                                                 </tbody>
                                             </table>
@@ -238,6 +238,14 @@
                 $("#salesForm").submit();
             });
         });
+
+        function closeSmsReceiptModal() {
+            $("#airtimeReceiptModal").modal("hide");
+        }
+        function closeModal() {
+            $("#modalCart2").modal("hide");
+        }
+
     </script>
 
 

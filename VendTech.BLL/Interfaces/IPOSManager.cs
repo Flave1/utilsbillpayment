@@ -36,6 +36,8 @@ namespace VendTech.BLL.Interfaces
         POS GetSinglePos(long pos);
         List<PosSelectItem> GetAgencyPos(long userId);
         POS ReturnAgencyAdminPOS(long userId);
+        PagingResultWithDefaultAmount<BalanceSheetListingModel2> CalculateBalancesheet(List<BalanceSheetListingModel> result);
+        List<SelectListItem> GetPOSWithNameSelectList(long userId, long agentId);
     }
 
 }

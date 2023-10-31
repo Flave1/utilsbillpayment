@@ -279,10 +279,14 @@ namespace VendTech.Controllers
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            var result = _meterManager.RechargeMeterReturn(model);
             if(result.ReceiptStatus.Status == "unsuccessful")
             {
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
+            }
+            else if(result.ReceiptStatus.Status == "disabled")
+            {
+                return Json(new { Success = false, Code = 403, Msg = result.ReceiptStatus.Message });
             }
          
             if (result != null)
@@ -294,8 +298,8 @@ namespace VendTech.Controllers
         [HttpPost, AjaxOnly, Public]
         public JsonResult RechargeReturn2(RechargeMeterModel model)
         {
-            model.UserId = model.UserId;
-            var result = _meterManager.RechargeMeterReturn(model).Result;
+            //model.UserId = model.UserId;
+            var result = _meterManager.RechargeMeterReturn(model);
             if (result.ReceiptStatus.Status == "unsuccessful")
             {
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });

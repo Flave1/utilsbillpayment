@@ -24,13 +24,7 @@ namespace VendTech.BLL.Common
                 tRequest.Headers.Add(string.Format("Authorization: key={0}", GoogleAppID));
 
                 tRequest.Headers.Add(string.Format("Sender: id={0}", SENDER_ID));
-                // string postData = "{ 'registration_id': [ '" + regId + "' ], 'data': {'message': '" + txtMsg.Text + "'}}";
-                // title=Title Text
-                // message=This is a test message
-                // type=1
-                // sound=0
-                // vibrate=1
-
+            
 
                 if (model.DeviceType == (int)AppTypeEnum.IOS)
                 {

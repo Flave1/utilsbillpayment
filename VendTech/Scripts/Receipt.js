@@ -5,7 +5,7 @@ function onViewDepositDetails(depositId) {
         var inputParam = new Object();
         inputParam.token_string = depositId;
         $.ajax({
-            url: baseUrl + '/Deposit/GetDepositDetails',
+            url: baseUrl + '/Admin/Deposit/GetDepositDetails',
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
@@ -86,6 +86,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
             type: "POST",
             success: function (data) {
 
+                debugger
                 const response = JSON.parse(data)
                 DisableAndEnablelinks(false, traxId);
 
@@ -129,6 +130,8 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
     }
 }
 
+
+
 function fetchVoucherDetailsByToken(token) {
 
     DisableAndEnablelinks(true, token);
@@ -145,7 +148,7 @@ function fetchVoucherDetailsByToken(token) {
             type: "POST",
             success: function (data) {
 
-
+                debugger
                 DisableAndEnablelinks(false, token);
                 if (data.Code === 302) {
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);

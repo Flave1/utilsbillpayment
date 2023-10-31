@@ -33,7 +33,7 @@ namespace VendTech.BLL.Models
             AgencyAdminDisplayName = obj?.User?.Vendor + " - " + pos?.SerialNumber;
             AgencyAdminPosId = pos?.POSId;
             Balance = Utilities.FormatAmount(pos?.Balance);
-            VendorsCount = obj.Users.Where(e => e.UserId != obj.Representative).Count();
+            VendorsCount = obj.Users.Where(e => e.UserId != obj.Representative && e.Status != (int)UserStatusEnum.Block).Count();
         }
     }
 
@@ -52,15 +52,14 @@ namespace VendTech.BLL.Models
         public string VendorEmail { get; set; }
         public AgentListingModel(POS obj)
         {
-            var sale = obj.TransactionDetails.Where(f => f.CreatedAt.Date == DateTime.UtcNow.Date && f.Finalised == true).Select(d => d.Amount)?.Sum() ?? 0;
+            
             POSID = obj.POSId;
             SerialNumber = obj.SerialNumber;
             AgencyName = obj?.User?.Agency?.AgencyName;
-            CellPhone = "+232" + obj.Phone;
+            CellPhone = "+232" + obj.User.Phone;
             AgentName = $"{obj?.User?.Name} {obj?.User?.SurName}";
-            Enabled = (bool)obj.Enabled;
-            TodaySales = Utilities.FormatAmount(sale);
             Balance = Utilities.FormatAmount(obj?.Balance);
+            Enabled = (bool)obj.Enabled;
             Vendor = obj?.User?.Vendor;
             VendorId = obj.User.UserId;
             VendorEmail = obj?.User?.Email;
@@ -78,7 +77,10 @@ namespace VendTech.BLL.Models
             VendorId = obj?.User?.UserId ?? 0;
             VendorEmail = obj?.User?.Email;
         }
-
+        public AgentListingModel()
+        {
+            
+        }
     }
         public class AddAgentModel : SaveAgentModel
         {

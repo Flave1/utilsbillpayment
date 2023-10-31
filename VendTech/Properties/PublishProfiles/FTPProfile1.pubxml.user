@@ -9,35 +9,80 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <_PublishTargetUrl>ftp://92.205.181.48/httpdocs</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="Areas/Admin/Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_BSReportListing.cshtml">
+      <publishTime>12/09/2023 18:53:53</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Platform/ManagePlatforms.cshtml">
-      <publishTime>09/06/2023 07:07:18</publishTime>
+      <publishTime>06/09/2023 07:07:18</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/Partials/_depositReleaseListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/BalanceSheetReports.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageSalesReports.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/Partials/_balanceSheetReportListing.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_depositAuditListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_reportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_salesReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>09/08/2023 09:56:47</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
-      <publishTime>08/07/2023 11:57:04</publishTime>
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>08/15/2023 11:20:42</publishTime>
+      <publishTime>09/08/2023 22:45:18</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>08/11/2023 11:22:57</publishTime>
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.pdb">
+      <publishTime>09/08/2023 22:45:18</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>09/08/2023 09:56:49</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>08/31/2023 13:41:56</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>09/08/2023 09:56:48</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
-      <publishTime>08/07/2023 11:57:04</publishTime>
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
@@ -45,32 +90,74 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/WebGrease.dll">
       <publishTime>04/11/2022 07:09:00</publishTime>
     </File>
+    <File Include="Scripts/AdminScripts/balanceSheetReport.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/report.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/reportFilter.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="Scripts/AdminScripts/rtsedsaReport.js">
-      <publishTime>03/07/2023 15:58:36</publishTime>
+      <publishTime>07/03/2023 15:58:36</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/salesReport.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/Receipt.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/UserScripts/meter.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/UserScripts/reportFilter.js">
-      <publishTime>05/09/2023 04:18:32</publishTime>
+      <publishTime>09/05/2023 04:18:32</publishTime>
+    </File>
+    <File Include="Views/Airtime/Partials/_salesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Airtime/Recharge.cshtml">
+      <publishTime>09/09/2023 14:12:57</publishTime>
+    </File>
+    <File Include="Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Meter/Index.cshtml">
-      <publishTime>07/09/2023 10:38:34</publishTime>
+      <publishTime>09/07/2023 10:38:34</publishTime>
     </File>
     <File Include="Views/Meter/Partials/_meterListing.cshtml">
-      <publishTime>07/09/2023 10:44:57</publishTime>
+      <publishTime>09/07/2023 10:44:57</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_salesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Meter/Utility.cshtml">
-      <publishTime>07/08/2023 22:22:36</publishTime>
+      <publishTime>08/07/2023 22:22:36</publishTime>
+    </File>
+    <File Include="Views/Report/BalanceSheetReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_balanceSheetReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_depositListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_salesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Report/SalesReport.cshtml">
-      <publishTime>05/09/2023 04:15:44</publishTime>
+      <publishTime>09/05/2023 04:15:44</publishTime>
     </File>
     <File Include="Views/SavedPhoneNumbers/Index.cshtml">
-      <publishTime>07/09/2023 10:21:38</publishTime>
+      <publishTime>09/07/2023 10:21:38</publishTime>
     </File>
     <File Include="Views/SavedPhoneNumbers/Partials/_numberListing.cshtml">
-      <publishTime>07/09/2023 10:47:09</publishTime>
+      <publishTime>09/07/2023 10:47:09</publishTime>
+    </File>
+    <File Include="Views/Shared/_depositReceipt.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
