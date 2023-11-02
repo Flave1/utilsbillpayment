@@ -25,6 +25,8 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Http.Results;
+using VendTech.BLL.Managers;
+using VendTech.Framework.Api;
 #endregion
 
 namespace VendTech.Controllers
@@ -45,11 +47,12 @@ namespace VendTech.Controllers
         private readonly IPOSManager _posManager;
         private readonly IBankAccountManager _bankAccountMananger;
         private readonly IPaymentTypeManager _paymentTypeManager;
+        private readonly IEmailTemplateManager _emailTemplateManager;
 
 
         #endregion
 
-        public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IPOSManager posManager, IBankAccountManager bankAccountManager, IPaymentTypeManager paymentTypeManager)
+        public ReportController(IUserManager userManager, IErrorLogManager errorLogManager, IAuthenticateManager authenticateManager, ICMSManager cmsManager, IDepositManager depositManager, IMeterManager meterManager, IVendorManager vendorManager, IPOSManager posManager, IBankAccountManager bankAccountManager, IPaymentTypeManager paymentTypeManager, IEmailTemplateManager emailTemplateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -61,6 +64,7 @@ namespace VendTech.Controllers
             _posManager = posManager;
             _bankAccountMananger = bankAccountManager;
             _paymentTypeManager = paymentTypeManager;
+            _emailTemplateManager = emailTemplateManager;
         }
 
         /// <summary>
@@ -1852,6 +1856,50 @@ namespace VendTech.Controllers
                 return Json(new { message = "Unable to send sms.", status = "failed" });
             }
             return Json(new { message = "Sms successfully sent.", status = "success" });
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult SendEmail(SendViaEmail request)
+        {
+            var td = _meterManager.GetSingleTransaction(string.Concat(request.TransactionId.Where(c => !Char.IsWhiteSpace(c))));
+            if (td == null)
+                return Json(new { message = "Not found", status = "success" });
+
+            var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
+            var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmail);
+            if (emailTemplate.TemplateStatus)
+            {
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%vendor%", vendor.Vendor);
+                body = body.Replace("%posid%", td.User.POS.FirstOrDefault().SerialNumber);
+                body = body.Replace("%customerName%", td.Customer);
+                body = body.Replace("%account%", td.AccountNumber);
+                body = body.Replace("%address%", td.CustomerAddress);
+                body = body.Replace("%meterNumber%", td.MeterNumber1);
+                body = body.Replace("%tarrif%", td.Tariff);
+                body = body.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
+                body = body.Replace("%gst%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge)));
+                body = body.Replace("%serviceCharge%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge)));
+                body = body.Replace("%debitRecovery%", td.DebitRecovery);
+                body = body.Replace("%costOfUnits%", td.CostOfUnits);
+                body = body.Replace("%units%", td.Units);
+                body = body.Replace("%pin%", BLL.Common.Utilities.FormatThisToken(td.MeterToken1));
+                body = body.Replace("%edsaSerial%", td.SerialNumber);
+                body = body.Replace("%vendtechSerial%", td.TransactionId);
+                body = body.Replace("%barcode%", td.MeterNumber1);
+                body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+
+                var emailTemplate2 = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmailContent);
+                string body2 = emailTemplate2.TemplateContent;
+                body2 = body2.Replace("%customer%", "Customer");
+                body2 = body2.Replace("%invoiceNumber%", td.TransactionId);
+                body2 = body2.Replace("%meter%", td.MeterNumber1);
+                body2 = body2.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
+                BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body2, file, td.TransactionId + "_receipt.pdf");
+            }
+
+            return Json(new { message = "Email successfully sent.", status = "success" });
         }
     }
 }

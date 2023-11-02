@@ -233,6 +233,7 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public JsonResult ReturnVoucher(RequestObject tokenobject)
         { 
+
             var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
             if (result.ReceiptStatus.Status == "unsuccessful") 
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });

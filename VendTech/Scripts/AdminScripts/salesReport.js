@@ -474,7 +474,7 @@ async function initTable(response) {
                     </a>
                 </strong>
             </td>
-             <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="${response[i].RechargePin}" onclick="fetchSaleInformation('${response[i].RechargePin}', '${response[i].PlatformId}')" id="${response[i].RechargePin}"> '${response[i].RechargePin}' </a></strong></td>
+             <td style="text-align:center;"> <strong> <a href="javascript:void(0);" data-token="${response[i].RechargePin}" onclick="fetchSaleInformation('${response[i].RechargePin}', '${response[i].PlatformId}', true)" id="${response[i].RechargePin}"> '${response[i].RechargePin}' </a></strong></td>
             <td style="text-align:right;"> <strong> ${response[i].Amount}</strong></td>
         `;
         tableBody.appendChild(tr);
