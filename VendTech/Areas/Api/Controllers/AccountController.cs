@@ -81,6 +81,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
             else
             {
+              
                 var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
                 if (userDetails == null)
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
@@ -94,6 +95,13 @@ namespace VendTech.Areas.Api.Controllers
                     //{
                     //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
                     //}
+
+                    var isEnabled = _authenticateManager.IsUserAccountORPosBlockedORDisabled(userDetails.UserId);
+                    if (isEnabled)
+                    {
+                        return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
+
                     var pos = _posManager.GetPosDetails(model.PassCode);
                     if(pos == null)
                     {
