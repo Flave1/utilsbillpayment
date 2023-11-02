@@ -82,14 +82,11 @@ namespace VendTech.Controllers
 
                 if (LOGGEDIN_USER != null)
                 {
-                    var isEnabled = _authManager.IsUserPosEnable(LOGGEDIN_USER.UserID);
-                    if (!isEnabled)
+                    var isEnabled = _authManager.IsUserAccountORPosBlockedORDisabled(LOGGEDIN_USER.UserID);
+                    if (isEnabled)
                     {
-                        //HttpCookie val = Request.Cookies[Cookies.AuthorizationCookie];
-                        //val.Expires = DateTime.Now.AddDays(-30);
-                        //Response.Cookies.Add(val);
-                        //LOGGEDIN_USER = null;
-                        //filter_context.Result = RedirectToAction("Index", "Home");
+                        SignOut();
+                        filter_context.Result = RedirectToAction("Index", "Home");
                     }
                 }
                 ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;

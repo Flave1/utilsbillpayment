@@ -160,23 +160,19 @@ namespace VendTech.BLL.Managers
 
         }
 
-        bool IAuthenticateManager.IsUserPosEnable(long userId)
+        bool IAuthenticateManager.IsUserAccountORPosBlockedORDisabled(long userId)
         {
             try
             {
-                var result = Context.Users.Where(x => x.UserId == userId
-            && (x.Status == (int)UserStatusEnum.Active ||
-            x.Status == (int)UserStatusEnum.PasswordNotReset ||
-            x.Status == (int)UserStatusEnum.Pending))
-                .FirstOrDefault();
+                var result = Context.Users.Where(x => x.UserId == userId).FirstOrDefault();
+
                 if (result != null)
                 {
-                    bool userAssignedPos = false;
-                    if (result.UserRole.Role == UserRoles.Vendor)
-                        userAssignedPos = result.POS.All(p => p.Enabled == false);
-                    else if (result.UserRole.Role == UserRoles.AppUser && result.User1 != null)
-                        userAssignedPos = result.User1.POS.All(p => p.Enabled == false);
-                    if (userAssignedPos)
+                    if(result.Status != (int)UserStatusEnum.Active)
+                    {
+                        return true;
+                    }
+                    if (!(bool)result.POS.FirstOrDefault().Enabled)
                     {
                         return true;
                     }
