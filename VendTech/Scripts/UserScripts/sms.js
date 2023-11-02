@@ -75,5 +75,40 @@
                 $.ShowMessage($('div.messageAlert'), "Sms not sent", MessageType.Error);
             }
         });
-    }
+    },
+    sendEmail2: function () {
+        
+        var emailAddress = $("#emailAddress").val();
+        var request = new Object();
+        request.TransactionId = smsHandler.transactionId;
+        request.Email = emailAddress;
+        const url = '/Report/SendEmail';
+        $.ajax({
+            url: url,
+            data: $.postifyData(request),
+            type: "POST",
+            success: function (data) {
+                
+                $("#emailAddress").val('');
+                $.ShowMessage($('div.messageAlert'), "EMAIL SENT", MessageType.Success);
+                setTimeout(function () {
+                    smsHandler.closeEmailModal2();
+                    closeModal()
+                }, 3000)
+                
+            },
+            error: function (res) {
+                console.log('err', res)
+                $.ShowMessage($('div.messageAlert'), "Sms not sent", MessageType.Error);
+            }
+        });
+    },
+    closeEmailModal2: function () {
+        $(".emailOverlay2").css("display", "none");
+    },
+    openEmailModal2: function (isReprint = false) {
+        smsHandler.transactionId = isReprint ? $("#re-pin1").text() : $("#pin1").text();
+        $(".emailOverlay2").css("display", "block");
+
+    },
 };

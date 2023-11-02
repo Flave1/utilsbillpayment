@@ -1,0 +1,34 @@
+﻿<style>
+    .emailOverlay2 {
+        width: calc(100vw - 2px);
+        height: 100vh;
+        position: fixed;
+        background-color: gray;
+        background-color: rgba(150, 150, 150, .5);
+        z-index: 1;
+        left: 1px;
+        display: none;
+        overflow: hidden;
+    }
+
+</style>
+<div class="emailOverlay2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="smsHandler.closeEmailModal2()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form style="width: 100%">
+                    <label for="countryCode">SEND VOUCHER BY EMAIL TO:</label>
+                    <div class="mb-2 d-flex justify-content-center">
+                        <input type="email" class="form-control col-12" id="emailAddress" placeholder="enter email here...." required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="smsHandler.sendEmail2()" class="btn submitBtn pull-right" >Send</button>
+            </div>
+        </div>
+    </div>
+</div>

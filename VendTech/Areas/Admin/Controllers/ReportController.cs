@@ -1914,7 +1914,17 @@ namespace VendTech.Areas.Admin.Controllers
             var result = _meterManager.GetMiniSalesReport(model, true, 0, model.MiniSaleRpType);
             return Json(new { result = JsonConvert.SerializeObject(result.List) });
         }
-    
-    
+
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult ReturnVoucher(RequestObject tokenobject)
+        {
+
+            var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
+            if (result.ReceiptStatus.Status == "unsuccessful")
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+
+            result.ShowEmailButtonOnWeb = true;
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
     }
 }

@@ -60,11 +60,11 @@ function GetRequestANDResponse(transactionId) {
 
 }
 
-function fetchSaleInformation(token, platFormId) {
+function fetchSaleInformation(token, platFormId, isAdmin= false) {
     debugger
     switch (platFormId) {
         case '1':
-            fetchVoucherDetailsByToken(token);
+            fetchVoucherDetailsByToken(token, isAdmin);
             break;
         default:
             fetchAirtimeDetailsByTransactionId(token);
@@ -86,7 +86,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
             type: "POST",
             success: function (data) {
 
-                debugger
+                
                 const response = JSON.parse(data)
                 DisableAndEnablelinks(false, traxId);
 
@@ -132,7 +132,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
 
 
 
-function fetchVoucherDetailsByToken(token) {
+function fetchVoucherDetailsByToken(token, isAdmin = false) {
 
     DisableAndEnablelinks(true, token);
     $("#re-print_section").show();
@@ -140,15 +140,15 @@ function fetchVoucherDetailsByToken(token) {
 
         var inputParam = new Object();
         inputParam.token_string = token.replace(/ /g, '');
-        var url = baseUrl + '/Meter/ReturnVoucher';
+        var url = isAdmin ? baseUrl + '/Admin/Report/ReturnVoucher' : baseUrl + '/Meter/ReturnVoucher';
 
         $.ajax({
-            url: baseUrl + '/Meter/ReturnVoucher',
+            url: url,
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
 
-                debugger
+                
                 DisableAndEnablelinks(false, token);
                 if (data.Code === 302) {
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
@@ -185,6 +185,7 @@ function fetchVoucherDetailsByToken(token) {
                     $("#re-vendorId").html(data.Data.VendorId);
                     if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
+                    if (data.Data.ShowEmailButtonOnWeb) $("#re-showemail_btn").css("display", "inline-block");
 
                     $("#modalCart2").modal("show");
                 } else {

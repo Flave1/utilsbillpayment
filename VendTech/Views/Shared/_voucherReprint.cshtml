@@ -1,7 +1,8 @@
 ﻿
 @Html.Partial("Sms/_smsOnReprintModal")
+@Html.Partial("Email/_emailOnReprintModal")
 <div class="modal-dialog modal-md">
-    <div class="modal-content modal-md" >
+    <div class="modal-content modal-md">
         <div class="modal-body" id="re-printSection">
             <div class="row" style=" margin:18px; margin-left:-10px;" id="re-gen-invoice">
                 <div style="width:29%; float:left;">
@@ -30,7 +31,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 " style="text-align:right;">
                     <div style="text-align: right;">
-                       
+
                         <strong>Vendor Name :</strong>  <span class="text-light" id="re-vendorId">Office Coporate</span>
                     </div>
                 </div>
@@ -63,7 +64,7 @@
                 </div>
                 <div class="col-md-12" style="display: flex; padding: 0;">
                     <div class="col-md-4 col-sm-5" style="width:45%; float:left">Tariff: </div>
-                    <div style="text-align: right; width:53%; float:right; padding-right:8px;" class="col-md-8 col-sm-7" id="re-current_tarrif" > 569</div>
+                    <div style="text-align: right; width:53%; float:right; padding-right:8px;" class="col-md-8 col-sm-7" id="re-current_tarrif"> 569</div>
                 </div>
                 <div class="col-md-12" style="display: flex; padding: 0;">
                     <div class="col-md-8 col-sm-8" style="width:60%; float:left">AMT Tendered: NLe:  </div>
@@ -123,9 +124,9 @@
                 </div>
             </div>
 
-         
+
             <div class="row modal-footer">
-              
+
                 <div style="border-bottom: 7px; border-top: 7px; margin-left: -5px; width: 49.7%; float:left; text-align:left;">
                     <span>
                         <em>
@@ -134,22 +135,26 @@
                         <em>
                             VTECH Serial #: <span id="re-vendtech_serial_code">1234356</span>
                         </em>
-                    </span> 
+                    </span>
                     <br />
                     <span id="re-barcode" style="font-family: 'Libre Barcode 39 Text', cursive !important; font-size: 32px;">22222222222 </span><br />
                     <span><em>www.vendtechsl.com</em></span><br />
-                    <span ><em>Call +232 76 990 990</em></span>
+                    <span><em>Call +232 76 990 990</em></span>
                 </div>
                 <div style="padding: 0; margin: 0px; width: 49.7%; float: right;">
                     <div class="row" style="text-align:right;">
                         <img src="~/Content/images/vtech-receipt.png" />
                     </div>
-                    <div class="d-flex justify-content-right" id="re-print_section">
-                        <button type="button" class="btn cancelBtn waves-effect waves-light " id="re-showsms_btn" onclick="smsHandler.openSmsModal2(true)" style="display:none">SMS</button>
-                        <button class="btn  submitBtn waves-effect waves-light" id="re-showprint_btn" style="display:none" onclick="Reprint()">REPRINT</button>
-                    </div>
-                </div> 
-            </div> 
+
+                </div>
+
+            </div>
+         
+            <div class="d-flex justify-content-end" id="re-print_section" style="text-align: right;">
+                <button type="button" class="btn cancelBtn waves-effect waves-light" id="re-showsms_btn" onclick="smsHandler.openSmsModal2(true)" style="display: none;">SMS</button>
+                <button type="button" class="btn cancelBtn waves-effect waves-light" id="re-showemail_btn" onclick="smsHandler.openEmailModal2(true)" style="display: none;">EMAIL</button>
+                <button class="btn submitBtn waves-effect waves-light" id="re-showprint_btn" style="display: none; display: inline-block;" onclick="Reprint()">REPRINT</button>
+            </div>
         </div>
         <!-- modal-footer -->
 

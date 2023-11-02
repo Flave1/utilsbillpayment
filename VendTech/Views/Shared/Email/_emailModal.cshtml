@@ -1,0 +1,94 @@
+﻿<style>
+   
+ 
+    .smsModal {
+        width: 400px;
+        height: auto;
+        margin: auto;
+        z-index: 3;
+        overflow: hidden;
+        display: block;
+        position: relative;
+        top:400px;
+    }
+    .smsOverlay {
+        width: calc(100vw - 2px);
+        height: 100vh;
+        position: fixed;
+        background-color: gray;
+        background-color: rgba(150,150,150,.5);
+        z-index: 1;
+        left: 1px;
+        display: none;
+        overflow: hidden;
+    }
+  /*  .smsBoxSection {
+        margin: auto;
+        display: block;
+        height:200px;
+    }
+        .smsBoxSection form {
+            padding: 50px;
+        }
+
+    .input-group {
+        display: table
+    }
+
+        .input-group select {
+            display: table-cell;
+            border: 1px solid lightgrey;
+            width: 23%;
+            height: 35px;
+        }
+
+        .input-group input {
+            display: table-cell;
+            margin-left: 2px;
+            
+        }
+
+    .btnClose {
+        background: none;
+        border: none;
+    }
+
+        .btnClose i {
+            margin: 10px;
+            padding: 5px;
+            color: grey;
+            font-size: 30px;
+            font-weight:normal;
+        }*/
+</style>
+<div class="smsOverlay">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="smsHandler.closeSmsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <label for="countryCode">SEND VOUCHER BY SMS TO:</label>
+                    <div class="input-group mb-2 d-flex justify-content-center">
+                        <div class="input-group-prepend col-3">
+                            <select class="custom-select input-group-text" id="countryCode">
+                                <option selected>+232</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control col-9" id="smsNumber" placeholder="enter number here...." required>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a onclick="smsHandler.sendSms()" class="btn submitBtn pull-right" a href="#">Send</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
