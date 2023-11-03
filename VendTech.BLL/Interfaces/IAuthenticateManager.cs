@@ -35,7 +35,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput ChangePassword(ChangePasswordModel model);
         bool IsUserAccountActive(string email, string password);
         bool IsUserPosEnabled(string email, string password);
-        bool IsUserPosEnable(long userId);
+        bool IsUserAccountORPosBlockedORDisabled(long userId);
         bool ConfirmThisUser(ChangePasswordModel model);
         ActionOutput<string> FirstTimeLoginChangePassword(long userId, string oldPassword, string newPassword);
         UserModel SaveAndLoginPassCode(string passCode, long userId);
