@@ -1430,6 +1430,24 @@ namespace VendTech.BLL.Managers
 
         }
 
+        List<DepositListingModel> IDepositManager.GetPendingDepositForCustomer(long UserId, long agencyId)
+        {
+            var query = Context.PendingDeposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Pending);
+
+            if (agencyId > 0)
+            {
+                var posIds = Context.POS.Where(p => p.VendorId != null && p.VendorId == UserId || p.User.AgentId == agencyId && p.Enabled == true)
+                    .Select(p => p.POSId).ToList();
+
+                query = query.Where(p => posIds.Contains(p.POSId));
+
+                return query.Where(d => d.UserId == UserId).AsEnumerable().Select(d => new DepositListingModel(d)).ToList();
+            }
+            else
+            {
+                return query.Where(d => d.UserId == UserId).AsEnumerable().Select(d => new DepositListingModel(d)).ToList();
+            }
+        }
         PagingResult<DepositExcelReportModel> IDepositManager.GetReportExcelData(ReportSearchModel model, long agentId)
         {
             var result = new PagingResult<DepositExcelReportModel>();
@@ -2005,6 +2023,16 @@ namespace VendTech.BLL.Managers
             if (dbDeposit == null)
                 return ReturnError<DepositListingModel>("Deposit not exist.");
             var data = new DepositListingModel(dbDeposit, true);
+            return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
+        }
+
+        ActionOutput<DepositListingModel> IDepositManager.GetPendingDepositDetail(long pdepositId)
+        {
+            var dbDeposit = Context.PendingDeposits.FirstOrDefault(p => p.PendingDepositId == pdepositId);
+
+            if (dbDeposit == null)
+                return ReturnError<DepositListingModel>("Deposit not exist.");
+            var data = new DepositListingModel(dbDeposit);
             return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
         }
 

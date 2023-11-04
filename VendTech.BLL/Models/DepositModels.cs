@@ -141,7 +141,7 @@ namespace VendTech.BLL.Models
             ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
         }
 
-        public DepositListingModel(PendingDeposit obj, bool changeStatusForApi = false)
+        public DepositListingModel(PendingDeposit obj)
         {
             NotType = "deposit";
             Type = obj.PaymentType1.Name;

@@ -58,6 +58,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput DepositToAgencyAdminAccount(Deposit dbDeposit, long currentUserId, string OTP);
         ActionOutput<string> CancelDeposit(CancelDepositModel model);
         PagingResult<DepositListingModelMobile> GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
+        List<DepositListingModel> GetPendingDepositForCustomer(long UserId, long agencyId);
+        ActionOutput<DepositListingModel> GetPendingDepositDetail(long pdepositId);
     }
 
 }

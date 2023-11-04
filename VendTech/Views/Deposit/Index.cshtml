@@ -109,11 +109,11 @@
                                                     </div>
                                                 </div>
                                                 @*<div class="form-group row">
-                                                    <div class="col-md-11 chkBankDiv" style="display:none">
-                                                        <label>NAME ON CHEQUE</label>
-                                                        <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-11 chkBankDiv" style="display:none">
+                                                            <label>NAME ON CHEQUE</label>
+                                                            <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
+                                                        </div>
+                                                    </div>*@
                                                 <input type="hidden" id="NameOnCheque" name="NameOnCheque" class="form-control input">
 
                                                 <div class="form-group row">
@@ -126,11 +126,11 @@
                                                 <input type="hidden" name="ContinueDepoit" id="ContinueDepoit" value="0" />
 
                                                 @*<div class="form-group row">
-                                                    <div class="col-md-11">
-                                                        <label>VENDTECH BANK DETAILS</label>
-                                                        @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-11">
+                                                            <label>VENDTECH BANK DETAILS</label>
+                                                            @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
+                                                        </div>
+                                                    </div>*@
                                                 @*@Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })*@
                                                 <div class="form-group row">
                                                     <div class="col-md-11">
@@ -176,7 +176,7 @@
                                                         <th>REF #</th>
                                                         <th>AMOUNT</th>
                                                         <th>%</th>
-                                                        <th>NEW BALANCE</th>
+                                                        <th>STATUS</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="depositListing">
@@ -198,16 +198,23 @@
 </div>
 
 @*<div id="smartkorpor" style="display:none;">
-    @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
-</div>*@
+        @Html.Partial("_smartKorporPaymentScreen", Model.SmartKorporResponse)
+    </div>*@
 
 
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
+</div>
 
 
 
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
-    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script> 
+    <script src="~/Scripts/Receipt.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
     @*<script type="text/javascript">
         var totalCount = "@Model.TotalCount";
@@ -215,8 +222,29 @@
 
 
 
-<script type="text/javascript">
-            function thousands_separators(num) {
+    <script type="text/javascript">
+
+
+    function onViewDepositDetails(pdepositId) {
+
+        if (pdepositId) {
+            var inputParam = new Object();
+            inputParam.token_string = pdepositId;
+            $.ajax({
+                url: baseUrl + '/Deposit/GetPendingDepositDetails',
+                data: $.postifyData(inputParam),
+                type: "POST",
+                success: function (data) {
+
+                    $('.modal-body').html(data);
+                    $("#depositDetailModal").modal("show");
+
+                }
+            });
+        }
+    }
+
+    function thousands_separators(num) {
                 var num_parts = num.toString().split(".");
                 num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return num_parts.join(".");
@@ -316,7 +344,7 @@
                 if ('@ViewBag.posId' != null && '@ViewBag.posId' != '') {
 
                     var posEd = '@ViewBag.posId';
-                    if (posEd < 1) { 
+                    if (posEd < 1) {
                         $("#posDrp").val(' ');
                     } else {
                         $("#posDrp").val('@ViewBag.posId');
@@ -374,7 +402,7 @@
         }
 
         else {
-          
+
 
             var amt = thousands_separators($("#amount").val());
             var invalidAmt = thousands_separators($("#amount").val() / 1000);
@@ -412,7 +440,7 @@
                 });
 
             })
-            
+
         }
 
     }
@@ -494,6 +522,6 @@
         return num_parts.join(".");
     }
 
-</script>
+    </script>
 }
 
