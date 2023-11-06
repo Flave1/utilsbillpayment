@@ -19,46 +19,66 @@ namespace VendTech.BLL.Jobs
         }
         public void Execute(IJobExecutionContext context)
         {
+            var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
             var _posManager = DependencyResolver.Current.GetService<IPOSManager>();
-            var lowOnBalance = _posManager.GetAllUserRunningLow();
-            for (int i = 0; i < lowOnBalance.Count; i++)
+            try
             {
-                if (_posManager.BalanceLowMessageIsSent(lowOnBalance[i].UserId, UserScheduleTypes.LowBalnce))
-                    continue;
-                else if (!_posManager.BalanceLowScheduleExist(lowOnBalance[i].UserId, UserScheduleTypes.LowBalnce))
+
+                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to save", new System.Exception()));
+                var lowOnBalance = _posManager.GetAllUserRunningLow();
+                for (int i = 0; i < lowOnBalance.Count; i++)
                 {
-                    _posManager.SaveUserSchedule(lowOnBalance[i].UserId, lowOnBalance[i].Balance);
+                    if (_posManager.BalanceLowMessageIsSent(lowOnBalance[i].UserId, UserScheduleTypes.LowBalnce))
+                        continue;
+                    else if (!_posManager.BalanceLowScheduleExist(lowOnBalance[i].UserId, UserScheduleTypes.LowBalnce))
+                    {
+                        _posManager.SaveUserSchedule(lowOnBalance[i].UserId, lowOnBalance[i].Balance);
+                    }
+                    else
+                        continue;
                 }
-                else
-                    continue;
+            }
+            catch (System.Exception ex)
+            {
+                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to save", ex));
             }
 
-            var lowOnBalanceSchedule = _posManager.GetUserSchedule();
-            for (int i = 0; i < lowOnBalanceSchedule.Count; i++)
+
+            try
             {
-                if (_posManager.IsWalletFunded(lowOnBalanceSchedule[i].UserId))
+                var lowOnBalanceSchedule = _posManager.GetUserSchedule();
+                for (int i = 0; i < lowOnBalanceSchedule.Count; i++)
                 {
-                    _posManager.RemoveFromSchedule(lowOnBalanceSchedule[i].UserId);
-                    continue;
-                }
-                else if (lowOnBalanceSchedule[i].Status == (int)UserScheduleStatus.NotSent)
-                {
-                    var _emailManager = DependencyResolver.Current.GetService<IEmailTemplateManager>();
-                    var emailTemplate = _emailManager.GetEmailTemplateByTemplateType(TemplateTypes.BalanceLowReminder);
-                    if (emailTemplate.TemplateStatus)
+                    if (_posManager.IsWalletFunded(lowOnBalanceSchedule[i].UserId))
                     {
-                        _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Pending);
-                        var _userManager = DependencyResolver.Current.GetService<IUserManager>();
-                        var userAcount = _userManager.GetUserDetailsByUserId(lowOnBalanceSchedule[i].UserId);
-                        string body = emailTemplate.TemplateContent;
-                        body = body.Replace("%customer%", userAcount.Vendor);
-                        Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
-                        Utilities.SendEmail("vblell@vendtechsl.com", emailTemplate.EmailSubject, body);
-                        _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Sent);
+                        _posManager.RemoveFromSchedule(lowOnBalanceSchedule[i].UserId);
+                        continue;
                     }
+                    else if (lowOnBalanceSchedule[i].Status == (int)UserScheduleStatus.NotSent)
+                    {
+                        var _emailManager = DependencyResolver.Current.GetService<IEmailTemplateManager>();
+                        var emailTemplate = _emailManager.GetEmailTemplateByTemplateType(TemplateTypes.BalanceLowReminder);
+                        if (emailTemplate.TemplateStatus)
+                        {
+                            _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Pending);
+                            var _userManager = DependencyResolver.Current.GetService<IUserManager>();
+                            var userAcount = _userManager.GetUserDetailsByUserId(lowOnBalanceSchedule[i].UserId);
+                            string body = emailTemplate.TemplateContent;
+                            body = body.Replace("%customer%", userAcount.Vendor);
+                            Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
+                            Utilities.SendEmail("vblell@vendtechsl.com", emailTemplate.EmailSubject, body);
+                            _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Sent);
+                        }
+                    }
+
                 }
-                
             }
+            catch (System.Exception ex)
+            {
+                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to send", ex));
+            }
+
+            
            
         }
     }
