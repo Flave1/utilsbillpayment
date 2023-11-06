@@ -5,17 +5,26 @@
     {
         foreach (var item in Model)
         {
+            string color = item.Status == "Pending" ? "green" : "black";
+            string fontweight = item.Status == "Pending" ? "bold" : "";
             <tr class="odd gradeX">
-                <td style="text-align:right"> @item.CreatedAt</td>
-                <td style="text-align:right"> @item.ValueDate</td>
-                <td style="text-align:right"> @item.PosNumber</td>
-                <td style="text-align:left">@item.VendorName</td>
-                <td> @item.Type</td>
-                <td> @item.Bank</td>
-                <td style="text-align:right"> @item.ChkNoOrSlipId</td>
-                <td style="text-align:right"><strong>@item.Amount</strong></td>
-                <td style="text-align:right"><strong>@item.PercentageAmount</strong></td>
-                <td style="text-align:right"><strong>@item.NewBalance</strong></td>
+                <td style="text-align: right; font-weight: @fontweight; color: @color;"> @item.CreatedAt</td>
+                <td style="text-align:right; font-weight: @fontweight; color: @color;"> @item.ValueDate</td>
+                <td style="text-align:right; font-weight: @fontweight; color: @color;"> @item.PosNumber</td>
+                <td style="text-align:left; font-weight: @fontweight; color: @color;">@item.VendorName</td>
+                <td style="color: @color; font-weight: @fontweight;"> @item.Type</td>
+                <td style="color: @color; font-weight: @fontweight;"> @item.Bank</td>
+                <td style="text-align:right; font-weight: @fontweight; color: @color;"> @item.ChkNoOrSlipId</td>
+                @if (item.Status == "Pending")
+                {
+                    <td style="text-align:right"><strong><a href="#" onclick="onViewDepositDetails('@item.DepositId')">  @item.Amount</a></strong></td>
+                }
+                else
+                {
+                    <td style="text-align:right; font-weight: @fontweight; color: @color;"><strong>@item.Amount</strong></td>
+                }
+                <td style="text-align:right; font-weight: @fontweight; color: @color;"><strong>@item.PercentageAmount</strong></td>
+                <td style="text-align: center; font-weight: @fontweight; color: @color;"><strong>@item.Status</strong></td>
             </tr>
         }
     }

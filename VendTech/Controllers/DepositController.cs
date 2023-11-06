@@ -70,7 +70,8 @@ namespace VendTech.Controllers
 
             var deposits = new PagingResult<DepositListingModel>();
             deposits = _depositManager.GetReportsPagedHistoryList(history_model, false, LOGGEDIN_USER.AgencyId);
-            ViewBag.WalletHistory = deposits.List;
+            var depositsPendLIst  = _depositManager.GetPendingDepositForCustomer(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            ViewBag.WalletHistory = depositsPendLIst.Concat(deposits.List).ToList();
 
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
             var posList = _posManager.GetPOSWithNameSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
@@ -155,6 +156,14 @@ namespace VendTech.Controllers
         public ActionResult GetDepositDetails(RequestObject tokenobject)
         {
             var result = _depositManager.GetDepositDetail(Convert.ToInt64(tokenobject.token_string));
+            if (result.Object == null)
+                return Json(new { Success = false, Code = 302, Msg = result.Message });
+            return PartialView("_depositReceipt", result.Object);
+        }
+        [AjaxOnly, HttpPost, Public]
+        public ActionResult GetPendingDepositDetails(RequestObject tokenobject)
+        {
+            var result = _depositManager.GetPendingDepositDetail(Convert.ToInt64(tokenobject.token_string));
             if (result.Object == null)
                 return Json(new { Success = false, Code = 302, Msg = result.Message });
             return PartialView("_depositReceipt", result.Object);

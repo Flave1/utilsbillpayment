@@ -27,9 +27,9 @@ namespace VendTech.Areas.Api.Controllers
 
 
 
-        //[HttpPost]
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         public HttpResponseMessage RechargePhone(AirtimePurchaseModel request)
         {
             var platf = _platformManager.GetSinglePlatform(request.PlatformId);
