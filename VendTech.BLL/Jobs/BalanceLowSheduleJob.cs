@@ -23,8 +23,6 @@ namespace VendTech.BLL.Jobs
             var _posManager = DependencyResolver.Current.GetService<IPOSManager>();
             try
             {
-
-                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to save", new System.Exception()));
                 var lowOnBalance = _posManager.GetAllUserRunningLow();
                 for (int i = 0; i < lowOnBalance.Count; i++)
                 {
@@ -32,7 +30,14 @@ namespace VendTech.BLL.Jobs
                         continue;
                     else if (!_posManager.BalanceLowScheduleExist(lowOnBalance[i].UserId, UserScheduleTypes.LowBalnce))
                     {
-                        _posManager.SaveUserSchedule(lowOnBalance[i].UserId, lowOnBalance[i].Balance);
+                        try
+                        {
+                            _posManager.SaveUserSchedule(lowOnBalance[i].UserId, lowOnBalance[i].Balance);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to save", ex));
+                        }
                     }
                     else
                         continue;
@@ -40,21 +45,28 @@ namespace VendTech.BLL.Jobs
             }
             catch (System.Exception ex)
             {
-                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to save", ex));
+                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to fetch", ex));
             }
 
 
-            try
+            var lowOnBalanceSchedule = _posManager.GetUserSchedule();
+            for (int i = 0; i < lowOnBalanceSchedule.Count; i++)
             {
-                var lowOnBalanceSchedule = _posManager.GetUserSchedule();
-                for (int i = 0; i < lowOnBalanceSchedule.Count; i++)
+                if (_posManager.IsWalletFunded(lowOnBalanceSchedule[i].UserId))
                 {
-                    if (_posManager.IsWalletFunded(lowOnBalanceSchedule[i].UserId))
+                    try
                     {
                         _posManager.RemoveFromSchedule(lowOnBalanceSchedule[i].UserId);
                         continue;
                     }
-                    else if (lowOnBalanceSchedule[i].Status == (int)UserScheduleStatus.NotSent)
+                    catch (System.Exception ex)
+                    {
+                        _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to remove", ex));
+                    }
+                }
+                else if (lowOnBalanceSchedule[i].Status == (int)UserScheduleStatus.NotSent)
+                {
+                    try
                     {
                         var _emailManager = DependencyResolver.Current.GetService<IEmailTemplateManager>();
                         var emailTemplate = _emailManager.GetEmailTemplateByTemplateType(TemplateTypes.BalanceLowReminder);
@@ -70,16 +82,20 @@ namespace VendTech.BLL.Jobs
                             _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Sent);
                         }
                     }
-
+                    catch (System.Exception ex)
+                    {
+                        _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to send", ex));
+                    }
                 }
-            }
-            catch (System.Exception ex)
-            {
-                _errorManager.LogExceptionToDatabase(new System.Exception("balancelow checking to send", ex));
+
+
+
             }
 
-            
-           
+
+
+
+
         }
     }
 }

@@ -164,8 +164,9 @@ namespace VendTech.BLL.Managers
                                         .OrderByDescending(d => d.Id)
                                         .FirstOrDefault();
                     }
-                    catch (EntityCommandExecutionException)
+                    catch (Exception ex)
                     {
+                        _errorLog.LogExceptionToDatabase(new Exception("pendingTranx", ex));
                         return;
                     }
                     
