@@ -13,7 +13,7 @@
         return Vendors.ManageUsers($(this));
     });
     $("select#showRecords").on("change", function () {
-        return Users.ShowRecords($(this));
+        return Vendors.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
 

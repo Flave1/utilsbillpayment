@@ -33,7 +33,12 @@ namespace VendTech.BLL.Models
             AgencyAdminDisplayName = obj?.User?.Vendor + " - " + pos?.SerialNumber;
             AgencyAdminPosId = pos?.POSId;
             Balance = Utilities.FormatAmount(pos?.Balance);
-            VendorsCount = obj.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).Count();
+            VendorsCount = obj.Users
+                .Where(p => p.Status != (int)UserStatusEnum.Block 
+                && p.UserRole.Role == UserRoles.Vendor 
+                && p.Status != (int)UserStatusEnum.Deleted 
+                && !string.IsNullOrEmpty(p.POS.FirstOrDefault()?.SerialNumber)
+                && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).Count();
         }
     }
 

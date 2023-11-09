@@ -56,7 +56,17 @@ namespace VendTech.BLL.Managers
         PagingResult<AgentListingModel> IAgencyManager.GetAgentsPagedList(PagingModel model, long agency)
         {
             var result = new PagingResult<AgentListingModel>();
-            model.RecordsPerPage = 10;// 000000;
+            if (model.RecordsPerPage != 10)
+            {
+                model.RecordsPerPage = model.RecordsPerPage;
+            }
+            else
+            {
+                if(model.RecordsPerPage != 10)
+                {
+                    model.RecordsPerPage = 10000000;
+                }
+            }
             IQueryable<POS> query = null;
 
             query = Context.POS.Where(f => f.IsDeleted == false && f.User.AgentId == agency && !f.IsAdmin && !f.SerialNumber.StartsWith("AGT") && f.User.Status != 3).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);

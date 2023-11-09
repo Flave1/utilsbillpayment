@@ -58,9 +58,10 @@
                 data: { id: $(sender).attr("data-id") },
                 success: function (results, message) {
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
+                    POSPaging()
+                    //setTimeout(function () {
+                    //    window.location.reload();
+                    //}, 2000);
                 }
             });
         });

@@ -9,10 +9,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <div class="row" style="text-align:center;">
+                <div class="row" style="text-align:center; margin-left:50px;">
                     <img src="~/Content/images/ventech.png" width="90" />
                 </div>
-                <div class="row" style="text-align:center; margin:5px;" id="gen-invoice">
+                <div class="row" style="text-align:center; margin-left:25px;" id="gen-invoice">
                     <div class="row" style="font-weight:bold; font-size:30px;"><span class="text-muted">V</span>ENDTECH</div>
                     <h3>INVOICE</h3>
                 </div>
@@ -32,19 +32,19 @@
                             <td>@Model.VendorName</td>
                         </tr>
                         <tr>
-                            <td>POS ID </td>
+                            <td>POS ID : </td>
                             <td>@Model.PosNumber</td>
                         </tr>
                         <tr>
-                            <td>Transaction ID </td>
+                            <td style="font-weight: bold;">Transaction or Invoice ID :</td>
                             <td>@Model.TransactionId</td>
                         </tr>
                         <tr>
-                            <td>Deposit Type </td>
+                            <td>Deposit Type :</td>
                             <td>@Model.Type</td>
                         </tr>
                         <tr>
-                            <td>Payer</td>
+                            <td>Payer :</td>
                             <td>
                                 @if (!string.IsNullOrEmpty(Model.Payer))
                                 {
@@ -57,7 +57,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Payer bank</td>
+                            <td>Payer bank :</td>
                             <td>
                                 @if (string.IsNullOrEmpty(Model.IssuingBank))
                                 {
@@ -70,13 +70,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Deposit Slip OR REF#</td>
+                            <td>Deposit Slip OR REF# :</td>
                             <td>
                                 <span>@Model.ChkNoOrSlipId</span>
                             </td>
                         </tr>
                         <tr>
-                            <td>Payed to VTECH Bank</td>
+                            <td>Paid to VTECH Bank :</td>
                             <td>
                                 @if (string.IsNullOrEmpty(Model.Bank))
                                 {
@@ -89,14 +89,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Amount</td>
+                            <td>Amount :</td>
                            @* <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
                             <td>@Model.Amount</td>
                         </tr>
                         @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
                         {
                             <tr>
-                                <td>COMMISSION @@ %1</td>
+                                <td>COMMISSION @@ %1 :</td>
                                 <td>
                                     @*@{
                                         var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100);
@@ -114,7 +114,7 @@
                         @if (Model.Type == "TRANSFER")
                         {
                             <tr>
-                                <td>TOTAL TRANSACTION AMOUNT</td>
+                                <td>TOTAL TRANSACTION AMOUNT :</td>
                                 @*<td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
                                 <td>@Model.Amount</td>
                             </tr>
@@ -122,8 +122,8 @@
                         else
                         {
                     <tr>
-                        <td>TOTAL TRANSACTION AMOUNT</td>
-                        <td>
+                        <td style="font-weight: bold;">TOTAL TRANSACTION AMOUNT</td>
+                        <td style="font-weight: bold;">
                             @*@{
                                 var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount);
                                 if (amt.Split('.')[1].Length != 2)
@@ -145,13 +145,16 @@
                     <div style="width:90%; margin:auto">
                         <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
                         <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
+                        <div class="row" style="text-align:right;">
+                            <img src="~/Content/images/vtech-receipt.png" />
+                        </div>
                     </div>
                 </div>
                 <div class="row modal-footer" style="display:flex;"> 
-                    <div class="col-md-5 pull-right" style="margin-left:30px; text-align:left">
-                        <span> Note: THIS IS AN OFFICIAL VENDTECH INVOICE</span>
+                    <div>
+                        <span class="nowrap" style="font-weight: bold;"><em>THIS IS AN OFFICIAL VENDTECH INVOICE</em></span>
                     </div>
-                    <div class="col-md-3 pull-right" id="print_section" style="text-align:right">
+                    <div class="col-md-3 pull-right" id="print_section" style="text-align:right; margin-left:170px;">
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
                     </div>
                 </div>

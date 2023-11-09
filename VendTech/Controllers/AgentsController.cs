@@ -49,7 +49,9 @@ namespace VendTech.Controllers
             if (LOGGEDIN_USER.AgencyId > 0)
             {
                 ViewBag.walletBalance = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID).Balance ?? 0;
-                var users = _agencyManager.GetAgentsPagedList(PagingModel.DefaultModel("User.Agency.AgencyName", "Desc"), LOGGEDIN_USER.AgencyId);
+                var model = PagingModel.DefaultModel("User.Agency.AgencyName", "Desc");
+                model.RecordsPerPage = 10000000;
+                var users = _agencyManager.GetAgentsPagedList(model, LOGGEDIN_USER.AgencyId);
                 return View(users);
             }
             return View(new PagingResult<AgentListingModel>());

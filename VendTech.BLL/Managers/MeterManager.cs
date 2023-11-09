@@ -523,7 +523,8 @@ namespace VendTech.BLL.Managers
             }
             if (!string.IsNullOrEmpty(model.Meter))
             {
-                query = query.Where(p => (p.MeterId != null && p.Meter.Number.Contains(model.Meter)) || (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter)));
+                //(p.MeterId != null && p.Meter?.Number?.Contains(model.Meter ?? "")) ||
+                query = query.AsEnumerable().Where(p =>  (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter))).AsQueryable();
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
