@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5f2bf9aaca134c7091872ee94edc6a47" Name="Diagram1">
+      <Diagram DiagramId="64d3e8cf2cb7434da2303de4279d1de4" Name="Diagram1">
         <EntityTypeShape EntityType="DataModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Agency" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -15,7 +15,7 @@
         <EntityTypeShape EntityType="DataModel.Commission" Width="1.5" PointX="0.75" PointY="41.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.ContactU" Width="1.5" PointX="10.5" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Country" Width="1.5" PointX="3.75" PointY="37.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Currency" Width="1.5" PointX="11.25" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.Currency" Width="1.5" PointX="11.25" PointY="26.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.DepositLog" Width="1.5" PointX="10.5" PointY="42.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.DepositOTP" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Deposit" Width="1.5" PointX="13.5" PointY="39.625" IsExpanded="true" />
@@ -29,11 +29,11 @@
         <EntityTypeShape EntityType="DataModel.Notification" Width="1.5" PointX="10.5" PointY="56.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.PaymentType" Width="1.5" PointX="11.25" PointY="61.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.PendingDeposit" Width="1.5" PointX="16.5" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Platform" Width="1.5" PointX="11.25" PointY="20.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.PlatformApiConnection" Width="1.5" PointX="9" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.Platform" Width="1.5" PointX="11.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.PlatformApiConnection" Width="1.5" PointX="9" PointY="20.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.PlatformApiLog" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.PlatformApi" Width="1.5" PointX="6.75" PointY="21.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.PlatformPacParam" Width="1.5" PointX="13.5" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.PlatformApi" Width="1.5" PointX="6.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.PlatformPacParam" Width="1.5" PointX="13.5" PointY="21.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.PlatformTransaction" Width="1.5" PointX="13.5" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.POS" Width="1.5" PointX="13.5" PointY="47.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.POSAssignedPlatform" Width="1.5" PointX="15.75" PointY="52.75" IsExpanded="true" />

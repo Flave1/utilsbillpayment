@@ -12,6 +12,8 @@ namespace VendTech.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class VendtechEntities : DbContext
     {
@@ -70,5 +72,10 @@ namespace VendTech.DAL
         public virtual DbSet<UserSchedule> UserSchedules { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
+    
+        public virtual ObjectResult<CalculateRunningBalance_Result> CalculateRunningBalance()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CalculateRunningBalance_Result>("CalculateRunningBalance");
+        }
     }
 }

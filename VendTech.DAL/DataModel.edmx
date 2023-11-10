@@ -117,6 +117,10 @@
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CountryName" Type="varchar" MaxLength="50" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DepositLogs">
           <Key>
@@ -1279,6 +1283,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CalculateRunningBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="vendtech_main" />
         <EntityContainer Name="DataModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
@@ -1669,6 +1674,10 @@
           </Key>
           <Property Name="Id" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PlatformApis" Relationship="Self.FK_PlatformApis_Currencies" FromRole="Currencies" ToRole="PlatformApis" />
           <NavigationProperty Name="PlatformTransactions" Relationship="Self.FK_PlatformTransactions_Currencies" FromRole="Currencies" ToRole="PlatformTransactions" />
         </EntityType>
@@ -3181,7 +3190,18 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
+          <FunctionImport Name="CalculateRunningBalance" ReturnType="Collection(DataModel.CalculateRunningBalance_Result)" />
         </EntityContainer>
+        <ComplexType Name="CalculateRunningBalance_Result">
+          <Property Type="Int64" Name="userid" Nullable="false" />
+          <Property Type="String" Name="vendor" Nullable="true" />
+          <Property Type="Decimal" Name="PercentageAmount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="totalsales" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="runningbalance" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="POSBalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="overage" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="AgencyCommission" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3309,6 +3329,10 @@
               <MappingFragment StoreEntitySet="Currencies">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3871,6 +3895,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CalculateRunningBalance" FunctionName="DataModel.Store.CalculateRunningBalance">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataModel.CalculateRunningBalance_Result">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="vendor" ColumnName="vendor" />
+                <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="totalsales" ColumnName="totalsales" />
+                <ScalarProperty Name="runningbalance" ColumnName="runningbalance" />
+                <ScalarProperty Name="POSBalance" ColumnName="POSBalance" />
+                <ScalarProperty Name="overage" ColumnName="overage" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -24,6 +24,7 @@ namespace VendTech.BLL.Managers
             {
                 Context.SaveChanges();
             }
+            
             catch (DbEntityValidationException dbEx)
             {
                 Exception raise = dbEx;
@@ -40,6 +41,9 @@ namespace VendTech.BLL.Managers
                     }
                 }
                 throw raise;
+            }catch(Exception ec)
+            {
+
             }
         }
         protected ActionOutput ReturnSuccess(string msg = "")

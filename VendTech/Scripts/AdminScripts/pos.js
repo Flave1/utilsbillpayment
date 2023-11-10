@@ -25,9 +25,6 @@
     $('.sorting').live("click", function () {
         return AdminPOS.SortPOS($(this));
     });
-    //$("#btnFilterSearch").live("click", function () {
-    //    return AdminPOS.SearchUsers($(this));
-    //});
 
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');

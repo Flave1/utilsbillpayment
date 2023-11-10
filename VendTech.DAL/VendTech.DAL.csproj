@@ -63,6 +63,9 @@
     <Compile Include="BankAccount.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CalculateRunningBalance_Result.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ChequeBank.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

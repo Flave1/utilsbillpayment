@@ -33,6 +33,7 @@ namespace VendTech.BLL.Models
         public const string RTSInquiry = "STSInquiry";
         public const string RTSTransaction = "RTSTransaction";
         public const string RTSEDSA = "RTSEDSA";
+        public const string Currency = "Currency";
 
 
     }
