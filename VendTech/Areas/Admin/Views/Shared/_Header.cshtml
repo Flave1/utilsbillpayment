@@ -30,6 +30,7 @@
         font-weight: bold;
         color: grey;
         padding: 5px 10px;
+
     }
 
     .notification-wrap .dropdown-menu {
@@ -37,20 +38,22 @@
         min-width: 300px;
         max-height: 200px;
         overflow-y: auto;
+        background-color: #333
     }
 
     .notification-wrap .dropdown-item {
         padding: 10px;
         display: block;
-        color: #777777;
+        color: #ffffff;
         font-weight: 400;
         border-top: 1px solid #eeeeee;
+        background-color: #333
     }
 
-        .notification-wrap .dropdown-item:hover {
-            background: #f2f2f2;
-            color: #444444;
-        }
+    .notification-wrap .dropdown-item:hover {
+        background: #f2f2f2;
+        color: #444444;
+    }
 
     .notification-count {
         float: right;
@@ -59,19 +62,44 @@
         font-size: large;
     }
 
-    element.style {
-    }
-
     .navbar-default .navbar-nav > .open > a.notification-tab, .navbar-default .navbar-nav > .open > a.notification-tab:hover, .navbar-default .navbar-nav > .open > a.notification-tab:focus {
         background-color: #282828;
-        height: 62px;
     }
-    
+
+    #head-nav {
+        height: auto;
+    }
+
+    .profilepictureclass {
+        width: 53px;
+        height: 39px;
+    }
+
+    @@media (max-width: 767px) {
+        #head-nav {
+            height: auto;
+        }
+        .hidden-sm {
+            display: none;
+        }
+
+        .navbar-default .navbar-brand {
+            width: 50%;
+        }
+    }
+    /*@@media only screen and (max-width: 768px) {*/
+    @@media (max-width: 768px ) {
+
+        .navbar-default .navbar-brand {
+            width: 250px;
+        }
+    }
+
+
 </style>
 <!-- Fixed navbar -->
 <div id="timeSetModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -98,12 +126,12 @@
     </div>
 </div>
 <div id="head-nav" class="navbar navbar-default navbar-fixed-top" style="height: 62px; ">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="fa fa-gear"></span> </button>
-            <a class="navbar-brand" href="~/admin/home/dashboard"><span>Admin Panel</span></a>
+    <div class="container-fluid" >
+        <div class="navbar-header" >
+            <button type="button" class="navbar-toggle"  data-toggle="collapse" data-target=".navbar-collapse"> <span class="fa fa-gear"></span> </button>
+            <a class="navbar-brand"  href="~/admin/home/dashboard"><span>Admin Panel</span></a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" >
 
             <ul class="nav navbar-nav navbar-right user-nav">
                 <li class="dropdown profile_menu">
@@ -119,7 +147,7 @@
         </div>
         @if (data != null)
         {
-            <ul class="nav navbar-nav navbar-right user-nav notification-wrap" >
+            <ul class="nav navbar-nav navbar-right user-nav notification-wrap" style=" background-color: #333;" >
                 <li class="dropdown profile_menu">
                     <a href="#" class="dropdown-toggle notification-tab" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profilepictureclass" src="~/Content/images/notification.png" />
@@ -154,36 +182,10 @@
         }
     </div>
 </div>
-<!-- Modal -->
-<!--<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">-->
-<!-- Modal content-->
-<!--<div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title _title">NOTIFICATION CENTER</h4>
-            </div>
-            <div class="modal-body">
-                @if (!string.IsNullOrEmpty(data.AppUserMessage))
-                {
-                    <span class="_custom">@data.AppUserMessage</span><div class="pull-right"><a href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">@data.RemainingAppUser</a></div> <br /><br />
-                }
-                @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
-                {
-                    <span class="_custom">@data.DepositReleaseMessage</span> <div class="pull-right">  <a href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">@data.RemainingDepositRelease</a> </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>-->
 
-
-<style>
+@*<style>
     .profilepictureclass {
         width: 53px;
         height: 39px;
     }
-</style>
+</style>*@

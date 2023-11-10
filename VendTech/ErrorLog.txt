@@ -2430,3 +2430,19 @@ Error occurred during a cryptographic operation.
 
 
 
+Error occurred during a cryptographic operation.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Shared\_Header.cshtml(75): error CS0103: The name 'media' does not exist in the current context
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Shared\_Header.cshtml(75): error CS0103: The name 'media' does not exist in the current context
+
+
+
+Error occurred during a cryptographic operation.
+
+
+
