@@ -230,6 +230,7 @@
     <Compile Include="Areas\Admin\Controllers\PaymentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlatformApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlatformTransactionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReverseDepositController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommissionController.cs" />
@@ -434,6 +435,7 @@
     <Content Include="Scripts\AdminScripts\passcode.js" />
     <Content Include="Scripts\AdminScripts\paymentType.js" />
     <Content Include="Scripts\AdminScripts\platform.js" />
+    <Content Include="Scripts\AdminScripts\currency.js" />
     <Content Include="Scripts\AdminScripts\pos.js" />
     <Content Include="Scripts\AdminScripts\report.js" />
     <Content Include="Scripts\AdminScripts\reportFilter.js" />
@@ -502,6 +504,9 @@
     <Content Include="Areas\Admin\Views\PlatformApi\PlatformApiConnections.cshtml" />
     <Content Include="Areas\Admin\Views\PlatformApi\PlatformApis.cshtml" />
     <Content Include="Areas\Admin\Views\PlatformTransaction\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Currency\AddEditCurrency.cshtml" />
+    <Content Include="Areas\Admin\Views\Currency\ManageCurrency.cshtml" />
+    <Content Include="Areas\Admin\Views\Currency\Partials\_currencyListing.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
