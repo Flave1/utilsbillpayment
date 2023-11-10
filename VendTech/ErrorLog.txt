@@ -2446,3 +2446,11 @@ Error occurred during a cryptographic operation.
 
 
 
+Could not find a part of the path 'C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Receipts\123743_receipt.pdf'.
+
+
+
+Could not find a part of the path 'C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Receipts\123745_receipt.pdf'.
+
+
+

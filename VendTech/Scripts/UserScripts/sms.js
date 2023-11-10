@@ -93,7 +93,8 @@
                 $.ShowMessage($('div.messageAlert'), "EMAIL SENT", MessageType.Success);
                 setTimeout(function () {
                     smsHandler.closeEmailModal2();
-                    closeModal()
+                    closeModal();
+                    closeSweatAlert()  
                 }, 3000)
                 
             },
@@ -111,4 +112,10 @@
         $(".emailOverlay2").css("display", "block");
 
     },
+   
 };
+
+function closeSweatAlert() {
+    $(".sweet-overlay").hide();
+    $(".showSweetAlert ").hide();
+}

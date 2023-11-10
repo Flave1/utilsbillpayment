@@ -1861,45 +1861,52 @@ namespace VendTech.Controllers
         [AjaxOnly, HttpPost, Public]
         public JsonResult SendEmail(SendViaEmail request)
         {
-            var td = _meterManager.GetSingleTransaction(string.Concat(request.TransactionId.Where(c => !Char.IsWhiteSpace(c))));
-            if (td == null)
-                return Json(new { message = "Not found", status = "success" });
-
-            var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
-            var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmail);
-            if (emailTemplate.TemplateStatus)
+            try
             {
-                string body = emailTemplate.TemplateContent;
-                body = body.Replace("%vendor%", vendor.Vendor);
-                body = body.Replace("%posid%", td.User.POS.FirstOrDefault().SerialNumber);
-                body = body.Replace("%customerName%", td.Customer);
-                body = body.Replace("%account%", td.AccountNumber);
-                body = body.Replace("%address%", td.CustomerAddress);
-                body = body.Replace("%meterNumber%", td.MeterNumber1);
-                body = body.Replace("%tarrif%", td.Tariff);
-                body = body.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
-                body = body.Replace("%gst%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge)));
-                body = body.Replace("%serviceCharge%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge)));
-                body = body.Replace("%debitRecovery%", td.DebitRecovery);
-                body = body.Replace("%costOfUnits%", td.CostOfUnits);
-                body = body.Replace("%units%", td.Units);
-                body = body.Replace("%pin%", BLL.Common.Utilities.FormatThisToken(td.MeterToken1));
-                body = body.Replace("%edsaSerial%", td.SerialNumber);
-                body = body.Replace("%vendtechSerial%", td.TransactionId);
-                body = body.Replace("%barcode%", td.MeterNumber1);
-                body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
-                var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+                var td = _meterManager.GetSingleTransaction(string.Concat(request.TransactionId.Where(c => !Char.IsWhiteSpace(c))));
+                if (td == null)
+                    return Json(new { message = "Not found", status = "success" });
 
-                var emailTemplate2 = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmailContent);
-                string body2 = emailTemplate2.TemplateContent;
-                body2 = body2.Replace("%customer%", "Customer");
-                body2 = body2.Replace("%invoiceNumber%", td.TransactionId);
-                body2 = body2.Replace("%meter%", td.MeterNumber1);
-                body2 = body2.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
-                BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body2, file, td.TransactionId + "_receipt.pdf");
+                var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
+                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmail);
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%vendor%", vendor.Vendor);
+                    body = body.Replace("%posid%", td.User.POS.FirstOrDefault().SerialNumber);
+                    body = body.Replace("%customerName%", td.Customer);
+                    body = body.Replace("%account%", td.AccountNumber);
+                    body = body.Replace("%address%", td.CustomerAddress);
+                    body = body.Replace("%meterNumber%", td.MeterNumber1);
+                    body = body.Replace("%tarrif%", td.Tariff);
+                    body = body.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
+                    body = body.Replace("%gst%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge)));
+                    body = body.Replace("%serviceCharge%", BLL.Common.Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge)));
+                    body = body.Replace("%debitRecovery%", td.DebitRecovery);
+                    body = body.Replace("%costOfUnits%", td.CostOfUnits);
+                    body = body.Replace("%units%", td.Units);
+                    body = body.Replace("%pin%", BLL.Common.Utilities.FormatThisToken(td.MeterToken1));
+                    body = body.Replace("%edsaSerial%", td.SerialNumber);
+                    body = body.Replace("%vendtechSerial%", td.TransactionId);
+                    body = body.Replace("%barcode%", td.MeterNumber1);
+                    body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+
+                    var emailTemplate2 = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmailContent);
+                    string body2 = emailTemplate2.TemplateContent;
+                    body2 = body2.Replace("%customer%", "Customer");
+                    body2 = body2.Replace("%invoiceNumber%", td.TransactionId);
+                    body2 = body2.Replace("%meter%", td.MeterNumber1);
+                    body2 = body2.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
+                    BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body2, file, td.TransactionId + "_receipt.pdf");
+                }
+
+                return Json(new { message = "Email successfully sent.", status = "success" });
             }
-
-            return Json(new { message = "Email successfully sent.", status = "success" });
+            catch (Exception)
+            {
+                return Json(new { message = "Email not sent.", status = "failed" });
+            }
         }
     }
 }
