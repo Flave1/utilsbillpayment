@@ -262,6 +262,7 @@
     <Compile Include="Areas\Api\Controllers\MeterController.cs" />
     <Compile Include="Areas\Api\Controllers\AccountController.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
+    <Compile Include="Areas\Api\Controllers\PdfController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportController.cs" />
     <Compile Include="Areas\Api\Controllers\UserController.cs" />
     <Compile Include="Areas\Audit\AuditAreaRegistration.cs" />

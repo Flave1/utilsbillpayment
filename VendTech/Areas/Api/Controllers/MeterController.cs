@@ -289,7 +289,7 @@ namespace VendTech.Areas.Api.Controllers
                     body2 = body2.Replace("%invoiceNumber%", td.TransactionId);
                     body2 = body2.Replace("%meter%", td.MeterNumber1);
                     body2 = body2.Replace("%amount%", BLL.Common.Utilities.FormatAmount(td.TenderedAmount));
-                    BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body2, file, td.TransactionId + "_receipt.pdf");
+                    BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body2, file.FirstOrDefault().Value, td.TransactionId + "_receipt.pdf");
                 }
 
                 return new JsonContent("Sms successfully sent.", Status.Success, "").ConvertToHttpResponseOK();

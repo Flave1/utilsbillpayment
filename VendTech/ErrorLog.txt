@@ -2454,3 +2454,15 @@ Could not find a part of the path 'C:\Users\thispc\Desktop\FLAVETECH\Vendtech\ve
 
 
 
+The view 'C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Report/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.aspx
+~/Views/Report/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.ascx
+~/Views/Shared/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.aspx
+~/Views/Shared/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.ascx
+~/Views/Report/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.cshtml
+~/Views/Report/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.vbhtml
+~/Views/Shared/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.cshtml
+~/Views/Shared/C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTech\/Receipts/30_receipt.pdf.vbhtml
+
+
+

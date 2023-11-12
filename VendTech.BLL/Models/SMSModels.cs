@@ -29,4 +29,9 @@ namespace VendTech.BLL.Models
         public string TransactionId { get; set; }
         public string Email { get; set; }
     }
+
+    public class RechargeSimpleRequest
+    {
+        public string Target { get; set; }
+    }
 }

@@ -19,6 +19,12 @@ namespace VendTech
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                  namespaces: new string[] { "VendTech.Controllers" }
             );
+
+            routes.MapRoute(
+                name: "DownloadPdf",
+                url: "pdf/download",
+                defaults: new { controller = "Pdf", action = "DownloadPdf" }
+            );
         }
     }
 }

@@ -647,7 +647,7 @@ namespace VendTech.BLL.Common
             return sWhitespace.Replace(input, replacement);
         }
 
-        public static string CreatePdf(string content, string transctionId)
+        public static Dictionary<string, string> CreatePdf(string content, string transctionId)
         {
 
             // create a new PDF document
@@ -655,7 +655,9 @@ namespace VendTech.BLL.Common
             try
             {
                 string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string path = rootDirectory + "/Receipts/" + transctionId + "_receipt.pdf";
+                string fileName = "receipt_" + transctionId + ".pdf";
+                string path = rootDirectory + "/Receipts/" + fileName;
+                var relativePath = DomainUrl + "/Receipts/" + fileName;
                 // create a PDF writer to write the document to a file
                 var writer = PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
 
@@ -673,7 +675,10 @@ namespace VendTech.BLL.Common
 
                 // close the document
                 document.Close();
-                return path;
+
+                var result = new Dictionary<string, string>();
+                result.Add(relativePath, path);
+                return result;
 
             }
             catch (Exception)
@@ -682,7 +687,21 @@ namespace VendTech.BLL.Common
                 throw;
             }
         }
-
+        public static void DeleteFileFromDirectory(string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            catch (IOException ex)
+            {
+                throw;
+            }
+            
+        }
         public static DateTime ConvertEpochTimeToDate(long epochTime)
         {
             //long epochTime = 1622697228; // Unix epoch time in seconds
