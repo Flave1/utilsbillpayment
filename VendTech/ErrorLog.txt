@@ -2466,3 +2466,22 @@ The view 'C:\\Users\\thispc\\Desktop\\FLAVETECH\\Vendtech\\vendtech-web\\VendTec
 
 
 
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult AddEdit(Int32)' in 'VendTech.Areas.Admin.Controllers.CountryController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+c:\Users\thispc\AppData\Local\Temp\Temporary ASP.NET Files\vs\3f6d396d\ce56c043\App_Web_addedit.cshtml.4cf4f941.koeodajq.0.cs(33): error CS0234: The type or namespace name 'SaveCurrencyModel' does not exist in the namespace 'VendTech.BLL.Models.CurrencyModel' (are you missing an assembly reference?)
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+
+Value cannot be null.
+Parameter name: view
+
+
+

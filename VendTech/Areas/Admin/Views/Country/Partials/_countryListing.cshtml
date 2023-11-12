@@ -1,0 +1,34 @@
+﻿﻿@model PagingResult<VendTech.BLL.Models.CurrencyModel.CountryListingModel>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td>@item.CurrencyName</td>
+            <td> @item.CurrencyCode</td>
+            <td> @item.CountryName</td>
+            <td>@item.CountryCode</td>
+            <td>
+                <a data-id="@item.CountryId" class="btn btn-primary btn-xs editCountry" href="@Url.Action("AddEdit", "Country", new { area = "Admin", id = @item.CountryId })" ; style="border: none; padding-left: 5px; padding-right: 5px" data-original-title="Edit" data-toggle="tooltip">Edit</a>
+                @if (!item.Disabled)
+                {
+                    <a data-id="@item.CountryId" class="btn btn-success btn-xs disableCountry" href="javascript:void(0);" style="background:green; border:none;" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+                }
+                else
+                {
+                    <a data-id="@item.CountryId" class="btn btn-warning btn-xs enableCountry" href="javascript:void(0);" ; style="background: red; border: none;" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="odd gradeX">
+        <td colspan="7">No Records Found</td>
+    </tr>
+}
+
+

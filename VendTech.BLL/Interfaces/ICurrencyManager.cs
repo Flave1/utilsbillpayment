@@ -7,13 +7,13 @@ namespace VendTech.BLL.Interfaces
 {
     public interface ICurrencyManager
     {
-        ActionOutput ChangeCurrencyStatus(string id, bool value);
-        ICollection<Currency> GetCurrencies();
+        ActionOutput ChangeCountryStatus(int id, bool value);
+        ICollection<CurrencyDTO> GetCurrencies();
 
-        IDictionary<string, Currency> GetCurrenciesDictionaryKeyedById();
-        PagingResult<CurrencyListingModel> GetCurrencyPagedList(PagingModel model);
-        SaveCurrencyModel GetSingle(string id);
-        ActionOutput SaveCurrency(SaveCurrencyModel model);
+        IDictionary<string, CurrencyDTO> GetCurrenciesDictionaryKeyedById();
+        PagingResult<CountryListingModel> GetCountryPagedList(PagingModel model);
+        SaveCountryModel GetSingle(int id);
+        ActionOutput SaveCountry(SaveCountryModel model);
     }
     
 }

@@ -5,27 +5,29 @@ using VendTech.DAL;
 
 namespace VendTech.BLL.Models.CurrencyModel
 {
-    public class CurrencyListingModel
+    public class CountryListingModel
     {
+        public int CountryId { get; }
         public string CurrencyName { get; set; }
         public string CurrencyCode { get; set; }
 
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
-        public bool isDeleted { get; set; }
+        public bool Disabled { get; set; }
         public string CreatedAt { get; set; }
-        public CurrencyListingModel(Currency obj)
+        public CountryListingModel(Country obj)
         {
-            CurrencyName = obj.Name;
-            CurrencyCode = obj.Id;
+            CountryId = obj.CountryId;
+            CurrencyName = obj.CurrencyName;
+            CurrencyCode = obj.CurrencySymbol;
             CountryName = obj.CountryName;
             CountryCode = obj.CountryCode;
-            isDeleted = obj.IsDeleted;
+            Disabled = obj.Disabled;
             CreatedAt = obj.CreatedAt != null ? obj.CreatedAt.Value.ToString("MM-DD-YYY"): "";
         } 
     }
 
-    public class SaveCurrencyModel
+    public class SaveCountryModel
     {
         [Required(ErrorMessage = "Currency Code Required")]
         public string CurrencyCode { get; set; }
@@ -39,21 +41,28 @@ namespace VendTech.BLL.Models.CurrencyModel
 
         [Required(ErrorMessage = "Country Code Required")]
         public string CountryCode { get; set; }
-        public bool isDeleted { get; set; }
+        public bool Disabled { get; set; }
         public string CreatedAt { get; set; }
-        public SaveCurrencyModel()
+        public int CountryId { get; set; }
+        public SaveCountryModel()
         {
             
         }
-        public SaveCurrencyModel(Currency obj)
+        public SaveCountryModel(Country obj)
         {
-            CurrencyName = obj.Name;
-            CurrencyCode = obj.Id;
+            CountryId = obj.CountryId;
+            CurrencyName = obj.CurrencyName;
+            CurrencyCode = obj.CurrencySymbol;
             CountryName = obj.CountryName;
             CountryCode = obj.CountryCode;
-            isDeleted = obj.IsDeleted;
+            Disabled = obj.Disabled;
         }
     }
 
+    public class CurrencyDTO
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
 
 }

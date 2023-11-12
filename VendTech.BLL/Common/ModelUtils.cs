@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VendTech.BLL.Models.CurrencyModel;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models
@@ -50,12 +51,12 @@ namespace VendTech.BLL.Models
             return result;
         }
 
-        public static List<SelectListItem> GetCurrencySelectItemList(ICollection<Currency> currencies)
+        public static List<SelectListItem> GetCurrencySelectItemList(ICollection<CurrencyDTO> currencies)
         { 
             if (currencies != null && currencies.Count > 0)
             {
                 List<SelectListItem> result = new List<SelectListItem>(currencies.Count());
-                foreach (Currency c in currencies)
+                foreach (CurrencyDTO c in currencies)
                 {
                     result.Add(new SelectListItem { Value = (c.Id).ToString(), Text = c.Name });
                 }

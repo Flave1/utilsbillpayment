@@ -22,9 +22,12 @@ namespace VendTech.DAL
         }
     
         public int CountryId { get; set; }
-        public string Name { get; set; }
-        public bool IsDeleted { get; set; }
-        public System.DateTime CreatedAt { get; set; }
+        public string CurrencyName { get; set; }
+        public string CurrencySymbol { get; set; }
+        public string CountryName { get; set; }
+        public string CountryCode { get; set; }
+        public bool Disabled { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> Cities { get; set; }

@@ -1,47 +1,44 @@
 ﻿$(document).ready(function () {
-    $("input[type=button]#addCurrencyBtn").live("click", function () {
-        return Currency.AddCurrency($(this));
-    });
-    $("a.deleteCurrency").live("click", function () {
-        return Currency.DeleteCurrency($(this));
+    $("input[type=button]#addCountryBtn").live("click", function () {
+        return Country.AddCountry($(this));
     });
 
-    $("a.disableCurrency").live("click", function () {
-        return disableCurrency($(this));
+    $("a.disableCountry").live("click", function () {
+        return disableCountry($(this));
     });
-    $("a.enableCurrency").live("click", function () {
-        return enableCurrency($(this));
+    $("a.enableCountry").live("click", function () {
+        return enableCountry($(this));
     });
 
     $("input[type=button]#btnFilterVersion").live("click", function () {
-        return Currency.ManageCurrency($(this));
+        return Country.ManageCountry($(this));
     });
     $("select#showRecords").on("change", function () {
-        return Currency.ShowRecords($(this));
+        return Country.ShowRecords($(this));
     });
     $('.sorting').live("click", function () {
-        return Currency.SortCurrency($(this));
+        return Country.SortCountry($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#Search').val('');
-        return Currency.SearchCurrency($(this));
+        return Country.SearchCountry($(this));
     });
     $("#btnFilterSearch").live("click", function () {
-        return Currency.SearchCurrency($(this));
+        return Country.SearchCountry($(this));
     });
 
     $("#btnResetSearch").live("click", function () {
         $('#searchField').val('');
         $('#Search').val('');
-        return Currency.SearchCurrency($(this));
+        return Country.SearchCountry($(this));
     });
 
-    function disableCurrency(sender) {    
-        $.ConfirmBox("", "Are you sure to disable this Currency?", null, true, "Yes", true, null, function () {
-            disableBtn(true, 'disableCurrency', 'Disable')
+    function disableCountry(sender) {    
+        $.ConfirmBox("", "Are you sure to disable this Country?", null, true, "Yes", true, null, function () {
+            disableBtn(true, 'disableCountry', 'Disable')
             $.ajaxExt({
-                url: baseUrl + '/Admin/Currency/DisableCurrency',
+                url: baseUrl + '/Admin/Country/DisableCountry',
                 type: 'POST',
                 validate: false,
                 showErrorMessage: true,
@@ -51,7 +48,7 @@
                 throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                 data: { id: $(sender).attr("data-id") },
                 success: function (results, message) {
-                    disableBtn(false, 'disableCurrency', 'Disable')
+                    disableBtn(false, 'disableCountry', 'Disable')
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                     Paging();
                 }
@@ -59,11 +56,11 @@
         });
     }
 
-    function enableCurrency(sender) {
-        $.ConfirmBox("", "Are you sure to enable this Currency?", null, true, "Yes", true, null, function () {
-            disableBtn(true, 'enableCurrency', 'enable')
+    function enableCountry(sender) {
+        $.ConfirmBox("", "Are you sure to enable this Country?", null, true, "Yes", true, null, function () {
+            disableBtn(true, 'enableCountry', 'enable')
             $.ajaxExt({
-                url: baseUrl + '/Admin/Currency/EnableCurrency',
+                url: baseUrl + '/Admin/Country/EnableCountry',
                 type: 'POST',
                 validate: false,
                 showErrorMessage: true,
@@ -73,7 +70,7 @@
                 throbberPosition: { my: "left center", at: "right center", of: $(sender) },
                 data: { id: $(sender).attr("data-id") },
                 success: function (results, message) {
-                    disableBtn(false, 'enableCurrency', 'enable')
+                    disableBtn(false, 'enableCountry', 'enable')
                     $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                     Paging();
                 }
@@ -93,9 +90,9 @@
     }
 });
 
-var Currency = {
+var Country = {
 
-    SortCurrency: function (sender) {
+    SortCountry: function (sender) {
         if ($(sender).hasClass("sorting_asc")) {
             $('.sorting').removeClass("sorting_asc");
             $('.sorting').removeClass("sorting_desc")
@@ -118,9 +115,9 @@ var Currency = {
             Paging();
         }
     },
-    AddCurrency: function (sender) {
+    AddCountry: function (sender) {
         $.ajaxExt({
-            url: baseUrl + '/Admin/Currency/AddEditCurrency',
+            url: baseUrl + '/Admin/Country/AddEditCountry',
             type: 'POST',
             validate: true,
             showErrorMessage: true,
@@ -134,7 +131,7 @@ var Currency = {
             success: function (results, message) {
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () { 
-                    window.location.href = baseUrl + '/Admin/Currency/ManageCurrency';
+                    window.location.href = baseUrl + '/Admin/Country/Index';
                 }, 1500);
 
             }
@@ -142,34 +139,13 @@ var Currency = {
      
     },
 
-    DeleteCurrency: function (sender) {
-        
-        $.ConfirmBox("", "Are you sure to delete this record?", null, true, "Yes", true, null, function () {
-            $.ajaxExt({
-                url: baseUrl + '/Admin/POS/DeleteCurrency',
-                type: 'POST',
-                validate: false,
-                showErrorMessage: true,
-                messageControl: $('div.messageAlert'),
-                showThrobber: true,
-                button: $(sender),
-                throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-                data: { posId: $(sender).attr("data-userid") },
-                success: function (results, message) {
-                    $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-                    Paging();
-                }
-            }); 
-        });
-    },
-
-    ManageCurrency: function (totalCount) {
+    ManageCountry: function (totalCount) {
         var totalRecords = 0;
         totalRecords = parseInt(totalCount);
         Paging(totalRecords);
     },
 
-    SearchCurrency: function (sender) {
+    SearchCountry: function (sender) {
         paging.startIndex = 1;
         Paging(sender);
 
@@ -201,10 +177,9 @@ function Paging(sender) {
         messageControl: null,
         showThrobber: false,
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
-        url: baseUrl + '/Admin/Currency/GetCurrencyPagingList',
+        url: baseUrl + '/Admin/Country/GetCountryPagingList',
         success: function (results, message) {
             $('#divResult table:first tbody').html(results[0]);
-            PageNumbering(results[1]);
           
         }
     });

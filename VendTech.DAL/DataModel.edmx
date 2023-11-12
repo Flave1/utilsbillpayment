@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -106,10 +106,13 @@
           <Key>
             <PropertyRef Name="CountryId" />
           </Key>
-          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="CurrencyName" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="50" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" />
+          <Property Name="Disabled" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Currencies">
           <Key>
@@ -1543,8 +1546,7 @@
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1661,12 +1663,15 @@
           <Key>
             <PropertyRef Name="CountryId" />
           </Key>
-          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="CurrencyName" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Disabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Cities" Relationship="Self.FK_City_Country" FromRole="Country" ToRole="City" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Country" FromRole="Country" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="DataModel.FK_Users_Country1" FromRole="Country" ToRole="User" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -2237,7 +2242,6 @@
           <NavigationProperty Name="City" Relationship="Self.FK_Users_City" FromRole="Users" ToRole="City" />
           <NavigationProperty Name="Commission" Relationship="Self.FK_Users_Commissions" FromRole="Users" ToRole="Commissions" />
           <NavigationProperty Name="ContactUs" Relationship="Self.FK_ContactUs_Users" FromRole="Users" ToRole="ContactUs" />
-          <NavigationProperty Name="Country" Relationship="Self.FK_Users_Country" FromRole="Users" ToRole="Country" />
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Users" FromRole="Users" ToRole="DepositLogs" />
           <NavigationProperty Name="Deposits" Relationship="Self.FK_Deposits_Users" FromRole="Users" ToRole="Deposits" />
           <NavigationProperty Name="EmailConfirmationRequests" Relationship="Self.FK_EmailConfirmationRequests_Users" FromRole="Users" ToRole="EmailConfirmationRequests" />
@@ -2254,8 +2258,11 @@
           <NavigationProperty Name="UserAssignedPlatforms" Relationship="Self.FK_UserAssignedPlatforms_Users" FromRole="Users" ToRole="UserAssignedPlatforms" />
           <NavigationProperty Name="UserAssignedWidgets" Relationship="Self.FK_UserAssignedWidgets_User" FromRole="Users" ToRole="UserAssignedWidgets" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
-          <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
-          <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Country" FromRole="Users" ToRole="Users1" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Users_Country" FromRole="Users1" ToRole="Users" />
+          <NavigationProperty Name="Users11" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
+          <NavigationProperty Name="User2" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <NavigationProperty Name="Country" Relationship="DataModel.FK_Users_Country1" FromRole="User" ToRole="Country" />
         </EntityType>
         <EntityType Name="UserSchedule">
           <Key>
@@ -2425,18 +2432,6 @@
             </Principal>
             <Dependent Role="ContactUs">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Country">
-          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
-          <End Role="Users" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="CountryId" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2920,6 +2915,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Country">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Users1" Type="Self.User" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Users1">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Users1">
           <End Role="Users" Type="Self.User" Multiplicity="0..1" />
           <End Role="Users1" Type="Self.User" Multiplicity="*" />
@@ -3021,10 +3028,6 @@
           <AssociationSet Name="FK_ContactUs_Users" Association="Self.FK_ContactUs_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ContactUs" EntitySet="ContactUs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
-            <End Role="Country" EntitySet="Countries" />
-            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_PlatformApis_Currencies" Association="Self.FK_PlatformApis_Currencies">
             <End Role="Currencies" EntitySet="Currencies" />
@@ -3186,11 +3189,19 @@
             <End Role="UserRoles" EntitySet="UserRoles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Users1" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Users1" Association="Self.FK_Users_Users1">
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
           <FunctionImport Name="CalculateRunningBalance" ReturnType="Collection(DataModel.CalculateRunningBalance_Result)" />
+          <AssociationSet Name="FK_Users_Country1" Association="DataModel.FK_Users_Country1">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="CalculateRunningBalance_Result">
           <Property Type="Int64" Name="userid" Nullable="false" />
@@ -3202,6 +3213,18 @@
           <Property Type="Decimal" Name="overage" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="AgencyCommission" Nullable="true" Precision="38" Scale="2" />
         </ComplexType>
+        <Association Name="FK_Users_Country1">
+          <End Type="DataModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DataModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3318,8 +3341,11 @@
             <EntityTypeMapping TypeName="DataModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Disabled" ColumnName="Disabled" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
               </MappingFragment>
             </EntityTypeMapping>

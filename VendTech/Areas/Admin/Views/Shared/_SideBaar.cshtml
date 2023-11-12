@@ -97,7 +97,7 @@
 
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("ManageCurrency", "Currency", new { area = "Admin" })"><span>Manage Currency</span></a></li>
+                                    <li><a href="@Url.Action("Index", "Country", new { area = "Admin" })"><span>Manage Countries/Currency</span></a></li>
                                     <li><a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><span>Manage Products</span></a></li>
                                 }
 

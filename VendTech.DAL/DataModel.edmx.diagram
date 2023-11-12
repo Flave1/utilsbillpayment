@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="64d3e8cf2cb7434da2303de4279d1de4" Name="Diagram1">
+      <Diagram DiagramId="ab962251822f41ae8fbe8f4b0cdfbe87" Name="Diagram1">
         <EntityTypeShape EntityType="DataModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Agency" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="DataModel.CMSPage" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Commission" Width="1.5" PointX="0.75" PointY="41.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.ContactU" Width="1.5" PointX="10.5" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Country" Width="1.5" PointX="3.75" PointY="37.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.Country" Width="1.5" PointX="3.75" PointY="37.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Currency" Width="1.5" PointX="11.25" PointY="26.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.DepositLog" Width="1.5" PointX="10.5" PointY="42.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.DepositOTP" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
@@ -46,7 +46,7 @@
         <EntityTypeShape EntityType="DataModel.UserAssignedPlatform" Width="1.5" PointX="16.5" PointY="46.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserAssignedWidget" Width="1.5" PointX="16.5" PointY="49.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserRole" Width="1.5" PointX="6" PointY="45.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="8.25" PointY="36.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="8.25" PointY="36.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.UserSchedule" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Vendor" Width="1.5" PointX="5.25" PointY="41.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Widget" Width="1.5" PointX="14.25" PointY="55.75" IsExpanded="true" />
@@ -61,7 +61,6 @@
         <AssociationConnector Association="DataModel.FK_POS_Commissions" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Users_Commissions" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_ContactUs_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Users_Country" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_PlatformApis_Currencies" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_PlatformTransactions_Currencies" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_DepositLogs_Deposits" ManuallyRouted="false" />
@@ -102,7 +101,9 @@
         <AssociationConnector Association="DataModel.FK_UserAssignedWidgets_User" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Users_UserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="DataModel.FK_Users_Country" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Users_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="DataModel.FK_Users_Country1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
