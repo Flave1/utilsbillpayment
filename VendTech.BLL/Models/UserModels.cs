@@ -226,7 +226,7 @@ namespace VendTech.BLL.Models
             Vendor = obj.Vendor;
             DOB = obj.DOB == null ? "" : obj.DOB.Value.ToString("MM/dd/yyyy");
             City = obj.City != null ? obj.City.Name : "";
-            Country = obj.Country != null ? obj.Country.Name : "";
+            Country = obj.Country != null ? obj.Country.CountryName : "";
             Phone = obj.Phone;
             AccountStatus = ((UserStatusEnum)obj.Status).ToString();
             var userBalance = obj.POS.FirstOrDefault(d => d.VendorId == obj.UserId)?.Balance;

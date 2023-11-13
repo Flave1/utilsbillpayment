@@ -1,4 +1,4 @@
-﻿@model VendTech.BLL.Models.CurrencyModel.SaveCurrencyModel
+﻿@model VendTech.BLL.Models.CurrencyModel.SaveCountryModel
 @{
     ViewBag.Title = !string.IsNullOrEmpty(Model.CurrencyCode) ? "Edit Currency and Country Details" : "Add Currency and Country Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
@@ -40,6 +40,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div style="border:1px solid #c0bbcb; padding:4px;">
+                                    @Html.HiddenFor(x => x.CountryId)
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <label for="inputEmail3" class="col-md-5 control-label">Currency Code<em>*</em></label>
@@ -82,8 +83,8 @@
                         <br />
                         <div class="row">
                             <div class=" col-md-12" style="text-align:right;">
-                                <a href="@Url.Action("ManageCurrency", "Currency", new { area = "Admin" })" class="btn btn-default">Cancel</a>
-                                <input type="button" class="btn btn-primary" id="addCurrencyBtn" value="Submit" />
+                                <a href="@Url.Action("Index", "Country", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                                <input type="button" class="btn btn-primary" id="addCountryBtn" value="Submit" />
                             </div>
                         </div>
 
@@ -99,7 +100,7 @@
 
 
 @section scripts{
-    <script src="~/Scripts/AdminScripts/currency.js"></script>
+    <script src="~/Scripts/AdminScripts/country.js"></script>
     <script>
 
     //$(document).ready(function () {

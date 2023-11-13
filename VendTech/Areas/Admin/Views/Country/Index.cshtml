@@ -1,7 +1,7 @@
-﻿﻿@model PagingResult<VendTech.BLL.Models.CurrencyModel.CurrencyListingModel>
+﻿﻿@model PagingResult<VendTech.BLL.Models.CurrencyModel.CountryListingModel>
 
 @{
-    ViewBag.Title = "Manage POS";
+    ViewBag.Title = "Country";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
 <style>
@@ -38,7 +38,7 @@
                 <div class="block-flat">
                     <div class="header noborder">
                         <h3>
-                            <a href="@Url.Action("AddEditCurrency", "Currency", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS">
+                            <a href="@Url.Action("AddEdit", "Country", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS">
                                 <i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super>
                             </a>
                         </h3>
@@ -59,7 +59,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @Html.Partial("Partials/_currencyListing", Model)
+                                        @Html.Partial("Partials/_countryListing", Model)
                                     </tbody>
                                 </table>
                             </div>
@@ -78,7 +78,7 @@
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
     </script>
-    <script src="~/Scripts/AdminScripts/currency.js"></script>
+    <script src="~/Scripts/AdminScripts/country.js"></script>
 
     <script type="text/javascript">
         $("#searchField").show();

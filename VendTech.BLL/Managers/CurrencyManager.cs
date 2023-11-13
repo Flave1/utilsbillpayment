@@ -10,19 +10,23 @@ namespace VendTech.BLL.Managers
 {
     public class CurrencyManager : BaseManager, ICurrencyManager
     {
-        public ICollection<Currency> GetCurrencies()
+        public ICollection<CurrencyDTO> GetCurrencies()
         {
-            return Context.Currencies.OrderBy(p => p.Name).ToList();
+            return Context.Countries.Where(d => d.Disabled == false).OrderBy(p => p.CountryName).Select(d => new CurrencyDTO
+            {
+                Id = d.CurrencySymbol,
+                Name = d.CurrencyName,
+            }).ToList();
         }
 
-        PagingResult<CurrencyListingModel> ICurrencyManager.GetCurrencyPagedList(PagingModel model)
+        PagingResult<CountryListingModel> ICurrencyManager.GetCountryPagedList(PagingModel model)
         {
-            var result = new PagingResult<CurrencyListingModel>();
-            IQueryable<Currency> query = Context.Currencies;
+            var result = new PagingResult<CountryListingModel>();
+            IQueryable<Country> query = Context.Countries;
 
              if (model.SortBy == "CurrencyName")
             {
-                query = query.OrderBy(r => r.Name + " " + model.SortOrder);
+                query = query.OrderBy(r => r.CurrencyName + " " + model.SortOrder);
             }
             else if (model.SortBy == "CountryName")
             {
@@ -30,7 +34,7 @@ namespace VendTech.BLL.Managers
             }
             else if (model.SortBy == "CurrencyCode")
             {
-                query = query.OrderBy(r => r.Id + " " + model.SortOrder);
+                query = query.OrderBy(r => r.CurrencySymbol + " " + model.SortOrder);
             }
             else if (model.SortBy == "CountryCode")
             {
@@ -40,15 +44,15 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("Currency"))
-                    query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.CountryName.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("Currency Code"))
                     query = query.Where(z => z.CountryCode.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("Country"))
                     query = query.Where(z => z.CountryCode.ToLower().Contains(model.Search.ToLower()));
                 if (model.SearchField.Equals("Country Code"))
-                    query = query.Where(z => z.Id.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.CurrencySymbol.ToLower().Contains(model.Search.ToLower()));
             }
-            var list = query.AsEnumerable().Take(model.RecordsPerPage).Select(x => new CurrencyListingModel(x)).ToList();
+            var list = query.AsEnumerable().Take(model.RecordsPerPage).Select(x => new CountryListingModel(x)).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -57,9 +61,9 @@ namespace VendTech.BLL.Managers
             return result;
         }
 
-        ActionOutput ICurrencyManager.ChangeCurrencyStatus(string id, bool value)
+        ActionOutput ICurrencyManager.ChangeCountryStatus(int id, bool value)
         {
-            var currency = Context.Currencies.Where(z => z.Id == id).FirstOrDefault();
+            var currency = Context.Countries.Where(z => z.CountryId == id).FirstOrDefault();
             if (currency == null)
             {
                 return new ActionOutput
@@ -70,7 +74,7 @@ namespace VendTech.BLL.Managers
             }
             else
             {
-                currency.IsDeleted = value;
+                currency.Disabled = value;
                 Context.SaveChanges();
                 return new ActionOutput
                 {
@@ -80,47 +84,51 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        SaveCurrencyModel ICurrencyManager.GetSingle(string id)
+        SaveCountryModel ICurrencyManager.GetSingle(int id)
         {
-            return Context.Currencies.Where(d => d.Id == id).AsEnumerable().Select(d => new SaveCurrencyModel(d)).FirstOrDefault();
+            return Context.Countries.Where(d => d.CountryId == id).AsEnumerable().Select(d => new SaveCountryModel(d)).FirstOrDefault();
         }
-        ActionOutput ICurrencyManager.SaveCurrency(SaveCurrencyModel model)
+        ActionOutput ICurrencyManager.SaveCountry(SaveCountryModel model)
         {
             bool isNew = false;
-            var dbCurrency = new Currency();
-            if (!string.IsNullOrEmpty(model.CountryCode))
+            var dbCurrency = new Country();
+            if (model.CountryId > 0)
             {
-                dbCurrency = Context.Currencies.FirstOrDefault(p => p.Id.ToLower() == model.CurrencyCode.ToLower());
+                dbCurrency = Context.Countries.FirstOrDefault(p => p.CountryId == model.CountryId);
                 if (dbCurrency == null)
                 {
-                    dbCurrency = new Currency();
+                    dbCurrency = new Country();
                     isNew = true;
                 }
             }
             else
             {
-                if (Context.Currencies.Any(d => d.Id.Contains(model.CountryCode.ToLower())))
+                if (Context.Countries.Any(d => d.CurrencySymbol.Contains(model.CurrencyCode.ToLower()) || d.CountryCode.Contains(model.CountryCode.ToLower())))
                 {
-                    return ReturnError("Currency with same ID already exist");
+                    return ReturnError("Country with same Symbol or country code  already exist");
                 }
             }
-            dbCurrency.Id = model.CurrencyCode;
-            dbCurrency.Name = model.CurrencyName;
+            dbCurrency.CurrencySymbol = model.CurrencyCode;
+            dbCurrency.CurrencyName = model.CurrencyName;
             dbCurrency.CountryCode = model.CountryCode;
             dbCurrency.CountryName = model.CountryName;
 
-            if (isNew)
-                Context.Currencies.Add(dbCurrency);
+            if (!isNew)
+            {
+                dbCurrency.CountryId = Context.Countries.Max(d => d.CountryId) + 1;
+                Context.Countries.Add(dbCurrency);
+            }
+               
             SaveChanges();
           
-            return ReturnSuccess("Currency saved successfully.");
+            return ReturnSuccess("Country saved successfully.");
         }
 
 
-        public IDictionary<string, Currency> GetCurrenciesDictionaryKeyedById()
+        public IDictionary<string, CurrencyDTO> GetCurrenciesDictionaryKeyedById()
         {
-            ICollection<Currency> currencies = GetCurrencies();
-            IDictionary<string, Currency> result = new Dictionary<string, Currency>();
+            ICollection<CurrencyDTO> currencies = GetCurrencies();
+            IDictionary<string, CurrencyDTO> result = new Dictionary<string, CurrencyDTO>();
             foreach (var currency in currencies)
             {
                 result.Add(currency.Id, currency);

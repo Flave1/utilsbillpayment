@@ -568,10 +568,10 @@ namespace VendTech.BLL.Managers
 
         List<CountryModel> IAuthenticateManager.GetCountries()
         {
-            return Context.Countries.Where(p => !p.IsDeleted).ToList().OrderByDescending(p => p.CountryId).Select(x => new CountryModel
+            return Context.Countries.Where(p => !p.Disabled).ToList().OrderByDescending(p => p.CountryId).Select(x => new CountryModel
             {
                 CountryId = x.CountryId,
-                Name = x.Name
+                Name = x.CountryName
             }).ToList();
         }
         List<CityModel> IAuthenticateManager.GetCities(int countryId)
@@ -584,7 +584,7 @@ namespace VendTech.BLL.Managers
                 CountryId = x.CountryId,
                 Name = x.Name,
                 CityId = x.CityId,
-                CountryName = x.Country.Name
+                CountryName = x.Country.CountryName
             }).ToList();
         }
     }
