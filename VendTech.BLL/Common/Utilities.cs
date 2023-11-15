@@ -14,9 +14,13 @@ using System.Net;
 using VendTech.DAL;
 using System.Globalization;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
+//using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Drawing.Imaging;
+using Patagames.Pdf;
+using Patagames.Pdf.Net;
 
 namespace VendTech.BLL.Common
 {
@@ -659,7 +663,7 @@ namespace VendTech.BLL.Common
                 string path = rootDirectory + "/Receipts/" + fileName;
                 var relativePath = DomainUrl + "/Receipts/" + fileName;
                 // create a PDF writer to write the document to a file
-                var writer = PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
+                var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
 
                 // open the document
                 document.Open();
@@ -687,6 +691,44 @@ namespace VendTech.BLL.Common
                 throw;
             }
         }
+        public static string CreateImage(string pdfFilePath)
+        {
+            string fileName = "receipt.jpeg";
+            string outputImagePath1 = DomainUrl + "/Receipts/" + fileName;
+            string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string outputImagePath12 = rootDirectory + "/Receipts/" + fileName;
+            try
+            {
+                // Open the PDF document
+                using (var pdfDocument = PdfDocument.Load(pdfFilePath))
+                {
+                    // Get the first page
+                    var pdfPage = pdfDocument.Pages[0];
+
+                    // Create a Bitmap to render the page
+                    var bitmap = new Bitmap((int)pdfPage.Width, (int)pdfPage.Height);
+
+                    // Set up the Graphics object for rendering
+                    using (var graphics = Graphics.FromImage(bitmap))
+                    {
+                        // Render the PDF page to the Graphics object
+                        pdfPage.Render(graphics, 96, 96, (int)pdfPage.Width, (int)pdfPage.Height, 0, 0);
+                    }
+
+                    // Save the bitmap as an image file
+                    bitmap.Save(outputImagePath12, ImageFormat.Jpeg);
+                  
+                }
+                return outputImagePath1;
+            }
+            catch (Exception ex)
+            {
+                // Handle error.
+                Console.WriteLine("Error: " + ex.Message);
+                return outputImagePath1;
+            }
+        }
+
         public static void DeleteFileFromDirectory(string path)
         {
             try

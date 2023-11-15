@@ -15,6 +15,9 @@ using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
 using VendTech.BLL.Managers;
+using Castle.Core.Logging;
+using VendTech.BLL.PlatformApi;
+using System.Web.Http.Results;
 #endregion
 
 namespace VendTech.Controllers
@@ -280,19 +283,26 @@ namespace VendTech.Controllers
         public JsonResult RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
-            var result = _meterManager.RechargeMeterReturn(model);
-            if(result.ReceiptStatus.Status == "unsuccessful")
+            try
             {
-                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message});
+                var result = _meterManager.RechargeMeterReturn(model);
+                if (result.ReceiptStatus.Status == "unsuccessful")
+                {
+                    return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+                }
+                else if (result.ReceiptStatus.Status == "disabled")
+                {
+                    return Json(new { Success = false, Code = 403, Msg = result.ReceiptStatus.Message });
+                }
+
+                if (result != null)
+                    return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
             }
-            else if(result.ReceiptStatus.Status == "disabled")
+            catch (Exception ex)
             {
-                return Json(new { Success = false, Code = 403, Msg = result.ReceiptStatus.Message });
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful." });
             }
-         
-            if (result != null)
-                return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
-            return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
 
         }
 

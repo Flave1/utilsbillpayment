@@ -309,15 +309,19 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("STATUS"))
                     query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("VENDOR"))
-                    query = query.Where(z => z.User1 != null && z.User1.Vendor.ToLower().Contains(model.Search.ToLower()));
+                    query = query.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower()));
                 else if (model.SearchField.Equals("ROLE"))
                     query = query.Where(z => z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
             }
             else if (!string.IsNullOrWhiteSpace(status))
                 query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
+           
+            
             var list = query
-               .Skip(model.PageNo - 1)//.Take(model.RecordsPerPage)
+               .Skip(model.PageNo - 1)//.Take(10)
                .ToList().Select(x => new UserListingModel(x)).ToList();
+
+
             result.List = list;
             result.Status = ActionStatus.Successfull;
             result.Message = "User List";

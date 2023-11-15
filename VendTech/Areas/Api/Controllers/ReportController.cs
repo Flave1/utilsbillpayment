@@ -85,6 +85,8 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage CreateEdsaAsPDF(RechargeSimpleRequest request)
         {
+
+            _errorLogManager.LogExceptionToDatabase(new Exception("CreateEdsaAsPDF"));
             try
             {
                 var td = _meterManager.GetSingleTransaction(string.Concat(request.Target.Where(c => !Char.IsWhiteSpace(c))));
@@ -116,15 +118,7 @@ namespace VendTech.Areas.Api.Controllers
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
                     var file = Utilities.CreatePdf(body, td.TransactionId);
 
-                    //var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-
-                    //byte[] fileBytes = File.ReadAllBytes(file);
-
-                    //response.Content = new ByteArrayContent(fileBytes);
-                    //response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    //response.Content.Headers.ContentDisposition.FileName = "receipt.pdf";
-                    //response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    //return response;
+                    //var imagePath = Utilities.CreateImage(file.First().Value);
 
 
                     return new JsonContent("PDF Created successfully.", Status.Success, file.FirstOrDefault().Key).ConvertToHttpResponseOK();
@@ -132,8 +126,9 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent("PDF Not Created.", Status.Failed, "").ConvertToHttpResponseOK();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _errorLogManager.LogExceptionToDatabase(new Exception("CreateEdsaAsPDF", ex));
                 return new JsonContent("Sms Not sent.", Status.Failed, "").ConvertToHttpResponseOK();
             }
         }
