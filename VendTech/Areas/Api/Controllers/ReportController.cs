@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
-using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
 
@@ -137,15 +134,61 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage DeleteFileFromDirectory(RechargeSimpleRequest request)
         {
+
+            _errorLogManager.LogExceptionToDatabase(new Exception("CreateEdsaAsPDF"));
             try
             {
-                Utilities.DeleteFileFromDirectory(request.Target);
-                return new JsonContent("File removed successfully.", Status.Success, "").ConvertToHttpResponseOK();
+                var td = _meterManager.GetSingleTransaction(string.Concat(request.Target.Where(c => !Char.IsWhiteSpace(c))));
+                if (td == null)
+                    return new JsonContent("Not found.", Status.Failed, request).ConvertToHttpResponseOK();
+
+                var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
+                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmail);
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%vendor%", vendor.Vendor);
+                    body = body.Replace("%posid%", td.User.POS.FirstOrDefault().SerialNumber);
+                    body = body.Replace("%customerName%", td.Customer);
+                    body = body.Replace("%account%", td.AccountNumber);
+                    body = body.Replace("%address%", td.CustomerAddress);
+                    body = body.Replace("%meterNumber%", td.MeterNumber1);
+                    body = body.Replace("%tarrif%", td.Tariff);
+                    body = body.Replace("%amount%", Utilities.FormatAmount(td.TenderedAmount));
+                    body = body.Replace("%gst%", Utilities.FormatAmount(Convert.ToDecimal(td.ServiceCharge)));
+                    body = body.Replace("%serviceCharge%", Utilities.FormatAmount(Convert.ToDecimal(td.TaxCharge)));
+                    body = body.Replace("%debitRecovery%", td.DebitRecovery);
+                    body = body.Replace("%costOfUnits%", td.CostOfUnits);
+                    body = body.Replace("%units%", td.Units);
+                    body = body.Replace("%pin%", BLL.Common.Utilities.FormatThisToken(td.MeterToken1));
+                    body = body.Replace("%edsaSerial%", td.SerialNumber);
+                    body = body.Replace("%vendtechSerial%", td.TransactionId);
+                    body = body.Replace("%barcode%", td.MeterNumber1);
+                    body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                    var file = Utilities.CreatePdf(body, td.TransactionId);
+
+                    var imagePath = Utilities.CreateImage(file.FirstOrDefault().Value);
+
+
+                    return new JsonContent("PDF Created successfully.", Status.Success, imagePath).ConvertToHttpResponseOK();
+                }
+                return new JsonContent("PDF Not Created.", Status.Failed, "").ConvertToHttpResponseOK();
+
             }
             catch (Exception ex)
             {
-                return new JsonContent("Invalid request.", Status.Failed, "").ConvertToHttpResponseOK();
+                _errorLogManager.LogExceptionToDatabase(new Exception("CreateEdsaAsPDF", ex));
+                return new JsonContent("Sms Not sent.", Status.Failed, "").ConvertToHttpResponseOK();
             }
+            //try
+            //{
+            //    Utilities.DeleteFileFromDirectory(request.Target);
+            //    return new JsonContent("File removed successfully.", Status.Success, "").ConvertToHttpResponseOK();
+            //}
+            //catch (Exception ex)
+            //{
+            //    return new JsonContent("Invalid request.", Status.Failed, "").ConvertToHttpResponseOK();
+            //}
         }
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
