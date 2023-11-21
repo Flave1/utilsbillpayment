@@ -427,6 +427,11 @@ namespace VendTech.Controllers
             return Json(new ActionOutput { Status = ActionStatus.Successfull, Message = "", Results = resultString }, JsonRequestBehavior.AllowGet);
         }
 
+        protected JsonResult JsonResult(List<string> resultString, string message)
+        {
+            return Json(new ActionOutput { Status = ActionStatus.Successfull, Message = message, Results = resultString }, JsonRequestBehavior.AllowGet);
+        }
+
         protected JsonResult JsonResult(ActionOutput actionOutput)
         {
             return Json(actionOutput, JsonRequestBehavior.AllowGet);

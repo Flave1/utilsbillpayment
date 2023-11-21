@@ -357,11 +357,17 @@ async function initTable(result) {
     for (var i = 0; i < response.length; i++) {
         const tr = document.createElement("tr");
         tr.classList.add('odd', 'gradeX')
+        debugger
         const deposit = response[i].TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
-        const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit}">${response[i].BalanceBefore}</span>`;
-        const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit}">${response[i].DepositAmount}</span>`;
-        const saleAmount = response[i].SaleAmount == "0" ? '-' : `<span style="${deposit}">${response[i].SaleAmount}</span>`;
-        const balance = response[i].Balance == "0" ? '-' : `<span style="${deposit}">${response[i].Balance}</span>`;
+        const sale = response[i].TransactionType != "Deposit";
+        const balBeforeColor = sale ? "orange;" : "black;";
+        const salesColor = sale ? "blue;" : "black;";
+        const balColor = sale ? "red;" : "black;";
+        const fontWeightStyle = 'font-weight: bold;';
+        const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} color: ${balBeforeColor}">${response[i].BalanceBefore}</span>`;
+        const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} ">${response[i].DepositAmount}</span>`;
+        const saleAmount = response[i].SaleAmount == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} color: ${salesColor}">${response[i].SaleAmount}</span>`;
+        const balance = response[i].Balance == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} color: ${balColor}">${response[i].Balance}</span>`;
         
         tr.innerHTML = `
             <td style='text-align: right; ${deposit}'>${response[i].DateTime}</td>

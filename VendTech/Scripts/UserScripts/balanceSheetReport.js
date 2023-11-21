@@ -152,7 +152,7 @@ function Paging(sender) {
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Report/GetBalanceSheetReportsPagingList',
         success: function (results, message) {
-            console.log(results);
+            $("#openningBal").text(message)
 
             $("#btnFilterSearch").val('SEARCH');
             $("#btnFilterSearch").prop('disabled', false);

@@ -1,4 +1,4 @@
-﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel2>
 
 @{ ViewBag.Title = "Manage Reports";
     Layout = "~/Views/Shared/_LayOut.cshtml"; }
@@ -6,6 +6,7 @@
 
 @{
     var assigned_platforms = (List<SelectListItem>)ViewBag.AssignedReports;
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
 <link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
@@ -130,7 +131,7 @@
                                     <div class="blwsec-right">
                                         <div class="exportdata" style="height:500px; overflow:scroll;   max-width: 100%;">
                                             <div class="row" style="text-align:right; margin-right:20px; font-weight:bold; font-size:20px; margin-bottom:5px;">
-                                                Opening Balance: NLe <strong> @Model.Amount</strong>
+                                                Opening Balance: @country.CurrencyCode <strong id="openningBal" style="color: red;"> @Model.Amount</strong>
                                             </div>
                                             <table class="table table-bordered" id="datatable-icons">
                                                 <thead>

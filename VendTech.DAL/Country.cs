@@ -28,6 +28,7 @@ namespace VendTech.DAL
         public string CountryCode { get; set; }
         public bool Disabled { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string DomainUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> Cities { get; set; }

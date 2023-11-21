@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Models.CurrencyModel
@@ -63,6 +61,23 @@ namespace VendTech.BLL.Models.CurrencyModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
+    }
+
+    public class CountryDTO
+    {
+        public int CountryId { get; }
+        public string CurrencyName { get; set; }
+        public string CurrencyCode { get; set; }
+        public string CountryName { get; set; }
+        public string CountryCode { get; set; }
+        public CountryDTO(Country obj)
+        {
+            CountryId = obj.CountryId;
+            CurrencyName = obj.CurrencyName;
+            CurrencyCode = obj.CurrencySymbol;
+            CountryName = obj.CountryName;
+            CountryCode = obj.CountryCode;
+        }
     }
 
 }

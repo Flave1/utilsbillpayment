@@ -19,7 +19,6 @@ using iTextSharp.tool.xml;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Patagames.Pdf;
 using Patagames.Pdf.Net;
 
 namespace VendTech.BLL.Common
@@ -29,6 +28,15 @@ namespace VendTech.BLL.Common
         public static decimal MinimumDepositAmount = 50;
         public static decimal MaximumDepositAmount = 500;
         private static Random random = new Random();
+        public class CountryDTO
+        {
+            public int CountryId { get; set; } = 3;
+            public string CurrencyName { get; set; } = "Sierra Leone LEONE (SLE)";
+            public string CurrencyCode { get; set; } = "SLE";
+            public string CountryName { get; set; } = "SIERRA LEONE -t";
+            public string CountryCode { get; set; } = "+232";
+            public string DomainUrl { get; set; } = "-t";
+        }
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -129,6 +137,23 @@ namespace VendTech.BLL.Common
             }
         }
 
+        public static CountryDTO GetCountry()
+        {
+            
+            using (var vtcx = new VendtechEntities())
+            {
+                return vtcx.Countries.Where(d => d.DomainUrl.ToLower() == DomainUrl.ToLower())
+                    .Select(f => new CountryDTO
+                    {
+                        CountryId = f.CountryId,
+                        CurrencyName = f.CurrencyName,
+                        CurrencyCode = f.CurrencySymbol,
+                        CountryName = f.CountryName,
+                        CountryCode = f.CountryCode,
+                        DomainUrl = f.DomainUrl,
+                    }).FirstOrDefault() ?? new CountryDTO();
+            }
+        }
         public static string GetDescription(Type en, object value, bool getText = false)
         {
             try

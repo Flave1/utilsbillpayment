@@ -1,0 +1,126 @@
+﻿@model  DashboardViewModel
+@{
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+
+    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+}
+
+@if (user.UserType == UserRoles.Vendor || user.UserType == UserRoles.AppUser)
+{
+    <div class="mt-5">
+        @Html.Partial("_BalanceBar")
+        <div class="row">
+
+            @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
+            {
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left">Current revenue balance</h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h3>NLe:</h3>
+                                <div class="amount">@VendTech.BLL.Common.Utilities.FormatAmount(Model.revenue)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 1))
+            {
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left">Current wallet balance</h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h3>NLe:</h3>
+                                <div class="amount"> @VendTech.BLL.Common.Utilities.FormatAmount(Model.walletBalance) </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 2))
+            {
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left"><a href="@Url.Action("SalesReport", "Report")">Total daily sales(today)</a></h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h1>NLe:</h1>
+                                <div class="amount">@VendTech.BLL.Common.Utilities.FormatAmount(Model.totalSales)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+            @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 3))
+            {
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left"><a href="#">Total daily deppsots(today)</a></h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h1>NLe:</h1>
+                                <div class="amount">@VendTech.BLL.Common.Utilities.FormatAmount(Model.totalDeposit)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 4))
+            {
+
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left">Active POS</h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h1></h1>
+                                <div class="count-up"
+                                     data-count="@Model.posCount"> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 6))
+            {
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-left">Products</h5>
+                            <div class="text-right d-flex justify-content-between">
+                                <h1></h1>
+                                <div class="count-up"
+                                     data-count="@Model.platFormModels.Count"> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+
+}
+else
+{
+    <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+}
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+        });
+    </script>
+}

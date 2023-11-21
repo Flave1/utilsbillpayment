@@ -53,7 +53,7 @@ namespace VendTech.BLL.Models
         public string BalanceBefore { get; set; }
         public BalanceSheetListingModel2(BalanceSheetListingModel x)
         {
-            DateTime = x.DateTime.ToString("dd/MM/yyyy hh:mm");
+            DateTime = x.DateTime != null ? x.DateTime.ToString("dd/MM/yyyy hh:mm"): "";
             TransactionId = x.TransactionId;
             TransactionType = x.TransactionType;
             Reference = x.Reference;

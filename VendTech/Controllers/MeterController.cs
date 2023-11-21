@@ -177,6 +177,9 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
+
+            var url = Utilities.GetCountry();
+
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
