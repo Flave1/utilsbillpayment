@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Deposit Uploader";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 
 <link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
@@ -20,7 +21,7 @@
                     <div class="manage-desposit">
                         <div class="manage-desposit-top">
                             <h3></h3>
-                            <label style="font-size: 24px; color: #00a2e8 !important;">NLe: @Utilities.FormatAmount(ViewBag.Balance)  </label>
+                            <label style="font-size: 24px; color: #00a2e8 !important;">@country.CurrencyCode: @Utilities.FormatAmount(ViewBag.Balance)  </label>
                         </div>
                         <div class="manage-desposit-content divResult" id="divResult">
                             <form>

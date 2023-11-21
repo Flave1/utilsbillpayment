@@ -1,4 +1,4 @@
-﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel>
+﻿@model PagingResultWithDefaultAmount<BalanceSheetListingModel2>
 
 
 
@@ -7,46 +7,29 @@
     foreach (var item in Model.List)
     {
         var deposit = item.TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
+        var sale = item.TransactionType != "Deposit";
+        var balBeforeColor = sale ? "orange" : "black";
+        var salesColor = sale ? "blue" : "black";
+        var balColor = sale ? "red" : "black";
         <tr class="odd gradeX">
-            <td style='text-align: right; @deposit'> @item.DateTime.ToString("dd/MM/yyyy hh:mm")</td>
+            <td style='text-align: right; @deposit'> @item.DateTime</td>
             <td style="text-align:right; @deposit"> @item.TransactionId</td>
             <td style="text-align:left; text-transform:uppercase; @deposit">
                 @item.TransactionType
             </td>
             <td style="text-align:right; @deposit"> @item.Reference</td>
             <td style="text-align:right; @deposit">
-                <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.BalanceBefore)</span>
+                <span style="@deposit font-weight: bold; color: @balBeforeColor">  @item.BalanceBefore</span>
             </td>
             <td style="text-align:right; @deposit">
-                @if (item.DepositAmount == 0)
-                {
-                    <span>-</span>
-                }
-                else
-                {
-                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.DepositAmount)</span>
-                }
+                <span style="@deposit font-weight:bold"> @item.DepositAmount</span>
             </td>
 
             <td style="text-align:right;">
-                @if (item.SaleAmount == 0)
-                {
-                    <span>-</span>
-                }
-                else
-                {
-                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.SaleAmount)</span>
-                }
+                <span style="@deposit font-weight: bold; color: @salesColor"> @item.SaleAmount</span>
             </td>
             <td style="text-align:right;">
-                @if (item.Balance == 0)
-                {
-                    <span>-</span>
-                }
-                else
-                {
-                    <span style="@deposit">  @VendTech.BLL.Common.Utilities.FormatAmount(item.Balance)</span>
-                }
+                <span style="@deposit font-weight:bold; color: @balColor">  @item.Balance</span>
             </td>
         </tr>
     }

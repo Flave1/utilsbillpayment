@@ -113,7 +113,7 @@ namespace VendTech.BLL.Managers
             dbCurrency.CountryCode = model.CountryCode;
             dbCurrency.CountryName = model.CountryName;
 
-            if (!isNew)
+            if (isNew)
             {
                 dbCurrency.CountryId = Context.Countries.Max(d => d.CountryId) + 1;
                 Context.Countries.Add(dbCurrency);

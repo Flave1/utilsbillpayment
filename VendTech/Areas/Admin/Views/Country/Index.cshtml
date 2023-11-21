@@ -51,10 +51,10 @@
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
-                                            <th class="sorting" data-sortby="CurrencyName">CURRENCY NAME</th>
-                                            <th class="sorting" data-sortby="CurrencyCode">CURRENCY CODE</th>
                                             <th class="sorting" data-sortby="CountryName">COUNTRY NAME</th>
                                             <th class="sorting" data-sortby="CountryCode">COUNTRY CODE</th>
+                                            <th class="sorting" data-sortby="CurrencyName">CURRENCY NAME</th>
+                                            <th class="sorting" data-sortby="CurrencyCode">CURRENCY SYMBOL</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>
@@ -82,7 +82,7 @@
 
     <script type="text/javascript">
         $("#searchField").show();
-        var searchFields = ["Currency", "Country", "Currency Code", "Country Code"];
+        var searchFields = ["Country", "Country Code", "Currency", "Currency Code"];
         for (var i = 0; i < searchFields.length; i++) {
             $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
         }

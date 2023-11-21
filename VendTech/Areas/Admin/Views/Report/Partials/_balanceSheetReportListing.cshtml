@@ -10,6 +10,10 @@
     foreach (var item in Model.List)
     {
         var deposit = item.TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
+        var sale = item.TransactionType != "Deposit";
+        var balBeforeColor = sale ? "orange" : "black";
+        var salesColor = sale ? "blue" : "black";
+        var balColor = sale ? "red" : "black";
 
         <tr class="odd gradeX">
             <td style='text-align: right; @deposit'> @item.DateTime</td>
@@ -25,7 +29,7 @@
                 }
                 else
                 {
-                    <span style="@deposit">@item.BalanceBefore</span>
+                    <span style="@deposit font-weight: bold; color: @balBeforeColor">@item.BalanceBefore</span>
                 }
             </td>
             <td style="text-align:right; @deposit">
@@ -35,7 +39,7 @@
                 }
                 else
                 {
-                    <span style="@deposit">@item.DepositAmount</span>
+                    <span style="@deposit ">@item.DepositAmount</span>
                 }
             </td>
             <td style="text-align:right;">
@@ -45,7 +49,7 @@
                 }
                 else
                 {
-                    <span style="@deposit">@item.SaleAmount</span>
+                    <span style="@deposit font-weight: bold; color: @salesColor">@item.SaleAmount</span>
                 }
             </td>
             <td style="text-align:right;">
@@ -55,7 +59,7 @@
                 }
                 else
                 {
-                    <span style="@deposit">@item.Balance</span>
+                    <span style="@deposit font-weight: bold; color: @balColor">@item.Balance</span>
                 }
             </td>
         </tr>

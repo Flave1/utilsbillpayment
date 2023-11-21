@@ -224,7 +224,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSWithNameSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
 
 
-            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
             ViewBag.userPos = posList;
 
 
@@ -323,26 +323,13 @@ namespace VendTech.Controllers
             model.RecordsPerPage = 1000000000; 
 
             model.VendorId = LOGGEDIN_USER.UserID;
-            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel>();
+            var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
             var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
             var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, false, LOGGEDIN_USER.AgencyId);
 
-            balanceSheet.List = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
-            decimal balance = 0;
-            foreach (var item in balanceSheet.List)
-            {
-                balance = balance + item.DepositAmount - item.SaleAmount;
-                item.Balance = balance;
-            }
-
-            var firstRecord = balanceSheet.List.FirstOrDefault();
-            var firstRec = firstRecord.BalanceBefore ?? firstRecord.SaleAmount + firstRecord.Balance;
-            balanceSheet.Amount = firstRecord is null ? string.Empty : BLL.Common.Utilities.FormatAmount(firstRec);
-            if (firstRecord.Balance < 1)
-            {
-                balanceSheet.List[0].Balance = firstRec;
-            }
+            balanceSheet = _posManager.CalculateBalancesheet(result);
 
             balanceSheet.Status = ActionStatus.Successfull;
             balanceSheet.Message = "Balance Sheet List";
@@ -350,7 +337,7 @@ namespace VendTech.Controllers
 
             var resultString = new List<string> { RenderRazorViewToString("Partials/_balanceSheetReportListing", balanceSheet), balanceSheet.TotalCount.ToString()
            };
-            return JsonResult(resultString);
+            return JsonResult(resultString, balanceSheet.Amount);
         }
 
         [AjaxOnly, HttpPost]

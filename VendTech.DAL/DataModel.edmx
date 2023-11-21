@@ -113,6 +113,7 @@
           <Property Name="CountryCode" Type="varchar" MaxLength="50" />
           <Property Name="Disabled" Type="bit" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="DomainUrl" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Currencies">
           <Key>
@@ -1672,6 +1673,7 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Cities" Relationship="Self.FK_City_Country" FromRole="Country" ToRole="City" />
           <NavigationProperty Name="Users" Relationship="DataModel.FK_Users_Country1" FromRole="Country" ToRole="User" />
+          <Property Name="DomainUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -3340,6 +3342,7 @@
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="DataModel.Country">
               <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="DomainUrl" ColumnName="DomainUrl" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
                 <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />

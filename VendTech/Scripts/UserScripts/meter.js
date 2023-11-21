@@ -261,28 +261,64 @@ var UserMeters = {
     },
 
     AddUser: function (sender) {
+
+        var formData = $(sender).parents("form:first").serialize();
+
         $.ajax({
             url: baseUrl + '/Meter/AddEditMeter',
             type: 'POST',
-            validate: true,
-            showErrorMessage: true,
-            messageControl: $('div.messageAlert'),
-            formToValidate: $(sender).parents("form:first"),
-            formToPost: $(sender).parents("form:first"),
-            isAjaxForm: true,
-            showThrobber: true,
-            button: $(sender),
-            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: formData,
+            dataType: 'json', // assuming you expect JSON data in response
             success: function (results, message) {
+
+                debugger;
+                if (results.Status !== 1) {
+                    $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
+                    return;
+                }
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () {
                     window.location.href = baseUrl + '/Meter/Index';
                 }, 1500);
-
+                // Success handling logic
+            },
+            error: function (xhr, status, error) {
+                // Error handling logic
             }
         });
-
     },
+
+    //AddUser: function (sender) {
+    //    debugger
+    //    $.ajax({
+    //        url: baseUrl + '/Meter/AddEditMeter',
+    //        type: 'POST',
+    //        validate: true,
+    //        showErrorMessage: true,
+    //        messageControl: $('div.messageAlert'),
+    //        formToValidate: $(sender).parents("form:first"),
+    //        formToPost: $(sender).parents("form:first"),
+    //        isAjaxForm: true,
+    //        showThrobber: true,
+    //        button: $(sender),
+    //        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+    //        success: function (results, message) {
+
+                
+    //            if (results.Status !== 1) {
+
+    //                $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
+    //                return;
+    //            }
+    //            //$.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+    //            //setTimeout(function () {
+    //            //    window.location.href = baseUrl + '/Meter/Index';
+    //            //}, 1500);
+
+    //        }
+    //    });
+
+    //},
 
     AddPhone: function (sender) {
         $.ajax({

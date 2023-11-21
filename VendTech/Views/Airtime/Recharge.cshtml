@@ -8,6 +8,7 @@
     {
         history = new List<MeterRechargeApiListingModel>();
     }
+    var country = @VendTech.BLL.Common.Utilities.GetCountry();
 }
 
 <style type="text/css">
@@ -77,7 +78,7 @@
                             <div class="contarea meterpage row">
                                 <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
                                     <span class="alert-danger" id="error_reponse" style=" display: none; float: left;">some code there</span>
-                                    <span id="balanceSpan" style="color: #00a2e8; ">SLE: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+                                    <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                                 </div>
                                 <div class="tabcont-row current">
                                     <div class="row">
@@ -112,7 +113,7 @@
                                                             <label><span style="color:red; text-align:center;"> ENTER</span> PHONE NUMBER</label>
                                                             <span style="display: flex">
                                                                 <select>
-                                                                    <option value="+232">+232</option>
+                                                                    <option value="@country.CountryCode">@country.CountryCode</option>
                                                                 </select>
                                                                 @Html.TextBoxFor(x => x.Beneficiary, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "" })
                                                             </span>
@@ -225,7 +226,7 @@
                                 <span class="adv-company-name">Amount:</span>
                             </div>
                             <div class="col-md-8 col-item">
-                                <span class="amount-currency">SLE: </span>
+                                <span class="amount-currency">@country.CurrencyCode: </span>
                                 <span id="pamount" class="adv-amount-figure" style="font-weight:bold; font-size:30px;">100.00</span>
                             </div>
                         </div>
@@ -321,7 +322,7 @@
                         return;
                     }
 
-                    $("#phoneno").html("+232" + phoneno);
+                    $("#phoneno").html('@country.CountryCode' + phoneno);
                     $("#pamount").html(thousands_separators($("#Amount").val()));
                     //$("#product").html($("#platformIdSelect option:selected").text().trim());
                     $("#form-bp1").modal("show")

@@ -5,6 +5,7 @@
 
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
     var depositActionURL = Html.Raw(Url.Action("ManageReports", "Report", new { type = 17, source = "dashboard" }));
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 
 <style>
@@ -53,7 +54,7 @@
                             <div class="data-info ">
                                 <div class="desc" style="font-weight: bold; color: #404042">VENDTECH BALANCE (WITH RTS)</div><br>
                                 <div class="value" style="font-weight: bold; color: red">
-                                    <span class="indicator indicator-negative mdi mdi-chevron-down"></span>NLe: <span data-toggle="counter" data-end="113" class="number" id="dealerBal"></span>
+                                    <span class="indicator indicator-negative mdi mdi-chevron-down"></span>@country.CurrencyCode: <span data-toggle="counter" data-end="113" class="number" id="dealerBal"></span>
                                 </div>
                                 <div class="transDate" style="font-weight: bold; color: #56bde3;">
                                     <small id="transDate"></small>
@@ -72,7 +73,7 @@
                                 <div class="value" style="font-weight: bold; color: green;">
                                     <br>
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        NLe: @Utilities.FormatAmount(Model.totalSales)
+                                        @country.CurrencyCode: @Utilities.FormatAmount(Model.totalSales)
                                     </span>
 
                                 </div>
@@ -94,7 +95,7 @@
                                 <div class="value" style="font-weight: bold; color: orange;">
                                     <br>
                                     <span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">
-                                        NLe: @Utilities.FormatAmount(Model.totalDeposit)
+                                        @country.CurrencyCode: @Utilities.FormatAmount(Model.totalDeposit)
                                     </span>
                                 </div>
                                 <div class="transDate" style="font-weight: bold; color: #56bde3;">
@@ -115,7 +116,7 @@
                                 <div class="value" style="font-weight: bold; color: black;">
                                     <br>
                                     <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                        NLe: @Utilities.FormatAmount(Model.walletBalance)
+                                        @country.CurrencyCode: @Utilities.FormatAmount(Model.walletBalance)
                                         <br><br>
                                     </span>
                                 </div>

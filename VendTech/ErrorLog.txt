@@ -2485,3 +2485,27 @@ Parameter name: view
 
 
 
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Report\BalanceSheetReport.cshtml(9): error CS1002: ; expected
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The model item passed into the dictionary is of type 'VendTech.BLL.Models.PagingResultWithDefaultAmount`1[VendTech.BLL.Models.BalanceSheetListingModel]', but this dictionary requires a model item of type 'VendTech.BLL.Models.PagingResultWithDefaultAmount`1[VendTech.BLL.Models.BalanceSheetListingModel2]'.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Report\partials\_balanceSheetReportListing.cshtml(13): error CS1502: The best overloaded method match for 'string.ToString(System.IFormatProvider)' has some invalid arguments
+
+
+

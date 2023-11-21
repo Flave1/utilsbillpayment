@@ -572,13 +572,13 @@
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index_e.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="Views\Meter\Utility_old.cshtml" />
+    <Content Include="Views\Home\Dashboard_e.cshtml" />
+    <Content Include="Views\Meter\Utility.cshtml" />
     <Content Include="Views\Airtime\Recharge_e.cshtml" />
     <Content Include="Views\Meter\Recharge.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
     <Content Include="Views\Meter\Index.cshtml" />
-    <Content Include="Views\Meter\AddEditMeter_old.cshtml" />
+    <Content Include="Views\Meter\AddEditMeter.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
@@ -608,7 +608,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Shared\_beforeLoginUserLayout.cshtml" />
     <Content Include="Views\Shared\_FunctionCallMessage.cshtml" />
-    <Content Include="Views\Home\Dashboard_old.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Paging.cshtml" />
     <Content Include="Views\Shared\_SearchFilter.cshtml" />
@@ -618,7 +618,7 @@
     <Content Include="Views\User\EditProfile.cshtml" />
     <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
-    <Content Include="Views\Meter\AddEditMeter.cshtml" />
+    <Content Include="Views\Meter\AddEditMeter_e.cshtml" />
     <Content Include="Views\Meter\Recharge_e.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
@@ -632,7 +632,7 @@
     <Content Include="Views\Report\PrintSalesReport.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Meter\Utility.cshtml" />
+    <Content Include="Views\Meter\Utility_e.cshtml" />
     <Content Include="Views\Shared\_footer.cshtml" />
     <Content Include="Views\Meter\Partials\_salesListing.cshtml" />
     <Content Include="Views\Home\FirstTimeLoginChangePassword.cshtml" />
