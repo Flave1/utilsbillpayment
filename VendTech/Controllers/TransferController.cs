@@ -252,7 +252,7 @@ namespace VendTech.Controllers
                   $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
                   "VENDTECH"
                     };
-                    await _smsManager.SendSmsAsync(requestmsg);
+                    //await _smsManager.SendSmsAsync(requestmsg);
                 }
                 
             }
