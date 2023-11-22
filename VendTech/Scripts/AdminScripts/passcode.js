@@ -56,6 +56,10 @@ function Save() {
             success: function (data) {
                 if (data.Status === 1) {
                     $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
+
+                    setTimeout(function () {
+                        closeSweatAlert();
+                    }, 1000);
                 }
                 else {
                     $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
@@ -66,4 +70,8 @@ function Save() {
     else {
         $("#phNumber").show();
     }
+}
+function closeSweatAlert() {
+    $(".sweet-overlay").hide();
+    $(".showSweetAlert ").hide();
 }

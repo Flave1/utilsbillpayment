@@ -202,6 +202,8 @@ var AdminPOS = {
     }
 };
 
+
+
 function POSPaging(sender) {
     var obj = new Object();
     obj.Search = $('#Search').val();
