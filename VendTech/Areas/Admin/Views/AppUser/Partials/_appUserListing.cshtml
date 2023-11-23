@@ -14,7 +14,14 @@
     <td style="text-align:right;"> @VendTech.BLL.Common.Utilities.FormatAmount(item.PosBalance)</td>
     <td style="text-align:right;"> @item.LastLoggedIn</td>
     <td>
-        @item.Status.ToString()
+        @if (item.Status == UserStatusEnum.Block)
+        {
+            <span> Inactive</span>
+        }
+        else
+        {
+            <span>@item.Status.ToString()</span>
+        }
     </td>
 
     <td class="center">
