@@ -34,7 +34,7 @@
                                 i += 1;
                                 <tr id="meterList">
                                     <th scope="row">@i</th>
-                                    <td> <a onclick="purchaseUnitsByAdmin.openForm('@item.UserName', '@item.Number', '@item.MeterId', '@item.POSId', '@item.UserId', '@item.Balance', '@item.POSSerialNumber', '@js.Serialize(allMeters)')" href="#">@item.Number</a> </td>
+                                    <td> <a onclick="purchaseUnitsByAdmin.openForm('@item.Vendor', '@item.Number', '@item.MeterId', '@item.POSId', '@item.UserId', '@item.Balance', '@item.POSSerialNumber', '@js.Serialize(allMeters)')" href="#">@item.Number</a> </td>
                                     <td>@item.Name</td>
                                     <td>@item.Alias</td>
                                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>

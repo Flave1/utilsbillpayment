@@ -48,6 +48,7 @@ namespace VendTech.BLL.Models
         public string Balance { get; set; }
         public bool PlatformDisabled { get; set; }
         public int PlatformId { get; set; }
+        public string Vendor { get; set; } = "";
         public MeterAPIListingModel() { }
         public MeterAPIListingModel(Meter obj)
         {
@@ -66,6 +67,7 @@ namespace VendTech.BLL.Models
             POSSerialNumber = pos.SerialNumber;
             Balance = Utilities.FormatAmount(pos.Balance);
             NumberType = obj.NumberType;
+            Vendor = obj.User.Vendor;
         }
     }
 
