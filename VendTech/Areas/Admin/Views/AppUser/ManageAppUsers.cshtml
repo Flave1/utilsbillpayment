@@ -4,10 +4,32 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
 }
 
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+
+    .notActive {
+        color: black;
+        background: grey
+    }
+
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h2>Manage App Users </h2>
-
     </div>
     <div class="cl-mcont">
         <div class="row">
@@ -20,6 +42,19 @@
                         <div class="table-responsive">
                             @Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc"})
                             <div id="divResult">
+                                <input id="IsActive" value="true" hidden />
+                                <div style='text-align: center; width:20%; height:40px; display:flex; '>
+                                    <button id="true"
+                                            style="width: 49%; border: none;" class="isActive"
+                                            onclick="openTab('true')">
+                                        ACTIVE USERS
+                                    </button>
+                                    <button id="false"
+                                            style="width: 49%; border:none;" class="notActive"
+                                            onclick="openTab('false')">
+                                        INACTIVE USERS
+                                    </button>
+                                </div>
                                 <table class="table table-bordered" id="datatable-icons">
                                     <thead>
                                         <tr>
@@ -52,6 +87,17 @@
 @section scripts{
     <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
     <script type="text/javascript">
+
+        function openTab(status) {
+
+            var otherTabStatus = status === 'true' ? 'false' : 'true';
+            document.getElementById(status).className = 'isActive';
+            document.getElementById(otherTabStatus).className = 'notActive';
+
+            $('#IsActive').val(status === 'true' ? true : false);
+            return Users.SortUsers($(this));
+        }
+
         $("#searchField").show();
         var searchFields = ["FIRST NAME", "LAST NAME","VENDOR NAME", "POSID","BALANCE","LASTLOGIN", "STATUS"];
 

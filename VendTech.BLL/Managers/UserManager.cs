@@ -240,55 +240,74 @@ namespace VendTech.BLL.Managers
 
         PagingResult<UserListingModel> IUserManager.GetUserPagedList(PagingModel model, bool onlyAppUser, string status)
         {
+            if(model.SortBy == null)
+            {
+                model.SortBy = "Vendor";
+            }
             model.RecordsPerPage = 10000000;
             var result = new PagingResult<UserListingModel>();
             IQueryable<User> query = null;
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                query = Context.Users.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
+            }
+            else
+            {
+                if (model.IsActive)
+                    query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active);
+                else
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Active);
+            }
+            
+
+
             if (model.SortBy == "POS")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.POS.FirstOrDefault().SerialNumber);
+                    query = query.OrderBy(s => s.POS.FirstOrDefault().SerialNumber);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.POS.FirstOrDefault().SerialNumber);
+                    query = query.OrderByDescending(s => s.POS.FirstOrDefault().SerialNumber);
                 }
             }
             else if (model.SortBy == "Balance")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.POS.FirstOrDefault().Balance);
+                    query = query.OrderBy(s => s.POS.FirstOrDefault().Balance);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.POS.FirstOrDefault().Balance);
+                    query = query.OrderByDescending(s => s.POS.FirstOrDefault().Balance);
                 }
             }
             else if (model.SortBy == "Vendor")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.Vendor);
+                    query = query.OrderBy(s => s.Vendor);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.Vendor);
+                    query = query.OrderByDescending(s => s.Vendor);
                 }
             }
             else if (model.SortBy == "SurName")
             {
                 if (model.SortOrder == "Asc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(s => s.SurName);
+                    query = query.OrderBy(s => s.SurName);
                 }
                 else if (model.SortOrder == "Desc")
                 {
-                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderByDescending(s => s.SurName);
+                    query = query.OrderByDescending(s => s.SurName);
                 }
             }
             else
-                query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Deleted).OrderBy(model.SortBy + " " + model.SortOrder);
+                query = query.OrderBy(model.SortBy + " " + model.SortOrder);
             //Client want to show app user and vendor on the same screen because they both can login from app
             if (onlyAppUser)
                 query = query.Where(p => p.UserRole.Role == UserRoles.AppUser || p.UserRole.Role == UserRoles.Vendor);
@@ -313,8 +332,9 @@ namespace VendTech.BLL.Managers
                 else if (model.SearchField.Equals("ROLE"))
                     query = query.Where(z => z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
             }
-            else if (!string.IsNullOrWhiteSpace(status))
-                query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
+            
+
+           
            
             
             var list = query

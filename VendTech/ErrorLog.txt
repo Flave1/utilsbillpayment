@@ -2509,3 +2509,23 @@ c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Report\pa
 
 
 
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
