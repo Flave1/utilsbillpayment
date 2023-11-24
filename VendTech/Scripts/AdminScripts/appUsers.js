@@ -138,7 +138,7 @@ var Users = {
     
     },
     BlockUser: function (sender) {
-        $.ConfirmBox("", "Are you sure to block this user?", null, true, "Yes", true, null, function () {
+        $.ConfirmBox("", "Are you sure to deactivate this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
                 url: baseUrl + '/Admin/AppUser/BlockUser',
                 type: 'POST',
@@ -157,7 +157,7 @@ var Users = {
         });
     },
     UnBlockUser: function (sender) {
-        $.ConfirmBox("", "Are you sure to unblock this user?", null, true, "Yes", true, null, function () {
+        $.ConfirmBox("", "Are you sure to activate this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
                 url: baseUrl + '/Admin/AppUser/UnBlockUser',
                 type: 'POST',
@@ -176,7 +176,7 @@ var Users = {
         });
     },
     ActivateUser: function (sender) {
-        $.ConfirmBox("", "Are you sure to active this user?", null, true, "Yes", true, null, function () {
+        $.ConfirmBox("", "Are you sure to activate this user?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
                 url: baseUrl + '/Admin/AppUser/UnBlockUser',
                 type: 'POST',

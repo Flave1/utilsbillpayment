@@ -1,9 +1,32 @@
 ﻿@model MeterModel
 
-<form role="form" id="UserForm">
+<style>
+    .form-control{
+        border-radius:10px;
+        background:#ebebeb;
+        font-weight:bold;
+        color:black;
+    }
+</style>
+
+<form role="form" id="UserForm" style="width: 80%; margin:auto; border:4px;">
     @Html.HiddenFor(m => m.MeterId)
     @Html.HiddenFor(m => m.UserId)
     <div class="row">
+
+        <div style="display: inline-block; width:100%">
+            <div style="width: 80%; float:left;"><h3>@(Model.MeterId > 0 ? "EDIT METER" : "ADD METER")</h3></div>
+            <div style=" width: 6%;
+ float:right;
+                            cursor:pointer;
+                            border: 2px solid grey;
+                            border-radius: 40px;
+                            text-align: center;
+                            padding-bottom:3px">
+                <strong><a  data-dismiss="modal" aria-label="Close"
+                           style="color: grey;  font-weight: bold; font-size: 17px">x</a></strong>
+            </div>
+        </div>
         <div class="form-group">
             <label>Meter # <sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:11 DIGITS METER NUMBER)</span></label>
             @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
