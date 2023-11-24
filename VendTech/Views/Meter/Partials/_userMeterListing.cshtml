@@ -20,6 +20,7 @@
                             <th scope="col">NAME ON METER</th>
                             <th scope="col">ALIAS</th>
                             <th scope="col">DATE SAVED</th>
+                            <th scope="col">EDIT</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,7 @@
                                     <td>@item.Name</td>
                                     <td>@item.Alias</td>
                                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+                                    <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" onclick="AdminPOS.openMeterForm(@item.MeterId, '@item.UserId')"><i class="fa fa-edit"></i></a></td>
                                 </tr>
                         }
                     }

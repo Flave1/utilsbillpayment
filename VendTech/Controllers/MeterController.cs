@@ -2,22 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
-using VendTech.BLL.Managers;
-using Castle.Core.Logging;
-using VendTech.BLL.PlatformApi;
-using System.Web.Http.Results;
 #endregion
 
 namespace VendTech.Controllers

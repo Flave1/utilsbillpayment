@@ -224,6 +224,57 @@ namespace VendTech.Areas.Admin.Controllers
             return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result }));
         }
 
+        public PartialViewResult AddEditMeter(long meterId = 0, long userId = 0, string number = "")
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Meters;
+            MeterModel model = new MeterModel();
+            model.UserId = userId;
+            if (meterId > 0)
+                model = _meterManager.GetMeterDetail(meterId);
+            var list = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "CONLOG",
+                    Value = "CONLOG"
+                },
+                new SelectListItem
+                {
+                    Text = "HOLLEY",
+                    Value = "HOLLEY"
+                },
+                new SelectListItem
+                {
+                    Text = "SAGEMCOM",
+                    Value = "SAGEMCOM"
+                },
+
+                new SelectListItem
+                {
+                    Text = "APATOR",
+                    Value = "APATOR"
+                },
+                new SelectListItem
+                {
+                    Text = "CLOU",
+                    Value = "CLOU"
+                }
+            };
+
+            ViewBag.meterMakes = list;
+            if (!string.IsNullOrEmpty(number))
+                model.Number = number;
+            return PartialView("Partials/_meterForm", model);
+
+        }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult AddEditMeter(MeterModel model)
+        {
+            model.IsSaved = true;
+            return JsonResult(_meterManager.SaveMeter(model));
+        }
+
         #endregion
     }
 }

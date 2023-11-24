@@ -215,8 +215,7 @@ function Paging(sender) {
 }
 
 function onSavedMeterClicked(userId, vendor, posid) {
-
-
+    purchaseUnitsByAdmin.userId = userId;
     if (userId) {
         var inputParam = new Object();
         inputParam.token_string = userId

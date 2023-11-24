@@ -95,15 +95,26 @@
 
 
 <div class="modal fade" id="myModal2" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
                 <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+                <p style="cursor: pointer;"><a class="addmeter" onclick="AdminPOS.openMeterForm()" style="font-size: 12px"><i class="fa fa-plus-circle"></i> <label>ADD METER</label></a></p>
             </div>
 
             <div class="modal-meter-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="meterForm" class="modal fade" role="dialog">
+    <div class="modal-dialog" style=" width: 700px;">
+        <div class="modal-content" >
+            <div class="modal-body " style="margin-bottom: 30px; height: 600px; ">
+
             </div>
         </div>
     </div>

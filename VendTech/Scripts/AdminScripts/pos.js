@@ -39,7 +39,7 @@
         $('#Search').val('');
         return AdminPOS.SearchUsers($(this));
     });
-
+   
     function disablePOS(sender) {
         
         $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
@@ -63,8 +63,6 @@
             });
         });
     }
-
-
     function enablePOS(sender) {
         $.ConfirmBox("", "Are you sure to enable this POS?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -199,9 +197,50 @@ var AdminPOS = {
         paging.pageSize = parseInt($(sender).find('option:selected').val());
         POSPaging(sender);
 
-    }
+    },
+
+    openMeterForm: function (meterid = "") {
+        $.get(`AddEditMeter?meterId=${meterid}&userId=${purchaseUnitsByAdmin.userId}`, function (data) {
+            $('#meterForm .modal-body').html(data);
+        });
+        $('#meterForm').modal('show')
+    },
+    saveMeter: function (sender) {
+        return AdminPOS.addEditMeter($(sender));
+    },
+    addEditMeter: function (sender) {
+
+        var formData = $(sender).parents("form:first").serialize();
+        $.ajax({
+            url: baseUrl + 'AddEditMeter',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function (results, message) {
+                if (results.Status !== 1) {
+                    $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
+                    return;
+                }
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    closeSweatAlert();
+
+                    $('#meterForm').modal('hide')
+                }, 2000);
+                // Success handling logic
+            },
+            error: function (xhr, status, error) {
+                // Error handling logic
+            }
+        });
+    },
+   
 };
 
+function closeSweatAlert() {
+    $(".sweet-overlay").hide();
+    $(".showSweetAlert ").hide();
+}
 
 
 function POSPaging(sender) {

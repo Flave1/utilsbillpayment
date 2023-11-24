@@ -588,6 +588,7 @@
     <Content Include="Views\Deposit\Partials\_depositListing.cshtml" />
     <Content Include="Views\Shared\Sms\_smsModal.cshtml" />
     <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
+    <Content Include="Areas\Admin\Views\POS\Partials\_meterForm.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
