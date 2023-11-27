@@ -2591,6 +2591,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.isAudit = true;
+                dbDeposit.ValueDate = DateTime.UtcNow.ToString();
 
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
               
