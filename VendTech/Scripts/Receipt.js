@@ -114,6 +114,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
                     if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(response.Data.VendorId);
+                    $(".currencyCode").html(data.Data.CurrencyCode);
                     $("#receiptTitle").html(response.Data.ReceiptTitle);
 
 
@@ -183,6 +184,7 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
                     $("#re-pos_id").html(data.Data.POS);
                     $("#re-sales_date").html(data.Data.TransactionDate);
                     $("#re-vendorId").html(data.Data.VendorId);
+                    $(".re-currencyCode").html(data.Data.CurrencyCode);
                     if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
                     if (data.Data.ShowEmailButtonOnWeb) $("#re-showemail_btn").css("display", "inline-block");

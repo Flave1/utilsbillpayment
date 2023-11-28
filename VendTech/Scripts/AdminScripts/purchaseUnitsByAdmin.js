@@ -15,7 +15,8 @@ var purchaseUnitsByAdmin = {
     vendBalance: '',
     userId: 0,
     serial: '',
-    vendor:'',
+    vendor: '',
+    posId: '',
     openForm: function (vendor, meternumber, meterId, posId, userId, balance, serial, list) {
 
         this.userId = userId;
@@ -141,6 +142,7 @@ var purchaseUnitsByAdmin = {
                     if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(response.Data.VendorId);
+                    $("#currencyCode").html(response.Data.CurrencyCode);
 
                     $("#modalCart").modal("show");
                     $("#depositToAgencyAdminModal").modal('hide');
@@ -212,29 +214,4 @@ function Paging(sender) {
 
         }
     });
-}
-
-function onSavedMeterClicked(userId, vendor, posid) {
-    purchaseUnitsByAdmin.userId = userId;
-    if (userId) {
-        var inputParam = new Object();
-        inputParam.token_string = userId
-
-        $.ajax({
-            url: baseUrl + '/Meter/GetUserMeters',
-            data: $.postifyData(inputParam),
-            type: "POST",
-            success: function (data) {
-                $("#vendorName").text(vendor);
-                $("#posId").text(posid);
-                $('.modal-meter-body').html(data);
-                $("#myModal2").modal("show");
-                $('#myModal2').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                })
-
-            }
-        });
-    }
 }

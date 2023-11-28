@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using VendTech.BLL.Common;
@@ -44,7 +43,7 @@ namespace VendTech.BLL.Managers
             dbMeter.IsSaved = model.isVerified;
             dbMeter.NumberType = (int)NumberTypeEnum.MeterNumber;
             dbMeter.IsVerified = model.isVerified;
-            if (model.MeterId == 0)
+            if (model.MeterId == 0 || model.MeterId == null)
             {
                 dbMeter.UserId = model.UserId;
                 dbMeter.CreatedAt = DateTime.UtcNow;
@@ -1267,6 +1266,7 @@ namespace VendTech.BLL.Managers
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
             receipt.PlatformId = model.PlatFormId;
+            receipt.CurrencyCode = Utilities.GetCountry().CurrencyCode;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)

@@ -238,6 +238,7 @@ var UserMeters = {
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(data.Data.VendorId);
+                    $(".currencyCode").html(data.Data.CurrencyCode);
 
                     GetLatestRechargesAfterPurchase();
                     GetPOSBalanceAfterPurchase();
