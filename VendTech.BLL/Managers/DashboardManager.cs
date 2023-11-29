@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Web.UI.WebControls;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
@@ -155,9 +156,6 @@ namespace VendTech.BLL.Managers
                     var total_deposits = new decimal();
                     var total_sales = new decimal();
 
-                    //Only usertype  9 and 17
-                    //Only status of 1
-                        
                     var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId
                         && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList()
                         : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin
@@ -198,21 +196,17 @@ namespace VendTech.BLL.Managers
                     total_deposits = Context.Deposits.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).AsEnumerable().Sum(s => s.Amount);
                     total_sales = Context.TransactionDetails.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)RechargeMeterStatusEnum.Success).AsEnumerable().Sum(s => s.Amount);
 
+                    var userCountQuery = "Select * from users where status = 1 and usertype IN (9,17)";
+                    var userCount = Context.Database.SqlQuery<dynamic>(userCountQuery).ToList().Count();
+                    var posCountQuery = "Select * from POS pp inner join users uu on uu.userid=pp.vendorid where enabled =1 and vendorid IN (Select vendorid from users where status =1 and usertype IN (9,17))";
+                    var posCount = Context.Database.SqlQuery<dynamic>(posCountQuery).ToArray().Count();
                     return new DashboardViewModel
                     {
                         totalSales = total_sales,
+                        userCount = userCount,
+                        posCount = posCount,
                         totalDeposit = total_deposits,
                         revenue = agentBalance,
-                        userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor
-                         && (u.UserType == 17
-                        || u.UserType == 9)
-                        && !u.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")
-                        && u.Status == (int)UserStatusEnum.Active).Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.IsAdmin 
-                        && ( p.User.UserType == 17
-                        || p.User.UserType == 9)
-                        && !p.SerialNumber.StartsWith("AGT") 
-                        && p.User.Status == (int)UserStatusEnum.Active).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
