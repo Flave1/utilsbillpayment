@@ -1721,9 +1721,13 @@ namespace VendTech.BLL.Managers
             var res = new PagingResult<VendorStatus>();
 
             var vendorStatus = new List<VendorStatus>();
+            var server = WebConfigurationManager.AppSettings["serverName"].ToString();
+            var db = WebConfigurationManager.AppSettings["dbName"].ToString();
+            var user = WebConfigurationManager.AppSettings["dbUser"].ToString();
+            var password = WebConfigurationManager.AppSettings["dbPassword"].ToString();
             try
             {
-                conn = new SqlConnection("Data Source=92.205.181.48;Initial Catalog=VENDTECH_MAIN;user id=vendtech_main;password=85236580@Ve;MultipleActiveResultSets=True;");
+                conn = new SqlConnection($"Data Source={server};Initial Catalog={db};user id={user};password={password};MultipleActiveResultSets=True;");
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("CalculateRunningBalance", conn);

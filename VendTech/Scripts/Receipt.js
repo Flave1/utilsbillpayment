@@ -61,7 +61,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchSaleInformation(token, platFormId, isAdmin= false) {
-    debugger
+    
     switch (platFormId) {
         case '1':
             fetchVoucherDetailsByToken(token, isAdmin);
@@ -159,8 +159,6 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
                 }
                 if (data.Code === 200) {
 
-                    console.log(data);
-
                     $("#re-customer_name").html(data.Data.CustomerName);
                     $("#re-customer_account_number").html(data.Data.AccountNo);
                     $("#re-customer_address").html(data.Data.Address);
@@ -199,7 +197,6 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
         });
 
     } catch (e) {
-        console.log(e);
         DisableAndEnablelinks(false, token);
     }
 }

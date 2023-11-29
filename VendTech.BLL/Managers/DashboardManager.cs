@@ -155,6 +155,9 @@ namespace VendTech.BLL.Managers
                     var total_deposits = new decimal();
                     var total_sales = new decimal();
 
+                    //Only usertype  9 and 17
+                    //Only status of 1
+                        
                     var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId
                         && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList()
                         : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin
@@ -200,8 +203,16 @@ namespace VendTech.BLL.Managers
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
                         revenue = agentBalance,
-                        userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor && u.Status == (int)UserStatusEnum.Active).Count(),
-                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Count(),
+                        userCount = Context.Users.Where(u => u.UserRole.Role == UserRoles.AppUser || u.UserRole.Role == UserRoles.Vendor
+                         && (u.UserType == 17
+                        || u.UserType == 9)
+                        && !u.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")
+                        && u.Status == (int)UserStatusEnum.Active).Count(),
+                        posCount = Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.IsAdmin 
+                        && ( p.User.UserType == 17
+                        || p.User.UserType == 9)
+                        && !p.SerialNumber.StartsWith("AGT") 
+                        && p.User.Status == (int)UserStatusEnum.Active).Count(),
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
