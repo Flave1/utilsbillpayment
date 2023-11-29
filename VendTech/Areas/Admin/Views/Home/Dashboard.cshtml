@@ -45,7 +45,7 @@
     @if (user.UserType != UserRoles.AppUser)
     {
         <div class="" style="margin-bottom:0;">
-
+            <strong>using: @country.DomainUrl</strong>
             <div class="row" style="margin-top: 40px">
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
