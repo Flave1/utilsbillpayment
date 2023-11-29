@@ -8,8 +8,6 @@ using VendTech.DAL;
 using System.Web.Mvc;
 using static VendTech.BLL.Jobs.BalanceLowSheduleJob;
 using System.Data.Entity;
-using Quartz;
-using System.IdentityModel.Protocols.WSTrust;
 
 namespace VendTech.BLL.Managers
 {
@@ -379,7 +377,7 @@ namespace VendTech.BLL.Managers
             dbPos.IsDeleted = true;
             //EnableOrdisablePOSAccount(false, dbPos.POSId);
             Context.SaveChanges();
-            return ReturnSuccess("POS deleted successfully.");
+            return ReturnSuccess("POS DELETED SUCCESSFULLY.");
         }
 
         ActionOutput IPOSManager.ChangePOSStatus(int posId, bool value)
@@ -529,7 +527,7 @@ namespace VendTech.BLL.Managers
                 Context.POSAssignedPlatforms.AddRange(newPlatforms);
                 Context.SaveChanges();
             }
-            return ReturnSuccess("Pos saved successfully.");
+            return ReturnSuccess("POS SAVED SUCCESSFULLY.");
         }
         void EnableOrdisablePOSAccount(bool isEnabled, long posId)
         {
@@ -563,7 +561,7 @@ namespace VendTech.BLL.Managers
             if (savePassCodeModel.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
-            return ReturnSuccess("Passcode saved successfully.");
+            return ReturnSuccess("PASSCODE SENT SUCCESSFULLY.");
         }
 
         ActionOutput IPOSManager.SavePasscodePosApi(SavePassCodeModel savePassCodeModel)
@@ -586,7 +584,7 @@ namespace VendTech.BLL.Managers
             if (dbPos.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
-            return ReturnSuccess("Passcode saved successfully.");
+            return ReturnSuccess("PASSCODE SAVED SUCCESSFULLY.");
         }
 
         POS IPOSManager.ReturnAgencyAdminPOS(long userId)

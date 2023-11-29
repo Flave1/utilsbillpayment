@@ -61,7 +61,7 @@ function GetRequestANDResponse(transactionId) {
 }
 
 function fetchSaleInformation(token, platFormId, isAdmin= false) {
-    debugger
+    
     switch (platFormId) {
         case '1':
             fetchVoucherDetailsByToken(token, isAdmin);
@@ -114,6 +114,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
                     if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(response.Data.VendorId);
+                    $(".currencyCode").html(data.Data.CurrencyCode);
                     $("#receiptTitle").html(response.Data.ReceiptTitle);
 
 
@@ -158,8 +159,6 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
                 }
                 if (data.Code === 200) {
 
-                    console.log(data);
-
                     $("#re-customer_name").html(data.Data.CustomerName);
                     $("#re-customer_account_number").html(data.Data.AccountNo);
                     $("#re-customer_address").html(data.Data.Address);
@@ -183,6 +182,7 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
                     $("#re-pos_id").html(data.Data.POS);
                     $("#re-sales_date").html(data.Data.TransactionDate);
                     $("#re-vendorId").html(data.Data.VendorId);
+                    $(".re-currencyCode").html(data.Data.CurrencyCode);
                     if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
                     if (data.Data.ShowEmailButtonOnWeb) $("#re-showemail_btn").css("display", "inline-block");
@@ -197,7 +197,6 @@ function fetchVoucherDetailsByToken(token, isAdmin = false) {
         });
 
     } catch (e) {
-        console.log(e);
         DisableAndEnablelinks(false, token);
     }
 }

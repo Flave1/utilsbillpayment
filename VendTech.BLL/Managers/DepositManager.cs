@@ -2447,6 +2447,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.AgencyCommission = 0;
 
                 decimal commision = 0;
+                dbDeposit.isAudit = true;
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
                     //dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
@@ -2522,6 +2523,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
+                dbDeposit.isAudit = true;
 
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
@@ -2592,6 +2594,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.Comments = "";
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance;
+                dbDeposit.isAudit = true;
+                dbDeposit.ValueDate = DateTime.UtcNow.ToString();
 
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
               

@@ -21,7 +21,7 @@
                     <div class="manage-desposit">
                         <div class="manage-desposit-top">
                             <h3></h3>
-                            <label style="font-size: 24px; color: #00a2e8 !important;">@country.CurrencyCode: @Utilities.FormatAmount(ViewBag.Balance)  </label>
+                            <label style="font-size: 24px; color: #00a2e8 !important;"><span id="currebcycode">@country.CurrencyCode</span>: @Utilities.FormatAmount(ViewBag.Balance)  </label>
                         </div>
                         <div class="manage-desposit-content divResult" id="divResult">
                             <form>
@@ -214,6 +214,8 @@
             })
         }
         $(document).ready(function () {
+
+            Deposits.currencode = '@country.CurrencyCode'
 
             var d = new Date();
              $("#ValueDate").kendoDatePicker({

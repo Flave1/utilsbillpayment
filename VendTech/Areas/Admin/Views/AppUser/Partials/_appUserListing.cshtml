@@ -14,7 +14,14 @@
     <td style="text-align:right;"> @VendTech.BLL.Common.Utilities.FormatAmount(item.PosBalance)</td>
     <td style="text-align:right;"> @item.LastLoggedIn</td>
     <td>
-        @item.Status.ToString()
+        @if (item.Status == UserStatusEnum.Block)
+        {
+            <span> Inactive</span>
+        }
+        else
+        {
+            <span>@item.Status.ToString()</span>
+        }
     </td>
 
     <td class="center">
@@ -32,11 +39,11 @@
 
             if (item.Status == UserStatusEnum.Block)
             {
-                <a data-userid="@item.UserId" class="btn btn-primary btn-xs unBlockUser" href="javascript:void(0);" data-original-title="UnBlock" data-toggle="tooltip">UnBlock</a>
+                <a data-userid="@item.UserId" class="btn btn-primary btn-xs unBlockUser" href="javascript:void(0);" data-original-title="UnBlock" data-toggle="tooltip">Activate</a>
             }
             else
             {
-                <a data-userid="@item.UserId" class="btn btn-danger btn-xs blockUser" href="javascript:void(0);" data-original-title="Block" data-toggle="tooltip">Block</a>
+                <a data-userid="@item.UserId" class="btn btn-danger btn-xs blockUser" href="javascript:void(0);" data-original-title="Block" data-toggle="tooltip">Deactivate</a>
             }
         }
         else if (item.Status == UserStatusEnum.Declined)

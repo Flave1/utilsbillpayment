@@ -12,7 +12,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan="5"><strong>SAVED METERS</strong></th>
+                            <th colspan="6"><strong>SAVED METERS</strong></th>
                         </tr>
                         <tr>
                             <th scope="col">#</th>
@@ -20,6 +20,7 @@
                             <th scope="col">NAME ON METER</th>
                             <th scope="col">ALIAS</th>
                             <th scope="col">DATE SAVED</th>
+                            <th scope="col">EDIT</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,10 +35,11 @@
                                 i += 1;
                                 <tr id="meterList">
                                     <th scope="row">@i</th>
-                                    <td> <a onclick="purchaseUnitsByAdmin.openForm('@item.UserName', '@item.Number', '@item.MeterId', '@item.POSId', '@item.UserId', '@item.Balance', '@item.POSSerialNumber', '@js.Serialize(allMeters)')" href="#">@item.Number</a> </td>
+                                    <td> <a onclick="purchaseUnitsByAdmin.openForm('@item.Vendor', '@item.Number', '@item.MeterId', '@item.POSId', '@item.UserId', '@item.Balance', '@item.POSSerialNumber', '@js.Serialize(allMeters)')" href="#">@item.Number</a> </td>
                                     <td>@item.Name</td>
                                     <td>@item.Alias</td>
                                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
+                                    <td><a title="Edit" style="cursor:pointer" class="editthis col-md-4" data-id="@item.MeterId" onclick="AdminPOS.openMeterForm(@item.MeterId, '@item.UserId')"><i class="fa fa-edit"></i></a></td>
                                 </tr>
                         }
                     }

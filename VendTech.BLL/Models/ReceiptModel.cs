@@ -46,6 +46,7 @@ namespace VendTech.BLL.Models
         public decimal CurrentBallance { get; set; }
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
         public int? PlatformId { get; set; }
+        public string CurrencyCode { get; set; } = "";
     }
 
     public class ReceiptStatus
@@ -78,6 +79,7 @@ namespace VendTech.BLL.Models
         public decimal CurrentBallance { get; set; }
         public string ReceiptTitle { get; set; }
         public bool IsNewRecharge { get; set; }
+        public string CurrencyCode { get; set; } = "";
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
     }
 }

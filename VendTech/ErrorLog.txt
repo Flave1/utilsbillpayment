@@ -2509,3 +2509,75 @@ c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Views\Report\pa
 
 
 
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+No property or field 'Asc' exists in type 'User'
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'AddEditMeter' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/POS/AddEditMeter.aspx
+~/Areas/Admin/Views/POS/AddEditMeter.ascx
+~/Areas/Admin/Views/Shared/AddEditMeter.aspx
+~/Areas/Admin/Views/Shared/AddEditMeter.ascx
+~/Views/POS/AddEditMeter.aspx
+~/Views/POS/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Areas/Admin/Views/POS/AddEditMeter.cshtml
+~/Areas/Admin/Views/POS/AddEditMeter.vbhtml
+~/Areas/Admin/Views/Shared/AddEditMeter.cshtml
+~/Areas/Admin/Views/Shared/AddEditMeter.vbhtml
+~/Views/POS/AddEditMeter.cshtml
+~/Views/POS/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+The partial view 'AddEditMeter' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/POS/AddEditMeter.aspx
+~/Areas/Admin/Views/POS/AddEditMeter.ascx
+~/Areas/Admin/Views/Shared/AddEditMeter.aspx
+~/Areas/Admin/Views/Shared/AddEditMeter.ascx
+~/Views/POS/AddEditMeter.aspx
+~/Views/POS/AddEditMeter.ascx
+~/Views/Shared/AddEditMeter.aspx
+~/Views/Shared/AddEditMeter.ascx
+~/Areas/Admin/Views/POS/AddEditMeter.cshtml
+~/Areas/Admin/Views/POS/AddEditMeter.vbhtml
+~/Areas/Admin/Views/Shared/AddEditMeter.cshtml
+~/Areas/Admin/Views/Shared/AddEditMeter.vbhtml
+~/Views/POS/AddEditMeter.cshtml
+~/Views/POS/AddEditMeter.vbhtml
+~/Views/Shared/AddEditMeter.cshtml
+~/Views/Shared/AddEditMeter.vbhtml
+
+
+
+Input string was not in a correct format.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

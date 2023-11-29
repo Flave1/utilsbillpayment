@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using VendTech.BLL.Common;
@@ -44,7 +43,7 @@ namespace VendTech.BLL.Managers
             dbMeter.IsSaved = model.isVerified;
             dbMeter.NumberType = (int)NumberTypeEnum.MeterNumber;
             dbMeter.IsVerified = model.isVerified;
-            if (model.MeterId == 0)
+            if (model.MeterId == 0 || model.MeterId == null)
             {
                 dbMeter.UserId = model.UserId;
                 dbMeter.CreatedAt = DateTime.UtcNow;
@@ -1267,6 +1266,7 @@ namespace VendTech.BLL.Managers
             receipt.EDSASerial = model.SerialNumber;
             receipt.VTECHSerial = model.TransactionId;
             receipt.PlatformId = model.PlatFormId;
+            receipt.CurrencyCode = Utilities.GetCountry().CurrencyCode;
             return receipt;
         }
         private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
@@ -1721,9 +1721,13 @@ namespace VendTech.BLL.Managers
             var res = new PagingResult<VendorStatus>();
 
             var vendorStatus = new List<VendorStatus>();
+            var server = WebConfigurationManager.AppSettings["serverName"].ToString();
+            var db = WebConfigurationManager.AppSettings["dbName"].ToString();
+            var user = WebConfigurationManager.AppSettings["dbUser"].ToString();
+            var password = WebConfigurationManager.AppSettings["dbPassword"].ToString();
             try
             {
-                conn = new SqlConnection("Data Source=92.205.181.48;Initial Catalog=VENDTECH_MAIN;user id=vendtech_main;password=85236580@Ve;MultipleActiveResultSets=True;");
+                conn = new SqlConnection($"Data Source={server};Initial Catalog={db};user id={user};password={password};MultipleActiveResultSets=True;");
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("CalculateRunningBalance", conn);

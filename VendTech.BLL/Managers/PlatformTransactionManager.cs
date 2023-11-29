@@ -529,8 +529,9 @@ namespace VendTech.BLL.Managers
             receipt.mobileShowSmsButton = (bool)trax.POS.PosSms;
             receipt.ShouldShowSmsButton = (bool)trax.POS.WebSms;
             receipt.ShouldShowPrintButton = (bool)trax.POS.WebPrint;
+            receipt.CurrencyCode = Utilities.GetCountry().CurrencyCode;
 
-            if(trax.PlatFormId == 2)
+            if (trax.PlatFormId == 2)
                 receipt.ReceiptTitle = "ORANGE";
             if (trax.PlatFormId == 3)
                 receipt.ReceiptTitle = "AFRICELL";
