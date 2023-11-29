@@ -2,22 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 #endregion
 
 #region Custom Namespaces
 using VendTech.Attributes;
 using VendTech.BLL.Interfaces;
-using Ninject;
 using VendTech.BLL.Models;
 using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
-using VendTech.BLL.Managers;
-using Castle.Core.Logging;
 using VendTech.BLL.PlatformApi;
-using System.Web.Http.Results;
 #endregion
 
 namespace VendTech.Controllers
@@ -313,15 +308,22 @@ namespace VendTech.Controllers
         public JsonResult RechargeReturn2(RechargeMeterModel model)
         {
             //model.UserId = model.UserId;
-            var result = _meterManager.RechargeMeterReturn(model);
-            if (result.ReceiptStatus.Status == "unsuccessful")
+            try
             {
-                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
-            }
+                var result = _meterManager.RechargeMeterReturn(model);
+                if (result.ReceiptStatus.Status == "unsuccessful")
+                {
+                    return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+                }
 
-            if (result != null)
-                return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
-            return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
+                if (result != null)
+                    return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful.", Data = result });
+            }
+            catch (Exception)
+            {
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful." });
+            }
 
         }
 

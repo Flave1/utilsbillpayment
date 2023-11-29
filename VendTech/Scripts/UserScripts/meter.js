@@ -238,6 +238,7 @@ var UserMeters = {
                     if (data.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (data.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(data.Data.VendorId);
+                    $(".currencyCode").html(data.Data.CurrencyCode);
 
                     GetLatestRechargesAfterPurchase();
                     GetPOSBalanceAfterPurchase();
@@ -268,7 +269,7 @@ var UserMeters = {
             url: baseUrl + '/Meter/AddEditMeter',
             type: 'POST',
             data: formData,
-            dataType: 'json', // assuming you expect JSON data in response
+            dataType: 'json',
             success: function (results, message) {
 
                 debugger;
@@ -287,38 +288,6 @@ var UserMeters = {
             }
         });
     },
-
-    //AddUser: function (sender) {
-    //    debugger
-    //    $.ajax({
-    //        url: baseUrl + '/Meter/AddEditMeter',
-    //        type: 'POST',
-    //        validate: true,
-    //        showErrorMessage: true,
-    //        messageControl: $('div.messageAlert'),
-    //        formToValidate: $(sender).parents("form:first"),
-    //        formToPost: $(sender).parents("form:first"),
-    //        isAjaxForm: true,
-    //        showThrobber: true,
-    //        button: $(sender),
-    //        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
-    //        success: function (results, message) {
-
-                
-    //            if (results.Status !== 1) {
-
-    //                $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
-    //                return;
-    //            }
-    //            //$.ShowMessage($('div.messageAlert'), message, MessageType.Success);
-    //            //setTimeout(function () {
-    //            //    window.location.href = baseUrl + '/Meter/Index';
-    //            //}, 1500);
-
-    //        }
-    //    });
-
-    //},
 
     AddPhone: function (sender) {
         $.ajax({

@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvfo963Y3TkuyuxNlPf1TZwAAAAACAAAAAAAQZgAAAAEAACAAAAAZXHiA+NkCP7hoM7xYnf9du6W7SFUteu8IYVWExakyCwAAAAAOgAAAAAIAACAAAAAwWAH3mSPXudjGAxZrCKJVgivP5I5a98tL5H71rwgf2yAAAACugaPJWcEMqc5hqUVuYZUod2xcCBDzWKXVqSTCvfefp0AAAAA6i14yZ9MzW2sMcXmB+j99ochx6VIOuxWu5wIceXhbyVMSBb+gEpx1CDvasStejXXHq6iqdA0tco/KaoqtXQ3Q</EncryptedPassword>
+    <_PublishTargetUrl>ftp://160.153.155.205/</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Areas/Admin/Views/Agent/AddAgent.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/ManageAgents.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/Partials/_agencyListing.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/Partials/_depositForm.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/Partials/_modulesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Agent/Partials/_widgetsListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/EditUser.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/ManageAppUsers.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_appUserListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_modulesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_platformsListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/Partials/_widgetsListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/ViewUser.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/AddBankAccount.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/EditBankAccount.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/BankAccount/ManageBankAccounts.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/AddChequeBanks.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/EditChequeBanks.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ChequeBanks/ManageChequeBanks.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/CMSManager.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/EditPageContent.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CMS/Partials/_pageListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Commission/ManageCommissions.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Country/AddEdit.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Country/Index.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Country/Partials/_countryListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/AddDeposit.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/DepositLogs.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/ManageDeposits.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Deposit/Partials/_depositLogListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/AddTemplate.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/ManageTemplates.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmailTemplate/Partials/_templateListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/AboutUs.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/AccesDeniedPage.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ChangePassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ContactUs.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Error.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/FAQ.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ForgotPassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ForotPassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Index.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/OTPVerification.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_BSReportListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/PrivacyPolicy.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/ResetPassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/TermsAndConditions.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/AddEditPaymentType.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/Index.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PaymentType/Partials/_paymentTypeListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Platform/ManagePlatforms.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/ConfigureApi.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/ConfigureApiConnection.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/CreateApiConnection.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/CreateOrEditApi.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/EditApiConnection.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/Index.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/PlatformApiConnections.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformApi/PlatformApis.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/PlatformTransaction/Index.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/AddEditPos.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_meterForm.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_platformsListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_posListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/POS/Partials/_purchaseUnitsForm.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease2.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/Partials/_depositReleaseListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/BalanceSheetReports.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/DepositReleaseReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageAgentsRevenueReports.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageGSTSalesReports.cshtml">
+      <publishTime>11/08/2023 10:30:42</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageReports.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageSalesReports.cshtml">
+      <publishTime>11/02/2023 08:43:24</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_agentsRevenueReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_balanceSheetReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_depositAuditListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_depositReleaseListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_gstSalesReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_miniSalesReport.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_miniSalesReportButtons.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_reportListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_salesReportListing.cshtml">
+      <publishTime>11/06/2023 16:32:23</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintAgencyRevenueReport.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintBalancesheetReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositAuditReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositReleaseReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintDepositReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintGSTSalesReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/PrintSalesReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReverseDeposit/ManageDepositReverse.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReverseDeposit/Partials/_depositReverseListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/ManageRoles.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RTSEDSAReport/Inquiry.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RTSEDSAReport/partials/_salesListing.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RTSEDSAReport/Transactions.cshtml">
+      <publishTime>11/02/2023 07:06:03</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.BLL.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.DAL.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.Framework.dll.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/VendTech.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/WebActivatorEx.dll">
+      <publishTime>11/04/2022 07:09:00</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>11/04/2022 07:09:00</publishTime>
+    </File>
+    <File Include="Views/Agents/AddAgent.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Agents/ManageAgents.cshtml">
+      <publishTime>08/11/2023 15:20:53</publishTime>
+    </File>
+    <File Include="Views/Agents/Partials/_agencyListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Airtime/Partials/_downTimeNotification.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Airtime/Partials/_salesListing.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Airtime/Recharge.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Airtime/Recharge_e.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Deposit/Index.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Deposit/Index_e.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Deposit/Partials/_depositListing.cshtml">
+      <publishTime>06/11/2023 16:33:12</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/ChangePassword.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/ChangePassword_old.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Dashboard.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Dashboard_e.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Error.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/FirstTimeLoginChangePassword.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/ForgotPassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/PrivacyPolicy.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Register.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/ResetPassword.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/TermsAndConditions.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/AddEditMeter.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/AddEditMeter_e.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/Index.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Index_e.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_downTimeNotification.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_meterListing.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_salesListing.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Partials/_userMeterListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/Recharge.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/Recharge_e.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Meter/Utility.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Meter/Utility_e.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/PlatformTransaction/Execute.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/PlatformTransaction/ExecuteOutcome.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/PlatformTransaction/Index.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/POS/ManagePos.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/POS/partials/_posListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Privacy/Policy.cshtml">
+      <publishTime>08/09/2023 22:30:29</publishTime>
+    </File>
+    <File Include="Views/Report/AgentRevenueReport.cshtml">
+      <publishTime>08/09/2023 22:30:29</publishTime>
+    </File>
+    <File Include="Views/Report/BalanceSheetReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/DepositReport.cshtml">
+      <publishTime>03/11/2023 16:50:24</publishTime>
+    </File>
+    <File Include="Views/Report/GSTSalesReport.cshtml">
+      <publishTime>08/09/2023 22:30:29</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_agentRevenueListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_assignedReports.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_balanceSheetReportListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_depositListing.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_gstSalesListing.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/partials/_salesListing.cshtml">
+      <publishTime>06/11/2023 16:32:23</publishTime>
+    </File>
+    <File Include="Views/Report/PrintAgencyRevenueReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/PrintDepositReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/PrintGSTSalesReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/PrintSalesReport.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Report/SalesReport.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Report/SalesReport_new.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/SavedPhoneNumbers/AddEditPhoneNumbers.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/SavedPhoneNumbers/AddEditPhoneNumbers_old.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/SavedPhoneNumbers/Index.cshtml">
+      <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/SavedPhoneNumbers/Index_e.cshtml">
+      <publishTime>02/11/2023 07:06:04</publishTime>
+    </File>
+    <File Include="Views/SavedPhoneNumbers/Partials/_numberListing.cshtml">
+      <publishTime>02/11/2023 07:06:04</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>11/29/2023 10:38:38</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

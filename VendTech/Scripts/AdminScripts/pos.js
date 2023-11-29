@@ -2,6 +2,11 @@
     $("input[type=button]#addUserBtn").live("click", function () {
         return AdminPOS.AddUser($(this));
     });
+    $("input[type=button]#saveMeterDetails").live("click", function () {
+        return AdminPOS.addEditMeter($(this));
+    });
+       
+
     $("input[type=button]#editUserBtn").live("click", function () {
         return AdminPOS.UpdateUser($(this));
     });
@@ -39,7 +44,7 @@
         $('#Search').val('');
         return AdminPOS.SearchUsers($(this));
     });
-
+   
     function disablePOS(sender) {
         
         $.ConfirmBox("", "Are you sure to disable this POS?", null, true, "Yes", true, null, function () {
@@ -63,8 +68,6 @@
             });
         });
     }
-
-
     function enablePOS(sender) {
         $.ConfirmBox("", "Are you sure to enable this POS?", null, true, "Yes", true, null, function () {
             $.ajaxExt({
@@ -199,9 +202,80 @@ var AdminPOS = {
         paging.pageSize = parseInt($(sender).find('option:selected').val());
         POSPaging(sender);
 
-    }
+    },
+
+    openMeterForm: function (meterid = "") {
+        $.get(`AddEditMeter?meterId=${meterid}&userId=${purchaseUnitsByAdmin.userId}`, function (data) {
+            $('#meterForm .modal-body').html(data);
+        });
+        $('#meterForm').modal('show')
+    },
+    //saveMeter: function (sender) {
+    //    //alert('ok');
+    //    return AdminPOS.addEditMeter($(sender));
+    //},
+    addEditMeter: function (sender) {
+
+        var formData = $(sender).parents("form:first").serialize();
+        $.ajax({
+            url: baseUrl + 'AddEditMeter',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function (results, message) {
+                alert('ok')
+                if (results.Status !== 1) {
+                    $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
+                    return;
+                }
+
+                onSavedMeterClicked(purchaseUnitsByAdmin.userId, purchaseUnitsByAdmin.posId)
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    closeSweatAlert();
+
+                    $('#meterForm').modal('hide')
+                }, 2000);
+                // Success handling logic
+            },
+            error: function (xhr, status, error) {
+                // Error handling logic
+            }
+        });
+    },
+   
 };
 
+function onSavedMeterClicked(userId, vendor, posid) {
+    purchaseUnitsByAdmin.userId = userId;
+    purchaseUnitsByAdmin.posId = posid;
+    if (userId) {
+        var inputParam = new Object();
+        inputParam.token_string = userId
+
+        $.ajax({
+            url: baseUrl + '/Meter/GetUserMeters',
+            data: $.postifyData(inputParam),
+            type: "POST",
+            success: function (data) {
+                $("#vendorName").text(vendor);
+                $("#posId").text(posid);
+                $('.modal-meter-body').html(data);
+                $("#myModal2").modal("show");
+                $('#myModal2').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+            }
+        });
+    }
+}
+
+function closeSweatAlert() {
+    $(".sweet-overlay").hide();
+    $(".showSweetAlert ").hide();
+}
 
 
 function POSPaging(sender) {

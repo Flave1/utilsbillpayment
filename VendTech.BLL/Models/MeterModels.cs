@@ -10,7 +10,7 @@ namespace VendTech.BLL.Models
     public class MeterModel
     {
         public long UserId { get; set; }
-        public long MeterId { get; set; }
+        public long? MeterId { get; set; }
         [Required(ErrorMessage = "Meter name is required")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Meter # is required"), MaxLength(11, ErrorMessage = "Meter # must be of 11 digits"), MinLength(11, ErrorMessage = "Meter # must be of 11 digits")]
