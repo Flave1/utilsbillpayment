@@ -2581,3 +2581,47 @@ Object reference not set to an instance of an object.
 
 
 
+Unable to determine a valid ordering for dependent operations. Dependencies may exist due to foreign key constraints, model requirements, or store-generated values.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(53): error CS0117: 'VendTech.BLL.Models.UserRoles' does not contain a definition for 'AppUser'
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Shared\_AdminLayOut.cshtml(53): error CS0117: 'VendTech.BLL.Models.UserRoles' does not contain a definition for 'AppUser'
+
+
+
+Cannot compare elements of type 'System.Collections.Generic.ICollection`1[[VendTech.DAL.POS, VendTech.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. Only primitive types, enumeration types and entity types are supported.
+
+
+
+Cannot compare elements of type 'System.Collections.Generic.ICollection`1[[VendTech.DAL.POS, VendTech.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. Only primitive types, enumeration types and entity types are supported.
+
+
+
+Cannot compare elements of type 'System.Collections.Generic.ICollection`1[[VendTech.DAL.POS, VendTech.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. Only primitive types, enumeration types and entity types are supported.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+An error occurred while updating the entries. See the inner exception for details.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
