@@ -2445,6 +2445,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.BalanceBefore = fromPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
+
+                decimal commision = 0;
                 dbDeposit.isAudit = true;
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
@@ -2452,7 +2454,7 @@ namespace VendTech.BLL.Managers
                     //dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
                     var percntage = fromPos.User.Agency.Commission.Percentage;
-                    var commision = amt * percntage / 100;
+                    commision = amt * percntage / 100;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                     dbDeposit.AgencyCommission = commision;
                 }
@@ -2472,6 +2474,8 @@ namespace VendTech.BLL.Managers
                 Context.DepositLogs.Add(dbDepositLog);
                 Context.SaveChanges();
 
+
+                (this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
                 //Send push to all devices where this user logged in when admin released deposit
                 var deviceTokens = fromPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                 var obj = new PushNotificationModel();
@@ -2631,6 +2635,49 @@ namespace VendTech.BLL.Managers
                     PushNotification.SendNotification(obj);
                 }
                 return ReturnSuccess("DEPOSIT TRANSFER SUCCESSFUL");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        void IDepositManager.CreateCommissionCreditEntry(POS toPos, decimal amount, string reference, long currentUserId)
+        {
+            try
+            {
+                var dbDeposit = new Deposit();
+                dbDeposit.BankAccountId = 0;
+                dbDeposit.CreatedAt = DateTime.UtcNow;
+                dbDeposit.CheckNumberOrSlipId = reference;
+                dbDeposit.ValueDate = DateTime.UtcNow.ToString();
+                dbDeposit.ValueDateStamp = DateTime.UtcNow;
+                dbDeposit.POS = toPos;
+                dbDeposit.Comments = "";
+                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
+                dbDeposit.UserId = toPos?.VendorId ?? 0;
+                dbDeposit.NameOnCheque = toPos.User.Name + " " + toPos.User.SurName;
+                dbDeposit.AgencyCommission = 0;
+                dbDeposit.PercentageAmount = amount;
+                dbDeposit.BankAccountId = 1;
+                dbDeposit.Amount = amount;
+                dbDeposit.BalanceBefore = toPos.Balance;
+                dbDeposit.NewBalance = dbDeposit.BalanceBefore + amount;
+                dbDeposit.POS.Balance = dbDeposit.POS.Balance + dbDeposit.Amount;
+                dbDeposit.TransactionId = Utilities.GetLastMeterRechardeId();
+                Context.Deposits.Add(dbDeposit);
+                Context.SaveChanges();
+
+                //Creating Log entry in deposit logs table
+                var dbDepositLog = new DepositLog();
+                dbDepositLog.UserId = currentUserId;
+                dbDepositLog.DepositId = dbDeposit.DepositId;
+                dbDepositLog.PreviousStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.NewStatus = (int)DepositPaymentStatusEnum.Released;
+                dbDepositLog.CreatedAt = DateTime.UtcNow;
+                Context.DepositLogs.Add(dbDepositLog);
+                Context.SaveChanges();
             }
             catch (Exception e)
             {

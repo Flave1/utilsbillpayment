@@ -80,4 +80,14 @@ namespace VendTech.BLL.Models.CurrencyModel
         }
     }
 
+    public class CountryDTO2
+    {
+        public int CountryId { get; set; } = 3;
+        public string CurrencyName { get; set; } = "Sierra Leone LEONE (SLE)";
+        public string CurrencyCode { get; set; } = "SLE";
+        public string CountryName { get; set; } = "SIERRA LEONE";
+        public string CountryCode { get; set; } = "+232";
+        public string DomainUrl { get; set; } = "-t";
+    }
+
 }

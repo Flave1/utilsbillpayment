@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.BLL.Models.CurrencyModel;
@@ -135,6 +137,40 @@ namespace VendTech.BLL.Managers
             }
 
             return result;
+        }
+
+        CountryDTO2 ICurrencyManager.RetrieveDomainCountry(string domain)
+        {
+            using (var vtcx = new VendtechEntities())
+            {
+                return vtcx.Countries.Where(d => d.DomainUrl.ToLower() == domain.ToLower())
+                    .Select(f => new CountryDTO2
+                    {
+                        CountryId = f.CountryId,
+                        CurrencyName = f.CurrencyName,
+                        CurrencyCode = f.CurrencySymbol,
+                        CountryName = f.CountryName,
+                        CountryCode = f.CountryCode,
+                        DomainUrl = f.DomainUrl,
+                    }).FirstOrDefault() ?? new CountryDTO2();
+            }
+        }
+
+        async Task<CountryDTO2> ICurrencyManager.RetrieveDomainCountryAsync(string domain)
+        {
+            using (var vtcx = new VendtechEntities())
+            {
+                return await vtcx.Countries.Where(d => d.DomainUrl.ToLower() == domain.ToLower())
+                    .Select(f => new CountryDTO2
+                    {
+                        CountryId = f.CountryId,
+                        CurrencyName = f.CurrencyName,
+                        CurrencyCode = f.CurrencySymbol,
+                        CountryName = f.CountryName,
+                        CountryCode = f.CountryCode,
+                        DomainUrl = f.DomainUrl,
+                    }).FirstOrDefaultAsync() ?? new CountryDTO2();
+            }
         }
     }
 }

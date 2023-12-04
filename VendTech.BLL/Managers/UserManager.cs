@@ -234,6 +234,8 @@ namespace VendTech.BLL.Managers
             var totalrecoed = query.ToList().Count();
             result.Result2 = query1.Where(no => Context.Notifications.Where(d => d.MarkAsRead == false && d.UserId == user.UserId).Select(i => i.RowId).AsEnumerable().Contains(no.DepositId))
                .Skip((pageNo - 1) * pageSize).Take(pageSize).AsEnumerable().Select(x => new DepositListingModel(x.Deposit)).ToList();
+
+
             result.Result3 = ActionStatus.Successfull;
             return result;
         }
@@ -856,6 +858,8 @@ namespace VendTech.BLL.Managers
             }
         }
 
+        long IUserManager.GetVendtechAgencyId() => Context.Agencies.FirstOrDefault(d => d.AgencyName == "VENDTECH").AgencyId;
+
         ActionOutput IUserManager.AddAppUserDetails(AddUserModel userDetails)
         {
 
@@ -890,7 +894,6 @@ namespace VendTech.BLL.Managers
                 dbUser.CreatedAt = DateTime.Now;
                 if (userDetails.IsAgencyAdmin)
                 {
-                    //userDetails.UserType = 9;
                     dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 }
                 else
@@ -900,17 +903,11 @@ namespace VendTech.BLL.Managers
                 dbUser.IsEmailVerified = false;
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
                 dbUser.Address = userDetails.Address;
-                //dbUser.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : (int)UserStatusEnum.Active;
-                dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.AgentId = userDetails.AgentId;
                 dbUser.Phone = userDetails.Phone;
-                 
+                dbUser.Status = (int)UserStatusEnum.Active;
+                dbUser.Vendor =  $"{userDetails.FirstName} {userDetails.LastName}";
                 dbUser.CountryCode = userDetails.CountryCode;
-                //if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
-                //    dbUser.FKVendorId = userDetails.VendorId;
-                
-                //if (userDetails.POSId.HasValue && userDetails.POSId > 0)
-                //    dbUser.FKPOSId = userDetails.POSId;
                 if (userDetails.Image != null)
                 {
                     var ext = Path.GetExtension(userDetails.Image.FileName); //getting the extension(ex-.jpg)  
@@ -978,8 +975,7 @@ namespace VendTech.BLL.Managers
             }
             else
             {
-                //var last_pos = Context.POS.ToList().Max(s => Convert.ToUInt64(s.SerialNumber ?? string.Empty)).ToString() ?? string.Empty;
-                //var last_pos1 = Convert.ToUInt64(last_pos) + 1;
+
                 var dbUser = new User();
                 dbUser.Name = userDetails.FirstName;
                 dbUser.CompanyName = userDetails.CompanyName;
@@ -989,16 +985,17 @@ namespace VendTech.BLL.Managers
                 dbUser.Password = Utilities.EncryptPassword(Utilities.GenerateByAnyLength(4));
                 dbUser.IsEmailVerified = false;
                 dbUser.CreatedAt = DateTime.UtcNow;
-                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor); // userDetails.IsCompany ? Utilities.GetUserRoleIntValue(UserRoles.Vendor) : Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+                dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.Vendor); 
                 dbUser.Address = userDetails.Address;
-                dbUser.CountryCode = "+232";
+                dbUser.CountryCode = Utilities.GetCountry().CountryCode;
                 dbUser.CityId = Convert.ToInt32(userDetails.City != null ? userDetails.City : "0");
                 dbUser.Status = (int)UserStatusEnum.Pending;
                 dbUser.CountryId = Convert.ToInt16(userDetails.Country);
                 dbUser.Phone = userDetails.Mobile;
                 dbUser.AgentId = Convert.ToInt64(userDetails.Agency != null ? userDetails.Agency : "0");
-                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName : $"{userDetails.FirstName} {userDetails.LastName}"; // - {last_pos1}"; //userDetails.IsCompany ? userDetails.CompanyName: string.Empty;
+                dbUser.Vendor = userDetails.IsCompany ? userDetails.CompanyName : $"{userDetails.FirstName} {userDetails.LastName}"; 
                 dbUser.UserSerialNo = Context.Users.Max(d => d.UserSerialNo) + 1;
+
                 Context.Users.Add(dbUser);
                 Context.SaveChanges();
                 dbUser.FKVendorId = dbUser.UserId;
