@@ -26,8 +26,8 @@ namespace VendTech.BLL.Models
             SurName = obj.SurName;
             Phone = obj.Phone;
             Address = obj.Address;
-            PosSerial = obj.POS.FirstOrDefault().SerialNumber;
-            Balance = Utilities.FormatAmount(obj.POS.FirstOrDefault().Balance);
+            PosSerial = obj.POS.Count > 0 ? obj.POS.FirstOrDefault()?.SerialNumber : "";
+            Balance = obj.POS.Count > 0 ? Utilities.FormatAmount(obj.POS.FirstOrDefault().Balance) : "";
             //Balance = obj.Balance==null?0:obj.Balance.Value;
             StringId = Utilities.Base64Encode(obj.UserId.ToString());
         }

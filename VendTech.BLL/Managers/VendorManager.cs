@@ -20,7 +20,10 @@ namespace VendTech.BLL.Managers
                 model.RecordsPerPage = 100000000;
             }
             var result = new PagingResult<VendorListingModel>();
-            var query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.UserRole.Role == UserRoles.Vendor && p.Status != (int)UserStatusEnum.Deleted && !p.POS.FirstOrDefault().SerialNumber.StartsWith("AGT")).OrderBy(model.SortBy + " " + model.SortOrder);
+            var query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active
+            && p.UserRole.Role == UserRoles.Vendor )
+                .OrderBy(model.SortBy + " " + model.SortOrder);
+
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
@@ -37,7 +40,7 @@ namespace VendTech.BLL.Managers
                     query = query.Where(z => z.Phone.ToLower().Contains(model.Search.ToLower()));
             }
 
-            var list = query.Skip(model.PageNo - 1).Take(model.RecordsPerPage)
+            var list = query.AsEnumerable().Skip(model.PageNo - 1).Take(model.RecordsPerPage)
                .ToList().Select(x => new VendorListingModel(x)).ToList();
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -200,13 +203,33 @@ namespace VendTech.BLL.Managers
             Context.SaveChanges();
             return ReturnSuccess("Vendor saved successfully.");
         }
+
+        //List<SelectListItem> IVendorManager.GetVendorsSelectListOnUserSave(long agentId)
+        //{
+        //    try
+        //    {
+        //        IQueryable<User> query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.Vendor != null && p.UserRole.Role == UserRoles.AppUser && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
+        //        if (agentId > 0)
+        //            query = query.Where(p => p.AgentId == agentId);
+        //        return query.ToList().Select(p => new SelectListItem
+        //        {
+        //            Text = p.Vendor.ToUpper(),
+        //            Value = p.UserId.ToString()
+        //        }).ToList();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return new List<SelectListItem>();
+        //    }
+        //}
         List<SelectListItem> IVendorManager.GetVendorsSelectList(long agentId)
         {
             try
             {
-                IQueryable<User> query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Block && p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
+                IQueryable<User> query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active && p.Vendor != null && p.UserRole.Role == UserRoles.Vendor && p.POS.Any(d => d.IsDeleted == false)).OrderBy(s => s.Vendor);//  && p.Status == (int)UserStatusEnum.Active
                 if (agentId > 0)
                     query = query.Where(p => p.AgentId == agentId);
+
                 return query.ToList().Select(p =>   new SelectListItem
                 {
                     Text = p.Vendor.ToUpper(),

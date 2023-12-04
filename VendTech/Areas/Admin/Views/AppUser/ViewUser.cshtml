@@ -4,6 +4,7 @@
     ViewBag.Title = "Approve APP User";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
     var appUserVal = VendTech.BLL.Common.Utilities.GetUserRoleIntValue(UserRoles.AppUser);
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 <div class="container-fluid" id="pcont">
     <div class="page-head">
@@ -75,7 +76,7 @@
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
                                         <div class="col-md-2">
                                             <select name="CountryCode" class="form-control">
-                                                <option value="+232">+232</option>
+                                                <option value="@country.CountryCode">@country.CountryCode</option>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
