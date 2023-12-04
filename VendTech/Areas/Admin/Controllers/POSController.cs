@@ -164,6 +164,7 @@ namespace VendTech.Areas.Admin.Controllers
 
             ViewBag.PosTypes = Utilities.EnumToList(typeof(PosTypeEnum));
             ViewBag.Vendors = _vendorManager.GetVendorsForPOSPageSelectList();
+
             var commissions = _commissionManager.GetCommissions();
             var drpCommissions = new List<SelectListItem>();
             foreach (var item in commissions)

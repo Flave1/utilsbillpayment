@@ -529,6 +529,8 @@ namespace VendTech.BLL.Managers
             }
             return ReturnSuccess("POS SAVED SUCCESSFULLY.");
         }
+
+        
         void EnableOrdisablePOSAccount(bool isEnabled, long posId)
         {
             var pos = Context.POS.Where(z => z.POSId == posId).FirstOrDefault();

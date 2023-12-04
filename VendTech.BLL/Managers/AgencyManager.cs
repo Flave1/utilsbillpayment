@@ -162,46 +162,111 @@ namespace VendTech.BLL.Managers
                 AgencyId = agent.AgencyId,
                 AgentType = agent.AgentType,
                 Percentage = agent?.CommissionId ?? 0,
-                Representative = agent?.Representative
+                Representative = agent?.Representative,
+                POSId = agent.User.POS.FirstOrDefault().POSId,
+                SerialNumber = agent.User.POS.FirstOrDefault().SerialNumber
             };
 
             return ag;
         }
         ActionOutput IAgencyManager.AddAgent(SaveAgentModel model)
         {
+            var isAgentCreated = false;
             var agent = new Agency();
-            if (model.AgencyId > 0)
+            try
             {
-                agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == model.AgencyId);
-                if (agent == null)
-                    return ReturnError("Agent not exist");
-            }
-
-            if(model.Representative > 0)
-            {
-                var repUserAccount = Context.Users.FirstOrDefault(we => we.UserId == model.Representative);
-                if(repUserAccount != null)
+                if (model.AgencyId > 0)
                 {
-                    repUserAccount.UserType = 9; // AGENCY ADMIN
+                    agent = Context.Agencies.FirstOrDefault(p => p.AgencyId == model.AgencyId);
+                    if (agent == null)
+                        return ReturnError("Agent not exist");
+                }
+
+                if (model.Representative > 0)
+                {
+                    var repUserAccount = Context.Users.FirstOrDefault(we => we.UserId == model.Representative);
+                    if (repUserAccount != null)
+                    {
+                        repUserAccount.UserType = 9; // AGENCY ADMIN
+                    }
+                }
+
+                agent.AgentType = 10;
+                agent.AgencyName = model.AgencyName;
+                agent.CommissionId = model.Percentage;
+                agent.CreatedAt = DateTime.UtcNow;
+                agent.Representative = model.Representative;
+                if (model.AgencyId == 0)
+                {
+                    agent.Status = (int)AgencyStatusEnum.Active;
+                    Context.Agencies.Add(agent);
+                }
+                Context.SaveChanges();
+                isAgentCreated = true;
+                RemoveORAddUserPermissions(model.Representative.Value, model);
+                RemoveOrAddUserWidgets(model.Representative.Value, model);
+                var agencyPosResult = SaveAgencyPos(model.SerialNumber, model.POSId, model.Representative, model.Percentage);
+                if(agencyPosResult.Status != ActionStatus.Successfull)
+                {
+                    throw new ArgumentException(agencyPosResult.Message);
+                }
+                return ReturnSuccess("Agent saved successfully.");
+            }
+            catch (ArgumentException ex)
+            {
+                if (isAgentCreated && model.AgencyId == 0)
+                {
+                    var createdAgent = Context.Agencies.Find(agent.AgencyId);
+                    if (createdAgent != null)
+                        Context.Agencies.Remove(createdAgent);
+                    Context.SaveChanges();
+                }
+                return ReturnError(ex.Message);
+            }
+        }
+
+        private ActionOutput SaveAgencyPos(string SerialNumber, long POSId, long? userId, int commission)
+        {
+            var dbPos = new POS();
+            if (POSId > 0)
+            {
+                dbPos = Context.POS.FirstOrDefault(p => p.POSId == POSId);
+                if (dbPos == null)
+                    return ReturnError("POS NOT FOUND");
+            }
+            else
+            {
+                if (Context.POS.Any(d => d.SerialNumber.Contains(SerialNumber)))
+                {
+                    return ReturnError("POS ALREADY EXIST");
                 }
             }
+            dbPos.SerialNumber = SerialNumber;
+            dbPos.VendorId = userId;
+            dbPos.VendorType = 0;
+            dbPos.Phone = "N/A";
+            dbPos.Enabled = true;
+            dbPos.SMSNotificationDeposit = false;
+            dbPos.SMSNotificationSales = false;
+            dbPos.EmailNotificationSales = false;
+            dbPos.EmailNotificationDeposit = false;
+            dbPos.CountryCode = "N/A";
+            dbPos.CreatedAt = DateTime.UtcNow;
+            dbPos.CommissionPercentage = commission;
+            dbPos.IsDeleted = false;
+            dbPos.WebSms = false;
+            dbPos.PosSms = false;
+            dbPos.PosPrint = false;
+            dbPos.WebPrint = false;
+            dbPos.WebBarcode = false;
+            dbPos.PosBarcode = false;
 
-            agent.AgentType = 10;
-            agent.AgencyName = model.AgencyName;
-            agent.CommissionId = model.Percentage;
-            agent.CreatedAt = DateTime.UtcNow;
-            agent.Representative = model.Representative;
-            if (model.AgencyId == 0)
-            {
-                agent.Status = (int)AgencyStatusEnum.Active;
-                Context.Agencies.Add(agent);
-            }
+            if (POSId == 0)
+                Context.POS.Add(dbPos);
             Context.SaveChanges();
 
-            RemoveORAddUserPermissions(model.Representative.Value, model);
-            RemoveOrAddUserWidgets(model.Representative.Value, model);
 
-            return ReturnSuccess("Agent saved successfully.");
+            return ReturnSuccess("POS SAVED SUCCESSFULLY.");
         }
 
         bool RemoveORAddUserPermissions(long userId, SaveAgentModel model)
