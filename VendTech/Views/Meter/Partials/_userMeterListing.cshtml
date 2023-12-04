@@ -3,12 +3,47 @@
 @{ 
     Layout = null;
 }
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
 
+    .notActive {
+        color: black;
+        background: grey
+    }
+
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">
         <div class="block-flat front">
             <div class="table-responsive">
+                <input id="IsActive2" value="active" hidden />
+                <div style='text-align: center; width:40%; height:40px; display:flex; '>
+                    <button id="activeBtn"
+                            style="width: 49%; border: none;" class="isActive"
+                            onclick="openTab2('activeBtn')">
+                        ACTIVE METERS
+                    </button>
+                    <button id="inActiveBtn"
+                            style="width: 49%; border:none;" class="notActive"
+                            onclick="openTab2('inActiveBtn')">
+                        INACTIVE METERS
+                    </button>
+                </div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -41,11 +76,8 @@
                                     <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
                                     <td><a title="Edit" style="cursor:pointer" class="editthis col-md-4" data-id="@item.MeterId" onclick="AdminPOS.openMeterForm(@item.MeterId, '@item.UserId')"><i class="fa fa-edit"></i></a></td>
                                 </tr>
+                            }
                         }
-                    }
-
-
-
                     </tbody>
                 </table>
             </div>

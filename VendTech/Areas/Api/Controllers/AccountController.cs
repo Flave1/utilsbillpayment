@@ -71,12 +71,12 @@ namespace VendTech.Areas.Api.Controllers
                 //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
                 //}
             }
-          
-            //if (string.IsNullOrEmpty(model.DeviceToken))
-            //{
-            //    return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
-            //}
-            
+
+            if (string.IsNullOrEmpty(model.DeviceToken))
+            {
+                return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
+            }
+
             if (!ModelState.IsValid)
                 return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
             else
