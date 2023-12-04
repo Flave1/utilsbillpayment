@@ -50,7 +50,7 @@ namespace VendTech.BLL.Managers
                 Context.Meters.Add(dbMeter);
             }
             Context.SaveChanges();
-            return ReturnSuccess(dbMeter.MeterId, "Meter details saved successfully.");
+            return ReturnSuccess(dbMeter.MeterId, "METER DETAILS SAVED SUCCESSFULLY");
         }
 
         ActionOutput IMeterManager.SavePhoneNUmber(NumberModel model)

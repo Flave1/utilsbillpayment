@@ -186,7 +186,6 @@ var AdminPOS = {
     ManageUsers: function (totalCount) {
         var totalRecords = 0;
         totalRecords = parseInt(totalCount);
-        //alert(totalRecords);
         PageNumbering(totalRecords);
     },
 
@@ -210,10 +209,6 @@ var AdminPOS = {
         });
         $('#meterForm').modal('show')
     },
-    //saveMeter: function (sender) {
-    //    //alert('ok');
-    //    return AdminPOS.addEditMeter($(sender));
-    //},
     addEditMeter: function (sender) {
 
         var formData = $(sender).parents("form:first").serialize();
@@ -223,14 +218,15 @@ var AdminPOS = {
             data: formData,
             dataType: 'json',
             success: function (results, message) {
-                alert('ok')
                 if (results.Status !== 1) {
                     $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
                     return;
                 }
+                console.log('results', results)
+                console.log('message', message)
 
                 onSavedMeterClicked(purchaseUnitsByAdmin.userId, purchaseUnitsByAdmin.posId)
-                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                $.ShowMessage($('div.messageAlert'), "METER DETAILS SAVED SUCCESSFULLY", MessageType.Success);
                 setTimeout(function () {
                     closeSweatAlert();
 
@@ -246,20 +242,31 @@ var AdminPOS = {
    
 };
 
-function onSavedMeterClicked(userId, vendor, posid) {
-    purchaseUnitsByAdmin.userId = userId;
-    purchaseUnitsByAdmin.posId = posid;
+function onSavedMeterClicked(userId, vendor, posid, reOpening = false, active = "active") {
+    
+    if (!reOpening) {
+        purchaseUnitsByAdmin.userId = userId;
+        purchaseUnitsByAdmin.posId = posid;
+    } else {
+        userId = purchaseUnitsByAdmin.userId
+    }
+        
     if (userId) {
         var inputParam = new Object();
-        inputParam.token_string = userId
+        inputParam.token_string = userId;
+
+        inputParam.active = active;
 
         $.ajax({
             url: baseUrl + '/Meter/GetUserMeters',
             data: $.postifyData(inputParam),
             type: "POST",
             success: function (data) {
-                $("#vendorName").text(vendor);
-                $("#posId").text(posid);
+                if (!reOpening) {
+                    $("#vendorName").text(vendor);
+                    $("#posId").text(posid);
+                }
+               
                 $('.modal-meter-body').html(data);
                 $("#myModal2").modal("show");
                 $('#myModal2').modal({
@@ -270,6 +277,25 @@ function onSavedMeterClicked(userId, vendor, posid) {
             }
         });
     }
+}
+
+function openTab(status) {
+    
+    var otherTabStatus = status === 'true' ? 'false' : 'true';
+    document.getElementById(status).className = 'isActive';
+    document.getElementById(otherTabStatus).className = 'notActive';
+
+    $('#IsActive').val(status === 'true' ? true : false);
+    return AdminPOS.SortPOS($(this));
+}
+function openTab2(clickedBtn) {
+
+    var notClickedBtn = clickedBtn === 'activeBtn' ? 'inActiveBtn' : 'activeBtn';
+    document.getElementById(clickedBtn).className = 'isActive';
+    document.getElementById(notClickedBtn).className = 'notActive';
+
+    const status = clickedBtn === 'activeBtn' ? "active" : "inActive";
+    onSavedMeterClicked('', '', '', true, status);
 }
 
 function closeSweatAlert() {

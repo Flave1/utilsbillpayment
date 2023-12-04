@@ -143,15 +143,8 @@
     <script src="~/Scripts/Receipt.js"></script>
 
     <script type="text/javascript">
-        function openTab(status) {
+   
 
-            var otherTabStatus = status === 'true' ? 'false' : 'true';
-            document.getElementById(status).className = 'isActive';
-            document.getElementById(otherTabStatus).className = 'notActive';
-
-            $('#IsActive').val(status === 'true' ? true : false);
-            return AdminPOS.SortPOS($(this));
-        }
         $("#searchField").show();
         var searchFields = ["POS ID", "VENDOR NAME", "PRODUCT", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
         for (var i = 0; i < searchFields.length; i++) {
@@ -166,7 +159,10 @@
             //Users.ManageUsers(totalCount);
         });
 
-        
+        function closeModal() {
+            $("#modalCart2").modal("hide");
+        }
+
     </script>
 }
 

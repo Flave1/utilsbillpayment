@@ -318,6 +318,7 @@ namespace VendTech.BLL.Models
     public class RequestObject
     {
         public string token_string { get; set; }
+        public string active { get; set; } = "active";
     }
 
     public class RequestObject1

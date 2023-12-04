@@ -357,12 +357,11 @@ async function initTable(result) {
     for (var i = 0; i < response.length; i++) {
         const tr = document.createElement("tr");
         tr.classList.add('odd', 'gradeX')
-        debugger
         const deposit = response[i].TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
         const sale = response[i].TransactionType != "Deposit";
-        const balBeforeColor = sale ? "orange;" : "black;";
-        const salesColor = sale ? "blue;" : "black;";
-        const balColor = sale ? "red;" : "black;";
+        const balBeforeColor = sale ? "orange;" : "green;";
+        const salesColor = sale ? "blue;" : "green;";
+        const balColor = sale ? "red;" : "green;";
         const fontWeightStyle = 'font-weight: bold;';
         const balBefore = response[i].BalanceBefore == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} color: ${balBeforeColor}">${response[i].BalanceBefore}</span>`;
         const depositAmount = response[i].DepositAmount == "0" ? '-' : `<span style="${deposit} ${fontWeightStyle} ">${response[i].DepositAmount}</span>`;

@@ -11,9 +11,9 @@
     {
         var deposit = item.TransactionType == "Deposit" ? "font-weight: bold; color: green;" : "";
         var sale = item.TransactionType != "Deposit";
-        var balBeforeColor = sale ? "orange" : "black";
-        var salesColor = sale ? "blue" : "black";
-        var balColor = sale ? "red" : "black";
+        var balBeforeColor = sale ? "orange" : "green";
+        var salesColor = sale ? "blue" : "green";
+        var balColor = sale ? "red" : "green";
 
         <tr class="odd gradeX">
             <td style='text-align: right; @deposit'> @item.DateTime</td>
