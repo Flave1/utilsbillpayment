@@ -163,8 +163,8 @@ namespace VendTech.BLL.Managers
                 AgentType = agent.AgentType,
                 Percentage = agent?.CommissionId ?? 0,
                 Representative = agent?.Representative,
-                POSId = agent.User.POS.FirstOrDefault().POSId,
-                SerialNumber = agent.User.POS.FirstOrDefault().SerialNumber
+                POSId = agent.User.POS.FirstOrDefault()?.POSId ?? 0,
+                SerialNumber = agent.User.POS.FirstOrDefault()?.SerialNumber ?? ""
             };
 
             return ag;
@@ -210,7 +210,7 @@ namespace VendTech.BLL.Managers
                 {
                     throw new ArgumentException(agencyPosResult.Message);
                 }
-                return ReturnSuccess("Agent saved successfully.");
+                return ReturnSuccess("AGENT SAVED SUCCESSFULLY.");
             }
             catch (ArgumentException ex)
             {

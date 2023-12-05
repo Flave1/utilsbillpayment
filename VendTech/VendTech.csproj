@@ -508,6 +508,7 @@
     <Content Include="Areas\Admin\Views\Country\AddEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Partials\_countryListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared.zip" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
