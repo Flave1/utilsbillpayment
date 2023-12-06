@@ -97,7 +97,6 @@
 
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
                                 {
-                                    <li><a href="@Url.Action("Index", "Country", new { area = "Admin" })"><span>Manage Countries/Currency</span></a></li>
                                     <li><a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><span>Manage Products</span></a></li>
                                 }
 
@@ -121,7 +120,6 @@
                                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
                                 {
                                     <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
-
                                 }
 
                                 @if (user.UserType != UserRoles.AppUser)
@@ -131,6 +129,7 @@
                                     <li><a href="@Url.Action("CMSManager", "cms", new { area = "Admin" })">CMS Manager</a></li>
 
                                     <li><a href="@Url.Action("ManageTemplates", "emailtemplate", new { area = "Admin" })">Manage Email Templates</a></li>
+                                    <li><a href="@Url.Action("Index", "Country", new { area = "Admin" })"><span>Manage Countries/Currency</span></a></li>
 
                                 }
                             </ul>
