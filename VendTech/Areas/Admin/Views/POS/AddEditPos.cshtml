@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = Model.POSId > 0 ? "Edit POS Details" : "Add POS Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+
+
+
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 
 
@@ -101,7 +105,7 @@
                                         <label for="inputEmail3" class="col-md-5 control-label">POS SIM#<em>*</em></label>
                                         <div class="col-md-2" style="padding:0; margin-right:0;">
                                             <select name="CountryCode" class="form-control" style="padding:0; margin:0;">
-                                                <option style="padding:0; margin:0;" value="+232">+232</option>
+                                                <option style="padding:0; margin:0;" value="@country.CountryCode">@country.CountryCode</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4" style="padding:0; ">

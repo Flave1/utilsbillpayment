@@ -60,6 +60,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositListingModelMobile> GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         List<DepositListingModel> GetPendingDepositForCustomer(long UserId, long agencyId);
         ActionOutput<DepositListingModel> GetPendingDepositDetail(long pdepositId);
+        void CreateCommissionCreditEntry(POS toPos, decimal amount, string reference, long currentUserId);
     }
 
 }

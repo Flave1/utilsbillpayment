@@ -392,7 +392,7 @@ namespace VendTech.Controllers
             {
                 return Json(new ActionOutput { Status = ActionStatus.Error, Message = "Name must not be empty" });
             }
-            request.Agency = "20"; //20 is id for default vendtech agency ////// DO NOT CHANGE
+            request.Agency = _userManager.GetVendtechAgencyId().ToString();
             var result = _userManager.AddAppUserDetails(request);
             if (result.Status == ActionStatus.Successfull)
             { 
