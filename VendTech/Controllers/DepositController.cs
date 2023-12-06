@@ -136,6 +136,7 @@ namespace VendTech.Controllers
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
                             body = body.Replace("%Amount%", Utilities.FormatAmount(result.Object.Amount));
+                            body = body.Replace("%CurrencyCode%", Utilities.GetCountry().CurrencyCode);
                             Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                             Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
                         }
