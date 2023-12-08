@@ -298,11 +298,12 @@
                 }
                 else {
 
-                    const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
+                    
+                    const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinimumPurchaseAmount)';
                     const amtPay = +$("#Amount").val().replace(",", "");
 
 
-                    if (amtPay < '@ViewBag.MinumumVend') {
+                    if (amtPay < '@ViewBag.MinimumPurchaseAmount') {
                         $.ShowMessage($('div.messageAlert'), "PLEASE ENTER " + minVend + " & ABOVE", MessageType.Error);
                         $("#pay_Now_Btn").css({ backgroundColor: '#f1cf09' });
                         $("#pay_Now_Btn").val('PAY NOW');
