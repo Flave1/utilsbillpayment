@@ -31,7 +31,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<GSTRechargeApiListingModel> GetUserGSTRechargesReport(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
         IQueryable<DashboardBalanceSheetModel> GetDashboardBalanceSheetReports(DateTime date);
         void RedenominateBalnces();
-        decimal ReturnMinVend();
+        decimal ReturnElectricityMinVend();
         PagingResult<VendorStatus> GetVendorStatus();
         PagingResult<MiniSalesReport> GetMiniSalesReport(ReportSearchModel model, bool callFromAdmin, long agentId, string type);
         PagingResult<MeterAPIListingModel> GetPhoneNumbers(long userID, int pageNo, int pageSize, bool isActive);
@@ -43,6 +43,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<VendorStatus> RunStoredProcParams();
         PagingResult<MeterRechargeApiListingModelMobile> GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         ActionOutput<MeterRechargeApiListingModelMobile> GetMobileRechargeDetail(long rechargeId);
+        decimal ReturnAirtimeMinVend();
     }
     
 }

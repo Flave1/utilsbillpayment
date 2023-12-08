@@ -1,5 +1,5 @@
 ﻿@model DepositListingModel
- 
+
 
 <div class="modal-dialog modal-md">
     <div class="modal-content modal-md">
@@ -90,7 +90,7 @@
                         </tr>
                         <tr>
                             <td>Amount :</td>
-                           @* <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
+                            @* <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
                             <td>@Model.Amount</td>
                         </tr>
                         @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
@@ -99,12 +99,12 @@
                                 <td>COMMISSION @@ %1 :</td>
                                 <td>
                                     @*@{
-                                        var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100);
-                                        if (amt.Split('.')[1].Length != 2)
-                                        {
-                                            amt = amt.Split('.')[0] + ".00";
-                                        }
-                                    }*@
+                                var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100);
+                                if (amt.Split('.')[1].Length != 2)
+                                {
+                                    amt = amt.Split('.')[0] + ".00";
+                                }
+                            }*@
                                     @Model.PercentageAmount
                                 </td>
                             </tr>
@@ -121,24 +121,25 @@
                         }
                         else
                         {
-                    <tr>
-                        <td style="font-weight: bold;">TOTAL TRANSACTION AMOUNT</td>
-                        <td style="font-weight: bold;">
-                            @*@{
+                            <tr>
+                                <td style="font-weight: bold;">TOTAL TRANSACTION AMOUNT</td>
+                                <td style="font-weight: bold;">
+                                    @*@{
                                 var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount);
                                 if (amt.Split('.')[1].Length != 2)
                                 {
                                     amt = amt.Split('.')[0] + ".00";
                                 }
                             }*@
-                           @Model.PercentageAmount
-                        </td>
-                    </tr>
+                                    @Model.PercentageAmount
+                                </td>
+                            </tr>
                         }
 
 
                     </tbody>
                 </table>
+
 
                 <br />
                 <div class="row">
@@ -150,18 +151,83 @@
                         </div>
                     </div>
                 </div>
-                <div class="row modal-footer" style="display:flex;"> 
+                <div class="row" id="emailBox_" style="padding: 30px; display: block;">
+                    <div class="modal-body">
+                        <form style="width: 100%;">
+                            <label for="countryCode">SEND VOUCHER BY EMAIL TO:</label>
+                            <div class="mb-2 d-flex justify-content-center">
+                                <input type="email" class="form-control col-12" id="emailAddress" placeholder="enter email here...." required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEmailBox()">CANCEL</button>
+                        <button type="button" class="btn btn-primary-outline">SEND</button>
+                    </div>
+
+                </div>
+                <div class="row modal-footer" style="display:flex;">
                     <div>
                         <span class="nowrap" style="font-weight: bold;"><em>THIS IS AN OFFICIAL VENDTECH INVOICE</em></span>
                     </div>
-                    <div class="col-md-3 pull-right" id="print_section" style="text-align:right; margin-left:170px;">
+                    <div class="col-md-4 pull-right" id="print_section" style="text-align:right; margin-left:170px;">
+                        <button class="btn btn-primary waves-effect waves-light " onclick="openEmailBox()">EMAIL</button>
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
                     </div>
                 </div>
             </div>
-           
+
         </div>
 
     </div>
 
 </div>
+
+<script>
+
+    function openEmailBox() {
+        debugger
+        const emailBox = document.getElementById('emailBox_');
+        if (emailBox) {
+            emailBox.style.display = 'block';
+        }
+    }
+    function closeEmailBox() {
+        
+        const emailBox = document.getElementById('emailBox_');
+        if (emailBox) {
+            //emailBox.style.display = 'none';
+            emailBox.style.padding = '40px';
+        }
+    }
+
+    //function send() {
+    //    var emailAddress = $("#emailAddress").val();
+    //    var request = new Object();
+    //    request.TransactionId = smsHandler.transactionId;
+    //    request.Email = emailAddress;
+    //    const url = '/Report/SendEmail';
+    //    $.ajax({
+    //        url: url,
+    //        data: $.postifyData(request),
+    //        type: "POST",
+    //        success: function (data) {
+
+    //            $("#emailAddress").val('');
+    //            $.ShowMessage($('div.messageAlert'), "EMAIL SENT", MessageType.Success);
+    //            setTimeout(function () {
+    //                smsHandler.closeEmailModal2();
+    //                closeModal();
+    //                closeSweatAlert()
+    //            }, 3000)
+
+    //        },
+    //        error: function (res) {
+    //            console.log('err', res)
+    //            $.ShowMessage($('div.messageAlert'), "Sms not sent", MessageType.Error);
+    //        }
+    //    });
+    //}
+</script>
+
+
