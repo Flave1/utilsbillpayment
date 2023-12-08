@@ -87,35 +87,39 @@ namespace VendTech.BLL.Models
             
         }
     }
-        public class AddAgentModel : SaveAgentModel
-        {
+    public class AddAgentModel : SaveAgentModel
+    {
 
-            public string Password { get; set; }
-            public string ConfirmPassword { get; set; }
-        }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
 
-        public class SaveAgentModel
-        {
-            public string Company { get; set; } 
-            [Required(ErrorMessage = "Required")]
-            public string AgencyName { get; set; }
-            [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
-            public string Email { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+    public class SaveAgentModel
+    {
+        public string Company { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string AgencyName { get; set; }
+        [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Invalid Email")]
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
-            public string Phone { get; set; }
-            public string CountryCode { get; set; }
-            public int AgentType { get; set; }
-            public int Percentage { get; set; }
-            public long? Representative { get; set; }
-         public long AgencyId { get;  set; }
-            public IList<Checkbox> ModuleList { get; set; }
-            public IList<WidgetCheckbox> WidgetList { get; set; }
+        public string Phone { get; set; }
+        public string CountryCode { get; set; }
+        public int AgentType { get; set; }
+        public int Percentage { get; set; }
+        public long? Representative { get; set; }
+
+        public string SerialNumber { get; set; }
+        public long POSId { get; set; }
+        public long AgencyId { get; set; }
+        public IList<Checkbox> ModuleList { get; set; }
+        public IList<WidgetCheckbox> WidgetList { get; set; }
         public List<int> SelectedWidgets { get; set; }
         public List<int> SelectedModules { get; set; }
     }
-    
+
+
     public class DepositToAdmin
     {
         public long PosId { get; set; }
