@@ -231,6 +231,14 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
             }
+            if (!string.IsNullOrEmpty(model.ProductId))
+            {
+                int parsedProductId = int.Parse(model.ProductId);
+                if (parsedProductId > 0)
+                {
+                    query = query.Include("Platform").Where(p => p.Platform.PlatformId == parsedProductId);
+                }
+            }
             result.TotalCount = query.Count();
 
 
