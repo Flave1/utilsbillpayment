@@ -1755,6 +1755,7 @@ namespace VendTech.BLL.Managers
                     dbDeposit.IsDeleted = true;
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                     dbDeposit.BalanceBefore = dbDeposit.POS.Balance;
+                    dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
                     {
                         //dbDeposit.AgencyCommission = (this as IDepositManager).TakeCommisionsAndReturnAgentsCommision(dbDeposit.POSId, dbDeposit.Amount);
@@ -2439,7 +2440,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.NameOnCheque = fromPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
-                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.AdminTransferOut;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
                 dbDeposit.BalanceBefore = fromPos.Balance;
@@ -2525,6 +2526,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
                 dbDeposit.isAudit = true;
+                dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.VendorFloatIn;
 
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
@@ -2539,8 +2541,6 @@ namespace VendTech.BLL.Managers
 
                 //Adds to  Reciever Balance
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
-                //dbDeposit.PercentageAmount = 
-                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
                 Context.Deposits.Add(dbDeposit);
@@ -2597,7 +2597,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
-
+                dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
               
                 //Adds to  Reciever Balance
@@ -2654,7 +2654,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.ValueDateStamp = DateTime.UtcNow;
                 dbDeposit.POS = toPos;
                 dbDeposit.Comments = "";
-                dbDeposit.PaymentType = Context.PaymentTypes.FirstOrDefault(d => d.Name == "Transfer").PaymentTypeId;
+                dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.AgencyCommision;
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                 dbDeposit.UserId = toPos?.VendorId ?? 0;
                 dbDeposit.NameOnCheque = toPos.User.Name + " " + toPos.User.SurName;

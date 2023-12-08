@@ -106,8 +106,9 @@ namespace VendTech.Controllers
                     PercentageAmount = Decimal.Negate(request.Amount),
                     CheckNumberOrSlipId = reference,
                     ValueDate = DateTime.UtcNow.ToString(),
-                    ValueDateStamp = DateTime.UtcNow
-                };
+                    ValueDateStamp = DateTime.UtcNow,
+                    PaymentType = (int)DepositPaymentTypeEnum.AdminTransferOut
+            };
 
                 var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId, frompos);
 
