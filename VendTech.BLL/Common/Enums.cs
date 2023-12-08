@@ -154,18 +154,27 @@ namespace VendTech.BLL.Models
         Error = 4,
 
     }
+
     public enum DepositPaymentTypeEnum
     {
-        [Description("Cash")]
+        [Description("BANK DEPOSIT")]
         Cash = 1,
-        [Description("Cheque")]
+        [Description("CHEQUE")]
         Cheque = 2,
-        [Description("Purchase Order")]
+        [Description("PURCHASE ORD")]
         PurchaseOrder = 3,
-        [Description("Transfer")]
+        [Description("TRANSFER")]
         Transfer = 4,
-        [Description("Cash/Cheque")]
-        Cash_Cheque = 5
+        [Description("CASH/CHEQUE")]
+        Cash_Cheque = 5,
+        [Description("SMART KOPOR")]
+        SmartKopor = 6,
+        [Description("ADMIN TRANSFER OUT")]
+        AdminTransferOut = 7,
+        [Description("AGENCY COMMISION")]
+        AgencyCommision = 8,
+        [Description("VENDOR FLOAT IN")]
+        VendorFloatIn = 9
     }
     public enum DepositPaymentStatusEnum
     {
