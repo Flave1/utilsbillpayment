@@ -129,8 +129,8 @@ namespace VendTech.Controllers
 
                     if (result2.Status == ActionStatus.Successfull)
                     {
-                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        //await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }
@@ -239,7 +239,7 @@ namespace VendTech.Controllers
                     body = body.Replace("%otp%", result.Object);
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
-                    //Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
                 }
 
                 var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
@@ -252,7 +252,7 @@ namespace VendTech.Controllers
                   $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
                   "VENDTECH"
                     };
-                    //await _smsManager.SendSmsAsync(requestmsg);
+                    await _smsManager.SendSmsAsync(requestmsg);
                 }
                 
             }

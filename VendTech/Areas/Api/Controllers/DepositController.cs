@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
@@ -73,6 +74,7 @@ namespace VendTech.Areas.Api.Controllers
                             body = body.Replace("%POSID%", pos.SerialNumber);
                             body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
                             body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(result.Object.Amount));
+                            body = body.Replace("%CurrencyCode%", BLL.Common.Utilities.GetCountry().CurrencyCode);
                             VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
                         }
 

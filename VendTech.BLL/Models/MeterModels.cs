@@ -287,6 +287,8 @@ namespace VendTech.BLL.Models
                 PIN = x.MeterNumber1;
             else if (x.PlatFormId == 3)
                 PIN = x.MeterNumber1;
+            else if (x.PlatFormId == 4)
+                PIN = x.MeterNumber1;
             AMOUNT = Utilities.FormatAmount(x.Amount);
             TRANSACTIONID = x.TransactionId;
             METER_NO = x.Meter == null ? x.MeterNumber1 : x.Meter.Number;

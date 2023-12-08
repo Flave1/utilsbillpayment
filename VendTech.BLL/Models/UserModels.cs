@@ -90,7 +90,9 @@ namespace VendTech.BLL.Models
         public string Phone { get; set; }
         public string Token { get; set; }
         public string MinVend { get; set; }
+        public string AirtimeMinVend { get; set; }
         public string CountryCode { get; set; }
+        public string CurrencyCode { get; set; }
         //When admin creating user from backend then there is a checkbox which let us know that user needs to reset password on first login or not
         public bool ResetUserPassword { get; set; }
         public string CompanyName { get; set; }
@@ -125,6 +127,7 @@ namespace VendTech.BLL.Models
         public UserModel() { }
         public UserModel(User userObj)
         {
+            var country = userObj.Country;
             UserId = userObj.UserId;
             this.FirstName = userObj.Name;
             this.LastName = userObj.SurName;
@@ -136,6 +139,8 @@ namespace VendTech.BLL.Models
             this.Status = userObj.Status;
             this.Vendor = userObj.Vendor;
             DeviceToken = userObj.DeviceToken;
+            CountryCode = country?.CountryCode;
+            CurrencyCode = country?.CurrencySymbol;
             MobileAppVersion = userObj.MobileAppVersion;
             IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
