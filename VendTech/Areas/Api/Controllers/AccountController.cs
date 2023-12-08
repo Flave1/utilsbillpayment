@@ -95,7 +95,6 @@ namespace VendTech.Areas.Api.Controllers
                     //{
                     //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
                     //}
-
                     var isEnabled = _authenticateManager.IsUserAccountORPosBlockedORDisabled(userDetails.UserId);
                     if (isEnabled)
                     {
@@ -180,7 +179,8 @@ namespace VendTech.Areas.Api.Controllers
             var IssuedOn = DateTime.UtcNow;
             var newToken = _authenticateManager.GenerateToken(user, IssuedOn);
             user.Token = newToken;
-            user.MinVend = _meterManager.ReturnMinVend().ToString();
+            user.MinVend = _meterManager.ReturnElectricityMinVend().ToString();
+            user.AirtimeMinVend = _meterManager.ReturnAirtimeMinVend().ToString();
             TokenModel token = new TokenModel();
             token.TokenKey = newToken;
             token.UserId = user.UserId;

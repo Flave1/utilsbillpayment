@@ -1814,10 +1814,14 @@ namespace VendTech.BLL.Managers
             
         }
 
-        decimal IMeterManager.ReturnMinVend()
+        decimal IMeterManager.ReturnElectricityMinVend()
         {
-            return Context.Platforms.FirstOrDefault(d => d.PlatformId == 1).MinimumAmount;
+            return Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).MinimumAmount;
+        }
 
+        decimal IMeterManager.ReturnAirtimeMinVend()
+        {
+            return Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).MinimumAmount;
         }
 
         private TransactionDetail CreateTransactionCopy(RechargeMeterModel model)

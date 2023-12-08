@@ -67,7 +67,7 @@ namespace VendTech.Areas.Api.Controllers
         {
             model.UserId = LOGGEDIN_USER.UserId;
 
-            var minVend = _meterManager.ReturnMinVend();
+            var minVend = _meterManager.ReturnElectricityMinVend();
             if (model.Amount < minVend)
             {
                 return new JsonContent($"PLEASE TENDER NLe: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
