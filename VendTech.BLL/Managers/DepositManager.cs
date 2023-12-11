@@ -2477,7 +2477,7 @@ namespace VendTech.BLL.Managers
                 Context.SaveChanges();
 
 
-                //(this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                (this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
                 //Send push to all devices where this user logged in when admin released deposit
                 var deviceTokens = fromPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                 var obj = new PushNotificationModel();
