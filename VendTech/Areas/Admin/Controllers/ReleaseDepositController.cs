@@ -116,7 +116,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
                 if (emailTemplate.TemplateStatus)
                 {
-                    var releaseBtn = $"<a href='https://vendtechsl.com/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", model.ReleaseDepositIds)}&otp={result.Object}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
+                    var releaseBtn = $"<a href='{Utilities.DomainUrl}/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", model.ReleaseDepositIds)}&otp={result.Object}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
                     string body = emailTemplate.TemplateContent;
                     body = body.Replace("%otp%", result.Object);
                     body = body.Replace("%RELEASEOTP%", releaseBtn);

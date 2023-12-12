@@ -129,8 +129,8 @@ namespace VendTech.Controllers
 
                     if (result2.Status == ActionStatus.Successfull)
                     {
-                        //SendEmailOnDeposit(request.FromPosId, request.ToPosId);
-                        //await SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
+                        SendEmailOnDeposit(request.FromPosId, request.ToPosId);
+                        SendSmsOnDeposit(request.FromPosId, request.ToPosId, request.Amount);
                     }
                     return JsonResult(new ActionOutput { Message = result2.Message, Status = result2.Status });
                 }

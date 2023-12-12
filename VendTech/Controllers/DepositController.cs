@@ -107,7 +107,7 @@ namespace VendTech.Controllers
                 return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
             }
 
-                if (model.ContinueDepoit == 0)
+            if (model.ContinueDepoit == 0)
             {
                 var pendingDeposits = _depositManager.ReturnPendingDepositsTotalAmount(model);
                 if (pendingDeposits > 0)
@@ -115,7 +115,6 @@ namespace VendTech.Controllers
                     return JsonResult(new ActionOutput { Message = Utilities.FormatAmount(pendingDeposits), Status = ActionStatus.Successfull });
                 }
             }
-                 
             var result = _depositManager.SaveDepositRequest(model);
 
             var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
