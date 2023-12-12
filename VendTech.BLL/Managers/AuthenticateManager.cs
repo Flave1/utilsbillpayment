@@ -289,6 +289,7 @@ namespace VendTech.BLL.Managers
                    .FirstOrDefault();
                     return userModel;
                 }
+
                 return userModel;
 
             }
