@@ -1756,6 +1756,7 @@ namespace VendTech.BLL.Managers
                     dbDeposit.IsDeleted = true;
                     dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
                     dbDeposit.BalanceBefore = dbDeposit.POS.Balance;
+                    dbDeposit.CheckNumberOrSlipId = dbDeposit.CheckNumberOrSlipId == "0" ? Utilities.GenerateByAnyLength(7) : dbDeposit.CheckNumberOrSlipId;
                     dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
                     if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
                     {
@@ -1767,6 +1768,7 @@ namespace VendTech.BLL.Managers
                         {
                             var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
                             dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
+                            //(this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                         } 
 
                         if (dbDeposit.POS.User.Agency != null)
@@ -1777,10 +1779,10 @@ namespace VendTech.BLL.Managers
                                 var percentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
                                 agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
                                 dbDeposit.AgencyCommission = percentage;
-                                (this as IDepositManager).CreateCommissionCreditEntry(agentPos, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                             }
-
                         }
+
+                        
                         dbDeposit.NewBalance = dbDeposit.POS.Balance;
                         dbDeposit.CreatedAt = DateTime.UtcNow;
                         dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
@@ -2451,7 +2453,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.AgencyCommission = 0;
 
                 decimal commision = 0;
-                dbDeposit.isAudit = true;
+                dbDeposit.isAudit = false;
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
                 if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
                 {
@@ -2479,7 +2481,7 @@ namespace VendTech.BLL.Managers
                 Context.SaveChanges();
 
 
-                (this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                //(this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
                 //Send push to all devices where this user logged in when admin released deposit
                 var deviceTokens = fromPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                 var obj = new PushNotificationModel();
@@ -2528,7 +2530,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.BalanceBefore = toPos.Balance;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.AgencyCommission = 0;
-                dbDeposit.isAudit = true;
+                dbDeposit.isAudit = false;
                 dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.VendorFloatIn;
 
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
@@ -2669,6 +2671,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.NewBalance = dbDeposit.BalanceBefore + amount;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance + dbDeposit.Amount;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
+                dbDeposit.Status = (int)DepositPaymentStatusEnum.Released;
                 Context.Deposits.Add(dbDeposit);
                 Context.SaveChanges();
 
