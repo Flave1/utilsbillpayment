@@ -1777,7 +1777,9 @@ namespace VendTech.BLL.Managers
                                 var percentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
                                 agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
                                 dbDeposit.AgencyCommission = percentage;
+                                (this as IDepositManager).CreateCommissionCreditEntry(agentPos, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                             }
+
                         }
                         dbDeposit.NewBalance = dbDeposit.POS.Balance;
                         dbDeposit.CreatedAt = DateTime.UtcNow;
