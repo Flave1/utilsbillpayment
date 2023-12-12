@@ -18,7 +18,7 @@ namespace VendTech.BLL.Managers
             {
                 IQueryable<PaymentType> query = Context.PaymentTypes.Where(d => d.IsDeleted == false && d.Active == true).OrderBy(s => s.PaymentTypeId);//  && p.Status == (int)UserStatusEnum.Active
              
-                return query.ToList().Select(p => new SelectListItem
+                return query.Where(d => d.PaymentTypeId != 7 && d.PaymentTypeId != 8 && d.PaymentTypeId != 9).ToList().Select(p => new SelectListItem
                 {
                     Text = p.Name.ToUpper(),
                     Value = p.PaymentTypeId.ToString()

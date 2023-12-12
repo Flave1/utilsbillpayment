@@ -51,7 +51,7 @@ namespace VendTech.BLL.Common
         {
             VendtechEntities context = new VendtechEntities();
             var lastRecord = context.TransactionDetails.OrderByDescending(d =>  d.TransactionDetailsId).FirstOrDefault();
-            var trId = Convert.ToInt64(lastRecord.TransactionId) + 1;
+            var trId = lastRecord != null ? Convert.ToInt64(lastRecord.TransactionId) + 1 : 1;
             return trId.ToString();
         }
 
