@@ -231,6 +231,14 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => p.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
             }
+            if (!string.IsNullOrEmpty(model.ProductId))
+            {
+                int parsedProductId = int.Parse(model.ProductId);
+                if (parsedProductId > 0)
+                {
+                    query = query.Include("Platform").Where(p => p.Platform.PlatformId == parsedProductId);
+                }
+            }
             result.TotalCount = query.Count();
 
 
@@ -1806,10 +1814,14 @@ namespace VendTech.BLL.Managers
             
         }
 
-        decimal IMeterManager.ReturnMinVend()
+        decimal IMeterManager.ReturnElectricityMinVend()
         {
-            return Context.Platforms.FirstOrDefault(d => d.PlatformId == 1).MinimumAmount;
+            return Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).MinimumAmount;
+        }
 
+        decimal IMeterManager.ReturnAirtimeMinVend()
+        {
+            return Context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.AIRTIME).MinimumAmount;
         }
 
         private TransactionDetail CreateTransactionCopy(RechargeMeterModel model)

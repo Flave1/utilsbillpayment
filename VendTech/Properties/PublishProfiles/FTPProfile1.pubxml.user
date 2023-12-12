@@ -5,6 +5,18 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvfo963Y3TkuyuxNlPf1TZwAAAAACAAAAAAAQZgAAAAEAACAAAADiweQb12pVWBtpx8V3/9dJMF9vnrKpzJNBa3adKN40XwAAAAAOgAAAAAIAACAAAAARZeVjg6J3Jw8oRYGthrmjlZYiPDkGPHe1zGgdJs04RCAAAACAdg0CZBgoZW+1TBB8f3RGPOVw+32aemvGXI0yWMxXLkAAAABnqt8rmaI8LPLPmBkLrnqfdI2Doqq9JBoMxWrCHPrCOdywqwmInuWZGaVZsdK+qQp1WLA5Sg54LvFl1UbNXyKO</EncryptedPassword>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvfo963Y3TkuyuxNlPf1TZwAAAAACAAAAAAAQZgAAAAEAACAAAACIe7IM+ZM7G4ERoi7aZAqMxqwhuMcJ9/0YN1oTH7QaXAAAAAAOgAAAAAIAACAAAAASu8NDNRZYLUyUD0cHEUngx/5ew92lMfyI6hq8wyfejSAAAACC02K6/OWYB0ZAnm6D5llSTDguVLw+XL+C0KIDXS2B9UAAAACwS1ZYaMArCOONID6uu3WlNIYrGUFoJW4NxOPAl57ajuqvSVLrkTW33zSdk/pa8+Si7ymtm5ceOvHaBb39Etl1</EncryptedPassword>
+    <_PublishTargetUrl>ftp://160.153.155.205/</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="Areas/Admin/Views/Agent/AddAgent.cshtml">
+      <publishTime>12/04/2023 12:49:46</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
+      <publishTime>04/12/2023 12:51:36</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/AppUser/EditUser.cshtml">
+      <publishTime>04/12/2023 12:51:37</publishTime>
+    </File>
+  </ItemGroup>
 </Project>

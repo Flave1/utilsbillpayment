@@ -1,21 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http.Description;
 using System.Web.Mvc;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
-using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.DAL;
-using VendTech.Framework.Api;
 
 namespace VendTech.Controllers
 {
@@ -106,8 +98,9 @@ namespace VendTech.Controllers
                     PercentageAmount = Decimal.Negate(request.Amount),
                     CheckNumberOrSlipId = reference,
                     ValueDate = DateTime.UtcNow.ToString(),
-                    ValueDateStamp = DateTime.UtcNow
-                };
+                    ValueDateStamp = DateTime.UtcNow,
+                    PaymentType = (int)DepositPaymentTypeEnum.AdminTransferOut
+            };
 
                 var result1 = _depositManager.CreateDepositDebitTransfer(depositDr, LOGGEDIN_USER.UserID, request.otp, request.ToPosId, frompos);
 
@@ -239,7 +232,7 @@ namespace VendTech.Controllers
                     body = body.Replace("%otp%", result.Object);
                     body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
                     var currentUser = LOGGEDIN_USER.UserID;
-                    //Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
                 }
 
                 var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
@@ -252,7 +245,7 @@ namespace VendTech.Controllers
                   $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
                   "VENDTECH"
                     };
-                    //await _smsManager.SendSmsAsync(requestmsg);
+                    await _smsManager.SendSmsAsync(requestmsg);
                 }
                 
             }

@@ -7,6 +7,7 @@ using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 
 namespace VendTech.Controllers
 {
@@ -41,6 +42,8 @@ namespace VendTech.Controllers
 
             ViewBag.PlatformList = productsSelectList;
 
+          
+
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             PlatformTransactionModel model = new PlatformTransactionModel();
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
@@ -71,7 +74,10 @@ namespace VendTech.Controllers
             if (!string.IsNullOrEmpty(number))
                 model.Beneficiary = number;
             model.PlatformId = Convert.ToInt32(provider);
+
             var platForm = _platformManager.GetPlatformById(model.PlatformId);
+            ViewBag.MinimumPurchaseAmount = platForm.MinimumAmount;
+
             model.Logo = string.IsNullOrEmpty(platForm?.Logo) ? "" : Utilities.DomainUrl + platForm?.Logo;
             return View(model);
         }
@@ -79,20 +85,21 @@ namespace VendTech.Controllers
         [HttpPost, AjaxOnly]
         public JsonResult Recharge(PlatformTransactionModel model)
         {
-
+            var country = Utilities.GetCountry();
             var selectProd = _platformManager.GetSinglePlatform(model.PlatformId);
             if (selectProd.DisablePlatform)
             {
                 return Json(JsonConvert.SerializeObject(new { Success = false, Code = 403, Msg = selectProd.DiabledPlaformMessage }));
             }
             model.UserId = LOGGEDIN_USER.UserID;
+
             //Fetch the currency
             //return null;
-            if(!model.Beneficiary.StartsWith("232") && !model.Beneficiary.StartsWith("+232"))
+            if (!model.Beneficiary.Contains(country.CountryCode))
             {
-                model.Beneficiary = "232" + model.Beneficiary;
+                model.Beneficiary = country.CountryCode + model.Beneficiary;
             }
-            model.Currency = "SLE";
+            model.Currency = country.CurrencyCode;
 
             var result = _platformTransactionManager.RechargeAirtime(model);
             if (result.ReceiptStatus.Status == "unsuccessful")
