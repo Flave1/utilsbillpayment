@@ -2484,14 +2484,14 @@ namespace VendTech.BLL.Managers
                 var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Account Debited";
-                obj.Message = "Your wallet has been updated with NLe " + notyAmount;
+                obj.Message = "Your wallet has been updated with  "+ BLL.Common.Utilities.GetCountry().CurrencyCode+ " " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                 foreach (var item in deviceTokens)
                 {
                     obj.DeviceToken = item.DeviceToken;
                     obj.DeviceType = item.AppType.Value;
-                    //PushNotification.SendNotification(obj);
+                    PushNotification.SendNotification(obj);
                 }
                 return ReturnSuccess("TRANSFER SUCCESSFUL");
             }
