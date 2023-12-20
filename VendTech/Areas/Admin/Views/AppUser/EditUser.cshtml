@@ -40,6 +40,19 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
+                                        <div class="col-md-2">
+                                            <select name="CountryCode" class="form-control">
+                                                <option value="@country.CountryCode">@country.CountryCode</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
+                                    </div>
+
                                     <div class=" form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">EMAIL<em>*</em></label>
                                         <div class="col-md-12">
@@ -68,26 +81,23 @@
                                         </div>
                                     </div>
 
-                                    @*<div class="form-group">
-                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
-                                            <div class="col-sm-12">
-                                                <div class="input-group">
-                                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control col-md-12"})
-                                                </div>
-                                                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="country" style="text-align:left;" class="col-md-12 control-label">SELECT COUNTRY</label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control"  name="CountryId" id="Country">
+                                                <option value="" >Select Country</option>
+                                            </select>
                                         </div>
-
-
-                                        <div class="form-group">
-                                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
-                                            <div class="col-sm-12">
-                                                <div class="input-group">
-                                                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control col-md-12" })
-                                                </div>
-                                                <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
-                                            </div>
-                                        </div>*@
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city" style="text-align:left;" class="col-md-12 control-label">SELECT CITY</label>
+                                        <div class="col-sm-12">
+                                            @Html.DropDownListFor(x => x.City, new SelectList(ViewBag.Cities, "value", "text"), "Select Vendor", new {  @class = "form-control", @id = "City" })
+                                            @*<select id="City" name="City" class="form-control">
+                                                <option value="">Select City</option>
+                                            </select>*@
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
                                         <div class="col-md-12">
@@ -96,18 +106,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
-                                        <div class="col-md-2">
-                                            <select name="CountryCode" class="form-control">
-                                                <option value="@country.CountryCode">@country.CountryCode</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-1">
-                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
-                                    </div>
+
 
                                     <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">VENDOR NAME</label>
@@ -126,13 +125,13 @@
                                         </div>
                                     </div>
                                     @*<div class="form-group">
-                                        <div class="col-md-12">
-                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                                                @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
-                                            </reset>
-                                        </div>
+            <div class="col-md-12">
+                <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                    @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
+                </reset>
+            </div>
 
-                                    </div>*@
+        </div>*@
 
                                 </div>
 
@@ -168,12 +167,12 @@
 
                                         <div class=" col-md-12">
                                             @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                        .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                        .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                        .ToList();
+                                                         .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                         .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                         .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                         .OrderByDescending(r => r.ModuleName == "Saved Meters")
+                                                         .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                         .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
@@ -227,6 +226,56 @@
                $("#ConfirmPassword").val('@Model.Password');
            }
             App.init();
+
+            ////$('#Country').val(@Model.CountryId);
+            $("#Country").change(onCountryChange);
+            ////$("#City").val('@Model.City');
+            onCountryChange();
+            loadAllCountries();
+            loadAllCities()
         });
     </script>
+
+
+    <script>
+           function loadAllCountries() {
+            var array = @Html.Raw(Json.Encode(ViewBag.countries));
+            if (array.length > 0)
+            {
+                debugger
+                        for (var i = 0; i < array.length; i++) {
+                            $("#Country").append("<option selected=" + array[i].Selected +" value="+array[i].Value+">"+array[i].Text+" </option>")
+                        }
+            }
+        }
+
+        function loadAllCities() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+            if (array.length > 0) {
+                for (var i = 0; i < array.length; i++) {
+                    $("#City").append("<option selected=" + array[i].Selected + " value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                }
+            }
+        }
+
+        function onCountryChange() {
+            $("#City").empty();
+            $("#City").append("<option value=''> Select City </option>")
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records=   array.filter(p=>p.CountryId==val);
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
+
+                        }
+                        $("#City").val('@Model.City');
+                    }
+                }
+        }
+
+    </script>
 }
+

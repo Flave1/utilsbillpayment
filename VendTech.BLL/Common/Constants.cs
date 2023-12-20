@@ -30,8 +30,6 @@ namespace VendTech.BLL.Models
         public const string Meters = "Meters";
         public const string Transfer = "Transfer";
         public const string BillPayment = "BillPayment";
-        public const string RTSInquiry = "STSInquiry";
-        public const string RTSTransaction = "RTSTransaction";
         public const string RTSEDSA = "RTSEDSA";
         public const string Currency = "Currency";
 

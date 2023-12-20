@@ -70,7 +70,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
  
-            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
+            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
             ViewBag.SelectedTab = SelectedAdminTab.Reports; 
 
             if(source == "dashboard")
@@ -149,6 +149,12 @@ namespace VendTech.Areas.Admin.Controllers
                     ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
                     var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
                     return View("ManageAgentsRevenueReports", recharges);
+                }
+                if (val == "34")
+                {
+                    ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                    var commissions = _depositManager.GetCommissionsReportsPagedList(model, true);
+                    return View("ManageCommissionReports", commissions);
                 }
                 /// This Is Used For Fetching DEPOSIT AUDIT REPORT
                 if (val == "21")
@@ -273,6 +279,21 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             model.RecordsPerPage = 1000000000;
             var result = _depositManager.GetAgentRevenueReportsPagedList(model, true);
+
+
+            var sum = result.List.Select(d => d.Amount).Sum();
+            var resultString = new List<string> { RenderRazorViewToString("Partials/_agentsRevenueReportListing", result), result.TotalCount.ToString()
+           };
+            return JsonResult(resultString);
+        }
+
+
+        [AjaxOnly, HttpPost]
+        public JsonResult GetCommissionsReportsPagedList(ReportSearchModel model)
+        {
+            ViewBag.SelectedTab = SelectedAdminTab.Deposits;
+            model.RecordsPerPage = 1000000000;
+            var result = _depositManager.GetCommissionsReportsPagedList(model, true);
 
 
             var sum = result.List.Select(d => d.Amount).Sum();

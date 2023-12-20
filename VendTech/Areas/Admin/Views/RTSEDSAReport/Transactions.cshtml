@@ -91,6 +91,16 @@
                                             </div>
 
                                             <hr style="background:#d0cbcb; height:1px;" />
+
+                                            <div class="form-group row">
+                                                <label>Report</label>
+                                                <select onchange="openReport(this.value)" class="form-control">
+                                                    <option value="Transactions"> Shift Enquiry </option>
+                                                    <option value="Inquiry"> Customers enquiries </option>
+                                                </select>
+                                            </div>
+
+                                            <hr style="background:#d0cbcb; height:1px;" />
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch" />
                                         </form>
                                     </div>
@@ -149,8 +159,8 @@
     var totalCount = "@Model.TotalCount";
 
 
-
         $(document).ready(function () {
+
             App.init();
             const date = new Date();
             const formattedDate = date.toLocaleDateString('en-GB', {

@@ -536,6 +536,8 @@ namespace VendTech.BLL.Managers
                 user.Phone = userDetails.Phone;
                 user.Status = userDetails.ResetUserPassword ? (int)UserStatusEnum.PasswordNotReset : user.Status;
                 user.CountryCode = userDetails.CountryCode;
+                user.CountryId = userDetails.CountryId;
+                user.CityId = userDetails.City;
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 if (userDetails.Image != null)
                 {
@@ -590,6 +592,8 @@ namespace VendTech.BLL.Managers
                 VendorId = user.FKVendorId,
                 Address = user.Address,
                 AgentId  = user.AgentId,
+                CountryId = (int)user.CountryId,
+                City = (int)user.CityId,
                 ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
                 //POSId=user.FKPOSId,
                 AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
@@ -905,6 +909,8 @@ namespace VendTech.BLL.Managers
                 dbUser.Address = userDetails.Address;
                 dbUser.AgentId = userDetails.AgentId;
                 dbUser.Phone = userDetails.Phone;
+                dbUser.CountryId = userDetails.CountryId;
+                dbUser.CityId = userDetails.City;
                 dbUser.Status = (int)UserStatusEnum.Active;
                 dbUser.Vendor =  $"{userDetails.FirstName} {userDetails.LastName}";
                 dbUser.CountryCode = userDetails.CountryCode;

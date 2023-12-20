@@ -19,5 +19,6 @@ namespace VendTech.BLL.Interfaces
         List<SelectListItem> GetPaymentTypeSelectList();
         ActionOutput Activate(int id);
         PagingResult<PaymentTypeModel> GetPagedList(PagingModel model);
+        List<SelectListItem> GetPaymentTypeSelect2List();
     }
 }
