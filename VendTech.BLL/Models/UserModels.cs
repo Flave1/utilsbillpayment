@@ -253,6 +253,8 @@ namespace VendTech.BLL.Models
         public string Address { get; set; }
         public int PassCode { get; set; }
         public bool IsAgencyAdmin { get; set; } = false;
+        public int CountryId { get; set; }
+        public int City { get; set; }
 
         public AddUserModel()
         {

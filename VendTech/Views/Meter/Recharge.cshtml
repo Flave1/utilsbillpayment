@@ -8,6 +8,7 @@
     {
         history = new List<MeterRechargeApiListingModel>();
     }
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
 }
 
 <link href="~/Contentv2/css/bill_payment.css" rel="stylesheet" />
@@ -161,7 +162,7 @@
                                 <span class="adv-company-name">Amount:</span>
                             </div>
                             <div class="col-md-6 col-item">
-                                <span class="amount-currency">SSL :</span>
+                                <span class="amount-currency">@country.CurrencyCode :</span>
                                 <span id="pamount" class="adv-amount-figure" style="font-weight:bold; font-size:30px;">100.00</span>
 
                             </div>

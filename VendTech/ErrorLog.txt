@@ -6,3 +6,68 @@ Object reference not set to an instance of an object.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+The view 'ManageCommissionsReports' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/Report/ManageCommissionsReports.aspx
+~/Areas/Admin/Views/Report/ManageCommissionsReports.ascx
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.aspx
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.ascx
+~/Views/Report/ManageCommissionsReports.aspx
+~/Views/Report/ManageCommissionsReports.ascx
+~/Views/Shared/ManageCommissionsReports.aspx
+~/Views/Shared/ManageCommissionsReports.ascx
+~/Areas/Admin/Views/Report/ManageCommissionsReports.cshtml
+~/Areas/Admin/Views/Report/ManageCommissionsReports.vbhtml
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.cshtml
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.vbhtml
+~/Views/Report/ManageCommissionsReports.cshtml
+~/Views/Report/ManageCommissionsReports.vbhtml
+~/Views/Shared/ManageCommissionsReports.cshtml
+~/Views/Shared/ManageCommissionsReports.vbhtml
+
+
+
+The view 'ManageCommissionsReports' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Admin/Views/Report/ManageCommissionsReports.aspx
+~/Areas/Admin/Views/Report/ManageCommissionsReports.ascx
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.aspx
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.ascx
+~/Views/Report/ManageCommissionsReports.aspx
+~/Views/Report/ManageCommissionsReports.ascx
+~/Views/Shared/ManageCommissionsReports.aspx
+~/Views/Shared/ManageCommissionsReports.ascx
+~/Areas/Admin/Views/Report/ManageCommissionsReports.cshtml
+~/Areas/Admin/Views/Report/ManageCommissionsReports.vbhtml
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.cshtml
+~/Areas/Admin/Views/Shared/ManageCommissionsReports.vbhtml
+~/Views/Report/ManageCommissionsReports.cshtml
+~/Views/Report/ManageCommissionsReports.vbhtml
+~/Views/Shared/ManageCommissionsReports.cshtml
+~/Views/Shared/ManageCommissionsReports.vbhtml
+
+
+
+The parameters dictionary contains a null entry for parameter 'userId' of non-nullable type 'System.Int64' for method 'System.Web.Mvc.ActionResult EditUser(Int64)' in 'VendTech.Areas.Admin.Controllers.AppUserController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters
+
+
+
+DataBinding: 'VendTech.BLL.Models.CityModel' does not contain a property with the name 'value'.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+

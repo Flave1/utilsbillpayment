@@ -28,6 +28,10 @@ namespace VendTech.Controllers
 
         public ActionResult Recharge(string provider = "", string number= "")
         {
+            if(LOGGEDIN_USER == null)
+            {
+                SignOut();
+            }
             //list of airtime products
             List<SelectListItem> productsSelectList = new List<SelectListItem>();
 

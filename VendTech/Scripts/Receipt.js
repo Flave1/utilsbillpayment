@@ -95,7 +95,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
                     $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                     return false;
                 }
-
+                
                 if (response.Code === 200) {
 
                     $("#sales_date").html(response.Data.TransactionDate);
@@ -114,7 +114,7 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
                     if (response.Data.ShouldShowSmsButton) $("#showsms_btn").show();
                     if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(response.Data.VendorId);
-                    $(".currencyCode").html(data.Data.CurrencyCode);
+                    $(".currencyCode").html(response.Data.CurrencyCode);
                     $("#receiptTitle").html(response.Data.ReceiptTitle);
 
 

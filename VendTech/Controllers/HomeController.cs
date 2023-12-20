@@ -370,10 +370,10 @@ namespace VendTech.Controllers
         [Public]
         public ActionResult Register()
         {
+            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
             var countries = _authenticateManager.GetCountries();
             var countryDrpData = new List<SelectListItem>();
 
-            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
 
             foreach (var item in countries)
             {
@@ -426,6 +426,19 @@ namespace VendTech.Controllers
             string body = emailTemplate.TemplateContent;
             body = body.Replace("%USER%", request.FirstName);
             Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
-        } 
+        }
+
+
+        [HttpGet]
+        public ActionResult Learn()
+        {
+            if (LOGGEDIN_USER == null)
+            {
+                SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
     }
 }

@@ -169,11 +169,11 @@ namespace VendTech.BLL.Models
         Cash_Cheque = 5,
         [Description("SMART KOPOR")]
         SmartKopor = 6,
-        [Description("ADMIN TRANSFER OUT")]
+        [Description("AGENCY ADMIN - OUT")]
         AdminTransferOut = 7,
-        [Description("AGENCY COMMISION")]
+        [Description("AGENCY ADMIN - COMMISION IN")]
         AgencyCommision = 8,
-        [Description("VENDOR FLOAT IN")]
+        [Description("AGENCY VENDOR - IN")]
         VendorFloatIn = 9
     }
     public enum DepositPaymentStatusEnum

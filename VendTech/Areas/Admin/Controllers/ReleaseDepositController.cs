@@ -201,7 +201,7 @@ namespace VendTech.Areas.Admin.Controllers
                                 Payload = $"Greetings {deposit.User.Name} \n" +
                                "Your last deposit has been approved\n" +
                                "Please confirm the amount deposited reflects in your wallet correctly.\n" +
-                               $"NLe: {Utilities.FormatAmount(deposit.Amount)} \n" +
+                               $"{Utilities.GetCountry().CurrencyCode}: {Utilities.FormatAmount(deposit.Amount)} \n" +
                                "VENDTECH"
                                 };
 
