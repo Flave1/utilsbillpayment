@@ -20,7 +20,7 @@
                 <table style="border-top:0.8px solid grey; margin:auto; width:90%;">
                     <tbody>
                         <tr>
-                            <td>Deposit Date : </td>
+                            <td>Invoice Date : </td>
                             <td> @Model.CreatedAt </td>
                         </tr>
                         <tr>
@@ -28,7 +28,7 @@
                             <td> @Model.ValueDate</td>
                         </tr>
                         <tr>
-                            <td>Vendor Name :</td>
+                            <td>Customer Name :</td>
                             <td>@Model.VendorName</td>
                         </tr>
                         <tr>
@@ -40,7 +40,7 @@
                             <td>@Model.TransactionId</td>
                         </tr>
                         <tr>
-                            <td>Deposit Type :</td>
+                            <td>Payment Type :</td>
                             <td>@Model.Type</td>
                         </tr>
                         <tr>
@@ -70,7 +70,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Deposit Slip OR REF# :</td>
+                            <td>Invoice / PO REF # :</td>
                             <td>
                                 <span>@Model.ChkNoOrSlipId</span>
                             </td>
@@ -147,11 +147,11 @@
                         <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
                         <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
                         <div class="row" style="text-align:right;">
-                            <img src="~/Content/images/vtech-receipt.png" />
+                            <img src="~/Images/ProfileImages/invoice.png" width="200" />
                         </div>
                     </div>
                 </div>
-                <div class="row" id="emailBox_" style="padding: 30px; display: block;">
+                @*<div class="row" id="emailBox_" style="padding: 30px; display: block;">
                     <div class="modal-body">
                         <form style="width: 100%;">
                             <label for="countryCode">SEND VOUCHER BY EMAIL TO:</label>
@@ -165,13 +165,13 @@
                         <button type="button" class="btn btn-primary-outline">SEND</button>
                     </div>
 
-                </div>
+                </div>*@
                 <div class="row modal-footer" style="display:flex;">
-                    <div>
-                        <span class="nowrap" style="font-weight: bold;"><em>THIS IS AN OFFICIAL VENDTECH INVOICE</em></span>
+                    <div class="pull-left" style="width: 70%; text-align:left">
+                        <i style="font-weight: bold">THIS IS AN OFFICIAL VENDTECH INVOICE</i>
                     </div>
-                    <div class="col-md-4 pull-right" id="print_section" style="text-align:right; margin-left:170px;">
-                        <button class="btn btn-primary waves-effect waves-light " onclick="openEmailBox()">EMAIL</button>
+                    <div class="pull-right" id="print_section" style="text-align: right; width: 30%;">
+                        @*<button class="btn btn-primary waves-effect waves-light " onclick="openEmailBox()">EMAIL</button>*@
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
                     </div>
                 </div>

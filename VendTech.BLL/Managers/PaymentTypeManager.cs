@@ -12,6 +12,24 @@ namespace VendTech.BLL.Managers
     public class PaymentTypeManager : BaseManager, IPaymentTypeManager
     {
 
+        List<SelectListItem> IPaymentTypeManager.GetPaymentTypeSelect2List()
+        {
+            try
+            {
+                IQueryable<PaymentType> query = Context.PaymentTypes.Where(d => d.IsDeleted == false && d.Active == true).OrderBy(s => s.PaymentTypeId);//  && p.Status == (int)UserStatusEnum.Active
+
+                return query.ToList().Select(p => new SelectListItem
+                {
+                    Text = p.Name.ToUpper(),
+                    Value = p.PaymentTypeId.ToString()
+                }).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<SelectListItem>();
+            }
+        }
+
         List<SelectListItem> IPaymentTypeManager.GetPaymentTypeSelectList()
         {
             try

@@ -86,6 +86,11 @@ namespace VendTech.BLL.Common
             return transRef;
         }
 
+        public static long VENDTECH
+        {
+            get{  return 20; }
+        }
+
 
         public static int GetUserRoleIntValue(string role)
         {

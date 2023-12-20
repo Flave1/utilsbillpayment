@@ -69,6 +69,16 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.Pos = _posManager.GetPOSSelectList();
             ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };
             ViewBag.SelectedTab = SelectedAdminTab.Users;
+
+            var countries = _authenticateManager.GetCountries();
+            var countryDrpData = new List<SelectListItem>();
+            foreach (var item in countries)
+            {
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString() });
+            }
+            ViewBag.countries = countryDrpData;
+            ViewBag.Cities = _authenticateManager.GetCities();
+
             var model = new AddUserModel();
             model.PlatformList = _userManager.GetAllPlatforms(0);
             model.ResetUserPassword = true;
@@ -157,7 +167,27 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };
             ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
             ViewBag.Pos = _posManager.GetPOSSelectList();
+
             userModel = _userManager.GetAppUserDetailsByUserId(userId);
+            var countries = _authenticateManager.GetCountries();
+            var countryDrpData = new List<SelectListItem>();
+            foreach (var item in countries)
+            {
+                var selected = userModel.CountryId == item.CountryId;
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString(), Selected = selected });
+            }
+
+          
+            ViewBag.countries = countryDrpData;
+
+            var cities = _authenticateManager.GetCities();
+            var cityDrpData = new List<SelectListItem>();
+            foreach (var item in cities)
+            {
+                var selected = userModel.City == item.CityId;
+                cityDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString(), Selected = selected });
+            }
+            ViewBag.Cities = cityDrpData;
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);

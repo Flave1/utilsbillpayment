@@ -95,6 +95,16 @@
                                             </div>
 
                                             <hr style="background:#d0cbcb; height:1px;" />
+
+                                            <div class="form-group row">
+                                                <label>Report</label>
+                                                <select onchange="openReport(this.value)" class="form-control">
+                                                    <option value="Inquiry"> Customers enquiries </option>
+                                                    <option value="Transactions"> Shift Enquiry </option>
+                                                </select>
+                                            </div>
+
+                                            <hr style="background:#d0cbcb; height:1px;" />
                                             <input type="button" class="btn btn-primary" value="Search" id="btnFilterSearch2" />
 
                                         </div>
@@ -157,6 +167,7 @@
 
     <script type="text/javascript">
         var totalCount = "@Model.TotalCount";
+
 
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');

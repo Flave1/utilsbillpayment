@@ -177,5 +177,10 @@ function InitTable(result) {
 
 
 
+function openReport(value) {
+    debugger
+    location.href = value;
+}
+
 
 

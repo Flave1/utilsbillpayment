@@ -42,7 +42,6 @@ namespace VendTech.Areas.Admin.Controllers
 
             var vendors = _vendorManager.GetVendorsSelectList();
             ViewBag.vendors = vendors;
-            ViewBag.SelectedTab = SelectedAdminTab.RTSInquiry;
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
             return View(new PagingResult<RtsedsaTransaction>());
         }
@@ -134,7 +133,6 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Transactions()
         {
-            ViewBag.SelectedTab = SelectedAdminTab.RTSTransaction;
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
             return View(new PagingResult<RtsedsaTransaction>());
         }

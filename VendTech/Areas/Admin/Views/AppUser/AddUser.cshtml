@@ -39,6 +39,19 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
+                                        <div class="col-md-2">
+                                            <select name="CountryCode" class="form-control">
+                                                <option value="@country.CountryCode">@country.CountryCode</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">EMAIL<em>*</em></label>
                                         <div class="col-md-12">
                                             @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
@@ -66,6 +79,23 @@
                                                 <span style="cursor: pointer; background: white" id="toggleConfirmPassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
                                             </div>
                                             <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="country" style="text-align:left;" class="col-md-12 control-label">SELECT COUNTRY</label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control" name="CountryId" id="Country">
+                                                <option value="">Select Country</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city" style="text-align:left;" class="col-md-12 control-label">SELECT CITY</label>
+                                        <div class="col-sm-12">
+                                            <select id="City" name="City" class="form-control">
+                                                <option value="">Select City</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -105,13 +135,13 @@
                                         </div>
                                     </div>
                                     @*<div class="form-group">
-                                        <div class="col-md-12">
-                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                                                @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
-                                            </reset>
-                                        </div>
+            <div class="col-md-12">
+                <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                    @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
+                </reset>
+            </div>
 
-                                    </div>*@
+        </div>*@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -199,8 +229,45 @@
         }, 500)
 
 
+
+
         $(document).ready(function () {
             App.init();
+
+            $("#Country").change(onCountryChange);
+            onCountryChange();
+            loadAllCountries();
         });
+    </script>
+
+    <script>
+           function loadAllCountries() {
+            var array = @Html.Raw(Json.Encode(ViewBag.countries));
+            if (array.length > 0)
+            {
+                        for (var i = 0; i < array.length; i++) {
+                            $("#Country").append("<option value="+array[i].Value+">"+array[i].Text+" </option>")
+                        }
+            }
+        }
+
+        function onCountryChange() {
+            $("#City").empty();
+            $("#City").append("<option value=''> Select City </option>")
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records=   array.filter(p=>p.CountryId==val);
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
+
+                        }
+                        $("#City").val('@Model.City');
+                    }
+                }
+        }
+
     </script>
 }

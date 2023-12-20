@@ -1,0 +1,75 @@
+﻿@model LoginAPIModel
+@{
+    ViewBag.Title = "User Login";
+    Layout = "~/Views/Shared/_beforeLoginUserLayout.cshtml";
+}
+<link href="/Content/sweetalert.css" rel="stylesheet" />
+
+<style>
+    body {
+        padding-top: 60px;
+    }
+
+    .step {
+        margin-bottom: 20px;
+    }
+
+    video {
+        width: 100%;
+        height: auto;
+    }
+
+    .step h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .step p {
+        font-size: 18px;
+        color: #fff;
+    }
+</style>
+
+
+<div class="container " style="background-color: black;">
+    <h1 class="mt-4 mb-4">How to use VENDTECH Mobile application</h1>
+
+    <div class="mt-4">
+        <h2>Video Tutorial</h2>
+        <video controls>
+            <source src="~/Images/Vendtech-App%20Animation-2C.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="step">
+        <h2>Step 1: Login with you passcode</h2>
+        <p>Enter you five digit passcode.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Preheat Oven</h2>
+        <p>Preheat the oven to the desired temperature.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Mix Ingredients</h2>
+        <p>Combine the ingredients in a mixing bowl and stir well.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Bake</h2>
+        <p>Place the mixture in the oven and bake for the specified time.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 5: Enjoy!</h2>
+        <p>Allow it to cool and then savor your delicious creation.</p>
+    </div>
+</div>
+
+
+@section scripts{
+
+}
