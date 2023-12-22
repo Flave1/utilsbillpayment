@@ -29,7 +29,7 @@ namespace VendTech.BLL.Models
         public long MeterId { get; set; }
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Number # is required"), MaxLength(8, ErrorMessage = "Number # must be of 8 digits"), MinLength(8, ErrorMessage = "Number # must be of 8 digits")]
+        //[Required(ErrorMessage = "Number # is required"), MaxLength(8, ErrorMessage = "Number # must be of 8 digits"), MinLength(8, ErrorMessage = "Number # must be of 8 digits")]
         public string Number { get; set; }
         public string Address { get; set; }
         public string MeterMake { get; set; }

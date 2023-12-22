@@ -1902,12 +1902,12 @@ namespace VendTech.BLL.Managers
                     {
                         dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount :  dbDeposit.POS.Balance + dbDeposit.Amount;
 
-                        if (dbDeposit.POS?.CommissionPercentage != null)
-                        {
-                            var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
-                            dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
-                            (this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
-                        } 
+                        //if (dbDeposit.POS?.CommissionPercentage != null)
+                        //{
+                        //    var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
+                        //    dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
+                        //    (this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                        //} 
 
                         if (dbDeposit.POS.User.Agency != null)
                         {
@@ -1915,8 +1915,9 @@ namespace VendTech.BLL.Managers
                             if (agentPos != null)
                             {
                                 var percentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
-                                agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
-                                dbDeposit.AgencyCommission = percentage;
+                                //agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
+                                //dbDeposit.AgencyCommission = percentage;
+                                (this as IDepositManager).CreateCommissionCreditEntry(agentPos, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                             }
                         }
 
@@ -1931,9 +1932,8 @@ namespace VendTech.BLL.Managers
                     if (dbDeposit.POS?.CommissionPercentage != null && dbDeposit.POS?.Commission.Percentage > 1)
                     {
                         var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
-                        //dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage; //will remove
+                        dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
                         Context.SaveChanges();
-                        (this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                     }
                     else
                     {
@@ -2693,8 +2693,8 @@ namespace VendTech.BLL.Managers
                     var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
                     dbDeposit.AgencyCommission = 0;
-                    dbDeposit.PercentageAmount = amt + commision;
-                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    //dbDeposit.PercentageAmount = amt + commision;
+                    //dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
 
                 //Adds to  Reciever Balance
@@ -2757,7 +2757,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
                 dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
-              
+                dbDeposit.NameOnCheque = toPos.User.Vendor;
+
                 //Adds to  Reciever Balance
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
@@ -2815,7 +2816,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.AgencyCommision;
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                 dbDeposit.UserId = toPos?.VendorId ?? 0;
-                dbDeposit.NameOnCheque = toPos.User.Name + " " + toPos.User.SurName;
+                dbDeposit.NameOnCheque = toPos.User.Vendor;
                 dbDeposit.AgencyCommission = 0;
                 dbDeposit.PercentageAmount = amount;
                 dbDeposit.BankAccountId = 1;
