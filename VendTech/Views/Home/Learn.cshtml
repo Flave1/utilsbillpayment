@@ -1,14 +1,11 @@
 ﻿@model LoginAPIModel
 @{
     ViewBag.Title = "User Login";
-    Layout = "~/Views/Shared/_beforeLoginUserLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="/Content/sweetalert.css" rel="stylesheet" />
 
 <style>
-    body {
-        padding-top: 60px;
-    }
 
     .step {
         margin-bottom: 20px;
@@ -22,7 +19,7 @@
     .step h2 {
         font-size: 24px;
         font-weight: bold;
-        color: #fff;
+        color: yellow;
     }
 
     .step p {
@@ -33,10 +30,10 @@
 
 
 <div class="container " style="background-color: black;">
-    <h1 class="mt-4 mb-4">How to use VENDTECH Mobile application</h1>
+    <h1 class="mt-4 mb-4" style="color: yellow">How to use VENDTECH Mobile application</h1>
 
     <div class="mt-4">
-        <h2>Video Tutorial</h2>
+        <h2 style="color: yellow">Video Tutorial</h2>
         <video controls>
             <source src="~/Images/Vendtech-App%20Animation-2C.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -44,32 +41,39 @@
     </div>
 
     <div class="step">
-        <h2>Step 1: Login with you passcode</h2>
-        <p>Enter you five digit passcode.</p>
+        <h2>Step 1: Enter you login details</h2>
+        <p>Enter you five digit passcode and click on the login button.</p>
     </div>
 
     <div class="step">
-        <h2>Step 2: Preheat Oven</h2>
-        <p>Preheat the oven to the desired temperature.</p>
+        <h2>Step 2: Select Manage Wallet</h2>
+        <p>Click on manage wallet to fund your account</p>
     </div>
 
     <div class="step">
-        <h2>Step 3: Mix Ingredients</h2>
-        <p>Combine the ingredients in a mixing bowl and stir well.</p>
+        <h2>Step 3: Click on bill payment</h2>
+        <p>Click on bill payment and select/enter meter number.</p>
     </div>
 
     <div class="step">
-        <h2>Step 4: Bake</h2>
-        <p>Place the mixture in the oven and bake for the specified time.</p>
+        <h2>Step 4: Click on pay now</h2>
+        <p>Click on pay now button to proceed.</p>
     </div>
 
     <div class="step">
-        <h2>Step 5: Enjoy!</h2>
-        <p>Allow it to cool and then savor your delicious creation.</p>
+        <h2>Step 5: Confirm puchase!</h2>
+        <p>Confirm you puechase and wait for receipt.</p>
     </div>
 </div>
 
 
 @section scripts{
+    <script type="text/javascript">
 
+            $(document).ready(function () {
+                //initialize the javascript
+                App.init();
+
+            });
+    </script>
 }

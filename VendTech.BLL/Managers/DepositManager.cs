@@ -730,7 +730,7 @@ namespace VendTech.BLL.Managers
                     query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                 }
             }
-            var list = query.ToList().Select(x => new AgentRevenueListingModel(x.Deposit)).ToList();
+            var list = query.ToList().Where(d => d.Deposit.User.AgentId != Utilities.VENDTECH).Select(x => new AgentRevenueListingModel(x.Deposit)).ToList();
             if (model.SortBy == "CreatedAt" || model.SortBy == "UserName" || model.SortBy == "Amount" || model.SortBy == "POS" || model.SortBy == "PercentageAmount" || model.SortBy == "PaymentType" || model.SortBy == "BANK" || model.SortBy == "CheckNumberOrSlipId" || model.SortBy == "Status" || model.SortBy == "NewBalance")
             {
                 if (model.SortBy == "UserName")
@@ -1872,6 +1872,9 @@ namespace VendTech.BLL.Managers
 
         ActionOutput IDepositManager.ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId)
         {
+            var isAgent = false;
+            decimal agencyPercentage = 0;
+            POS agentPos = null;
             Deposit dbDeposit = new Deposit();
             var dbpendingDeposit = Context.PendingDeposits.FirstOrDefault(p => p.PendingDepositId == depositId) ?? null;
             if (dbpendingDeposit == null)
@@ -1902,22 +1905,14 @@ namespace VendTech.BLL.Managers
                     {
                         dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount :  dbDeposit.POS.Balance + dbDeposit.Amount;
 
-                        //if (dbDeposit.POS?.CommissionPercentage != null)
-                        //{
-                        //    var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
-                        //    dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
-                        //    (this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
-                        //} 
 
                         if (dbDeposit.POS.User.Agency != null)
                         {
-                            var agentPos = Context.POS.FirstOrDefault(a => a.VendorId == dbDeposit.POS.User.Agency.Representative);
+                            agentPos = Context.POS.FirstOrDefault(a => a.VendorId == dbDeposit.POS.User.Agency.Representative);
                             if (agentPos != null)
                             {
-                                var percentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
-                                //agentPos.Balance = agentPos.Balance == null ? percentage : agentPos.Balance + percentage;
-                                //dbDeposit.AgencyCommission = percentage;
-                                (this as IDepositManager).CreateCommissionCreditEntry(agentPos, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                                agencyPercentage = (dbDeposit.Amount * dbDeposit.POS.User.Agency.Commission.Percentage) / 100;
+                                isAgent = true;
                             }
                         }
 
@@ -1929,17 +1924,22 @@ namespace VendTech.BLL.Managers
 
                     }
                     dbpendingDeposit.ApprovedDepId = dbDeposit.DepositId;
-                    if (dbDeposit.POS?.CommissionPercentage != null && dbDeposit.POS?.Commission.Percentage > 1)
+                    if (dbDeposit.POS?.CommissionPercentage != null && dbDeposit.POS?.Commission.Percentage > 0)
                     {
                         var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
                         dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage;
+                        dbDeposit.NewBalance = dbDeposit.POS.Balance;
                         Context.SaveChanges();
                     }
                     else
                     {
                         Context.SaveChanges();
                     }
-                    
+
+                    if (isAgent)
+                    {
+                        (this as IDepositManager).CreateCommissionCreditEntry(agentPos, agencyPercentage, Utilities.GenerateByAnyLength(7).ToUpper(), currentUserId);
+                    }
                      
                     //Send push to all devices where this user logged in when admin released deposit
                     var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
@@ -2677,7 +2677,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId??0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = toPos.User.Name+" "+ toPos.User.SurName;
+                dbDeposit.NameOnCheque = toPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance ?? new decimal();
@@ -2687,14 +2687,14 @@ namespace VendTech.BLL.Managers
                 dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.VendorFloatIn;
 
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
-                if (Context.Agencies.Select(s => s.Representative).Contains(fromPos.VendorId))
+                if (Context.Agencies.Where(s => s.AgencyId == toPos.User.AgentId && toPos.User.AgentId != Utilities.VENDTECH).Any())
                 {
                     var amt = dbDeposit.Amount;
                     var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
-                    dbDeposit.AgencyCommission = 0;
-                    //dbDeposit.PercentageAmount = amt + commision;
-                    //dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    dbDeposit.AgencyCommission = 0;  
+                    dbDeposit.PercentageAmount = amt + commision;
+                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
 
                 //Adds to  Reciever Balance

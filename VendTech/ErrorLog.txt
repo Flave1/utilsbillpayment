@@ -75,3 +75,19 @@ Object reference not set to an instance of an object.
 
 
 
+Object reference not set to an instance of an object.
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml(17): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
