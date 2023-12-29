@@ -790,5 +790,42 @@ namespace VendTech.BLL.Common
 
             return (long)Math.Truncate((value.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
         }
+
+        public static string ReaFromTemplateFile(string fileName)
+        {
+
+            var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
+            _errorManager.LogExceptionToDatabase(new Exception($"{fileName} one"));
+            // Get the current application directory
+            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            _errorManager.LogExceptionToDatabase(new Exception($"{currentDirectory} currentDirectory two"));
+            // Combine the directory and file name to get the full path
+            //string filePath = Path.Combine(currentDirectory, "Templates/"+fileName);
+            string filePath = @"C:\Inetpub\vhosts\vendtechsl.com\httpdocs\Templates\DepositPDF.html";
+            filePath = filePath.Replace("\\", "/");
+
+            _errorManager.LogExceptionToDatabase(new Exception($"{filePath} filePath three"));
+            try
+            {
+                // Read the file content
+                string content = File.ReadAllText(filePath);
+                _errorManager.LogExceptionToDatabase(new Exception($"{content} content four"));
+                return content; 
+            }
+            catch (FileNotFoundException ex)
+            {
+                _errorManager.LogExceptionToDatabase(new Exception($"The file '{fileName}' was not found in the current application directory.", ex));
+                Console.WriteLine($"The file '{fileName}' was not found in the current applicatio   n directory.");
+            }
+            catch (Exception ex)
+            {
+                _errorManager.LogExceptionToDatabase(new Exception($"An error occurred: {ex.Message}", ex));
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+            _errorManager.LogExceptionToDatabase(new Exception($"NUll content five"));
+            return null;
+        }
     }
 }

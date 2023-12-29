@@ -1921,12 +1921,13 @@ namespace VendTech.BLL.Managers
 
                     }
                     dbpendingDeposit.ApprovedDepId = dbDeposit.DepositId;
-                    if (dbDeposit.POS?.CommissionPercentage != null && dbDeposit.POS?.Commission.Percentage > 1)
+                    if (dbDeposit.POS?.CommissionPercentage != null && dbDeposit.POS?.Commission.Percentage > 0)
                     {
                         var percentage = dbDeposit.Amount * dbDeposit.POS.Commission.Percentage / 100;
-                        //dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage; //will remove
+                        dbDeposit.POS.Balance = dbDeposit.POS.Balance + percentage; //will remove
+                        dbDeposit.NewBalance = dbDeposit.POS.Balance;
                         Context.SaveChanges();
-                        (this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                        //(this as IDepositManager).CreateCommissionCreditEntry(dbDeposit.POS, percentage, dbDeposit.CheckNumberOrSlipId, currentUserId);
                     }
                     else
                     {
@@ -2607,8 +2608,8 @@ namespace VendTech.BLL.Managers
                     var amt = Decimal.Parse(dbDeposit.Amount.ToString().TrimStart('-'));
                     var percntage = fromPos.User.Agency.Commission.Percentage;
                     commision = amt * percntage / 100;
-                    //dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
-                    //dbDeposit.AgencyCommission = commision;
+                    dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
+                    dbDeposit.AgencyCommission = commision;
                 }
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
 
@@ -2627,7 +2628,7 @@ namespace VendTech.BLL.Managers
                 Context.SaveChanges();
 
 
-                (this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
+                //(this as IDepositManager).CreateCommissionCreditEntry(fromPos, commision, dbDeposit.CheckNumberOrSlipId, currentUserId);
                 //Send push to all devices where this user logged in when admin released deposit
                 var deviceTokens = fromPos.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
                 var obj = new PushNotificationModel();
@@ -2851,6 +2852,15 @@ namespace VendTech.BLL.Managers
                 Context.SaveChanges();
                 return true;
             }
+        }
+
+        Deposit IDepositManager.GetSingleTransaction(long transactionId)
+        {
+            var dep = Context.Deposits.FirstOrDefault(d => d.DepositId == transactionId) ?? null;
+            if (dep != null)
+                return dep;
+            else
+                return null;
         }
     }
 }

@@ -8,13 +8,18 @@
     foreach (var item in Model.List)
     {
         <tr class="odd gradeX">
-            <td>@item.AgencyName</td>
+            <td>
+                @*@item.AgencyName*@
+
+                <strong><a href="#" onclick="superAdminTransferHandler.addDeposit('@item.AgencyAdminDisplayName', '@item.AgencyAdminPosId')"> @item.AgencyName</a> </strong>
+            </td>
             <td> @item.Admin</td>
             <td style="text-align:right;">
                 @item.Percentage
             </td>
             <td>
-                <strong><a href="#" onclick="superAdminTransferHandler.addDeposit('@item.AgencyAdminDisplayName', '@item.AgencyAdminPosId')"> @item.SerialNumber</a> </strong>
+                @item.SerialNumber
+                @* <strong><a href="#" onclick="superAdminTransferHandler.addDeposit('@item.AgencyAdminDisplayName', '@item.AgencyAdminPosId')"> @item.SerialNumber</a> </strong>*@
             </td>
             <td  style="text-align:right;">
                 <strong>@item.Balance</strong>

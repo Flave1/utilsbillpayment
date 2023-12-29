@@ -570,7 +570,7 @@ namespace VendTech.BLL.Models
         public decimal? AgentPercentageAmount { get; set; } 
         public decimal? VendorPercentageAmount { get; set; }
         public decimal? AgentPercentage { get; set; }
-
+        public decimal? AgencyCommission { get; set; }
         public decimal? VendorPercentage { get; set; }
         public long DepositId { get; set; }   
         public AgentRevenueListingModel(Deposit obj)
@@ -590,6 +590,7 @@ namespace VendTech.BLL.Models
             VendorPercentageAmount = obj.PercentageAmount;
             VendorPercentage = obj?.User?.Commission?.Percentage;
             AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
+            AgencyCommission = obj.AgencyCommission;
         }
 
        

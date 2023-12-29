@@ -22,6 +22,7 @@ using Twilio.Converters;
 using Twilio.Http;
 using VendTech.BLL.Common;
 using System.Web.Http.Results;
+using VendTech.BLL.Managers;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -1947,5 +1948,49 @@ namespace VendTech.Areas.Admin.Controllers
             result.ShowEmailButtonOnWeb = true;
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
+
+
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult SendEmail(SendViaEmail request)
+        {
+            var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
+
+            try
+            {
+
+                _errorManager.LogExceptionToDatabase(new Exception($"Enter"));
+                var td = _depositManager.GetSingleTransaction(long.Parse(request.TransactionId));
+                if (td == null)
+                    return Json(new { message = "Not found", status = "success" });
+
+                var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
+                var body = BLL.Common.Utilities.ReaFromTemplateFile("DepositPDF.html");
+
+                body = body.Replace("%ValueDate%", td.ValueDate);
+                body = body.Replace("%CreatedAt%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                body = body.Replace("%VendorName%", td.User.Vendor);
+                body = body.Replace("%PosNumber%", td.POS.SerialNumber);
+                body = body.Replace("%TransactionId%", td.TransactionId);
+                body = body.Replace("%Type%", td.PaymentType1.Name);
+                body = body.Replace("%VendorName%", td.NameOnCheque);
+                body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(td.Amount));
+                body = body.Replace("%IssuingBank%", td.ChequeBankName);
+                body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
+                body = body.Replace("%Bank%", td.ChequeBankName);
+                body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
+                body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+
+                BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body, file.FirstOrDefault().Value, td.TransactionId + "_receipt.pdf");
+
+                return Json(new { message = "Email successfully sent.", status = "success" });
+            }
+            catch (Exception ex)
+            {
+                _errorManager.LogExceptionToDatabase(new Exception($"Errror", ex));
+                return Json(new { message = "Email not sent.", status = "failed" });
+            }
+        }
+
     }
 }
