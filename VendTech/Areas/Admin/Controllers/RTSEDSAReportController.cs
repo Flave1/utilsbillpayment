@@ -43,7 +43,7 @@ namespace VendTech.Areas.Admin.Controllers
             var vendors = _vendorManager.GetVendorsSelectList();
             ViewBag.vendors = vendors;
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
-            return View(new PagingResult<RtsedsaTransaction>());
+            return View("Inquiry", new PagingResult<RtsedsaTransaction>());
         }
         //[HttpGet]
         //public ActionResult Inquiry(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
@@ -134,7 +134,7 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult Transactions()
         {
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
-            return View(new PagingResult<RtsedsaTransaction>());
+            return View("Transactions", new PagingResult<RtsedsaTransaction>());
         }
 
         [AjaxOnly, HttpPost]

@@ -17,6 +17,7 @@ using System.Web.Configuration;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using VendTech.DAL;
+using VendTech.BLL.Managers;
 #endregion
 
 namespace VendTech.Controllers
@@ -37,6 +38,7 @@ namespace VendTech.Controllers
         private readonly IDashboardManager _dashboardManager;
         private readonly IAgencyManager _agentManager;
         private readonly ISMSManager _smsManager;
+        private readonly IPOSManager _posManager;
 
 
         #endregion
@@ -50,8 +52,9 @@ namespace VendTech.Controllers
             IEmailTemplateManager templateManager,
             IVendorManager vendorManager,
             IAgencyManager agencyManager,
-            IDashboardManager dashboardManager, 
-            ISMSManager smsManager)
+            IDashboardManager dashboardManager,
+            ISMSManager smsManager,
+            IPOSManager posManager)
             : base(errorLogManager)
         {
             _agentManager = agencyManager;
@@ -63,6 +66,7 @@ namespace VendTech.Controllers
             _vendorManager = vendorManager;
             _dashboardManager = dashboardManager;
             _smsManager = smsManager;
+            _posManager = posManager;
         }
 
         /// <summary>
@@ -438,6 +442,21 @@ namespace VendTech.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View();
+        }
+
+        [HttpGet, Public]
+        public JsonResult ReturnUserBalance()
+        {
+            try
+            {
+                var pos = _posManager.GetVendorPos2(LOGGEDIN_USER.UserID);
+                return Json(new { result = Utilities.FormatAmount(pos.Balance) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
     }

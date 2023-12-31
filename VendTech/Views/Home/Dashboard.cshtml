@@ -83,7 +83,7 @@
             <div class="page-head">
                 <h2>Dashboard</h2>
                 <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
-                    <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+                    <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode: <span id="userBalanceMain">@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span></span>
                 </div>
             </div>
             <div class="cl-mcont">
@@ -114,7 +114,7 @@
                                     <div class="desc">Current wallet balance </div>
                                     <div class="value">
                                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">
-                                            @country.CurrencyCode: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)
+                                            @country.CurrencyCode: <span id="userBalance">@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
                                         </span>
                                     </div>
                                 </div>
@@ -295,6 +295,16 @@
     @*<link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />*@
     @*<script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>*@
     <script type="text/javascript">
+
+        setInterval(function () {
+            $.ajax({
+                url: '/Home/ReturnUserBalance',
+                success: function (data) {
+                    $("#userBalance").text(data.result);
+                    $("#userBalanceMain").text(data.result);
+                }
+            })
+        }, 3000);
         $(function () {
 
             //var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

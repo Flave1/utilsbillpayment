@@ -122,6 +122,33 @@ namespace VendTech.BLL.Managers
 
         }
 
+        ActionOutput IPlatformManager.EnableThisPlateform(EnableThisPlatform model)
+        {
+            var dbPlatform = new Platform();
+            var myfile = string.Empty;
+            if (model.Id > 0)
+            {
+                dbPlatform = Context.Platforms.FirstOrDefault(p => p.PlatformId == model.Id);
+                if (dbPlatform == null)
+                    return ReturnError("Platform not exist.");
+            }
+
+
+            dbPlatform.DisabledPlatformMessage = (model.DiabledPlaformMessage != null) ? model.DiabledPlaformMessage.ToString() : "";
+            dbPlatform.DisablePlatform = !dbPlatform.DisablePlatform;
+            dbPlatform.PlatformType = model.PlatformType;
+
+            if (model.Id == null || model.Id == 0)
+            {
+                //dbPlatform.CreatedAt = DateTime.UtcNow;
+                //dbPlatform.IsDeleted = false;
+                //Context.Platforms.Add(dbPlatform);
+            }
+            SaveChanges();
+            return ReturnSuccess("Platform detail saved successfully.");
+
+        }
+
 
         ActionOutput IPlatformManager.DeletePlatform(int platformId)
         {

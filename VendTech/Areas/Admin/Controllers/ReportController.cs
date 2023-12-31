@@ -37,6 +37,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         private readonly IPaymentTypeManager _paymentTypeManager;
+        private readonly IEmailTemplateManager _emailTemplateManager;
         #endregion
 
         public ReportController(IUserManager userManager,
@@ -46,7 +47,7 @@ namespace VendTech.Areas.Admin.Controllers
             IDepositManager depositManager,
             IMeterManager meterManager,
             IBankAccountManager bankManager,
-            IPOSManager posManager, IPaymentTypeManager paymentTypeManager)
+            IPOSManager posManager, IPaymentTypeManager paymentTypeManager, IEmailTemplateManager emailTemplateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -57,6 +58,7 @@ namespace VendTech.Areas.Admin.Controllers
             _bankAccountManager = bankManager;
             _posManager = posManager;
             _paymentTypeManager = paymentTypeManager;
+            _emailTemplateManager = emailTemplateManager;
         }
 
         #region Report
@@ -104,6 +106,16 @@ namespace VendTech.Areas.Admin.Controllers
             var deposits = new PagingResult<DepositListingModel>();
             var depositAudit = new PagingResult<DepositAuditModel>();
 
+            if (assignedReportModule.Any())
+            {
+                var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-1" };
+                var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-2" };
+                var rtsRps = new List<SelectListItem>();
+                rtsRps.Add(rtsReport1);
+                rtsRps.Add(rtsReport2);
+                assignedReportModule.AddRange(rtsRps);
+            }
+
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
             ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
@@ -116,6 +128,15 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     val = type.ToString();
                     val = type.ToString();
+                }
+
+                if (val == "-1")
+                {
+                    return View("Inquiry", new PagingResult<RtsedsaTransaction>());
+                }
+                if(val == "-2")
+                {
+                    return View("Transactions", new PagingResult<RtsedsaTransaction>());
                 }
                 /// This Is Used For Fetching DEPOSITS REPORT
                 if (val == "17")
@@ -1963,26 +1984,35 @@ namespace VendTech.Areas.Admin.Controllers
                 if (td == null)
                     return Json(new { message = "Not found", status = "success" });
 
+                //var body = BLL.Common.Utilities.ReaFromTemplateFile("DepositPDF.html");
+
                 var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
-                var body = BLL.Common.Utilities.ReaFromTemplateFile("DepositPDF.html");
+                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositReceiptTemplate);
+                if (emailTemplate.TemplateStatus)
+                {
+                    var body = emailTemplate.TemplateContent;
+                    body = body.Replace("%ValueDate%", td.ValueDate);
+                    body = body.Replace("%CreatedAt%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                    body = body.Replace("%VendorName%", td.User.Vendor);
+                    body = body.Replace("%PosNumber%", td.POS.SerialNumber);
+                    body = body.Replace("%TransactionId%", td.TransactionId);
+                    body = body.Replace("%Type%", td.PaymentType1.Name);
+                    body = body.Replace("%VendorName%", td.NameOnCheque);
+                    body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(td.Amount));
+                    body = body.Replace("%IssuingBank%", td.ChequeBankName);
+                    body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
+                    body = body.Replace("%Bank%", td.ChequeBankName);
+                    body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
+                    body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
 
-                body = body.Replace("%ValueDate%", td.ValueDate);
-                body = body.Replace("%CreatedAt%", td.CreatedAt.ToString("dd/MM/yyyy"));
-                body = body.Replace("%VendorName%", td.User.Vendor);
-                body = body.Replace("%PosNumber%", td.POS.SerialNumber);
-                body = body.Replace("%TransactionId%", td.TransactionId);
-                body = body.Replace("%Type%", td.PaymentType1.Name);
-                body = body.Replace("%VendorName%", td.NameOnCheque);
-                body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(td.Amount));
-                body = body.Replace("%IssuingBank%", td.ChequeBankName);
-                body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
-                body = body.Replace("%Bank%", td.ChequeBankName);
-                body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
-                body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
-                var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
+                    var subject = $"INV-{td.TransactionId} from VENDTECHSL for {vendor.Vendor}";
+                    var content = $"Hi {vendor} \n" +
+                        $"Here is INV-{td.TransactionId} for {BLL.Common.Utilities.GetCountry().CurrencyCode} {BLL.Common.Utilities.FormatAmount(td.Amount)} \n";
+                    BLL.Common.Utilities.SendPDFEmail(request.Email, subject, content, file.FirstOrDefault().Value, td.TransactionId + "_invoice.pdf");
+                }
 
-                BLL.Common.Utilities.SendPDFEmail(request.Email, "Invoice - " + td.TransactionId + " from VENDTECHSL LTD", body, file.FirstOrDefault().Value, td.TransactionId + "_receipt.pdf");
-
+             
                 return Json(new { message = "Email successfully sent.", status = "success" });
             }
             catch (Exception ex)

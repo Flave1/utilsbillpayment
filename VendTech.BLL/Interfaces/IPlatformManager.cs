@@ -21,6 +21,7 @@ namespace VendTech.BLL.Interfaces
         List<PlatformModel> GetPlatformsByTypeForRecharge(PlatformTypeEnum type);
         List<SelectListItem> GetActivePlatformsSelectList();
         List<SelectListItem> GetOperatorType(PlatformTypeEnum type);
+        ActionOutput EnableThisPlateform(EnableThisPlatform model);
     }
     
 }

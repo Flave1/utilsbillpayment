@@ -1877,7 +1877,7 @@ namespace VendTech.Controllers
                     body = body.Replace("%vendtechSerial%", td.TransactionId);
                     body = body.Replace("%barcode%", td.MeterNumber1);
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
-                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId);
+                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_receipt.pdf");
 
                     var emailTemplate2 = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.SendReceiptViaEmailContent);
                     string body2 = emailTemplate2.TemplateContent;

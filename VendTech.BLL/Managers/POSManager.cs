@@ -285,7 +285,7 @@ namespace VendTech.BLL.Managers
                     EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
                     EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
                     SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
-                    CountryCode = dbPos.CountryCode,
+                    //CountryCode = dbPos.CountryCode,
                     PassCode = dbPos.PassCode,
                     Email = email,
                     WebSms = dbPos?.WebSms ?? false,
@@ -301,6 +301,10 @@ namespace VendTech.BLL.Managers
         POS IPOSManager.GetSinglePos(long pos)
         {
             return Context.POS.Find(pos);
+        }
+        POS IPOSManager.GetVendorPos2(long vendorId)
+        {
+            return Context.POS.FirstOrDefault(s => s.VendorId == vendorId);
         }
         SavePosModel IPOSManager.GetPosDetails(string passCode)
         {
@@ -321,7 +325,7 @@ namespace VendTech.BLL.Managers
                 EmailNotificationDeposit = dbPos.EmailNotificationDeposit == null ? false : dbPos.EmailNotificationDeposit.Value,
                 EmailNotificationSales = dbPos.EmailNotificationSales == null ? false : dbPos.EmailNotificationSales.Value,
                 SMSNotificationSales = dbPos.SMSNotificationSales == null ? false : dbPos.SMSNotificationSales.Value,
-                CountryCode = dbPos.CountryCode,
+                //CountryCode = dbPos.CountryCode,
                 PassCode = dbPos.PassCode,
                 Email = Context.Users.FirstOrDefault(x => x.UserId == dbPos.VendorId).Email,
                 WebSms = dbPos?.WebSms ?? false,
@@ -491,7 +495,7 @@ namespace VendTech.BLL.Managers
             dbPos.SMSNotificationSales = model.SMSNotificationSales;
             dbPos.EmailNotificationSales = model.EmailNotificationSales;
             dbPos.EmailNotificationDeposit = model.EmailNotificationDeposit;
-            dbPos.CountryCode = model.CountryCode;
+            //dbPos.CountryCode = model.CountryCode;
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = model.Percentage;
             dbPos.IsDeleted = false;
@@ -558,7 +562,7 @@ namespace VendTech.BLL.Managers
                 if (dbPos == null)
                     return ReturnError("Pos does not exist");
             }
-            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
+            //dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;
             if (savePassCodeModel.POSId == 0)
                 Context.POS.Add(dbPos);
@@ -581,7 +585,7 @@ namespace VendTech.BLL.Managers
                 if (dbPos == null)
                     return ReturnError("Pos does not exist");
             }
-            dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
+            //dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;
             if (dbPos.POSId == 0)
                 Context.POS.Add(dbPos);

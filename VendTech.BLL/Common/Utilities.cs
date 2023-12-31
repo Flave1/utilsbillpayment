@@ -673,7 +673,7 @@ namespace VendTech.BLL.Common
             try
             {
                 string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string fileName = "receipt_" + transctionId + ".pdf";
+                string fileName =  transctionId;
                 string path = rootDirectory + "/Receipts/" + fileName;
                 var relativePath = DomainUrl + "/Receipts/" + fileName;
                 // create a PDF writer to write the document to a file
@@ -798,7 +798,7 @@ namespace VendTech.BLL.Common
             _errorManager.LogExceptionToDatabase(new Exception($"{fileName} one"));
             // Get the current application directory
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
+            return null;
             _errorManager.LogExceptionToDatabase(new Exception($"{currentDirectory} currentDirectory two"));
             // Combine the directory and file name to get the full path
             //string filePath = Path.Combine(currentDirectory, "Templates/"+fileName);

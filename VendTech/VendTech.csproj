@@ -513,6 +513,9 @@
     <Content Include="Areas\Admin\Views\Shared.zip" />
     <Content Include="Areas\Admin\Views\Report\ManageCommissionReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_commissionsReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Inquiry.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Transactions.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_salesListing.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />

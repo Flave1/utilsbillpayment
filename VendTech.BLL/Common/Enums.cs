@@ -58,6 +58,8 @@ namespace VendTech.BLL.Models
         SendReceiptViaEmailContent = 18,
         [Description("Balance running low reminder")]
         BalanceLowReminder = 19,
+        [Description("DEPOSIT RECEIPT TEMPLATE")]
+        DepositReceiptTemplate = 20,
     }
     public enum PosTypeEnum
     {
