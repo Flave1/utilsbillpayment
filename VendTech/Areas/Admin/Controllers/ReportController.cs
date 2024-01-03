@@ -2006,10 +2006,24 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
 
                     var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
-                    var subject = $"INV-{td.TransactionId} from VENDTECHSL for {vendor.Vendor}";
-                    var content = $"Hi {vendor} \n" +
-                        $"Here is INV-{td.TransactionId} for {BLL.Common.Utilities.GetCountry().CurrencyCode} {BLL.Common.Utilities.FormatAmount(td.Amount)} \n";
-                    BLL.Common.Utilities.SendPDFEmail(request.Email, subject, content, file.FirstOrDefault().Value, td.TransactionId + "_invoice.pdf");
+                    var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";
+                    var content = $"Greetings {vendor.Vendor}" +
+                        $"<p style='font-weight: bold; background-color: yellow'>Please find invoice INV-{td.TransactionId} attached to this email </p>" +
+                        $"<p>You can print a PDF copy for your records</p>" +
+                        $"<p>If you have any problem please let us know</p>" +
+                                 $"{Environment.NewLine}" +
+                        $"<p>Thank you</p>" +
+                                $"{Environment.NewLine}" +
+                        $"VENDTECH MANAGEMENT" +
+                             $"{Environment.NewLine}" +
+                        $"<p>Phone: +232 79 990990</p>" +
+                               $"{Environment.NewLine}" +
+                        $"Email: accounts@vendtechsl.com" +
+                           $"{Environment.NewLine}" +
+                        $"<p>Address: 186 Wilkinson Rd, Freetown - Sierra Leone</p>";
+
+
+                    BLL.Common.Utilities.SendPDFEmail(request.Email, subject, content, file.FirstOrDefault().Value, "VENDTECH_INVOICE-INV-"+td.TransactionId + ".pdf");
                 }
 
              

@@ -287,7 +287,7 @@
         });
 
         function send() {
-            debugger
+            
             var emailAddress = $("#emailAddress").val();
             var request = new Object();
 
@@ -301,11 +301,10 @@
                 success: function (data) {
 
                     $("#emailAddress").val('');
-                    $.ShowMessage($('div.messageAlert'), "EMAIL SENT", MessageType.Success);
-                    //setTimeout(function () {
-                    //    closeModal();
-                    //    closeSweatAlert()
-                    //}, 3000)
+                    $.ShowMessage($('div.messageAlert'), "EMAIL SENT SUCCESSFULLY", MessageType.Success);
+                    setTimeout(function () {
+                        closeSweatAlert()
+                    }, 3000)
 
                 },
                 error: function (res) {
@@ -313,6 +312,12 @@
                     $.ShowMessage($('div.messageAlert'), "Email not sent", MessageType.Error);
                 }
             });
+        }
+
+        function closeSweatAlert() {
+            $(".sweet-overlay").hide();
+            $(".showSweetAlert ").hide();
+            $("#emailModal").hide();
         }
 
     </script>
