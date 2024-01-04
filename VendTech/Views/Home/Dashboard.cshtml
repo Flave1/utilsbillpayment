@@ -296,15 +296,15 @@
     @*<script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>*@
     <script type="text/javascript">
 
-        setInterval(function () {
-            $.ajax({
-                url: '/Home/ReturnUserBalance',
-                success: function (data) {
-                    $("#userBalance").text(data.result);
-                    $("#userBalanceMain").text(data.result);
-                }
-            })
-        }, 3000);
+        //setInterval(function () {
+        //    $.ajax({
+        //        url: '/Home/ReturnUserBalance',
+        //        success: function (data) {
+        //            $("#userBalance").text(data.result);
+        //            $("#userBalanceMain").text(data.result);
+        //        }
+        //    })
+        //}, 3000);
         $(function () {
 
             //var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

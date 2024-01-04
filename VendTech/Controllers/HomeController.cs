@@ -454,7 +454,7 @@ namespace VendTech.Controllers
             }
             catch (Exception)
             {
-                return null;
+                return Json(new { result = "0" }, JsonRequestBehavior.AllowGet);
             }
 
         }

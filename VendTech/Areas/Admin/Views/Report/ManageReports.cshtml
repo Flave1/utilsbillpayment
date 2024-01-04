@@ -303,7 +303,7 @@
                     $("#emailAddress").val('');
                     $.ShowMessage($('div.messageAlert'), "EMAIL SENT SUCCESSFULLY", MessageType.Success);
                     setTimeout(function () {
-                        closeSweatAlert()
+                        window.location.reload();
                     }, 3000)
 
                 },

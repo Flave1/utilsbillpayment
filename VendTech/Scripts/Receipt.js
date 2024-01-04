@@ -1,5 +1,6 @@
 ﻿
 function onViewDepositDetails(depositId) {
+    debugger
     depositHandler.depositId = depositId
     if (depositId) {
         var inputParam = new Object();
