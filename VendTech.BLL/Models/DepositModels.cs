@@ -572,6 +572,7 @@ namespace VendTech.BLL.Models
         public decimal? AgentPercentage { get; set; }
 
         public decimal? VendorPercentage { get; set; }
+        public decimal? NewBalance { get; set; }
         public long DepositId { get; set; }   
         public AgentRevenueListingModel(Deposit obj)
         {
@@ -587,9 +588,10 @@ namespace VendTech.BLL.Models
             DepositId = obj.DepositId;
             Amount = obj.Amount;
             AgentPercentageAmount = obj.AgencyCommission;
-            VendorPercentageAmount = obj.PercentageAmount;
-            VendorPercentage = obj?.User?.Commission?.Percentage;
-            AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
+            NewBalance = obj.NewBalance;
+            //VendorPercentageAmount = obj.PercentageAmount;
+            //VendorPercentage = obj?.User?.Commission?.Percentage;
+            //AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
         }
 
        

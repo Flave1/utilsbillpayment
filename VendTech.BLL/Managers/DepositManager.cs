@@ -651,12 +651,11 @@ namespace VendTech.BLL.Managers
             var result = new PagingResult<AgentRevenueListingModel>();
 
             if (!model.IsInitialLoad)
-                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released 
-                || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed);
+                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released  
+                && p.Deposit.PaymentType1.PaymentTypeId == (int)DepositPaymentTypeEnum.AgencyCommision);
             else
                 query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt)
-                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released
-                    || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
+                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released && p.Deposit.PaymentType1.PaymentTypeId == (int)DepositPaymentTypeEnum.AgencyCommision)
                     && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
 
             if (model.From != null)
