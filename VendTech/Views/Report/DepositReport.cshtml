@@ -90,7 +90,7 @@
                                             else
                                             {
                                                 <div class=" col-md-12">
-                                                    <span style="font-weight:bold; font-size:35px">POS ID: @pos.FirstOrDefault().Text</span>
+                                                    <span style="font-weight:bold; font-size:27px">POS ID: @pos.FirstOrDefault().Text.Split('-')[1]</span>
                                                     @Html.DropDownList("PosId", new SelectList(ViewBag.userPos, "value", "text"), null, new { @style = "height:35px; font-weight:bolder; display:none;", @class = " input form-control", @id = "posDrp" })
 
                                                 </div>
@@ -200,7 +200,7 @@
             <div class="container-fluid">
                 <div class="form-group">
                     <form>
-                        <label for="countryCode">SEND VOUCHER BY EMAIL TO:</label>
+                        <label for="countryCode">SEND INVOICE BY EMAIL TO:</label>
                         <div class="mb-2 d-flex justify-content-center" style="margin: 20px">
                             <input type="email" class="form-control " id="emailAddress" placeholder="enter email here...." required>
                         </div>
@@ -288,6 +288,10 @@
                 type: "POST",
                 success: function (data) {
 
+                    if (data.status == 'failed') {
+                        $.ShowMessage($('div.messageAlert'), data.message, MessageType.Error);
+                        return;
+                    }
                     $("#emailAddress").val('');
                     $.ShowMessage($('div.messageAlert'), "EMAIL SENT SUCCESSFULLY", MessageType.Success);
                     setTimeout(function () {

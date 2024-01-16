@@ -92,7 +92,7 @@
                                     <div class="form-group">
                                         <label for="city" style="text-align:left;" class="col-md-12 control-label">SELECT CITY</label>
                                         <div class="col-sm-12">
-                                            @Html.DropDownListFor(x => x.City, new SelectList(ViewBag.Cities, "value", "text"), "Select Vendor", new {  @class = "form-control", @id = "City" })
+                                            @Html.DropDownListFor(x => x.City, new SelectList(ViewBag.Cities, "value", "text"), "Select City", new {  @class = "form-control", @id = "City" })
                                             @*<select id="City" name="City" class="form-control">
                                                 <option value="">Select City</option>
                                             </select>*@
@@ -168,10 +168,9 @@
                                         <div class=" col-md-12">
                                             @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
                                                          .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                         .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                         .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                         .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                         .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                          .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                          .OrderByDescending(r => r.ModuleName == "Saved Numbers")
+                                                          .OrderByDescending(r => r.ModuleName == "Bill Payment")
                                                          .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
@@ -221,34 +220,30 @@
 
 
         $(document).ready(function () {
+
+
+            App.init();
            if ('@Model.UserId' != '0') {
                $("#Password").val('@Model.Password');
                $("#ConfirmPassword").val('@Model.Password');
            }
-            App.init();
 
-            ////$('#Country').val(@Model.CountryId);
             $("#Country").change(onCountryChange);
-            ////$("#City").val('@Model.City');
-            onCountryChange();
             loadAllCountries();
-            loadAllCities()
         });
     </script>
 
 
     <script>
-           function loadAllCountries() {
+         function loadAllCountries() {
             var array = @Html.Raw(Json.Encode(ViewBag.countries));
             if (array.length > 0)
             {
-                debugger
-                        for (var i = 0; i < array.length; i++) {
-                            $("#Country").append("<option selected=" + array[i].Selected +" value="+array[i].Value+">"+array[i].Text+" </option>")
-                        }
+                for (var i = 0; i < array.length; i++) {
+                    $("#Country").append("<option selected=" + array[i].Selected + " value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                }
             }
         }
-
         function loadAllCities() {
             var array = @Html.Raw(Json.Encode(ViewBag.Cities));
             if (array.length > 0) {
@@ -271,7 +266,7 @@
                             $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
 
                         }
-                        $("#City").val('@Model.City');
+                        ////$("#City").val('@Model.City');
                     }
                 }
         }

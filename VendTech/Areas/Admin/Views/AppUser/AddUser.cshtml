@@ -105,18 +105,7 @@
                                             @Html.ValidationMessageFor(x => x.Address)
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
-                                        <div class="col-md-2">
-                                            <select name="CountryCode" class="form-control">
-                                                <option value="@country.CountryCode">@country.CountryCode</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
-                                    </div>
+                                 
 
                                     <div class="form-group">
                                         <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">VENDOR NAME</label>
@@ -149,12 +138,11 @@
 
                                         <div class=" col-md-12">
                                             @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Reports")
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                        .OrderByDescending(r => r.ModuleName == "Manage Wallet")
-                                                        .OrderByDescending(r => r.ModuleName == "Saved Meters")
-                                                        .OrderByDescending(r => r.ModuleName == "Bill Payment")
-                                                        .ToList();
+                                                          .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                          .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                          .OrderByDescending(r => r.ModuleName == "Saved Numbers")
+                                                          .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                          .ToList();
                                                 if (listing == null || !listing.Any())
                                                 {
                                                     listing = new List<Checkbox>();
@@ -241,7 +229,7 @@
     </script>
 
     <script>
-           function loadAllCountries() {
+        function loadAllCountries() {
             var array = @Html.Raw(Json.Encode(ViewBag.countries));
             if (array.length > 0)
             {
@@ -268,6 +256,5 @@
                     }
                 }
         }
-
     </script>
 }

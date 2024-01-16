@@ -44,6 +44,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<MeterRechargeApiListingModelMobile> GetUserMeterRechargesReportMobileAsync(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         ActionOutput<MeterRechargeApiListingModelMobile> GetMobileRechargeDetail(long rechargeId);
         decimal ReturnAirtimeMinVend();
+        bool IsModuleLocked(int moduleId, long userId);
     }
     
 }

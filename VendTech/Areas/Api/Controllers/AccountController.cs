@@ -531,5 +531,14 @@ namespace VendTech.Areas.Api.Controllers
             body = body.Replace("%USER%", request.FirstName);
             Utilities.SendEmail(request.Email, emailTemplate.EmailSubject, body);
         }
+
+
+        [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage TestTB()
+        {
+            var ere = _bankAccountManager.PerformOperation();
+            return new JsonContent("Privacy policy fetched successfully.", Status.Success).ConvertToHttpResponseOK();
+        }
     }
 }

@@ -1,60 +1,76 @@
 ﻿@model NumberModel
+
 @{
-    ViewBag.title = Model.MeterId > 0 ? "Edit Number" : "Add Number";
-    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+    ViewBag.Title = "AddEditPhoneNumbers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid" id="pcont">
+    <div class="page-head">
+        <h2>@(Model.MeterId > 0 ? "Edit NUmber" : "Add Number")</h2>
+    </div>
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat front">
+                    <div class="contarea meterpage">
+                        <div class="tabcont-row current">
+                            <form>
+                                @Html.HiddenFor(m => m.MeterId)
+                                <div class="editpro-row">
+                                    <div class="editpro-row50">
+                                        <label>PHONE # <sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:8 DIGITS NUMBER)</span></label>
+                                        @Html.TextBoxFor(m => m.Number)
+                                        @Html.ValidationMessageFor(x => x.Number)
+                                    </div>
+                                    <div class="editpro-row50">
+                                        <label>Name on NUMBER <sup style="color:red !important;">*</sup></label>
+                                        @Html.TextBoxFor(m => m.Name)
+                                        @Html.ValidationMessageFor(x => x.Name)
+                                    </div>
+                                    <div class="editpro-row50">
+                                        <label>ALIAS <sup style="color:red;">*</sup><span style="font-size:11px !important">(EG:HOME/OFFICE/SHOP NUMBER)</span></label>
+                                        @Html.TextBoxFor(m => m.Alias)
+                                        @Html.ValidationMessageFor(x => x.Alias)
+                                    </div>
 
+                                    <div class="editpro-row50">
+                                        <label>NUMBER Make <span style="font-size:11px !important"> (NOT REQUIRED IF YOU DO NOT KNOW)</span></label>
+                                        @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { })
+                                        @Html.ValidationMessageFor(x => x.MeterMake)
 
-@Html.Partial("_Title")
+                                    </div>
 
-<div class="mt-5">
-    <form class="">
-        @Html.HiddenFor(m => m.MeterId)
-        <div class="form-row">
-            <label class=" col-md-8">PHONE # <sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:8 DIGITS NUMBER)</span></label>
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control col-md-6" })
-            @Html.ValidationMessageFor(x => x.Number)
-        </div>
-        <div class="form-row">
-            <label class=" col-md-8">Name on NUMBER <sup style="color:red !important;">*</sup></label>
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control col-md-6" })
-            @Html.ValidationMessageFor(x => x.Name)
-        </div>
-        <div class="form-row">
-            <label class=" col-md-8">ALIAS <sup style="color:red;">*</sup><span style="font-size:11px !important">(EG:HOME/OFFICE/SHOP NUMBER)</span></label>
-            @Html.TextBoxFor(m => m.Alias, new { @class = "form-control col-md-6" })
-            @Html.ValidationMessageFor(x => x.Alias)
-        </div>
-        <div class="form-row">
-            <label class=" col-md-8">NUMBER Make <span style="font-size:11px !important"> (NOT REQUIRED IF YOU DO NOT KNOW)</span></label>
-            @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { @class = "form-control col-md-6" })
-            @Html.ValidationMessageFor(x => x.MeterMake)
-        </div>
-        <div class="form-group col-md-6 d-flex align-items-end">
-            <div class="form-check">
-                <span style="width: 10%">@Html.CheckBoxFor(m => m.isVerified, new { @class = "form-check-input" })</span>
-                <label class="form-check-label" for="saveAsNewMeter">ACTIVE</label>
+                                    <div class="editpro-row50" style="display:inline-block">
+                                        <label style="width: 10%">ACTIVE</label>
+                                        <span style="width: 10%">@Html.CheckBoxFor(m => m.isVerified)</span>
+                                    </div>
+                                    <div class="editpro-row submt">
+                                        <a href="/SavedPhoneNumbers/Index" class="btn cancelBtn">Back</a>
+                                        @if (!Model.IsDisable)
+                                        {
+                                            <input type="button" class="savebttn addDepositBtn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+                                        }
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-row submt justify-content-between col-md-6">
-            <a href="/SavedPhoneNumbers/Index" class="btn cancelBtn">Back</a>
-            <input type="button" class="savebttn addDepositBtn submitBtn btn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
-        </div>
-    </form>
+    </div>
 </div>
 
 @section scripts{
 
     <script src="~/Scripts/UserScripts/meter.js"></script>
 
-
-
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            //initialize the javascript
-            App.init();
+            $(document).ready(function () {
+                //initialize the javascript
+                App.init();
 
-        });
+            });
     </script>
 }

@@ -93,20 +93,23 @@
                                                             @Html.DropDownList("MeterId", new SelectList(ViewBag.meters, "value", "text"), "Select Meter", new { @class = " col-md-2 form-control input", @style = "font-weight:bolder; height:35px;", @id = "meterDrp", @onchange = "onSelectMeter()" })
                                                         </div>
                                                     </div>
-                                                    @*<div class="separator padded">OR</div>*@
-                                                    <div class="row padded">
-                                                        <div class="col-md-6">
-                                                            <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>
-                                                            @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
-                                                            @Html.ValidationMessageFor(x => x.MeterNumber)
+
+                                                    @if (!ViewBag.IsModuleDisable)
+                                                    {
+                                                        <div class="row padded">
+                                                            <div class="col-md-6">
+                                                                <label><span style="color:red; text-align:center;"> ENTER NEW</span> METER NUMBER</label>
+                                                                @Html.TextBoxFor(x => x.MeterNumber, new { @class = "form-control  input", @style = "height:35px; font-weight:bolder;", onkeypress = "javascript:return isNumber(event)", @onkeyup = "onChangeMeterNumber()" })
+                                                                @Html.ValidationMessageFor(x => x.MeterNumber)
+                                                            </div>
+                                                            <div class="col-md-6 form-group">
+                                                                <br /><br />
+                                                                <label class="col-md-10">SAVE AS NEW METER </label>
+                                                                @Html.CheckBoxFor(m => m.SaveAsNewMeter, new { @checked = Model.SaveAsNewMeter, @class = "col-md-2", @id = "saveMeterChk" })
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-6 form-group">
-                                                            <br /><br />
-                                                            <label class="col-md-10">SAVE AS NEW METER </label>
-                                                            @*<input id="saveMeterChk" name="SaveAsNewMeter" type="checkbox" class="col-md-2" />*@
-                                                            @Html.CheckBoxFor(m => m.SaveAsNewMeter, new { @checked = Model.SaveAsNewMeter, @class = "col-md-2", @id = "saveMeterChk" })
-                                                        </div>
-                                                    </div>
+                                                    }
+
 
 
                                                     <div class="row padded">
@@ -304,7 +307,7 @@
                         $.ShowMessage($('div.messageAlert'), "Please enter meter number or select a meter.", MessageType.Error);
                         return;
                     } else {
-
+                        debugger
                         const minVend = '@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.MinumumVend)';
                         const amtPay = +$("#Amount").val().replace(",", "");
 
@@ -318,13 +321,14 @@
 
 
                         let meterno = ""
-                        if ($("#MeterNumber").val() == "") {
+                        const mn = $("#MeterNumber").val();
+                        if (mn == undefined || mn == "") {
                             meterno = $("#meterDrp option:selected").text().split("-")[0].trim()
                         } else {
-                            meterno = $("#MeterNumber").val();
+                            meterno = mn;
                         }
-                        console.log(meterno.length);
-                        if (meterno.length != 11) {
+
+                        if (meterno && meterno.length != 11) {
                             $.ShowMessage($('div.messageAlert'), "Please enter a valid meter number.", MessageType.Error);
                             return;
                         }

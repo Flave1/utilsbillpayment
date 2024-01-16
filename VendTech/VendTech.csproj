@@ -510,7 +510,6 @@
     <Content Include="Areas\Admin\Views\Country\AddEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Partials\_countryListing.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared.zip" />
     <Content Include="Areas\Admin\Views\Report\ManageCommissionReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_commissionsReportListing.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Inquiry.cshtml" />
@@ -577,7 +576,7 @@
     <Content Include="Views\PlatformTransaction\Execute.cshtml" />
     <Content Include="Views\PlatformTransaction\ExecuteOutcome.cshtml" />
     <Content Include="Views\PlatformTransaction\Index.cshtml" />
-    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_e.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index_e.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <Content Include="Views\Home\Dashboard_e.cshtml" />
@@ -588,7 +587,7 @@
     <Content Include="Views\Meter\Index.cshtml" />
     <Content Include="Views\Meter\AddEditMeter.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
-    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers_old.cshtml" />
+    <Content Include="Views\SavedPhoneNumbers\AddEditPhoneNumbers.cshtml" />
     <Content Include="Views\Home\ChangePassword_old.cshtml" />
     <Content Include="Views\Report\SalesReport.cshtml" />
     <Content Include="Views\Deposit\Index.cshtml" />

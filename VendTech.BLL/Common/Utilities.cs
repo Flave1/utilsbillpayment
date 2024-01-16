@@ -827,5 +827,7 @@ namespace VendTech.BLL.Common
             _errorManager.LogExceptionToDatabase(new Exception($"NUll content five"));
             return null;
         }
+
+       
     }
 }

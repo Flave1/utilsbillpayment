@@ -17,12 +17,7 @@ using System.Data;
 using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
-using VendTech.Framework.Api;
-using Twilio.Converters;
-using Twilio.Http;
-using VendTech.BLL.Common;
-using System.Web.Http.Results;
-using VendTech.BLL.Managers;
+using System.Text.RegularExpressions;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -108,8 +103,8 @@ namespace VendTech.Areas.Admin.Controllers
 
             if (assignedReportModule.Any())
             {
-                var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-1" };
-                var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-2" };
+                var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-2" };
+                var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-1" };
                 var rtsRps = new List<SelectListItem>();
                 rtsRps.Add(rtsReport1);
                 rtsRps.Add(rtsReport2);
@@ -1978,11 +1973,14 @@ namespace VendTech.Areas.Admin.Controllers
 
             try
             {
+                if (!IsValidEmail(request.Email))
+                {
+                    return Json(new { message = "Email you provided is invalid", status = "failed" });
+                }
 
-                _errorManager.LogExceptionToDatabase(new Exception($"Enter"));
                 var td = _depositManager.GetSingleTransaction(long.Parse(request.TransactionId));
                 if (td == null)
-                    return Json(new { message = "Not found", status = "success" });
+                    return Json(new { message = "Not found", status = "failed" });
 
                 //var body = BLL.Common.Utilities.ReaFromTemplateFile("DepositPDF.html");
 
@@ -2034,6 +2032,15 @@ namespace VendTech.Areas.Admin.Controllers
                 _errorManager.LogExceptionToDatabase(new Exception($"Errror", ex));
                 return Json(new { message = "Email not sent.", status = "failed" });
             }
+        }
+
+        private static bool IsValidEmail(string email)
+        {
+            // Define a regular expression pattern for a valid email address
+            string pattern = @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
+
+            // Use Regex.IsMatch to check if the email matches the pattern
+            return Regex.IsMatch(email, pattern);
         }
 
     }

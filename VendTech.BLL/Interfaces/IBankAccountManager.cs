@@ -19,6 +19,7 @@ namespace VendTech.BLL.Interfaces
         ChequeBankModel GetChequeBankDetail(long id);
         ActionOutput SaveChequeBank(ChequeBankModel model);
         ActionOutput DeleteChequeBank(int id);
+        Task PerformOperation();
     }
     
 }
