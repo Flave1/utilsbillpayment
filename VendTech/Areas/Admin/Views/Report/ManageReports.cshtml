@@ -174,10 +174,33 @@
         <div class="modal-body" style="">
         </div>
     </div>
+
+
 </div>
-<div class="modal fade" id="emailBoxModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-body">
+
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<h5 class="modal-title" id="emailModalLabel">Modal title</h5>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container-fluid">
+                <div class="form-group">
+                    <form>
+                        <label for="countryCode">SEND INVOICE BY EMAIL TO:</label>
+                        <div class="mb-2 d-flex justify-content-center" style="margin: 20px">
+                            <input type="email" class="form-control " id="emailAddress" placeholder="enter email here...." required>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="send()" class="btn btn-primary">SEND</button>
+            </div>
         </div>
     </div>
 </div>
@@ -191,8 +214,15 @@
     <script src="~/Scripts/jspdf.min.js"></script>
     <script src="~/Scripts/html2canvas.min.js"></script>
     <script src="~/Scripts/Receipt.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 
     <script type="text/javascript">
+
+        var depositHandler = {
+            depositId: ''
+        }
+
         var totalCount = "@Model.TotalCount";
 
         function getUrlParameter(name) {
@@ -256,6 +286,45 @@
             }
         });
 
+        function send() {
+            
+            var emailAddress = $("#emailAddress").val();
+            var request = new Object();
+
+            request.TransactionId = depositHandler.depositId;
+            request.Email = emailAddress;
+            const url = '/Admin/Report/SendEmail';
+            $.ajax({
+                url: url,
+                data: $.postifyData(request),
+                type: "POST",
+                success: function (data) {
+
+                    if (data.status == 'failed') {
+                        $.ShowMessage($('div.messageAlert'), data.message, MessageType.Error);
+                        return;
+                    }
+                    $("#emailAddress").val('');
+                    $.ShowMessage($('div.messageAlert'), "EMAIL SENT SUCCESSFULLY", MessageType.Success);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 3000)
+
+                },
+                error: function (res) {
+                    console.log('err', res)
+                    $.ShowMessage($('div.messageAlert'), "Email not sent", MessageType.Error);
+                }
+            });
+        }
+
+        function closeSweatAlert() {
+            $(".sweet-overlay").hide();
+            $(".showSweetAlert ").hide();
+            $("#emailModal").hide();
+        }
+
     </script>
+
 }
 

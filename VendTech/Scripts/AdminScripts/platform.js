@@ -13,7 +13,6 @@
 
         var event = $(this).val();
         $('#stopSale').val(event === 'true' ? false : true);
-        console.log('event', $('#stopSale').val());
 
     });
 });
@@ -107,8 +106,10 @@ function editPlatform(type, apiConnId, title, id, short_name, logo, minAmount, s
     $('#stopSale').val(saleStatus);
 
     if (saleStatus === 'true') {
+        $('#enableBtn').text("ENABLE")
         $('#stopSale').attr('checked', true)
     } else {
+        $('#enableBtn').text("DISABLE")
         $('#stopSale').attr('checked', false)
     }
 
@@ -120,6 +121,35 @@ function editPlatform(type, apiConnId, title, id, short_name, logo, minAmount, s
 
     //previewFile(logo);
     $("#platformModal").modal('show');
+}
+
+function enableThisPlatform(sender) {
+
+    const note = btoa($("#diabledPlaformMessage").val());
+    $("#diabledPlaformMessage").val(note)
+  
+
+    $.ajaxExt({
+        url: '/Admin/Platform/EnableThisPlatform',
+        type: 'POST',
+        validate: true,
+        showErrorMessage: true,
+        messageControl: $('div#status-division'),
+        formToValidate: $("#platformSettingsForm"),
+        formToPost: $("#platformSettingsForm"),
+        isAjaxForm: true,
+        showThrobber: true,
+        containFiles: true,
+        button: $(sender),
+        throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+        success: function (results, message) {
+            $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+            setTimeout(function () {
+                window.location.reload();
+            }, 1500);
+        }
+    });
+    return false;
 }
 
 function savePlatform(sender) {
@@ -162,27 +192,6 @@ function savePlatform(sender) {
         }
     });
     return false;
-
-
-
-    //var file = $("#ImagefromWeb").val();
-    //$.ajax({
-    //    url: '/Admin/Platform/SavePlatform',
-    //    type: 'POST',
-    //    data: {
-    //        Title: $("#title").val(), Id: $("#hdnPlatformId").val(), ShortName: $("#short_name").val(), ImagefromWeb: $("#ImagefromWeb").val() },
-    //        success: function (data) {
-    //        if (data.Status == 1) {
-    //            $("#platformModal").modal('hide');
-    //            $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
-    //            setTimeout(function () {
-    //                window.location.reload();
-    //            }, 2000);
-    //        }
-    //        else
-    //            $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
-    //    }
-    //})
 }
 
 function deletePlatform(sender) {

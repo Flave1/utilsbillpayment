@@ -198,15 +198,37 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ViewUser(long userId)
         {
             ViewBag.UserTypes = _userManager.GetUserRolesSelectList();
+            ViewBag.Agencies = _agentManager.GetAgentsSelectList();
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var userModel = new AddUserModel();
             ViewBag.Roles = new List<SelectListItem> { new SelectListItem { Text = "AppUser", Value = "9" }, new SelectListItem { Text = "Vendor", Value = "17" } };
             ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
             ViewBag.Pos = _posManager.GetPOSSelectList();
+
             userModel = _userManager.GetAppUserDetailsByUserId(userId);
+            var countries = _authenticateManager.GetCountries();
+            var countryDrpData = new List<SelectListItem>();
+            foreach (var item in countries)
+            {
+                var selected = userModel.CountryId == item.CountryId;
+                countryDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CountryId.ToString(), Selected = selected });
+            }
+
+
+            ViewBag.countries = countryDrpData;
+
+            var cities = _authenticateManager.GetCities();
+            var cityDrpData = new List<SelectListItem>();
+            foreach (var item in cities)
+            {
+                var selected = userModel.City == item.CityId;
+                cityDrpData.Add(new SelectListItem { Text = item.Name, Value = item.CityId.ToString(), Selected = selected });
+            }
+            ViewBag.Cities = cityDrpData;
             userModel.ModuleList = _userManager.GetAllModules(userId);
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
+            userModel.IsAgencyAdmin = _agentManager.IsAdmin(userId);
 
             return View(userModel);
         }

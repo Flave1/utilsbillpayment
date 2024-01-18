@@ -28,7 +28,6 @@ namespace VendTech.DAL
         public Nullable<long> VendorId { get; set; }
         public string SerialNumber { get; set; }
         public Nullable<int> VendorType { get; set; }
-        public string CountryCode { get; set; }
         public string Phone { get; set; }
         public Nullable<bool> Enabled { get; set; }
         public bool IsDeleted { get; set; }

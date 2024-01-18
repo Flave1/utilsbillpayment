@@ -578,26 +578,24 @@ namespace VendTech.BLL.Managers
             var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
             if (user == null)
                 return null;
-            var us =  new AddUserModel
-            {
-                Password = Utilities.DecryptPassword(user.Password),
-                ConfirmPassword = Utilities.DecryptPassword(user.Password),
-                UserId = user.UserId,
-                FirstName = user.Name,
-                LastName = user.SurName,
-                Email = user.Email,
-                UserType = user.UserType,
-                Phone = user.Phone,
-                CompanyName = user.CompanyName,
-                VendorId = user.FKVendorId,
-                Address = user.Address,
-                AgentId  = user.AgentId,
-                CountryId = (int)user.CountryId,
-                City = (int)user.CityId,
-                ProfilePicUrl = string.IsNullOrEmpty(user.ProfilePic) ? "" : Utilities.DomainUrl + user.ProfilePic,
-                //POSId=user.FKPOSId,
-                AccountStatus = ((UserStatusEnum)(user.Status)).ToString()
-            };
+            var us = new AddUserModel();
+            us.Password = Utilities.DecryptPassword(user.Password);
+            us.ConfirmPassword = Utilities.DecryptPassword(user.Password);
+            us.UserId = user.UserId;
+            us.FirstName = user?.Name;
+            us.LastName = user?.SurName;
+            us.Email = user.Email;
+            us.UserType = user.UserType;
+            us.Phone = user?.Phone;
+            us.CompanyName = user?.CompanyName;
+            us.VendorId = user.FKVendorId;
+            us.Address = user?.Address;
+            us.AgentId = user.AgentId;
+            us.CountryId = user.CountryId != null ? user.CountryId.Value : 0;
+            us.City = user.CityId != null ? user.CityId.Value : 0;
+            us.ProfilePicUrl = string.IsNullOrEmpty(user?.ProfilePic) ? "" : Utilities.DomainUrl + user?.ProfilePic;
+            //POSId=user.FKPOSId,
+            us.AccountStatus = ((UserStatusEnum)(user.Status)).ToString();
             return us;
         }
         ActionOutput IUserManager.UpdateAppUserDetails(AddUserModel userDetails)

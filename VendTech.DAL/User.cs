@@ -35,7 +35,7 @@ namespace VendTech.DAL
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
-            this.Users11 = new HashSet<User>();
+            this.Users1 = new HashSet<User>();
         }
     
         public long UserId { get; set; }
@@ -84,6 +84,7 @@ namespace VendTech.DAL
         public virtual Commission Commission { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContactU> ContactUs { get; set; }
+        public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepositLog> DepositLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -115,11 +116,8 @@ namespace VendTech.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignedWidget> UserAssignedWidgets { get; set; }
         public virtual UserRole UserRole { get; set; }
-        public virtual User Users1 { get; set; }
-        public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users11 { get; set; }
-        public virtual User User2 { get; set; }
-        public virtual Country Country { get; set; }
+        public virtual ICollection<User> Users1 { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

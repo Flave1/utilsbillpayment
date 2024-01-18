@@ -86,7 +86,7 @@ namespace VendTech.Areas.Admin.Controllers
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
-                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("Index", "Home", new { returnUrl = Server.UrlEncode(Request.RawUrl), area = "Admin" });
+                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("Index", "Home", new { area = "Admin" });//returnUrl = Server.UrlEncode(Request.RawUrl)
                 else filter_context.Result = Json(new ActionOutput
                 {
                     Status = ActionStatus.Error,
@@ -122,7 +122,7 @@ namespace VendTech.Areas.Admin.Controllers
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
-                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("index", "home", new { returnUrl = Server.UrlEncode(Request.RawUrl), area = "Admin" });
+                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("index", "home", new {  area = "Admin" });//returnUrl = Server.UrlEncode(Request.RawUrl),
                 else filter_context.Result = Json(new ActionOutput
                 {
                     Status = ActionStatus.Error,

@@ -59,5 +59,11 @@ namespace VendTech.Areas.Admin.Controllers
         {
             return JsonResult(_platformManager.SavePlateform(model));
         }
+
+        [AjaxOnly, HttpPost]
+        public JsonResult EnableThisPlatform(EnableThisPlatform model)
+        {
+            return JsonResult(_platformManager.EnableThisPlateform(model));
+        }
     }
 }

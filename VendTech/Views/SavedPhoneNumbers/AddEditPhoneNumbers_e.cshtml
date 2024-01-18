@@ -36,9 +36,14 @@
                 <label class="form-check-label" for="saveAsNewMeter">ACTIVE</label>
             </div>
         </div>
+       
         <div class="form-row submt justify-content-between col-md-6">
+
             <a href="/SavedPhoneNumbers/Index" class="btn cancelBtn">Back</a>
-            <input type="button" class="savebttn addDepositBtn submitBtn btn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+            @if (Model.IsDisable)
+            {
+                <input type="button" class="savebttn addDepositBtn submitBtn btn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+            }
         </div>
     </form>
 </div>

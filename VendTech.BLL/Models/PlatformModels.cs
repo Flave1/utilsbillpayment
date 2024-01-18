@@ -150,4 +150,13 @@ namespace VendTech.BLL.Models
         public int? PlatformApiConnId { get; set; }
         
     }
+
+    public class EnableThisPlatform
+    {
+        public int? Id { get; set; }
+        public bool DisablePlatform { get; set; } = false;
+        public string DiabledPlaformMessage { get; set; }
+        public int PlatformType { get; set; }
+
+    }
 }

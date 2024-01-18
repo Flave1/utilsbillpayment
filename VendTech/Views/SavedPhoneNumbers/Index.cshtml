@@ -43,7 +43,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block-flat front">
-                    <a class="addmeter" href="/SavedPhoneNumbers/AddEditPhoneNumbers"><i class="fa fa-plus-circle"></i> <label>Add Phone Number</label></a>
+                    @if (!ViewBag.IsDisable)
+                    {
+                        <a class="addmeter" href="/SavedPhoneNumbers/AddEditPhoneNumbers"><i class="fa fa-plus-circle"></i> <label>Add Phone Number</label></a>
+                    }
                     <br /><br />
                     <div class="table-responsive ">
 
@@ -80,7 +83,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                     @*@Html.Partial("_Paging")*@
                 </div>

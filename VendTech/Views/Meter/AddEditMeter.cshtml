@@ -46,9 +46,12 @@
                                         <label style="width: 10%">ACTIVE</label>
                                         <span style="width: 10%">@Html.CheckBoxFor(m => m.isVerified)</span>
                                     </div>
-                                    <div class="editpro-row submt">
-                                        <input type="button" class="savebttn addDepositBtn" id="addUserBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
-                                    </div>
+                                    @if (Model.IsDisable)
+                                    {
+                                        <div class="editpro-row submt">
+                                            <input type="button" class="savebttn addDepositBtn" id="addUserBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+                                        </div>
+                                    }
                                 </div>
                             </form>
                         </div>

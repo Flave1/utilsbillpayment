@@ -25,7 +25,16 @@
         <td>@item.MeterMake</td>
         <td>@item.CreatedAt.ToString("dd MMMM yyyy")</td>
         <td>@item.isVerified</td>
-        <td><a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditPhoneNumbers", "SavedPhoneNumbers", new {Id=item.MeterId })'><i class="fa fa-edit"></i></a></td>
+        <td>
+            @if (!ViewBag.IsDisable)
+            {
+                <a title="Edit" class="editthis col-md-4" data-id="@item.MeterId" href='@Url.Action("EditPhoneNumbers", "SavedPhoneNumbers", new {Id=item.MeterId })'><i class="fa fa-edit"></i></a>
+            }
+            else
+            {
+                <a title="Edit" class="editthis  col-md-4" data-id="@item.MeterId" onclick="alert('You do not have the permission to modify this meter number')"><i class="fa fa-edit"></i></a>
+            }
+        </td>
         <td>
             @if (item.isVerified)
             {

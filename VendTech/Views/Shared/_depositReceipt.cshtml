@@ -171,7 +171,7 @@
                         <i style="font-weight: bold">THIS IS AN OFFICIAL VENDTECH INVOICE</i>
                     </div>
                     <div class="pull-right" id="print_section" style="text-align: right; width: 30%;">
-                        @*<button class="btn btn-primary waves-effect waves-light " onclick="openEmailBox()">EMAIL</button>*@
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">EMAIL</button>
                         <button class="btn btn-primary waves-effect waves-light " onclick="depositReprint()">PRINT</button>
                     </div>
                 </div>
@@ -180,28 +180,15 @@
         </div>
 
     </div>
-
 </div>
 
-<script>
 
-    function openEmailBox() {
-        debugger
-        const emailBox = document.getElementById('emailBox_');
-        if (emailBox) {
-            emailBox.style.display = 'block';
-        }
-    }
-    function closeEmailBox() {
-        
-        const emailBox = document.getElementById('emailBox_');
-        if (emailBox) {
-            //emailBox.style.display = 'none';
-            emailBox.style.padding = '40px';
-        }
-    }
 
-    //function send() {
+@*<script>*@
+
+    
+
+    @*//function send() {
     //    var emailAddress = $("#emailAddress").val();
     //    var request = new Object();
     //    request.TransactionId = smsHandler.transactionId;
@@ -227,7 +214,7 @@
     //            $.ShowMessage($('div.messageAlert'), "Sms not sent", MessageType.Error);
     //        }
     //    });
-    //}
-</script>
+    //}*@
+@*</script>*@
 
 

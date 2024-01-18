@@ -1,0 +1,30 @@
+﻿@model PagingResult<RtsedsaTransaction>
+
+
+@if (Model.List != null && Model.List.Count() > 0)
+{
+    foreach (var item in Model.List)
+    {
+        <tr class="odd gradeX">
+            <td style="text-align:right;"> @item.Account</td>
+            <td style="text-align:center;"> @item.CustomerName</td>
+            <td style="text-align:right;"> @item.DateTransaction</td>
+            <td style="text-align:right;"> @item.DebtPayment</td>
+            <td style="text-align:right;"> @item.MeterSerial</td>
+            <td style="text-align:right;"> @item.Receipt</td>
+            <td style="text-align:right;"> @item.TotalAmount</td>
+            <td style="text-align:right;"> @item.TransactionId</td>
+            <td style="text-align:right;"> @item.Unit</td>
+            <td style="text-align:right;"> @item.UnitPayment</td>
+            <td style="text-align:right;"> @item.UnitType</td>
+        </tr>
+    }
+}
+else
+{
+    @*<tr class="odd gradeX">
+        <td colspan="9" style="font-weight:bold;">SEARCH COMPLETE! No marching record found</td>
+    </tr>*@
+}
+
+

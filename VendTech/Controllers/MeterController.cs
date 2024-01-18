@@ -57,6 +57,8 @@ namespace VendTech.Controllers
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             var meters = _meterManager.GetMeters(LOGGEDIN_USER.UserID, 1, 1000000000, true);
+            ViewBag.IsDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
+
             return View(meters);
 
         }
@@ -119,6 +121,9 @@ namespace VendTech.Controllers
 
             ViewBag.meterMakes = list;
             model.Number = number;
+
+            model.IsDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
+
             return View(model);
 
         }
@@ -155,6 +160,7 @@ namespace VendTech.Controllers
                     Value = "CLOU"
                 }
             };
+            model.IsDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
 
             ViewBag.meterMakes = list;
             return View("AddEditMeter",model);
@@ -201,6 +207,7 @@ namespace VendTech.Controllers
             var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
+            ViewBag.IsModuleDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
             JavaScriptSerializer js = new JavaScriptSerializer();
             var hostory_model = new ReportSearchModel
             {
@@ -227,6 +234,7 @@ namespace VendTech.Controllers
         public JsonResult Recharge(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
+
             return JsonResult(_meterManager.RechargeMeter(model));
         }
 

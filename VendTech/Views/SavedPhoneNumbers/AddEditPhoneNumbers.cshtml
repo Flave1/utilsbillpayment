@@ -14,7 +14,7 @@
                 <div class="block-flat front">
                     <div class="contarea meterpage">
                         <div class="tabcont-row current">
-                            <form role="form" id="UserForm">
+                            <form>
                                 @Html.HiddenFor(m => m.MeterId)
                                 <div class="editpro-row">
                                     <div class="editpro-row50">
@@ -45,7 +45,11 @@
                                         <span style="width: 10%">@Html.CheckBoxFor(m => m.isVerified)</span>
                                     </div>
                                     <div class="editpro-row submt">
-                                        <input type="button" class="savebttn addDepositBtn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+                                        <a href="/SavedPhoneNumbers/Index" class="btn cancelBtn">Back</a>
+                                        @if (!Model.IsDisable)
+                                        {
+                                            <input type="button" class="savebttn addDepositBtn" id="addPhoneBtn" value="@(Model.MeterId > 0 ? "Update" : "Add")">
+                                        }
                                     </div>
                                 </div>
                             </form>

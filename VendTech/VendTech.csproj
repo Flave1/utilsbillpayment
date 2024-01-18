@@ -510,9 +510,11 @@
     <Content Include="Areas\Admin\Views\Country\AddEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Country\Partials\_countryListing.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared.zip" />
     <Content Include="Areas\Admin\Views\Report\ManageCommissionReports.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Partials\_commissionsReportListing.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Inquiry.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Transactions.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Partials\_salesListing.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
@@ -579,9 +581,9 @@
     <Content Include="Views\SavedPhoneNumbers\Partials\_numberListing.cshtml" />
     <Content Include="Views\Home\Dashboard_e.cshtml" />
     <Content Include="Views\Meter\Utility.cshtml" />
+    <Content Include="Views\Airtime\Recharge_e.cshtml" />
+    <Content Include="Views\Meter\Recharge.cshtml" />
     <Content Include="Views\Airtime\Recharge.cshtml" />
-    <Content Include="Views\Meter\Recharge_old.cshtml" />
-    <Content Include="Views\Airtime\Recharge_old.cshtml" />
     <Content Include="Views\Meter\Index.cshtml" />
     <Content Include="Views\Meter\AddEditMeter.cshtml" />
     <Content Include="Views\SavedPhoneNumbers\Index.cshtml" />
@@ -626,7 +628,7 @@
     <Content Include="Views\Meter\Index_e.cshtml" />
     <Content Include="Views\Meter\Partials\_meterListing.cshtml" />
     <Content Include="Views\Meter\AddEditMeter_e.cshtml" />
-    <Content Include="Views\Meter\Recharge.cshtml" />
+    <Content Include="Views\Meter\Recharge_e.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Report\SalesReport_new.cshtml" />

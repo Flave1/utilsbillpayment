@@ -250,7 +250,7 @@ namespace VendTech.BLL.Managers
             dbPos.SMSNotificationSales = false;
             dbPos.EmailNotificationSales = false;
             dbPos.EmailNotificationDeposit = false;
-            dbPos.CountryCode = "N/A";
+            //dbPos.CountryCode = "N/A";
             dbPos.CreatedAt = DateTime.UtcNow;
             dbPos.CommissionPercentage = commission;
             dbPos.IsDeleted = false;

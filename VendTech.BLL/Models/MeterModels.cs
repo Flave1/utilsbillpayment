@@ -21,6 +21,7 @@ namespace VendTech.BLL.Models
         public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
         public int NumberType { get; set; }
+        public bool IsDisable { get; set; }
     }
 
     public class NumberModel
@@ -37,6 +38,7 @@ namespace VendTech.BLL.Models
         public bool isVerified { get; set; } = true;
         public bool IsSaved { get; set; }
         public int NumberType { get; set; }
+        public bool IsDisable { get; set; }
     }
 
     public class MeterAPIListingModel : MeterModel

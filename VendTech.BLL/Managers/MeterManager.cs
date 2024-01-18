@@ -102,6 +102,12 @@ namespace VendTech.BLL.Managers
             };
         }
 
+        bool IMeterManager.IsModuleLocked(int moduleId, long userId)
+        {
+            return Context.UserAssignedModules.FirstOrDefault(p => p.ModuleId == moduleId && p.UserId == userId)  != null;
+            
+        }
+
         NumberModel IMeterManager.GetPhoneNumberDetail(long Id)
         {
             var dbMeter = Context.Meters.FirstOrDefault(p => p.MeterId == Id && p.NumberType == (int)NumberTypeEnum.PhoneNumber);

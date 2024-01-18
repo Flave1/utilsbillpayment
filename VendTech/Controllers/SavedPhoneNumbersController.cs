@@ -57,6 +57,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Meters;
             var meters = _meterManager.GetPhoneNumbers(LOGGEDIN_USER.UserID, 1, 1000000000, true);
+            ViewBag.IsDisable = _meterManager.IsModuleLocked(35, LOGGEDIN_USER.UserID);
             return View(meters);
         }
         [AjaxOnly, HttpPost]
@@ -89,6 +90,9 @@ namespace VendTech.Controllers
             var list = _platformManager.GetOperatorType(PlatformTypeEnum.AIRTIME);
             ViewBag.meterMakes = list;
             model.Number = number;
+
+            model.IsDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
+
             return View(model);
 
         }
@@ -100,6 +104,9 @@ namespace VendTech.Controllers
             var list = _platformManager.GetOperatorType(PlatformTypeEnum.AIRTIME);
 
             ViewBag.meterMakes = list;
+
+            model.IsDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
+
             return View("AddEditPhoneNumbers", model);
 
         }

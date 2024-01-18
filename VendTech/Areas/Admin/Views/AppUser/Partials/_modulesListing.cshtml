@@ -31,6 +31,24 @@
     .more-userOption {
         vertical-align: top;
     }
+
+
+    span.more-numbersOptionspan {
+        padding-left: 20px;
+        display: inline-block;
+        visibility: hidden;
+        border-left: 2px solid #e3c200;
+        margin-left: 10px;
+    }
+
+    .more-numbersOption:checked ~ span.more-numbersOptionspan {
+        visibility: visible;
+    }
+
+    .more-numbersOption {
+        vertical-align: top;
+    }
+
 </style>
 <div id="divResult">
     <table class="table table-bordered" id="datatable-icons">
@@ -49,13 +67,34 @@
                 <tr class="odd gradeX">
                     <td><label> @chkbox.ModuleName</label></td>
                     <td>
-                        <input class="@(chkbox.ModuleName == "Manage Reports" ? "more-option" : chkbox.ModuleName == "Users" ? "more-userOption" : chkbox.ModuleName == "Platform Settings" ? "more-platformOption": chkbox.ModuleName == "Manage Agents" ? "more-option" : "")" type="checkbox" id="@chkbox.ID" name="SelectedModules" value="@chkbox.ID" @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
+                        <input 
+                               class="@(
+                                  chkbox.ModuleName == "Manage Reports" ? "more-option"
+                                : chkbox.ModuleName == "Users" ? "more-userOption"
+                                : chkbox.ModuleName == "Platform Settings" ? "more-platformOption"
+                                : chkbox.ModuleName == "Manage Agents" ? "more-option"
+                                : chkbox.ModuleName == "Saved Numbers" ? "more-option" : "")"
+                               type="checkbox" 
+                               id="@chkbox.ID" 
+                               name="SelectedModules" 
+                               value="@chkbox.ID" 
+                               @Html.Raw(chkbox.Checked ? "checked='checked'" : "") />
                         @if (chkbox.ModuleName == "Users")
                         {
                             <span class="more-userOptionspan">
                                 @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID)))
                                 {
                                     <p><input type="checkbox" name="SelectedModules" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> @item.ModuleName</p>
+                                }
+                            </span>
+                        }
+
+                        @if (chkbox.ModuleName == "Saved Numbers")
+                        {
+                            <span class="more-optionspan">
+                                @foreach (var item in (Model.Where(p => p.SubMenuOf == chkbox.ID)))
+                                {
+                                    <p><input type="checkbox" name="SelectedModules" value="@item.ID" @Html.Raw(item.Checked ? "checked='checked'" : "") /> Lock @item.ModuleName</p>
                                 }
                             </span>
                         }

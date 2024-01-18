@@ -17,11 +17,7 @@ using System.Data;
 using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
-using VendTech.Framework.Api;
-using Twilio.Converters;
-using Twilio.Http;
-using VendTech.BLL.Common;
-using System.Web.Http.Results;
+using System.Text.RegularExpressions;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -36,6 +32,7 @@ namespace VendTech.Areas.Admin.Controllers
         private readonly IBankAccountManager _bankAccountManager;
         private readonly IPOSManager _posManager;
         private readonly IPaymentTypeManager _paymentTypeManager;
+        private readonly IEmailTemplateManager _emailTemplateManager;
         #endregion
 
         public ReportController(IUserManager userManager,
@@ -45,7 +42,7 @@ namespace VendTech.Areas.Admin.Controllers
             IDepositManager depositManager,
             IMeterManager meterManager,
             IBankAccountManager bankManager,
-            IPOSManager posManager, IPaymentTypeManager paymentTypeManager)
+            IPOSManager posManager, IPaymentTypeManager paymentTypeManager, IEmailTemplateManager emailTemplateManager)
             : base(errorLogManager)
         {
             _userManager = userManager;
@@ -56,6 +53,7 @@ namespace VendTech.Areas.Admin.Controllers
             _bankAccountManager = bankManager;
             _posManager = posManager;
             _paymentTypeManager = paymentTypeManager;
+            _emailTemplateManager = emailTemplateManager;
         }
 
         #region Report
@@ -103,6 +101,16 @@ namespace VendTech.Areas.Admin.Controllers
             var deposits = new PagingResult<DepositListingModel>();
             var depositAudit = new PagingResult<DepositAuditModel>();
 
+            if (assignedReportModule.Any())
+            {
+                var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-2" };
+                var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-1" };
+                var rtsRps = new List<SelectListItem>();
+                rtsRps.Add(rtsReport1);
+                rtsRps.Add(rtsReport2);
+                assignedReportModule.AddRange(rtsRps);
+            }
+
             ViewBag.AssignedReports = assignedReportModule;
             var bankAccounts = _bankAccountManager.GetBankAccounts();
             ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
@@ -115,6 +123,15 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     val = type.ToString();
                     val = type.ToString();
+                }
+
+                if (val == "-1")
+                {
+                    return View("Inquiry", new PagingResult<RtsedsaTransaction>());
+                }
+                if(val == "-2")
+                {
+                    return View("Transactions", new PagingResult<RtsedsaTransaction>());
                 }
                 /// This Is Used For Fetching DEPOSITS REPORT
                 if (val == "17")
@@ -1947,5 +1964,84 @@ namespace VendTech.Areas.Admin.Controllers
             result.ShowEmailButtonOnWeb = true;
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
+
+
+        [AjaxOnly, HttpPost, Public]
+        public JsonResult SendEmail(SendViaEmail request)
+        {
+            var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
+
+            try
+            {
+                if (!IsValidEmail(request.Email))
+                {
+                    return Json(new { message = "Email you provided is invalid", status = "failed" });
+                }
+
+                var td = _depositManager.GetSingleTransaction(long.Parse(request.TransactionId));
+                if (td == null)
+                    return Json(new { message = "Not found", status = "failed" });
+
+                //var body = BLL.Common.Utilities.ReaFromTemplateFile("DepositPDF.html");
+
+                var vendor = _userManager.GetUserDetailsByUserId(td.UserId);
+                var emailTemplate = _emailTemplateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositReceiptTemplate);
+                if (emailTemplate.TemplateStatus)
+                {
+                    var body = emailTemplate.TemplateContent;
+                    body = body.Replace("%ValueDate%", td.ValueDate);
+                    body = body.Replace("%CreatedAt%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                    body = body.Replace("%VendorName%", td.User.Vendor);
+                    body = body.Replace("%PosNumber%", td.POS.SerialNumber);
+                    body = body.Replace("%TransactionId%", td.TransactionId);
+                    body = body.Replace("%Type%", td.PaymentType1.Name);
+                    body = body.Replace("%VendorName%", td.NameOnCheque);
+                    body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(td.Amount));
+                    body = body.Replace("%IssuingBank%", td.ChequeBankName);
+                    body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
+                    body = body.Replace("%Bank%", td.ChequeBankName);
+                    body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
+                    body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+
+                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
+                    var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";
+                    var content = $"Greetings {vendor.Vendor}" +
+                        $"<p style='font-weight: bold; background-color: yellow'>Please find invoice INV-{td.TransactionId} attached to this email </p>" +
+                        $"<p>You can print a PDF copy for your records</p>" +
+                        $"<p>If you have any problem please let us know</p>" +
+                                 $"{Environment.NewLine}" +
+                        $"<p>Thank you</p>" +
+                                $"{Environment.NewLine}" +
+                        $"VENDTECH MANAGEMENT" +
+                             $"{Environment.NewLine}" +
+                        $"<p>Phone: +232 79 990990</p>" +
+                               $"{Environment.NewLine}" +
+                        $"Email: accounts@vendtechsl.com" +
+                           $"{Environment.NewLine}" +
+                        $"<p>Address: 186 Wilkinson Rd, Freetown - Sierra Leone</p>";
+
+
+                    BLL.Common.Utilities.SendPDFEmail(request.Email, subject, content, file.FirstOrDefault().Value, "VENDTECH_INVOICE-INV-"+td.TransactionId + ".pdf");
+                }
+
+             
+                return Json(new { message = "Email successfully sent.", status = "success" });
+            }
+            catch (Exception ex)
+            {
+                _errorManager.LogExceptionToDatabase(new Exception($"Errror", ex));
+                return Json(new { message = "Email not sent.", status = "failed" });
+            }
+        }
+
+        private static bool IsValidEmail(string email)
+        {
+            // Define a regular expression pattern for a valid email address
+            string pattern = @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
+
+            // Use Regex.IsMatch to check if the email matches the pattern
+            return Regex.IsMatch(email, pattern);
+        }
+
     }
 }

@@ -159,15 +159,11 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess("Bank deleted successfully.");
         }
 
-        //async Task IBankAccountManager.PerformOperation()
-        //{
-        //    var list = Context.TransactionDetails.Where(x => x.Amount > 0 && x.Finalised == true && x.Status == 1);
-        //    foreach(var item in list)
-        //    {
-        //        item.BalanceBefore = item.CurrentVendorBalance - item.Amount;
-        //        SaveChanges();
-        //    }
-        //}
+        async Task IBankAccountManager.PerformOperation()
+        {
+            var list = await Context.Deposits.Where(x => x.POSId > 0).ToListAsync();
+            var we = 0;
+        }
     }
 
 
