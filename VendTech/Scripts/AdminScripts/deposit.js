@@ -172,7 +172,7 @@ var Deposits = {
             var amt = thousands_separators($("#amount").val());
             var invalidAmt = thousands_separators($("#amount").val() / 1000);
 
-            $.ConfirmBox("REDENOMINATION ALERT", `PLEASE CONFIRM DEPOSIT \n\n AMOUNT: ${this.currencode}  ` + amt , null, true, null, true, null, function () {
+            $.ConfirmBox("DEPOSIT CONFIRMATION ALERT", `PLEASE CONFIRM DEPOSIT \n\n AMOUNT: ${this.currencode}  ` + amt , null, true, null, true, null, function () {
 
                 $.ajaxExt({
                     url: baseUrl + '/Admin/Deposit/AddDeposit',
