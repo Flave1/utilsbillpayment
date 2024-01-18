@@ -2859,5 +2859,14 @@ namespace VendTech.BLL.Managers
                 return true;
             }
         }
+
+        Deposit IDepositManager.GetSingleTransaction(long transactionId)
+        {
+            var dep = Context.Deposits.FirstOrDefault(d => d.DepositId == transactionId) ?? null;
+            if (dep != null)
+                return dep;
+            else
+                return null;
+        }
     }
 }
