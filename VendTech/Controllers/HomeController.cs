@@ -368,7 +368,27 @@ namespace VendTech.Controllers
                 result = false;
             else if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs) < DateTime.UtcNow)
                 result = false;
-            return JsonResult(new ActionOutput { Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+            if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.HasValue)
+            {
+                DateTime expirationTime = LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs);
+                DateTime currentTime = DateTime.UtcNow;
+                if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs) < DateTime.UtcNow)
+                    return JsonResult(new ActionOutput { Message = "expired", Status = ActionStatus.Successfull });
+
+                // Check if the session will expire within the next 20 seconds
+                if ((expirationTime - currentTime).TotalSeconds <= 30)
+                {
+                    // Your logic when it's 20 seconds to expire
+                    return JsonResult(new ActionOutput { Message = "aboutTo", Status = ActionStatus.Successfull });
+                }
+            }
+            return JsonResult(new ActionOutput { Message = "", Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+        }
+
+        [HttpGet]
+        public JsonResult MaintainSession()
+        {
+            return JsonResult(new ActionOutput { Status = ActionStatus.Successfull});
         }
 
         [Public]

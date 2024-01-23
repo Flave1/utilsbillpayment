@@ -21,6 +21,24 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/userStyle.css" rel="stylesheet" />
 
+    <style>
+        .modal-body123 {
+            background-color: #f8f9fa; /* Set your desired background color */
+            color: #343a40; /* Set your desired text color */
+            padding: 20px; /* Set your desired padding */
+        }
+
+            /* Additional styles for specific elements inside modal body if needed */
+            .modal-body123 p {
+                margin-bottom: 10px;
+            }
+
+            /* Example: Style links inside modal body */
+            .modal-body123 a {
+                color: #007bff; /* Set your desired link color */
+                text-decoration: underline;
+            }
+    </style>
 
 </head>
 <body>
@@ -28,7 +46,27 @@
         @Html.Partial("_Header")
     </header>
     @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
-    <section id="cl-wrapper" class="fixed-menu content">
+<section id="cl-wrapper" class="fixed-menu content">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>*@
+                </div>
+                <div class="modal-body123">
+                    <p>Your session is about to expire.</p>
+                    <p>Do you want to stay logged in?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="maintainSession()" data-dismiss="modal">STAY</button>
+                    <a href="@Url.Action("SignOut", "Home")" class="btn " style="background:yellow">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </div>
     @Html.Partial("_SideBaar")
 
     @if (user.UserType == UserRoles.AppUser)
@@ -42,7 +80,6 @@
     {
         <div><H1>Access denied! You do not have permission to access this corner</H1></div>
     }
-
 
 </section>
 
@@ -60,8 +97,6 @@
             <div class="col-md-2 "><a href="@Url.Action("PrivacyPolicy", "Home")" style="text-align:right;">Privacy Policy </a></div>
             <div class="col-md-1 "> <span style="color:white;"> |</span> </div>
             <div class="col-md-4 "><span style="color:white;">Vendtech SL. LTD &copy @DateTime.UtcNow.Year</span></div>
-
-
 
         </div>
     </footer>
@@ -89,13 +124,32 @@
                 $.ajax({
                     url: '/Home/AutoLogout',
                     success: function (data) {
-                        if (data.Status != 1) {
-                            //window.location.href = '/Home/Index';
+                        console.log('data', data)
+                        if (data.Message == "aboutTo") {
+                            $("#logoutModal").modal('show');
+                        }
+                        if (data.Message == "expired") {
+                            window.location.href = '/Home/Index'
                         }
                     }
                 })
-            }, 60000);
+            }, 1000);
         })
+
+        function maintainSession() {
+            window.location.reload()
+            //$.ajax({
+            //    url: '/Home/MaintainSession',
+            //    success: function (data) {
+            //        console.log('data', data)
+            //    }
+            //})
+        }
+
+
+        $(document).ready(function () {
+            App.init();
+        });
     </script>
 
 </body>
