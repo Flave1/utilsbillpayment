@@ -127,7 +127,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>06/12/2023 07:35:31</publishTime>
+      <publishTime>01/25/2024 05:57:05</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -333,6 +333,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/RTSEDSAReport/Transactions.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
+      <publishTime>01/25/2024 08:37:11</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar.cshtml">
       <publishTime>01/06/2024 05:52:45</publishTime>
     </File>
@@ -376,31 +379,334 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/24/2024 00:38:07</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>11/15/2023 08:23:17</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>06/01/2024 06:26:55</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/25/2024 08:25:48</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/16/2024 08:38:48</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/24/2024 00:38:08</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>11/15/2023 08:23:18</publishTime>
     </File>
     <File Include="bin/VendTech.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap-variables.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/accordions.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/alerts.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/badges.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/breadcrumbs.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/button-group.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/buttons.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/code.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/dropdowns.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/forms.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/grid.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/images.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/input-groups.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/labels.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/list-group.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/alerts.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/badges.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/buttons.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/dropdown.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/forms.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/labels.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/modals.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/panels.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/table-row.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/mixins/tabs.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/modals.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/pagination.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/panels.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/popovers.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/progress-bars.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/tables.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/tabs.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/type.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/bootstrap/wells.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/colors.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/config.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/code.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/color-swatch.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/colors.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/divider.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/grid.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/icons.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/invoice.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/loader.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/pricing-tables.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/timeline.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/calendar.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/map.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/tiles.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/user-info-list.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/user-profile-display.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/user-progress.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/elements/widgets/user-timeline.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/fonts/roboto.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/forms/switch-button.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/general.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/helpers.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/mixins/font-size.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/mixins/triangle.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/404.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/email.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/forgot-password.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/gallery.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/login.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/pages/sign-up.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/bootstrap-markdown.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/datatables.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/datetimepicker.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/dropzone.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/full-calendar.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/gritter.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/nestable-lists.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/parsley.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/perfect-scrollbar.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/select2.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/slider.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/summernote.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/plugins/wizard.less">
+      <publishTime>11/30/2022 07:21:35</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/left-sidebar.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/left-sidebar/progress-widget.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/main-content.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/main-wrapper.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/page-aside.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/page-head.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/right-sidebar.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/right-sidebar/tab-chat.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/right-sidebar/tab-settings.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/right-sidebar/tab-todo.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/scroll-top.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/sidebars-push-effect.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/splash-screen.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/top-header.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/top-header/connections-dropdown.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/top-header/icons-nav.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/top-header/notifications-dropdown.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/structure/top-header/user-dropdown.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/includes/table-of-content.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/style.css">
+      <publishTime>12/15/2022 05:46:51</publishTime>
+    </File>
+    <File Include="Content/assets/css/style.less">
+      <publishTime>11/30/2022 07:21:36</publishTime>
+    </File>
+    <File Include="Content/assets/css/style.min.css">
+      <publishTime>01/25/2024 04:12:42</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -679,7 +985,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/Dashboard.cshtml">
-      <publishTime>06/01/2024 05:52:46</publishTime>
+      <publishTime>01/25/2024 03:19:49</publishTime>
     </File>
     <File Include="Views/Home/Dashboard_e.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -827,6 +1133,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/SavedPhoneNumbers/Partials/_numberListing.cshtml">
       <publishTime>06/01/2024 15:35:13</publishTime>
+    </File>
+    <File Include="Views/Shared/_Header.cshtml">
+      <publishTime>01/25/2024 05:29:28</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>01/25/2024 05:29:10</publishTime>
     </File>
     <File Include="Views/Transfer/Index.cshtml">
       <publishTime>02/11/2023 07:06:04</publishTime>

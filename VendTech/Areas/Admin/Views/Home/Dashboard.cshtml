@@ -227,34 +227,34 @@
     <script>
     var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
     </script>
-    <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
+    @*<script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
     <link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />
-    <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>
+    <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>*@
     <script type="text/javascript">
 
-        $(function () {
+        //$(function () {
 
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            Morris.Line({
-                element: 'main-chart',
-                data: surveyLastDaysChartData,
-                xkey: 'mdate',
-                ykeys: ['deposit', 'billpayment'],
-                labels: ['Total Deposit', 'Total Bill Payment'],
-                pointSize: 4,
-                hideHover: 'auto',
-                fillOpacity: 0.03,
-                lineColors: ['#768294', '#0084ff'],
-                xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
-                    var month = months[x.getMonth()];
-                    return month;
-                },
-                dateFormat: function (x) {
-                    var month = months[new Date(x).getMonth()];
-                    return month;
-                },
-            });
-        });
+        //    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        //    Morris.Line({
+        //        element: 'main-chart',
+        //        data: surveyLastDaysChartData,
+        //        xkey: 'mdate',
+        //        ykeys: ['deposit', 'billpayment'],
+        //        labels: ['Total Deposit', 'Total Bill Payment'],
+        //        pointSize: 4,
+        //        hideHover: 'auto',
+        //        fillOpacity: 0.03,
+        //        lineColors: ['#768294', '#0084ff'],
+        //        xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
+        //            var month = months[x.getMonth()];
+        //            return month;
+        //        },
+        //        dateFormat: function (x) {
+        //            var month = months[new Date(x).getMonth()];
+        //            return month;
+        //        },
+        //    });
+        //});
     </script>
 }
 
