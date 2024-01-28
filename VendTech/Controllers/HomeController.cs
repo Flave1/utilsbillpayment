@@ -359,7 +359,6 @@ namespace VendTech.Controllers
             CMSPageViewModel model = _cmsManager.GetPageContentByPageIdforFront(1);
             return View(model);
         }
-        [HttpGet, Public]
         public JsonResult AutoLogout()
         {
             var secs = _authenticateManager.GetLogoutTime();
@@ -381,6 +380,7 @@ namespace VendTech.Controllers
                     // Your logic when it's 20 seconds to expire
                     return JsonResult(new ActionOutput { Message = "aboutTo", Status = ActionStatus.Successfull });
                 }
+                return JsonResult(new ActionOutput { Message = (expirationTime - currentTime).TotalSeconds.ToString(), Status = result ? ActionStatus.Successfull : ActionStatus.Error });
             }
             return JsonResult(new ActionOutput { Message = "", Status = result ? ActionStatus.Successfull : ActionStatus.Error });
         }
@@ -388,7 +388,7 @@ namespace VendTech.Controllers
         [HttpGet]
         public JsonResult MaintainSession()
         {
-            return JsonResult(new ActionOutput { Status = ActionStatus.Successfull});
+            return JsonResult(new ActionOutput { Status = ActionStatus.Successfull });
         }
 
         [Public]

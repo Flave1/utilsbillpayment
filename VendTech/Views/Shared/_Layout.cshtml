@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,35 +10,35 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <![endif]-->
-    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+
+    <link href="~/Content/userStyle.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/style.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
 
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/userStyle.css" rel="stylesheet" />
+
 
     <style>
         .modal-body123 {
-            background-color: #f8f9fa; /* Set your desired background color */
-            color: #343a40; /* Set your desired text color */
-            padding: 20px; /* Set your desired padding */
+            background-color: #f8f9fa;
+            color: #343a40; 
+            padding: 20px; 
         }
 
-            /* Additional styles for specific elements inside modal body if needed */
+           
             .modal-body123 p {
                 margin-bottom: 10px;
             }
 
-            /* Example: Style links inside modal body */
+           
             .modal-body123 a {
-                color: #007bff; /* Set your desired link color */
+                color: #007bff; 
                 text-decoration: underline;
             }
+
     </style>
 
 </head>
@@ -46,42 +47,42 @@
         @Html.Partial("_Header")
     </header>
     @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
-<section id="cl-wrapper" class="fixed-menu content">
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    @*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>*@
-                </div>
-                <div class="modal-body123">
-                    <p>Your session is about to expire.</p>
-                    <p>Do you want to stay logged in?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="maintainSession()" data-dismiss="modal">STAY</button>
-                    <a href="@Url.Action("SignOut", "Home")" class="btn " style="background:yellow">LOGOUT</a>
+    <section id="cl-wrapper" class="fixed-menu content">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="border-bottom: 2px solid gray;">
+                        <h2 class="modal-title" style="font-weight:bold" id="exampleModalLabel">Timeout Warning</h2>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                    </div>
+                    <div class="modal-body123">
+                        <p>Your session has been idle for 2 minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
+                        <p id="timeout">Warning session timeout in <span id="countdown">30 </span> seconds</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="@Url.Action("SignOut", "Home")" class="btn btn-secondary text-danger" >Logout</a>
+                        <button type="button" class="btn " style="background:orange;" onclick="maintainSession()" data-dismiss="modal">Keep Active</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    @Html.Partial("_SideBaar")
+        @Html.Partial("_SideBaar")
 
-    @if (user.UserType == UserRoles.AppUser)
-    {
-        if (user.IsEmailVerified)
+        @if (user.UserType == UserRoles.AppUser)
         {
-            @RenderBody();
+            if (user.IsEmailVerified)
+            {
+                @RenderBody();
+            }
         }
-    }
-    else
-    {
-        <div><H1>Access denied! You do not have permission to access this corner</H1></div>
-    }
+        else
+        {
+            <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+        }
 
-</section>
+    </section>
 
     <footer>
         <style>
@@ -110,8 +111,11 @@
     @RenderSection("scripts", required: false)
 
     <script>
+
+       
+
         function openCloseMobileSideBar() {
-            
+
             if ($('.show_cl-sidebar')[0]) {
                 $('.cl-sidebar').removeClass('show_cl-sidebar')
             } else {
@@ -127,29 +131,46 @@
                         console.log('data', data)
                         if (data.Message == "aboutTo") {
                             $("#logoutModal").modal('show');
+                            updateCountdown();
                         }
                         if (data.Message == "expired") {
                             window.location.href = '/Home/Index'
                         }
                     }
                 })
-            }, 1000);
+            }, 10000);
         })
 
         function maintainSession() {
-            window.location.reload()
-            //$.ajax({
-            //    url: '/Home/MaintainSession',
-            //    success: function (data) {
-            //        console.log('data', data)
-            //    }
-            //})
+            $.ajax({
+                url: '/Home/MaintainSession',
+                success: function (data) {
+                }
+            })
+        }
+
+        function toggleOpenClass() {
+            var element = document.getElementById('profile_menu');
+            element.classList.toggle('open');
         }
 
 
-        $(document).ready(function () {
-            App.init();
-        });
+
+    </script>
+
+    <script>
+        let countdownTime = 30;
+        function updateCountdown() {
+            const timeoutElement = document.getElementById('timeout');
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = '' + countdownTime;
+            if (countdownTime === 0) {
+                timeoutElement.textContent = 'Loging out.....';
+            } else {
+                countdownTime--;
+                setTimeout(updateCountdown, 2000);
+            }
+        }
     </script>
 
 </body>

@@ -2002,6 +2002,9 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%Bank%", td.ChequeBankName);
                     body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
+                    body = body.Replace("%isCommission%", "none");
+
+                    body = BLL.Common.Utilities.RemoveRow(body).ToString();
 
                     var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
                     var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";

@@ -22,6 +22,9 @@ using System.Drawing.Imaging;
 using Patagames.Pdf.Net;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models.CurrencyModel;
+using iTextSharp.tool.xml.html;
+using System.Xml;
+using HtmlAgilityPack;
 
 namespace VendTech.BLL.Common
 {
@@ -688,6 +691,7 @@ namespace VendTech.BLL.Common
                 // create a string with the HTML content to be converted to PDF
                 string htmlContent = content;
 
+
                 // convert the HTML content to PDF and add it to the document
                 parser.ParseXHtml(writer, document, new StringReader(content));
 
@@ -828,6 +832,31 @@ namespace VendTech.BLL.Common
             return null;
         }
 
-       
+        public static string RemoveRow(string htmlContent)
+        {
+
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(htmlContent);
+
+            HtmlNode rowToRemove = FindRowByStyle(htmlDoc, "display: none");
+            if (rowToRemove != null)
+            {
+                rowToRemove.Remove();
+                string modifiedHtml = htmlDoc.DocumentNode.OuterHtml;
+                Console.WriteLine(modifiedHtml);
+                return modifiedHtml;
+            }
+            else
+            {
+                Console.WriteLine("Row not found based on specified style.");
+            }
+            return htmlContent;
+        }
+
+        public static HtmlNode FindRowByStyle(HtmlDocument htmlDoc, string style)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode($"//tr[@style='{style}']");
+        }
     }
 }
+

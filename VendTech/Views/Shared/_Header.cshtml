@@ -1,9 +1,9 @@
-﻿
+﻿﻿
 @{
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
 }
 <!-- Fixed navbar -->
-<div id="head-nav" class="navbar navbar-default navbar-fixed-top" >
+<div id="head-nav" class="navbar navbar-default navbar-fixed-top">
     <div id="mobile-nav">
         <div style="width: 30%; float: left; padding-top: 13px" onclick="openCloseMobileSideBar()">
             @*<i class="fa fa-bars" style="font-size:30px;">MENU</i>*@
@@ -22,11 +22,11 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="fa fa-gear"></span> </button>
             <a class="navbar-brand" href="/home/dashboard"><span>Agent Panel</span></a>
         </div>
-        <div class="navbar-collapse collapse" id="navbar-profile" >
-             
+        <div class="navbar-collapse collapse" id="navbar-profile">
+
 
             <ul class="nav navbar-nav navbar-right user-nav">
-                <li class="dropdown profile_menu">
+                <li class="dropdown profile_menu" id="profile_menu" onclick="toggleOpenClass()">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @if (!string.IsNullOrEmpty(user.ProfilePicPath))
                         {
