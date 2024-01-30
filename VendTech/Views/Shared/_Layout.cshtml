@@ -58,7 +58,7 @@
                             </button>*@
                     </div>
                     <div class="modal-body123">
-                        <p>Your session has been idle for 2 minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
+                        <p>Your session has been idle for <span id="idleTime">2</span> minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
                         <p id="timeout">Warning session timeout in <span id="countdown">30 </span> seconds</p>
                     </div>
                     <div class="modal-footer">
@@ -112,6 +112,9 @@
 
     <script>
 
+        var homehandler = {
+            idleTime: 0
+        }
        
 
         function openCloseMobileSideBar() {
@@ -129,6 +132,7 @@
                     url: '/Home/AutoLogout',
                     success: function (data) {
                         console.log('data', data)
+                        homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
                             $("#logoutModal").modal('show');
                             updateCountdown();
@@ -163,6 +167,8 @@
         function updateCountdown() {
             const timeoutElement = document.getElementById('timeout');
             const countdownElement = document.getElementById('countdown');
+            const idleTimeElement = document.getElementById('idleTime');
+            idleTimeElement.textContent = ""+homehandler.idleTime;
             countdownElement.textContent = '' + countdownTime;
             if (countdownTime === 0) {
                 timeoutElement.textContent = 'Loging out.....';

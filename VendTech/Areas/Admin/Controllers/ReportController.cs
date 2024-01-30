@@ -2004,9 +2004,19 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
                     body = body.Replace("%isCommission%", "none");
 
-                    body = BLL.Common.Utilities.RemoveRow(body).ToString();
+                    string img1 = "<img src=\"https://vendtechsl.com/Content/images/ventech.png\" style=\"width:90px\" />";
+                    string img2 = "<img src=\"https://vendtechsl.com/Images/ProfileImages/invoice.png\" style=\"width:200px\" />";
+                    string modifiedContent = body;
+                    if(td.PercentageAmount == td.Amount)
+                    {
+                        modifiedContent = BLL.Common.Utilities.RemoveRow(body).ToString();
+                    }
+                    
 
-                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
+                    modifiedContent = modifiedContent.Replace("%img1%", img1);
+                    modifiedContent = modifiedContent.Replace("%img2%", img2);
+
+                    var file = BLL.Common.Utilities.CreatePdf(modifiedContent, td.TransactionId + "_invoice.pdf");
                     var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";
                     var content = $"Greetings {vendor.Vendor}" +
                         $"<p style='font-weight: bold; background-color: yellow'>Please find invoice INV-{td.TransactionId} attached to this email </p>" +

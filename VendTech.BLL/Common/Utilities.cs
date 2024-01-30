@@ -693,7 +693,7 @@ namespace VendTech.BLL.Common
 
 
                 // convert the HTML content to PDF and add it to the document
-                parser.ParseXHtml(writer, document, new StringReader(content));
+                parser.ParseXHtml(writer, document, new StringReader(content.ToString()));
 
                 // close the document
                 document.Close();
@@ -703,10 +703,10 @@ namespace VendTech.BLL.Common
                 return result;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 document.Close();
-                throw;
+                throw ex;
             }
         }
         public static string CreateImage(string pdfFilePath)
