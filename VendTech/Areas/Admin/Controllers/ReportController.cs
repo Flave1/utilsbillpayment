@@ -2001,15 +2001,22 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
                     body = body.Replace("%Bank%", td.ChequeBankName);
                     body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
+                    if (td.PercentageAmount != td.Amount)
+                    {
+                        body = body.Replace("%Commission%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount - td.Amount));
+                    }
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
-                    body = body.Replace("%isCommission%", "none");
 
                     string img1 = "<img src=\"https://vendtechsl.com/Content/images/ventech.png\" style=\"width:90px\" />";
                     string img2 = "<img src=\"https://vendtechsl.com/Images/ProfileImages/invoice.png\" style=\"width:200px\" />";
-                    string modifiedContent = body;
+                    string modifiedContent = "";
                     if(td.PercentageAmount == td.Amount)
                     {
-                        modifiedContent = BLL.Common.Utilities.RemoveRow(body).ToString();
+                        modifiedContent = BLL.Common.Utilities.RemoveRow(body);
+                    }
+                    else
+                    {
+                        modifiedContent = body;
                     }
                     
 

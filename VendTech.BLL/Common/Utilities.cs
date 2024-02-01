@@ -693,7 +693,7 @@ namespace VendTech.BLL.Common
 
 
                 // convert the HTML content to PDF and add it to the document
-                parser.ParseXHtml(writer, document, new StringReader(content.ToString()));
+                parser.ParseXHtml(writer, document, new StringReader(content));
 
                 // close the document
                 document.Close();
@@ -706,7 +706,7 @@ namespace VendTech.BLL.Common
             catch (Exception ex)
             {
                 document.Close();
-                throw ex;
+                throw new ArgumentException("Unable to create PDF");
             }
         }
         public static string CreateImage(string pdfFilePath)
@@ -838,24 +838,27 @@ namespace VendTech.BLL.Common
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlContent);
 
-            HtmlNode rowToRemove = FindRowByStyle(htmlDoc, "display: none");
+            HtmlNode rowToRemove = FindRowById(htmlDoc, "commission");
+            //HtmlNode rowToRemove = FindRowByStyle(htmlDoc, "display: none");
             if (rowToRemove != null)
             {
                 rowToRemove.Remove();
                 string modifiedHtml = htmlDoc.DocumentNode.OuterHtml;
-                Console.WriteLine(modifiedHtml);
                 return modifiedHtml;
             }
             else
             {
-                Console.WriteLine("Row not found based on specified style.");
+                return htmlContent;
             }
-            return htmlContent;
         }
 
         public static HtmlNode FindRowByStyle(HtmlDocument htmlDoc, string style)
         {
             return htmlDoc.DocumentNode.SelectSingleNode($"//tr[@style='{style}']");
+        }
+        public static HtmlNode FindRowById(HtmlDocument htmlDoc, string id)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode($"//div[@id='{id}']");
         }
     }
 }
