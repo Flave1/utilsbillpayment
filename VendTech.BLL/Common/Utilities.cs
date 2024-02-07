@@ -860,6 +860,45 @@ namespace VendTech.BLL.Common
         {
             return htmlDoc.DocumentNode.SelectSingleNode($"//div[@id='{id}']");
         }
+
+        public static string RemoveTableRow(string htmlContent, int rowIndexToRemove)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(htmlContent);
+
+            // Select the table
+            var tableNode = doc.DocumentNode.SelectSingleNode("//table");
+
+            if (tableNode != null)
+            {
+                // Select all rows in the table
+                var rows = tableNode.SelectNodes(".//tr");
+
+                if (rows != null && rowIndexToRemove >= 0 && rowIndexToRemove < rows.Count)
+                {
+                    // Remove the specified row
+                    rows[rowIndexToRemove].Remove();
+                }
+            }
+
+            // Get the modified HTML content
+            return doc.DocumentNode.OuterHtml;
+        }
+
+        public static string TrimLeadingZeros(string input)
+        {
+            if (!string.IsNullOrEmpty(input) && input != "0")
+            {
+                input = input.TrimStart('0');
+
+                if (input == "")
+                {
+                    input = "0";
+                }
+            }
+
+            return input;
+        }
     }
 }
 

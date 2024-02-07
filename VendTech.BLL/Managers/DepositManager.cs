@@ -2245,7 +2245,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.ChequeBankName = model.ChkBankName;
             dbDeposit.NameOnCheque = userAssignedPos.User.Vendor; //model.NameOnCheque;
             dbDeposit.PendingBankAccountId = 1; //(GTB - 116 - xxxxxx/1/6) //model.BankAccountId;
-            dbDeposit.CheckNumberOrSlipId = model.ChkOrSlipNo;
+            dbDeposit.CheckNumberOrSlipId = BLL.Common.Utilities.TrimLeadingZeros(model.ChkOrSlipNo);
             dbDeposit.Comments = model.Comments;
             var percentage = dbDeposit.Amount * userAssignedPos.Commission.Percentage / 100;
             dbDeposit.PercentageAmount = dbDeposit.Amount + percentage;

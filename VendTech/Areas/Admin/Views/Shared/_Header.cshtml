@@ -75,6 +75,10 @@
         height: 39px;
     }
 
+    .notification-tab {
+        height: 60px;
+    }
+
     @@media (max-width: 767px) {
         #head-nav {
             height: auto;
@@ -134,7 +138,7 @@
         <div class="navbar-collapse collapse" >
 
             <ul class="nav navbar-nav navbar-right user-nav">
-                <li class="dropdown profile_menu">
+                <li class="dropdown " id="profile_menu" onclick="toggleOpenClass()">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @*@(user.ProfilePicPath!=null?user.ProfilePicPath:Url.Content("/Content/images/avatar2.jpg"))*@
                         <img alt="" class="profilepictureclass" src="" id="image" /><span>@user.FirstName @user.LastName</span> <b class="caret"></b>
@@ -148,7 +152,7 @@
         @if (data != null)
         {
             <ul class="nav navbar-nav navbar-right user-nav notification-wrap" style=" background-color: #333;" >
-                <li class="dropdown profile_menu">
+                <li class="dropdown" id="notification_menu" onclick="toggleNotification()">
                     <a href="#" class="dropdown-toggle notification-tab" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profilepictureclass" src="~/Content/images/notification.png" />
                         <span class="_notificationContent">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>

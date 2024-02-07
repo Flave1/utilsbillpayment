@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -2012,7 +2013,7 @@ namespace VendTech.Areas.Admin.Controllers
                     string modifiedContent = "";
                     if(td.PercentageAmount == td.Amount)
                     {
-                        modifiedContent = BLL.Common.Utilities.RemoveRow(body);
+                        modifiedContent = BLL.Common.Utilities.RemoveTableRow(body, 11);
                     }
                     else
                     {

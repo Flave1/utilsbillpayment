@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Patagames.Pdf.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,14 +7,19 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net.Http;
+using System.Net.PeerToPeer;
+using System.Security.Cryptography;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Util;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.BLL.PlatformApi;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
@@ -571,10 +577,10 @@ namespace VendTech.BLL.Managers
         }
         PagingResult<MeterRechargeApiListingModel> IMeterManager.GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin, PlatformTypeEnum platform)
         {
-            if(model.RecordsPerPage != 20)
-            {
-                model.RecordsPerPage = 10;
-            }
+            //if(model.RecordsPerPage != 20)
+            //{
+            //    model.RecordsPerPage = 10;
+            //}
             var result = new PagingResult<MeterRechargeApiListingModel>();
             IQueryable<TransactionDetail> query = null;
             if(platform != PlatformTypeEnum.All)
@@ -597,7 +603,25 @@ namespace VendTech.BLL.Managers
 
 
 
-            var list = query.Take(model.RecordsPerPage).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(10).AsEnumerable().OrderByDescending(x => x.CreatedAt).Select(x => new MeterRechargeApiListingModel
+            {
+                //TransactionDetailsId = x.TransactionDetailsId,
+                Amount = Utilities.FormatAmount(x.Amount),
+                //PlatformId = (int)x.PlatFormId,
+                ProductShortName = x.Platform.Title,
+                CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
+                POSId = x.POSId == null ? "" : x.POS.SerialNumber,
+                Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
+                TransactionId = x.TransactionId,
+                //MeterRechargeId = x.TransactionDetailsId,
+                //RechargeId = x.TransactionDetailsId,
+                //UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
+                //VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
+                RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId,
+                //PlatformName = x.Platform.Title,
+                NotType = "sale",
+        }).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;

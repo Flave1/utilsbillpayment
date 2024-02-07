@@ -59,7 +59,7 @@
                     </div>
                     <div class="modal-body123">
                         <p>Your session has been idle for <span id="idleTime">2</span> minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
-                        <p id="timeout">Warning session timeout in <span id="countdown">30 </span> seconds</p>
+                        @*<p id="timeout">Warning session timeout in <span id="countdown">30 </span> seconds</p>*@
                     </div>
                     <div class="modal-footer">
                         <a href="@Url.Action("SignOut", "Home")" class="btn btn-secondary text-danger" >Logout</a>
@@ -135,7 +135,7 @@
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
                             $("#logoutModal").modal('show');
-                            updateCountdown();
+                            //updateCountdown();
                         }
                         if (data.Message == "expired") {
                             window.location.href = '/Home/Index'

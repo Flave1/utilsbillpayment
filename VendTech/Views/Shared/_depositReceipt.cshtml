@@ -90,22 +90,14 @@
                         </tr>
                         <tr>
                             <td>Amount :</td>
-                            @* <td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
                             <td>@Model.Amount</td>
                         </tr>
                         @if (Model.PercentageCommission.ToString() != "0.00" && Model.Type != "TRANSFER")
                         {
                             <tr>
-                                <td>COMMISSION @@ %1 :</td>
+                                <td>COMMISSION @@ 1% :</td>
                                 <td>
-                                    @*@{
-                                var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100);
-                                if (amt.Split('.')[1].Length != 2)
-                                {
-                                    amt = amt.Split('.')[0] + ".00";
-                                }
-                            }*@
-                                    @Model.PercentageAmount
+                                    @Model.Commission
                                 </td>
                             </tr>
 
@@ -115,7 +107,6 @@
                         {
                             <tr>
                                 <td>TOTAL TRANSACTION AMOUNT :</td>
-                                @*<td>@VendTech.BLL.Common.Utilities.FormatAmount(Model.Amount)</td>*@
                                 <td>@Model.Amount</td>
                             </tr>
                         }
@@ -124,13 +115,6 @@
                             <tr>
                                 <td style="font-weight: bold;">TOTAL TRANSACTION AMOUNT</td>
                                 <td style="font-weight: bold;">
-                                    @*@{
-                                var amt = VendTech.BLL.Common.Utilities.FormatAmount((Model.Amount) * Convert.ToDecimal(Model.PercentageCommission) / 100 + Model.Amount);
-                                if (amt.Split('.')[1].Length != 2)
-                                {
-                                    amt = amt.Split('.')[0] + ".00";
-                                }
-                            }*@
                                     @Model.PercentageAmount
                                 </td>
                             </tr>
