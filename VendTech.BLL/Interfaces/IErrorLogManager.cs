@@ -14,6 +14,6 @@ namespace VendTech.BLL.Interfaces
         /// </summary>
         /// <param name="exc"></param>
         /// <returns></returns>
-        string LogExceptionToDatabase(Exception exc);
+        string LogExceptionToDatabase(Exception exc, long userId = 0);
     }
 }

@@ -391,7 +391,7 @@ namespace VendTech.BLL.Common
             }
             catch (Exception x)
             {
-                LogExceptionToDatabase(x);
+                //LogExceptionToDatabase(x);
                 return true;
             }
 
@@ -440,7 +440,7 @@ namespace VendTech.BLL.Common
             }
             catch (Exception x)
             {
-                LogExceptionToDatabase(x);
+                //LogExceptionToDatabase(x);
                 //return true;
             }
 
@@ -449,7 +449,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -506,26 +506,26 @@ namespace VendTech.BLL.Common
             }
             catch (Exception x)
             {
-                LogExceptionToDatabase(x);
+                //LogExceptionToDatabase(x);
                 //return true;
             }
 
         }
 
 
-        static void LogExceptionToDatabase(Exception exc)
-        {
-            var context = new VendtechEntities();
-            ErrorLog errorObj = new ErrorLog();
-            errorObj.Message = exc.Message;
-            errorObj.StackTrace = exc.StackTrace;
-            errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
-            errorObj.LoggedInDetails = "";
-            errorObj.LoggedAt = DateTime.UtcNow;
-            context.ErrorLogs.Add(errorObj);
-            // To do
-            context.SaveChanges();
-        }
+        //static void LogExceptionToDatabase(Exception exc)
+        //{
+        //    var context = new VendtechEntities();
+        //    ErrorLog errorObj = new ErrorLog();
+        //    errorObj.Message = exc.Message;
+        //    errorObj.StackTrace = exc.StackTrace;
+        //    errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
+        //    errorObj.LoggedInDetails = "";
+        //    errorObj.LoggedAt = DateTime.UtcNow;
+        //    context.ErrorLogs.Add(errorObj);
+        //    // To do
+        //    context.SaveChanges();
+        //}
 
         static void LogProcessToDatabase(string Message, object data)
         {
@@ -799,36 +799,29 @@ namespace VendTech.BLL.Common
         {
 
             var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
-            _errorManager.LogExceptionToDatabase(new Exception($"{fileName} one"));
             // Get the current application directory
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             return null;
-            _errorManager.LogExceptionToDatabase(new Exception($"{currentDirectory} currentDirectory two"));
             // Combine the directory and file name to get the full path
             //string filePath = Path.Combine(currentDirectory, "Templates/"+fileName);
             string filePath = @"C:\Inetpub\vhosts\vendtechsl.com\httpdocs\Templates\DepositPDF.html";
             filePath = filePath.Replace("\\", "/");
 
-            _errorManager.LogExceptionToDatabase(new Exception($"{filePath} filePath three"));
             try
             {
                 // Read the file content
                 string content = File.ReadAllText(filePath);
-                _errorManager.LogExceptionToDatabase(new Exception($"{content} content four"));
                 return content; 
             }
             catch (FileNotFoundException ex)
             {
-                _errorManager.LogExceptionToDatabase(new Exception($"The file '{fileName}' was not found in the current application directory.", ex));
                 Console.WriteLine($"The file '{fileName}' was not found in the current applicatio   n directory.");
             }
             catch (Exception ex)
             {
-                _errorManager.LogExceptionToDatabase(new Exception($"An error occurred: {ex.Message}", ex));
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
-            _errorManager.LogExceptionToDatabase(new Exception($"NUll content five"));
             return null;
         }
 

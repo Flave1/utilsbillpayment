@@ -127,7 +127,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>12/06/2023 07:35:31</publishTime>
+      <publishTime>02/07/2024 13:59:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/EditProfile.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -154,7 +154,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/02/2023 07:06:03</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
-      <publishTime>11/02/2023 07:06:03</publishTime>
+      <publishTime>02/07/2024 13:49:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/PrivacyPolicy.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -334,10 +334,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
-      <publishTime>02/02/2024 11:37:25</publishTime>
+      <publishTime>02/08/2024 17:30:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_FunctionCallMessage.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header.cshtml">
+      <publishTime>02/05/2024 13:55:50</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_Paging.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_SearchFilter.cshtml">
+      <publishTime>09/08/2023 22:30:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -381,8 +393,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/Vendor/Pos.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="bin/HtmlAgilityPack.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.xml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/02/2024 08:21:15</publishTime>
+      <publishTime>07/02/2024 14:20:39</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -400,13 +421,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/02/2024 08:21:17</publishTime>
+      <publishTime>08/02/2024 17:21:04</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>05/02/2024 07:30:35</publishTime>
+      <publishTime>08/02/2024 17:20:12</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/02/2024 08:21:16</publishTime>
+      <publishTime>07/02/2024 14:20:40</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -418,6 +439,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/02/2024 16:34:58</publishTime>
     </File>
     <File Include="Content/assets/css/style.css">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Content/assets/css/style.less">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/assets/css/style.min.css">
@@ -871,7 +895,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/02/2023 07:06:04</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/02/2024 10:55:27</publishTime>
+      <publishTime>02/08/2024 17:22:39</publishTime>
     </File>
   </ItemGroup>
 </Project>

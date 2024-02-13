@@ -617,9 +617,9 @@ namespace VendTech.BLL.Managers
                 //MeterRechargeId = x.TransactionDetailsId,
                 //RechargeId = x.TransactionDetailsId,
                 //UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
-                //VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
+                VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
                 RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId,
-                //PlatformName = x.Platform.Title,
+                PlatformName = x.Platform.Title,
                 NotType = "sale",
         }).ToList();
 
