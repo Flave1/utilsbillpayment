@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -2001,9 +2002,29 @@ namespace VendTech.Areas.Admin.Controllers
                     body = body.Replace("%ChkNoOrSlipId%", td.CheckNumberOrSlipId);
                     body = body.Replace("%Bank%", td.ChequeBankName);
                     body = body.Replace("%PercentageAmount%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount));
+                    if (td.PercentageAmount != td.Amount)
+                    {
+                        body = body.Replace("%Commission%", BLL.Common.Utilities.FormatAmount(td.PercentageAmount - td.Amount));
+                    }
                     body = body.Replace("%date%", td.CreatedAt.ToString("dd/MM/yyyy"));
 
-                    var file = BLL.Common.Utilities.CreatePdf(body, td.TransactionId + "_invoice.pdf");
+                    string img1 = "<img src=\"https://vendtechsl.com/Content/images/ventech.png\" style=\"width:90px\" />";
+                    string img2 = "<img src=\"https://vendtechsl.com/Images/ProfileImages/invoice.png\" style=\"width:200px\" />";
+                    string modifiedContent = "";
+                    if(td.PercentageAmount == td.Amount)
+                    {
+                        modifiedContent = BLL.Common.Utilities.RemoveTableRow(body, 11);
+                    }
+                    else
+                    {
+                        modifiedContent = body;
+                    }
+                    
+
+                    modifiedContent = modifiedContent.Replace("%img1%", img1);
+                    modifiedContent = modifiedContent.Replace("%img2%", img2);
+
+                    var file = BLL.Common.Utilities.CreatePdf(modifiedContent, td.TransactionId + "_invoice.pdf");
                     var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";
                     var content = $"Greetings {vendor.Vendor}" +
                         $"<p style='font-weight: bold; background-color: yellow'>Please find invoice INV-{td.TransactionId} attached to this email </p>" +

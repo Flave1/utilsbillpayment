@@ -1,106 +1,78 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
-    <div class="" id="re-printSection">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="row" style="text-align:center; margin-left:50px;">
-            <img src="https://vendtechsl.com/Content/images/ventech.png" width="90" />
-        </div>
-        <div class="row" style="text-align:center; margin-left:25px;" id="gen-invoice">
-            <div class="row" style="font-weight:bold; font-size:30px;">
-                <span class="text-muted">V</span>ENDTECH
-            </div>
-            <h3>INVOICE</h3>
-        </div>
+﻿<div id="re-printSection">
+    &nbsp;
+    <div class="row" style="text-align:center; margin-left:50px;">< src="https://vendtechsl.com/Content/images/ventech.png" style="width:90px" /></div>
 
-        <table style="border-top:0.8px solid grey; margin:auto; width:90%;">
-            <tbody>
-                <tr>
-                    <td>Invoice Date : </td>
-                    <td> %CreatedAt% </td>
-                </tr>
-                <tr>
-                    <td>Value Date :</td>
-                    <td> %ValueDate%</td>
-                </tr>
-                <tr>
-                    <td>Customer Name :</td>
-                    <td>%VendorName%</td>
-                </tr>
-                <tr>
-                    <td>POS ID : </td>
-                    <td>%PosNumber%</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: bold;">Transaction or Invoice ID :</td>
-                    <td>%TransactionId%</td>
-                </tr>
-                <tr>
-                    <td>Payment Type :</td>
-                    <td>%Type%</td>
-                </tr>
-                <tr>
-                    <td>Payer :</td>
-                    <td>
-                        <span> %VendorName%</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Payer bank :</td>
-                    <td>
-                        <span>%IssuingBank%</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Invoice / PO REF # :</td>
-                    <td>
-                        <span>%ChkNoOrSlipId%</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Paid to VTECH Bank :</td>
-                    <td>
-                        <span>%Bank%</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Amount :</td>
-                    <td>%Amount%</td>
-                </tr>
-                <tr>
-                    <td>COMMISSION @@ %1 :</td>
-                    <td>
-                        <span> %PercentageAmount%</span>
-                    </td>
-                </tr>
+    <div class="row" id="gen-invoice" style="text-align:center; margin-left:25px;">
+        <div class="row" style="font-weight:bold; font-size:30px;">VENDTECH</div>
 
-                <tr>
-                    <td style="font-weight: bold;">TOTAL TRANSACTION AMOUNT</td>
-                    <td style="font-weight: bold;">
-                        <span> %PercentageAmount%</span>
-                    </td>
-                </tr>
-
-
-            </tbody>
-        </table>
-
-
-        <br />
-        <div class="row">
-            <div style="width:90%; margin:auto">
-                <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
-                <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
-                <div class="row" style="text-align:right;">
-                    <img src="https://vendtechsl.com/Images/ProfileImages/invoice.png" width="200" />
-                </div>
-            </div>
-        </div>
-
+        <h3>INVOICE</h3>
     </div>
-</body>
-</html>
+
+    <table style="border-top:0.8px solid grey; margin:auto; width:90%">
+        <tbody>
+            <tr>
+                <td>Invoice Date :</td>
+                <td>%CreatedAt%</td>
+            </tr>
+            <tr>
+                <td>Value Date :</td>
+                <td>%ValueDate%</td>
+            </tr>
+            <tr>
+                <td>Customer Name :</td>
+                <td>%VendorName%</td>
+            </tr>
+            <tr>
+                <td>POS ID :</td>
+                <td>%PosNumber%</td>
+            </tr>
+            <tr>
+                <td>Transaction or Invoice ID :</td>
+                <td>%TransactionId%</td>
+            </tr>
+            <tr>
+                <td>Payment Type :</td>
+                <td>%Type%</td>
+            </tr>
+            <tr>
+                <td>Payer :</td>
+                <td>%VendorName%</td>
+            </tr>
+            <tr>
+                <td>Payer bank :</td>
+                <td>%IssuingBank%</td>
+            </tr>
+            <tr>
+                <td>Invoice / PO REF # :</td>
+                <td>%ChkNoOrSlipId%</td>
+            </tr>
+            <tr>
+                <td>Paid to VTECH Bank :</td>
+                <td>%Bank%</td>
+            </tr>
+            <tr>
+                <td>Amount :</td>
+                <td>%Amount%</td>
+            </tr>
+            <tr style="display: none">
+                <td>COMMISSION @@ %1 :</td>
+                <td>%PercentageAmount%</td>
+            </tr>
+            <tr>
+                <td>TOTAL TRANSACTION AMOUNT</td>
+                <td>%PercentageAmount%</td>
+            </tr>
+        </tbody>
+    </table>
+    &nbsp;
+
+    <div class="row">
+        <div style="width:90%; margin:auto">
+            <div class="col-md-6 col-sm-12"><em>www.vendtechsl.com</em></div>
+
+            <div class="col-md-6 col-sm-12 text-right"><em>Call +232 76 990 990</em></div>
+
+            <div class="row" style="text-align:right;"><img src="https://vendtechsl.com/Images/ProfileImages/invoice.png" style="width:200px" /></div>
+        </div>
+    </div>
+</div>

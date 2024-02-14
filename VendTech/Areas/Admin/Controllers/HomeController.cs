@@ -325,15 +325,37 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet, Public]
         public JsonResult AutoLogout()
         {
-            var minutes = _authenticateManager.GetLogoutTime();
+            var secs = _authenticateManager.GetLogoutTime();
             bool result = true;
             if (LOGGEDIN_USER == null || LOGGEDIN_USER.UserID == 0)
                 result = false;
-            else if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddMinutes(minutes) < DateTime.UtcNow)
+            else if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs) < DateTime.UtcNow)
                 result = false;
-            return JsonResult(new ActionOutput { Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+            if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.HasValue)
+            {
+                DateTime expirationTime = LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs);
+                DateTime currentTime = DateTime.UtcNow;
+                if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs) < DateTime.UtcNow)
+                {
+                    //SignOut();
+                    return JsonResult(new ActionOutput { Message = "", Status = ActionStatus.Successfull });//expired
+                }
+
+                if ((expirationTime - currentTime).TotalSeconds <= 30)
+                {
+                    return JsonResult(new ActionOutput { Message = "", Status = ActionStatus.Successfull }); //aboutTo
+                }
+                return JsonResult(new ActionOutput { Message = (expirationTime - currentTime).TotalSeconds.ToString(), Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+            }
+            return JsonResult(new ActionOutput { Message = "", Status = result ? ActionStatus.Successfull : ActionStatus.Error });
         }
-         
+
+        [HttpGet]
+        public JsonResult MaintainSession()
+        {
+            return JsonResult(new ActionOutput { Status = ActionStatus.Successfull });
+        }
+
 
         [HttpGet, Public]
         public JsonResult ReturnDealerBalance()

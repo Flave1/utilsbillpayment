@@ -46,7 +46,7 @@
     @if (user.UserType != UserRoles.AppUser)
     {
         <div class="" style="margin-bottom:0;">
-            <strong>using: @country.DomainUrl</strong>
+            @*<strong>using: @country.DomainUrl</strong>*@
             <div class="row" style="margin-top: 40px">
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
@@ -183,9 +183,46 @@
     <script type="text/javascript">
 
         var currentDomain = window.location.protocol + '//' + window.location.hostname;
-        console.log('Current Domain URL:', currentDomain);
-
         setInterval(function () {
+            refreshDealerBalance()
+            refreshVendStatus()
+        }, 50000);
+
+
+
+
+        $(document).ready(function () {
+            refreshSalesStatus()
+            refreshVendStatus()
+            refreshDealerBalance()
+            //initialize the javascript
+            App.init();
+            App.dashBoard();
+        });
+
+        function refreshVendStatus() {
+            $.ajax({
+                url: '/Admin/Home/GetVendorBalanceSheetReports',
+                success: function (data) {
+                    $('#bsListing').html(data);
+                }
+            })
+        }
+        function refreshSalesStatus() {
+            const salesRefresh = document.getElementById('salesRefresh');
+            if (salesRefresh) {
+                salesRefresh.style.display = 'block';
+            }
+            $.ajax({
+                url: '/Admin/Home/GetSalesHistory',
+                success: function (data) {
+                    $('#saleListing').html(data);
+                    salesRefresh.style.display = 'none';
+                }
+            })
+        }
+
+        function refreshDealerBalance() {
             $.ajax({
                 url: '/Admin/Home/ReturnDealerBalance',
                 success: function (data) {
@@ -193,36 +230,7 @@
                     $("#transDate").text(data.result.RequestDate);
                 }
             })
-        }, 3000);
-
-
-        setInterval(function () {
-
-
-            $.ajax({
-                url: '/Admin/Home/GetVendorBalanceSheetReports',
-                success: function (data) {
-                    $('#bsListing').html(data);
-                }
-            })
-
-            $.ajax({
-                url: '/Admin/Home/GetSalesHistory',
-                success: function (data) {
-                    $('#saleListing').html(data);
-                }
-            })
-
-        }, 5000)
-
-
-        $(document).ready(function () {
-
-
-            //initialize the javascript
-            App.init();
-            App.dashBoard();
-        });
+        }
     </script>
     <script>
     var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
@@ -230,7 +238,7 @@
     <script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>
     <link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />
     <script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
         $(function () {
 
@@ -255,7 +263,7 @@
                 },
             });
         });
-    </script>
+    </script>*@
 }
 
 

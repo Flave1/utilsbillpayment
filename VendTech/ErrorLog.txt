@@ -132,3 +132,7 @@ Parameter name: items
 
 
 
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+

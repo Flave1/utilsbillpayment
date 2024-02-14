@@ -1,16 +1,12 @@
 ﻿using VendTech.BLL.Interfaces;
 using VendTech.DAL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VendTech.BLL.Managers
 {
     public class ErrorLogManager : BaseManager, IErrorLogManager
     {
-        string IErrorLogManager.LogExceptionToDatabase(Exception exc)
+        string IErrorLogManager.LogExceptionToDatabase(Exception exc, long userId)
         {
             var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
@@ -19,6 +15,7 @@ namespace VendTech.BLL.Managers
             errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
             errorObj.LoggedInDetails = "";
             errorObj.LoggedAt = DateTime.UtcNow;
+            errorObj.UserId = userId;
             context.ErrorLogs.Add(errorObj);
             // To do
             context.SaveChanges();
