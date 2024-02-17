@@ -232,9 +232,8 @@ namespace VendTech.Controllers
                         body = body.Replace("%USER%", user.Name);
                         body = body.Replace("%POSID%", user.POS.FirstOrDefault().SerialNumber);
                         string to = email;
-                        Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
+                        Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
                     }
-
                     var msg = new SendSMSRequest
                     {
                         Recipient = "232" + user.Phone,

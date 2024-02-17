@@ -19,7 +19,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/02/2024 08:02:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
-      <publishTime>02/05/2024 11:45:22</publishTime>
+      <publishTime>02/17/2024 14:32:26</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header.cshtml">
       <publishTime>05/02/2024 13:55:50</publishTime>
@@ -71,6 +71,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Content/assets/css/style.min.css">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>02/17/2024 13:56:34</publishTime>
     </File>
     <File Include="Views/Home/Dashboard.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
