@@ -154,7 +154,7 @@ namespace VendTech.Areas.Admin.Controllers
                     BankAccountId = request.BankAccountId,
                     CreatedAt = DateTime.UtcNow,
                     PercentageAmount = request.Amount,
-                    CheckNumberOrSlipId = request.ChkOrSlipNo,
+                    CheckNumberOrSlipId = Utilities.TrimLeadingZeros(request.ChkOrSlipNo),
                     ChequeBankName = request.Bank,
                     ValueDate = request.ValueDate,
                     NameOnCheque = request.NameOnCheque,

@@ -78,7 +78,7 @@ namespace VendTech.Areas.Api.Controllers
         }
 
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage CreateEdsaAsPDF(RechargeSimpleRequest request)
         {
@@ -130,7 +130,7 @@ namespace VendTech.Areas.Api.Controllers
             }
         }
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage SendEdsaViaWhatsapp(RechargeSimpleRequest request)
         {
@@ -187,7 +187,7 @@ namespace VendTech.Areas.Api.Controllers
         }
 
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage DeleteFileFromDirectory(RechargeSimpleRequest request)
         {
@@ -248,7 +248,7 @@ namespace VendTech.Areas.Api.Controllers
             //}
         }
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage Downoload()
         {

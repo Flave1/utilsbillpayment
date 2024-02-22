@@ -479,7 +479,7 @@ namespace VendTech.BLL.Common
 
     
 
-        static void LogProcessToDatabase(string Message, object data)
+        public static void LogProcessToDatabase(string Message, object data)
         {
             var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
