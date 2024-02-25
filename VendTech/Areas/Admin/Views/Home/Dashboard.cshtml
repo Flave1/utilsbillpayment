@@ -46,7 +46,9 @@
     @if (user.UserType != UserRoles.AppUser)
     {
         <div class="" style="margin-bottom:0;">
-            @*<strong>using: @country.DomainUrl</strong>*@
+            <br />
+            <br />
+            <strong>using: <span id="currentDomain">@country.DomainUrl</span></strong>
             <div class="row" style="margin-top: 40px">
                 @if (Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 9))
                 {
@@ -198,6 +200,8 @@
             //initialize the javascript
             App.init();
             App.dashBoard();
+
+            $('#currentDomain').html(currentDomain + ' live');
         });
 
         function refreshVendStatus() {

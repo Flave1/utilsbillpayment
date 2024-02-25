@@ -1,4 +1,8 @@
-﻿<style>
+﻿@{ 
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
+}
+
+<style>
    
  
     .smsModal {
@@ -61,6 +65,7 @@
             font-weight:normal;
         }*/
 </style>
+
 <div class="smsOverlay">
 
     <div class="modal-dialog">
@@ -72,13 +77,13 @@
                 <form>
 
                     <label for="countryCode">SEND VOUCHER BY SMS TO:</label>
-                    <div class="input-group mb-2 d-flex justify-content-center">
-                        <div class="input-group-prepend col-3">
-                            <select class="custom-select input-group-text" id="countryCode">
-                                <option selected>+232</option>
+                    <div class="input-group mb-2 d-flex justify-content-center" style="width: 90%; display: inline-flex">
+                        <div class="input-group-prepend col-3" style="height: 34px; float: left; width: 20%">
+                            <select class="custom-select input-group-text" id="countryCode" style="width: 100%; height: 100%; ">
+                                <option selected>@country.CountryCode</option>
                             </select>
                         </div>
-                        <input type="text" class="form-control col-9" id="smsNumber" placeholder="enter number here...." required>
+                        <input style="float: right;" type="text" class="form-control col-9" id="smsNumber" placeholder="enter number here...." required>
                     </div>
 
                 </form>
