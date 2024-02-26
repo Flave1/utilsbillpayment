@@ -99,6 +99,7 @@ namespace VendTech.BLL.Models
         public decimal PercentageCommission { get; set; }
 
         public string NotType { get; set; }
+        public decimal Commission { get; set; }
         public POS POS { get; set; } = new POS();
         public DepositListingModel() { }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
@@ -139,6 +140,7 @@ namespace VendTech.BLL.Models
             ValueDate = obj.ValueDate == null ? obj.CreatedAt.ToString("dd/MM/yyyy hh:mm") : obj.ValueDate;
             PercentageCommission = obj.POS.Commission.Percentage;
             ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
+            Commission = obj.PercentageAmount.Value - obj.Amount;
         }
 
         public DepositListingModel(PendingDeposit obj)
@@ -537,7 +539,7 @@ namespace VendTech.BLL.Models
             PaymentType = obj.PaymentType;
 
             GTBank = obj.BankAccount.BankName;
-            Payer = obj.PaymentType != 4 ? !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "": obj.User.Agency.User.Vendor;
+            Payer = string.IsNullOrEmpty(obj.NameOnCheque) ? "" : obj.NameOnCheque; //obj.PaymentType != 4 ? !string.IsNullOrEmpty(obj.NameOnCheque) ? obj.NameOnCheque : "": obj.User.Agency.User.Vendor;
             IssuingBank = obj.ChequeBankName != null ? obj.ChequeBankName + '-' + obj.BankAccount.AccountNumber.Replace("/", string.Empty).Substring(obj.BankAccount.AccountNumber.Replace("/", string.Empty).Length - 3) : "";
             Amount = obj.Amount;
             CreatedAt = obj.CreatedAt.ToString("dd/MM/yyyy hh:mm");

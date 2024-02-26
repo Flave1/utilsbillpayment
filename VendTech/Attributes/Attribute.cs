@@ -13,6 +13,7 @@ using VendTech.BLL.Managers;
 using VendTech.BLL.Models;
 using VendTech.Framework.Api;
 using VendTech.Areas.Api.Controllers;
+using VendTech.BLL.Common;
 
 namespace VendTech.Attributes
 {

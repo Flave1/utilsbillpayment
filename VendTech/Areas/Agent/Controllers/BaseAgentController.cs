@@ -88,7 +88,7 @@ namespace VendTech.Areas.Agent.Controllers
                             auth_cookie.Expires = DateTime.Now.AddDays(-30);
                             Response.Cookies.Add(auth_cookie);
                             filter_context.Result = RedirectToAction("index", "home");
-                            LogExceptionToDatabase(exc);
+                            //LogExceptionToDatabase(exc);
                         }
 
                     }
@@ -188,7 +188,7 @@ namespace VendTech.Areas.Agent.Controllers
             try
             {
                 //Log exception in database
-                var result = _errorLogManager.LogExceptionToDatabase(ex);
+                var result = _errorLogManager.LogExceptionToDatabase(ex, LOGGEDIN_USER.UserID);
 
                 //Log exception in file
                 LogExceptionToFile("", ex.Message);

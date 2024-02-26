@@ -22,10 +22,19 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.ValidateUserSession(string token)
         {
+
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
             if (session != null)
-
             {
+                var currentTimeWithAppSeconds = session.User.AppLastUsed.Value.AddSeconds(Convert.ToInt16(Context.AppSettings.FirstOrDefault().Value));
+                var hasExpired = currentTimeWithAppSeconds < DateTime.UtcNow;
+
+                //Utilities.LogProcessToDatabase($"currentTimeWithAppSeconds: {currentTimeWithAppSeconds}", "");
+                //Utilities.LogProcessToDatabase($"DateTime.UtcNow: {DateTime.UtcNow}", "");
+                if (hasExpired)
+                {
+                    return null;
+                }
                 var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
                 if (session != null &&
                     (session.User.Status == (int)UserStatusEnum.Active

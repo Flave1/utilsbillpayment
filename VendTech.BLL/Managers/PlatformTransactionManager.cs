@@ -299,10 +299,10 @@ namespace VendTech.BLL.Managers
 
         public PagingResult<MeterRechargeApiListingModel> GetUserAirtimeRechargeTransactionDetailsHistory(ReportSearchModel model, bool callFromAdmin)
         {
-            if (model.RecordsPerPage != 20)
-            {
-                model.RecordsPerPage = 10;
-            }
+            //if (model.RecordsPerPage != 20)
+            //{
+            //    model.RecordsPerPage = 10;
+            //}
             var result = new PagingResult<MeterRechargeApiListingModel>();
             var query = Context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
                 .Where(p => !p.IsDeleted && p.Finalised == true && p.POSId != null && p.Platform.PlatformType == (int) PlatformTypeEnum.AIRTIME && p.PlatFormId == model.PlatformId);
@@ -318,7 +318,25 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.POSId.Value));
             }
 
-            var list = query.Take(model.RecordsPerPage).OrderByDescending(x => x.CreatedAt).AsEnumerable().Select(x => new MeterRechargeApiListingModel(x)).ToList();
+            var list = query.Take(10).OrderByDescending(x => x.CreatedAt).AsEnumerable().Select(x => new MeterRechargeApiListingModel
+            {
+                //TransactionDetailsId = x.TransactionDetailsId,
+                Amount = Utilities.FormatAmount(x.Amount),
+                //PlatformId = (int)x.PlatFormId,
+                ProductShortName = x.Platform.Title,
+                CreatedAt = x.CreatedAt.ToString("dd/MM/yyyy hh:mm"),
+                MeterNumber = x.Meter == null ? x.MeterNumber1 : x.Meter.Number,
+                POSId = x.POSId == null ? "" : x.POS.SerialNumber,
+                Status = ((RechargeMeterStatusEnum)x.Status).ToString(),
+                TransactionId = x.TransactionId,
+                //MeterRechargeId = x.TransactionDetailsId,
+                //RechargeId = x.TransactionDetailsId,
+                //UserName = x.User?.Name + (!string.IsNullOrEmpty(x.User.SurName) ? " " + x.User.SurName : ""),
+                //VendorName = x.POS.User == null ? "" : x.POS.User.Vendor,
+                RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId,
+                //PlatformName = x.Platform.Title,
+                NotType = "sale",
+            }).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;

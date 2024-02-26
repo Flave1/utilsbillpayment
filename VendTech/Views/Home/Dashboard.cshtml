@@ -1,4 +1,4 @@
-﻿@model  DashboardViewModel
+﻿﻿@model  DashboardViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -86,7 +86,9 @@
                 </div>
             </div>
             <div class="cl-mcont">
-
+                <br />
+                <br />
+                <strong>using: <span id="currentDomain">@country.DomainUrl</span></strong>
                 <div class="row">
                     @if (ViewBag.ShowRevenueWidg && Model.currentUser.SelectedWidgets != null && Model.currentUser.SelectedWidgets.Any(y => y == 10))
                     {
@@ -276,68 +278,11 @@
 
 
 @section scripts{
-
     <script type="text/javascript">
-
         $(document).ready(function () {
             //initialize the javascript
-            App.init();
+            //App.init();
         });
     </script>
-
-    <script>
-        var surveyLastDaysChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.transactionChartData));
-    </script>
-
-    @*<script src="~/Scripts/Spinner.js"></script>*@
-    @*<script src="~/Content/beagle/lib/raphael/raphael-min.js"></script>*@
-    @*<link href="~/Content/beagle/lib/morrisjs/morris.css" rel="stylesheet" />*@
-    @*<script src="~/Content/beagle/lib/morrisjs/morris.min.js"></script>*@
-    <script type="text/javascript">
-
-        //setInterval(function () {
-        //    $.ajax({
-        //        url: '/Home/ReturnUserBalance',
-        //        success: function (data) {
-        //            $("#userBalance").text(data.result);
-        //            $("#userBalanceMain").text(data.result);
-        //        }
-        //    })
-        //}, 3000);
-        $(function () {
-
-            //var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            ////console.log(surveyLastDaysChartData);
-            //Morris.Line({
-            //    element: 'main-chart',
-            //    data: surveyLastDaysChartData /*[
-            //                                        { y: '2006', a: 90, b: 76 },
-            //                                        { y: '2007', a: 75, b: 65 },
-            //                                        { y: '2008', a: 50, b: 40 },
-            //                                        { y: '2009', a: 75, b: 65 },
-            //                                        { y: '2010', a: 50, b: 40 },
-            //                                        { y: '2011', a: 75, b: 65 },
-            //                                        { y: '2012', a: 25, b: 20 }
-            //                                    ]*/,
-            //    xkey: 'mdate',
-            //    ykeys: ['deposit', 'billpayment'],
-            //    labels: ['Deposit', 'Bill Payment'],
-            //    pointSize: 4,
-            //    hideHover: 'auto',
-            //    fillOpacity: 0.03,
-            //    lineColors: ['#768294', '#0084ff'],
-            //    xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
-            //        var month = months[x.getMonth()];
-            //        return month;
-            //    },
-            //    dateFormat: function (x) {
-            //        var month = months[new Date(x).getMonth()];
-            //        return month;
-            //    },
-            //});
-        });
-    </script>
-
 }
-
 

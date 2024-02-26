@@ -91,3 +91,50 @@ Object reference not set to an instance of an object.
 
 
 
+Operator '!' cannot be applied to operand of type '<null>'
+
+
+
+Operator '!' cannot be applied to operand of type '<null>'
+
+
+
+Operator '!' cannot be applied to operand of type '<null>'
+
+
+
+Value cannot be null.
+Parameter name: items
+
+
+
+Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+

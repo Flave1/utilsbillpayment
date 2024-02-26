@@ -27,21 +27,21 @@ namespace VendTech
 
 
             /////
-            ITrigger secondTrigger = TriggerBuilder.Create().StartNow()
-            .WithSimpleSchedule (s =>  s.WithIntervalInSeconds(30).RepeatForever()).Build();
-            IJobDetail jobSecond = JobBuilder.Create<PendingTransactionCheckJob>().Build();
+            //ITrigger secondTrigger = TriggerBuilder.Create().StartNow()
+            //.WithSimpleSchedule(s => s.WithIntervalInSeconds(30).RepeatForever()).Build();
+            //IJobDetail jobSecond = JobBuilder.Create<PendingTransactionCheckJob>().Build();
             /////
 
 
             /////
-            ITrigger thirdTrigger = TriggerBuilder.Create().StartNow()
-            .WithSimpleSchedule(s => s.WithIntervalInMinutes(30).RepeatForever()).Build();
-            IJobDetail jobThird = JobBuilder.Create<BalanceLowSheduleJob>().Build();
+            //ITrigger thirdTrigger = TriggerBuilder.Create().StartNow()
+            //.WithSimpleSchedule(s => s.WithIntervalInHours(24).RepeatForever()).Build();
+            //IJobDetail jobThird = JobBuilder.Create<BalanceLowSheduleJob>().Build();
             /////
 
             scheduler.ScheduleJob(jobFirst, firstTrigger);
-            scheduler.ScheduleJob(jobSecond, secondTrigger);
-            scheduler.ScheduleJob(jobThird, thirdTrigger);
+            //scheduler.ScheduleJob(jobSecond, secondTrigger);
+            //scheduler.ScheduleJob(jobThird, thirdTrigger);
 
 
 

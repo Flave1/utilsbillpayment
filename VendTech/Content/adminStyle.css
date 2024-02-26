@@ -170,7 +170,7 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
 .cl-mcont{background-color:#F6F6F6;color:inherit;font-size:13px;font-weight:200;line-height:21px;padding:15px 30px 30px 30px;margin-top:0}
 .cl-mcont.white{background:#fff;}
 .cl-mcont h1{line-height:1.3em;}
-#cl-wrapper{padding-top:60px;}
+#cl-wrapper{padding-top:30px;}
 
 /*Vertical Navigation*/
 

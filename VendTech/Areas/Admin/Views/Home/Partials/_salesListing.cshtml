@@ -9,12 +9,15 @@
         <thead>
             <tr style="background: #404040; color: white; font-weight: bold; word-spacing:10px; ">
 
-                <th>
-                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size:20px;" aria-hidden="true"></i>
-                    <span class="sr-only">Refreshing...</span>
+                <th onclick="refreshSalesStatus()" style="border: none; cursor: pointer;"  title="click to refresh">
+                    <a><i class="fa fa-refresh fa-3x fa-fw" style="font-size:20px; color: white;" aria-hidden="true"></i></a>
+                   
                 </th>
-                <th colspan="7">
-                    <strong style="font-size: 20px;">
+                <th colspan="1" style="border: none">
+                    <span style="color: white; display: none;" id="salesRefresh">refreshing....</span>
+                </th>
+                <th colspan="6" style="border: none">
+                    <strong style="font-size: 20px; margin-right: 80px;">
                         LAST 10 SALES
                     </strong>
                 </th>

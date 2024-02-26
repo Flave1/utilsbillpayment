@@ -649,14 +649,16 @@ namespace VendTech.BLL.Managers
             model.RecordsPerPage = 10000000;
             IQueryable<DepositLog> query = null;
             var result = new PagingResult<AgentRevenueListingModel>();
-
+            //p.Deposit.PaymentType == (int)DepositPaymentTypeEnum.AgencyCommision &&
             if (!model.IsInitialLoad)
-                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released  
-                && p.Deposit.PaymentType1.PaymentTypeId == (int)DepositPaymentTypeEnum.AgencyCommision);
+                query = Context.DepositLogs
+                    .Where(p => p.Deposit.User.AgentId.Value == model.AgencyId.Value && p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed).OrderByDescending(p => p.Deposit.CreatedAt);
             else
-                query = Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt)
-                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released && p.Deposit.PaymentType1.PaymentTypeId == (int)DepositPaymentTypeEnum.AgencyCommision)
-                    && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow));
+                query = Context.DepositLogs
+                    .Where(p => p.Deposit.User.AgentId.Value == model.AgencyId.Value && (p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
+                    && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)).OrderByDescending(p => p.Deposit.CreatedAt);
 
             if (model.From != null)
             {
@@ -679,10 +681,10 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
-            if(model.AgencyId.HasValue && model.AgencyId > 0)
-            {
-                query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
-            }
+            //if(model.AgencyId.HasValue && model.AgencyId > 0)
+            //{
+            //    query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
+            //}
 
             if (model.PosId.HasValue && model.PosId > 0)
             {
@@ -2250,7 +2252,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.ChequeBankName = model.ChkBankName;
             dbDeposit.NameOnCheque = userAssignedPos.User.Vendor; //model.NameOnCheque;
             dbDeposit.PendingBankAccountId = 1; //(GTB - 116 - xxxxxx/1/6) //model.BankAccountId;
-            dbDeposit.CheckNumberOrSlipId = model.ChkOrSlipNo;
+            dbDeposit.CheckNumberOrSlipId = BLL.Common.Utilities.TrimLeadingZeros(model.ChkOrSlipNo);
             dbDeposit.Comments = model.Comments;
             var percentage = dbDeposit.Amount * userAssignedPos.Commission.Percentage / 100;
             dbDeposit.PercentageAmount = dbDeposit.Amount + percentage;

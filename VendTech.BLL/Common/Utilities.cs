@@ -22,6 +22,11 @@ using System.Drawing.Imaging;
 using Patagames.Pdf.Net;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models.CurrencyModel;
+using iTextSharp.tool.xml.html;
+using System.Xml;
+using HtmlAgilityPack;
+using MailKit.Net.Smtp;
+using System.Web.Mail;
 
 namespace VendTech.BLL.Common
 {
@@ -328,76 +333,11 @@ namespace VendTech.BLL.Common
             { throw x; }
 
         }
-        public static bool SendEmail11(string to, string sub, string body)
-        {
-            string from =  WebConfigurationManager.AppSettings["SMTPFrom"].ToString();
-            string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
-            string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
-            try
-            {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient();
-
-                mail.From = new MailAddress(from, displayName);
-                mail.To.Add(to);
-                mail.Subject = sub;
-                mail.Body = body;
-
-
-                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                //SmtpServer.Port = 587;
-                ////SmtpServer.UseDefaultCredentials = false;
-                ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                // SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true;
-                mail.BodyEncoding = Encoding.UTF8;
-                LogProcessToDatabase("Sending", body);
-                SmtpServer.Send(mail);
-                LogProcessToDatabase("Sent", body);
-
-                //LogProcessToDatabase("About to start", body);
-
-                //MailMessage msg = new MailMessage();
-
-                //msg.To.Add(to);
-
-                //MailAddress address = new MailAddress(from);
-                //msg.From = address;
-                //msg.Subject = sub;
-                //msg.Body = body;
-                //msg.IsBodyHtml = true;
-                //msg.BodyEncoding = Encoding.UTF8;
-
-                //LogProcessToDatabase("Created Payload", body);
-                //SmtpClient client = new SmtpClient();
-                //client.Host = "relay-hosting.secureserver.net";
-                //client.Port = 25;
-
-                ////Send the msg
-                //client.Send(msg);
-
-                //LogProcessToDatabase("About to send", body);
-
-                //client.Send(msg);
-
-
-                //LogProcessToDatabase("Mail sent", msg);
-                return true;
-
-
-            }
-            catch (Exception x)
-            {
-                LogExceptionToDatabase(x);
-                return true;
-            }
-
-        }
-
+       
         public static void SendEmail(string to, string sub, string body)
         {
-            string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string from =  WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();// "support@vendtechsl.com";
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString(); //"S8pt*T&ch";
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -434,10 +374,37 @@ namespace VendTech.BLL.Common
 
                     client.Disconnect(true);
                 }
+
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                //                                  | SecurityProtocolType.Tls11
+                //                                  | SecurityProtocolType.Tls12;
+
+
+                //using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com"))
+                //{
+                //    smtpClient.Port = 465;
+                //    smtpClient.Credentials = new NetworkCredential(from, password);
+                //    smtpClient.EnableSsl = true;
+                //    try
+                //    {
+                //        // Send email
+                //        smtpClient.Send(from, to, "subject", "body");
+                //        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
+
+                //        Console.WriteLine("Email sent successfully!");
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Console.WriteLine("Failed to send email. Error: " + ex.Message);
+                //    }
+                //}
+
+
+
             }
             catch (Exception x)
             {
-                LogExceptionToDatabase(x);
+                //LogExceptionToDatabase(x);
                 //return true;
             }
 
@@ -446,7 +413,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -503,28 +470,16 @@ namespace VendTech.BLL.Common
             }
             catch (Exception x)
             {
-                LogExceptionToDatabase(x);
+                //LogExceptionToDatabase(x);
                 //return true;
             }
 
         }
 
 
-        static void LogExceptionToDatabase(Exception exc)
-        {
-            var context = new VendtechEntities();
-            ErrorLog errorObj = new ErrorLog();
-            errorObj.Message = exc.Message;
-            errorObj.StackTrace = exc.StackTrace;
-            errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
-            errorObj.LoggedInDetails = "";
-            errorObj.LoggedAt = DateTime.UtcNow;
-            context.ErrorLogs.Add(errorObj);
-            // To do
-            context.SaveChanges();
-        }
+    
 
-        static void LogProcessToDatabase(string Message, object data)
+        public static void LogProcessToDatabase(string Message, object data)
         {
             var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
@@ -579,40 +534,40 @@ namespace VendTech.BLL.Common
             return token_item;
         }
        
-        public async static Task<bool> Execute(string email, string subject, string message)
-        {
-            try
-            {
-                string toEmail = email;
+        //public async static Task<bool> Execute(string email, string subject, string message)
+        //{
+        //    try
+        //    {
+        //        string toEmail = email;
 
-                MailMessage mail = new MailMessage()
-                {
-                    From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
-                };
-                mail.To.Add(toEmail);
+        //        MailMessage mail = new MailMessage()
+        //        {
+        //            From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
+        //        };
+        //        mail.To.Add(toEmail);
 
-                //mail.To.Add(new MailAddress(toEmail));
-                //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
+        //        //mail.To.Add(new MailAddress(toEmail));
+        //        //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
 
-                mail.Subject = subject;
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                mail.Priority = MailPriority.High;
+        //        mail.Subject = subject;
+        //        mail.Body = message;
+        //        mail.IsBodyHtml = true;
+        //        mail.Priority = MailPriority.High;
 
-                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
-                {
-                    smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                    smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(mail);
-                }
-                return true;
-            }
+        //        using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
+        //        {
+        //            smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+        //            smtp.EnableSsl = true;
+        //            await smtp.SendMailAsync(mail);
+        //        }
+        //        return true;
+        //    }
 
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         public static string SHA256(string randomString)
         {
@@ -688,6 +643,7 @@ namespace VendTech.BLL.Common
                 // create a string with the HTML content to be converted to PDF
                 string htmlContent = content;
 
+
                 // convert the HTML content to PDF and add it to the document
                 parser.ParseXHtml(writer, document, new StringReader(content));
 
@@ -699,10 +655,10 @@ namespace VendTech.BLL.Common
                 return result;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 document.Close();
-                throw;
+                throw new ArgumentException("Unable to create PDF");
             }
         }
         public static string CreateImage(string pdfFilePath)
@@ -795,39 +751,99 @@ namespace VendTech.BLL.Common
         {
 
             var _errorManager = DependencyResolver.Current.GetService<IErrorLogManager>();
-            _errorManager.LogExceptionToDatabase(new Exception($"{fileName} one"));
             // Get the current application directory
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             return null;
-            _errorManager.LogExceptionToDatabase(new Exception($"{currentDirectory} currentDirectory two"));
             // Combine the directory and file name to get the full path
             //string filePath = Path.Combine(currentDirectory, "Templates/"+fileName);
             string filePath = @"C:\Inetpub\vhosts\vendtechsl.com\httpdocs\Templates\DepositPDF.html";
             filePath = filePath.Replace("\\", "/");
 
-            _errorManager.LogExceptionToDatabase(new Exception($"{filePath} filePath three"));
             try
             {
                 // Read the file content
                 string content = File.ReadAllText(filePath);
-                _errorManager.LogExceptionToDatabase(new Exception($"{content} content four"));
                 return content; 
             }
             catch (FileNotFoundException ex)
             {
-                _errorManager.LogExceptionToDatabase(new Exception($"The file '{fileName}' was not found in the current application directory.", ex));
                 Console.WriteLine($"The file '{fileName}' was not found in the current applicatio   n directory.");
             }
             catch (Exception ex)
             {
-                _errorManager.LogExceptionToDatabase(new Exception($"An error occurred: {ex.Message}", ex));
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
-            _errorManager.LogExceptionToDatabase(new Exception($"NUll content five"));
             return null;
         }
 
-       
+        public static string RemoveRow(string htmlContent)
+        {
+
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(htmlContent);
+
+            HtmlNode rowToRemove = FindRowById(htmlDoc, "commission");
+            //HtmlNode rowToRemove = FindRowByStyle(htmlDoc, "display: none");
+            if (rowToRemove != null)
+            {
+                rowToRemove.Remove();
+                string modifiedHtml = htmlDoc.DocumentNode.OuterHtml;
+                return modifiedHtml;
+            }
+            else
+            {
+                return htmlContent;
+            }
+        }
+
+        public static HtmlNode FindRowByStyle(HtmlDocument htmlDoc, string style)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode($"//tr[@style='{style}']");
+        }
+        public static HtmlNode FindRowById(HtmlDocument htmlDoc, string id)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode($"//div[@id='{id}']");
+        }
+
+        public static string RemoveTableRow(string htmlContent, int rowIndexToRemove)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(htmlContent);
+
+            // Select the table
+            var tableNode = doc.DocumentNode.SelectSingleNode("//table");
+
+            if (tableNode != null)
+            {
+                // Select all rows in the table
+                var rows = tableNode.SelectNodes(".//tr");
+
+                if (rows != null && rowIndexToRemove >= 0 && rowIndexToRemove < rows.Count)
+                {
+                    // Remove the specified row
+                    rows[rowIndexToRemove].Remove();
+                }
+            }
+
+            // Get the modified HTML content
+            return doc.DocumentNode.OuterHtml;
+        }
+
+        public static string TrimLeadingZeros(string input)
+        {
+            if (!string.IsNullOrEmpty(input) && input != "0")
+            {
+                input = input.TrimStart('0');
+
+                if (input == "")
+                {
+                    input = "0";
+                }
+            }
+
+            return input;
+        }
     }
 }
+

@@ -337,7 +337,7 @@
                     <div class=" col-md-12">
                         <label for="short_name" class="col-md-4 control-label margin">TYPE<em>*</em></label>
                         <div class="col-md-8">
-                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "deposittype", @class = "form-control margin" })
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "deposittype", @class = "form-control margin", @style = "width: 100% !important" })
                         </div>
                     </div>
                     <div class=" col-md-12">
