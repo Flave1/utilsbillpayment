@@ -71,30 +71,6 @@ Object reference not set to an instance of an object.
 
 
 
-An error occurred while executing the command definition. See the inner exception for details.
-
-
-
-Object reference not set to an instance of an object.
-
-
-
-Nullable object must have a value.
-
-
-
-Nullable object must have a value.
-
-
-
-Nullable object must have a value.
-
-
-
-Nullable object must have a value.
-
-
-
 Object reference not set to an instance of an object.
 
 
@@ -103,7 +79,7 @@ Object reference not set to an instance of an object.
 
 
 
-Object reference not set to an instance of an object.
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml(17): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
 
 
 
@@ -133,6 +109,42 @@ Parameter name: items
 
 
 Only parameterless constructors and initializers are supported in LINQ to Entities.
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Expected "}".
+
+
+
+
+Expected "}".
+
 
 
 

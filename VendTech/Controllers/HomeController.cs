@@ -234,7 +234,6 @@ namespace VendTech.Controllers
                         string to = email;
                         Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
                     }
-
                     var msg = new SendSMSRequest
                     {
                         Recipient = "232" + user.Phone,

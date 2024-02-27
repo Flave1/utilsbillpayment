@@ -25,6 +25,8 @@ using VendTech.BLL.Models.CurrencyModel;
 using iTextSharp.tool.xml.html;
 using System.Xml;
 using HtmlAgilityPack;
+using MailKit.Net.Smtp;
+using System.Web.Mail;
 
 namespace VendTech.BLL.Common
 {
@@ -331,76 +333,11 @@ namespace VendTech.BLL.Common
             { throw x; }
 
         }
-        public static bool SendEmail11(string to, string sub, string body)
-        {
-            string from =  WebConfigurationManager.AppSettings["SMTPFrom"].ToString();
-            string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
-            string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
-            try
-            {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient();
-
-                mail.From = new MailAddress(from, displayName);
-                mail.To.Add(to);
-                mail.Subject = sub;
-                mail.Body = body;
-
-
-                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                //SmtpServer.Port = 587;
-                ////SmtpServer.UseDefaultCredentials = false;
-                ////SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                // SmtpServer.EnableSsl = true;
-                mail.IsBodyHtml = true;
-                mail.BodyEncoding = Encoding.UTF8;
-                LogProcessToDatabase("Sending", body);
-                SmtpServer.Send(mail);
-                LogProcessToDatabase("Sent", body);
-
-                //LogProcessToDatabase("About to start", body);
-
-                //MailMessage msg = new MailMessage();
-
-                //msg.To.Add(to);
-
-                //MailAddress address = new MailAddress(from);
-                //msg.From = address;
-                //msg.Subject = sub;
-                //msg.Body = body;
-                //msg.IsBodyHtml = true;
-                //msg.BodyEncoding = Encoding.UTF8;
-
-                //LogProcessToDatabase("Created Payload", body);
-                //SmtpClient client = new SmtpClient();
-                //client.Host = "relay-hosting.secureserver.net";
-                //client.Port = 25;
-
-                ////Send the msg
-                //client.Send(msg);
-
-                //LogProcessToDatabase("About to send", body);
-
-                //client.Send(msg);
-
-
-                //LogProcessToDatabase("Mail sent", msg);
-                return true;
-
-
-            }
-            catch (Exception x)
-            {
-                //LogExceptionToDatabase(x);
-                return true;
-            }
-
-        }
-
+       
         public static void SendEmail(string to, string sub, string body)
         {
-            string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string from =  WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();// "support@vendtechsl.com";
+            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString(); //"S8pt*T&ch";
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
@@ -437,6 +374,33 @@ namespace VendTech.BLL.Common
 
                     client.Disconnect(true);
                 }
+
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                //                                  | SecurityProtocolType.Tls11
+                //                                  | SecurityProtocolType.Tls12;
+
+
+                //using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com"))
+                //{
+                //    smtpClient.Port = 465;
+                //    smtpClient.Credentials = new NetworkCredential(from, password);
+                //    smtpClient.EnableSsl = true;
+                //    try
+                //    {
+                //        // Send email
+                //        smtpClient.Send(from, to, "subject", "body");
+                //        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
+
+                //        Console.WriteLine("Email sent successfully!");
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Console.WriteLine("Failed to send email. Error: " + ex.Message);
+                //    }
+                //}
+
+
+
             }
             catch (Exception x)
             {
@@ -513,21 +477,9 @@ namespace VendTech.BLL.Common
         }
 
 
-        //static void LogExceptionToDatabase(Exception exc)
-        //{
-        //    var context = new VendtechEntities();
-        //    ErrorLog errorObj = new ErrorLog();
-        //    errorObj.Message = exc.Message;
-        //    errorObj.StackTrace = exc.StackTrace;
-        //    errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
-        //    errorObj.LoggedInDetails = "";
-        //    errorObj.LoggedAt = DateTime.UtcNow;
-        //    context.ErrorLogs.Add(errorObj);
-        //    // To do
-        //    context.SaveChanges();
-        //}
+    
 
-        static void LogProcessToDatabase(string Message, object data)
+        public static void LogProcessToDatabase(string Message, object data)
         {
             var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
@@ -582,40 +534,40 @@ namespace VendTech.BLL.Common
             return token_item;
         }
        
-        public async static Task<bool> Execute(string email, string subject, string message)
-        {
-            try
-            {
-                string toEmail = email;
+        //public async static Task<bool> Execute(string email, string subject, string message)
+        //{
+        //    try
+        //    {
+        //        string toEmail = email;
 
-                MailMessage mail = new MailMessage()
-                {
-                    From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
-                };
-                mail.To.Add(toEmail);
+        //        MailMessage mail = new MailMessage()
+        //        {
+        //            From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), "VendTech")
+        //        };
+        //        mail.To.Add(toEmail);
 
-                //mail.To.Add(new MailAddress(toEmail));
-                //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
+        //        //mail.To.Add(new MailAddress(toEmail));
+        //        //mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
 
-                mail.Subject = subject;
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                mail.Priority = MailPriority.High;
+        //        mail.Subject = subject;
+        //        mail.Body = message;
+        //        mail.IsBodyHtml = true;
+        //        mail.Priority = MailPriority.High;
 
-                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
-                {
-                    smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                    smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(mail);
-                }
-                return true;
-            }
+        //        using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"].ToString())))
+        //        {
+        //            smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPUserName"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+        //            smtp.EnableSsl = true;
+        //            await smtp.SendMailAsync(mail);
+        //        }
+        //        return true;
+        //    }
 
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         public static string SHA256(string randomString)
         {

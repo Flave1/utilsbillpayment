@@ -141,6 +141,10 @@ namespace VendTech.BLL.Managers
 
         CountryDTO2 ICurrencyManager.RetrieveDomainCountry(string domain)
         {
+            if (domain.Contains("www."))
+            {
+                domain = domain.Replace("www.", "");
+            }
             using (var vtcx = new VendtechEntities())
             {
                 return vtcx.Countries.Where(d => d.DomainUrl.ToLower() == domain.ToLower())

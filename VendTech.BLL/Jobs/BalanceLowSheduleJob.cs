@@ -77,9 +77,9 @@ namespace VendTech.BLL.Jobs
                             var userAcount = _userManager.GetUserDetailsByUserId(lowOnBalanceSchedule[i].UserId);
                             string body = emailTemplate.TemplateContent;
                             body = body.Replace("%customer%", userAcount.Vendor);
-                            Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
+                            //Utilities.SendEmail("favouremmanuel433@gmail.com", emailTemplate.EmailSubject, body);
                             Utilities.SendEmail(userAcount.Email, emailTemplate.EmailSubject, body);
-                            Utilities.SendEmail("vblell@vendtechsl.com", emailTemplate.EmailSubject, body);
+                            //Utilities.SendEmail("vblell@vendtechsl.com", emailTemplate.EmailSubject, body);
                             _posManager.UpdateUserSchedule(lowOnBalanceSchedule[i].UserId, UserScheduleStatus.Sent);
                         }
                     }

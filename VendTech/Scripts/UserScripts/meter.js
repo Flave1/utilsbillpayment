@@ -290,23 +290,28 @@ var UserMeters = {
     },
 
     AddPhone: function (sender) {
+
+        var formData = $(sender).parents("form:first").serialize();
+
         $.ajax({
             url: baseUrl + '/SavedPhoneNumbers/AddEditPhoneNumbers',
             type: 'POST',
-            validate: true,
-            showErrorMessage: true,
-            messageControl: $('div.messageAlert'),
-            formToValidate: $(sender).parents("form:first"),
-            formToPost: $(sender).parents("form:first"),
-            isAjaxForm: true,
-            showThrobber: true,
-            button: $(sender),
-            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: formData,
+            dataType: 'json',
             success: function (results, message) {
+
+                if (results.Status !== 1) {
+                    $.ShowMessage($('div.messageAlert'), results.Message, MessageType.Failed);
+                    return;
+                }
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                 setTimeout(function () {
                     window.location.href = baseUrl + '/SavedPhoneNumbers/Index';
                 }, 1500);
+                // Success handling logic
+            },
+            error: function (xhr, status, error) {
+                // Error handling logic
             }
         });
 

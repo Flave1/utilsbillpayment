@@ -135,7 +135,7 @@
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
                             $("#logoutModal").modal('show');
-                            //updateCountdown();
+                            updateCountdown();
                         }
                         if (data.Message == "expired") {
                             window.location.href = '/Home/Index'

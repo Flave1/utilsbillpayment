@@ -68,7 +68,9 @@ namespace VendTech.Areas.Api.Controllers
 
         }
 
-        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+
+        [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage TransactionDetail(Tokenobject tokenobject)
         {

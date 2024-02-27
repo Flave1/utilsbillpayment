@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using VendTech.BLL.Common;
 using VendTech.DAL;
@@ -569,8 +572,9 @@ namespace VendTech.BLL.Models
         public decimal? AgentPercentageAmount { get; set; } 
         public decimal? VendorPercentageAmount { get; set; }
         public decimal? AgentPercentage { get; set; }
-        public decimal? AgencyCommission { get; set; }
+
         public decimal? VendorPercentage { get; set; }
+        public decimal? NewBalance { get; set; }
         public long DepositId { get; set; }   
         public AgentRevenueListingModel(Deposit obj)
         {
@@ -586,10 +590,10 @@ namespace VendTech.BLL.Models
             DepositId = obj.DepositId;
             Amount = obj.Amount;
             AgentPercentageAmount = obj.AgencyCommission;
-            VendorPercentageAmount = obj.PercentageAmount;
-            VendorPercentage = obj?.User?.Commission?.Percentage;
-            AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
-            AgencyCommission = obj.AgencyCommission;
+            NewBalance = obj.NewBalance;
+            //VendorPercentageAmount = obj.PercentageAmount;
+            //VendorPercentage = obj?.User?.Commission?.Percentage;
+            //AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;
         }
 
        

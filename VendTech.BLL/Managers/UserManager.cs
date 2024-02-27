@@ -22,10 +22,19 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.ValidateUserSession(string token)
         {
+
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
             if (session != null)
-
             {
+                var currentTimeWithAppSeconds = session.User.AppLastUsed.Value.AddSeconds(Convert.ToInt16(Context.AppSettings.FirstOrDefault().Value));
+                var hasExpired = currentTimeWithAppSeconds < DateTime.UtcNow;
+
+                //Utilities.LogProcessToDatabase($"currentTimeWithAppSeconds: {currentTimeWithAppSeconds}", "");
+                //Utilities.LogProcessToDatabase($"DateTime.UtcNow: {DateTime.UtcNow}", "");
+                if (hasExpired)
+                {
+                    return null;
+                }
                 var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
                 if (session != null &&
                     (session.User.Status == (int)UserStatusEnum.Active
@@ -424,11 +433,24 @@ namespace VendTech.BLL.Managers
                                   AssignUserModuleId = ua.AssignUserModuleId,
                                   ModuleName = m.ModuleName
                               }).ToList();
-            return userModule.Select(x => new UserAssignedModuleModel
+            var exceptionalModules1 = new UserAssignedModuleModel
+            {
+                Modules = "Saved Meters",
+                AssignUserModuleId = 34
+            };
+            var exceptionalModules2 = new UserAssignedModuleModel
+            {
+                Modules = "Phone Numbers",
+                AssignUserModuleId = 35
+            };
+            var list = userModule.Select(x => new UserAssignedModuleModel
             {
                 Modules = x.ModuleName,
                 AssignUserModuleId = x.AssignUserModuleId
             }).ToList();
+            list.Add(exceptionalModules1);
+            list.Add(exceptionalModules2);
+            return list;
         }
         long IUserManager.GetUserId(string phone)
         {

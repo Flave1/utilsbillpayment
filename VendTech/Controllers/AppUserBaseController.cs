@@ -88,9 +88,10 @@ namespace VendTech.Controllers
                         SignOut();
                         filter_context.Result = RedirectToAction("Index", "Home");
                     }
+                    ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
+                    ViewBag.USER_PERMISSONS = ModulesModel;
                 }
-                ViewBag.LOGGEDIN_USER = LOGGEDIN_USER;
-                ViewBag.USER_PERMISSONS = ModulesModel;
+                
             }
             #endregion
 
@@ -98,20 +99,6 @@ namespace VendTech.Controllers
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
                 if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("Index", "Home");//, new { returnUrl = Server.UrlEncode(Request.RawUrl) }
-                else filter_context.Result = Json(new ActionOutput
-                {
-                    Status = ActionStatus.Error,
-                    Message = "Authentication Error"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            #endregion
-
-
-
-            #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
-            else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
-            {
-                if (!Request.IsAjaxRequest()) filter_context.Result = RedirectToAction("index", "home");//, new { returnUrl = Server.UrlEncode(Request.RawUrl) }
                 else filter_context.Result = Json(new ActionOutput
                 {
                     Status = ActionStatus.Error,
