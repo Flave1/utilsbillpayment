@@ -2387,7 +2387,7 @@ namespace VendTech.BLL.Managers
                         recordWithSimilarRef.UpdatedAt = DateTime.UtcNow;
                         recordWithSimilarRef.ValueDate = depositAuditModel.ValueDateModel;
                         recordWithSimilarRef.isAudit = depositAuditModel.isAudit;
-                        recordWithSimilarRef.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
+                        //recordWithSimilarRef.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
                         recordWithSimilarRef.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
                         recordWithSimilarRef.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
                         //recordWithSimilarRef.BalanceBefore = dbDeposit.BalanceBefore == null ? 0 : dbDeposit.BalanceBefore;
@@ -2672,7 +2672,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId??0;
                 dbDeposit.Comments = "";
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
-                dbDeposit.NameOnCheque = toPos.User.Name+" "+ toPos.User.SurName;
+                dbDeposit.NameOnCheque = fromPos.User.Vendor;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.isAudit = false;
                 dbDeposit.BalanceBefore = toPos.Balance ?? new decimal();
@@ -2748,6 +2748,8 @@ namespace VendTech.BLL.Managers
                 dbDeposit.UserId = toPos?.VendorId ?? 0;
                 dbDeposit.Comments = "";
                 dbDeposit.isAudit = false;
+                dbDeposit.NameOnCheque = toPos.User.Vendor;
+                dbDeposit.AgencyCommission = new decimal();
                 dbDeposit.BalanceBefore = toPos.Balance ?? new decimal();
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
                 dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
