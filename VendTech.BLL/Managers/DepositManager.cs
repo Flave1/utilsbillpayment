@@ -2638,7 +2638,7 @@ namespace VendTech.BLL.Managers
                 var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Account Debited";
-                obj.Message = "Your wallet has been updated with  "+ BLL.Common.Utilities.GetCountry().CurrencyCode+ " " + notyAmount;
+                obj.Message = "Your wallet has been updated with  "+ Utilities.GetCountry().CurrencyCode+ " " + notyAmount;
 
                 obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
                 foreach (var item in deviceTokens)
