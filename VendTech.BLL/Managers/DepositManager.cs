@@ -1405,6 +1405,13 @@ namespace VendTech.BLL.Managers
                     else
                         list = list.OrderByDescending(p => p.AMOUNT).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                 }
+                if (model.SortBy == "BalanceBefore")
+                {
+                    if (model.SortOrder == "Asc")
+                        list = list.OrderBy(p => p.BALANCE_BEFORE).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                    else
+                        list = list.OrderByDescending(p => p.BALANCE_BEFORE).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
+                }
             }
 
 

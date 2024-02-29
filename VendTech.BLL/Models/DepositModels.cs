@@ -303,6 +303,7 @@ namespace VendTech.BLL.Models
         public string DEPOSIT_TYPE { get; set; }  
         public string TRANSACTION_ID { get; set; }
         public string DEPOSIT_REF_NO { get; set; }
+        public string BALANCE_BEFORE { get; set; }
         public string AMOUNT { get; set; } 
         public string VENDORPERCENT { get; set; }
         public string AGENTPERCENT { get; set; }
@@ -314,7 +315,8 @@ namespace VendTech.BLL.Models
             POSID = obj.POS != null ? obj.POS.SerialNumber : "";
             DEPOSIT_REF_NO = obj.CheckNumberOrSlipId;
             DEPOSIT_TYPE = obj.PaymentType1.Name;
-            AMOUNT = Utilities.FormatAmount(obj.Amount); 
+            BALANCE_BEFORE = Utilities.FormatAmount(obj.BalanceBefore);
+            AMOUNT = Utilities.FormatAmount(obj.Amount);
             TRANSACTION_ID = obj?.TransactionId;  
             VENDORPERCENT = Utilities.FormatAmount(obj.PercentageAmount);
             AGENTPERCENT = Utilities.FormatAmount(obj.AgencyCommission);
