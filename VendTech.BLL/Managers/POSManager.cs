@@ -246,7 +246,6 @@ namespace VendTech.BLL.Managers
             else
                 query = Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();
 
-
             if (agentId > 0)
             {
                 query = Context.POS.Where(p => p.User.AgentId == agentId && p.Enabled != false && !p.IsDeleted && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList();

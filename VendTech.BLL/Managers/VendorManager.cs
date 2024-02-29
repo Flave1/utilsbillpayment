@@ -273,7 +273,7 @@ namespace VendTech.BLL.Managers
             //}).ToList();
             return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
             {
-                Text = x.SerialNumber.ToUpper(),
+                Text = x?.User?.Vendor?.ToUpper() + " - " + x.SerialNumber.ToUpper(),
                 Value = x.POSId.ToString()
             }).ToList();
         }

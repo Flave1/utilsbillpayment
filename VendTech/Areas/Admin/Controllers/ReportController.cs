@@ -199,7 +199,7 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult GetVendorPosSelectList(long userId)
         {
-            var posList = _posManager.GetVendorPos(userId);
+            var posList = _posManager.GetPOSWithNameSelectList(userId, 0);
 
             var deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: userId > 0 ? userId : 0); 
             return Json(new { posList = posList, history = deposits }, JsonRequestBehavior.AllowGet); 
@@ -209,7 +209,7 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult GetAgencyPosSelectList(long userId)
         {
-            var posList = _posManager.GetAgencyPos(userId);
+            var posList = _posManager.GetPOSWithNameSelectList(0, userId);
             return Json(new { posList }, JsonRequestBehavior.AllowGet);
         }
 

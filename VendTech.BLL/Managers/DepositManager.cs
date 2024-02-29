@@ -652,11 +652,11 @@ namespace VendTech.BLL.Managers
             //p.Deposit.PaymentType == (int)DepositPaymentTypeEnum.AgencyCommision &&
             if (!model.IsInitialLoad)
                 query = Context.DepositLogs
-                    .Where(p => p.Deposit.User.AgentId.Value == model.AgencyId.Value && p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    .Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released
                 || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed).OrderByDescending(p => p.Deposit.CreatedAt);
             else
                 query = Context.DepositLogs
-                    .Where(p => p.Deposit.User.AgentId.Value == model.AgencyId.Value && (p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released
                     || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
                     && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)).OrderByDescending(p => p.Deposit.CreatedAt);
 
@@ -681,10 +681,10 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => posIds.Contains(p.Deposit.POSId));
             }
 
-            //if(model.AgencyId.HasValue && model.AgencyId > 0)
-            //{
-            //    query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
-            //}
+            if (model.AgencyId.HasValue && model.AgencyId > 0)
+            {
+                query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
+            }
 
             if (model.PosId.HasValue && model.PosId > 0)
             {
@@ -2616,7 +2616,7 @@ namespace VendTech.BLL.Managers
                     var percntage = fromPos.User.Agency.Commission.Percentage;
                     commision = amt * percntage / 100;
                     //dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
-                    //dbDeposit.AgencyCommission = commision;
+                    dbDeposit.AgencyCommission = commision;
                 }
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
 
@@ -2693,7 +2693,7 @@ namespace VendTech.BLL.Managers
                     var amt = dbDeposit.Amount;
                     var percntage = toPos.Commission.Percentage;
                     var commision = amt * percntage / 100;
-                    dbDeposit.AgencyCommission = 0;  
+                    dbDeposit.AgencyCommission = commision;  
                     dbDeposit.PercentageAmount = amt + commision;
                     dbDeposit.POS.Balance = dbDeposit.POS.Balance + commision;
                 }
@@ -2818,7 +2818,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.ChequeBankName = "OWN ACC TRANSFER - (AGENCY TRANSFER)";
                 dbDeposit.UserId = toPos?.VendorId ?? 0;
                 dbDeposit.NameOnCheque = toPos.User.Vendor;
-                dbDeposit.AgencyCommission = 0;
+                dbDeposit.AgencyCommission = amount;
                 dbDeposit.PercentageAmount = amount;
                 dbDeposit.BankAccountId = 1;
                 dbDeposit.Amount = amount;
