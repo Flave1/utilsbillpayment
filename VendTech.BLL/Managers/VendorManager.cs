@@ -277,6 +277,14 @@ namespace VendTech.BLL.Managers
                 Value = x.POSId.ToString()
             }).ToList();
         }
+        List<SelectListItem> IVendorManager.GetAgencyVendorPosSelectList()
+        {
+            return Context.POS.Where(p => !p.IsDeleted && p.Enabled != false && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT") && p.User.AgentId != Utilities.VENDTECH).ToList().OrderBy(p => p.SerialNumber).Select(x => new SelectListItem
+            {
+                Text = x?.User?.Vendor?.ToUpper() + " - " + x.SerialNumber.ToUpper(),
+                Value = x.POSId.ToString()
+            }).ToList();
+        }
 
         decimal IVendorManager.GetVendorPercentage(long userId)
         {

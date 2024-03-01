@@ -100,6 +100,7 @@ namespace VendTech.BLL.Models
 
         public string NotType { get; set; }
         public decimal Commission { get; set; }
+        public string AgencyCommission { get; set; }
         public POS POS { get; set; } = new POS();
         public DepositListingModel() { }
         public DepositListingModel(Deposit obj, bool changeStatusForApi = false)
@@ -141,6 +142,7 @@ namespace VendTech.BLL.Models
             PercentageCommission = obj.POS.Commission.Percentage;
             ValueDate = obj.ValueDateStamp == null ? ValueDate : obj.ValueDateStamp.Value.ToString("dd/MM/yyyy hh:mm");
             Commission = obj.PercentageAmount.Value - obj.Amount;
+            AgencyCommission = Utilities.FormatAmount(obj.AgencyCommission);
         }
 
         public DepositListingModel(PendingDeposit obj)
@@ -318,8 +320,8 @@ namespace VendTech.BLL.Models
             BALANCE_BEFORE = Utilities.FormatAmount(obj.BalanceBefore);
             AMOUNT = Utilities.FormatAmount(obj.Amount);
             TRANSACTION_ID = obj?.TransactionId;  
-            VENDORPERCENT = Utilities.FormatAmount(obj.PercentageAmount);
-            AGENTPERCENT = Utilities.FormatAmount(obj.AgencyCommission);
+            VENDORPERCENT = Utilities.FormatAmount(obj.AgencyCommission);
+            AGENTPERCENT = Utilities.FormatAmount(obj.NewBalance);
         }
 
         public AgencyRevenueExcelReportModel()
@@ -594,7 +596,7 @@ namespace VendTech.BLL.Models
             Amount = obj.Amount;
             AgentPercentageAmount = obj.AgencyCommission;
             NewBalance = obj.NewBalance;
-            BalanceBefore = obj.BalanceBefore;
+            BalanceBefore = obj.BalanceBefore;//come
             //VendorPercentageAmount = obj.PercentageAmount;
             //VendorPercentage = obj?.User?.Commission?.Percentage;
             //AgentPercentage = obj?.User?.Agency?.Commission?.Percentage;

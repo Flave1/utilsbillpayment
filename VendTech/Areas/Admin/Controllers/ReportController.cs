@@ -65,7 +65,7 @@ namespace VendTech.Areas.Admin.Controllers
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
 
             ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
-            ViewBag.PosId = _vendorManager.GetPosSelectList();
+            ViewBag.PosId = _vendorManager.GetAgencyVendorPosSelectList();
             ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
  

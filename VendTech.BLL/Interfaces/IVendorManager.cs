@@ -24,6 +24,7 @@ namespace VendTech.BLL.Interfaces
         long GetVendorIdByAppUserId(long userId);
         SaveVendorModel GetVendorDetailApi(long vendorId);
         List<SelectListItem> GetVendorsForPOSPageSelectList(long agentId = 0);
+        List<SelectListItem> GetAgencyVendorPosSelectList();
     }
 
 }

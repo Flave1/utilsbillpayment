@@ -317,15 +317,11 @@ namespace VendTech.BLL.Managers
             {
                 query = query.Where(p => p.Deposit.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
             }
-            //if (!string.IsNullOrEmpty(model.Meter))
-            //{
-            //    query = query.Where(p => p.Deposit.m);
-            //}
+
 
             var totalrecoed = query.AsEnumerable().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "TransactionId" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
-                // query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
                 if (model.SortBy == "CreatedAt")
                 {
                     if (model.SortOrder == "Desc")
@@ -424,57 +420,7 @@ namespace VendTech.BLL.Managers
             result.TotalCount = totalrecoed;
             return result;
 
-            //var result = new PagingResult<DepositListingModel>();
-            //var query = new List<DepositLog>(); //Context.DepositLogs.OrderByDescending(p => p.Deposit.CreatedAt).Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released).ToList();
-
-
-            //if (model.VendorId.HasValue && model.VendorId > 0)
-            //{
-            //    var user = Context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
-            //    var posIds = new List<long>();
-            //    if (callFromAdmin)
-            //    {
-            //        query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released).ToList();
-            //        posIds = Context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
-            //    } 
-            //    else
-            //    {
-            //        posIds = Context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId)).Select(p => p.POSId).ToList();
-            //        query = Context.DepositLogs.Where(p => posIds.Contains(p.Deposit.POSId) && p.NewStatus == (int)DepositPaymentStatusEnum.Released).OrderByDescending(p => p.Deposit.CreatedAt).ToList();
-            //    } 
-            //}
-            //else
-            //{
-            //    query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released).ToList();
-            //}
-
-            //if (model.From != null) 
-            //    query = query.Where(p => p.Deposit.CreatedAt.Date >= model.From.Value.Date).ToList();  
-            //if (model.To != null) 
-            //    query = query.Where(p => p.Deposit.CreatedAt.Date <= model.To.Value.Date).ToList();  
-            //if (model.PosId.HasValue && model.PosId > 0) 
-            //    query = query.Where(p => p.Deposit.POSId == model.PosId).ToList(); 
-            //if (model.Bank.HasValue && model.Bank > 0) 
-            //    query = query.Where(p => p.Deposit.BankAccountId == model.Bank).ToList(); 
-            //if (model.DepositType.HasValue && model.DepositType > 0) 
-            //    query = query.Where(p => p.Deposit.PaymentType == model.DepositType).ToList(); 
-            //if (!string.IsNullOrEmpty(model.RefNumber)) 
-            //    query = query.Where(p => p.Deposit.CheckNumberOrSlipId.ToLower().Contains(model.RefNumber.ToLower())).ToList(); 
-            //if (!string.IsNullOrEmpty(model.TransactionId)) 
-            //    query = query.Where(p => p.Deposit.TransactionId.ToLower().Contains(model.TransactionId.ToLower())).ToList();
-
-
-            //var ordered = query.Select(x => new DepositListingModel(x.Deposit)).ToList();
-
-            //result.List = (from a in ordered    
-            //               orderby a.CreatedAt
-            //               descending
-            //               select a).ToList(); 
-
-            //result.Status = ActionStatus.Successfull;
-            //result.Message = "Deposit Logs List";
-            //result.TotalCount = query.Count();
-            //return result;
+           
         }
 
         PagingResult<DepositListingModelMobile> IDepositManager.GetReportsMobilePagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
@@ -652,11 +598,11 @@ namespace VendTech.BLL.Managers
             //p.Deposit.PaymentType == (int)DepositPaymentTypeEnum.AgencyCommision &&
             if (!model.IsInitialLoad)
                 query = Context.DepositLogs
-                    .Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    .Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released && p.User.AgentId != Utilities.VENDTECH
                 || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed).OrderByDescending(p => p.Deposit.CreatedAt);
             else
                 query = Context.DepositLogs
-                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released
+                    .Where(p => (p.NewStatus == (int)DepositPaymentStatusEnum.Released && p.User.AgentId != Utilities.VENDTECH
                     || p.NewStatus == (int)DepositPaymentStatusEnum.Reversed)
                     && DbFunctions.TruncateTime(p.Deposit.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow)).OrderByDescending(p => p.Deposit.CreatedAt);
 
@@ -1323,7 +1269,7 @@ namespace VendTech.BLL.Managers
         {
             model.RecordsPerPage = 1000000000;
             var result = new PagingResult<AgencyRevenueExcelReportModel>();
-            var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released);
+            var query = Context.DepositLogs.Where(p => p.NewStatus == (int)DepositPaymentStatusEnum.Released && p.User.AgentId != Utilities.VENDTECH);
             if (model.From != null)
             {
                 query = query.Where(p => DbFunctions.TruncateTime(p.CreatedAt) >= DbFunctions.TruncateTime(model.From));

@@ -1,16 +1,8 @@
 ﻿using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic;
 using VendTech.DAL;
-using VendTech.BLL.Common;
-using System.Web;
-using System.IO;
-using System.Web.Mvc;
 
 namespace VendTech.BLL.Managers
 {
@@ -24,7 +16,7 @@ namespace VendTech.BLL.Managers
             IQueryable<POS> query = null;
 
             query = Context.POS
-                .Where(f => f.IsDeleted == false && f.User.AgentId == agency && f.VendorId != userId)
+                .Where(f => f.IsDeleted == false && f.User.AgentId == agency && f.VendorId != userId && f.Enabled == true)
                 .Take(model.RecordsPerPage)
                 .OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
 
