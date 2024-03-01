@@ -2381,15 +2381,15 @@ namespace VendTech.BLL.Managers
                     var recordWithSimilarRef = Context.Deposits.FirstOrDefault(d => d.CheckNumberOrSlipId == dbDeposit.CheckNumberOrSlipId && d.DepositId != dbDeposit.DepositId);
                     if(recordWithSimilarRef != null)
                     {
-                        recordWithSimilarRef.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
-                        recordWithSimilarRef.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
-                        recordWithSimilarRef.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
-                        recordWithSimilarRef.UpdatedAt = DateTime.UtcNow;
-                        recordWithSimilarRef.ValueDate = depositAuditModel.ValueDateModel;
+                        //recordWithSimilarRef.ChequeBankName = depositAuditModel.IssuingBank != null ? depositAuditModel.IssuingBank : "";
+                        //recordWithSimilarRef.NameOnCheque = depositAuditModel.Payer != null ? depositAuditModel.Payer : "";
+                        //recordWithSimilarRef.CheckNumberOrSlipId = depositAuditModel.DepositRef != null ? depositAuditModel.DepositRef : "";
+                        //recordWithSimilarRef.UpdatedAt = DateTime.UtcNow;
+                        //recordWithSimilarRef.ValueDate = depositAuditModel.ValueDateModel;
                         recordWithSimilarRef.isAudit = depositAuditModel.isAudit;
                         //recordWithSimilarRef.PaymentType = depositAuditModel.Type != null ? int.Parse(depositAuditModel.Type) : Context.PaymentTypes.FirstOrDefault().PaymentTypeId;
-                        recordWithSimilarRef.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
-                        recordWithSimilarRef.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
+                        ////recordWithSimilarRef.BankAccountId = Context.BankAccounts.FirstOrDefault(d => d.BankName.Contains(depositAuditModel.GTBank))?.BankAccountId ?? 0;
+                        //recordWithSimilarRef.Comments = string.IsNullOrEmpty(depositAuditModel.Comment) ? "" : depositAuditModel.Comment;
                         //recordWithSimilarRef.BalanceBefore = dbDeposit.BalanceBefore == null ? 0 : dbDeposit.BalanceBefore;
                     }
                 }
