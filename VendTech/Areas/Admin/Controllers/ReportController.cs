@@ -63,13 +63,8 @@ namespace VendTech.Areas.Admin.Controllers
         public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
         {
             ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
-
-            ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
-            ViewBag.PosId = _vendorManager.GetAgencyVendorPosSelectList();
-            ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
             var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
- 
-            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
+            ViewBag.AssignedReports = assignedReportModule;
             ViewBag.SelectedTab = SelectedAdminTab.Reports; 
 
             if(source == "dashboard")
@@ -112,9 +107,7 @@ namespace VendTech.Areas.Admin.Controllers
                 assignedReportModule.AddRange(rtsRps);
             }
 
-            ViewBag.AssignedReports = assignedReportModule;
-            var bankAccounts = _bankAccountManager.GetBankAccounts();
-            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+        
 
             if (assignedReportModule.Count > 0 && (type > 0 ? assignedReportModule.Any(x => x.Value == type.ToString()) : true))
             {
@@ -137,6 +130,11 @@ namespace VendTech.Areas.Admin.Controllers
                 /// This Is Used For Fetching DEPOSITS REPORT
                 if (val == "17")
                 {
+                    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                    ViewBag.PosId = _vendorManager.GetPosSelectList();
+                    ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
+                    var bankAccounts = _bankAccountManager.GetBankAccounts();
+                    ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
                     deposits = _depositManager.GetReportsPagedList(model, true);
                     return View(deposits);
                 }
@@ -145,26 +143,33 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     model.IsInitialLoad = true;
 
+                    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                    ViewBag.PosId = _vendorManager.GetPosSelectList();
                     ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
 
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
+                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  
                     return View("ManageSalesReports", recharges);
                 }
                 if (val == "27")
                 {
 
+                    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                    ViewBag.PosId = _vendorManager.GetPosSelectList();
                     var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
                     ViewBag.OpeningBalance = 0;
                     return View("BalanceSheetReports", balanceSheet);
                 }
                 if (val == "28")
                 {
+                    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                    ViewBag.PosId = _vendorManager.GetAgencyVendorPosSelectList();
                     var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
                     return View("ManageGSTSalesReports", recharges);
                 }
                 if (val == "29")
                 {
                     ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                    ViewBag.PosId = _vendorManager.GetAgencyVendorPosSelectList();
                     var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
                     return View("ManageAgentsRevenueReports", recharges);
                 }
@@ -179,8 +184,12 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
                     ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
-
                     ViewBag.banked = new SelectList(_bankAccountManager.GetBankAccounts().ToList(), "BankName", "BankName");
+                    ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                    ViewBag.PosId = _vendorManager.GetPosSelectList();
+                    var bankAccounts = _bankAccountManager.GetBankAccounts();
+                    ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+                    ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
 
                     depositAudit = _depositManager.GetDepositAuditReports(model, true);
 

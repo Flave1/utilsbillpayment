@@ -632,31 +632,14 @@ namespace VendTech.BLL.Managers
                 query = query.Where(p => p.Deposit.User.AgentId == model.AgencyId);
             }
 
+
+
             if (model.PosId.HasValue && model.PosId > 0)
             {
-                query = query.Where(p => p.Deposit.POSId == model.PosId);
-            }
-            if (model.Bank.HasValue && model.Bank > 0)
-            {
-                query = query.Where(p => p.Deposit.BankAccountId == model.Bank);
-            }
-            if (model.DepositType.HasValue && model.DepositType > 0)
-            {
-                query = query.Where(p => p.Deposit.PaymentType == model.DepositType);
-            }
-            if (!string.IsNullOrEmpty(model.RefNumber))
-            {
-                query = query.Where(p => p.Deposit.CheckNumberOrSlipId.ToLower().Contains(model.RefNumber.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(model.TransactionId))
-            {
-                query = query.Where(p => p.Deposit.TransactionId.ToLower().Contains(model.TransactionId.ToLower()));
-            }
-            //if (!string.IsNullOrEmpty(model.Meter))
-            //{
-            //    query = query.Where(p => p.Deposit.m);
-            //}
+                var refids = query.Where(p => p.Deposit.POSId == model.PosId).Select(g => g.Deposit.CheckNumberOrSlipId).ToList();
+                query = query.Where(p => refids.Contains(p.Deposit.CheckNumberOrSlipId));
 
+            }
             var totalrecoed = query.ToList().Count();
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "TransactionId" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
