@@ -94,6 +94,7 @@ namespace VendTech.BLL.Interfaces
         UserLogo GetUserLogo(long userId);
         UserDetails BackgroundAdminLogin(long taskId);
         long GetVendtechAgencyId();
+        void SaveChanges();
     }
 
 }

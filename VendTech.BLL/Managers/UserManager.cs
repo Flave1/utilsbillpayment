@@ -422,6 +422,8 @@ namespace VendTech.BLL.Managers
             return modelUser;
         }
 
+        void IUserManager.SaveChanges() => Context.SaveChanges();
+
 
         IList<UserAssignedModuleModel> IUserManager.GetNavigations(long userId)
         {
@@ -451,7 +453,7 @@ namespace VendTech.BLL.Managers
 
         User IUserManager.GetUserDetailByEmail(string email)
         {
-            var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
+            var userDetail = Context.Users.Where(x => x.Email == email && x.Status != (int)UserStatusEnum.Deleted).FirstOrDefault();
             if (userDetail != null)
             {
                 return userDetail;

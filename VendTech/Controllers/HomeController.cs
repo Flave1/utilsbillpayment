@@ -81,6 +81,13 @@ namespace VendTech.Controllers
         }
 
         [Public]
+        public ActionResult Account()
+        {
+            return View();
+
+        }
+
+        [Public]
         public ActionResult Error(string errorMessage)
         {
             ViewBag.ErrorMessage = errorMessage;

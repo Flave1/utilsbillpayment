@@ -196,6 +196,12 @@ namespace VendTech.BLL.Models
         public string DeviceToken { get; set; }
         public string AppType { get; set; }
     }
+
+    public class DeleteAPIModel
+    {
+        [Required]
+        public string Email { get; set; }
+    }
     public class LoginAPIPassCodeModel
     {
         public long UserId { get; set; }

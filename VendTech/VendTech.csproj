@@ -6620,6 +6620,7 @@
     <Content Include="Views\Shared\Sms\_smsOnReprintModal.cshtml" />
     <Content Include="Areas\Admin\Views\POS\Partials\_meterForm.cshtml" />
     <Content Include="Views\Home\Learn.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6696,6 +6697,7 @@
     <Content Include="Views\Shared\_SideBarv2.cshtml" />
     <Content Include="Views\Shared\_Title.cshtml" />
     <Content Include="Views\User\EditProfile_old.cshtml" />
+    <Content Include="Views\Shared\_ordinaryLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

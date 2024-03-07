@@ -127,6 +127,23 @@ namespace VendTech.Areas.Api.Controllers
             }
         }
 
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        [ActionName("DeleteUser")]
+        public HttpResponseMessage DeleteUser(DeleteAPIModel model)
+        {
+            var user = _userManager.GetUserDetailByEmail(model.Email);
+            if(user == null)
+            {
+                return new JsonContent("User account not found", Status.Failed).ConvertToHttpResponseOK();
+            }
+            user.Status = (int)UserStatusEnum.Deleted;
+            _userManager.SaveChanges();
+
+            return new JsonContent("User account delted successfully", Status.Success).ConvertToHttpResponseOK();
+        }
+
+
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
