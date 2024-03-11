@@ -64,14 +64,6 @@ namespace VendTech.Areas.Api.Controllers
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
-            if(model.PassCode != "73086")
-            {
-                //if (model.AppVersion != "2.4.1")
-                //{
-                //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
-                //}
-            }
-
             if (string.IsNullOrEmpty(model.DeviceToken))
             {
                 return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
@@ -91,10 +83,11 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    //if(model.AppVersion != CurrentAppVersion)
-                    //{
-                    //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
-                    //}
+                    if (model.AppVersion != CurrentAppVersion)
+                    {
+                        //return new JsonContent("UPDATE_APP", Status.Success).ConvertToHttpResponseOK(); Will update later
+                        return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
+                    }
                     var isEnabled = _authenticateManager.IsUserAccountORPosBlockedORDisabled(userDetails.UserId);
                     if (isEnabled)
                     {
