@@ -141,7 +141,7 @@ namespace VendTech.Areas.Api.Controllers
             var balance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserId);
             var pendingDeposit = _userManager.GetUserPendingDeposit(LOGGEDIN_USER.UserId);
             return new JsonContent(
-                "User balance fetched successfully.", 
+                "User balance fetched successfully. ", 
                 Status.Success, 
                 new {
                         balance = balance, 
