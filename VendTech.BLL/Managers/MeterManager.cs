@@ -682,6 +682,7 @@ namespace VendTech.BLL.Managers
             var obj = new PushNotificationModel();
             obj.UserId = model.UserId;
             obj.Id = dbMeterRecharge.TransactionDetailsId;
+            obj.Balance = pos.Balance.Value;
             obj.Title = "Meter recharged successfully";
             obj.Message = "Your meter has successfully recharged with NLe " + Utilities.FormatAmount(model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
             obj.NotificationType = NotificationTypeEnum.MeterRecharge;
@@ -1313,6 +1314,7 @@ namespace VendTech.BLL.Managers
             var obj = new PushNotificationModel();
             obj.UserId = model.UserId;
             obj.Id = MeterRechargeId;
+            obj.Balance = user.POS.FirstOrDefault().Balance.Value;
             obj.Title = "Meter recharged successfully";
             obj.Message = $"Your meter has successfully recharged with NLe { Utilities.FormatAmount(model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
             obj.NotificationType = NotificationTypeEnum.MeterRecharge;

@@ -1941,6 +1941,7 @@ namespace VendTech.BLL.Managers
                     var obj = new PushNotificationModel();
                     obj.UserId = dbDeposit.UserId;
                     obj.Id = dbDeposit.DepositId;
+                    obj.Balance = dbDeposit.POS.Balance.Value;
                     var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
                     if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Rejected || dbDeposit.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant)
                     {
@@ -2050,6 +2051,7 @@ namespace VendTech.BLL.Managers
             var obj = new PushNotificationModel();
             obj.UserId = dbDeposit.UserId;
             obj.Id = dbDeposit.DepositId;
+            obj.Balance = dbDeposit.POS.Balance.Value;
             var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
             obj.Title = "Wallet updated successfully";
             obj.Message = "Your wallet has been updated with NLe " + notyAmount;
@@ -2635,6 +2637,7 @@ namespace VendTech.BLL.Managers
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
+                obj.Balance = dbDeposit.POS.Balance.Value;
                 var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Account Debited";
@@ -2777,6 +2780,7 @@ namespace VendTech.BLL.Managers
                 var obj = new PushNotificationModel();
                 obj.UserId = dbDeposit.UserId;
                 obj.Id = dbDeposit.DepositId;
+                obj.Balance = dbDeposit.POS.Balance.Value;
                 var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
 
                 obj.Title = $"Vendtech Deposit";

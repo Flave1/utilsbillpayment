@@ -519,6 +519,7 @@ namespace VendTech.BLL.Managers
             obj.Title = "Airtime recharged successfully";
             obj.Message = $"Your phone has successfully recharged with NLe {Utilities.FormatAmount(model.Amount)}";
             obj.NotificationType = NotificationTypeEnum.AirtimeRecharge;
+            obj.Balance = user.POS.FirstOrDefault().Balance.Value;
             foreach (var item in deviceTokens)
             {
                 obj.DeviceToken = item.DeviceToken;

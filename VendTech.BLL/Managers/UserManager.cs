@@ -31,10 +31,10 @@ namespace VendTech.BLL.Managers
 
                 //Utilities.LogProcessToDatabase($"currentTimeWithAppSeconds: {currentTimeWithAppSeconds}", "");
                 //Utilities.LogProcessToDatabase($"DateTime.UtcNow: {DateTime.UtcNow}", "");
-                if (hasExpired)
-                {
-                    return null;
-                }
+                //if (hasExpired)
+                //{
+                //    return null;
+                //}
                 var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
                 if (session != null &&
                     (session.User.Status == (int)UserStatusEnum.Active
@@ -1161,6 +1161,18 @@ namespace VendTech.BLL.Managers
             catch (Exception)
             {
                 return new decimal();
+            }
+        }
+
+        PendingDeposit IUserManager.GetUserPendingDeposit(long userId)
+        {
+            try
+            {
+                return Context.PendingDeposits.FirstOrDefault(d => d.UserId == userId) ?? null;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 

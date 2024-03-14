@@ -95,6 +95,7 @@ namespace VendTech.BLL.Interfaces
         UserDetails BackgroundAdminLogin(long taskId);
         long GetVendtechAgencyId();
         void SaveChanges();
+        PendingDeposit GetUserPendingDeposit(long userId);
     }
 
 }
