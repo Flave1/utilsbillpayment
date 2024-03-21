@@ -29,7 +29,7 @@ namespace VendTech.Areas.Api.Controllers
         #endregion
 
 
-        public static readonly string CurrentAppVersion = "2.4.4";
+        public static readonly string CurrentAppVersion = "2.4.6";
 
         /// <summary>
         /// 

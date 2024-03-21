@@ -46,6 +46,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Agents;
             ViewBag.walletBalance = 0;
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             if (LOGGEDIN_USER.AgencyId > 0)
             {
                 ViewBag.walletBalance = _posManager.ReturnAgencyAdminPOS(LOGGEDIN_USER.UserID).Balance ?? 0;

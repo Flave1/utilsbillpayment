@@ -58,6 +58,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var model = new DepositModel();
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 

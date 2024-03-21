@@ -1135,6 +1135,7 @@ namespace VendTech.BLL.Managers
             try
             {
                 var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
+                //agentId = user.AgentId == null ? 0 : user.AgentId.Value;
                 if (user == null)
                     return 0;
                 if (agentId > 0)
@@ -1194,7 +1195,7 @@ namespace VendTech.BLL.Managers
                 }
                 else if (user.UserRole.Role != UserRoles.AppUser)
                 {
-                    var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
+                    var posTotalBalance = Context.POS.Where(p => p.Enabled == true && p.User.Status == (int)UserStatusEnum.Active).ToList().Sum(p => p.Balance);
                     return posTotalBalance.Value;
                 }
                 else

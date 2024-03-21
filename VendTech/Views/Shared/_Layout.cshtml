@@ -131,7 +131,6 @@
                 $.ajax({
                     url: '/Home/AutoLogout',
                     success: function (data) {
-                        console.log('data', data)
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
                             $("#logoutModal").modal('show');

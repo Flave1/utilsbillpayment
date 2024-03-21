@@ -81,9 +81,10 @@
         <div class="dashright">
             <div class="page-head">
                 <h2>Dashboard</h2>
-                <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
+                @*<div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
                     <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode: <span id="userBalanceMain">@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span></span>
-                </div>
+                </div>*@
+                @Html.Partial("_Balancebar")
             </div>
             <div class="cl-mcont">
                 <br />

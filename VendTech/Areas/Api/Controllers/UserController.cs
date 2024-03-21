@@ -153,6 +153,25 @@ namespace VendTech.Areas.Api.Controllers
         }
                 ).ConvertToHttpResponseOK();
         }
+         
+        [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetWalletBalance2(long userid)
+        {
+            var balance = _userManager.GetUserWalletBalance(userid);
+            var pendingDeposit = _userManager.GetUserPendingDeposit(userid);
+            return new JsonContent(
+                "User balance fetched successfully. ",
+                Status.Success,
+                new
+                {
+                    balance = balance,
+                    stringBalance = Utilities.FormatAmount(balance),
+                    pendingDepositBalance = pendingDeposit != null ? Utilities.FormatAmount(pendingDeposit.Amount) : "",
+                    isDepositPending = pendingDeposit != null ? true : false
+                }
+                ).ConvertToHttpResponseOK();
+        }
 
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]

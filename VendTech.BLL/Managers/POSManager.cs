@@ -379,6 +379,7 @@ namespace VendTech.BLL.Managers
             if (dbPos == null)
                 return ReturnError("POS not exist");
             dbPos.IsDeleted = true;
+            dbPos.User.Status = (int)UserStatusEnum.Block;
             //EnableOrdisablePOSAccount(false, dbPos.POSId);
             Context.SaveChanges();
             return ReturnSuccess("POS DELETED SUCCESSFULLY.");
@@ -398,6 +399,11 @@ namespace VendTech.BLL.Managers
             else
             {
                 pos.Enabled = value;
+                if (value)
+                    pos.User.Status = (int)UserStatusEnum.Active;
+                else
+                    pos.User.Status = (int)UserStatusEnum.Block;
+
                 //EnableOrdisablePOSAccount(value, pos.POSId);
                 Context.SaveChanges();
                 return new ActionOutput
@@ -505,6 +511,11 @@ namespace VendTech.BLL.Managers
             dbPos.WebPrint = model.WebPrint;
             dbPos.WebBarcode = model.WebBarcode;
             dbPos.PosBarcode = model.PosBarcode;
+            if (model.Enabled)
+                dbPos.User.Status = (int)UserStatusEnum.Active;
+            else
+                dbPos.User.Status = (int)UserStatusEnum.Block;
+
 
             if (model.POSId == 0)
                 Context.POS.Add(dbPos);

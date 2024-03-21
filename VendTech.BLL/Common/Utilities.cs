@@ -60,13 +60,30 @@ namespace VendTech.BLL.Common
             return trId.ToString();
         }
 
+        //public static string GetLastDepositTransactionId()
+        //{
+        //    VendtechEntities context = new VendtechEntities();
+        //    var existing_details = context.Deposits.Where(p => p.IsDeleted == false).AsEnumerable();
+        //    long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
+        //    max = max + 1;
+        //    return max.ToString();
+        //}
+
         public static string GetLastDepositTransactionId()
         {
-            VendtechEntities context = new VendtechEntities();
-            var existing_details = context.Deposits.Where(p => p.IsDeleted == false).AsEnumerable();
-            long max = existing_details.Any() ? existing_details.Max(p => Convert.ToInt64(p.TransactionId)) : 1;
-            max = max + 1;
-            return max.ToString();
+            using (VendtechEntities context = new VendtechEntities())
+            {
+                var tranx = context.Deposits
+                 .OrderByDescending(p => p.DepositId)
+                 .FirstOrDefault();
+
+                if (tranx != null)
+                {
+                    long maxTransactionId = Convert.ToInt64(tranx.TransactionId) + 1;
+                    return maxTransactionId.ToString();
+                }
+                return "1";
+            }
         }
 
         private static string GenerateTransStanNo()

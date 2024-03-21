@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Org.BouncyCastle.Ocsp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
@@ -1934,42 +1940,82 @@ namespace VendTech.BLL.Managers
                     {
                         Context.SaveChanges();
                     }
-                    
-                     
+
+
                     //Send push to all devices where this user logged in when admin released deposit
-                    var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
-                    var obj = new PushNotificationModel();
-                    obj.UserId = dbDeposit.UserId;
-                    obj.Id = dbDeposit.DepositId;
-                    obj.Balance = dbDeposit.POS.Balance.Value;
-                    var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
-                    if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Rejected || dbDeposit.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant)
-                    {
-                        obj.Title = "Deposit request rejected";
-                        obj.Message = "Your deposit request has been rejected of NLe " + notyAmount;
-                    }
-                    else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Released)
-                    {
-                        obj.Title = "Wallet updated successfully";
-                        obj.Message = "Your wallet has been updated with NLe " + notyAmount;
-                    }
-                    else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
-                    {
-                        obj.Title = "Deposit request in progress";
-                        obj.Message = "Your deposit request has been in processed of NLe " + notyAmount;
-                    }
-                    obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
-                    foreach (var item in deviceTokens)
-                    {
-                        obj.DeviceToken = item.DeviceToken;
-                        obj.DeviceType = item.AppType.Value;
-                        PushNotification.SendNotification(obj);
-                    }
+                    PushNotificationToMobile(dbDeposit);
 
                 }
             }
 
             return ReturnSuccess(dbDeposit.User.UserId, "Deposit status changed successfully.");
+        }
+
+        private void PushNotificationToMobile(Deposit dbDeposit)
+        {
+            var deviceTokens = dbDeposit.User.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct();
+            var obj = new PushNotificationModel();
+            obj.UserId = dbDeposit.UserId;
+            obj.Id = dbDeposit.DepositId;
+            obj.Balance = dbDeposit.POS.Balance.Value;
+            var notyAmount = Utilities.FormatAmount(dbDeposit.Amount);
+            if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Rejected || dbDeposit.Status == (int)DepositPaymentStatusEnum.RejectedByAccountant)
+            {
+                obj.Title = "Deposit request rejected";
+                obj.Message = "Your deposit request has been rejected of NLe " + notyAmount;
+            }
+            else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.Released)
+            {
+                obj.Title = "Wallet updated successfully";
+                obj.Message = "Your wallet has been updated with NLe " + notyAmount;
+            }
+            else if (dbDeposit.Status == (int)DepositPaymentStatusEnum.ApprovedByAccountant)
+            {
+                obj.Title = "Deposit request in progress";
+                obj.Message = "Your deposit request has been in processed of NLe " + notyAmount;
+            }
+            obj.NotificationType = NotificationTypeEnum.DepositStatusChange;
+            foreach (var item in deviceTokens)
+            {
+                obj.DeviceToken = item.DeviceToken;
+                obj.DeviceType = item.AppType.Value;
+                PushNotification.SendNotification(obj);
+            }
+        }
+
+        private async Task PushNotificationToWeb(long UserId)
+        {
+            var url = WebConfigurationManager.AppSettings["SignaRServer"]+ "/Update";
+            var request = new SignalRMessageBody { UserId = UserId.ToString() };
+            var payload = JsonConvert.SerializeObject(request);
+            var resp = await SendHttpRequestAsync(url, HttpMethod.Post, payload);
+        }
+
+        public static async Task<string> SendHttpRequestAsync(string requestUrl, HttpMethod httpMethod, string requestBody = null)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var request = new HttpRequestMessage
+                    {
+                        RequestUri = new Uri(requestUrl),
+                        Method = httpMethod,
+                        Content = !string.IsNullOrEmpty(requestBody) ? new StringContent(requestBody, Encoding.UTF8, "application/json") : null
+                    };
+
+                    var response = httpClient.SendAsync(request).Result;
+                    response.EnsureSuccessStatusCode();
+
+                    var responseContent = await response.Content.ReadAsStringAsync();
+
+                    return responseContent;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private void GenerateReferenceIfUserIsUnderAnyAgency(Deposit dbDeposit, User user)
@@ -2440,6 +2486,7 @@ namespace VendTech.BLL.Managers
         {
             Context.PendingDeposits.RemoveRange(deposits);
             Context.SaveChanges();
+            PushNotificationToWeb(deposits.FirstOrDefault().UserId).Wait();
         }
 
         IQueryable<BalanceSheetListingModel> IDepositManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)

@@ -5523,6 +5523,8 @@
     <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\signalr\controller.js" />
+    <Content Include="Scripts\signalr\signalr.js" />
     <Content Include="Scripts\Spinner.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserDefinedScripts\Common.js" />
@@ -6621,6 +6623,7 @@
     <Content Include="Areas\Admin\Views\POS\Partials\_meterForm.cshtml" />
     <Content Include="Views\Home\Learn.cshtml" />
     <Content Include="Views\Home\Account.cshtml" />
+    <Content Include="Views\Home\Signalr.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

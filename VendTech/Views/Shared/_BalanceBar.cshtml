@@ -1,12 +1,13 @@
 ﻿<style>
     .balance-box {
-        display: flex;
+        /*display: inline-flex;*/
         align-items: center;
         background-color: #e4c200;
         color: #282828;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin-top: 30px;
     }
 
     .icon {
@@ -16,15 +17,55 @@
 
     .balance {
         font-size: 24px;
-        font-weight:bold;
-        font-weight:bold;
-        font-size:30px;
+        font-weight: bold;
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .balance-box #pending-approval {
+        font-size: small;
+        font-weight: bold;
+        margin-top: 5px; /* Adjust margin as needed */
+    }
+
+    .animatorstyle {
+        position: relative;
+        animation-name: balanceAnimate;
+        animation-duration: 1s;
+        animation-iteration-count: 2;
+        animation-direction: alternate;
+    }
+
+    @@keyframes balanceAnimate {
+        0% {
+            background-color: lawngreen;
+            right: 0px;
+            top: 0px;
+        }
+
+        25% {
+            background-color: yellow;
+            right: 200px;
+            top: 0px;
+        }
+
+        100% {
+            background-color: red;
+            right: 0px;
+            top: 0px;
+        }
     }
 </style>
-
-<div class="balance-box d-flex justify-content-between">
-    <i class="fas fa-wallet icon d-none d-sm-block">WALLET BALANCE</i>
-    <i class="fas fa-wallet icon d-block d-sm-none"></i>
-    <div class="balance ">@VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode: <span >@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span> </div>
+@*@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)*@
+<div class="balance-box d-flex justify-content-between" style="float: right;" id="balancebox">
+    <div class="balance">@VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode: <span id="userBalanceBar"></span>  </div>
+    <div id="pending-approval" style="font-size: 20px; font-weight: bold; display: none">PENDING APPROVAL: @VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode <span id="pendingAmount"></span></div>
 </div>
 
+<script>
+    var userBalanceHandler = {
+        userId: @ViewBag.UserId,
+    }
+</script>
+<script src="~/Scripts/signalr/signalr.js"></script>
+<script src="~/Scripts/signalr/controller.js"></script>

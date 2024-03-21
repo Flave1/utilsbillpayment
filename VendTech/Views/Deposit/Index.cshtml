@@ -61,9 +61,10 @@
 
                 <div class="col-md-21">
                     <div class="block-flat">
-                        <div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
-                            <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode : @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
-                        </div>
+                        @Html.Partial("_Balancebar")
+                        @*<div class="" style="text-align:right; font-size:20px;  font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
+            <span id="balanceSpan" style="color: #00a2e8; ">@country.CurrencyCode : @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+        </div>*@
                         <div class="contarea meterpage">
                             <div class="container-fluid" style="background:white; ">
 
@@ -111,11 +112,11 @@
                                                     </div>
                                                 </div>
                                                 @*<div class="form-group row">
-                                                        <div class="col-md-11 chkBankDiv" style="display:none">
-                                                            <label>NAME ON CHEQUE</label>
-                                                            <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
-                                                        </div>
-                                                    </div>*@
+                                    <div class="col-md-11 chkBankDiv" style="display:none">
+                                        <label>NAME ON CHEQUE</label>
+                                        <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control input">
+                                    </div>
+                                </div>*@
                                                 <input type="hidden" id="NameOnCheque" name="NameOnCheque" class="form-control input">
 
                                                 <div class="form-group row">
@@ -128,11 +129,11 @@
                                                 <input type="hidden" name="ContinueDepoit" id="ContinueDepoit" value="0" />
 
                                                 @*<div class="form-group row">
-                                                        <div class="col-md-11">
-                                                            <label>VENDTECH BANK DETAILS</label>
-                                                            @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
-                                                        </div>
-                                                    </div>*@
+                                    <div class="col-md-11">
+                                        <label>VENDTECH BANK DETAILS</label>
+                                        @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })
+                                    </div>
+                                </div>*@
                                                 @*@Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control input", @id = "bankAccountDrp" })*@
                                                 <div class="form-group row">
                                                     <div class="col-md-11">
@@ -429,6 +430,7 @@
                             reDeposit(sender, 2, message);
                             return;
                         }
+                        updateBalnce(true);
                         $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
                         setTimeout(function () {
                             window.location.href = baseUrl + '/Deposit/Index'

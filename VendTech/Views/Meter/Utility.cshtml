@@ -19,9 +19,11 @@
         <div class="dashright">
             <div class="page-head">
                 <h2>Bill Payment</h2>
-                <div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
-                    <span id="balanceSpan" style="color: #00a2e8; "> @VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
-                </div>
+
+                @Html.Partial("_Balancebar")
+                @*<div class="" style="text-align:right; font-size:30px;   font-weight:bolder;">
+            <span id="balanceSpan" style="color: #00a2e8; "> @VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</span>
+        </div>*@
             </div>
             <div class="cl-mcont">
                 <div class="row">

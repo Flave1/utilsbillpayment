@@ -9,22 +9,30 @@ namespace VendTech.BLL
     {
         public static async Task<string> SendHttpRequestAsync(string requestUrl, HttpMethod httpMethod, string requestBody = null)
         {
-            using (var httpClient = new HttpClient())
-            {
-                var request = new HttpRequestMessage
+			try
+			{
+                using (var httpClient = new HttpClient())
                 {
-                    RequestUri = new Uri(requestUrl),
-                    Method = httpMethod,
-                    Content = !string.IsNullOrEmpty(requestBody) ? new StringContent(requestBody, Encoding.UTF8, "application/json") : null
-                };
+                    var request = new HttpRequestMessage
+                    {
+                        RequestUri = new Uri(requestUrl),
+                        Method = httpMethod,
+                        Content = !string.IsNullOrEmpty(requestBody) ? new StringContent(requestBody, Encoding.UTF8, "application/json") : null
+                    };
 
-                var response = await httpClient.SendAsync(request);
-                response.EnsureSuccessStatusCode();
+                    var response = await httpClient.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
 
-                var responseContent = await response.Content.ReadAsStringAsync();
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-                return responseContent;
+                    return responseContent;
+                }
             }
+			catch (Exception)
+			{
+
+				throw;
+			}
         }
     }
 }

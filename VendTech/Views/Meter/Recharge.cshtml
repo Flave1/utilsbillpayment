@@ -55,10 +55,12 @@
                         @if (Convert.ToBoolean(ViewBag.IsPlatformAssigned))
                         {
                             <div class="contarea meterpage row">
-                                <div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
+                                
+                                @Html.Partial("_Balancebar")
+                                @*<div class="" style="text-align:right; font-size:20px;   font-weight:bold; padding-bottom:10px; border-bottom:0.8px solid #f4e8e8;">
                                     <span class="alert-danger" id="error_reponse" style=" display:none; float:left;"></span>
                                     <span id="balanceSpan" style="color: #00a2e8; "> @VendTech.BLL.Common.Utilities.GetCountry().CurrencyCode: <span id="userBalance">0</span>  </span>
-                                </div>
+                                </div>*@
                                 <div class="tabcont-row current">
                                     <div class="row">
                                         <div class="col-md-4" style=" border-right:2px solid #f6eded;">
@@ -269,7 +271,7 @@
 
             App.init();
 
-             $("#userBalance").text('@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)');
+             @*$("#userBalance").text('@VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)');*@
             // setInterval(function () {
               //$.ajax({
               //              url: '/Home/ReturnUserBalance',

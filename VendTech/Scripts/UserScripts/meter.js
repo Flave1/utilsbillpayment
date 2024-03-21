@@ -241,7 +241,8 @@ var UserMeters = {
                     $(".currencyCode").html(data.Data.CurrencyCode);
 
                     GetLatestRechargesAfterPurchase();
-                    GetPOSBalanceAfterPurchase();
+                    //GetPOSBalanceAfterPurchase();
+                    updateBalnce(true);
                     $("#AmountDisplay").val('');
                     $("#modalCart").modal("show");
                     /*setTimeout(function () {
