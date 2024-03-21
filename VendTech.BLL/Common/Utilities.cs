@@ -353,68 +353,68 @@ namespace VendTech.BLL.Common
        
         public static void SendEmail(string to, string sub, string body)
         {
-            string from =  WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();// "support@vendtechsl.com";
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString(); //"S8pt*T&ch";
+            string from = "support@vendtechsl.com"; // WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password = "S8pt*T&ch"; //; WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             try
             {
 
-                var mimeMsg = new MimeMessage();
-                var frms = new List<MailboxAddress>
-                {
-                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
-                };
-                var tos = new List<MailboxAddress>
-                {
-                     new MailboxAddress(displayName, to),
-                };
-                mimeMsg.From.AddRange(frms);
-                mimeMsg.To.AddRange(tos);
-                mimeMsg.Subject = sub;
-
-                mimeMsg.Body = new TextPart("html")
-                {
-                    Text = body
-                };
-
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
-                {
-                    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    client.Connect("smtp.gmail.com", 465);
-
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                    client.Authenticate(from, password);
-
-                    client.Send(mimeMsg);
-
-                    client.Disconnect(true);
-                }
-
-                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                //                                  | SecurityProtocolType.Tls11
-                //                                  | SecurityProtocolType.Tls12;
-
-
-                //using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com"))
+                //var mimeMsg = new MimeMessage();
+                //var frms = new List<MailboxAddress>
                 //{
-                //    smtpClient.Port = 465;
-                //    smtpClient.Credentials = new NetworkCredential(from, password);
-                //    smtpClient.EnableSsl = true;
-                //    try
-                //    {
-                //        // Send email
-                //        smtpClient.Send(from, to, "subject", "body");
-                //        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
+                //     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
+                //};
+                //var tos = new List<MailboxAddress>
+                //{
+                //     new MailboxAddress(displayName, to),
+                //};
+                //mimeMsg.From.AddRange(frms);
+                //mimeMsg.To.AddRange(tos);
+                //mimeMsg.Subject = sub;
 
-                //        Console.WriteLine("Email sent successfully!");
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Console.WriteLine("Failed to send email. Error: " + ex.Message);
-                //    }
+                //mimeMsg.Body = new TextPart("html")
+                //{
+                //    Text = body
+                //};
+
+                //using (var client = new MailKit.Net.Smtp.SmtpClient())
+                //{
+                //    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+                //    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //    client.Connect("sg2nlvphout-v01.shr.prod.sin2.secureserver.net", 25);//smtp.gmail.com
+
+                //    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                //    client.Authenticate(from, password);
+
+                //    client.Send(mimeMsg);
+
+                //    client.Disconnect(true);
                 //}
+
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                                  | SecurityProtocolType.Tls11
+                                                  | SecurityProtocolType.Tls12;
+
+
+                using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("n1smtpout.europe.secureserver.net"))
+                {
+                    smtpClient.Port = 25;
+                    smtpClient.Credentials = new NetworkCredential(from, password);
+                    smtpClient.EnableSsl = true;
+                    try
+                    {
+                        // Send email
+                        smtpClient.Send(from, to, "subject", "body");
+                        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
+
+                        Console.WriteLine("Email sent successfully!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed to send email. Error: " + ex.Message);
+                    }
+                }
 
 
 

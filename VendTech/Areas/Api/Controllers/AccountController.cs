@@ -257,6 +257,7 @@ namespace VendTech.Areas.Api.Controllers
         }
         
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ActionName("ForgotPassword")]
         public HttpResponseMessage ForgotPassword(string email)
         {
             if (!string.IsNullOrEmpty(email))
