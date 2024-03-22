@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.BLL.PlatformApi;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
@@ -1130,12 +1131,13 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        decimal IUserManager.GetUserWalletBalance(long userId, long agentId)
+        decimal IUserManager.GetUserWalletBalance(long userId, long agentId, bool apiCall)
         {
             try
             {
                 var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
-                //agentId = user.AgentId == null ? 0 : user.AgentId.Value;
+                if(apiCall && agentId == 0)
+                    agentId = Context.Agencies.FirstOrDefault(f => f.Representative == user.UserId)?.AgencyId ?? 0;
                 if (user == null)
                     return 0;
                 if (agentId > 0)

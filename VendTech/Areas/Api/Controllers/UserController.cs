@@ -158,7 +158,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage GetWalletBalance2(long userid)
         {
-            var balance = _userManager.GetUserWalletBalance(userid);
+            var balance = _userManager.GetUserWalletBalance(userid, 0, true);
             var pendingDeposit = _userManager.GetUserPendingDeposit(userid);
             return new JsonContent(
                 "User balance fetched successfully. ",
