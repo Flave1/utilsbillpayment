@@ -397,26 +397,28 @@ namespace VendTech.BLL.Common
                                                   | SecurityProtocolType.Tls12;
 
 
-                using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("n1smtpout.europe.secureserver.net"))
+                System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("n1smtpout.europe.secureserver.net");
+                smtpClient.Port = 25; // Port number (typically 587 for TLS)
+                smtpClient.Credentials = new NetworkCredential(from, password);
+                smtpClient.EnableSsl = true; // Enable SSL/TLS
+
+                // Create and configure the email message
+                System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+                message.From = new MailAddress(from);
+                message.To.Add(to);
+                message.Subject = "Test Email";
+                message.Body = "This is a test email sent from my .NET application.";
+
+                try
                 {
-                    smtpClient.Port = 25;
-                    smtpClient.Credentials = new NetworkCredential(from, password);
-                    smtpClient.EnableSsl = true;
-                    try
-                    {
-                        // Send email
-                        smtpClient.Send(from, to, "subject", "body");
-                        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
-
-                        Console.WriteLine("Email sent successfully!");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Failed to send email. Error: " + ex.Message);
-                    }
+                    // Send the email
+                    smtpClient.Send(message);
+                    Console.WriteLine("Email sent successfully.");
                 }
-
-
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error sending email: " + ex.Message);
+                }
 
             }
             catch (Exception x)
