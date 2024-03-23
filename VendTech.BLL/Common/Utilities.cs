@@ -353,72 +353,74 @@ namespace VendTech.BLL.Common
        
         public static void SendEmail(string to, string sub, string body)
         {
-            string from = "support@vendtechsl.com"; // WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = "S8pt*T&ch"; //; WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string from = "support@vendtechsl.com";//WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password = "S8pt*T&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
+            string smtp = "dedrelay.secureserver.net"; //"smtp.gmail.com";
+            int port = 25;//465;
             try
             {
 
-                //var mimeMsg = new MimeMessage();
-                //var frms = new List<MailboxAddress>
+                var mimeMsg = new MimeMessage();
+                var frms = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
+                };
+                var tos = new List<MailboxAddress>
+                {
+                     new MailboxAddress(displayName, to),
+                };
+                mimeMsg.From.AddRange(frms);
+                mimeMsg.To.AddRange(tos);
+                mimeMsg.Subject = sub;
+
+                mimeMsg.Body = new TextPart("html")
+                {
+                    Text = body
+                };
+
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    client.Connect(smtp, port);
+
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    client.Authenticate(from, password);
+
+                    client.Send(mimeMsg);
+
+                    client.Disconnect(true);
+                }
+
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                //                                  | SecurityProtocolType.Tls11
+                //                                  | SecurityProtocolType.Tls12;
+
+
+                //System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com");
+                //smtpClient.Port = 465; // Port number (typically 587 for TLS)
+                //smtpClient.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["SMTPFromtest"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                ////smtpClient.EnableSsl = true; // Enable SSL/TLS
+
+                //// Create and configure the email message
+                //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+                //message.From = new MailAddress("no-reply@vendtechsl.com");
+                //message.To.Add(to);
+                //message.Subject = "Test Email";
+                //message.Body = "This is a test email sent from my .NET application.";
+
+                //try
                 //{
-                //     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
-                //};
-                //var tos = new List<MailboxAddress>
-                //{
-                //     new MailboxAddress(displayName, to),
-                //};
-                //mimeMsg.From.AddRange(frms);
-                //mimeMsg.To.AddRange(tos);
-                //mimeMsg.Subject = sub;
-
-                //mimeMsg.Body = new TextPart("html")
-                //{
-                //    Text = body
-                //};
-
-                //using (var client = new MailKit.Net.Smtp.SmtpClient())
-                //{
-                //    client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
-                //    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                //    client.Connect("sg2nlvphout-v01.shr.prod.sin2.secureserver.net", 25);//smtp.gmail.com
-
-                //    client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                //    client.Authenticate(from, password);
-
-                //    client.Send(mimeMsg);
-
-                //    client.Disconnect(true);
+                //    // Send the email
+                //    smtpClient.Send(message);
+                //    Console.WriteLine("Email sent successfully.");
                 //}
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                                                  | SecurityProtocolType.Tls11
-                                                  | SecurityProtocolType.Tls12;
-
-
-                System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("n1smtpout.europe.secureserver.net");
-                smtpClient.Port = 25; // Port number (typically 587 for TLS)
-                smtpClient.Credentials = new NetworkCredential(from, password);
-                smtpClient.EnableSsl = true; // Enable SSL/TLS
-
-                // Create and configure the email message
-                System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
-                message.From = new MailAddress(from);
-                message.To.Add(to);
-                message.Subject = "Test Email";
-                message.Body = "This is a test email sent from my .NET application.";
-
-                try
-                {
-                    // Send the email
-                    smtpClient.Send(message);
-                    Console.WriteLine("Email sent successfully.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error sending email: " + ex.Message);
-                }
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine("Error sending email: " + ex.Message);
+                //}
 
             }
             catch (Exception x)
