@@ -58,6 +58,7 @@ namespace VendTech.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var model = new DepositModel();
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
             ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
 
@@ -76,7 +77,7 @@ namespace VendTech.Controllers
             ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
             var posList = _posManager.GetPOSWithNameSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList;
-            if (posId == "" && posList.Count > 0)
+            if (string.IsNullOrEmpty(posId) && posList.Count > 0)
             {
                 //posId = Convert.ToInt64(posList[0].Value);
                 ViewBag.posId = posId;

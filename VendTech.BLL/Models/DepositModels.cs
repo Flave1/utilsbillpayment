@@ -432,6 +432,14 @@ namespace VendTech.BLL.Models
     {
         public List<long> ReleaseDepositIds { get; set; }
     }
+    public class SignalRMessageBody
+    {
+        public SignalRMessageBody()
+        {
+            UserId = string.Empty;
+        }
+        public string UserId { get; set; }
+    }
     public class CancelDepositModel
     {
         public long CancelDepositId { get; set; }

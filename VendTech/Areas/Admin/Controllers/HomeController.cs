@@ -322,7 +322,6 @@ namespace VendTech.Areas.Admin.Controllers
         {
             return JsonResult(_authenticateManager.SaveLogoutTime(model));
         }
-        [HttpGet, Public]
         public JsonResult AutoLogout()
         {
             var secs = _authenticateManager.GetLogoutTime();
@@ -336,18 +335,17 @@ namespace VendTech.Areas.Admin.Controllers
                 DateTime expirationTime = LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs);
                 DateTime currentTime = DateTime.UtcNow;
                 if (LOGGEDIN_USER != null && LOGGEDIN_USER.LastActivityTime.Value.AddSeconds(secs) < DateTime.UtcNow)
-                {
-                    //SignOut();
-                    return JsonResult(new ActionOutput { Message = "", Status = ActionStatus.Successfull });//expired
-                }
+                    return JsonResult(new ActionOutput { ID = secs, Message = "expired", Status = ActionStatus.Successfull });
 
+                // Check if the session will expire within the next 20 seconds
                 if ((expirationTime - currentTime).TotalSeconds <= 30)
                 {
-                    return JsonResult(new ActionOutput { Message = "", Status = ActionStatus.Successfull }); //aboutTo
+                    // Your logic when it's 20 seconds to expire
+                    return JsonResult(new ActionOutput { ID = secs, Message = "aboutTo", Status = ActionStatus.Successfull });
                 }
-                return JsonResult(new ActionOutput { Message = (expirationTime - currentTime).TotalSeconds.ToString(), Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+                return JsonResult(new ActionOutput { ID = secs, Message = (expirationTime - currentTime).TotalSeconds.ToString(), Status = result ? ActionStatus.Successfull : ActionStatus.Error });
             }
-            return JsonResult(new ActionOutput { Message = "", Status = result ? ActionStatus.Successfull : ActionStatus.Error });
+            return JsonResult(new ActionOutput { ID = secs, Message = "", Status = result ? ActionStatus.Successfull : ActionStatus.Error });
         }
 
         [HttpGet]
@@ -355,7 +353,6 @@ namespace VendTech.Areas.Admin.Controllers
         {
             return JsonResult(new ActionOutput { Status = ActionStatus.Successfull });
         }
-
 
         [HttpGet, Public]
         public JsonResult ReturnDealerBalance()

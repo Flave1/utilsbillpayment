@@ -139,15 +139,53 @@ namespace VendTech.Areas.Api.Controllers
         {
             var userDetail = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserId);
             var balance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserId);
+            var pendingDeposit = _userManager.GetUserPendingDeposit(LOGGEDIN_USER.UserId);
             return new JsonContent(
-                "User balance fetched successfully.", 
+                "User balance fetched successfully. ", 
                 Status.Success, 
                 new {
                         balance = balance, 
                         unReadNotifications = _userManager.GetUnreadNotifications(LOGGEDIN_USER.UserId), 
                         accountStatus=userDetail.AccountStatus ,
-                        stringBalance = Utilities.FormatAmount(balance)
+                        stringBalance = Utilities.FormatAmount(balance),
+                        pendingDepositBalance = pendingDeposit != null ? Utilities.FormatAmount(pendingDeposit.Amount): "",
+                        isDepositPending = pendingDeposit != null ? true : false
         }
+                ).ConvertToHttpResponseOK();
+        }
+         
+        [HttpGet, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetWalletBalance2(long userid)
+        {
+            var balance = _userManager.GetUserWalletBalance(userid, 0, true);
+            var pendingDeposit = _userManager.GetUserPendingDeposit(userid);
+            return new JsonContent(
+                "User balance fetched successfully. ",
+                Status.Success,
+                new
+                {
+                    balance = balance,
+                    stringBalance = Utilities.FormatAmount(balance),
+                    pendingDepositBalance = pendingDeposit != null ? Utilities.FormatAmount(pendingDeposit.Amount) : "",
+                    isDepositPending = pendingDeposit != null ? true : false
+                }
+                ).ConvertToHttpResponseOK();
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage GetPendingBalance()
+        {
+            var pendingDeposit = _userManager.GetUserPendingDeposit(LOGGEDIN_USER.UserId);
+            return new JsonContent(
+                "User Pending balance fetched successfully.",
+                Status.Success,
+                new
+                {
+                    pendingDepositBalance = pendingDeposit != null ? Utilities.FormatAmount(pendingDeposit.Amount) : "",
+                    isDepositPending = pendingDeposit != null ? true : false
+                }
                 ).ConvertToHttpResponseOK();
         }
 

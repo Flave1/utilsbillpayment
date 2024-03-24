@@ -16,6 +16,7 @@ namespace VendTech.BLL.Models
         public NotificationTypeEnum NotificationType { get; set; }
         public long UserId { get; set; }
         public long Id { get; set; }
+        public decimal Balance { get; set; } = new decimal();
     }
     public class NotificationApiListingModel
     {

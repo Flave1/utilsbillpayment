@@ -1,12 +1,18 @@
 ﻿@{
-    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
-    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+    var user = new UserDetails();
+    var assignerModules = new List<ModulesModel>();
+    if (ViewBag.LOGGEDIN_USER != null)
+    {
+        user = (UserDetails)ViewBag.LOGGEDIN_USER;
+        assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+    }
 }
 <div class="cl-sidebar" data-position="right" data-step="1" data-intro="">
 
     <div class="cl-navblock">
         <div class="menu-space">
             <div class="content">
+                <br />
                 <br />
                 <ul class="cl-vnavigation">
                     @* <li><a href="@Url.Action("Dashboard", "Home", new { area = "Admin" })"><i class="fa fa-home"></i><span>Dashboard</span></a></li>*@

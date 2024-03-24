@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.BLL.PlatformApi;
 using VendTech.DAL;
 
 namespace VendTech.BLL.Managers
@@ -22,10 +23,19 @@ namespace VendTech.BLL.Managers
 
         UserModel IUserManager.ValidateUserSession(string token)
         {
+
             var session = Context.TokensManagers.Where(o => o.TokenKey.Equals(token)).FirstOrDefault();
             if (session != null)
-
             {
+                var currentTimeWithAppSeconds = session.User.AppLastUsed.Value.AddSeconds(Convert.ToInt16(Context.AppSettings.FirstOrDefault().Value));
+                var hasExpired = currentTimeWithAppSeconds < DateTime.UtcNow;
+
+                //Utilities.LogProcessToDatabase($"currentTimeWithAppSeconds: {currentTimeWithAppSeconds}", "");
+                //Utilities.LogProcessToDatabase($"DateTime.UtcNow: {DateTime.UtcNow}", "");
+                //if (hasExpired)
+                //{
+                //    return null;
+                //}
                 var pos = Context.POS.FirstOrDefault(x => x.SerialNumber == session.PosNumber);
                 if (session != null &&
                     (session.User.Status == (int)UserStatusEnum.Active
@@ -413,6 +423,8 @@ namespace VendTech.BLL.Managers
             return modelUser;
         }
 
+        void IUserManager.SaveChanges() => Context.SaveChanges();
+
 
         IList<UserAssignedModuleModel> IUserManager.GetNavigations(long userId)
         {
@@ -442,7 +454,7 @@ namespace VendTech.BLL.Managers
 
         User IUserManager.GetUserDetailByEmail(string email)
         {
-            var userDetail = Context.Users.Where(x => x.Email == email).FirstOrDefault();
+            var userDetail = Context.Users.Where(x => x.Email == email && x.Status != (int)UserStatusEnum.Deleted).FirstOrDefault();
             if (userDetail != null)
             {
                 return userDetail;
@@ -1119,11 +1131,13 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        decimal IUserManager.GetUserWalletBalance(long userId, long agentId)
+        decimal IUserManager.GetUserWalletBalance(long userId, long agentId, bool apiCall)
         {
             try
             {
                 var user = Context.Users.FirstOrDefault(z => z.UserId == userId);
+                if(apiCall && agentId == 0)
+                    agentId = Context.Agencies.FirstOrDefault(f => f.Representative == user.UserId)?.AgencyId ?? 0;
                 if (user == null)
                     return 0;
                 if (agentId > 0)
@@ -1153,6 +1167,18 @@ namespace VendTech.BLL.Managers
             }
         }
 
+        PendingDeposit IUserManager.GetUserPendingDeposit(long userId)
+        {
+            try
+            {
+                return Context.PendingDeposits.FirstOrDefault(d => d.UserId == userId) ?? null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         decimal IUserManager.GetUserWalletBalance(User user, long agentId)
         {
             try
@@ -1171,7 +1197,7 @@ namespace VendTech.BLL.Managers
                 }
                 else if (user.UserRole.Role != UserRoles.AppUser)
                 {
-                    var posTotalBalance = Context.POS.ToList().Sum(p => p.Balance);
+                    var posTotalBalance = Context.POS.Where(p => p.Enabled == true && p.User.Status == (int)UserStatusEnum.Active).ToList().Sum(p => p.Balance);
                     return posTotalBalance.Value;
                 }
                 else

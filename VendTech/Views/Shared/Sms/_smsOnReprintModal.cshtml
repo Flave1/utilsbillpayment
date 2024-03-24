@@ -1,6 +1,9 @@
-﻿<style>
-   
- 
+﻿@{
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
+}
+<style>
+
+
     .smsModal2 {
         width: 400px;
         height: auto;
@@ -9,8 +12,9 @@
         overflow: hidden;
         display: block;
         position: relative;
-        top:400px;
+        top: 400px;
     }
+
     .smsOverlay2 {
         width: calc(100vw - 2px);
         height: 100vh;
@@ -34,20 +38,20 @@
             <div class="modal-body">
                 <form>
 
-                    <label  for="countryCode">SEND VOUCHER BY SMS TO:</label>
-                    <div class="input-group mb-2 d-flex justify-content-center">
-                        <div class="input-group-prepend col-3">
-                            <select class="custom-select input-group-text" id="countryCode">
-                                <option selected>+232</option>
+                    <label for="countryCode">SEND VOUCHER BY SMS TO:</label>
+                    <div class="input-group col-lg-12 row mb-2 d-flex justify-content-center" style=" width: 90%; display: inline-flex">
+                        <div class="input-group-prepend col-3" style="height: 34px; float: left; width: 20%">
+                            <select class="custom-select input-group-text" id="countryCode" style="width: 100%; height: 100%; ">
+                                <option selected>@country.CountryCode</option>
                             </select>
                         </div>
-                        <input type="text" class="form-control col-9" id="smsNumber2" placeholder="enter number here...." required>
+                        <input style="float: right;" type="text" class="form-control col-9" id="smsNumber2" placeholder="enter number here...." required>
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <a  onclick="smsHandler.sendSms2()" class="btn submitBtn pull-right" a href="#">Send</a>
+                <a onclick="smsHandler.sendSms2()" class="btn submitBtn pull-right" a href="#">Send</a>
             </div>
         </div>
     </div>

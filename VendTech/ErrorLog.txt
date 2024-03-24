@@ -136,3 +136,37 @@ Only parameterless constructors and initializers are supported in LINQ to Entiti
 
 
 
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml": "scripts".
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+The "RenderBody" method has not been called for layout page "~/Views/Shared/_Layout.cshtml".
+
+
+
+The underlying provider failed on Open.
+
+
+

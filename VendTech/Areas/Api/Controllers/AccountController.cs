@@ -64,14 +64,6 @@ namespace VendTech.Areas.Api.Controllers
         [ActionName("SignIn")]
         public HttpResponseMessage SignIn(LoginAPIPassCodeModel model)
         {
-            if(model.PassCode != "73086")
-            {
-                //if (model.AppVersion != "2.4.1")
-                //{
-                //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
-                //}
-            }
-
             if (string.IsNullOrEmpty(model.DeviceToken))
             {
                 return new JsonContent("Unsupported device Detected!", Status.Failed).ConvertToHttpResponseOK();
@@ -87,14 +79,15 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
-                else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim() && model.PassCode != "73086" && model.PassCode != "22222")
+                else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim() && model.PassCode != "73086")
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    //if(model.AppVersion != CurrentAppVersion)
-                    //{
-                    //    return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP TO CONTINUE", Status.Success).ConvertToHttpResponseOK();
-                    //}
+                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.5")
+                    {
+                        //return new JsonContent("UPDATE_APP", Status.Success).ConvertToHttpResponseOK(); Will update later
+                        return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
+                    }
                     var isEnabled = _authenticateManager.IsUserAccountORPosBlockedORDisabled(userDetails.UserId);
                     if (isEnabled)
                     {
@@ -110,6 +103,7 @@ namespace VendTech.Areas.Api.Controllers
                     {
                         userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
                         _authenticateManager.AddTokenDevice(model);
+                        _userManager.UpdateUserLastAppUsedTime(pos.VendorId.Value);
                         if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
                         {
                             _authenticateManager.DeleteGenerateToken(userDetails.UserId, userDetails.POSNumber);
@@ -125,6 +119,23 @@ namespace VendTech.Areas.Api.Controllers
                 }
             }
         }
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        [ActionName("DeleteUser")]
+        public HttpResponseMessage DeleteUser(DeleteAPIModel model)
+        {
+            var user = _userManager.GetUserDetailByEmail(model.Email);
+            if(user == null)
+            {
+                return new JsonContent("User account not found", Status.Failed).ConvertToHttpResponseOK();
+            }
+            user.Status = (int)UserStatusEnum.Deleted;
+            _userManager.SaveChanges();
+
+            return new JsonContent("User account delted successfully", Status.Success).ConvertToHttpResponseOK();
+        }
+
 
 
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]

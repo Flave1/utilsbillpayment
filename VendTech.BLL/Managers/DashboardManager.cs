@@ -156,7 +156,7 @@ namespace VendTech.BLL.Managers
                     var total_deposits = new decimal();
                     var total_sales = new decimal();
 
-                    var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId
+                    var current_user_pos_ids = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.User.AgentId == agentId && p.User.Status == (int)UserStatusEnum.Active
                         && !p.IsAdmin && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList()
                         : Context.POS.Where(p => !p.IsDeleted && p.User.UserId == userId && !p.IsAdmin
                         && !p.SerialNumber.StartsWith("AGT")).Select(e => e.POSId).ToList();
@@ -182,7 +182,7 @@ namespace VendTech.BLL.Managers
                         totalSales = total_sales,
                         totalDeposit = total_deposits,
                         revenue = agentBalance,
-                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId && !p.IsAdmin &&  !p.SerialNumber.StartsWith("AGT")).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.SerialNumber.StartsWith("AGT")).ToList().Count,
+                        posCount = agentId > 0 ? Context.POS.Where(p => !p.IsDeleted && p.Enabled == true && p.User.AgentId == agentId && !p.IsAdmin &&  !p.SerialNumber.StartsWith("AGT") && p.User.Status == (int)UserStatusEnum.Active).ToList().Count:  user.POS.Where(p => !p.IsDeleted && p.Enabled == true && !p.SerialNumber.StartsWith("AGT")).ToList().Count,
                         walletBalance = _userManager.GetUserWalletBalance(user),
                         transactionChartData = tDatas
                     };
@@ -193,8 +193,16 @@ namespace VendTech.BLL.Managers
                     var total_deposits = new decimal();
                     var total_sales = new decimal();
                     var date = DateTime.UtcNow.Date;
-                    total_deposits = Context.Deposits.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)DepositPaymentStatusEnum.Released && d.IsDeleted == false).AsEnumerable().Sum(s => s.Amount);
-                    total_sales = Context.TransactionDetails.Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && d.Status == (int)RechargeMeterStatusEnum.Success).AsEnumerable().Sum(s => s.Amount);
+                    
+                    total_deposits = Context.Deposits
+                        .Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) 
+                    && d.Status == (int)DepositPaymentStatusEnum.Released && d.User.Status == (int)UserStatusEnum.Active
+                    && d.IsDeleted == false).AsEnumerable().Sum(s => s.Amount);
+
+                    total_sales = Context.TransactionDetails
+                        .Where(d => DbFunctions.TruncateTime(d.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) 
+                        && d.Status == (int)RechargeMeterStatusEnum.Success && d.User.Status == (int)UserStatusEnum.Active
+                        ).AsEnumerable().Sum(s => s.Amount);
 
                     var userCountQuery = "Select * from users where status = 1 and usertype IN (9,17)";
                     var userCount = Context.Database.SqlQuery<dynamic>(userCountQuery).ToList().Count();

@@ -77,8 +77,9 @@ namespace VendTech.BLL.Common
                         {
                             title = model.Title,
                             body = model.Message,
-                            id=model.Id,
-                            type=(int)model.NotificationType
+                            id = model.Id,
+                            type = (int)model.NotificationType,
+                            balance = model.Balance
                         }
                     };
                     string postData = JsonConvert.SerializeObject(payload).ToString();

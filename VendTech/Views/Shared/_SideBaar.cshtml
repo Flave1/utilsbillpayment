@@ -1,7 +1,13 @@
 ﻿@using VendTech.BLL.Models
 @{
-    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
-    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+    var user = new UserDetails();
+    var assignerModules = new List<ModulesModel>();
+    if (ViewBag.LOGGEDIN_USER != null)
+    {
+        user = (UserDetails)ViewBag.LOGGEDIN_USER;
+        assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+    }
+
 }
 
 <div class="cl-sidebar show_cl-sidebar" data-position="right" data-step="1" data-intro="">
@@ -9,6 +15,7 @@
     <div class="cl-navblock">
         <div class="menu-space">
             <div class="content">
+                <br />
                 @if (user.IsEmailVerified)
                 {
                     <ul class="cl-vnavigation" style="display: none;" id="IsVerified">

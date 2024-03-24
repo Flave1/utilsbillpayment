@@ -54,8 +54,7 @@ namespace VendTech.Controllers
             ViewBag.userPos = posList;
 
             ViewBag.IsPlatformAssigned = airtimeProducts.Count > 0;
-
-           JavaScriptSerializer js = new JavaScriptSerializer();
+            JavaScriptSerializer js = new JavaScriptSerializer();
             var hostory_model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -67,6 +66,7 @@ namespace VendTech.Controllers
 
             var deposits = _platformTransactionManager.GetUserAirtimeRechargeTransactionDetailsHistory(hostory_model);
 
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             if (deposits.List.Count > 0)
                 model.History = deposits.List;
             

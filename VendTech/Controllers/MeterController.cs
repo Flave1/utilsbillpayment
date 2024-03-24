@@ -178,11 +178,9 @@ namespace VendTech.Controllers
 
         public ActionResult Utility()
         {
-
-            var url = Utilities.GetCountry();
-
-            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
+            ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER.UserID).POSNumber;
             var model = new List<PlatformModel>();
             model = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID);
@@ -196,6 +194,9 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
+            ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
             ViewBag.title = "EDSA Recharge";
             var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
             ViewBag.IsDisable = platform.DisablePlatform;

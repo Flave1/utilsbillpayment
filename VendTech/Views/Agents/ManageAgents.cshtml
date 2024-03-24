@@ -23,7 +23,7 @@
     ._passcode .form-control {
         font-size: 40px;
     }
-    .data-info {
+   /* .data-info {
         display: flex;
         flex-direction:column;
         border:1px solid grey;
@@ -48,19 +48,21 @@
     }
     .widget{
         width: 100%;
-    }
+    }*/
 </style>
 <div class="container-fluid" id="pcont">
     <div class="page-head">
         <h2 class="page-title">Manage Vendors</h2>
-        <div>
+
+        @Html.Partial("_Balancebar")
+        @*<div>
             <div class="widget widget-tile">
                 <div class="data-info">
                     <div class="desc"><strong>Current agency balance</strong> </div>
                     <div class="desc" style="font-size: 30px; color: #00a2e8"><strong> NLe: @VendTech.BLL.Common.Utilities.FormatAmount(ViewBag.walletBalance)</strong> </div>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="cl-mcont">
         <div class="row">

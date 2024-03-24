@@ -81,6 +81,20 @@ namespace VendTech.Controllers
         }
 
         [Public]
+        public ActionResult Account()
+        {
+            return View();
+
+        }
+
+        [Public]
+        public ActionResult Signalr()
+        {
+            return View();
+
+        }
+
+        [Public]
         public ActionResult Error(string errorMessage)
         {
             ViewBag.ErrorMessage = errorMessage;
@@ -189,6 +203,7 @@ namespace VendTech.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            ViewBag.UserId = LOGGEDIN_USER.UserID;
             ViewBag.Pos = _userManager.GetUserDetailsByUserId(LOGGEDIN_USER?.UserID ?? 0)?.POSNumber;
             ViewBag.ShowRevenueWidg = _dashboardManager.IsUserAnAgent(LOGGEDIN_USER.UserID);
             var model = new List<PlatformModel>();
@@ -234,7 +249,6 @@ namespace VendTech.Controllers
                         string to = email;
                         Utilities.SendEmail(to, emailTemplate.EmailSubject, body);
                     }
-
                     var msg = new SendSMSRequest
                     {
                         Recipient = "232" + user.Phone,
