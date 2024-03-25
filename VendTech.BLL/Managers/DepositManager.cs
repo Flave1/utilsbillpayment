@@ -2014,7 +2014,8 @@ namespace VendTech.BLL.Managers
             }
             catch (Exception)
             {
-                throw;
+                return "";
+                //throw;
             }
         }
 
