@@ -310,14 +310,14 @@ namespace VendTech.Areas.Api.Controllers
                             Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
                         }
 
-                        //var msg = new SendSMSRequest
-                        //{
-                        //    Recipient = "232" + user.Phone,
-                        //    Payload = $"Greetings {user.Name} \n" +
-                        //      $"Please enter the following OTP in the mobile APP.\n{otp}\n" +
-                        //      "VENDTECH"
-                        //};
-                        //var ew = await _smsManager.SendSmsAsync(msg);
+                        var msg = new SendSMSRequest
+                        {
+                            Recipient = "232" + user.Phone,
+                            Payload = $"Greetings {user.Name} \n" +
+                              $"Please enter the following OTP in the mobile APP.\n{otp}\n" +
+                              "VENDTECH"
+                        };
+                        var ew = await _smsManager.SendSmsAsync(msg);
 
                         return new JsonContent(user.UserId.ToString(), Status.Success).ConvertToHttpResponseOK();
                     }
