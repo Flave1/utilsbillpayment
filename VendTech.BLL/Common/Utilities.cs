@@ -353,16 +353,18 @@ namespace VendTech.BLL.Common
        
         public static void SendEmail(string to, string sub, string body)
         {
-            string from =  WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();// "support@vendtechsl.com";
-            string password = WebConfigurationManager.AppSettings["SMTPPassword"].ToString(); //"S8pt*T&ch";
+            string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
+            string password = "S8pt*T&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
+            string smtp = "smtp.office365.com"; //"smtp.gmail.com";
+            int port = 587;//465;
             try
             {
 
                 var mimeMsg = new MimeMessage();
                 var frms = new List<MailboxAddress>
                 {
-                     new MailboxAddress(displayName, "no-reply@vendtechsl.com"),
+                     new MailboxAddress(displayName, from),
                 };
                 var tos = new List<MailboxAddress>
                 {
@@ -380,10 +382,9 @@ namespace VendTech.BLL.Common
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    client.Connect("smtp.gmail.com", 465);
-
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+                    client.Connect(smtp, port);
+                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                     client.Authenticate(from, password);
 
@@ -397,26 +398,28 @@ namespace VendTech.BLL.Common
                 //                                  | SecurityProtocolType.Tls12;
 
 
-                //using (System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com"))
+                //System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient(smtp);
+                //smtpClient.Port = port;
+                //smtpClient.EnableSsl = true;
+                //smtpClient.Credentials = new NetworkCredential(from, password);
+
+                //// Create and configure the email message
+                //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+                //message.From = new MailAddress(from);
+                //message.To.Add(to);
+                //message.Subject = "Test Email";
+                //message.Body = "This is a test email sent from my .NET application.";
+
+                //try
                 //{
-                //    smtpClient.Port = 465;
-                //    smtpClient.Credentials = new NetworkCredential(from, password);
-                //    smtpClient.EnableSsl = true;
-                //    try
-                //    {
-                //        // Send email
-                //        smtpClient.Send(from, to, "subject", "body");
-                //        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(from, to, "subject", "body");
-
-                //        Console.WriteLine("Email sent successfully!");
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Console.WriteLine("Failed to send email. Error: " + ex.Message);
-                //    }
+                //    // Send the email
+                //    smtpClient.Send(message);
+                //    Console.WriteLine("Email sent successfully.");
                 //}
-
-
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine("Error sending email: " + ex.Message);
+                //}
 
             }
             catch (Exception x)
@@ -430,8 +433,10 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password =  WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string password = "S8pt*T&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
+            string smtp = "smtp.office365.com"; //"smtp.gmail.com";
+            int port = 587;
             try
             {
 
@@ -474,9 +479,9 @@ namespace VendTech.BLL.Common
                 {
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    client.Connect("smtp.gmail.com", 465);
+                    client.Connect(smtp, port);
 
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                     client.Authenticate(from, password);
 
