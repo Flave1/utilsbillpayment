@@ -2014,7 +2014,8 @@ namespace VendTech.BLL.Managers
             }
             catch (Exception)
             {
-                throw;
+                return "";
+                //throw;
             }
         }
 
@@ -2335,7 +2336,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CheckNumberOrSlipId = model.CheckNumberOrSlipId;
             dbDeposit.Comments = model.Comments;
             dbDeposit.PercentageAmount = model.PercentageAmount;
-            dbDeposit.TransactionId = "0";
+            dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
             dbDeposit.CreatedAt = model.CreatedAt;
             dbDeposit.BalanceBefore =  new decimal();
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
@@ -2486,7 +2487,7 @@ namespace VendTech.BLL.Managers
         {
             Context.PendingDeposits.RemoveRange(deposits);
             Context.SaveChanges();
-            PushNotificationToWeb(deposits.FirstOrDefault().UserId).Wait();
+            //PushNotificationToWeb(deposits.FirstOrDefault().UserId).Wait();
         }
 
         IQueryable<BalanceSheetListingModel> IDepositManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
