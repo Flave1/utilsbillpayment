@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
 using VendTech.BLL.PlatformApi;
+using System.Threading.Tasks;
 #endregion
 
 namespace VendTech.Controllers
@@ -231,13 +232,13 @@ namespace VendTech.Controllers
 
         }
 
-        [HttpPost, AjaxOnly]
-        public JsonResult Recharge(RechargeMeterModel model)
-        {
-            model.UserId = LOGGEDIN_USER.UserID;
+        //[HttpPost, AjaxOnly]
+        //public JsonResult Recharge(RechargeMeterModel model)
+        //{
+        //    model.UserId = LOGGEDIN_USER.UserID;
 
-            return JsonResult(_meterManager.RechargeMeter(model));
-        }
+        //    return JsonResult(_meterManager.RechargeMeter(model));
+        //}
 
 
         [AjaxOnly, HttpPost, Public]
@@ -296,12 +297,12 @@ namespace VendTech.Controllers
 
 
         [HttpPost, AjaxOnly]
-        public JsonResult RechargeReturn(RechargeMeterModel model)
+        public async Task<JsonResult> RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
             try
             {
-                var result = _meterManager.RechargeMeterReturn(model);
+                var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
                 if (result.ReceiptStatus.Status == "unsuccessful")
                 {
                     return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
@@ -317,18 +318,18 @@ namespace VendTech.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful." });
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharge not successful." });
             }
 
         }
 
         [HttpPost, AjaxOnly, Public]
-        public JsonResult RechargeReturn2(RechargeMeterModel model)
+        public async Task<JsonResult> RechargeReturn2(RechargeMeterModel model)
         {
             //model.UserId = model.UserId;
             try
             {
-                var result = _meterManager.RechargeMeterReturn(model);
+                var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
                 if (result.ReceiptStatus.Status == "unsuccessful")
                 {
                     return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });

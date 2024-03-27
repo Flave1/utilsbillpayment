@@ -203,10 +203,10 @@ namespace VendTech.Areas.Admin.Controllers
 
 
         [HttpPost, AjaxOnly]
-        public JsonResult PurchaseUnits(RechargeMeterModel model)
+        public async Task<JsonResult> PurchaseUnits(RechargeMeterModel model)
         {
             model.UserId = model.UserId;
-            var result = _meterManager.RechargeMeterReturn(model);
+            var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
             if (result.ReceiptStatus.Status == "unsuccessful")
             {
                 return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Vending Disabled" }));

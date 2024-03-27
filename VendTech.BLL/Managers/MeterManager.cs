@@ -13,6 +13,7 @@ using System.Linq.Dynamic;
 using System.Net.Http;
 using System.Net.PeerToPeer;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Util;
@@ -26,6 +27,12 @@ namespace VendTech.BLL.Managers
 {
     public class MeterManager : BaseManager, IMeterManager
     {
+        private readonly IRTSEDSAManager _rtsManager;
+
+        public MeterManager(IRTSEDSAManager rtsManager)
+        {
+            _rtsManager = rtsManager;
+        }
         ActionOutput IMeterManager.SaveMeter(MeterModel model)
         {
             var dbMeter = new Meter();
@@ -651,130 +658,200 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
-        ActionOutput IMeterManager.RechargeMeter(RechargeMeterModel model)
-        {
-            var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
-            if (user == null)
-                return ReturnError("User not exist.");
-            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-            if (pos.Balance == null || pos.Balance.Value < model.Amount)
-                return ReturnError("INSUFFICIENT BALANCE FOR THIS TRANSACTION.");
-            var dbMeterRecharge = new TransactionDetail
-            {
-                UserId = model.UserId,
-                MeterId = model.MeterId,
-                POSId = model.POSId,
-                MeterNumber1 = model.MeterNumber,
-                MeterToken1 = Utilities.GetNumbersFromGuid(),
-                Amount = model.Amount,
-                PlatFormId = 1, /**TODO temporary hard codded */
-                TransactionId = Utilities.GetLastMeterRechardeId(),//Utilities.GenerateUniqueId(),
-                IsDeleted = false,
-                Status = (int)RechargeMeterStatusEnum.Success,
-                CreatedAt = DateTime.UtcNow
-            };
+        //ActionOutput IMeterManager.RechargeMeter(RechargeMeterModel model)
+        //{
+        //    var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
+        //    if (user == null)
+        //        return ReturnError("User not exist.");
+        //    var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
+        //    if (pos.Balance == null || pos.Balance.Value < model.Amount)
+        //        return ReturnError("INSUFFICIENT BALANCE FOR THIS TRANSACTION.");
+        //    var dbMeterRecharge = new TransactionDetail
+        //    {
+        //        UserId = model.UserId,
+        //        MeterId = model.MeterId,
+        //        POSId = model.POSId,
+        //        MeterNumber1 = model.MeterNumber,
+        //        MeterToken1 = Utilities.GetNumbersFromGuid(),
+        //        Amount = model.Amount,
+        //        PlatFormId = 1, /**TODO temporary hard codded */
+        //        TransactionId = Utilities.GetLastMeterRechardeId(),//Utilities.GenerateUniqueId(),
+        //        IsDeleted = false,
+        //        Status = (int)RechargeMeterStatusEnum.Success,
+        //        CreatedAt = DateTime.UtcNow
+        //    };
 
 
-            pos.Balance = pos.Balance.Value - model.Amount;
-            Context.TransactionDetails.Add(dbMeterRecharge);
-            Context.SaveChanges();
-            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
-            var obj = new PushNotificationModel();
-            obj.UserId = model.UserId;
-            obj.Id = dbMeterRecharge.TransactionDetailsId;
-            obj.Balance = pos.Balance.Value;
-            obj.Title = "Meter recharged successfully";
-            obj.Message = "Your meter has successfully recharged with NLe " + Utilities.FormatAmount(model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
-            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
-            foreach (var item in deviceTokens)
-            {
-                obj.DeviceToken = item.DeviceToken;
-                obj.DeviceType = item.AppType.Value;
-                PushNotification.SendNotification(obj);
-            }
+        //    pos.Balance = pos.Balance.Value - model.Amount;
+        //    Context.TransactionDetails.Add(dbMeterRecharge);
+        //    Context.SaveChanges();
+        //    var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+        //    var obj = new PushNotificationModel();
+        //    obj.UserId = model.UserId;
+        //    obj.Id = dbMeterRecharge.TransactionDetailsId;
+        //    obj.Balance = pos.Balance.Value;
+        //    obj.Title = "Meter recharged successfully";
+        //    obj.Message = "Your meter has successfully recharged with NLe " + Utilities.FormatAmount(model.Amount) + " PIN: " + dbMeterRecharge.MeterToken1;
+        //    obj.NotificationType = NotificationTypeEnum.MeterRecharge;
+        //    foreach (var item in deviceTokens)
+        //    {
+        //        obj.DeviceToken = item.DeviceToken;
+        //        obj.DeviceType = item.AppType.Value;
+        //        PushNotification.SendNotification(obj);
+        //    }
 
-            return ReturnSuccess("Meter recharged successfully.");
+        //    return ReturnSuccess("Meter recharged successfully.");
 
-            //return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = dbMeterRecharge, Count = retailSchedDetail.NoOfBags });
+        //    //return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = dbMeterRecharge, Count = retailSchedDetail.NoOfBags });
 
-        }
+        //}
 
-        //VERSION 2
-        //async Task<ReceiptModel> IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
+        //ReceiptModel IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
         //{
         //    var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
 
+        //    Platform platf = new Platform();
+        //    if (model.PlatformId == null)
+        //    {
+        //        platf = Context.Platforms.Find(1);
+        //        model.PlatformId = platf.PlatformId;
+        //    }
+        //    else
+        //        platf = Context.Platforms.Find(model.PlatformId);
 
+        //    if (platf.DisablePlatform)
+        //    {
+        //        response.ReceiptStatus.Status = "disabled";
+        //        response.ReceiptStatus.Message = platf.DisabledPlatformMessage;
+        //        return response;
+        //    }
+
+        //    var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
+        //    if (user == null)
+        //    {
+        //        response.ReceiptStatus.Status = "unsuccessful";
+        //        response.ReceiptStatus.Message = "User does not exist";
+        //        return response;
+        //    }
+        //    var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
+
+        //    if (pos == null)
+        //    {
+        //        response.ReceiptStatus.Status = "unsuccessful";
+        //        response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
+        //        return response;
+        //    }
+        //    if (pos.Balance == null)
+        //    {
+        //        response.ReceiptStatus.Status = "unsuccessful";
+        //        response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+        //        return response;
+        //    }
+
+
+        //    if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
+        //    {
+        //        response.ReceiptStatus.Status = "unsuccessful";
+        //        response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+        //        return response;
+        //    }
+
+        //    if (model.MeterId != null)
+        //    {
+        //        var met = Context.Meters.Find(model.MeterId);
+        //        model.MeterNumber = met.Number;
+        //    }
+        //    else
+        //    {
+        //        model.IsSaved = false;
+        //    }
+
+
+        //    IceKloudResponse icekloud_response = new IceKloudResponse();
+        //    IcekloudQueryResponse query_response = new IcekloudQueryResponse();
+        //    TransactionDetail db_transaction_detail = new TransactionDetail();
+
+        //    model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
+        //    icekloud_response = Make_recharge_request_from_icekloud(model);
+
+        //    var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
+        //    var vend_response = JsonConvert.SerializeObject(icekloud_response);
+        //    var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
+
+        //    if (icekloud_response.Content.Data.Error == "Unable to connect to the remote server")
+        //    {
+        //        var query_request = Buid_vend_query_object(model);
+        //        query_response = Query_vend_status(query_request);
+        //        if (!query_response.Content.Finalised)
+        //        {
+        //            db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
+        //            db_transaction_detail.PlatFormId = platf.PlatformId;
+        //            db_transaction_detail.Platform = platf;
+
+        //            Context.TransactionDetails.Add(db_transaction_detail);
+        //            Context.SaveChanges();
+
+        //            response.ReceiptStatus.Status = "unsuccessful";
+        //            response.ReceiptStatus.Message = query_response.Content.StatusDescription;
+        //            return response;
+        //        }
+        //    }
+        //    else if (icekloud_response.Status.ToLower() != "success")
+        //    {
+        //        //Will save to a different table
+        //        db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
+        //        db_transaction_detail.PlatFormId = platf.PlatformId;
+        //        db_transaction_detail.Platform = platf;
+        //        //db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
+        //        Context.TransactionDetails.Add(db_transaction_detail);
+
+        //        SaveSales();
+
+        //        response.ReceiptStatus.Status = "unsuccessful";
+        //        if ("Input string was not in a correct format." == icekloud_response.Content.Data?.Error)
+        //        {
+        //            response.ReceiptStatus.Message = "Amount tendered is too low";
+        //            return response;
+        //        }
+        //        response.ReceiptStatus.Message = icekloud_response.Content.Data?.Error;
+        //        return response;
+        //    }
+
+
+        //    if (response_data != null)
+        //    {
+        //        db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
+        //    }
+        //    else if (query_response.Content.Finalised)
+        //    {
+        //        db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
+        //    }
+
+        //    db_transaction_detail.PlatFormId = platf.PlatformId;
+        //    db_transaction_detail.Platform = platf;
+        //    db_transaction_detail.TransactionId = model.TransactionId.ToString();
         //    try
         //    {
-        //        Platform platf = new Platform();
-        //        if (model.PlatformId == null)
+        //        MeterModel newMeter = new MeterModel();
+        //        long meterId = 0;
+        //        if (model.SaveAsNewMeter)
         //        {
-        //            platf = Context.Platforms.Find(1);
-        //            model.PlatformId = platf.PlatformId;
-        //        }
-        //        else
-        //            platf = Context.Platforms.Find(model.PlatformId);
+        //            newMeter = StackNewMeterToDbObject(model);
+        //            newMeter.IsSaved = true;
+        //            meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
+        //            db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
 
-        //        var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-        //        var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
-        //        var validatioResult = ValidateRequest(pos, user, platf, model);
-
-        //        if (validatioResult.ReceiptStatus.Status == "unsuccessful")
-        //            return validatioResult;
-
-        //        if (model.MeterId != null)
-        //        {
-        //            var met = Context.Meters.Find(model.MeterId);
-        //            model.MeterNumber = met.Number;
-        //        }
-        //        else
-        //            model.IsSaved = false;
-
-        //        IceKloudResponse icekloud_response = new IceKloudResponse();
-        //        IcekloudQueryResponse query_response = new IcekloudQueryResponse();
-        //        TransactionDetail db_transaction_detail = new TransactionDetail();
-
-        //        model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
-        //        db_transaction_detail.PlatFormId = platf.PlatformId;
-        //        db_transaction_detail.QueryStatusCount = 0;
-        //        db_transaction_detail = CreateTransactionCopy(model);
-
-        //        icekloud_response = Make_recharge_request_from_icekloud(model);
-        //        var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
-        //        var vend_response = JsonConvert.SerializeObject(icekloud_response);
-        //        var response_data = icekloud_response?.Content?.Data?.Data?.FirstOrDefault();
-
-        //        if (icekloud_response.Status.ToLower() != "success")
-        //        {
-        //            var vendStatus = QueryStatusOfVend(model, query_response, db_transaction_detail, platf, icekloud_response);
-        //            if (vendStatus.First().Key != "success")
-        //            {
-        //                return new ReceiptModel
-        //                {
-        //                    ReceiptStatus = new ReceiptStatus
-        //                    {
-        //                        Status = "unsuccessful",
-        //                        Message = vendStatus.First().Key
-        //                    }
-        //                };
-        //            }
-        //            else
-        //            {
-        //                db_transaction_detail = vendStatus.First().Value;
-        //            }
         //        }
         //        else
         //        {
-        //            if (response_data != null)
-        //                db_transaction_detail = UpdateTransactionOnSuccess(response_data, db_transaction_detail, vend_request, vend_response);
+        //            db_transaction_detail.MeterId = model.MeterId;
         //        }
-
-        //        UpdateMeterOrSaveAsNew(model, db_transaction_detail);
 
         //        db_transaction_detail.BalanceBefore = pos.Balance ?? 0;
         //        pos.Balance = (pos.Balance - model.Amount);
         //        db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
+        //        db_transaction_detail.QueryStatusCount = 0;
+        //        Context.TransactionDetails.Add(db_transaction_detail);
         //        SaveSales();
 
         //        Push_notification_to_user(user, model, db_transaction_detail.TransactionDetailsId);
@@ -794,170 +871,265 @@ namespace VendTech.BLL.Managers
 
         //}
 
-        ReceiptModel IMeterManager.RechargeMeterReturn(RechargeMeterModel model)
+        async Task<ReceiptModel> IMeterManager.RechargeMeterReturnIMPROVED(RechargeMeterModel model)
         {
-            var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
-
-            Platform platf = new Platform();
-            if (model.PlatformId == null)
+            using(var trax = Context.Database.BeginTransaction())
             {
-                platf = Context.Platforms.Find(1);
-                model.PlatformId = platf.PlatformId;
-            }
-            else
-                platf = Context.Platforms.Find(model.PlatformId);
+                var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
 
-            if (platf.DisablePlatform)
-            {
-                response.ReceiptStatus.Status = "disabled";
-                response.ReceiptStatus.Message = platf.DisabledPlatformMessage;
-                return response;
-            }
-
-            var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
-            if (user == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "User does not exist";
-                return response;
-            }
-            var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
-
-            if (pos == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
-                return response;
-            }
-            if (pos.Balance == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
-                return response;
-            }
-
-
-            if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
-                return response;
-            }
-
-            if (model.MeterId != null)
-            {
-                var met = Context.Meters.Find(model.MeterId);
-                model.MeterNumber = met.Number;
-            }
-            else
-            {
-                model.IsSaved = false;
-            }
-
-
-            IceKloudResponse icekloud_response = new IceKloudResponse();
-            IcekloudQueryResponse query_response = new IcekloudQueryResponse();
-            TransactionDetail db_transaction_detail = new TransactionDetail();
-
-            model.TransactionId = Convert.ToInt64(Utilities.GetLastMeterRechardeId());
-            icekloud_response = Make_recharge_request_from_icekloud(model);
-
-            var vend_request = JsonConvert.SerializeObject(icekloud_response.RequestModel);
-            var vend_response = JsonConvert.SerializeObject(icekloud_response);
-            var response_data = icekloud_response.Content.Data.Data.FirstOrDefault();
-
-            if (icekloud_response.Content.Data.Error == "Unable to connect to the remote server")
-            {
-                var query_request = Buid_vend_query_object(model);
-                query_response = Query_vend_status(query_request);
-                if (!query_response.Content.Finalised)
+                try
                 {
-                    db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
-                    db_transaction_detail.PlatFormId = platf.PlatformId;
-                    db_transaction_detail.Platform = platf;
 
-                    Context.TransactionDetails.Add(db_transaction_detail);
-                    Context.SaveChanges();
+                    var user = Context.Users.FirstOrDefault(p => p.UserId == model.UserId);
 
-                    response.ReceiptStatus.Status = "unsuccessful";
-                    response.ReceiptStatus.Message = query_response.Content.StatusDescription;
+                    var pos = Context.POS.FirstOrDefault(p => p.POSId == model.POSId);
+
+                    var valResult = response.validateRequest(model, user, pos);
+                    if (valResult.ReceiptStatus.Status != "clear")
+                    {
+                        return valResult;
+                    }
+
+                    if (model.MeterId != null)
+                    {
+                        var met = Context.Meters.Find(model.MeterId);
+                        model.MeterNumber = met.Number;
+                    }
+                    else
+                        model.IsSaved = false;
+
+                    var queryResponse = new IcekloudQueryResponse();
+
+                    TransactionDetail transDetail = await CreateRecordBeforeVend(model);
+                    model.TransactionId = long.Parse(transDetail.TransactionId);
+                    var vendResponse = await _rtsManager.RequestVendAsync(model);
+
+                    transDetail.Request = JsonConvert.SerializeObject(vendResponse.RequestModel);
+                    transDetail.Response = JsonConvert.SerializeObject(vendResponse);
+
+
+                    var vendResponseData = vendResponse.Content.Data.Data.FirstOrDefault();
+
+                    if (vendResponse.Status.ToLower() != "success")
+                    {
+                        transDetail.VendStatus = vendResponse?.Content?.Data?.Error;
+                        transDetail.VendStatusDescription = vendResponse?.Content?.Data?.Error;
+                        transDetail.StatusResponse = JsonConvert.SerializeObject(vendResponseData);
+                        transDetail.QueryStatusCount = 1;
+                        Context.SaveChanges();
+
+                        response.ReceiptStatus.Status = "unsuccessful";
+                        if ("Input string was not in a correct format." == vendResponse.Content.Data?.Error)
+                        {
+                            response.ReceiptStatus.Message = "Amount tendered is too low";
+                            return response;
+                        }
+                        var vendStatus = await _rtsManager.QueryVendStatus(model, transDetail);
+
+                        if (vendStatus.FirstOrDefault().Key != "success")
+                        {
+                            response.ReceiptStatus.Message = vendResponse.Content.Data?.Error;
+                            return response;
+                        }
+
+                        transDetail = UpdateTransactionOnStatusSuccessIMPROVED(vendStatus.FirstOrDefault().Value, transDetail);
+                    }
+                    else
+                    {
+                        transDetail = await UpdateTransaction(vendResponseData, transDetail, pos);
+                    }
+
+
+                    transDetail.MeterId = UpdateMeterOrSaveAsNewIMPROVED(model);
+
+                    PushNotification(user, model, transDetail.TransactionDetailsId);
+
+                    var receipt = BuildRceipt(transDetail);
+                    receipt.ShouldShowSmsButton = (bool)transDetail.POS.WebSms;
+                    receipt.ShouldShowPrintButton = (bool)transDetail.POS.WebPrint;
+                    receipt.mobileShowSmsButton = (bool)transDetail.POS.PosSms;
+                    receipt.mobileShowPrintButton = (bool)transDetail.POS.PosPrint;
+                    receipt.CurrentBallance = transDetail?.POS?.Balance ?? 0;
+                    trax.Commit();
+                    return receipt;
+                }
+                catch (Exception e)
+                {
+                    trax.Rollback();
                     return response;
                 }
+                finally { trax.Dispose(); }
             }
-            else if (icekloud_response.Status.ToLower() != "success")
+          
+
+        }
+
+        public ReceiptModel BuildRceipt(TransactionDetail model)
+        {
+            if (model.POS == null) model.POS = new POS();
+            var receipt = new ReceiptModel();
+            receipt.AccountNo = model?.AccountNumber;
+            receipt.POS = model?.POS?.SerialNumber;
+            receipt.CustomerName = model?.Customer;
+            receipt.ReceiptNo = model?.ReceiptNumber;
+            receipt.Address = model?.CustomerAddress;
+            receipt.Tarrif = Utilities.FormatAmount(Convert.ToDecimal(model.Tariff));
+            receipt.DeviceNumber = model?.MeterNumber1;
+            receipt.DebitRecovery = Convert.ToDecimal(model.DebitRecovery);
+            var amt = model?.TenderedAmount.ToString("N");
+            receipt.Amount = amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
+            receipt.Charges = Utilities.FormatAmount(Convert.ToDecimal(model.ServiceCharge));
+            receipt.Commission = string.Format("{0:N0}", 0.00);
+            receipt.Unit = Utilities.FormatAmount(Convert.ToDecimal(model.Units));
+            receipt.UnitCost = Utilities.FormatAmount(Convert.ToDecimal(model.CostOfUnits));
+            receipt.SerialNo = model?.SerialNumber;
+            receipt.Pin1 = Utilities.FormatThisToken(model?.MeterToken1) ?? string.Empty;
+            receipt.Pin2 = Utilities.FormatThisToken(model?.MeterToken2) ?? string.Empty;
+            receipt.Pin3 = Utilities.FormatThisToken(model?.MeterToken3) ?? string.Empty;
+            receipt.Discount = string.Format("{0:N0}", 0);
+            receipt.Tax = Utilities.FormatAmount(Convert.ToDecimal(model.TaxCharge));
+            receipt.TransactionDate = model.CreatedAt.ToString("dd/MM/yyyy hh:mm");
+            receipt.VendorId = model.User.Vendor;
+            receipt.EDSASerial = model.SerialNumber;
+            receipt.VTECHSerial = model.TransactionId;
+            receipt.PlatformId = model.PlatFormId;
+            return receipt;
+        }
+
+        private void PushNotification(User user, RechargeMeterModel model, long MeterRechargeId)
+        {
+            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+            var obj = new PushNotificationModel();
+            obj.UserId = model.UserId;
+            obj.Id = MeterRechargeId;
+            obj.Title = "Meter recharged successfully";
+            obj.Message = $"Your meter has successfully recharged with NLe {Utilities.FormatAmount(model.Amount)} PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
+            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
+            foreach (var item in deviceTokens)
             {
-                //Will save to a different table
-                db_transaction_detail = Build_db_transaction_detail_from_FAILED_response(icekloud_response, model);
-                db_transaction_detail.PlatFormId = platf.PlatformId;
-                db_transaction_detail.Platform = platf;
-                //db_transaction_detail.TransactionDetailsId = generateTrxTableKey();
-                Context.TransactionDetails.Add(db_transaction_detail);
-
-                SaveSales();
-
-                response.ReceiptStatus.Status = "unsuccessful";
-                if ("Input string was not in a correct format." == icekloud_response.Content.Data?.Error)
-                {
-                    response.ReceiptStatus.Message = "Amount tendered is too low";
-                    return response;
-                }
-                response.ReceiptStatus.Message = icekloud_response.Content.Data?.Error;
-                return response;
+                obj.DeviceToken = item.DeviceToken;
+                obj.DeviceType = item.AppType.Value;
+                Common.PushNotification.SendNotification(obj);
             }
+        }
 
-
-            if (response_data != null)
-            {
-                db_transaction_detail = Build_db_transaction_detail_from_Icekloud_response(response_data, model, vend_request, vend_response);
-            }
-            else if (query_response.Content.Finalised)
-            {
-                db_transaction_detail = Build_db_transaction_detail_from_Query_response(query_response, model);
-            }
-
-            db_transaction_detail.PlatFormId = platf.PlatformId;
-            db_transaction_detail.Platform = platf;
-            db_transaction_detail.TransactionId = model.TransactionId.ToString();
+        private TransactionDetail UpdateTransactionOnStatusSuccessIMPROVED(IcekloudQueryResponse response_data, TransactionDetail trans)
+        {
             try
             {
-                MeterModel newMeter = new MeterModel();
-                long meterId = 0;
-                if (model.SaveAsNewMeter)
-                {
-                    newMeter = StackNewMeterToDbObject(model);
-                    newMeter.IsSaved = true;
-                    meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
-                    db_transaction_detail.MeterId = meterId != 0 ? meterId : 0;
-
-                }
-                else
-                {
-                    db_transaction_detail.MeterId = model.MeterId;
-                }
-
-                db_transaction_detail.BalanceBefore = pos.Balance ?? 0;
-                pos.Balance = (pos.Balance - model.Amount);
-                db_transaction_detail.CurrentVendorBalance = pos.Balance ?? 0;
-                db_transaction_detail.QueryStatusCount = 0;
-                Context.TransactionDetails.Add(db_transaction_detail);
-                SaveSales();
-
-                Push_notification_to_user(user, model, db_transaction_detail.TransactionDetailsId);
-
-                var receipt = Build_receipt_model_from_dbtransaction_detail(db_transaction_detail);
-                receipt.ShouldShowSmsButton = (bool)db_transaction_detail.POS.WebSms;
-                receipt.ShouldShowPrintButton = (bool)db_transaction_detail.POS.WebPrint;
-                receipt.mobileShowSmsButton = (bool)db_transaction_detail.POS.PosSms;
-                receipt.mobileShowPrintButton = (bool)db_transaction_detail.POS.PosPrint;
-                receipt.CurrentBallance = db_transaction_detail?.POS?.Balance ?? 0;
-                return receipt;
+                //trans.CurrentDealerBalance = response_data.Content.ba;
+                //trans.CostOfUnits = response_data.PowerHubVoucher.CostOfUnits;
+                trans.MeterToken1 = response_data?.Content?.VoucherPin ?? string.Empty;
+                trans.TransactionId = response_data?.Content?.TransactionId.ToString();
+                trans.Status = response_data.Content.Finalised ? (int)RechargeMeterStatusEnum.Success : 0;
+                trans.AccountNumber = response_data.Content?.CustomerAccNo ?? string.Empty;
+                trans.Customer = response_data.Content?.Customer ?? string.Empty;
+                trans.ReceiptNumber = response_data.Content?.VoucherSerialNumber ?? string.Empty;
+                trans.RTSUniqueID = "00";
+                trans.SerialNumber = response_data?.Content?.SerialNumber ?? string.Empty;
+                trans.ServiceCharge = response_data?.Content?.ServiceCharge;
+                trans.Tariff = response_data.Content?.Tariff;
+                trans.TaxCharge = response_data?.Content?.TaxCharge;
+                trans.Units = response_data?.Content?.Units;
+                trans.VProvider = response_data?.Content?.Provider ?? string.Empty;
+                trans.Finalised = response_data?.Content?.Finalised;
+                trans.Sold = response_data?.Content?.Sold;
+                trans.DateAndTimeSold = response_data.Content?.DateAndTimeSold;
+                trans.DateAndTimeFinalised = response_data?.Content?.DateAndTimeFinalised;
+                trans.DateAndTimeLinked = response_data?.Content?.DateAndTimeLinked;
+                trans.VoucherSerialNumber = response_data?.Content?.VoucherSerialNumber;
+                trans.VendStatus = response_data.Content?.Status;
+                trans.VendStatusDescription = response_data?.Content?.StatusDescription;
+                trans.StatusResponse = JsonConvert.SerializeObject(response_data);
+                trans.DebitRecovery = "0";
+                return trans;
             }
             catch (Exception e)
             {
-                throw e;
+
+                throw;
             }
 
         }
+        private async Task<TransactionDetail> UpdateTransaction(Datum response_data, TransactionDetail trans, POS pos)
+        {
+            trans.CurrentDealerBalance = response_data.DealerBalance;
+            trans.CostOfUnits = response_data.PowerHubVoucher.CostOfUnits;
+            trans.MeterToken1 = response_data?.PowerHubVoucher.Pin1?.ToString() ?? string.Empty;
+            trans.Status = (int)RechargeMeterStatusEnum.Success;
+            trans.AccountNumber = response_data.PowerHubVoucher?.AccountNumber ?? string.Empty;
+            trans.Customer = response_data.PowerHubVoucher?.Customer ?? string.Empty;
+            trans.ReceiptNumber = response_data?.PowerHubVoucher.ReceiptNumber ?? string.Empty;
+            trans.SerialNumber = response_data?.SerialNumber ?? string.Empty;
+            trans.RTSUniqueID = response_data.PowerHubVoucher.RtsUniqueId;
+            trans.ServiceCharge = response_data?.PowerHubVoucher?.ServiceCharge;
+            trans.Tariff = response_data.PowerHubVoucher?.Tariff;
+            trans.TaxCharge = response_data?.PowerHubVoucher?.TaxCharge;
+            trans.Units = response_data?.PowerHubVoucher?.Units;
+            trans.VProvider = "";
+            trans.CustomerAddress = response_data?.PowerHubVoucher?.CustAddress;
+            trans.Finalised = true;
+            trans.VProvider = response_data.Provider;
+            trans.StatusRequestCount = 0;
+            trans.Sold = true;
+            trans.VoucherSerialNumber = response_data?.SerialNumber;
+            trans.VendStatus = "";
+            //BALANCE DEDUCTION
+            trans.BalanceBefore = pos.Balance ?? 0;
+            pos.Balance = (pos.Balance - trans.Amount);
+            trans.CurrentVendorBalance = pos.Balance ?? 0;
+            //trans.QueryStatusCount = 0;
+            await Context.SaveChangesAsync();
+            return trans;
+
+        }
+
+        private async Task<TransactionDetail> CreateRecordBeforeVend(RechargeMeterModel model)
+        {
+            var trans = new TransactionDetail();
+            trans.PlatFormId = (int)model.PlatformId;
+            trans.UserId = model.UserId;
+            trans.MeterId = model.MeterId;
+            trans.POSId = model.POSId;
+            trans.MeterNumber1 = model.MeterNumber;
+            trans.TransactionDetailsId = (long)model.MeterId;
+            trans.MeterToken1 = model.MeterToken1;
+            trans.Amount = model.Amount;
+            trans.TransactionId = Utilities.GetLastMeterRechardeId().ToString();
+            trans.IsDeleted = false;
+            trans.Status = (int)RechargeMeterStatusEnum.Pending;
+            trans.CreatedAt = DateTime.UtcNow;
+            trans.AccountNumber = "";
+            trans.CurrentDealerBalance = 00;
+            trans.Customer = "";
+            trans.ReceiptNumber = "";
+            trans.RequestDate = DateTime.UtcNow;
+            trans.RTSUniqueID = "00";
+            trans.SerialNumber = "";
+            trans.ServiceCharge = "";
+            trans.Tariff = "";
+            trans.TaxCharge = "";
+            trans.TenderedAmount = model.Amount;
+            trans.TransactionAmount = model.Amount;
+            trans.Units = "";
+            trans.VProvider = "";
+            trans.Finalised = false;
+            trans.StatusRequestCount = 0;
+            trans.Sold = false;
+            trans.DateAndTimeSold = "";
+            trans.DateAndTimeFinalised = "";
+            trans.DateAndTimeLinked = "";
+            trans.VoucherSerialNumber = "";
+            trans.VendStatus = "";
+            trans.VendStatusDescription = "";
+            trans.StatusResponse = "";
+            trans.DebitRecovery = "0";
+            trans.CostOfUnits = "0";
+            Context.TransactionDetails.Add(trans);
+            await Context.SaveChangesAsync();
+            return trans;
+        }
+
         long generateTrxTableKey() => Context.TransactionDetails.Max(x => x.TransactionDetailsId) + 1;
         private Dictionary<string, TransactionDetail> QueryStatusOfVend(RechargeMeterModel model, IcekloudQueryResponse query_response, TransactionDetail db_transaction_detail, Platform platf, IceKloudResponse response_data)
         {
@@ -1308,23 +1480,23 @@ namespace VendTech.BLL.Managers
             receipt.CurrencyCode = Utilities.GetCountry().CurrencyCode;
             return receipt;
         }
-        private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
-        {
-            var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
-            var obj = new PushNotificationModel();
-            obj.UserId = model.UserId;
-            obj.Id = MeterRechargeId;
-            obj.Balance = user.POS.FirstOrDefault().Balance.Value;
-            obj.Title = "Meter recharged successfully";
-            obj.Message = $"Your meter has successfully recharged with NLe { Utilities.FormatAmount(model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
-            obj.NotificationType = NotificationTypeEnum.MeterRecharge;
-            foreach (var item in deviceTokens)
-            {
-                obj.DeviceToken = item.DeviceToken;
-                obj.DeviceType = item.AppType.Value;
-                PushNotification.SendNotification(obj);
-            }
-        }
+        //private void Push_notification_to_user(User user, RechargeMeterModel model, long MeterRechargeId)
+        //{
+        //    var deviceTokens = user.TokensManagers.Where(p => p.DeviceToken != null && p.DeviceToken != string.Empty).Select(p => new { p.AppType, p.DeviceToken }).ToList().Distinct(); ;
+        //    var obj = new PushNotificationModel();
+        //    obj.UserId = model.UserId;
+        //    obj.Id = MeterRechargeId;
+        //    obj.Balance = user.POS.FirstOrDefault().Balance.Value;
+        //    obj.Title = "Meter recharged successfully";
+        //    obj.Message = $"Your meter has successfully recharged with NLe { Utilities.FormatAmount(model.Amount) } PIN: {model.MeterToken1}{model.MeterToken2}{model.MeterToken3}";
+        //    obj.NotificationType = NotificationTypeEnum.MeterRecharge;
+        //    foreach (var item in deviceTokens)
+        //    {
+        //        obj.DeviceToken = item.DeviceToken;
+        //        obj.DeviceType = item.AppType.Value;
+        //        PushNotification.SendNotification(obj);
+        //    }
+        //}
         private TransactionDetail Build_db_transaction_detail_from_Query_response(IcekloudQueryResponse response_data, RechargeMeterModel model)
         {
             try
@@ -2010,6 +2182,21 @@ namespace VendTech.BLL.Managers
 
         }
 
+        private long UpdateMeterOrSaveAsNewIMPROVED(RechargeMeterModel model)
+        {
+            MeterModel newMeter = new MeterModel();
+            long meterId = 0;
+            if (model.SaveAsNewMeter)
+            {
+                newMeter = StackNewMeterToDbObject(model);
+                newMeter.IsSaved = true;
+                meterId = (this as IMeterManager).SaveMeter(newMeter).ID;
+                meterId = meterId != 0 ? meterId : 0;
+            }
+            else
+                meterId = model.MeterId ?? 0;
+            return meterId;
+        }
         private void UpdateMeterOrSaveAsNew(RechargeMeterModel model, TransactionDetail tran)
         {
             MeterModel newMeter = new MeterModel();
