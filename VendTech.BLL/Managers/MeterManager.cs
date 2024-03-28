@@ -1023,6 +1023,9 @@ namespace VendTech.BLL.Managers
         {
             var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
             var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
+           
+              
+
             return new IcekloudRequestmodel
             {
                 Auth = new IcekloudAuth
