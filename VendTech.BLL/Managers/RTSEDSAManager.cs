@@ -133,7 +133,7 @@ namespace VendTech.BLL.Managers
         async Task<IceKloudResponse> IRTSEDSAManager.RequestVendAsync(RechargeMeterModel model)
         {
             IceKloudResponse response = new IceKloudResponse();
-            IcekloudRequestmodel requestModel = new IcekloudRequestmodel();
+            IcekloudRequestmodel requestModel = new IcekloudRequestmodel();    
             HttpClient _httpClient = new HttpClient();
             var stringsResult = "";
             try
@@ -148,7 +148,7 @@ namespace VendTech.BLL.Managers
                 var icekloud_response = _httpClient.PostAsJsonAsync(url, req).Result;
 
                 var strings_result = icekloud_response.Content.ReadAsStringAsync().Result;
-                response = JsonConvert.DeserializeObject<IceKloudResponse>(stringsResult);
+                response = JsonConvert.DeserializeObject<IceKloudResponse>(strings_result);
                 response.RequestModel = requestModel;
                 return response;
             }

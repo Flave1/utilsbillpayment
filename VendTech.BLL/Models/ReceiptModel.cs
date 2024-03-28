@@ -50,54 +50,6 @@ namespace VendTech.BLL.Models
         public ReceiptStatus ReceiptStatus { get; set; } = new ReceiptStatus();
         public int? PlatformId { get; set; }
         public string CurrencyCode { get; set; } = "";
-
-        public ReceiptModel validateRequest(RechargeMeterModel model, User user, POS pos)
-        {
-            var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
-
-            Platform platf = new Platform();
-            if (model.PlatformId == null)
-            {
-                model.PlatformId = 1;
-            }
-
-            if (platf.DisablePlatform)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = platf.DisabledPlatformMessage;
-                return response;
-            }
-
-            if (user == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "User does not exist";
-                return response;
-            }
-
-            if (pos == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "POS NOT FOUND!! Please Contact Administrator.";
-                return response;
-            }
-
-            if (pos.Balance == null)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
-                return response;
-            }
-
-            if (model.Amount > pos.Balance || pos.Balance.Value < model.Amount)
-            {
-                response.ReceiptStatus.Status = "unsuccessful";
-                response.ReceiptStatus.Message = "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
-                return response;
-            }
-            response.ReceiptStatus.Status = "clear";
-            return response;
-        }
     }
 
     public class ReceiptStatus
