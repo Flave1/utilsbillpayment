@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Web.Configuration;
 using VendTech.BLL.Common;
 using VendTech.DAL;
 
@@ -97,12 +98,11 @@ namespace VendTech.BLL.Models
         public long TransactionId { get; set; }
         public bool IsSame_Request { get; set; } = false;
         public List<MeterRechargeApiListingModel> History { get; set; }
-        public void UpdateRequestModel(VendtechEntities Context)
+        public void UpdateRequestModel(string number)
         {
             if (MeterId != null)
             {
-                var met = Context.Meters.Find(MeterId);
-                MeterNumber = met.Number;
+                MeterNumber = number;
             }
             else
                 IsSaved = false;
@@ -155,6 +155,32 @@ namespace VendTech.BLL.Models
                 return "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
             }
             return "clear";
+        }
+
+        public IcekloudRequestmodel StackStatusRequestModel(RechargeMeterModel model)
+        {
+            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
+            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
+             
+            return new IcekloudRequestmodel
+            {
+                Auth = new IcekloudAuth
+                {
+                    Password = password,
+                    UserName = username
+                },
+                Request = "ProcessPrePaidVendingV1",
+                Parameters = new object[]
+                                     {
+                        new
+                        {
+                            UserName = username,
+                            Password = password,
+                            System = "SL"
+                        }, "apiV1_GetTransactionStatus", model.TransactionId
+                       },
+            };
+
         }
 
     }

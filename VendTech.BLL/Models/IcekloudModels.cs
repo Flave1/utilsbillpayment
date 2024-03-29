@@ -19,7 +19,7 @@ namespace VendTech.BLL.Models
 
         public long TransactionId { get; set; }
 
-        public long StatusRequestCount { get; set; }
+        public long? StatusRequestCount { get; set; }
 
         public bool Finalised { get; set; } = false;
 
@@ -27,13 +27,13 @@ namespace VendTech.BLL.Models
 
         public string DateAndTimeSold { get; set; }
 
-        public DateTimeOffset DateAndTimeCreated { get; set; }
+        public Nullable<DateTime> DateAndTimeCreated { get; set; }
 
         public string DateAndTimeFinalised { get; set; }
 
         public string DateAndTimeLinked { get; set; }
 
-        public DateTimeOffset DateAndTimeRequested { get; set; }
+        public Nullable<DateTime> DateAndTimeRequested { get; set; }
 
         public string Provider { get; set; }
 
