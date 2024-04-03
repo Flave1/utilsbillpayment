@@ -98,7 +98,7 @@ namespace VendTech.BLL.Models
         public long TransactionId { get; set; }
         public bool IsSame_Request { get; set; } = false;
         public List<MeterRechargeApiListingModel> History { get; set; }
-        public void UpdateRequestModel(string number)
+        public void UpdateRequestModel(string number = null)
         {
             if (MeterId != null)
             {

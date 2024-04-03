@@ -15,6 +15,7 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
+using System.IO;
 #endregion
 
 namespace VendTech.Controllers
@@ -185,6 +186,20 @@ namespace VendTech.Controllers
         private void SetActionName(string actionName, string controllerName)
         {
             ViewBag.ControllerName = controllerName;
+        }
+
+        public void LogExceptionToFile(String ex, String ex_message)
+        {
+            System.IO.StreamWriter sw = null;
+            try
+            {
+                sw = new StreamWriter(Server.MapPath("~/ErrorLog.txt"), true);
+                sw.WriteLine(ex_message);
+                sw.WriteLine("http://jsonformat.com/");
+                sw.WriteLine(ex); sw.WriteLine(""); sw.WriteLine("");
+            }
+            catch { }
+            finally { sw.Close(); }
         }
     }
 }

@@ -12,19 +12,28 @@
         <td style="text-align:right;"> @item.POSId</td>
         <td style="text-align:center;">
             <strong>
-                <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchVoucherDetailsByToken('@item.RechargePin')" id="@item.RechargePin">
-                    @VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin)
-                </a>
+                @if (string.IsNullOrEmpty(item.RechargePin))
+                {
+                    <a href="javascript:void(0);" style="color: #ff6a00;" data-token="@item.TransactionId" onclick="fetchVoucherStatus('@item.TransactionId')" id="@item.TransactionId">
+                       Request status for @item.TransactionId
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" data-token="@item.RechargePin" onclick="fetchVoucherDetailsByToken('@item.RechargePin')" id="@item.RechargePin">
+                        @VendTech.BLL.Common.Utilities.FormatThisToken(item.RechargePin)
+                    </a>
+                }
             </strong>
         </td>
         <td style="text-align:right;"> <strong>@item.Amount</strong> </td>
         @if (item.Status == "Success")
         {
-            <td style="text-align:right;"> <strong style="color: green;">@item.Status.ToLower()</strong></td>
+            <td style="text-align:right;"> <strong style="color: green;">@item.Status.ToUpper()</strong></td>
         }
         else
         {
-            <td style="text-align:right;"> <strong style="color: #ff6a00;">@item.Status.ToLower()</strong></td>
+            <td style="text-align:right;"> <strong style="color: #ff6a00;">@item.Status.ToUpper()</strong></td>
         }
     </tr>
     }

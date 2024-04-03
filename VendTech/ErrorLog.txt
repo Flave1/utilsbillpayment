@@ -234,3 +234,116 @@ Object reference not set to an instance of an object.
 
 
 
+29/03/2024 2:51:58 PM
+http://jsonformat.com/
+System.InvalidOperationException: Nullable object must have a value.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at VendTech.BLL.Managers.MeterManager.<CreateRecordBeforeVend>d__29.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<ProcessTransaction>d__21.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<VendTech-BLL-Interfaces-IMeterManager-RechargeMeterReturnIMPROVED>d__20.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.Controllers.MeterController.<RechargeReturn>d__20.MoveNext() in C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Controllers\MeterController.cs:line 303
+
+
+29/03/2024 2:56:21 PM
+http://jsonformat.com/
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at VendTech.BLL.Managers.MeterManager.<MakeRechargeRequest>d__33.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<ProcessTransaction>d__21.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<VendTech-BLL-Interfaces-IMeterManager-RechargeMeterReturnIMPROVED>d__20.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.Controllers.MeterController.<RechargeReturn>d__20.MoveNext() in C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Controllers\MeterController.cs:line 303
+
+
+29/03/2024 2:58:43 PM
+http://jsonformat.com/
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at VendTech.BLL.Managers.MeterManager.<ProcessTransaction>d__21.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<VendTech-BLL-Interfaces-IMeterManager-RechargeMeterReturnIMPROVED>d__20.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.Controllers.MeterController.<RechargeReturn>d__20.MoveNext() in C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Controllers\MeterController.cs:line 303
+
+
+29/03/2024 2:59:16 PM
+http://jsonformat.com/
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at VendTech.BLL.Managers.MeterManager.<ProcessTransaction>d__21.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<VendTech-BLL-Interfaces-IMeterManager-RechargeMeterReturnIMPROVED>d__20.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.Controllers.MeterController.<RechargeReturn>d__20.MoveNext() in C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Controllers\MeterController.cs:line 303
+
+
+29/03/2024 3:04:04 PM
+http://jsonformat.com/
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at VendTech.BLL.Managers.MeterManager.<MakeRechargeRequest>d__33.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<ProcessTransaction>d__21.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.BLL.Managers.MeterManager.<VendTech-BLL-Interfaces-IMeterManager-RechargeMeterReturnIMPROVED>d__20.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at VendTech.Controllers.MeterController.<RechargeReturn>d__20.MoveNext() in C:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Controllers\MeterController.cs:line 303
+
+
+Object reference not set to an instance of an object.
+
+
+
+Meter number not valid
+
+
+
+Meter number not valid
+
+
+
+Object reference not set to an instance of an object.
+
+
+
