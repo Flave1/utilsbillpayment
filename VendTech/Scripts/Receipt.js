@@ -132,6 +132,73 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
     }
 }
 
+function fetchVoucherStatus(trxId, isAdmin = false) {
+    DisableAndEnablelinks(true, trxId);
+    $("#re-print_section").show();
+    try {
+
+        var inputParam = new Object();
+        inputParam.token_string = trxId;
+        var url = isAdmin ? baseUrl + '/Admin/Report/ReturnVoucher' : baseUrl + '/Meter/ReturnStatus';
+
+        $.ajax({
+            url: url,
+            data: $.postifyData(inputParam),
+            type: "POST",
+            success: function (data) {
+
+
+                DisableAndEnablelinks(false, trxId);
+                if (data.Code === 302) {
+                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
+                    $("#error_reponse").show();
+                    $("#error_reponse").html(data.Msg);
+                    return false;
+                }
+                if (data.Code === 200) {
+
+                    $("#re-customer_name").html(data.Data.CustomerName);
+                    $("#re-customer_account_number").html(data.Data.AccountNo);
+                    $("#re-customer_address").html(data.Data.Address);
+                    $("#re-meter_number").html(data.Data.DeviceNumber);
+                    $("#re-current_tarrif").html(data.Data.Tarrif);
+                    $("#re-amount_tender").html(data.Data.Amount);
+                    $("#re-gst").html(data.Data.Tax);
+                    $("#re-service_charge").html(data.Data.Charges);
+                    $("#re-debit_recovery").html(data.Data.DebitRecovery);
+                    $("#re-cost_of_units").html(data.Data.UnitCost);
+                    $("#re-units").html(data.Data.Unit);
+                    $("#re-pin1").html(data.Data.Pin1);
+                    if (data.Data.Pin1.length > 0) $("#re-pin1_section").show();
+                    $("#re-pin2").html(data.Data.Pin2);
+                    if (data.Data.Pin2.length > 0) $("#re-pin2_section").show();
+                    $("#re-pin3").html(data.Data.Pin3);
+                    if (data.Data.Pin3.length > 0) $("#re-pin3_section").show();
+                    $("#re-edsa_serial").html(data.Data.EDSASerial);
+                    $("#re-barcode").html(data.Data.DeviceNumber);
+                    $("#re-vendtech_serial_code").html(data.Data.VTECHSerial);
+                    $("#re-pos_id").html(data.Data.POS);
+                    $("#re-sales_date").html(data.Data.TransactionDate);
+                    $("#re-vendorId").html(data.Data.VendorId);
+                    $(".re-currencyCode").html(data.Data.CurrencyCode);
+                    if (data.Data.ShouldShowSmsButton) $("#re-showsms_btn").show();
+                    if (data.Data.ShouldShowPrintButton) $("#re-showprint_btn").show();
+                    if (data.Data.ShowEmailButtonOnWeb) $("#re-showemail_btn").css("display", "inline-block");
+
+                    $("#modalCart2").modal("show");
+                } else {
+
+                    $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
+                }
+
+            }
+        });
+
+    } catch (e) {
+        DisableAndEnablelinks(false, trxId);
+    }
+}
+
 
 
 function fetchVoucherDetailsByToken(token, isAdmin = false) {

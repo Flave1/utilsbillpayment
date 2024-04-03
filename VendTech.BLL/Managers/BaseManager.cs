@@ -46,6 +46,36 @@ namespace VendTech.BLL.Managers
 
             }
         }
+
+        protected async Task SaveChangesAsync()
+        {
+            try
+            {
+                await Context.SaveChangesAsync();
+            }
+
+            catch (DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
+            catch (Exception ec)
+            {
+
+            }
+        }
         protected ActionOutput ReturnSuccess(string msg = "")
         {
             return new ActionOutput { Status = ActionStatus.Successfull, Message = msg };

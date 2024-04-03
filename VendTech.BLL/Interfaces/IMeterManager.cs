@@ -13,7 +13,7 @@ namespace VendTech.BLL.Interfaces
         ActionOutput SaveMeter(MeterModel model);
         ActionOutput DeleteMeter(long meterId,long userId);
         PagingResult<MeterAPIListingModel> GetMeters(long userID, int pageNo, int pageSize, bool isActive);
-        ActionOutput RechargeMeter(RechargeMeterModel model);
+        //ActionOutput RechargeMeter(RechargeMeterModel model);
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRecharges(long userID, int pageNo, int pageSize);
         RechargeDetailPDFData GetRechargePDFData(long rechargeId);
         ActionOutput<MeterRechargeApiListingModel> GetRechargeDetail(long rechargeId);
@@ -22,7 +22,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<MeterRechargeApiListingModel> GetUserMeterRechargesHistory(ReportSearchModel model, bool callFromAdmin = false, PlatformTypeEnum platform = 0);
         List<SelectListItem> GetMetersDropDown(long userID);
         PagingResult<SalesReportExcelModel> GetSalesExcelReportData(ReportSearchModel model, bool callFromAdmin, long agentId = 0);
-        ReceiptModel RechargeMeterReturn(RechargeMeterModel model);
+        //ReceiptModel RechargeMeterReturn(RechargeMeterModel model);
         ReceiptModel ReturnVoucherReceipt(string token);
         RequestResponse ReturnRequestANDResponseJSON(string token);
         TransactionDetail GetLastTransaction();
@@ -45,6 +45,8 @@ namespace VendTech.BLL.Interfaces
         ActionOutput<MeterRechargeApiListingModelMobile> GetMobileRechargeDetail(long rechargeId);
         decimal ReturnAirtimeMinVend();
         bool IsModuleLocked(int moduleId, long userId);
+        Task<ReceiptModel> RechargeMeterReturnIMPROVED(RechargeMeterModel model);
+        Task<ReceiptModel> ReturnTraxStatusReceiptAsync(string trxId);
     }
     
 }

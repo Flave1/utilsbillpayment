@@ -228,8 +228,7 @@ namespace VendTech.BLL.Managers
             try
             { 
                 return Context.Platforms.Where(d => d.PlatformId == platformId 
-                && d.IsDeleted == false 
-                && d.Enabled == true)
+                && d.IsDeleted == false )
                     .Select(d => new PlatformModel { Enabled = d.Enabled, 
                         MinimumAmount = d.MinimumAmount, Title = d.Title,
                         DiabledPlaformMessage = d.DisabledPlatformMessage,

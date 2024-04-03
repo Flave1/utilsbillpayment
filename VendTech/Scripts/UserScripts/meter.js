@@ -196,7 +196,9 @@ var UserMeters = {
 
 
                 if (data.Code === 302)
-                { 
+                {
+                    GetLatestRechargesAfterPurchase();
+                    updateBalnce(false);
                     $.ShowMessage($('div.messageAlert'), data.Msg, MessageType.Failed);
                     $("#error_reponse").show(); 
                     $("#error_reponse").html(data.Msg); 
@@ -475,7 +477,7 @@ function GetLatestRechargesAfterPurchase() {
         url: baseUrl + '/Meter/GetLatestRechargesAfterPurchase', 
         type: "POST",
         success: function (data) { 
-            $('#datatable-icons').html(data); 
+            $('#salesList').html(data); 
             
         }
     });

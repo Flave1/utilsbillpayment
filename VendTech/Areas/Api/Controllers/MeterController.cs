@@ -61,20 +61,20 @@ namespace VendTech.Areas.Api.Controllers
         }
 
 
-        [HttpPost]
-        [ResponseType(typeof(ResponseBase))]
-        public HttpResponseMessage RechargeMeter(RechargeMeterModel model)
-        {
-            model.UserId = LOGGEDIN_USER.UserId;
+        //[HttpPost]
+        //[ResponseType(typeof(ResponseBase))]
+        //public async Task<HttpResponseMessage> RechargeMeter(RechargeMeterModel model)
+        //{
+        //    model.UserId = LOGGEDIN_USER.UserId;
 
-            var minVend = _meterManager.ReturnElectricityMinVend();
-            if (model.Amount < minVend)
-            {
-                return new JsonContent($"PLEASE TENDER NLe: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
-            }
-            var result = _meterManager.RechargeMeter(model);
-            return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
-        }
+        //    var minVend = _meterManager.ReturnElectricityMinVend();
+        //    if (model.Amount < minVend)
+        //    {
+        //        return new JsonContent($"PLEASE TENDER NLe: {minVend} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
+        //    }
+        //    var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
+        //    return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
+        //}
 
         [HttpGet]
         [ResponseType(typeof(ResponseBase))]
@@ -177,7 +177,7 @@ namespace VendTech.Areas.Api.Controllers
         [HttpPost]
         [ResponseType(typeof(ResponseBase))]
         //[HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
-        public HttpResponseMessage RechargeMeterReceipt(RechargeMeterModel model)
+        public async Task<HttpResponseMessage> RechargeMeterReceipt(RechargeMeterModel model)
         {
             var platf = _platformManager.GetSinglePlatform(1);
             if (platf.DisablePlatform)
@@ -190,7 +190,7 @@ namespace VendTech.Areas.Api.Controllers
                 return new JsonContent($"PLEASE TENDER NLe: {platf.MinimumAmount} & ABOVE", Status.Failed).ConvertToHttpResponseOK();
             }
             model.UserId = LOGGEDIN_USER.UserId;
-            var result = _meterManager.RechargeMeterReturn(model);
+            var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
             return new JsonContent(result.ReceiptStatus.Message, result.ReceiptStatus.Status == "unsuccessfull" ? Status.Failed : Status.Success, result).ConvertToHttpResponseOK();
         }
 

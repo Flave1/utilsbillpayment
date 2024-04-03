@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using VendTech.BLL.Common;
 using Newtonsoft.Json;
 using VendTech.BLL.PlatformApi;
+using System.Threading.Tasks;
 #endregion
 
 namespace VendTech.Controllers
@@ -31,7 +32,6 @@ namespace VendTech.Controllers
         private readonly IPlatformManager _platformManager;
         private readonly IPOSManager _posManager;
         private readonly IPlatformTransactionManager _platformTransactionManager;
-
 
         #endregion
 
@@ -175,7 +175,6 @@ namespace VendTech.Controllers
             return JsonResult(_meterManager.SaveMeter(model));
         }
 
-
         public ActionResult Utility()
         {
             ViewBag.UserId = LOGGEDIN_USER.UserID;
@@ -194,22 +193,22 @@ namespace VendTech.Controllers
         /// <returns></returns>
         public ActionResult Recharge(long? meterId)
         {
+            var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
+            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
+            RechargeMeterModel model = new RechargeMeterModel();
 
             ViewBag.UserId = LOGGEDIN_USER.UserID;
             ViewBag.walletBalance = _userManager.GetUserWalletBalance(LOGGEDIN_USER.UserID);
-            ViewBag.title = "EDSA Recharge";
-            var platform = _platformManager.GetSinglePlatform(1); //1 is not to be changed
+            ViewBag.title = "EDSA Recharge";          
             ViewBag.IsDisable = platform.DisablePlatform;
             ViewBag.DisabledMessage = platform.DiabledPlaformMessage;
             ViewBag.MinumumVend = platform.MinimumAmount;
             ViewBag.SelectedTab = SelectedAdminTab.BillPayment;
-            RechargeMeterModel model = new RechargeMeterModel();
             ViewBag.IsPlatformAssigned = _platformManager.GetUserAssignedPlatforms(LOGGEDIN_USER.UserID).Count > 0;
-            var posList = _posManager.GetPOSSelectList(LOGGEDIN_USER.UserID, LOGGEDIN_USER.AgencyId);
             ViewBag.userPos = posList; 
             ViewBag.meters = _meterManager.GetMetersDropDown(LOGGEDIN_USER.UserID);
             ViewBag.IsModuleDisable = _meterManager.IsModuleLocked(34, LOGGEDIN_USER.UserID);
-            JavaScriptSerializer js = new JavaScriptSerializer();
+
             var hostory_model = new ReportSearchModel
             {
                 SortBy = "CreatedAt",
@@ -218,10 +217,8 @@ namespace VendTech.Controllers
                 VendorId = LOGGEDIN_USER.UserID
             };
 
-            var deposits = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY);
+            model.History = _meterManager.GetUserMeterRechargesHistory(hostory_model, false, PlatformTypeEnum.ELECTRICITY).List;
 
-            if (deposits.List.Any())
-                model.History = deposits.List;
             if (meterId > 0) model.MeterId = meterId;
             if (posList.Count > 0)
                 ViewBag.walletBalance = _posManager.GetPosBalance(Convert.ToInt64(posList[0].Value));
@@ -231,13 +228,13 @@ namespace VendTech.Controllers
 
         }
 
-        [HttpPost, AjaxOnly]
-        public JsonResult Recharge(RechargeMeterModel model)
-        {
-            model.UserId = LOGGEDIN_USER.UserID;
+        //[HttpPost, AjaxOnly]
+        //public JsonResult Recharge(RechargeMeterModel model)
+        //{
+        //    model.UserId = LOGGEDIN_USER.UserID;
 
-            return JsonResult(_meterManager.RechargeMeter(model));
-        }
+        //    return JsonResult(_meterManager.RechargeMeter(model));
+        //}
 
 
         [AjaxOnly, HttpPost, Public]
@@ -246,6 +243,16 @@ namespace VendTech.Controllers
 
             var result = _meterManager.ReturnVoucherReceipt(tokenobject.token_string);
             if (result.ReceiptStatus.Status == "unsuccessful") 
+                return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
+            return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
+        }
+
+        [AjaxOnly, HttpPost, Public]
+        public async Task<JsonResult> ReturnStatus(RequestObject tokenobject)
+        {
+
+            var result = await _meterManager.ReturnTraxStatusReceiptAsync(tokenobject.token_string);
+            if (result.ReceiptStatus.Status == "unsuccessful")
                 return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
             return Json(new { Success = true, Code = 200, Msg = "Meter recharged successfully.", Data = result });
         }
@@ -294,14 +301,13 @@ namespace VendTech.Controllers
             return Json(Utilities.FormatAmount(ViewBag.walletBalance));
         }
 
-
         [HttpPost, AjaxOnly]
-        public JsonResult RechargeReturn(RechargeMeterModel model)
+        public async Task<JsonResult> RechargeReturn(RechargeMeterModel model)
         {
             model.UserId = LOGGEDIN_USER.UserID;
             try
             {
-                var result = _meterManager.RechargeMeterReturn(model);
+                var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
                 if (result.ReceiptStatus.Status == "unsuccessful")
                 {
                     return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
@@ -317,18 +323,19 @@ namespace VendTech.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Success = false, Code = 302, Msg = "Meter recharged not successful." });
+                LogExceptionToFile(ex.ToString(), DateTime.UtcNow.ToString());
+                return Json(new { Success = false, Code = 302, Msg = "Meter recharge not successful." });
             }
 
         }
 
         [HttpPost, AjaxOnly, Public]
-        public JsonResult RechargeReturn2(RechargeMeterModel model)
+        public async Task<JsonResult> RechargeReturn2(RechargeMeterModel model)
         {
             //model.UserId = model.UserId;
             try
             {
-                var result = _meterManager.RechargeMeterReturn(model);
+                var result = await _meterManager.RechargeMeterReturnIMPROVED(model);
                 if (result.ReceiptStatus.Status == "unsuccessful")
                 {
                     return Json(new { Success = false, Code = 302, Msg = result.ReceiptStatus.Message });
@@ -362,8 +369,6 @@ namespace VendTech.Controllers
                 return Json(JsonConvert.SerializeObject(new { Success = false, Code = 302, Msg = "Airtime recharged not successful.", Data = result }));
             return Json(JsonConvert.SerializeObject(new { Success = true, Code = 200, Msg = "Airtime recharged successfully.", Data = result }));
         }
-
-
 
     }
 }

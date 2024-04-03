@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
+using System.Web.Configuration;
 using VendTech.BLL.Common;
 using VendTech.DAL;
 
@@ -96,6 +98,91 @@ namespace VendTech.BLL.Models
         public long TransactionId { get; set; }
         public bool IsSame_Request { get; set; } = false;
         public List<MeterRechargeApiListingModel> History { get; set; }
+        public void UpdateRequestModel(string number = null)
+        {
+            if (MeterId != null)
+            {
+                MeterNumber = number;
+            }
+            else
+                IsSaved = false;
+        }
+
+        public void UpdateRequestModel(TransactionDetail trx)
+        {
+            TransactionId = Convert.ToInt64(trx.TransactionId);
+        }
+
+        public bool IsRequestADuplicate(TransactionDetail trx)
+        {
+            if (trx == null) return false;
+            if(MeterNumber == trx.MeterNumber1 && Amount == trx.Amount)
+            {
+                return true;
+            }
+            return false;
+        }
+        public string validateRequest(User user, POS pos)
+        {
+            Platform platf = new Platform();
+            if (PlatformId == null)
+            {
+                PlatformId = 1;
+            }
+
+            if (platf.DisablePlatform)
+            {
+                return platf.DisabledPlatformMessage;
+            }
+
+            if (user == null)
+            {
+                return "User does not exist";
+            }
+
+            if (pos == null)
+            {
+                return "POS NOT FOUND!! Please Contact Administrator.";
+            }
+
+            if (pos.Balance == null)
+            {
+                return "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+            }
+
+            if (Amount > pos.Balance || pos.Balance.Value < Amount)
+            {
+                return "INSUFFICIENT BALANCE FOR THIS TRANSACTION.";
+            }
+            return "clear";
+        }
+
+        public IcekloudRequestmodel StackStatusRequestModel(RechargeMeterModel model)
+        {
+            var username = WebConfigurationManager.AppSettings["IcekloudUsername"].ToString();
+            var password = WebConfigurationManager.AppSettings["IcekloudPassword"].ToString();
+             
+            return new IcekloudRequestmodel
+            {
+                Auth = new IcekloudAuth
+                {
+                    Password = password,
+                    UserName = username
+                },
+                Request = "ProcessPrePaidVendingV1",
+                Parameters = new object[]
+                                     {
+                        new
+                        {
+                            UserName = username,
+                            Password = password,
+                            System = "SL"
+                        }, "apiV1_GetTransactionStatus", model.TransactionId
+                       },
+            };
+
+        }
+
     }
 
     public class RechargeDetailPDFData
