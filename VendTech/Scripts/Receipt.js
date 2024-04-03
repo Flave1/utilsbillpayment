@@ -133,8 +133,6 @@ function fetchAirtimeDetailsByTransactionId(traxId) {
 }
 
 function fetchVoucherStatus(trxId, isAdmin = false) {
-    debugger
-
     DisableAndEnablelinks(true, trxId);
     $("#re-print_section").show();
     try {
