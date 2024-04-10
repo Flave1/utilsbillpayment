@@ -16,6 +16,7 @@ using VendTech.BLL.Interfaces;
 using VendTech.BLL.Managers;
 using VendTech.BLL.Common;
 using Ninject;
+using System.Security.Cryptography;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -69,11 +70,16 @@ namespace VendTech.Areas.Admin.Controllers
                             //SignOut();
                         }
                     }
+                    catch (CryptographicException ex)
+                    {
+                        SignOut();
+                    }
                     catch (Exception ex)
                     {
 
                         Console.WriteLine(ex.ToString());
                     }
+                    
                 }
                 #endregion
 
