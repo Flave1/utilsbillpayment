@@ -821,6 +821,7 @@ namespace VendTech.BLL.Managers
             {
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                NotifyAdmin();
                 throw new ArgumentException(message);
             }
 
@@ -828,7 +829,8 @@ namespace VendTech.BLL.Managers
             {
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
-                throw new ArgumentException("Due to some technical resolutions the system is unable to vend");
+                NotifyAdmin();
+                throw new ArgumentException("Due to some technical resolutions involving EDSA, the system is unable to vend");
             }
 
             if (message == "InCMS-BL-CO000846. The amount is too low for recharge")
@@ -875,6 +877,13 @@ namespace VendTech.BLL.Managers
                 _context.Platforms.AddOrUpdate(plt);
                 _context.SaveChanges();
             }
+        }
+
+        void NotifyAdmin()
+        {
+            var body = $"Hello Victor" +
+                $"This is to notify you that VENDTECH IS OUT ON FUNDS";
+            Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
         }
 
         private async Task<TransactionDetail> getLastMeterPendingTransaction(string MeterNumber) => 
