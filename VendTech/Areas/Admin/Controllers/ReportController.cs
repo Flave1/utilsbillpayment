@@ -324,13 +324,21 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult GetBalanceSheetReportsPagingList(ReportSearchModel model)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits; 
-            model.RecordsPerPage = 1000000000; 
+            model.RecordsPerPage = 1000000000;
+            List<BalanceSheetListingModel> result = new List<BalanceSheetListingModel>();
 
             var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
-            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
-            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0).ToArray();
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0).ToArray();
 
-            var result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            if(depositsBS != null && salesBS != null)
+                result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+
+            if (depositsBS == null && salesBS != null)
+                result = depositsBS.OrderBy(d => d.DateTime).ToList();
+
+            if (depositsBS != null && salesBS == null)
+                result = depositsBS.OrderBy(d => d.DateTime).ToList();
 
             balanceSheet = _posManager.CalculateBalancesheet(result);
 
