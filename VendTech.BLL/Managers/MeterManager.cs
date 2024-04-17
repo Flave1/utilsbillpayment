@@ -764,7 +764,12 @@ namespace VendTech.BLL.Managers
                     await _context.SaveChangesAsync();
 
                     LogExceptionToDatabase(new Exception($"4 {vendResponse.Content?.Data?.Error} {DateTime.UtcNow} for traxId {model.TransactionId}"));
-                    ReadErrorMessage(vendResponse.Content?.Data?.Error, tx);
+                    if (vendResponse.Content.Data.Error != "Error")
+                    {
+                        ReadErrorMessage(vendResponse.Content?.Data?.Error, tx);
+                        throw new ArgumentException(vendResponse.Content.Data.Error);
+                    }
+                    
                     
                     var vendStatus = await QueryVendStatus(model, tx);
 
