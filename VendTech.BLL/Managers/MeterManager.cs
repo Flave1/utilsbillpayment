@@ -764,12 +764,8 @@ namespace VendTech.BLL.Managers
                     await _context.SaveChangesAsync();
 
                     LogExceptionToDatabase(new Exception($"4 {vendResponse.Content?.Data?.Error} {DateTime.UtcNow} for traxId {model.TransactionId}"));
-                    if (vendResponse.Content.Data.Error != "Error")
-                    {
-                        ReadErrorMessage(vendResponse.Content?.Data?.Error, tx);
-                        throw new ArgumentException(vendResponse.Content.Data.Error);
-                    }
                     
+                    ReadErrorMessage(vendResponse.Content?.Data?.Error, tx);
                     
                     var vendStatus = await QueryVendStatus(model, tx);
 
@@ -865,6 +861,11 @@ namespace VendTech.BLL.Managers
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 throw new ArgumentException("Amount tendered is too low");
             }
+            if(message == "-47 : InCMS-BL-CB001273. Error, purchase units less than minimum.")
+            {
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
+                throw new ArgumentException("Purchase units less than minimum.");
+            }
         }
 
         private void FlagTransaction(TransactionDetail tx, RechargeMeterStatusEnum status)
@@ -910,8 +911,8 @@ namespace VendTech.BLL.Managers
 
             if (statusResponse.Content.StatusDescription == "The specified Transaction does not exist.")
             {
-                await ProcessTransaction(false, model, transDetail, true);
-                response.Add("newtranx", statusResponse);
+                //await ProcessTransaction(false, model, transDetail, true);
+                response.Add("failed", statusResponse);
 
                 LogExceptionToDatabase(new Exception($"QueryVendStatus 1 ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return response;
