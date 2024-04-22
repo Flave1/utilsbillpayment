@@ -53,3 +53,5 @@ const userProfileDropdown = document.querySelector('.user-profile');
 userProfileDropdown.addEventListener('click', () => {
     userProfileDropdown.classList.toggle('show');
 });
+
+

@@ -294,6 +294,7 @@
     <Content Include="App_Readme\readme.txt" />
     <Content Include="Areas\Admin\Views\Home\Error.cshtml" />
     <Content Include="Contentv2\css\bill_payment.css" />
+    <Content Include="Contentv2\css\loginStyle.css" />
     <Content Include="Contentv2\css\styles.css" />
     <Content Include="Contentv2\imgs\logos\africell.png" />
     <Content Include="Contentv2\imgs\logos\bulb.png" />
@@ -2664,6 +2665,7 @@
     <Content Include="Content\images\gp-icon.png" />
     <Content Include="Content\images\icon-mic.jpg" />
     <Content Include="Content\images\in-icon.png" />
+    <Content Include="Content\images\iphone-mockup_2.png" />
     <Content Include="Content\images\li-icon.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.jpg" />
@@ -5469,6 +5471,7 @@
     <Content Include="Areas\Admin\Views\AppUser\ViewUser.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\ManageDepositReverse.cshtml" />
     <Content Include="Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml" />
+    <Content Include="Scriptsv2\main.min.js" />
     <Content Include="Scripts\AdminScripts\agency.js" />
     <Content Include="Scripts\AdminScripts\commissionReport.js" />
     <Content Include="Scripts\AdminScripts\agencyRevenueReport.js" />
@@ -6624,6 +6627,7 @@
     <Content Include="Views\Home\Learn.cshtml" />
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Home\Signalr.cshtml" />
+    <Content Include="Views\Home\Indexv2.cshtml" />
     <None Include="Views\Shared\Spinner\spinner.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6701,6 +6705,7 @@
     <Content Include="Views\Shared\_Title.cshtml" />
     <Content Include="Views\User\EditProfile_old.cshtml" />
     <Content Include="Views\Shared\_ordinaryLayout.cshtml" />
+    <Content Include="Views\Shared\_beforeLoginUserLayoutv2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

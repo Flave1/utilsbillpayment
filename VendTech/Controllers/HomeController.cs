@@ -76,7 +76,7 @@ namespace VendTech.Controllers
         [Public]
         public ActionResult Index()
         {
-            return View(new LoginAPIModel());
+            return View("Indexv2", new LoginAPIModel());
 
         }
 
