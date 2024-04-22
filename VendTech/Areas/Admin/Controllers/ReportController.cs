@@ -853,18 +853,25 @@ namespace VendTech.Areas.Admin.Controllers
                 Todate = model.To.Value.ToString("dd/MM/yyyy");
             }
 
+            List<BalanceSheetListingModel> result = new List<BalanceSheetListingModel>();
             var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
-            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0);
-            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0);
+            var depositsBS = _depositManager.GetBalanceSheetReportsPagedList(model, true, 0).ToArray(); ;
+            var salesBS = _meterManager.GetBalanceSheetReportsPagedList(model, true, 0).ToArray(); ;
 
+            if (depositsBS != null && salesBS != null)
+                result = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
 
-            KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
+            if (depositsBS == null && salesBS != null)
+                result = depositsBS.OrderBy(d => d.DateTime).ToList();
 
-            var result  = depositsBS.Concat(salesBS).OrderBy(d => d.DateTime).ToList();
+            if (depositsBS != null && salesBS == null)
+                result = depositsBS.OrderBy(d => d.DateTime).ToList();
 
             balanceSheet = _posManager.CalculateBalancesheet(result);
 
 
+            KeyValuePair<string, string> GetVendorDetail = _posManager.GetVendorDetail(model.PosId ?? 0);
+             
 
             balanceSheet.TotalCount = depositsBS.Concat(salesBS).Count();
 
