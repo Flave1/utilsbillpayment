@@ -27,6 +27,10 @@ using System.Xml;
 using HtmlAgilityPack;
 using MailKit.Net.Smtp;
 using System.Web.Mail;
+using VendTech.BLL.Models;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace VendTech.BLL.Common
 {
@@ -111,6 +115,21 @@ namespace VendTech.BLL.Common
         public static long VENDTECH
         {
             get{  return 20; }
+        }
+
+        public static string EMAILFOOTERTEMPLATE
+        {
+            get {
+                return $"VENDTECH MANAGEMENT" + 
+                        $"</br></br>" +
+                        $"Phone: +232 79 990990" +
+                        $"</br>" +
+                        $"Email: support@vendtechsl.com" +
+                        $"</br>" +
+                        $"Website: www.vendtechsl.com" +
+                        $"{Environment.NewLine}" +
+                        $"Address: 186 Wilkinson Rd, Freetown - Sierra Leone";
+            }
         }
 
 
@@ -329,28 +348,29 @@ namespace VendTech.BLL.Common
                     client.Disconnect(true);
                 }
 
-
-                //MailMessage mail = new MailMessage();
-                //SmtpClient SmtpServer = new SmtpClient(WebConfigurationManager.AppSettings["SMTPHost"].ToString());
-
-                //mail.From = new MailAddress(WebConfigurationManager.AppSettings["SMTPFrom"].ToString(), WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString());
-                //mail.To.Add(to);
-                //mail.Subject = sub;
-                //mail.Body = body;
-                ////SmtpServer.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]); 
-                //SmtpServer.Port = 587;
-                //SmtpServer.UseDefaultCredentials = true;
-                //SmtpServer.Credentials = new System.Net.NetworkCredential("favouremmanuel433@gmail.com", "85236580Gm");//WebConfigurationManager.AppSettings["SMTPUsername"].ToString(), WebConfigurationManager.AppSettings["SMTPPassword"].ToString());
-                //SmtpServer.EnableSsl = true;
-                //mail.IsBodyHtml = true;
-                //SmtpServer.Send(mail); 
                 return true;
             }
             catch (Exception x)
             { throw x; }
 
         }
-       
+
+        public static string LogExceptionToDatabase(Exception exc)
+        {
+            var context = new VendtechEntities();
+            ErrorLog errorObj = new ErrorLog();
+            errorObj.Message = exc.Message;
+            errorObj.StackTrace = exc.StackTrace;
+            errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
+            errorObj.LoggedInDetails = "";
+            errorObj.LoggedAt = DateTime.UtcNow;
+            errorObj.UserId = 0;
+            context.ErrorLogs.Add(errorObj);
+            // To do
+            context.SaveChanges();
+            return errorObj.ErrorLogID.ToString();
+        }
+
         public static void SendEmail(string to, string sub, string body)
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
@@ -360,7 +380,7 @@ namespace VendTech.BLL.Common
             int port = 587;//465;
             try
             {
-
+               
                 var mimeMsg = new MimeMessage();
                 var frms = new List<MailboxAddress>
                 {
@@ -373,63 +393,54 @@ namespace VendTech.BLL.Common
                 mimeMsg.From.AddRange(frms);
                 mimeMsg.To.AddRange(tos);
                 mimeMsg.Subject = sub;
-
+                
                 mimeMsg.Body = new TextPart("html")
                 {
                     Text = body
                 };
-
+                
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
+                   
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+                    
                     client.Connect(smtp, port);
-                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
-
+                    
                     client.Authenticate(from, password);
-
+                   
                     client.Send(mimeMsg);
-
+                   
                     client.Disconnect(true);
+                    
                 }
-
-                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                //                                  | SecurityProtocolType.Tls11
-                //                                  | SecurityProtocolType.Tls12;
-
-
-                //System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient(smtp);
-                //smtpClient.Port = port;
-                //smtpClient.EnableSsl = true;
-                //smtpClient.Credentials = new NetworkCredential(from, password);
-
-                //// Create and configure the email message
-                //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
-                //message.From = new MailAddress(from);
-                //message.To.Add(to);
-                //message.Subject = "Test Email";
-                //message.Body = "This is a test email sent from my .NET application.";
-
-                //try
-                //{
-                //    // Send the email
-                //    smtpClient.Send(message);
-                //    Console.WriteLine("Email sent successfully.");
-                //}
-                //catch (Exception ex)
-                //{
-                //    Console.WriteLine("Error sending email: " + ex.Message);
-                //}
-
             }
             catch (Exception x)
             {
+                LogExceptionToDatabase(new Exception("SendEmail err 1", x));
                 //LogExceptionToDatabase(x);
                 //return true;
             }
 
         }
 
+        public static bool SendSms(SendSMSRequest request)
+        {
+            //request.Recipient = null;
+            var json = JsonConvert.SerializeObject(request);
+            string baseUrl = WebConfigurationManager.AppSettings["SMSAPI"].ToString();
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseUrl);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v2/submit");
+            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var res = client.SendAsync(httpRequest).Result;
+            //var stringResult = res.Content.ReadAsStringAsync().Result;
+            return res.IsSuccessStatusCode;
+        }
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();

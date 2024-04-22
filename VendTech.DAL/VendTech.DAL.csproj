@@ -172,6 +172,12 @@
     <Compile Include="StanTable.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TempCountry.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TokensManager.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

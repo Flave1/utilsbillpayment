@@ -22,7 +22,7 @@ namespace VendTech.DAL
         public string QueryData { get; set; }
         public string FormData { get; set; }
         public string RouteData { get; set; }
-        public long? UserId { get; set; }
         public Nullable<System.DateTime> LoggedAt { get; set; }
+        public Nullable<long> UserId { get; set; }
     }
 }

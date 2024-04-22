@@ -54,7 +54,7 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult RejectReverseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected));
         }
         [AjaxOnly, HttpPost]
         public JsonResult SendOTP()

@@ -2040,14 +2040,9 @@ namespace VendTech.Areas.Admin.Controllers
                         $"<p>If you have any problem please let us know</p>" +
                                  $"{Environment.NewLine}" +
                         $"<p>Thank you</p>" +
-                                $"{Environment.NewLine}" +
-                        $"VENDTECH MANAGEMENT" +
-                             $"{Environment.NewLine}" +
-                        $"<p>Phone: +232 79 990990</p>" +
-                               $"{Environment.NewLine}" +
-                        $"Email: accounts@vendtechsl.com" +
-                           $"{Environment.NewLine}" +
-                        $"<p>Address: 186 Wilkinson Rd, Freetown - Sierra Leone</p>";
+                        $"{Environment.NewLine}" +
+                        $"{Environment.NewLine}" +
+                        $"{BLL.Common.Utilities.EMAILFOOTERTEMPLATE}"; ;
 
 
                     BLL.Common.Utilities.SendPDFEmail(request.Email, subject, content, file.FirstOrDefault().Value, "VENDTECH_INVOICE-INV-"+td.TransactionId + ".pdf");

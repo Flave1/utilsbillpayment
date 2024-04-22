@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VENDTECH_MAINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VENDTECH_MAINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -153,26 +153,26 @@
           <Property Name="DepositId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="POSId" Type="bigint" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
           <Property Name="PaymentType" Type="int" Nullable="false" />
-          <Property Name="CheckNumberOrSlipId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PercentageAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NewBalance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CheckNumberOrSlipId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ChequeBankName" Type="nvarchar(max)" />
           <Property Name="NameOnCheque" Type="nvarchar(max)" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="BankAccountId" Type="int" Nullable="false" />
-          <Property Name="NewBalance" Type="decimal" Precision="18" Scale="2" />
           <Property Name="isAudit" Type="bit" Nullable="false" />
           <Property Name="ValueDate" Type="varchar" MaxLength="200" />
           <Property Name="NextReminderDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="AgencyCommission" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="datetime" />
-          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="EmailConfirmationRequests">
           <Key>
@@ -213,6 +213,7 @@
           <Property Name="FormData" Type="varchar(max)" />
           <Property Name="RouteData" Type="varchar(max)" />
           <Property Name="LoggedAt" Type="datetime" />
+          <Property Name="UserId" Type="bigint" />
         </EntityType>
         <EntityType Name="ForgotPasswordRequests">
           <Key>
@@ -471,6 +472,29 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Stan" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TempCountry">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="50" />
+          <Property Name="CurrencyName" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="DomainUrl" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="TokensManager">
           <Key>
             <PropertyRef Name="Id" />
@@ -491,33 +515,35 @@
           <Property Name="TransactionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="TransactionId" Type="nvarchar" MaxLength="50" />
-          <Property Name="MeterId" Type="bigint" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CurrentVendorBalance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MeterId" Type="bigint" />
           <Property Name="MeterNumber1" Type="varchar" MaxLength="50" />
           <Property Name="POSId" Type="bigint" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="PlatFormId" Type="int" />
           <Property Name="MeterToken1" Type="varchar" MaxLength="22" />
           <Property Name="MeterToken2" Type="varchar" MaxLength="22" />
           <Property Name="MeterToken3" Type="varchar" MaxLength="22" />
-          <Property Name="RequestDate" Type="datetime" Nullable="false" />
           <Property Name="CurrentDealerBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
           <Property Name="Customer" Type="varchar" MaxLength="100" />
           <Property Name="RTSUniqueID" Type="varchar" MaxLength="50" />
           <Property Name="ReceiptNumber" Type="varchar" MaxLength="50" />
+          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ServiceCharge" Type="varchar" MaxLength="50" />
           <Property Name="Tariff" Type="varchar" MaxLength="50" />
           <Property Name="TaxCharge" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TenderedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CostOfUnits" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Units" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DebitRecovery" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
           <Property Name="CustomerAddress" Type="varchar" MaxLength="200" />
-          <Property Name="DebitRecovery" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CostOfUnits" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="VProvider" Type="varchar" MaxLength="200" />
           <Property Name="Finalised" Type="bit" />
           <Property Name="StatusRequestCount" Type="int" />
@@ -531,8 +557,6 @@
           <Property Name="DateAndTimeSold" Type="varchar(max)" />
           <Property Name="DateAndTimeFinalised" Type="varchar(max)" />
           <Property Name="DateAndTimeLinked" Type="varchar(max)" />
-          <Property Name="CurrentVendorBalance" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="BalanceBefore" Type="decimal" Precision="18" Scale="2" />
           <Property Name="QueryStatusCount" Type="int" />
         </EntityType>
         <EntityType Name="UserAssignedModules">
@@ -612,6 +636,7 @@
           <Property Name="UserSerialNo" Type="bigint" />
           <Property Name="MobileAppVersion" Type="varchar" MaxLength="10" />
           <Property Name="IsRedominated" Type="int" />
+          <Property Name="AutoApprove" Type="bit" />
         </EntityType>
         <EntityType Name="UserSchedule">
           <Key>
@@ -1322,6 +1347,8 @@
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StanTable" EntityType="Self.StanTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TempCountry" EntityType="Self.TempCountry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TokensManager" EntityType="Self.TokensManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAssignedModules" EntityType="Self.UserAssignedModules" Schema="dbo" store:Type="Tables" />
@@ -1545,8 +1572,7 @@
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VENDTECH_MAINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1782,6 +1808,7 @@
           <Property Name="FormData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="RouteData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="LoggedAt" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int64" />
         </EntityType>
         <EntityType Name="ForgotPasswordRequest">
           <Key>
@@ -2261,6 +2288,7 @@
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <Property Name="AutoApprove" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserSchedule">
           <Key>
@@ -3195,7 +3223,32 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="VENDTECH_MAINModel.sysdiagram" />
+          <EntitySet Name="TempCountries" EntityType="VENDTECH_MAINModel.TempCountry" />
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TempCountry">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyName" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="DomainUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3416,6 +3469,7 @@
           <EntitySetMapping Name="ErrorLogs">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
@@ -3813,6 +3867,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="AutoApprove" ColumnName="AutoApprove" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
@@ -3889,6 +3944,31 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempCountries">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.TempCountry">
+              <MappingFragment StoreEntitySet="TempCountry">
+                <ScalarProperty Name="DomainUrl" ColumnName="DomainUrl" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

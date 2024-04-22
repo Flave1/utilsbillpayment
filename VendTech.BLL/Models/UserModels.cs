@@ -261,6 +261,7 @@ namespace VendTech.BLL.Models
         public bool IsAgencyAdmin { get; set; } = false;
         public int CountryId { get; set; }
         public int City { get; set; }
+        public bool AutoApprove { get; set; }
 
         public AddUserModel()
         {

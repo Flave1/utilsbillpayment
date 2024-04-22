@@ -70,5 +70,7 @@ namespace VendTech.DAL
         public virtual DbSet<UserSchedule> UserSchedules { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<TempCountry> TempCountries { get; set; }
     }
 }
