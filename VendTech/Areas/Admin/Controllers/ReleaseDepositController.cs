@@ -75,13 +75,14 @@ namespace VendTech.Areas.Admin.Controllers
         public JsonResult ApproveReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, LOGGEDIN_USER.UserID));
+            var result = _depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Released, false);
+            return JsonResult(result);
         }
         [AjaxOnly, HttpPost]
         public JsonResult RejectReleaseDeposit(long depositId)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
-            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, LOGGEDIN_USER.UserID));
+            return JsonResult(_depositManager.ChangeDepositStatus(depositId, DepositPaymentStatusEnum.Rejected, false));
         }
         [AjaxOnly, HttpPost]
         public JsonResult SendOTP()

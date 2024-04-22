@@ -125,13 +125,13 @@
                                         </div>
                                     </div>
                                     @*<div class="form-group">
-            <div class="col-md-12">
-                <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
-                    @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
-                </reset>
-            </div>
+                                        <div class="col-md-12">
+                                            <reset style="padding-top: 7px;display: inline-block;font-size: 13px;font-weight: 600;">
+                                                @Html.CheckBoxFor(p => p.IsAgencyAdmin) Agency Administrator
+                                            </reset>
+                                        </div>
 
-        </div>*@
+                                    </div>*@
 
                                 </div>
 
@@ -188,6 +188,31 @@
                                         <div class=" col-md-12">
                                             @Html.Partial("Partials/_widgetsListing", Model.WidgetList.Where(d => d.Id != 9).ToList())
 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">AUTO APPROVAL</label>
+
+                                        <div class=" col-md-12">
+                                            <div id="">
+                                                <table class="table table-bordered" id="datatable-icons">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Active</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd gradeX">
+                                                            <td><label> Approve Deposit Automatically </label></td>
+                                                            <td>
+                                                                @Html.CheckBoxFor(p => p.AutoApprove)
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

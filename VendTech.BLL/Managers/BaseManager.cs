@@ -94,6 +94,10 @@ namespace VendTech.BLL.Managers
         {
             return new ActionOutput { Status = ActionStatus.Error, Message = msg };
         }
+        protected ActionOutput<T> ReturnError<T>(T model, string msg = "")
+        {
+            return new ActionOutput<T> {Object = model, Status = ActionStatus.Error, Message = msg };
+        }
 
         protected ActionOutput<T> ReturnSuccess<T>(T model, string msg = "")
         {

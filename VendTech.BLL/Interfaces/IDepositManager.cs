@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VendTech.BLL.Models;
 using VendTech.DAL;
 
@@ -24,7 +25,7 @@ namespace VendTech.BLL.Interfaces
         PagingResult<DepositListingModel> GetAllPendingDepositPagedList(PagingModel model, bool getForRelease = false, long vendorId = 0, string status = "");
         PagingResult<DepositLogListingModel> GetDepositLogsPagedList(PagingModel model);
         decimal GetPendingDepositTotal();
-        ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, long currentUserId); 
+        ActionOutput ChangeDepositStatus(long depositId, DepositPaymentStatusEnum status, bool isAutoApprove = false); 
         ActionOutput<string> SendOTP();
         ActionOutput<PendingDeposit> SaveDepositRequest(DepositModel model);
         ActionOutput<List<long>> ChangeMultipleDepositStatus(ReleaseDepositModel model, long userId);
@@ -63,6 +64,8 @@ namespace VendTech.BLL.Interfaces
         void CreateCommissionCreditEntry(POS toPos, decimal amount, string reference, long currentUserId);
         PagingResult<AgentRevenueListingModel> GetCommissionsReportsPagedList(ReportSearchModel model, bool callFromAdmin = false, long agentId = 0);
         Deposit GetSingleTransaction(long transactionId);
+        PendingDeposit GetDeposit(long depositId);
+        void DeletePendingDeposits(PendingDeposit deposit);
     }
 
 }
