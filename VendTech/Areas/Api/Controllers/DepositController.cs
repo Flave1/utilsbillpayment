@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.DAL;
 using VendTech.Framework.Api;
 
 
@@ -39,6 +40,7 @@ namespace VendTech.Areas.Api.Controllers
         [ResponseType(typeof(ResponseBase))]
         public HttpResponseMessage SaveDepositRequest(DepositModel model)
         {
+            ActionOutput<PendingDeposit> pd = null;
             model.UserId = LOGGEDIN_USER.UserId;
             //model.TotalAmountWithPercentage = model.Amount;
             model.BankAccountId = 1;
@@ -53,38 +55,113 @@ namespace VendTech.Areas.Api.Controllers
                 }
             }
 
-            var result = _depositManager.SaveDepositRequest(model);
-
-
-            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
-
-            var pos = _posManager.GetSinglePos(result.Object.POSId);
-            if (pos != null)
+            pd = _depositManager.SaveDepositRequest(model);
+            string mesg = pd.Message;
+            if (pd.Object.User.AutoApprove.Value)
             {
-                foreach (var admin in adminUsers)
-                {
-                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
-                    if (emailTemplate != null)
-                    {
-                        if (emailTemplate.TemplateStatus)
-                        {
-                            string body = emailTemplate.TemplateContent;
-                            body = body.Replace("%AdminUserName%", admin.Name);
-                            body = body.Replace("%VendorName%", pos.User.Vendor);
-                            body = body.Replace("%POSID%", pos.SerialNumber);
-                            body = body.Replace("%REF%", result.Object.CheckNumberOrSlipId);
-                            body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(result.Object.Amount));
-                            body = body.Replace("%CurrencyCode%", BLL.Common.Utilities.GetCountry().CurrencyCode);
-                            VendTech.BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
-                        }
+                ActionOutput result = _depositManager.ChangeDepositStatus(pd.Object.PendingDepositId, DepositPaymentStatusEnum.Released, true);
 
+                var deposit = _depositManager.GetDeposit(pd.Object.PendingDepositId);
+                SendEmailOnDepositApproval(deposit);
+                SendEmailToAdminOnDepositApproval(deposit, result.ID);
+                SendSmsOnDepositApproval(deposit);
+
+                _depositManager.DeletePendingDeposits(deposit);
+            }
+            else
+            {
+                var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+                var pos = _posManager.GetSinglePos(pd.Object.POSId);
+                if (pos != null)
+                {
+                    foreach (var admin in adminUsers)
+                    {
+                        var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositRequestNotification);
+                        if (emailTemplate != null)
+                        {
+                            if (emailTemplate.TemplateStatus)
+                            {
+                                string body = emailTemplate.TemplateContent;
+                                body = body.Replace("%AdminUserName%", admin.Name);
+                                body = body.Replace("%VendorName%", pos.User.Vendor);
+                                body = body.Replace("%POSID%", pos.SerialNumber);
+                                body = body.Replace("%REF%", pd.Object.CheckNumberOrSlipId);
+                                body = body.Replace("%Amount%", BLL.Common.Utilities.FormatAmount(pd.Object.Amount));
+                                body = body.Replace("%CurrencyCode%", BLL.Common.Utilities.GetCountry().CurrencyCode);
+                                BLL.Common.Utilities.SendEmail(admin.Email, emailTemplate.EmailSubject, body);
+                                BLL.Common.Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
+                            }
+
+                        }
                     }
                 }
             }
 
 
-            return new JsonContent(result.Message, result.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
+            return new JsonContent(mesg, pd.Status == ActionStatus.Successfull ? Status.Success : Status.Failed).ConvertToHttpResponseOK();
         }
+
+
+        private void SendEmailOnDepositApproval(PendingDeposit deposit)
+        {
+
+            var user = _userManager.GetUserDetailsByUserId(deposit.UserId);
+            if (user != null)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
+
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%USER%", user.FirstName);
+                    BLL.Common.Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                }
+            }
+        }
+        private void SendEmailToAdminOnDepositApproval(PendingDeposit dep, long trxId)
+        {
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            if (dep.POS != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    string body = $"<p>Greetings {admin.Name}, </p>" +
+                                 $"<b>This is to inform you that a deposit has been AUTO APPROVED for</b> </br>" +
+                                 "</br>" +
+                                 $"Vendor Name: <b>{dep.POS.User.Vendor}</b> </br></br>" +
+                                 $"POSID: <b>{dep.POS.SerialNumber}</b>  </br></br>" +
+                                 $"DEPOSIT ID: <b>{trxId}</b> </br></br>" +
+                                 $"REF#: <b>{dep.CheckNumberOrSlipId}</b> </br></br>" +
+                                 $"Amount: <b>{BLL.Common.Utilities.GetCountry().CurrencyCode} {BLL.Common.Utilities.FormatAmount(dep.Amount)}</b> </br>" +
+                                 $"</br>" +
+                                 $"Thank You" +
+                                 $"<br/>" +
+                                 $"<p>{BLL.Common.Utilities.EMAILFOOTERTEMPLATE}</p>";
+
+                    BLL.Common.Utilities.SendEmail(admin.Email, "VENDTECH SUPPORT | DEPOSIT AUTO APPROVAL EMAIL", body);
+                }
+            }
+        }
+        private bool SendSmsOnDepositApproval(PendingDeposit deposit)
+        {
+            if (deposit.POS.SMSNotificationDeposit ?? true)
+            {
+                var requestmsg = new SendSMSRequest
+                {
+                    Recipient = BLL.Common.Utilities.GetCountry().CountryCode + deposit.POS.Phone,
+                    Payload = $"Greetings {deposit.POS.User.Name} \n" +
+                   "Your last deposit has been approved\n" +
+                   "Please confirm the amount deposited reflects in your wallet correctly.\n" +
+                   $"{BLL.Common.Utilities.GetCountry().CurrencyCode}: {BLL.Common.Utilities.FormatAmount(deposit.Amount)} \n" +
+                   "VENDTECH"
+                };
+                return BLL.Common.Utilities.SendSms(requestmsg);
+            }
+            return false;
+        }
+
 
 
         [HttpPost]
