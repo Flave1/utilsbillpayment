@@ -2662,6 +2662,7 @@
     <Content Include="Content\images\gallery\img7.jpg" />
     <Content Include="Content\images\gas.png" />
     <Content Include="Content\images\gh-icon.png" />
+    <Content Include="Content\images\googleplay.png" />
     <Content Include="Content\images\gp-icon.png" />
     <Content Include="Content\images\icon-mic.jpg" />
     <Content Include="Content\images\in-icon.png" />

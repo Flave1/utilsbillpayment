@@ -403,7 +403,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>04/22/2024 09:16:21</publishTime>
+      <publishTime>04/22/2024 15:30:45</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -412,16 +412,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2024 13:17:55</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>04/19/2024 13:17:51</publishTime>
+      <publishTime>04/22/2024 15:30:41</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>04/17/2024 09:02:01</publishTime>
+      <publishTime>04/22/2024 15:30:17</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
       <publishTime>04/19/2024 13:17:51</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>04/22/2024 09:16:23</publishTime>
+      <publishTime>04/22/2024 17:39:19</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
       <publishTime>04/21/2024 22:13:21</publishTime>
@@ -446,6 +446,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Content/assets/css/style.min.css">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Content/images/googleplay.png">
+      <publishTime>04/22/2024 17:37:40</publishTime>
+    </File>
+    <File Include="Content/images/iphone-mockup_2.png">
+      <publishTime>04/22/2024 16:27:36</publishTime>
+    </File>
+    <File Include="Contentv2/css/loginStyle.css">
+      <publishTime>04/23/2024 09:44:55</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/agency.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -687,6 +696,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/_references.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Scriptsv2/main.min.js">
+      <publishTime>04/22/2024 16:27:36</publishTime>
+    </File>
     <File Include="Views/Agents/AddAgent.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
@@ -746,6 +758,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>02/11/2023 07:06:03</publishTime>
+    </File>
+    <File Include="Views/Home/Indexv2.cshtml">
+      <publishTime>04/22/2024 17:14:10</publishTime>
     </File>
     <File Include="Views/Home/Learn.cshtml">
       <publishTime>06/01/2024 05:52:46</publishTime>
@@ -881,6 +896,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/Shared/_BalanceBar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Shared/_beforeLoginUserLayoutv2.cshtml">
+      <publishTime>04/23/2024 09:48:02</publishTime>
     </File>
     <File Include="Views/Shared/_depositReceipt.cshtml">
       <publishTime>05/02/2024 08:23:38</publishTime>

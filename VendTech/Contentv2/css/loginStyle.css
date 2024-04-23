@@ -1495,7 +1495,7 @@ label {
 	}
 
 	.hero-cta .button {
-		min-width: 170px
+		min-width: 150px;
 	}
 
 	.hero-cta .button:first-child {
@@ -1809,6 +1809,15 @@ main {
 		order: 1;
 		margin-bottom: 0
 	}
+
+	
+}
+
+@media only screen and (min-width: 768px) {
+	.modal-content {
+		width: 30%;
+		/*padding: 400px !important;*/
+	}
 }
 
 
@@ -1821,17 +1830,18 @@ main {
 	width: 100%;
 	height: 100%;
 	overflow: auto;
+	padding: 30px;
 	/* pointer-events: none; */
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
 	background-color: #fefefe;
-	margin: 15% auto;
+	margin: 10% auto;
 	/*margin-left: 76%;*/
 	padding: 20px;
 	border: 1px solid #888;
-	width: 500px;
+	/*width: 25%;*/
 	border-radius: 10px;
 	z-index: 2000;
 }
@@ -1854,30 +1864,37 @@ main {
 	padding: 3%;
 }
 .form-title{
-	color: 'black'
+	color: black
 }
 .input-group {
 	position: relative;
-	border: 1px solid red;
 }
 .input-group, .form-control {
 	width: 100%;
 	border-radius: 5px;
 	height: 40px;
 	outline: none;
-	border: none;
-	padding-left: 30px;
+	/*border: none;*/
+	padding-left: 15px;
 }
 
-.input-container i {
-	position: absolute;
-	left: 5px; /* Adjust according to your design */
-	top: 50%;
-	transform: translateY(-50%);
-}
+.input-group i {
+		position: absolute;
+		left: -5px;
+		top: 50%;
+		transform: translateY(-50%); 
+	}
+
+.showpwd {
+		position: absolute;
+		/*left: 5px;*/
+		top: 50%;
+		padding-left:10px;
+		transform: translateY(-50%);
+	}
 
 .form-control:focus {
 	outline: none;
-	border: none;
-	padding-left: 5px;
+	/*border: none;*/
+	padding-left: 15px;
 }

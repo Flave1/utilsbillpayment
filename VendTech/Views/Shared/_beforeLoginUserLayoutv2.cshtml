@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="~/Content/images/vt_logo.PNG">
     <title>VENDTECH SL</title>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Playfair+Display:700" rel="stylesheet">
     <link href="~/Contentv2/css/loginStyle.css" rel="stylesheet" />
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
@@ -38,7 +37,11 @@
                                 home or office using VENDTECHSL services.
                             </p>
                             <div class="hero-cta">
-                                <a class="button button-shadow" href="#">Support</a><a class="button button-primary button-shadow" onclick="openModal()" href="#">Login</a>
+                                @*<a class="button button-primary button-shadow" style="padding: 0px; background: none;" href="#"></a>*@
+                                <img class="button button-primary button-shadow" onclick="openAppStore()" style="padding: 0px; background: none;" src="~/Content/images/googleplay.png" width="149" />
+
+                                <a class="button button-primary button-shadow" onclick="openModal()" href="#">Login</a>
+
                             </div>
                         </div>
                         <div class="hero-app">
@@ -137,6 +140,57 @@
                 </div>
             </section>
 
+
+            @RenderBody()
+
+
+            <section class="media section">
+                <div class="container-sm">
+                    <div class="media-inner section-inner">
+                        <div class="media-header text-center">
+                            <h2 class="section-title mt-0">HOW TO USE VENDTECHSL</h2>
+                            @*<p class="section-paragraph mb-0">Lorem ipsum is common placeholder text used to demonstrate the graphic elements of a document or visual presentation.</p>*@
+                        </div>
+                        <div class="media-canvas">
+                            <svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient x1="100%" y1="0%" x2="0%" y2="100%" id="media-canvas">
+                                        <stop stop-color="#282828" offset="0%" />
+                                        <stop stop-color="#1D304B" offset="100%" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="800" height="450" rx="8" fill="url(#media-canvas)" fill-rule="evenodd" />
+                            </svg>
+                            <div class="media-control" onclick="openModal()">
+                                <svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient x1="87.565%" y1="15.873%" x2="17.086%" y2="80.538%"
+                                                        id="media-control">
+                                            <stop stop-color="#B6962B" stop-opacity=".64" offset="0%" />
+                                            <stop stop-color="#B6962B" offset="100%" />
+                                        </linearGradient>
+                                        <filter x="-500%" y="-500%" width="1000%" height="1000%"
+                                                filterUnits="objectBoundingBox" id="media-shadow">
+                                            <feOffset dy="16" in="SourceAlpha" result="shadowOffsetOuter"></feOffset>
+                                            <feGaussianBlur stdDeviation="24" in="shadowOffsetOuter"
+                                                            result="shadowBlurOuter"></feGaussianBlur>
+                                            <feColorMatrix values="0 0 0 0 0.024 0 0 0 0 0.064 0 0 0 0 0.12 0 0 0 0.24 0"
+                                                           in="shadowBlurOuter"></feColorMatrix>
+                                        </filter>
+                                    </defs>
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle fill="#B6962B" cx="48" cy="48" r="48"
+                                                style="mix-blend-mode:multiply;filter:url(#media-shadow)" />
+                                        <circle fill="url(#media-control)" cx="48" cy="48" r="48" />
+                                        <path d="M44.6 39.2a1.001 1.001 0 0 0-1.6.8v18a1.001 1.001 0 0 0 1.6.8l12-9a.998.998 0 0 0 0-1.6l-12-9z"
+                                              fill="#1D304B" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <footer class="site-footer">
@@ -199,7 +253,6 @@
     </div>
 
 
-    @RenderBody()
 
     @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
@@ -218,6 +271,10 @@
 
         function openModal() {
             modal.style.display = "block";
+        }
+
+        function openAppStore() {
+            window.open('https://play.google.com/store/apps/details?id=com.vendtech.app', '_blank');
         }
 
         function closeModal() {

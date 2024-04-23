@@ -12,7 +12,7 @@
 <div id="login-modal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content">
+    <div class="modal-content container-sm">
         <span class="close" onclick="closeModal()">&times;</span>
         <div class="modal-form">
             <div class="	">
@@ -25,14 +25,14 @@
             </div>
             <div>
                 <form style="margin-bottom: 0 !important; " class="form-horizontal" id="loginForm">
-                    <div class="content" style="">
-                        <h4 class="form-title">Already have a VENDTECH account? Login</h4>
+                    <div class="content" style="padding-top: 20px">
+                        @*<h4 class="form-title">Already have a VENDTECH account? Login</h4>*@
                         @Html.Partial("_FunctionCallMessage")
 
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="input-group">
-                                   <i class="fa fa-user"></i>
+                                   <i class="fas fa-user"></i>
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username*" })
                                 </div>
                                  <div id="email-error">@Html.ValidationMessageFor(m => m.Email)</div> 
@@ -42,13 +42,10 @@
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    @*<input type="password" id="password" name="Password" class="form-control"
-                                        placeholder="Password*">*@
-
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password" })
-                                    <span style="cursor:pointer;" id="togglePassword" class="input-group-addon">
-                                        <i class="fa fa-eye"></i>
+                                    <i class="fa fa-lock"></i>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password", @style="width: 90%" })
+                                    <span style="cursor:pointer;" id="togglePassword" class="showpwd">
+                                        <span class="fa fa-eye"></span>
                                     </span>
                                 </div>
                                 <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
