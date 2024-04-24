@@ -403,7 +403,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>04/22/2024 15:30:45</publishTime>
+      <publishTime>04/24/2024 14:12:44</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -421,13 +421,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2024 13:17:51</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>04/22/2024 17:39:19</publishTime>
+      <publishTime>04/24/2024 14:12:45</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>04/21/2024 22:13:21</publishTime>
+      <publishTime>04/24/2024 14:12:29</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>04/22/2024 09:16:22</publishTime>
+      <publishTime>04/24/2024 14:12:44</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
