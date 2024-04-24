@@ -1935,7 +1935,7 @@ namespace VendTech.BLL.Managers
 
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 dbDeposit.CreatedAt = DateTime.UtcNow;
-                dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
+                dbDeposit.TransactionId = dbpendingDeposit.TransactionId; //Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
 
             }
