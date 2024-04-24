@@ -374,7 +374,7 @@ namespace VendTech.BLL.Common
         public static void SendEmail(string to, string sub, string body)
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = "S8pt*T&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string password = "Supt*VT&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             string smtp = "smtp.office365.com"; //"smtp.gmail.com";
             int port = 587;//465;
@@ -444,7 +444,7 @@ namespace VendTech.BLL.Common
         public static void SendPDFEmail(string to, string sub, string body, string file = "", string name = "")
         {
             string from = WebConfigurationManager.AppSettings["SMTPFromtest"].ToString();
-            string password = "S8pt*T&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
+            string password = "Supt*VT&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             string smtp = "smtp.office365.com"; //"smtp.gmail.com";
             int port = 587;
