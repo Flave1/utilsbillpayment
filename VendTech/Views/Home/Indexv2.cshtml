@@ -6,72 +6,58 @@
 <link href="/Content/sweetalert.css" rel="stylesheet" />
 
 
-
-
-<!-- The Modal -->
-<div id="login-modal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content container-sm">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-form">
-            <div class="	">
+<div class="" style="width: 420px; height: 800px; padding: 30px;">
+    <div class="background-image" >
+        <div style="background-color: #282828; border-radius: 20px; margin-top: 40px;">
+            <div style="padding-top: 100px; margin:auto; ">
                 <h3 class="text-center">
-                    <a href="/">
-                        <img class="logo-img" src="~/Content/images/logo1.jpg" alt="logo"
-                             style="width: 100%; border-radius: 10px;" />
-                    </a>
+                    <img class="logo-img" src="~/Content/images/logo1.jpg" alt="logo"
+                         style="width: 80%; border-radius: 10px; margin: auto;" />
                 </h3>
             </div>
-            <div>
-                <form style="margin-bottom: 0 !important; " class="form-horizontal" id="loginForm">
-                    <div class="content" style="padding-top: 20px">
-                        @*<h4 class="form-title">Already have a VENDTECH account? Login</h4>*@
-                        @Html.Partial("_FunctionCallMessage")
+            <form style="padding: 10px; width: 100%; margin-top: 30px;" id="loginForm">
+                <div class="" style="">
+                    @*<h4 class="form-title">Already have a VENDTECH account? Login</h4>*@
+                    @Html.Partial("_FunctionCallMessage")
 
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                   <i class="fas fa-user"></i>
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username*" })
-                                </div>
-                                 <div id="email-error">@Html.ValidationMessageFor(m => m.Email)</div> 
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username*" })
                             </div>
+                            <div class="error" id="email-error">@Html.ValidationMessageFor(m => m.Email)</div>
                         </div>
-                        <br />
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <i class="fa fa-lock"></i>
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password", @style="width: 90%" })
-                                    <span style="cursor:pointer;" id="togglePassword" class="showpwd">
-                                        <span class="fa fa-eye"></span>
-                                    </span>
-                                </div>
-                                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
-                            </div>
-                        </div>
-
                     </div>
-                    <div class="foot">
-                        <br />
-                        <button class="button button-primary button-shadow" id="signInBtn" data-dismiss="modal"
-                                type="button">
-                            Log me in
-                        </button>
-                        <a class="btn btn-warning" href="#">Forgot Password</a>
-                        @*  <p>New User? <a href="/Home/Register">Register</a> for an account</p>*@
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <i class="fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password", @style = "width: 90%" })
+                                <span style="cursor:pointer;" id="togglePassword" class="showpwd">
+                                    <span class="fa fa-eye"></span>
+                                </span>
+                            </div>
+                            <div class="error" id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+                        </div>
                     </div>
 
-                </form>
-            </div>
+                </div>
+                <div class="foot" style=" padding: 10px; margin-top: 30px;">
+                    <button class="button button-primary button-shadow" style="" id="signInBtn" data-dismiss="modal" type="button">
+                        <span style="margin-right: 3px">Log me in</span>  <i class="fas fa-spinner" style="display: none;"></i>
+                    </button>
+                    <a class="btn btn-warning" href="#" style="font-size: 15px">Forgot Password</a>
+                </div>
 
+                <div style="max-height: 150px; max-width: 100%; height: 200px; width: 100%; background-color: #282828;">
+
+                </div>
+            </form>
         </div>
     </div>
-
 </div>
-
-
 
 
 

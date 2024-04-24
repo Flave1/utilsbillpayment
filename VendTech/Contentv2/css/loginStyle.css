@@ -1373,7 +1373,8 @@ label {
 }
 
 .hero-paragraph {
-	margin-bottom: 32px
+	margin-bottom: 32px;
+	color:white;
 }
 
 .hero-app {
@@ -1471,7 +1472,9 @@ label {
 	}
 
 	.hero-title {
-		margin-bottom: 24px
+		margin-bottom: 24px;
+		font-size: 60px;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif
 	}
 
 	.hero-paragraph {
@@ -1897,4 +1900,19 @@ main {
 	outline: none;
 	/*border: none;*/
 	padding-left: 15px;
+}
+
+.background-image {
+	width: 100%;
+	height: 100%;
+	opacity:.9;
+	padding: 15px;
+	background-image: url('../../content/images/iphone-mockup_2.png');
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.error{
+	font-size: 15px;
+	color: orangered;
 }

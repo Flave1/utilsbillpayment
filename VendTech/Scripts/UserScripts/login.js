@@ -17,7 +17,7 @@
 
 var Admin = {
     Login: function (sender) {
-
+        btn_submit_spin('signInBtn', true)
         $.ajaxExt({
             url:  '/Home/Login',
             type: 'POST',
@@ -31,13 +31,16 @@ var Admin = {
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {
-            
+                btn_submit_spin('signInBtn', false)
                 if (message === "emailNotVerified")
                 {
                     window.location.href = `/Home/FirstTimeLoginChangePassword?userid=${results}`;
                     return;
                 } 
                 window.location.href =  '/Home/Dashboard';
+            },
+            error: function (err) {
+                btn_submit_spin('signInBtn',false)
             }
         });
         return false;
