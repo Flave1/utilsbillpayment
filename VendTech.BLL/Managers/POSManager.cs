@@ -494,6 +494,10 @@ namespace VendTech.BLL.Managers
             }
             dbPos.SerialNumber = model.SerialNumber;
             dbPos.VendorId = model.VendorId != null ? model.VendorId : dbPos.VendorId;
+            if(dbPos.VendorId.HasValue && dbPos.VendorId > 0)
+            {
+                dbPos.User = Context.Users.FirstOrDefault(d => d.UserId == dbPos.VendorId.Value);
+            }
             dbPos.VendorType = model.Type;
             dbPos.Phone = model.Phone;
             dbPos.Enabled = model.Enabled;

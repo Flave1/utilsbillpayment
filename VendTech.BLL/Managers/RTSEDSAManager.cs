@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net.Http;
@@ -12,9 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
-using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.DAL;
@@ -42,11 +36,7 @@ namespace VendTech.BLL.Managers
             string url = WebConfigurationManager.AppSettings["RTSEDSATransaction"].ToString();
             var resp = await SendHttpRequestAsync(url, HttpMethod.Post, req);
 
-            var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp);
-            //for (var i = 0; i < list.Data.Count; i++)
-            //{
-            //    list.Data[i].DateTransaction = Utilities.ConvertEpochTimeToDate(Convert.ToInt64(list.Data[i].DateTransaction)).ToString();
-            //}
+            var list = JsonConvert.DeserializeObject<RtsedsaTransactionResp>(resp); 
 
             result.List = list.Data;
             result.Status = ActionStatus.Successfull;

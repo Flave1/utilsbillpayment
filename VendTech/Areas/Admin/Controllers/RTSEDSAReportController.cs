@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.IO;
 using Newtonsoft.Json;
 using VendTech.BLL.Common;
+using System.Threading.Tasks;
 
 namespace VendTech.Areas.Admin.Controllers
 {
@@ -131,7 +132,7 @@ namespace VendTech.Areas.Admin.Controllers
         //}
 
         [HttpGet]
-        public ActionResult Transactions()
+        public ActionResult Transactions()//SHIFT INQUIRY
         {
             ViewBag.SelectedParentTab = SelectedAdminTab.RTSEDSA;
             return View("Transactions", new PagingResult<RtsedsaTransaction>());
@@ -145,15 +146,15 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
 
-        [AjaxOnly, HttpPost]
-        public ActionResult GetTransactionsAsync(string date)
+        [AjaxOnly, HttpPost]//SHIFT INQURY
+        public async Task<ActionResult> GetTransactionsAsync(string date)
         {
 
             var model = new TransactionRequest
             {
                 Date = date,
             };
-            var respponse = manager.GetTransactionsAsync(model).Result;
+            var respponse = await manager.GetTransactionsAsync(model);
             return Json(new {result = JsonConvert.SerializeObject(respponse.List) });
         }
         [AjaxOnly, HttpPost]
@@ -172,14 +173,14 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
 
-        public void ExportRTSEDSATransactions(ReportSearchModel model2, string ExportType, string frmD, string PrintedDateServer)
+        public async Task ExportRTSEDSATransactions(ReportSearchModel model2, string ExportType, string frmD, string PrintedDateServer)
         {
 
             var model = new TransactionRequest
             {
                 Date = frmD,
             };
-            var respponse = manager.GetTransactionsAsync(model).Result;
+            var respponse = await manager.GetTransactionsAsync(model);
             var gv = new GridView
             {
                 DataSource = respponse.List,
@@ -219,7 +220,7 @@ namespace VendTech.Areas.Admin.Controllers
 
         }
 
-        public void ExportRTSEDSASaleInquiry(ReportSearchModel model2, string ExportType, string frmD, string toD, string meterSerial, string PrintedDateServer)
+        public async Task ExportRTSEDSASaleInquiry(ReportSearchModel model2, string ExportType, string frmD, string toD, string meterSerial, string PrintedDateServer)
         {
 
 
@@ -230,7 +231,7 @@ namespace VendTech.Areas.Admin.Controllers
                 ToDate = toD,
                 MeterSerial = meterSerial
             };
-            var respponse = manager.GetSalesInquiry(model).Result;
+            var respponse = await manager.GetSalesInquiry(model);
             var gv = new GridView
             {
                 DataSource = respponse.List,

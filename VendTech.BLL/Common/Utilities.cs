@@ -343,7 +343,7 @@ namespace VendTech.BLL.Common
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     client.Connect(WebConfigurationManager.AppSettings["SMTPHost"].ToString(), Convert.ToInt32(WebConfigurationManager.AppSettings["SMTPPort"]), false);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate("Favouremmanuel433@gmail.com", "85236580Go");
+                    client.Authenticate("Favouremmanuel433@gmail.com", "");
                     client.Send(mail);
                     client.Disconnect(true);
                 }
@@ -377,7 +377,7 @@ namespace VendTech.BLL.Common
             string password = "Supt*VT&ch"; //WebConfigurationManager.AppSettings["SMTPPassword"].ToString();
             string displayName = WebConfigurationManager.AppSettings["SMTPDisplayName"].ToString();
             string smtp = "smtp.office365.com"; //"smtp.gmail.com";
-            int port = 587;//465;
+            int port = 587;//;
             try
             {
                
@@ -401,16 +401,20 @@ namespace VendTech.BLL.Common
                 
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                   
                     client.ServerCertificateValidationCallback += (o, c, ch, er) => true;
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
                     
-                    client.Connect(smtp, port);
-                    
-                    client.Authenticate(from, password);
-                   
+                    try
+                    {
+                        client.Connect(smtp, port);
+                        client.Authenticate(from, password);
+                    }
+                    catch (Exception)
+                    {
+                        client.Connect("smtp.gmail.com", 465);
+                        client.Authenticate("vtechsalone@gmail.com", "ozgrkqzcdtswxscl");
+                    }
                     client.Send(mimeMsg);
-                   
                     client.Disconnect(true);
                     
                 }
@@ -418,8 +422,6 @@ namespace VendTech.BLL.Common
             catch (Exception x)
             {
                 LogExceptionToDatabase(new Exception("SendEmail err 1", x));
-                //LogExceptionToDatabase(x);
-                //return true;
             }
 
         }
