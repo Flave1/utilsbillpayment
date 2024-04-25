@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
 using VendTech.DAL;

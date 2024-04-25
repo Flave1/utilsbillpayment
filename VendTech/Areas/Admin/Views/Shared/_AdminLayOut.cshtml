@@ -107,7 +107,6 @@
                 $.ajax({
                     url: '/Admin/Home/AutoLogout',
                     success: function (data) {
-                        console.log('data', data)
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
                             //$("#logoutModal").modal('show');
@@ -125,7 +124,7 @@
             $.ajax({
                 url: '/Admin/Home/MaintainSession',
                 success: function (data) {
-                    console.log('data', data)
+                    //console.log('data', data)
                 }
             })
         }
@@ -146,7 +145,7 @@
                 url: '/Admin/Home/ReturnUserImageLogo',
                 success: function (data) {
                     $("#image").attr({ "src": data.result });
-                    console.log('logo', data.result)
+                    //console.log('logo', data.result)
                 }
             })
         }, 1000);

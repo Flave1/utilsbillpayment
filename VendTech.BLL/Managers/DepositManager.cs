@@ -1935,7 +1935,7 @@ namespace VendTech.BLL.Managers
 
                 dbDeposit.NewBalance = dbDeposit.POS.Balance;
                 dbDeposit.CreatedAt = DateTime.UtcNow;
-                dbDeposit.TransactionId = dbpendingDeposit.TransactionId; //Utilities.GetLastDepositTransactionId();
+                dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
                 dbDeposit.IsDeleted = false;
 
             }
@@ -2340,7 +2340,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.CheckNumberOrSlipId = model.CheckNumberOrSlipId;
             dbDeposit.Comments = model.Comments;
             dbDeposit.PercentageAmount = model.PercentageAmount;
-            dbDeposit.TransactionId = Utilities.GetLastDepositTransactionId();
+            dbDeposit.TransactionId = "0"; //Utilities.GetLastDepositTransactionId();
             dbDeposit.CreatedAt = model.CreatedAt;
             dbDeposit.BalanceBefore =  new decimal();
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
