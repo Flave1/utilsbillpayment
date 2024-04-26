@@ -79,7 +79,7 @@ namespace VendTech.BLL.Common
             {
                 var tranx = context.Deposits
                  .OrderByDescending(p => p.DepositId)
-                 .FirstOrDefault();
+                 .FirstOrDefault(d => d.TransactionId != "0");
 
                 if (tranx != null)
                 {
