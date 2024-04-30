@@ -128,8 +128,8 @@ namespace VendTech.BLL.Managers
 
         bool IMeterManager.IsModuleLocked(int moduleId, long userId)
         {
-            return _context.UserAssignedModules.FirstOrDefault(p => p.ModuleId == moduleId && p.UserId == userId)  != null;
-            
+            return _context.UserAssignedModules.FirstOrDefault(p => p.ModuleId == moduleId && p.UserId == userId) != null;
+
         }
 
         NumberModel IMeterManager.GetPhoneNumberDetail(long Id)
@@ -186,7 +186,7 @@ namespace VendTech.BLL.Managers
             var query = _context.Meters.Where(p => !p.IsDeleted && p.UserId == userID && p.IsVerified == isActive && p.NumberType == (int)NumberTypeEnum.MeterNumber).ToList();
             result.TotalCount = query.Count();
             var list = query.OrderByDescending(p => p.CreatedAt).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new MeterAPIListingModel(x)).ToList();
-            for(var i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 var platform = _context.Platforms.FirstOrDefault(d => d.PlatformType == (int)PlatformTypeEnum.ELECTRICITY);
                 list[i].PlatformDisabled = platform.DisablePlatform;
@@ -224,7 +224,7 @@ namespace VendTech.BLL.Managers
             var result = new PagingResult<SalesReportExcelModel>();
 
             var query = _context.TransactionDetails.Where(p => !p.IsDeleted && p.POSId != null && p.Finalised == true);
-       
+
             if (model.VendorId > 0)
             {
                 var user = _context.Users.FirstOrDefault(p => p.UserId == model.VendorId);
@@ -338,7 +338,7 @@ namespace VendTech.BLL.Managers
                     if (user.Status == (int)UserStatusEnum.Active)
                     {
                         //posIds = _context.POS.Where(p => p.VendorId != null && p.VendorId == model.VendorId || p.User.AgentId == agentId).Select(p => p.POSId).ToList();
-                          posIds = _context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
+                        posIds = _context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
                     }
                     else
                     {
@@ -367,7 +367,7 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Product))
             {
                 int parsedProductId = int.Parse(model.Product);
-                if(parsedProductId > 0)
+                if (parsedProductId > 0)
                 {
                     query = query.Include("Platform").Where(p => p.Platform.PlatformId == parsedProductId);
                 }
@@ -383,7 +383,7 @@ namespace VendTech.BLL.Managers
                 query = query.OrderBy(model.SortBy + " " + model.SortOrder).Skip((model.PageNo - 1)).Take(model.RecordsPerPage);
             }
 
-            var list = query.AsEnumerable().Select( x => new MeterRechargeApiListingModel(x, 1)).ToList();
+            var list = query.AsEnumerable().Select(x => new MeterRechargeApiListingModel(x, 1)).ToList();
 
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
             {
@@ -561,7 +561,7 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Meter))
             {
                 //(p.MeterId != null && p.Meter?.Number?.Contains(model.Meter ?? "")) ||
-                query = query.AsEnumerable().Where(p =>  (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter))).AsQueryable();
+                query = query.AsEnumerable().Where(p => (p.MeterNumber1 != null && p.MeterNumber1.Contains(model.Meter))).AsQueryable();
             }
             if (!string.IsNullOrEmpty(model.TransactionId))
             {
@@ -578,14 +578,14 @@ namespace VendTech.BLL.Managers
             var list = query.ToList().Select(x => new GSTRechargeApiListingModel(x)).ToList();
 
             if (model.SortBy == "VendorName" || model.SortBy == "MeterNumber" || model.SortBy == "POS")
-            { 
+            {
                 if (model.SortBy == "MeterNumber")
                 {
                     if (model.SortOrder == "Asc")
                         list = list.OrderBy(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
                     else
                         list = list.OrderByDescending(p => p.MeterNumber).Skip((model.PageNo - 1)).Take(model.RecordsPerPage).ToList();
-                } 
+                }
             }
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -597,9 +597,9 @@ namespace VendTech.BLL.Managers
         {
             var result = new PagingResult<MeterRechargeApiListingModel>();
             IQueryable<TransactionDetail> query = null;
-            if(platform != PlatformTypeEnum.All)
+            if (platform != PlatformTypeEnum.All)
                 query = _context.TransactionDetails
-                .Where(p => !p.IsDeleted && p.POSId != null && (int)platform == p.Platform.PlatformType && p.Finalised == true) 
+                .Where(p => !p.IsDeleted && p.POSId != null && (int)platform == p.Platform.PlatformType && p.Finalised == true)
                 .OrderByDescending(d => d.CreatedAt);
             else
                 query = _context.TransactionDetails.OrderByDescending(d => d.CreatedAt)
@@ -636,7 +636,7 @@ namespace VendTech.BLL.Managers
                 RechargePin = x.Platform.PlatformType == 4 ? Utilities.FormatThisToken(x.MeterToken1) : x.MeterNumber1 + "/" + x.TransactionId,
                 PlatformName = x.Platform.Title,
                 NotType = "sale",
-        }).ToList();
+            }).ToList();
 
             result.List = list;
             result.Status = ActionStatus.Successfull;
@@ -666,7 +666,7 @@ namespace VendTech.BLL.Managers
             result.Message = "Meter recharges fetched successfully.";
             return result;
         }
-        
+
         string LogExceptionToDatabase(Exception exc)
         {
             var context = new VendtechEntities();
@@ -688,8 +688,6 @@ namespace VendTech.BLL.Managers
             var response = new ReceiptModel { ReceiptStatus = new ReceiptStatus() };
             var trax = new TransactionDetail();
 
-            LogExceptionToDatabase(new Exception($"RechargeMeterReturnIMPROVED starts at {DateTime.UtcNow}"));
-
             var user = _context.Users.FirstOrDefault(p => p.UserId == model.UserId);
             var pos = _context.POS.FirstOrDefault(p => p.POSId == model.POSId);
             var met = _context.Meters.FirstOrDefault(d => d.MeterId == model.MeterId);
@@ -703,7 +701,7 @@ namespace VendTech.BLL.Managers
                 return response;
             }
 
-            model.UpdateRequestModel(met == null ? "": met?.Number);
+            model.UpdateRequestModel(met == null ? "" : met?.Number);
 
             var pendingTrx = await getLastMeterPendingTransaction(model.MeterNumber);
 
@@ -723,13 +721,11 @@ namespace VendTech.BLL.Managers
             var receipt = BuildRceipt(isDuplicate ? pendingTrx : trax);
             PushNotification(user, model, trax.TransactionDetailsId);
 
-            LogExceptionToDatabase(new Exception($"RechargeMeterReturnIMPROVED ends at {DateTime.UtcNow}"));
             return receipt;
         }
 
         public async Task<TransactionDetail> ProcessTransaction(bool isDuplicate, RechargeMeterModel model, TransactionDetail tx, bool treatAsPending = false)
         {
-            LogExceptionToDatabase(new Exception($"ProcessTransaction starts at {DateTime.UtcNow} for traxId {model.TransactionId}"));
             IceKloudResponse vendResponse = null;
             Datum vendResponseData;
             if (!isDuplicate)
@@ -741,15 +737,13 @@ namespace VendTech.BLL.Managers
 
                 vendResponse = await MakeRechargeRequest(model);
 
-                if(vendResponse.Content.Data.Error == "Error")
+                if (vendResponse.Content.Data.Error == "Error")
                 {
                     throw new ArgumentException(vendResponse.Content.Data.Error);
                 }
 
-                LogExceptionToDatabase(new Exception($"ProcessTransaction 1 starts at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 if (vendResponse == null) throw new ArgumentException("Unable to process transaction");
 
-                LogExceptionToDatabase(new Exception($"ProcessTransaction 2 starts at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 vendResponseData = vendResponse.Content.Data.Data.FirstOrDefault();
                 tx.Request = JsonConvert.SerializeObject(vendResponse.RequestModel);
                 tx.Response = JsonConvert.SerializeObject(vendResponse);
@@ -763,10 +757,8 @@ namespace VendTech.BLL.Managers
                     _context.TransactionDetails.AddOrUpdate(tx);
                     await _context.SaveChangesAsync();
 
-                    LogExceptionToDatabase(new Exception($"4 {vendResponse.Content?.Data?.Error} {DateTime.UtcNow} for traxId {model.TransactionId}"));
-                    
                     ReadErrorMessage(vendResponse.Content?.Data?.Error, tx);
-                    
+
                     var vendStatus = await QueryVendStatus(model, tx);
 
                     if (vendStatus.FirstOrDefault().Key != "success" && vendStatus.FirstOrDefault().Key != "newtranx")
@@ -774,7 +766,7 @@ namespace VendTech.BLL.Managers
                         FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                         throw new ArgumentException(vendResponse.Content.Data?.Error);
                     }
-                    
+
                     if (vendStatus.FirstOrDefault().Key != "newtranx")
                     {
                         tx = await UpdateTransactionOnStatusSuccessIMPROVED(vendStatus.FirstOrDefault().Value, tx);
@@ -786,7 +778,6 @@ namespace VendTech.BLL.Managers
                 }
 
                 tx.MeterId = await UpdateMeterOrSaveAsNewIMPROVED(model);
-                LogExceptionToDatabase(new Exception($"ProcessTransaction (IF) ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return tx;
             }
             else
@@ -811,7 +802,6 @@ namespace VendTech.BLL.Managers
                     tx = await UpdateTransactionOnStatusSuccessIMPROVED(vendStatus.FirstOrDefault().Value, tx);
                 }
 
-                LogExceptionToDatabase(new Exception($"ProcessTransaction (ELSE) ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return tx;
             }
         }
@@ -861,7 +851,7 @@ namespace VendTech.BLL.Managers
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 throw new ArgumentException("Amount tendered is too low");
             }
-            if(message == "-47 : InCMS-BL-CB001273. Error, purchase units less than minimum.")
+            if (message == "-47 : InCMS-BL-CB001273. Error, purchase units less than minimum.")
             {
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 throw new ArgumentException("Purchase units less than minimum.");
@@ -877,7 +867,7 @@ namespace VendTech.BLL.Managers
         private void DisablePlatform(PlatformTypeEnum pl)
         {
             var plt = _context.Platforms.FirstOrDefault(d => d.PlatformType == (int)pl);
-            if(plt != null)
+            if (plt != null)
             {
                 plt.DisablePlatform = true;
                 _context.Platforms.AddOrUpdate(plt);
@@ -892,8 +882,8 @@ namespace VendTech.BLL.Managers
             Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
         }
 
-        private async Task<TransactionDetail> getLastMeterPendingTransaction(string MeterNumber) => 
-           await  _context.TransactionDetails.OrderByDescending(p => p.TransactionId).FirstOrDefaultAsync(p => p.Status ==
+        private async Task<TransactionDetail> getLastMeterPendingTransaction(string MeterNumber) =>
+           await _context.TransactionDetails.OrderByDescending(p => p.TransactionId).FirstOrDefaultAsync(p => p.Status ==
            (int)RechargeMeterStatusEnum.Pending && p.MeterNumber1.ToLower() == MeterNumber.ToLower());
 
         async Task<Dictionary<string, IcekloudQueryResponse>> QueryVendStatus(RechargeMeterModel model, TransactionDetail transDetail)
@@ -917,7 +907,7 @@ namespace VendTech.BLL.Managers
                 LogExceptionToDatabase(new Exception($"QueryVendStatus 1 ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return response;
             }
-            else if(statusResponse.Content.StatusDescription == "Transaction completed with error")
+            else if (statusResponse.Content.StatusDescription == "Transaction completed with error")
             {
                 var newTraxid = Utilities.GetLastMeterRechardeId();
                 model.TransactionId = Convert.ToInt64(newTraxid);
@@ -960,12 +950,12 @@ namespace VendTech.BLL.Managers
             receipt.CustomerName = model?.Customer;
             receipt.ReceiptNo = model?.ReceiptNumber;
             receipt.Address = model?.CustomerAddress;
-            receipt.Tarrif = model.Tariff != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.Tariff)): "0";
+            receipt.Tarrif = model.Tariff != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.Tariff)) : "0";
             receipt.DeviceNumber = model?.MeterNumber1;
             receipt.DebitRecovery = Convert.ToDecimal(model.DebitRecovery);
             var amt = model?.TenderedAmount.ToString("N");
             receipt.Amount = amt.Contains('.') ? amt.TrimEnd('0').TrimEnd('.') : amt;
-            receipt.Charges = model.ServiceCharge != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.ServiceCharge)): "0";
+            receipt.Charges = model.ServiceCharge != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.ServiceCharge)) : "0";
             receipt.Commission = string.Format("{0:N0}", 0.00);
             receipt.Unit = model.Units != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.Units)) : "0";
             receipt.UnitCost = model.CostOfUnits != "" ? Utilities.FormatAmount(Convert.ToDecimal(model.CostOfUnits)) : "0";
@@ -1060,7 +1050,7 @@ namespace VendTech.BLL.Managers
             //BALANCE DEDUCTION
             await Deductbalace(trans, pos);
 
-            return trans; 
+            return trans;
         }
 
         async Task Deductbalace(TransactionDetail trans, POS pos)
@@ -1141,7 +1131,7 @@ namespace VendTech.BLL.Managers
             data.PlatformId = recharge.PlatFormId;
             data.POSId = recharge.POS == null ? "" : recharge.POS.SerialNumber;
             var thisTransactionNotification = _context.Notifications.FirstOrDefault(d => d.Type == (int)NotificationTypeEnum.MeterRecharge && d.RowId == rechargeId);
-            if(thisTransactionNotification != null)
+            if (thisTransactionNotification != null)
             {
                 thisTransactionNotification.MarkAsRead = true;
                 _context.SaveChanges();
@@ -1194,9 +1184,8 @@ namespace VendTech.BLL.Managers
             };
         }
 
-        private  async Task<IceKloudResponse> MakeRechargeRequest(RechargeMeterModel model)
+        private async Task<IceKloudResponse> MakeRechargeRequest(RechargeMeterModel model)
         {
-            LogExceptionToDatabase(new Exception($"MakeRechargeRequest starts at {DateTime.UtcNow} for traxId {model.TransactionId}"));
             IceKloudResponse response = new IceKloudResponse();
             string strings_result = "";
             IcekloudRequestmodel request_model = null;
@@ -1214,7 +1203,6 @@ namespace VendTech.BLL.Managers
                 response = JsonConvert.DeserializeObject<IceKloudResponse>(strings_result);
                 response.RequestModel = request_model;
 
-                LogExceptionToDatabase(new Exception($"MakeRechargeRequest (TRY) ends at {DateTime.UtcNow}  for traxId {model.TransactionId}"));
                 return response;
             }
             catch (AggregateException err)
@@ -1229,37 +1217,28 @@ namespace VendTech.BLL.Managers
             {
                 try
                 {
+                    LogExceptionToDatabase(new Exception($"MakeRechargeRequest ERROR {DateTime.UtcNow} for traxId {model.TransactionId} see: {strings_result}"));
                     IceCloudErorResponse error_response = JsonConvert.DeserializeObject<IceCloudErorResponse>(strings_result);
 
-                    LogExceptionToDatabase(new Exception($"1 {DateTime.UtcNow}  for traxId {model.TransactionId} {strings_result}"));
                     if (error_response.Status == "Error")
                     {
-                        LogExceptionToDatabase(new Exception($"2 {DateTime.UtcNow}  for traxId {model.TransactionId} {strings_result}"));
                         if (error_response.SystemError.ToLower() == "Unable to connect to the remote server".ToLower())
                         {
-                            LogExceptionToDatabase(new Exception($"3 {DateTime.UtcNow}  for traxId {model.TransactionId} {strings_result}"));
                             response.Status = "unsuccesful";
                             response.Content.Data.Error = error_response.SystemError;
                             response.RequestModel = request_model;
                             return response;
                         }
-                        LogExceptionToDatabase(new Exception($"4 {DateTime.UtcNow}  for traxId {model.TransactionId} {strings_result}"));
                         if (error_response.SystemError.ToLower() == "The specified TransactionID already exists for this terminal.".ToLower())
                         {
-                            LogExceptionToDatabase(new Exception($"5 {DateTime.UtcNow}  for traxId {model.TransactionId}"));
                             model.TransactionId = model.TransactionId + 1;
                             return await MakeRechargeRequest(model);
                         }
-
-
-                        LogExceptionToDatabase(new Exception($"6 {DateTime.UtcNow}  for traxId {model.TransactionId} {strings_result}"));
                         response.Status = error_response?.Status;
                         response.Content.Data.Error = error_response?.Stack.ToArray()[0]?.Detail ?? error_response?.SystemError;
                         response.RequestModel = request_model;
                         return response;
                     }
-
-                    LogExceptionToDatabase(new Exception($"MakeRechargeRequest (CATCH) ends at {DateTime.UtcNow} for traxId {model.TransactionId} {strings_result}"));
                 }
                 catch (Exception e) { throw e; }
                 throw;
@@ -1391,7 +1370,7 @@ namespace VendTech.BLL.Managers
 
         TransactionDetail IMeterManager.GetLastTransaction()
         {
-            var lstTr = _context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success 
+            var lstTr = _context.TransactionDetails.Where(e => e.Status == (int)RechargeMeterStatusEnum.Success
             && e.Platform.PlatformType == (int)PlatformTypeEnum.ELECTRICITY).OrderByDescending(d => d.CreatedAt).FirstOrDefault() ?? null;
             if (lstTr != null)
             {
@@ -1431,7 +1410,7 @@ namespace VendTech.BLL.Managers
         IQueryable<BalanceSheetListingModel> IMeterManager.GetBalanceSheetReportsPagedList(ReportSearchModel model, bool callFromAdmin, long agentId)
         {
             model.RecordsPerPage = 999999999;
-            var result = new PagingResult<BalanceSheetListingModel>(); 
+            var result = new PagingResult<BalanceSheetListingModel>();
             IQueryable<BalanceSheetListingModel> query = null;
             if (model.IsInitialLoad)
             {
@@ -1439,7 +1418,7 @@ namespace VendTech.BLL.Managers
                         where DbFunctions.TruncateTime(a.CreatedAt) == DbFunctions.TruncateTime(DateTime.UtcNow) && a.Finalised == true
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt,  
+                            DateTime = a.CreatedAt,
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
                             TransactionType = a.Platform.Title,
@@ -1457,7 +1436,7 @@ namespace VendTech.BLL.Managers
                         where a.Finalised == true
                         select new BalanceSheetListingModel
                         {
-                            DateTime = a.CreatedAt,  
+                            DateTime = a.CreatedAt,
                             Reference = a.MeterNumber1,
                             TransactionId = a.TransactionId,
                             TransactionType = a.Platform.Title,
@@ -1510,14 +1489,14 @@ namespace VendTech.BLL.Managers
                     posIds = _context.POS.Where(p => p.VendorId == model.VendorId).Select(p => p.POSId).ToList();
                 else
                     posIds = _context.POS.Where(p => p.VendorId != null && (p.VendorId == user.FKVendorId) || p.User.AgentId == agentId && p.Enabled == true).Select(p => p.POSId).ToList();
-                query = query.Where(p => posIds.Contains(p.POSId??0));
+                query = query.Where(p => posIds.Contains(p.POSId ?? 0));
             }
 
             if (model.PosId.HasValue && model.PosId > 0)
             {
                 query = query.Where(p => p.POSId == model.PosId);
             }
-            
+
             if (model.SortBy != "UserName" && model.SortBy != "POS" && model.SortBy != "TransactionId" && model.SortBy != "Amount" && model.SortBy != "PercentageAmount" && model.SortBy != "PaymentType" && model.SortBy != "BANK" && model.SortBy != "CheckNumberOrSlipId" && model.SortBy != "Status" && model.SortBy != "NewBalance")
             {
                 if (model.SortBy == "CreatedAt")
@@ -1537,77 +1516,79 @@ namespace VendTech.BLL.Managers
                 }
             }
 
-            return query; 
+            return query;
         }
 
         IQueryable<DashboardBalanceSheetModel> IMeterManager.GetDashboardBalanceSheetReports(DateTime date)
         {
-            var we  = GetVendorStatus();
-           return  _context.TransactionDetails
-                .Where(d => d.Finalised == true && d.Status == 1)
-                .GroupBy(f => f.UserId)
-                .Select(f => 
-                    new DashboardBalanceSheetModel {
-                            SaleAmount = f.Sum(d => d.Amount),
-                            Vendor = f.FirstOrDefault().User.Vendor,
-                            UserId = f.FirstOrDefault().UserId, 
-                            Balance = 0,
-                            DepositAmount = 0,
-                            Status = "",
-                            POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
-           });
+            var we = GetVendorStatus();
+            return _context.TransactionDetails
+                 .Where(d => d.Finalised == true && d.Status == 1)
+                 .GroupBy(f => f.UserId)
+                 .Select(f =>
+                     new DashboardBalanceSheetModel
+                     {
+                         SaleAmount = f.Sum(d => d.Amount),
+                         Vendor = f.FirstOrDefault().User.Vendor,
+                         UserId = f.FirstOrDefault().UserId,
+                         Balance = 0,
+                         DepositAmount = 0,
+                         Status = "",
+                         POSBalance = f.OrderByDescending(a => a.POS.Balance).FirstOrDefault().POS.Balance ?? 0
+                     });
         }
 
-        public  PagingResult<VendorStatus> GetVendorStatus()
+        public PagingResult<VendorStatus> GetVendorStatus()
         {
             var res = new PagingResult<VendorStatus>();
             try
             {
                 var date = DateTime.Parse("2022/07/01");
-                var query = (from tbl in ( from Deposits in _context.Deposits
-                            group Deposits by new DepTrans1
-                            {
-                                UserId = Deposits.UserId,
-                                CreatedAt = Deposits.CreatedAt,
-                                AgencyCommission = Deposits.AgencyCommission,
-                                TransactionId = Deposits.TransactionId,
-                                NewBalance = Deposits.NewBalance
-                            } into vv
-                            select new Dep1
-                            {
-                                CreatedAt = vv.Key.CreatedAt,
-                                TransactionId = vv.Key.TransactionId,
-                                UserId = vv.Key.UserId,
-                                NewBalance = vv.Key.NewBalance,
-                                PercentageAmount =
-                               DbFunctions.TruncateTime(vv.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount) :
-                              DbFunctions.TruncateTime(vv.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount / 1000) : null,
-                                Totalsales = (decimal?)0,
-                                AgencyCommission = vv.Key.AgencyCommission
-                            }
-                        ).Concat(from TransactionDetails in _context.TransactionDetails where  TransactionDetails.Status == 1
-                                    group TransactionDetails by new
-                                    {
-                                        TransactionDetails.UserId,
-                                        TransactionDetails.CreatedAt,
-                                        TransactionDetails.TransactionId,
-                                        TransactionDetails.CurrentVendorBalance
-                                    } into bb
-                                    select new Dep1
-                                    {
-                                        CreatedAt = bb.Key.CreatedAt,
-                                        TransactionId = bb.Key.TransactionId,
-                                        UserId = bb.Key.UserId,
-                                        NewBalance = bb.Key.CurrentVendorBalance,
-                                        PercentageAmount = (decimal?)0,
-                                        Totalsales =
-                                          DbFunctions.TruncateTime(bb.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount) :
-                                          DbFunctions.TruncateTime(bb.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount / 1000) : null,
-                                        AgencyCommission = (decimal?)0
-                                    }
+                var query = (from tbl in (from Deposits in _context.Deposits
+                                          group Deposits by new DepTrans1
+                                          {
+                                              UserId = Deposits.UserId,
+                                              CreatedAt = Deposits.CreatedAt,
+                                              AgencyCommission = Deposits.AgencyCommission,
+                                              TransactionId = Deposits.TransactionId,
+                                              NewBalance = Deposits.NewBalance
+                                          } into vv
+                                          select new Dep1
+                                          {
+                                              CreatedAt = vv.Key.CreatedAt,
+                                              TransactionId = vv.Key.TransactionId,
+                                              UserId = vv.Key.UserId,
+                                              NewBalance = vv.Key.NewBalance,
+                                              PercentageAmount =
+                                             DbFunctions.TruncateTime(vv.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount) :
+                                            DbFunctions.TruncateTime(vv.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (System.Decimal?)vv.Sum(p => p.PercentageAmount / 1000) : null,
+                                              Totalsales = (decimal?)0,
+                                              AgencyCommission = vv.Key.AgencyCommission
+                                          }
+                        ).Concat(from TransactionDetails in _context.TransactionDetails
+                                 where TransactionDetails.Status == 1
+                                 group TransactionDetails by new
+                                 {
+                                     TransactionDetails.UserId,
+                                     TransactionDetails.CreatedAt,
+                                     TransactionDetails.TransactionId,
+                                     TransactionDetails.CurrentVendorBalance
+                                 } into bb
+                                 select new Dep1
+                                 {
+                                     CreatedAt = bb.Key.CreatedAt,
+                                     TransactionId = bb.Key.TransactionId,
+                                     UserId = bb.Key.UserId,
+                                     NewBalance = bb.Key.CurrentVendorBalance,
+                                     PercentageAmount = (decimal?)0,
+                                     Totalsales =
+                                       DbFunctions.TruncateTime(bb.Key.CreatedAt) > DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount) :
+                                       DbFunctions.TruncateTime(bb.Key.CreatedAt) < DbFunctions.TruncateTime(date) ? (decimal?)bb.Sum(p => p.Amount / 1000) : null,
+                                     AgencyCommission = (decimal?)0
+                                 }
                                 )
 
-                             join POS in _context.POS on new { VendorId = tbl.UserId } equals new { VendorId = POS.VendorId ?? 0}
+                             join POS in _context.POS on new { VendorId = tbl.UserId } equals new { VendorId = POS.VendorId ?? 0 }
                              join Users in _context.Users on new { UserId = (long)tbl.UserId } equals new { UserId = Users.UserId }
                              group new { tbl, Users, POS } by new
                              {
@@ -1621,7 +1602,7 @@ namespace VendTech.BLL.Managers
                                (g.Key.Balance - (g.Sum(p => p.tbl.PercentageAmount) - g.Sum(p => p.tbl.Totalsales)))
                              select new VendorStatus
                              {
-                                userid = g.Key.UserId,
+                                 userid = g.Key.UserId,
                                  vendor = g.Key.Vendor,
                                  totaldeposits = (decimal?)g.Sum(p => p.tbl.PercentageAmount),
                                  totalsales = (int?)g.Sum(p => p.tbl.Totalsales),
@@ -1632,9 +1613,9 @@ namespace VendTech.BLL.Managers
 
 
 
-                
 
-                 res.List = query;
+
+                res.List = query;
             }
             catch (Exception ex)
             {
@@ -1673,12 +1654,12 @@ namespace VendTech.BLL.Managers
                     status.totalsales = Convert.ToDecimal(rdr["totalsales"]);
                     status.userid = Convert.ToInt64(rdr["userid"]);
                     status.vendor = rdr["vendor"].ToString();
-                    
+
                     vendorStatus.Add(status);
                 }
             }
 
-            catch(Exception)
+            catch (Exception)
             {
                 if (conn != null)
                 {
@@ -1720,7 +1701,7 @@ namespace VendTech.BLL.Managers
                         pos.TransactionAmount = balance;
                     }
                     catch (Exception ex)
-                    { 
+                    {
                         continue;
                     }
                 }
@@ -1728,10 +1709,10 @@ namespace VendTech.BLL.Managers
                 _context.SaveChanges();
             }
             catch (Exception ex)
-            { 
+            {
                 throw ex;
             }
-            
+
         }
 
         decimal IMeterManager.ReturnElectricityMinVend()
@@ -1825,7 +1806,7 @@ namespace VendTech.BLL.Managers
             if (!string.IsNullOrEmpty(model.Product))
             {
                 int prod = Convert.ToInt32(model.Product);
-                if(prod > 0)
+                if (prod > 0)
                     query = query.Where(p => p.PlatFormId == prod);
             }
 
@@ -1833,7 +1814,7 @@ namespace VendTech.BLL.Managers
             {
                 var dailyRp = query.GroupBy(i => DbFunctions.TruncateTime(i.CreatedAt)).AsEnumerable().Select(d => new MiniSalesReport
                 {
-                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0,2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
+                    DateTime = d.First().CreatedAt.ToString("dd/MM/yyyy").Substring(0, 2) + " - " + d.Last().CreatedAt.ToString("dd/MM/yyyy"),
                     TAmount = Utilities.FormatAmount(d.Sum(s => s.Amount))
                 }).ToList();
                 result.List = dailyRp;
