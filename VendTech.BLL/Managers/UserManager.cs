@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 using VendTech.BLL.Common;
@@ -207,8 +208,27 @@ namespace VendTech.BLL.Managers
             result.List = query.OrderByDescending(p => p.SentOn).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList().Select(x => new NotificationApiListingModel(x)).ToList();
             result.Message = "Notifications fetched successfully.";
             query.ToList().ForEach(p => p.MarkAsRead = true);
+            DisposeUserNotifications(userId);
             Context.SaveChanges();
             return result;
+        }
+
+        private void DisposeUserNotifications(long userId)
+        {
+            try
+            {
+                var notifications = Context.Database.SqlQuery<Notification>("SELECT * FROM Notifications WHERE UserId = @userId AND SentOn < DATEADD(day, -7, GETUTCDATE())", userId).ToList();
+
+                if (notifications.Any())
+                {
+                    Context.Notifications.RemoveRange(notifications);
+                    Context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         DataResult<List<MeterRechargeApiListingModel>, List<DepositListingModel>, ActionStatus> IUserManager.GetUserNotificationApi(int pageNo, int pageSize, long userId)
@@ -643,6 +663,9 @@ namespace VendTech.BLL.Managers
                 user.AgentId = userDetails.AgentId;
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 user.AutoApprove = userDetails.AutoApprove;
+                user.Status = (int)UserStatusEnum.Active;
+                user.Vendor = $"{userDetails.FirstName} {userDetails.LastName}";
+                user.CompanyName = user.Vendor;
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;
 
