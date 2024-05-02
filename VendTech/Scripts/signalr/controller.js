@@ -2,7 +2,7 @@
 const local = "http://localhost:5075/messages";
 const live = "https://www.vendtechsl.com:459/messages";
 const dev = "https://subs.vendtechsl.net/messages";
-var connection = new signalR.HubConnectionBuilder().withUrl(dev).configureLogging(signalR.LogLevel.Information).build();
+var connection = new signalR.HubConnectionBuilder().withUrl(live).configureLogging(signalR.LogLevel.Information).build();
 
 const userId = userBalanceHandler.userId;
 

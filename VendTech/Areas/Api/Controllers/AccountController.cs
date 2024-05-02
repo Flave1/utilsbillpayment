@@ -128,7 +128,7 @@ namespace VendTech.Areas.Api.Controllers
         {
             if (string.IsNullOrEmpty(model.DeviceToken))
             {
-                return new JsonContent(ApiCodes.RESET_PASSCODE, Status.Success).ConvertToHttpResponseOK(); //
+                return new JsonContent(ApiCodes.RESET_PASSCODE, Status.Success).ConvertToHttpResponseOK();
             }
 
             if (!ModelState.IsValid)
