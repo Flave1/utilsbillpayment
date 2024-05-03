@@ -1,5 +1,5 @@
 ﻿"use strict";
-const local = "http://localhost:5075/messages";
+const local = "https://localhost:7285/messages";
 const live = "https://www.vendtechsl.com:459/messages";
 const dev = "https://subs.vendtechsl.net/messages";
 var connection = new signalR.HubConnectionBuilder().withUrl(live).configureLogging(signalR.LogLevel.Information).build();
@@ -13,7 +13,7 @@ connection.on("SendBalanceUpdate", function (message, user) {
 })
 
 connection.start().catch(function (err) {
-    return console.error(err.toString())
+    //return console.error(err.toString())
 })
 
 
