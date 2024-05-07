@@ -1,4 +1,12 @@
-﻿﻿
+﻿@{
+    var user = new UserDetails();
+    if (ViewBag.LOGGEDIN_USER != null)
+    {
+        user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    }
+}﻿
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +19,8 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
 
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />*@
     @Styles.Render("~/Content/adminLayoutCSS")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
@@ -44,7 +52,7 @@
 </head>
 <body>
     @Html.Partial("_Header")
-    @{ var user = (UserDetails)ViewBag.LOGGEDIN_USER; }
+
     <div id="cl-wrapper" class="fixed-menu">
 
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" data-backdrop="static">
@@ -53,8 +61,8 @@
                     <div class="modal-header" style="border-bottom: 2px solid gray;">
                         <h2 class="modal-title" style="font-weight:bold" id="exampleModalLabel">Timeout Warning</h2>
                         @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>*@
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
                     </div>
                     <div class="modal-body123">
                         <p>Your session has been idle for <span id="idleTime">2</span> minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
@@ -99,32 +107,32 @@
         }
 
 
-       
+
 
         $(function () {
             setInterval(function () {
 
                 $.ajax({
-                    url: '/Admin/Home/AutoLogout',
+                    url: '/Home/AutoLogout',
                     success: function (data) {
+                        console.log("data", data);
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
-                            //$("#logoutModal").modal('show');
-                            //updateCountdown();
+                            $("#logoutModal").modal('show');
+                            updateCountdown();
                         }
                         if (data.Message == "expired") {
-                            //window.location.href = '/Admin/Home/Index'
+                            window.location.href = '/Admin/Home/Index'
                         }
                     }
                 })
-            }, 10000);
+            }, 50000);
         })
 
         function maintainSession() {
             $.ajax({
-                url: '/Admin/Home/MaintainSession',
+                url: '/Home/MaintainSession',
                 success: function (data) {
-                    //console.log('data', data)
                 }
             })
         }

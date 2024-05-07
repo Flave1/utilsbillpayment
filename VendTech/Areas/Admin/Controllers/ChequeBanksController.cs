@@ -5,7 +5,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class ChequeBanksController : AdminBaseController
+    public class ChequeBanksController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IBankAccountManager _ChequeBanksManager;

@@ -5,7 +5,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class RoleController : AdminBaseController
+    public class RoleController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IRoleManager _roleManager;

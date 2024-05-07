@@ -18,7 +18,7 @@ using static VendTech.Controllers.MeterController;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class CountryController : AdminBaseController
+    public class CountryController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly ICurrencyManager _currencyManager;
