@@ -15,7 +15,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class ReleaseDepositController : AdminBaseController
+    public class ReleaseDepositController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

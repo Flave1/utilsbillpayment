@@ -6,7 +6,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class CMSController : AdminBaseController
+    public class CMSController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

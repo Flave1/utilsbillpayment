@@ -6,7 +6,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class PlatformController : AdminBaseController
+    public class PlatformController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IPlatformManager _platformManager;

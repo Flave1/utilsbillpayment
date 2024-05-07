@@ -5,7 +5,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class CommissionController : AdminBaseController
+    public class CommissionController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly ICommissionManager _commissionManager;

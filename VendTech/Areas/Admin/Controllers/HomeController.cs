@@ -14,12 +14,11 @@ using VendTech.BLL.Common;
 using System.Web.Configuration;
 using System.Reflection;
 using System.Linq;
-using static VendTech.Controllers.MeterController;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class HomeController : AdminBaseController
+    public class HomeController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

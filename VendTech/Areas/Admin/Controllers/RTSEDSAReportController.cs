@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class RTSEDSAReportController : AdminBaseController
+    public class RTSEDSAReportController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IRTSEDSAManager manager;

@@ -9,7 +9,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class VendorController : AdminBaseController
+    public class VendorController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

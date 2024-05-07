@@ -7,7 +7,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class ReverseDepositController : AdminBaseController
+    public class ReverseDepositController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IUserManager _userManager;

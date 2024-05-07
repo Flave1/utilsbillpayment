@@ -22,7 +22,7 @@ using System.Net.Http;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class ReportController : AdminBaseController
+    public class ReportController : AdminBaseV2Controller
     {
         #region Variable Declaration
         // private readonly IUserManager _userManager;

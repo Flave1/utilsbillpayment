@@ -9,7 +9,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class PlatformTransactionController : AdminBaseController
+    public class PlatformTransactionController : AdminBaseV2Controller
     {
         private IPlatformApiManager _platformApiManager;
         private IPOSManager _posManager;

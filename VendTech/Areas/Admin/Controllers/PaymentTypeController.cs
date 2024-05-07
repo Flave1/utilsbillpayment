@@ -6,7 +6,7 @@ using VendTech.BLL.Models;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class PaymentTypeController : AdminBaseController
+    public class PaymentTypeController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IPaymentTypeManager _PaymentTypeManager;

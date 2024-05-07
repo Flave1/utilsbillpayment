@@ -13,11 +13,10 @@ using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
-using static VendTech.Controllers.MeterController;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class POSController : AdminBaseController
+    public class POSController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IPOSManager _posManager;

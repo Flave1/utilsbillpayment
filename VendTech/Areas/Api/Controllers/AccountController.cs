@@ -120,6 +120,68 @@ namespace VendTech.Areas.Api.Controllers
             }
         }
 
+
+        [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
+        [ResponseType(typeof(ResponseBase))]
+        [ActionName("SignInV2")]
+        public HttpResponseMessage SignInV2(LoginAPIPassCodeModel model)
+        {
+            if (string.IsNullOrEmpty(model.DeviceToken))
+            {
+                return new JsonContent(ApiCodes.RESET_PASSCODE, Status.Success).ConvertToHttpResponseOK();
+            }
+
+            if (!ModelState.IsValid)
+                return new JsonContent("Passcode is required.", Status.Failed).ConvertToHttpResponseOK();
+            else
+            {
+
+                var userDetails = _authenticateManager.GetUserDetailByPassCode(model.PassCode);
+                if (userDetails == null)
+                    return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                else if (userDetails.UserId == 0)
+                    return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
+                else if (!string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim() )//&& model.PassCode != "73086"
+                    return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                else
+                {
+                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.5")
+                    {
+                        //return new JsonContent("UPDATE_APP", Status.Success).ConvertToHttpResponseOK(); Will update later
+                        return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
+                    }
+                    var isEnabled = _authenticateManager.IsUserAccountORPosBlockedORDisabled(userDetails.UserId);
+                    if (isEnabled)
+                    {
+                        return new JsonContent("YOUR ACCOUNT IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
+
+                    var pos = _posManager.GetPosDetails(model.PassCode);
+                    if (pos == null)
+                    {
+                        return new JsonContent("POS NOT AVAILABLE! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
+                    if (pos.Enabled)
+                    {
+                        userDetails.Percentage = _vendorManager.GetVendorPercentage(userDetails.UserId);
+                        _authenticateManager.AddTokenDevice(model);
+                        _userManager.UpdateUserLastAppUsedTime(pos.VendorId.Value);
+                        if (_authenticateManager.IsTokenAlreadyExists(userDetails.UserId, userDetails.POSNumber))
+                        {
+                            _authenticateManager.DeleteGenerateToken(userDetails.UserId, userDetails.POSNumber);
+                            return GenerateandSaveToken(userDetails, model);
+                        }
+                        else
+                            return GenerateandSaveToken(userDetails, model);
+                    }
+                    else
+                    {
+                        return new JsonContent("POS IS DISABLED! \n PLEASE CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
+                    }
+                }
+            }
+        }
+
         [HttpPost, CheckAuthorizationAttribute.SkipAuthentication, CheckAuthorizationAttribute.SkipAuthorization]
         [ResponseType(typeof(ResponseBase))]
         [ActionName("DeleteUser")]

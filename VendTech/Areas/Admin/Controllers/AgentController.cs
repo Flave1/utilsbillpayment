@@ -12,7 +12,7 @@ using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class AgentController : AdminBaseController
+    public class AgentController : AdminBaseV2Controller
     {
         #region Variable Declaration
         private readonly IAgencyManager _agencyManager;

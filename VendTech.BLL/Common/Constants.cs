@@ -65,6 +65,10 @@ namespace VendTech.BLL.Models
     public static class AppSettings
     {
         public const string LogoutTime = "LogoutTime";
+    }
 
+    public static class ApiCodes
+    {
+        public const string RESET_PASSCODE = "10001";
     }
 }

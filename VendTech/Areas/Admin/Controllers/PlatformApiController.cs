@@ -16,7 +16,7 @@ using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
 {
-    public class PlatformApiController : AdminBaseController {
+    public class PlatformApiController : AdminBaseV2Controller {
 
         private readonly IPlatformApiManager _platformApiManager;
         private readonly ICurrencyManager _currencyManager;
