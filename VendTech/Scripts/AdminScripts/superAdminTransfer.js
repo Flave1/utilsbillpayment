@@ -188,6 +188,14 @@ var superAdminTransferHandler = {
         });
     },
 
+    closeAddDepositFormIfOpen: function () {
+        const depositToAgencyAdminModal = document.getElementById('depositToAgencyAdminModal');
+        if (depositToAgencyAdminModal) {
+            if (depositToAgencyAdminModal.classList.contains('show')) {
+                depositToAgencyAdminModal.classList.toggle('show');
+            }
+        }
+    },
     submitFormData: function (formData) {
         disableSubmit(true);
         $.ajaxExt({
@@ -204,11 +212,11 @@ var superAdminTransferHandler = {
                 setTimeout(function () {
                     window.location.href = '/Admin/Agent/ManageAgents';
                 }, 3000)
-
-                $("#depositToAgencyAdminModal").modal('hide');
-                superAdminTransferHandler.resetForm();
+                
+                this.Paging(this);
+                this.resetForm();
                 disableSubmit(false);
-                superAdminTransferHandler.Paging(this);
+                this.closeAddDepositFormIfOpen();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 disableSubmit(false);

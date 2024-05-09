@@ -808,11 +808,18 @@ namespace VendTech.BLL.Managers
 
         private void ReadErrorMessage(string message, TransactionDetail tx)
         {
+            if(message == "The request timed out with the Ouc server.")
+            {
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
+                DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                NotifyAdmin1();
+                throw new ArgumentException(message);
+            }
             if (message == "Error: Vending is disabled")
             {
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
-                NotifyAdmin();
+                NotifyAdmin1();
                 throw new ArgumentException(message);
             }
 
@@ -882,6 +889,18 @@ namespace VendTech.BLL.Managers
             Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
         }
 
+        void NotifyAdmin1()
+        {
+            var body = $"Hello Victor\r\n\r\n" +
+                $"This is to notify you that VENDTECH IServices is receiving errors from EDSA or RTS and has been disabled\r\n\r\n1) " +
+                $"VENDTECH IS OUT OF FUNDS\r\n\r\n2) " +
+                $"RTS SERVICES IS DISABLED\r\n\r\n" +
+                $"Please keep in mind to ENABLE Services again.\r\n\r\n" +
+                $"{Utilities.DomainUrl}/Admin/Platform/ManagePlatforms (ENABLE EDSA ON VENDTECH PLATFORM)";
+            Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
+
+        }
+
         private async Task<TransactionDetail> getLastMeterPendingTransaction(string MeterNumber) =>
            await _context.TransactionDetails.OrderByDescending(p => p.TransactionId).FirstOrDefaultAsync(p => p.Status ==
            (int)RechargeMeterStatusEnum.Pending && p.MeterNumber1.ToLower() == MeterNumber.ToLower());
@@ -911,8 +930,9 @@ namespace VendTech.BLL.Managers
             {
                 var newTraxid = Utilities.GetLastMeterRechardeId();
                 model.TransactionId = Convert.ToInt64(newTraxid);
-                await ProcessTransaction(false, model, transDetail, false);
-                response.Add("newtranx", statusResponse);
+                //await ProcessTransaction(false, model, transDetail, false);
+                //response.Add("newtranx", statusResponse);
+                response.Add("failed", statusResponse);
                 LogExceptionToDatabase(new Exception($"QueryVendStatus 2 ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return response;
             }

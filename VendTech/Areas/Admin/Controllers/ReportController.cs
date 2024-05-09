@@ -2038,6 +2038,7 @@ namespace VendTech.Areas.Admin.Controllers
 
                     modifiedContent = modifiedContent.Replace("%img1%", img1);
                     modifiedContent = modifiedContent.Replace("%img2%", img2);
+                    modifiedContent = modifiedContent.Replace("<br>", " ");
 
                     var file = BLL.Common.Utilities.CreatePdf(modifiedContent, td.TransactionId + "_invoice.pdf");
                     var subject = $"VENDTECH INVOICE - INV-{td.TransactionId} for {vendor.Vendor}";
