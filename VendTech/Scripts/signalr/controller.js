@@ -1,8 +1,10 @@
 ﻿"use strict";
-const local = "https://localhost:7285/messages";
-const live = "https://vendtechsl.com:459/messages";
-const dev = "https://subs.vendtechsl.net/messages";
-var connection = new signalR.HubConnectionBuilder().withUrl(live).configureLogging(signalR.LogLevel.Error).build();
+const local = "https://localhost:7285/hub";
+const live = "https://www.vendtechsl.com:459/hub";
+const dev = "https://subs.vendtechsl.net/hub";
+var connection = null;
+connection = new signalR.HubConnectionBuilder().withUrl(live, { withCredentials: true }).configureLogging(signalR.LogLevel.Information).build();
+
 
 const userId = userBalanceHandler.userId;
 
@@ -19,6 +21,7 @@ connection.start().catch(function (err) {
 
 
 window.onload = function () { 
+    //testSignalServer()
     updateBalnce(false);
 }
 
@@ -29,7 +32,6 @@ window.onload = function () {
 //    });
 //    event.preventDefault()
 //})
-
 
 function updateBalnce(animate = false) {
     $.ajax({
@@ -61,12 +63,28 @@ function updateBalnce(animate = false) {
                     }, 10000)
                 }
             }
-         
+
         },
         error: function (err) {
             console.log('err', err)
         }
     })
+}
+
+function testSignalServer() {     
+    var url = "https://www.vendtechsl.com:459/Balance/update";  
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ userId: '40251' }),
+        success: function (response) {
+            console.log("Response", response);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error", xhr.responseText);
+        }
+    });
 }
 
 
