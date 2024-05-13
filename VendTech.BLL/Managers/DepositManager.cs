@@ -2917,7 +2917,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        bool IsOtpValid(string otp)
+        public bool IsOtpValid(string otp)
         {
             var _otp = Context.DepositOTPs.FirstOrDefault(p => p.OTP == otp && !p.IsUsed);
             if (_otp == null)

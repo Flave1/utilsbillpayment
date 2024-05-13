@@ -30,6 +30,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/POS/Partials/_purchaseUnitsForm.cshtml">
       <publishTime>05/09/2024 15:07:58</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/Autoreleased.cshtml">
+      <publishTime>05/13/2024 08:07:44</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
       <publishTime>02/05/2024 08:02:36</publishTime>
     </File>
@@ -43,7 +46,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/09/2024 15:32:56</publishTime>
+      <publishTime>05/13/2024 08:53:32</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -61,13 +64,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/09/2024 15:32:58</publishTime>
+      <publishTime>05/13/2024 08:53:34</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
       <publishTime>05/09/2024 15:29:13</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/09/2024 15:32:56</publishTime>
+      <publishTime>05/13/2024 08:53:33</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -154,7 +157,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/29/2024 09:37:40</publishTime>
     </File>
     <File Include="Views/Shared/_ordinaryLayout.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>05/13/2024 08:07:24</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
       <publishTime>03/05/2024 15:42:39</publishTime>

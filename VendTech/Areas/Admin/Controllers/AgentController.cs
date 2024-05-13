@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -45,19 +46,27 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ManageAgents()
         {
-            ViewBag.SelectedTab = SelectedAdminTab.Agents;
-            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
-            var vendors = _vendorManager.GetVendorsSelectList();
-            ViewBag.PosId = new SelectList(_vendorManager.GetPosSelectList(), "Value", "Text");
+            try
+            {
+                ViewBag.SelectedTab = SelectedAdminTab.Agents;
+                ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelectList();
+                var vendors = _vendorManager.GetVendorsSelectList();
+                ViewBag.PosId = new SelectList(_vendorManager.GetPosSelectList(), "Value", "Text");
 
-            ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
+                ViewBag.ChkBankName = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
 
-            var bankAccounts = _bankAccountManager.GetBankAccounts();
-            ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName.ToUpper(), Value = p.BankAccountId.ToString() }).ToList();
-            ViewBag.vendors = vendors;
+                var bankAccounts = _bankAccountManager.GetBankAccounts();
+                ViewBag.bankAccounts = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName.ToUpper(), Value = p.BankAccountId.ToString() }).ToList();
+                ViewBag.vendors = vendors;
 
-            var users = _agencyManager.GetAgenciesPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
-            return View(users);
+                var users = _agencyManager.GetAgenciesPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
+                return View(users);
+            }
+            catch (Exception)
+            {
+                return View(new PagingResult<AgencyListingModel>());
+            }
+          
         }
 
         [AjaxOnly, HttpPost]
