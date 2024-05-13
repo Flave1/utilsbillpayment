@@ -827,7 +827,7 @@ namespace VendTech.BLL.Managers
             {
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
-                NotifyAdmin();
+                NotifyAdmin1();
                 throw new ArgumentException("Due to some technical resolutions involving EDSA, the system is unable to vend");
             }
 

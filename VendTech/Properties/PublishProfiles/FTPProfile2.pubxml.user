@@ -46,7 +46,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/13/2024 08:53:32</publishTime>
+      <publishTime>05/13/2024 15:43:32</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -64,13 +64,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/13/2024 08:53:34</publishTime>
+      <publishTime>05/13/2024 15:44:20</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
       <publishTime>05/09/2024 15:29:13</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/13/2024 08:53:33</publishTime>
+      <publishTime>05/13/2024 15:43:33</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -128,6 +128,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/Home/Dashboard.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>05/13/2024 13:46:50</publishTime>
     </File>
     <File Include="Views/Meter/Partials/_salesListing.cshtml">
       <publishTime>04/02/2024 14:09:10</publishTime>
