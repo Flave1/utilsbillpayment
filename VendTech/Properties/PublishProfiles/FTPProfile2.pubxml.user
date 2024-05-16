@@ -7,6 +7,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAwQIA6++MrEu/lCU3Sk5IUwAAAAACAAAAAAAQZgAAAAEAACAAAAD+gIcQqtYxtzwkMfaBwHImj/EnrbimHq4RdGwL6JfdmQAAAAAOgAAAAAIAACAAAADsbKvvoBG3MlVnHf4vQrR/UW2qbFTrMZ3wKZRgI6wE5SAAAACH1Licyth236v4UlBXLtFSoFoU/i4Fk8GJLbdH6ny6G0AAAABN+J7M/wEPRlsxxJlJ+6Cm8ILes42agT0/cHetqHZTdvjZnu/hffp9m4brhezfqR9Qf9S5OdJfQzrA43+za3EY</EncryptedPassword>
     <_PublishTargetUrl>ftp://92.205.181.48/httpdocs</_PublishTargetUrl>
+    <History>False|2024-05-14T08:56:56.7442278Z;</History>
+    <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
@@ -19,10 +21,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2024 10:41:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>03/05/2024 14:59:44</publishTime>
+      <publishTime>05/14/2024 15:39:56</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
       <publishTime>02/07/2024 13:49:33</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Partials/_unreleasedDepositListing.cshtml">
+      <publishTime>05/15/2024 12:21:40</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>05/09/2024 09:57:03</publishTime>
@@ -32,6 +37,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Areas/Admin/Views/ReleaseDeposit/Autoreleased.cshtml">
       <publishTime>05/13/2024 08:07:44</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease.cshtml">
+      <publishTime>05/14/2024 16:26:29</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
       <publishTime>02/05/2024 08:02:36</publishTime>
@@ -46,7 +54,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/13/2024 15:43:32</publishTime>
+      <publishTime>05/14/2024 16:44:31</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -64,13 +72,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/13/2024 15:44:20</publishTime>
+      <publishTime>05/14/2024 16:53:47</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>05/09/2024 15:29:13</publishTime>
+      <publishTime>05/14/2024 16:30:37</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/13/2024 15:43:33</publishTime>
+      <publishTime>05/14/2024 16:44:31</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -92,6 +100,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="favicon.ico">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/depositRelease.js">
+      <publishTime>05/14/2024 17:15:56</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/pos.js">
       <publishTime>05/09/2024 09:57:20</publishTime>

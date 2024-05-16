@@ -6542,6 +6542,7 @@
     <Content Include="Content\themes\jquery.vectormaps\README.md" />
     <Content Include="Content\themes\skycons\README.md" />
     <Content Include="Areas\Admin\Views\ReleaseDeposit\Autoreleased.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Partials\_unreleasedDepositListing.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />

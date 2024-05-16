@@ -1,0 +1,99 @@
+﻿@model PagingResult<DepositListingModel>
+
+<div id="divResult">
+    <table class="table table-bordered" id="datatable-icons">
+        <thead>
+            <tr style="background: #404040; color: white; font-weight: bold; word-spacing:10px; ">
+
+                <th>
+                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size:20px;" aria-hidden="true"></i>
+                    <span class="sr-only">Refreshing...</span>
+                </th>
+                <th colspan="5">
+                    <strong style="font-size: 20px;">
+                        PENDING  DEPOSITS
+                    </strong>
+                </th>
+                <th abbr="">
+                    <a href="javascript:void(0)" id="autoRelease" class="btn btn-primary pull-right " title="Send OTP"><i class="fa fa-save"></i><super></super></a>
+                </th>
+            </tr> 
+            <tr>
+                <th></th>
+                <th>DATE/TIME</th>
+                <th>POS ID</th>
+                <th>VENDOR</th> 
+                <th>REF #</th>
+                <th>AMOUNT</th> > 
+                <th>RELEASE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.List != null && Model.List.Count() > 0)
+            {
+                var n = 0;
+                foreach (var item in Model.List)
+                {
+                    n = n + 1;
+                    <tr class="odd gradeX">
+                        <td style="text-align:center;"> @n</td>
+                        <td style="text-align:right;"> @item.CreatedAt</td>
+                        <td style="text-align:right;">@item.PosNumber</td>
+                        <td style="font-weight:bold; color:green;">@item.VendorName</td>
+                        <td style="text-align:right;">@item.ChkNoOrSlipId</td>
+                        <td style="text-align: right; font-weight: bold; color: blue;">
+                            @item.Amount
+                        </td>
+                        <td style="text-align:center">
+                            @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
+                            {
+                                <input type="checkbox" id="@("releaseChk"+item.DepositId)" class="releaseChkBox" value="@item.DepositId" />
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="odd gradeX">
+                    <td colspan="9">No Record Found</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div id="depositReleaseModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="margin-top:15%; margin-right:-0%; ">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="height: 400px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Deposit Release</h4>
+            </div>
+            <div class="modal-body">
+                <br /><br /><br /> <br />
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="inputEmail3" class="col-md-4 control-label" style="font-weight:bold; font-size:20px">ENTER OTP<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" style="height:70px; font-weight:bold; font-size:65px;" id="otp" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnChangeDepositStatus" onclick="ChangeDepositStatus()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/AdminScripts/depositRelease.js"></script>

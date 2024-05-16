@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 
 namespace VendTech.BLL.Models
@@ -23,6 +19,7 @@ namespace VendTech.BLL.Models
 
         public PagingResult<MeterRechargeApiListingModel> s { get; set; } = new PagingResult<MeterRechargeApiListingModel>();
         public PagingResult<AgentListingModel> TransferFromVendors { get; set; } = new PagingResult<AgentListingModel>();
+        public PagingResult<DepositListingModel> UnreleasedDepositListing { get; set; } = new PagingResult<DepositListingModel>();
 
     }
 }

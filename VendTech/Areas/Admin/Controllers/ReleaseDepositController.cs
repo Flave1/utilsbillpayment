@@ -66,7 +66,7 @@ namespace VendTech.Areas.Admin.Controllers
             catch (Exception)
             {
                 SignOut();
-                return View(new PagingResult<ReleaseDepositModel>());
+                return View(new PagingResult<DepositListingModel>());
             }
         }
 
@@ -202,6 +202,39 @@ namespace VendTech.Areas.Admin.Controllers
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
 
+
+        [AjaxOnly, HttpPost]
+        public JsonResult AutoRelease(ReleaseDepositModel2 model)
+        {
+            try
+            {
+                var pds = _depositManager.GetPendingDeposits(model.ReleaseDepositIds);
+                for (int i = 0; i < pds.Count; i++)
+                {
+                    ActionOutput result = _depositManager.ChangeDepositStatus(pds[i].PendingDepositId, DepositPaymentStatusEnum.Released, true);
+                    var deposit = _depositManager.GetDeposit(pds[i].PendingDepositId);
+                    SendEmailOnDepositApproval(deposit);
+                    SendEmailToAdminOnDepositApproval(deposit, result.ID);
+                    SendSmsOnDepositApproval(deposit);
+
+                    _depositManager.DeletePendingDeposits(deposit);
+                }
+
+
+                return JsonResult(new ActionOutput { Message = $"{model.ReleaseDepositIds.Count} DEPOSIT (S) RELEASED AUTOMATICALLY", Status = ActionStatus.Successfull });
+            }
+            catch (ArgumentException ex)
+            {
+                return JsonResult(new ActionOutput { Message = ex.Message, Status = ActionStatus.Error });
+            }
+            catch (Exception ex)
+            {
+                return JsonResult(new ActionOutput { Message = ex.Message, Status = ActionStatus.Error });
+            }
+        }
+
+
+
         private void  SendEmailOnDeposit(List<long> depositIds)
         {
             var deposits = _depositManager.GetListOfDeposits(depositIds);
@@ -265,6 +298,67 @@ namespace VendTech.Areas.Admin.Controllers
                 }
             } 
         }
+        private void SendEmailOnDepositApproval(PendingDeposit deposit)
+        {
+
+            var user = _userManager.GetUserDetailsByUserId(deposit.UserId);
+            if (user != null)
+            {
+                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositApprovedNotification);
+
+                if (emailTemplate.TemplateStatus)
+                {
+                    string body = emailTemplate.TemplateContent;
+                    body = body.Replace("%USER%", user.FirstName);
+                    Utilities.SendEmail(user.Email, emailTemplate.EmailSubject, body);
+                }
+            }
+        }
+        private void SendEmailToAdminOnDepositApproval(PendingDeposit dep, long trxId)
+        {
+            var adminUsers = _userManager.GetAllAdminUsersByDepositRelease();
+
+            if (dep.POS != null)
+            {
+                foreach (var admin in adminUsers)
+                {
+                    string body = $"<p>Greetings {admin.Name}, </p>" +
+                                 $"<b>This is to inform you that a deposit has been AUTO APPROVED for</b> </br>" +
+                                 "</br>" +
+                                 $"Vendor Name: <b>{dep.POS.User.Vendor}</b> </br></br>" +
+                                 $"POSID: <b>{dep.POS.SerialNumber}</b>  </br></br>" +
+                                 $"DEPOSIT ID: <b>{trxId}</b> </br></br>" +
+                                 $"REF#: <b>{dep.CheckNumberOrSlipId}</b> </br></br>" +
+                                 $"Amount: <b>{Utilities.GetCountry().CurrencyCode} {Utilities.FormatAmount(dep.Amount)}</b> </br>" +
+                                 $"</br>" +
+                                 $"Thank You" +
+                                 $"<br/>" +
+                                 $"<p>{Utilities.EMAILFOOTERTEMPLATE}</p>";
+
+                    Utilities.SendEmail(admin.Email, "VENDTECH SUPPORT | DEPOSIT AUTO APPROVAL EMAIL", body);
+                }
+            }
+        }
+        private bool SendSmsOnDepositApproval(PendingDeposit deposit)
+        {
+            if (deposit.POS.SMSNotificationDeposit ?? true)
+            {
+                var requestmsg = new SendSMSRequest
+                {
+                    Recipient = Utilities.GetCountry().CountryCode + deposit.POS.Phone,
+                    Payload = $"Greetings {deposit.POS.User.Name} \n" +
+                   "Your last deposit has been approved\n" +
+                   "Please confirm the amount deposited reflects in your wallet correctly.\n" +
+                   $"{Utilities.GetCountry().CurrencyCode}: {Utilities.FormatAmount(deposit.Amount)} \n" +
+                   "VENDTECH"
+                };
+                return Utilities.SendSms(requestmsg);
+            }
+            return false;
+        }
+
+
+
         #endregion
     }
 }

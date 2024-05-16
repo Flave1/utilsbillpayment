@@ -62,138 +62,145 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ManageReports(int type = 0, long vendorId = 0, long pos = 0, string meter = "", string transactionId = "", string from = null, string to = null, string source = "")
         {
-            ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
-
-            ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
-            ViewBag.PosId = _vendorManager.GetPosSelectList();
-            ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
-            var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
- 
-            ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
-            ViewBag.SelectedTab = SelectedAdminTab.Reports; 
-
-            if(source == "dashboard")
+            try
             {
-                from = DateTime.UtcNow.ToString();
-                to = DateTime.UtcNow.ToString();
+                ViewBag.Pritdatetime = BLL.Common.Utilities.GetLocalDateTime().ToString("dd/MM/yyyy hh:mm:ss tt");
+
+                ViewBag.Vendors = _vendorManager.GetVendorsSelectList();
+                ViewBag.PosId = _vendorManager.GetPosSelectList();
+                ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                var assignedReportModule = _userManager.GetAssignedReportModules(LOGGEDIN_USER.UserID, LOGGEDIN_USER.UserType == UserRoles.Admin);
+
+                ViewBag.DepositTypes = _paymentTypeManager.GetPaymentTypeSelect2List();
+                ViewBag.SelectedTab = SelectedAdminTab.Reports;
+
+                if (source == "dashboard")
+                {
+                    from = DateTime.UtcNow.ToString();
+                    to = DateTime.UtcNow.ToString();
+                }
+                if (from == null)
+                {
+                    from = DateTime.UtcNow.ToString();
+                }
+                if (to == null)
+                {
+                    to = DateTime.UtcNow.ToString();
+                }
+
+                var model = new ReportSearchModel
+                {
+                    SortBy = "CreatedAt",
+                    SortOrder = "Desc",
+                    PageNo = 1,
+                    VendorId = vendorId,
+                    PosId = pos,
+                    Meter = meter,
+                    TransactionId = transactionId,
+                    From = DateTime.Parse(from),
+                    To = DateTime.Parse(to)
+                };
+
+                var deposits = new PagingResult<DepositListingModel>();
+                var depositAudit = new PagingResult<DepositAuditModel>();
+
+                if (assignedReportModule.Any())
+                {
+                    var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-2" };
+                    var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-1" };
+                    var rtsRps = new List<SelectListItem>();
+                    rtsRps.Add(rtsReport1);
+                    rtsRps.Add(rtsReport2);
+                    assignedReportModule.AddRange(rtsRps);
+                }
+
+                ViewBag.AssignedReports = assignedReportModule;
+                var bankAccounts = _bankAccountManager.GetBankAccounts();
+                ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
+
+                if (assignedReportModule.Count > 0 && (type > 0 ? assignedReportModule.Any(x => x.Value == type.ToString()) : true))
+                {
+                    var val = assignedReportModule[0].Value;
+                    var rec = assignedReportModule.FirstOrDefault(p => p.Value == type.ToString());
+                    if (rec != null)
+                    {
+                        val = type.ToString();
+                        val = type.ToString();
+                    }
+
+                    if (val == "-1")
+                    {
+                        return View("Inquiry", new PagingResult<RtsedsaTransaction>());
+                    }
+                    if (val == "-2")
+                    {
+                        return View("Transactions", new PagingResult<RtsedsaTransaction>());
+                    }
+                    /// This Is Used For Fetching DEPOSITS REPORT
+                    if (val == "17")
+                    {
+                        deposits = _depositManager.GetReportsPagedList(model, true);
+                        return View(deposits);
+                    }
+                    /// This Is Used For Fetching SALES REPORT
+                    if (val == "16")
+                    {
+                        model.IsInitialLoad = true;
+
+                        ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
+
+                        var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
+                        return View("ManageSalesReports", recharges);
+                    }
+                    if (val == "27")
+                    {
+
+                        var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
+                        ViewBag.OpeningBalance = 0;
+                        return View("BalanceSheetReports", balanceSheet);
+                    }
+                    if (val == "28")
+                    {
+                        var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
+                        return View("ManageGSTSalesReports", recharges);
+                    }
+                    if (val == "29")
+                    {
+                        ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                        var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
+                        return View("ManageAgentsRevenueReports", recharges);
+                    }
+                    if (val == "34")
+                    {
+                        ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
+                        var commissions = _depositManager.GetCommissionsReportsPagedList(model, true);
+                        return View("ManageCommissionReports", commissions);
+                    }
+                    /// This Is Used For Fetching DEPOSIT AUDIT REPORT
+                    if (val == "21")
+                    {
+                        ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
+                        ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
+
+                        ViewBag.banked = new SelectList(_bankAccountManager.GetBankAccounts().ToList(), "BankName", "BankName");
+
+                        depositAudit = _depositManager.GetDepositAuditReports(model, true);
+
+                        return View("ManageDepositAuditReport", depositAudit);
+                    }
+                    if (val == "2011")
+                    {
+                        ViewBag.Balance = _depositManager.GetPendingDepositTotal();
+                        var data = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
+                        return View("DepositReleaseReport", data);
+                    }
+                }
+                return View(deposits);
             }
-            if(from == null)
+            catch (Exception)
             {
-                from = DateTime.UtcNow.ToString();
+                return View(new PagingResult<DepositListingModel>());
             }
-            if (to == null)
-            {
-                to = DateTime.UtcNow.ToString();
-            }
-
-            var model = new ReportSearchModel
-            {
-                SortBy = "CreatedAt",
-                SortOrder = "Desc",
-                PageNo = 1,
-                VendorId = vendorId,
-                PosId = pos,
-                Meter = meter,
-                TransactionId = transactionId,
-                From = DateTime.Parse(from),
-                To =DateTime.Parse(to)
-            };
-
-            var deposits = new PagingResult<DepositListingModel>();
-            var depositAudit = new PagingResult<DepositAuditModel>();
-
-            if (assignedReportModule.Any())
-            {
-                var rtsReport1 = new SelectListItem { Text = "SHIFT ENQUIRY", Value = "-2" };
-                var rtsReport2 = new SelectListItem { Text = "CUSTOMER ENQUIRIES", Value = "-1" };
-                var rtsRps = new List<SelectListItem>();
-                rtsRps.Add(rtsReport1);
-                rtsRps.Add(rtsReport2);
-                assignedReportModule.AddRange(rtsRps);
-            }
-
-            ViewBag.AssignedReports = assignedReportModule;
-            var bankAccounts = _bankAccountManager.GetBankAccounts();
-            ViewBag.Banks = bankAccounts.ToList().Select(p => new SelectListItem { Text = p.BankName, Value = p.BankAccountId.ToString() }).ToList();
-
-            if (assignedReportModule.Count > 0 && (type > 0 ? assignedReportModule.Any(x => x.Value == type.ToString()) : true))
-            {
-                var val = assignedReportModule[0].Value;
-                var rec = assignedReportModule.FirstOrDefault(p => p.Value == type.ToString());
-                if (rec != null)
-                {
-                    val = type.ToString();
-                    val = type.ToString();
-                }
-
-                if (val == "-1")
-                {
-                    return View("Inquiry", new PagingResult<RtsedsaTransaction>());
-                }
-                if(val == "-2")
-                {
-                    return View("Transactions", new PagingResult<RtsedsaTransaction>());
-                }
-                /// This Is Used For Fetching DEPOSITS REPORT
-                if (val == "17")
-                {
-                    deposits = _depositManager.GetReportsPagedList(model, true);
-                    return View(deposits);
-                }
-                /// This Is Used For Fetching SALES REPORT
-                if (val == "16")
-                {
-                    model.IsInitialLoad = true;
-
-                    ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
-
-                    var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
-                    return View("ManageSalesReports", recharges);
-                }
-                if (val == "27")
-                {
-
-                    var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
-                    ViewBag.OpeningBalance = 0;
-                    return View("BalanceSheetReports", balanceSheet);
-                }
-                if (val == "28")
-                {
-                    var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
-                    return View("ManageGSTSalesReports", recharges);
-                }
-                if (val == "29")
-                {
-                    ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
-                    var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
-                    return View("ManageAgentsRevenueReports", recharges);
-                }
-                if (val == "34")
-                {
-                    ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
-                    var commissions = _depositManager.GetCommissionsReportsPagedList(model, true);
-                    return View("ManageCommissionReports", commissions);
-                }
-                /// This Is Used For Fetching DEPOSIT AUDIT REPORT
-                if (val == "21")
-                {
-                    ViewBag.IssuingBank = new SelectList(_bankAccountManager.GetBankNames_API().ToList(), "BankName", "BankName");
-                    ViewBag.Vendor = new SelectList(_userManager.GetVendorNames_API().ToList(), "VendorId", "VendorName");
-
-                    ViewBag.banked = new SelectList(_bankAccountManager.GetBankAccounts().ToList(), "BankName", "BankName");
-
-                    depositAudit = _depositManager.GetDepositAuditReports(model, true);
-
-                    return View("ManageDepositAuditReport", depositAudit);
-                }
-                if (val == "2011")
-                {
-                    ViewBag.Balance = _depositManager.GetPendingDepositTotal();
-                    var data = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
-                    return View("DepositReleaseReport", data);
-                }
-            }
-            return View(deposits);
         }
 
         [HttpGet]

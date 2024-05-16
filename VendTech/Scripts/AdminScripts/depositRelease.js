@@ -16,6 +16,10 @@ $(document).ready(function () {
             ChangeDepositStatusOnReady(depositids, otp)
         }
     }
+
+    $("#autoRelease").live("click", function () {
+        return autoReleaseDeposit($(this));
+    });
     
     $("#sendOTPBtn").live("click", function () {
         return sendOTPForDepositRelease($(this));
@@ -175,6 +179,45 @@ function sendOTPForDepositRelease(sender) {
             })
         }
     });
+}
+
+function autoReleaseDeposit(sender) {
+    var ids = releaseDepositIds;
+    if (releaseDepositIds.length == 0) {
+        $.ShowMessage($('div.messageAlert'), "Please select atleast one deposit request.", MessageType.Error);
+        return;
+    }
+    const msg = releaseDepositIds.length == 1 ? `ARE YOU SURE YOU WANT TO RELEASE THIS DEPOSIT?` : `ARE YOU SURE YOU WANT TO RELEASE ${releaseDepositIds.length} DEPOSITS`
+    $.ConfirmBox(`RELEASE DEPOSIT REQUEST`, msg, null, true, null, true, null, function () {
+        $.ajaxExt({
+            url: baseUrl + '/Admin/ReleaseDeposit/AutoRelease',
+            type: 'POST',
+            validate: false,
+            showErrorMessage: true,
+            messageControl: $('div.messageAlert'),
+            showThrobber: true,
+            button: $(sender),
+            data: { ReleaseDepositIds: ids },
+            throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            success: function (results, message) {
+                refreshUnreleasedDeposits()
+                $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
+                setTimeout(function () {
+                    swal.close();
+                }, 1500)
+            }
+        });
+    })
+  
+}
+
+function refreshUnreleasedDeposits() {
+    $.ajax({
+        url: '/Admin/Home/GetUnreleasedDeposits',
+        success: function (data) {
+            $('#unreleasedDepositListing').html(data);
+        }
+    })
 }
 
 function ChangeDepositStatus() {

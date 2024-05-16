@@ -810,23 +810,23 @@ namespace VendTech.BLL.Managers
         {
             if(message == "The request timed out with the Ouc server.")
             {
-                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 NotifyAdmin1();
                 throw new ArgumentException(message);
             }
             if (message == "Error: Vending is disabled")
             {
-                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 NotifyAdmin1();
                 throw new ArgumentException(message);
             }
 
             if (message == "-9137 : InCMS-BL-CB001607. Purchase not allowed, not enought vendor balance")
             {
-                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 NotifyAdmin1();
                 throw new ArgumentException("Due to some technical resolutions involving EDSA, the system is unable to vend");
             }
@@ -891,11 +891,11 @@ namespace VendTech.BLL.Managers
 
         void NotifyAdmin1()
         {
-            var body = $"Hello Victor\r\n\r\n" +
-                $"This is to notify you that VENDTECH IServices is receiving errors from EDSA or RTS and has been disabled\r\n\r\n1) " +
-                $"VENDTECH IS OUT OF FUNDS\r\n\r\n2) " +
-                $"RTS SERVICES IS DISABLED\r\n\r\n" +
-                $"Please keep in mind to ENABLE Services again.\r\n\r\n" +
+            var body = $"Hello Victor</br></br>" +
+                $"This is to notify you that VENDTECH IServices is receiving errors from EDSA or RTS and has been disabled</br></br>" +
+                $"1) VENDTECH IS OUT OF FUNDS</br></br>" +
+                $"2) RTS SERVICES IS DISABLED</br></br>" +
+                $"Please keep in mind to ENABLE Services again.</br></br>" +
                 $"{Utilities.DomainUrl}/Admin/Platform/ManagePlatforms (ENABLE EDSA ON VENDTECH PLATFORM)";
             Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
 
