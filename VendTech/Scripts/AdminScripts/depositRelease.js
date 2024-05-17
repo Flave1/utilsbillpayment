@@ -182,12 +182,12 @@ function sendOTPForDepositRelease(sender) {
 }
 
 function autoReleaseDeposit(sender) {
-    var ids = releaseDepositIds;
-    if (releaseDepositIds.length == 0) {
-        $.ShowMessage($('div.messageAlert'), "Please select atleast one deposit request.", MessageType.Error);
-        return;
-    }
-    const msg = releaseDepositIds.length == 1 ? `ARE YOU SURE YOU WANT TO RELEASE THIS DEPOSIT?` : `ARE YOU SURE YOU WANT TO RELEASE ${releaseDepositIds.length} DEPOSITS`
+    var ids = [$(sender).attr("data-depositid")];// releaseDepositIds;
+    //if (releaseDepositIds.length == 0) {
+    //    $.ShowMessage($('div.messageAlert'), "Please select atleast one deposit request.", MessageType.Error);
+    //    return;
+    //}
+    const msg = ids.length == 1 ? `ARE YOU SURE YOU WANT TO RELEASE THIS DEPOSIT?` : `ARE YOU SURE YOU WANT TO RELEASE ${releaseDepositIds.length} DEPOSITS`
     $.ConfirmBox(`RELEASE DEPOSIT REQUEST`, msg, null, true, null, true, null, function () {
         $.ajaxExt({
             url: baseUrl + '/Admin/ReleaseDeposit/AutoRelease',
@@ -197,6 +197,7 @@ function autoReleaseDeposit(sender) {
             messageControl: $('div.messageAlert'),
             showThrobber: true,
             button: $(sender),
+            //data: { ReleaseDepositIds: ids },
             data: { ReleaseDepositIds: ids },
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
             success: function (results, message) {

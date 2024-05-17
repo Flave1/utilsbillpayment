@@ -14,9 +14,9 @@
                         PENDING  DEPOSITS
                     </strong>
                 </th>
-                <th abbr="">
+                @*<th abbr="">
                     <a href="javascript:void(0)" id="autoRelease" class="btn btn-primary pull-right " title="Send OTP"><i class="fa fa-save"></i><super></super></a>
-                </th>
+                </th>*@
             </tr> 
             <tr>
                 <th></th>
@@ -24,8 +24,7 @@
                 <th>POS ID</th>
                 <th>VENDOR</th> 
                 <th>REF #</th>
-                <th>AMOUNT</th> > 
-                <th>RELEASE</th>
+                <th>AMOUNT</th>
             </tr>
         </thead>
         <tbody>
@@ -41,15 +40,15 @@
                         <td style="text-align:right;">@item.PosNumber</td>
                         <td style="font-weight:bold; color:green;">@item.VendorName</td>
                         <td style="text-align:right;">@item.ChkNoOrSlipId</td>
-                        <td style="text-align: right; font-weight: bold; color: blue;">
-                            @item.Amount
+                        <td  style="text-align: right; font-weight: bold; color: blue;">
+                            <a onclick="autoReleaseDeposit(this)" data-depositid="@item.DepositId" id="@("releaseChk"+item.DepositId)" href="#"> @item.Amount</a>
                         </td>
-                        <td style="text-align:center">
+                        @*<td style="text-align:center">
                             @if (item.Status == DepositPaymentStatusEnum.Pending.ToString())
                             {
-                                <input type="checkbox" id="@("releaseChk"+item.DepositId)" class="releaseChkBox" value="@item.DepositId" />
+                                <input type="checkbox"  class="releaseChkBox" value="@item.DepositId" />
                             }
-                        </td>
+                        </td>*@
                     </tr>
                 }
             }
