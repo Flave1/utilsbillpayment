@@ -163,10 +163,16 @@
                 <div class="col-md-6" id="saleListing">
                     @*@Html.Partial("Partials/_salesListing", Model.s)*@
                 </div>
-                <div class="col-md-6" id="bsListing">
-                    @*@Html.Partial("Partials/_BSReportListing", Model.Bs)*@
+                <div class="col-md-6">
+                    <div id="bsListing">
+                        @*@Html.Partial("Partials/_BSReportListing", Model.Bs)*@
+                    </div>
+                    <div  id="unreleasedDepositListing">
+                        @*@Html.Partial("Partials/_unreleasedDepositListing", Model.UnreleasedDepositListing)*@
+                    </div>
                 </div>
 
+                
 
             </div>
         </div>
@@ -188,6 +194,7 @@
         setInterval(function () {
             refreshDealerBalance()
             refreshVendStatus()
+            refreshUnreleasedDeposits();
         }, 50000);
 
 
@@ -197,6 +204,7 @@
             refreshSalesStatus()
             refreshVendStatus()
             refreshDealerBalance()
+            refreshUnreleasedDeposits()
             //initialize the javascript
             App.init();
             App.dashBoard();
@@ -209,6 +217,14 @@
                 url: '/Admin/Home/GetVendorBalanceSheetReports',
                 success: function (data) {
                     $('#bsListing').html(data);
+                }
+            })
+        }
+        function refreshUnreleasedDeposits() {
+            $.ajax({
+                url: '/Admin/Home/GetUnreleasedDeposits',
+                success: function (data) {
+                    $('#unreleasedDepositListing').html(data);
                 }
             })
         }

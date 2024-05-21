@@ -14,6 +14,7 @@ using VendTech.BLL.Common;
 using System.Web.Configuration;
 using System.Reflection;
 using System.Linq;
+using VendTech.Framework.Api;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -449,6 +450,23 @@ namespace VendTech.Areas.Admin.Controllers
             catch (Exception)
             {
                 return PartialView("Partials/_salesListing", result);
+            }
+        }
+
+        [HttpGet, Public]
+        public ActionResult GetUnreleasedDeposits()
+        {
+            var result = new PagingResult<DepositListingModel>();
+            try
+            {
+                result = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, "");
+                result.Status = ActionStatus.Successfull;
+                result.Message = "Successfully.";
+                return PartialView("Partials/_unreleasedDepositListing", result);
+            }
+            catch (Exception)
+            {
+                return PartialView("Partials/_unreleasedDepositListing", result);
             }
         }
 

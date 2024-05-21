@@ -31,6 +31,7 @@ using VendTech.BLL.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using iTextSharp.text.pdf;
 
 namespace VendTech.BLL.Common
 {
@@ -663,11 +664,18 @@ namespace VendTech.BLL.Common
             try
             {
                 string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                iTextSharp.text.pdf.PdfWriter writer = null;
                 string fileName =  transctionId;
-                string path = rootDirectory + "/Receipts/" + fileName;
+                string directoryPath = rootDirectory + "/Receipts/";
+                string path = Path.Combine(directoryPath + "/" + fileName);
                 var relativePath = DomainUrl + "/Receipts/" + fileName;
+                if (!Directory.Exists(rootDirectory + "/Receipts/"))
+                {
+                    Directory.CreateDirectory(rootDirectory + "/Receipts/");
+                }
+
                 // create a PDF writer to write the document to a file
-                var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
+                writer = iTextSharp.text.pdf.PdfWriter.GetInstance(document, new FileStream(path, FileMode.Create));
 
                 // open the document
                 document.Open();
@@ -692,6 +700,7 @@ namespace VendTech.BLL.Common
             }
             catch (Exception ex)
             {
+                LogExceptionToDatabase(new Exception(ex.ToString()));
                 document.Close();
                 throw new ArgumentException("Unable to create PDF");
             }
@@ -705,7 +714,7 @@ namespace VendTech.BLL.Common
             try
             {
                 // Open the PDF document
-                using (var pdfDocument = PdfDocument.Load(pdfFilePath))
+                using (var pdfDocument = Patagames.Pdf.Net.PdfDocument.Load(pdfFilePath))
                 {
                     // Get the first page
                     var pdfPage = pdfDocument.Pages[0];

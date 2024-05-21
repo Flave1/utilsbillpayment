@@ -239,7 +239,28 @@ var AdminPOS = {
             }
         });
     },
-   
+
+    fetchMeters: function (inputParam, vendor, posid, reOpening) {
+        $.ajax({
+            url: baseUrl + '/Meter/GetUserMeters',
+            data: $.postifyData(inputParam),
+            type: "POST",
+            success: function (data) {
+                if (!reOpening) {
+                    $("#vendorName").text(vendor);
+                    $("#posId").text(posid);
+                }
+
+                $('.modal-meter-body').html(data);
+                $("#userMeterListingModal").modal("show");
+                $('#userMeterListingModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+            }
+        });
+    }
 };
 
 function onSavedMeterClicked(userId, vendor, posid, reOpening = false, active = "active") {
@@ -254,28 +275,9 @@ function onSavedMeterClicked(userId, vendor, posid, reOpening = false, active = 
     if (userId) {
         var inputParam = new Object();
         inputParam.token_string = userId;
-
         inputParam.active = active;
-
-        $.ajax({
-            url: baseUrl + '/Meter/GetUserMeters',
-            data: $.postifyData(inputParam),
-            type: "POST",
-            success: function (data) {
-                if (!reOpening) {
-                    $("#vendorName").text(vendor);
-                    $("#posId").text(posid);
-                }
-               
-                $('.modal-meter-body').html(data);
-                $("#myModal2").modal("show");
-                $('#myModal2').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                })
-
-            }
-        });
+        AdminPOS.fetchMeters(inputParam, vendor, posid, reOpening);
+        
     }
 }
 

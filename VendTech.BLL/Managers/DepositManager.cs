@@ -2244,6 +2244,11 @@ namespace VendTech.BLL.Managers
             return ReturnSuccess<DepositListingModel>(data, "Deposit detail fetched successfully.");
         }
 
+        List<PendingDeposit> IDepositManager.GetPendingDeposits(List<long> pdepositIds)
+        {
+            return Context.PendingDeposits.Where(p => pdepositIds.Contains(p.PendingDepositId)).ToList(); 
+        }
+
         decimal IDepositManager.ReturnPendingDepositsTotalAmount(DepositModel model)
         {
             var deposits = Context.PendingDeposits.Where(d => d.Status == (int)DepositPaymentStatusEnum.Pending && d.POSId == model.PosId).Select(d => d.Amount);
@@ -2917,7 +2922,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        bool IsOtpValid(string otp)
+        public bool IsOtpValid(string otp)
         {
             var _otp = Context.DepositOTPs.FirstOrDefault(p => p.OTP == otp && !p.IsUsed);
             if (_otp == null)

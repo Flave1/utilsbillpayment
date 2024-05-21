@@ -420,3 +420,36 @@ Input string was not in a correct format.
 
 
 
+The underlying provider failed on Open.
+
+
+
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+
+
+An error occurred while executing the command definition. See the inner exception for details.
+
+
+
+The underlying provider failed on Open.
+
+
+
+Object reference not set to an instance of an object.
+
+
+
+Input string was not in a correct format.
+
+
+
+Value cannot be null.
+Parameter name: source
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Home\Partials\_unreleasedDepositListing.cshtml(19): error CS0103: The name 'country' does not exist in the current context
+
+
+

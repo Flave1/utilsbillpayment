@@ -3,6 +3,10 @@
 
 (function () {
     $(document).ready(function () {
+        $("#modal_close_btn").live("click", function () { 
+            $("#modalCart").modal("hide");
+        });
+
         //window.onbeforeunload = function () {
         //    return "Dude, are you sure you want to leave? Think of the kittens!";
         //}
@@ -42,7 +46,7 @@ var purchaseUnitsByAdmin = {
             amount: 0,
             userId
         }
-
+        $("#userMeterListingModal").modal("hide");
         $('#purchaseUnitFormModal').modal({
             backdrop: 'static',
             keyboard: false
@@ -73,6 +77,8 @@ var purchaseUnitsByAdmin = {
     },
 
     submitFormData: function (form) {
+
+        var error_message = document.getElementById('error_message');
         if (!this.formData) {
             $.ShowMessage($('div.messageAlert'), "Invalid form data", MessageType.Error);
             return;
@@ -95,21 +101,27 @@ var purchaseUnitsByAdmin = {
 
         this.formData.amount = amount;
         disableSubmit(true);
+        if (error_message)
+            error_message.style.display = 'none';
         $.ajax({
             url: baseUrl + '/Admin/POS/PurchaseUnits',
             data: $.postifyData(this.formData),
             type: "POST",
             success: function (data) {
-
-                const response = JSON.parse(data)
-                purchaseUnitsByAdmin.resetForm();
+                debugger
                 disableSubmit(false);
-
+                const response = JSON.parse(data)
 
                 if (response.Code === 302) {
                     $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
+                    if (error_message) {
+                        error_message.innerHTML = response.Msg;
+                        error_message.style.display = 'block';
+                    }
                     return false;
                 }
+
+                purchaseUnitsByAdmin.resetForm();
 
                 if (response.Code === 200) {
 
@@ -143,16 +155,14 @@ var purchaseUnitsByAdmin = {
                     if (response.Data.ShouldShowPrintButton) $("#showprint_btn").show();
                     $("#vendorId").html(response.Data.VendorId);
                     $("#currencyCode").html(response.Data.CurrencyCode);
-
+                    $("#purchaseUnitFormModal").modal("hide");
                     $("#modalCart").modal("show");
-                    $("#depositToAgencyAdminModal").modal('hide');
+                    Paging(this);
+
                 } else {
 
                     $.ShowMessage($('div.messageAlert'), response.Msg, MessageType.Failed);
                 }
-
-                onSavedMeterClicked(this.userId, this.vendor, this.serial);
-                Paging(this);
             },
             error: function () {
                 disableSubmit(false);

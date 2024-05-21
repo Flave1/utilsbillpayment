@@ -66,6 +66,8 @@ namespace VendTech.BLL.Interfaces
         Deposit GetSingleTransaction(long transactionId);
         PendingDeposit GetDeposit(long depositId);
         void DeletePendingDeposits(PendingDeposit deposit);
+        bool IsOtpValid(string otp);
+        List<PendingDeposit> GetPendingDeposits(List<long> pdepositIds);
     }
 
 }

@@ -808,19 +808,26 @@ namespace VendTech.BLL.Managers
 
         private void ReadErrorMessage(string message, TransactionDetail tx)
         {
+            if(message == "The request timed out with the Ouc server.")
+            {
+                DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
+                NotifyAdmin1();
+                throw new ArgumentException(message);
+            }
             if (message == "Error: Vending is disabled")
             {
-                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
-                NotifyAdmin();
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
+                NotifyAdmin1();
                 throw new ArgumentException(message);
             }
 
             if (message == "-9137 : InCMS-BL-CB001607. Purchase not allowed, not enought vendor balance")
             {
-                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
                 DisablePlatform(PlatformTypeEnum.ELECTRICITY);
-                NotifyAdmin();
+                FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
+                NotifyAdmin1();
                 throw new ArgumentException("Due to some technical resolutions involving EDSA, the system is unable to vend");
             }
 
@@ -882,6 +889,18 @@ namespace VendTech.BLL.Managers
             Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
         }
 
+        void NotifyAdmin1()
+        {
+            var body = $"Hello Victor</br></br>" +
+                $"This is to notify you that VENDTECH IServices is receiving errors from EDSA or RTS and has been disabled</br></br>" +
+                $"1) VENDTECH IS OUT OF FUNDS</br></br>" +
+                $"2) RTS SERVICES IS DISABLED</br></br>" +
+                $"Please keep in mind to ENABLE Services again.</br></br>" +
+                $"{Utilities.DomainUrl}/Admin/Platform/ManagePlatforms (ENABLE EDSA ON VENDTECH PLATFORM)";
+            Utilities.SendEmail("vblell@gmail.com", "[URGENT] VENDTECH OUT ON FUNDS", body);
+
+        }
+
         private async Task<TransactionDetail> getLastMeterPendingTransaction(string MeterNumber) =>
            await _context.TransactionDetails.OrderByDescending(p => p.TransactionId).FirstOrDefaultAsync(p => p.Status ==
            (int)RechargeMeterStatusEnum.Pending && p.MeterNumber1.ToLower() == MeterNumber.ToLower());
@@ -911,8 +930,9 @@ namespace VendTech.BLL.Managers
             {
                 var newTraxid = Utilities.GetLastMeterRechardeId();
                 model.TransactionId = Convert.ToInt64(newTraxid);
-                await ProcessTransaction(false, model, transDetail, false);
-                response.Add("newtranx", statusResponse);
+                //await ProcessTransaction(false, model, transDetail, false);
+                //response.Add("newtranx", statusResponse);
+                response.Add("failed", statusResponse);
                 LogExceptionToDatabase(new Exception($"QueryVendStatus 2 ends at {DateTime.UtcNow} for traxId {model.TransactionId}"));
                 return response;
             }

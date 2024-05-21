@@ -445,6 +445,12 @@ namespace VendTech.BLL.Models
         public long CancelDepositId { get; set; }
     }
 
+    public class AutoRelease
+    {
+        public string Message { get; set; }
+        public bool Success { get; set; }
+    }
+
     public class ReverseDepositModel
     {
         public List<long> ReverseDepositIds { get; set; }
