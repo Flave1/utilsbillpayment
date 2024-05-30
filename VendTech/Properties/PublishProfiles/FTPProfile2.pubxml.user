@@ -11,17 +11,23 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
+    <File Include="Areas/Admin/Views/Agent/ManageAgentsV2.cshtml">
+      <publishTime>05/23/2024 19:54:55</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
       <publishTime>04/17/2024 10:41:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/EditUser.cshtml">
       <publishTime>04/17/2024 10:47:22</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/AppUser/ManageAppUsersV2.cshtml">
+      <publishTime>05/23/2024 19:57:35</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/AppUser/ViewUser.cshtml">
       <publishTime>04/17/2024 10:41:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
-      <publishTime>05/14/2024 15:39:56</publishTime>
+      <publishTime>05/22/2024 09:29:16</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Partials/_salesListing.cshtml">
       <publishTime>02/07/2024 13:49:33</publishTime>
@@ -32,6 +38,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>05/09/2024 09:57:03</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/POS/ManagePOSV2.cshtml">
+      <publishTime>05/23/2024 19:53:58</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/POS/Partials/_purchaseUnitsForm.cshtml">
       <publishTime>05/09/2024 15:07:58</publishTime>
     </File>
@@ -41,20 +50,38 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease.cshtml">
       <publishTime>05/14/2024 16:26:29</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease2.cshtml">
+      <publishTime>05/22/2024 08:52:09</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
       <publishTime>02/05/2024 08:02:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
       <publishTime>05/07/2024 07:41:33</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Shared/_AdminLayOut2.cshtml">
+      <publishTime>05/22/2024 01:16:46</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Shared/_Header.cshtml">
       <publishTime>02/05/2024 13:55:50</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_Header2.cshtml">
+      <publishTime>05/22/2024 01:27:13</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/_SearchFilter2.cshtml">
+      <publishTime>05/22/2024 08:32:04</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar.cshtml">
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Shared/_SideBaar2.cshtml">
+      <publishTime>05/21/2024 22:37:40</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendor/ManageVendorsV2.cshtml">
+      <publishTime>05/23/2024 19:53:53</publishTime>
+    </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/15/2024 12:01:14</publishTime>
+      <publishTime>05/23/2024 19:08:54</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -72,13 +99,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/19/2024 17:57:06</publishTime>
+      <publishTime>05/23/2024 19:08:57</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>05/16/2024 09:52:32</publishTime>
+      <publishTime>05/21/2024 09:01:17</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/15/2024 12:01:14</publishTime>
+      <publishTime>05/23/2024 19:08:55</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>

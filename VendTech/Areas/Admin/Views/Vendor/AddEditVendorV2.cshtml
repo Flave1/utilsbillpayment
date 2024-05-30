@@ -1,0 +1,115 @@
+﻿@model SaveVendorModel
+@{
+    ViewBag.Title = Model.VendorId > 0 ? "Edit Vendor Details" : "Add Vendor Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+<style>
+    .field1 {
+        width: 90%;
+    }
+
+    label {
+        float: left;
+    }
+</style>
+<div class="s_content">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+
+
+    <div class="m_content">
+        @Html.Partial("_FunctionCallMessage")
+
+        <div class="people-form-cs">
+            <form role="form" id="UserForm">
+                <div class="row col-md-8" style="margin:10px;">
+                    @*  @Html.HiddenFor(x => x.VendorId)*@
+                    <div class="col-md-12">
+                        <label for="inputEmail3" style="width: 100%;">SELECT USER ACCOUNT</label>
+                        @Html.DropDownListFor(x => x.VendorId, new SelectList(ViewBag.Users, "value", "text"), null, new { @class = "form-control field1" })
+                        @Html.ValidationMessageFor(x => x.VendorId)
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputEmail3" style="width:100%;">VENDOR NAME <em>* </em></label>
+                        @Html.TextBoxFor(x => x.Vendor, new { @class = "form-control  field1" })
+                        @Html.ValidationMessageFor(x => x.Vendor)
+                    </div>
+
+
+                </div>
+                <div class="col-md-7" style="text-align:right;">
+                    <a href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                    <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/vendor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            App.init();
+            if ('@Model.VendorId' !='0') {
+                $("#Password").val('@Model.Password');
+                $("#ConfirmPassword").val('@Model.Password');
+            }
+
+            $("#Country").change(onCountryChange);
+            //loadAllCountries();
+            //loadAllCities();
+
+
+            $("input[type=button]#saveProfileBtn").live("click", function () {
+                return UpdateProfile($(this));
+            });
+        });
+
+
+
+        function loadAllCountries() {
+            var array = @Html.Raw(Json.Encode(ViewBag.countries));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#Country").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
+                }
+                var val = $("#Country").val('@Model.Country');
+            }
+        }
+
+        function onCountryChange() {
+            $("#City").empty();
+            $("#City").append("<option value=''> SELECT CITY </option>")
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records = array.filter(p => p.CountryId == val);
+
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value=" + records[i].CityId + ">" + records[i].Name + " </option>");
+                        }
+                    }
+            }
+        }
+
+        function loadAllCities() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#City").append("<option value=" + array[i].CityId + ">" + array[i].Name + " </option>");
+                }
+                var val = $("#City").val('@Model.City');
+            }
+        }
+
+
+    </script>
+}

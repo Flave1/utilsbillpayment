@@ -54,10 +54,10 @@ namespace VendTech.Areas.Admin.Controllers
                 model.SearchField = "agency";
                 model.Search = vendor;
                 var list = _vendorManager.GetVendorsPagedList(model);
-                return View(list);
+                return View("ManageVendorsV2", list);
             }
             var list1 = _vendorManager.GetVendorsPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"));
-            return View(list1);
+            return View("ManageVendorsV2", list1);
         }
 
         [AjaxOnly, HttpPost]
@@ -120,7 +120,7 @@ namespace VendTech.Areas.Admin.Controllers
                 var val = Convert.ToInt64(Utilities.Base64Decode(id));
                 model = _vendorManager.GetVendorDetail(val);
             }
-            return View(model);
+            return View("AddEditVendorV2", model);
         }
         [AjaxOnly, HttpPost]
         public JsonResult DeleteVendor(long vendorId)
@@ -157,7 +157,7 @@ namespace VendTech.Areas.Admin.Controllers
             var vendor = _vendorManager.GetVendorDetail(Convert.ToInt64(Utilities.Base64Decode(id)));
             ViewBag.VendorName = vendor.Vendor;
             var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), 0, Convert.ToInt64(Utilities.Base64Decode(id)), true);
-            return View(users);
+            return View("PosV2", users);
         }
 
         [AjaxOnly, HttpPost]

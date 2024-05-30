@@ -453,3 +453,28 @@ c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Vie
 
 
 
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Shared\_AdminLayOut2.cshtml(101): error CS0103: The name 'popperjs' does not exist in the current context
+
+
+
+"@" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+
+
+
+
+The underlying provider failed on Open.
+
+
+
+The underlying provider failed on Open.
+
+
+
+The layout page "~/Areas/Admin/Views/Shared/_AdminLayOutV2.cshtml" could not be found at the following path: "~/Areas/Admin/Views/Shared/_AdminLayOutV2.cshtml".
+
+
+
+c:\Users\thispc\AppData\Local\Temp\Temporary ASP.NET Files\vs\3f6d396d\ce56c043\App_Web_adduserv2.cshtml.e34afa6c.mljeidj8.0.cs(1966): error CS1513: } expected
+
+
+

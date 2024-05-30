@@ -1,7 +1,7 @@
 ﻿﻿@model DashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
 
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
     var depositActionURL = Html.Raw(Url.Action("ManageReports", "Report", new { type = 17, source = "dashboard" }));
@@ -237,7 +237,10 @@
                 url: '/Admin/Home/GetSalesHistory',
                 success: function (data) {
                     $('#saleListing').html(data);
-                    salesRefresh.style.display = 'none';
+                    if (salesRefresh) {
+                        salesRefresh.style.display = 'none';
+                    }
+                    
                 }
             })
         }

@@ -1,0 +1,66 @@
+﻿
+@{
+    var user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    var data = ViewBag.Data;
+    var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+}
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-fixed-top" style="background: rgb(40 40 40) ">
+    <div class="container-fluid">
+        <div class="navbar-brand" style="display:block; height: 100%">
+            <button type="button" class="d-lg-none btn btn-outline rounded  btn-action-sidebar" id="mob-menu">
+                <i class="fa fa-bars" style="font-size: 20px;"></i>
+                <span class="text-light" style="font-size: 20px;">MENU</span>
+            </button>
+            <a  href="/admin/Home/Dashboard" class="d-none d-md-none d-lg-block">
+                <img src="~/Content/images/logo1.jpg" style="width: 170px;" />
+            </a>
+
+        </div>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown" id="notification_menu" onclick="toggleNotification()">
+
+                <a class="nav-link dropdown-toggle text-light" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bell text-light"></i>
+                    <span class="badge badge-danger">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right text-light" aria-labelledby="notificationDropdown" style="background-color:white">
+                    @if (assignerModules.Where(X => X.ControllerName == "24").ToList().Count() > 0)
+                    {
+                        <a class="dropdown-item" href="@Url.Action("ManageAppUsers","AppUser",new { status = "Pending"})">
+                            @if (!string.IsNullOrEmpty(data.AppUserMessage))
+                            {
+                                <span class="d-flex justify-content-between">@data.AppUserMessage <span class="badge badge-danger">@data.RemainingAppUser</span></span>
+                            }
+                        </a>
+                    }
+                    @if (assignerModules.Where(X => X.ControllerName == "25").ToList().Count() > 0)
+                    {
+                        <a class="dropdown-item" href="@Url.Action("ManageDepositRelease","ReleaseDeposit",new { status = "Pending"})">
+                            @if (!string.IsNullOrEmpty(data.DepositReleaseMessage))
+                            {
+                                <span class="d-flex justify-content-between">@data.DepositReleaseMessage <span class="badge badge-danger">@data.RemainingDepositRelease</span></span>
+                            }
+                        </a>
+                    }
+
+                </div>
+            </li>
+
+            <li class="nav-item dropdown" id="profile_menu" onclick="toggleOpenClass()">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user text-light"></i> @user.FirstName @user.LastName
+                </a>
+                <div class="dropdown-menu dropdown-menu-right text-light" aria-labelledby="profileDropdown" style="background-color:white">
+                    @*<a class="dropdown-item" href="#">Profile</a>*@
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="@Url.Action("SignOut", "Home")">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

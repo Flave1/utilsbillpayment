@@ -1,0 +1,71 @@
+﻿@model PagingResult<VendorListingModel>
+@{
+    ViewBag.Title = "Manage Vendors";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>Manage Vendors</h2>
+    </div>
+    <div class="m_content">
+        <div class="header noborder d-flex justify-content-between">
+
+            @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+            <h3 class="">
+                <a href="@Url.Action("AddEditVendor", "Vendor", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Vendor"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a>
+            </h3>
+        </div>
+        <div>
+            <div id="divResult">
+                <table class="table table-bordered table-responsive" id="datatable-icons">
+                    <thead>
+                        <tr>
+                            <th>VENDOR NAME</th>
+                            <th>POSID</th>
+                            <th>REP FIRST NAME</th>
+                            <th>REP LAST NAME</th>
+                            <th>AGENCY NAME</th>
+                            <th>CELL PHONE</th>
+                            <th>BALANCE</th>
+                            <th>ACTION</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("Partials/_vendorListing", Model)
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/vendor.js"></script>
+
+
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["VENDOR NAME", "REP FIRST NAME", "REP LAST NAME", "AGENCY", "CELL PHONE"];
+        var searchValues = ["vendorname", "fisrtname", "lastname", "agency", "phone"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchValues[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            //initialize the javascript
+            $('#searchField option[value="vendorname"]').attr("selected", true);
+            $('.filter-select option[value="10000000"]').attr("selected", true);
+            App.init();
+            AdminVendors.ManageUsers(totalCount);
+        });
+    </script>
+}
+

@@ -1,0 +1,67 @@
+﻿@model PagingResult<POSListingModel>
+@{
+    ViewBag.Title =ViewBag.VendorName+ "'s POS";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+
+    </div>
+
+    <div class="m_content">
+        <div class="header noborder d-flex justify-content-between">
+            @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+            <h3>
+                <a href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin"})" class="btn btn-primary pull-right" title="Detail">Back</a>
+            </h3>
+        </div>
+        <input type="hidden" id="VendorId" value="@ViewBag.VendorId" />
+
+        <div id="divResult table-responsive">
+            <table class="table table-bordered " id="datatable-icons">
+                <thead>
+                    <tr>
+                        <th>POS ID</th>
+                        <th>VENDOR NAME</th>
+                        <th>BALANCE</th>
+                        <th>CELL#</th>
+                        <th>POS TYPE</th>
+                        <th>ENABLED</th>
+                        @*<th>@*ACTIO</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.Partial("Partials/_posListing", Model)
+                </tbody>
+            </table>
+        </div>
+        @*@Html.Partial("_Paging")*@
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/vendorPos.js"></script>
+
+
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["POS ID", "VENDOR NAME", "CELL #", "POS TYPE", "ENABLED"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            //initialize the javascript
+            App.init();
+            Users.ManageUsers(totalCount);
+        });
+    </script>
+}
+

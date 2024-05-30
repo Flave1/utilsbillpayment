@@ -1,0 +1,116 @@
+﻿@model PagingResult<UserListingModel>
+@{
+    ViewBag.Title = "Manage APP Users";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+
+    .notActive {
+        color: black;
+        background: grey
+    }
+
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+<div class="s_content">
+    <div class="page-head">
+        <h2>Manage App Users </h2>
+    </div>
+    <div class="m_content">
+        <div class="header noborder d-flex justify-content-between">
+            @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+            <h3> <a href="@Url.Action("AddUser", "AppUser", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+        </div>
+        <div id="divResult">
+            <input id="IsActive" value="true" hidden />
+            <div style='text-align: center; width:20%; height:40px; display:flex; '>
+                <button id="true"
+                        style="width: 49%; border: none;" class="isActive"
+                        onclick="openTab('true')">
+                    ACTIVE USERS
+                </button>
+                <button id="false"
+                        style="width: 49%; border:none;" class="notActive"
+                        onclick="openTab('false')">
+                    INACTIVE USERS
+                </button>
+            </div>
+            <table class="table table-bordered table-responsive" id="datatable-icons">
+                <thead>
+                    <tr>
+                        <th class="sorting" data-sortby="UserSerialNo">USERID</th>
+                        <th class="sorting" data-sortby="Name">FIRST NAME</th>
+                        <th class="sorting" data-sortby="SurName">LAST NAME</th>
+                        <th class="sorting" data-sortby="Vendor">VENDOR NAME</th>
+                        <th class="sorting" data-sortby="POS">POS ID</th>
+                        <th class="sorting" data-sortby="Balance">BALANCE</th>
+                        <th class="sorting" data-sortby="AppLastUsed">LAST LOGIN</th>
+                        <th class="sorting" data-sortby="Status">STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.Partial("Partials/_appUserListing", Model)
+                </tbody>
+            </table>
+        </div>
+        @*@Html.Partial("_Paging")*@
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+
+        function openTab(status) {
+
+            var otherTabStatus = status === 'true' ? 'false' : 'true';
+            document.getElementById(status).className = 'isActive';
+            document.getElementById(otherTabStatus).className = 'notActive';
+
+            $('#IsActive').val(status === 'true' ? true : false);
+            return Users.SortUsers($(this));
+        }
+
+        $("#searchField").show();
+        var searchFields = ["FIRST NAME", "LAST NAME","VENDOR NAME", "POSID","BALANCE","LASTLOGIN", "STATUS"];
+
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+
+    
+
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/appUsers.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#searchField option[value="VENDOR"]').attr("selected", true);
+            $('.filter-select option[value="10000000"]').attr("selected", true);
+            //initialize the javascript
+            App.init();
+            Users.ManageUsers(totalCount); 
+        });
+    </script>
+}
+

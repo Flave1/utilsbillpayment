@@ -1,0 +1,48 @@
+﻿@model PagingModel
+<div class="flex-fill d-none d-lg-block">
+    <div class="d-flex justify-content-between" id="searchRow" style="margin-top:0 !important">
+        @*filter filter-select*@
+        <div class="col-md-2">
+            <label class="control-label">SHOW RECORDS</label>
+            <span class="select-span">
+                <select class="form-control filter-select input-sm" id="showRecords">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100" selected="selected">100</option>
+                    <option value="10000000">All</option>
+
+                </select>
+            </span>
+        </div>
+        @*filter  serch-filter*@
+        <div class="col-md-3">
+            <label class="control-label">SEARCH FIELD</label>
+
+            <div class="input-group serch-input">
+                <!-- <span id="btnFilterPeople" class="input-group-addon green-search btn-primary">
+                <i class="fa fa-search white-search"></i>
+            </span> -->
+                <select class="form-control" id="searchField" name="SearchField" style="display:none">
+                    <option value="">SELECT FIELD</option>
+                </select>
+            </div>
+        </div>
+        @*filter  serch-filter*@
+        <div class="col-md-3">
+            <label class="control-label">SEARCH</label>
+
+            <div class="input-group serch-input">
+                @Html.HiddenFor(x => x.SortBy)
+                @Html.HiddenFor(x => x.SortOrder)
+                @Html.TextBoxFor(m => m.Search, new { @class = "form-control filter-textbox input-sm", placeholder = "Search" })
+            </div>
+        </div>
+        @*filter  filter-btns*@
+        <div class="col-md-2">
+            <label class="control-label displayBlock">&nbsp;</label>
+            <input type="button" value="Search" id="btnFilterSearch" class="btn btn-primary btn-sm" />
+            <input type="button" value="Reset  " id="btnResetSearch" class="btn btn-primary btn-sm" />
+        </div>
+    </div>
+</div>
