@@ -22,7 +22,7 @@ namespace VendTech.BLL.Managers
             var result = new PagingResult<VendorListingModel>();
             var query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active
             && p.UserRole.Role == UserRoles.Vendor )
-                .OrderBy(model.SortBy + " " + model.SortOrder);
+                .OrderBy(model.SortBy + " " + model.SortOrder).Take(3);
 
             if (agentId > 0)
                 query = query.Where(p => p.AgentId == agentId);

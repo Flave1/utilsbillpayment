@@ -10,11 +10,13 @@
 
 <style>
 
-    @@media (max-width: 768px) {
+/*     
+    @@media (min-width: 768px) and (max-width: 979px) {
         .cl-vnavigation li a span {
-            opacity: 9
+            opacity: 9; 
+            width: 0;
+            height: 0;
         }
-
         .cl-vnavigation .parent a {
             background: none;
             display: flex;
@@ -34,22 +36,25 @@
                 color: white;
             }
 
-        .cl-vnavigation li a {
-            /*       width: 20px;
-                max-width: 20px;*/
-        }
+    }*/
+
+    .cl-vnavigation li {
+        position: relative !important;
     }
 
-    
+        .cl-vnavigation li a i {
+            /*margin: 0;*/
+            font-size: 17px;
+        }
 </style>
 
 <ul class="cl-vnavigation" > 
-    @* <li><a href="@Url.Action("Dashboard", "Home", new { area = "Admin" })"><i class="fa fa-home"></i><span>Dashboard</span></a></li>*@
+     <li><a href="@Url.Action("Dashboard", "Home", new { area = "Admin" })"><i class="fa fa-home"></i>Dashboard</a></li>
     @if (assignerModules.Where(X => X.ControllerName == "11" || X.ControllerName == "10").ToList().Count() > 0 && assignerModules.Where(X => X.ControllerName == "11").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
     {
 
         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "") ">
-            <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })"><i class="fa fa-users"></i><span>Manage Users</span></a>
+            <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })"><i class="fa fa-users"></i>Manage Users</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
             @if (assignerModules.Where(X => X.ControllerName == "10").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
             {
@@ -64,20 +69,20 @@
     }
     @if (assignerModules.Where(X => X.ControllerName == "2").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
     {
-        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Agents ? "active" : "")" href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })"><i class="fa fa-table"></i><span>Manage Agents</span></a></li>
+        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Agents ? "active" : "")" href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })"><i class="fa fa-table"></i>Manage Agents</a></li>
     }
     @if (assignerModules.Where(X => X.ControllerName == "3").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
     {
-        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Vendors ? "active" : "")" href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin" })"><i class="fa fa-user"></i><span>Manage Vendors</span></a></li>
+        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.Vendors ? "active" : "")" href="@Url.Action("ManageVendors", "Vendor", new { area = "Admin" })"><i class="fa fa-user"></i>Manage Vendors</a></li>
     }
     @if (assignerModules.Where(X => X.ControllerName == "4").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
     {
-        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.POS ? "active" : "")" href="@Url.Action("ManagePOS", "POS", new { area = "Admin" })"><i class="fa fa-th"></i><span>Manage POS</span></a></li>
+        <li><a class="@(ViewBag.SelectedTab == SelectedAdminTab.POS ? "active" : "")" href="@Url.Action("ManagePOS", "POS", new { area = "Admin" })"><i class="fa fa-th"></i>Manage POS</a></li>
     }
     @if (user.UserType != UserRoles.AppUser && (assignerModules.Where(X => X.ControllerName == "5").ToList().Count() > 0))
     {
         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "open" : "open")">
-            <a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })"><i class="fa fa-file-text-o"></i><span>Deposits</span></a>
+            <a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })"><i class="fa fa-file-text-o"></i>Deposits</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "display:block;" : "display:none;")">
                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "6").ToList().Count() > 0)
                 {
@@ -117,7 +122,7 @@
     @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "12").ToList().Count() > 0)
     {
         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Platforms ? "open" : "")">
-            <a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><i class="fa fa-cog"></i><span>Platform Settings</span></a>
+            <a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><i class="fa fa-cog"></i>Platform Settings</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Platforms ? "display:block;" : "display:none;")">
 
                 @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
@@ -166,7 +171,7 @@
 
 
     <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Profile ? "open" : "")">
-        <a href="#"><i class="fa fa-user"></i><span>Manage Profile</span></a>
+        <a href="#"><i class="fa fa-user"></i>Manage Profile</a>
         <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Profile ? "display:block;" : "display:none;")">
             @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin)
                 {

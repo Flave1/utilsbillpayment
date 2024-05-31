@@ -28,6 +28,14 @@
 
 
     <style>
+        html {
+            /*font-size: 62.5%;*/
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-text-size-adjust: 100%;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
         /* Sidebar styling */
         .sidebar {
             height: 100%;
@@ -138,7 +146,13 @@
         .s_content {
             margin-top: 70px;
         }
-        
+        .table-bordered {
+            border: 1px solid #dee2e6 !important;
+        }
+        .navbar-nav > .open > a:focus {
+            background-color: #343a40;
+            /*color: #FFF;*/
+        }
     </style>
 </head>
 <body>
@@ -294,12 +308,12 @@
                         console.log("data", data);
                         homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
                         if (data.Message == "aboutTo") {
-                            $("#logoutModal").modal('show');
-                            updateCountdown();
+                            //$("#logoutModal").modal('show');
+                            //updateCountdown();
                         }
-                        if (data.Message == "expired") {
-                            window.location.href = '/Admin/Home/Index'
-                        }
+                        //if (data.Message == "expired") {
+                        //    window.location.href = '/Admin/Home/Index'
+                        //}
                     }
                 })
             }, 50000);

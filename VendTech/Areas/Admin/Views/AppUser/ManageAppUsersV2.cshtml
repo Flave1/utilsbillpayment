@@ -36,9 +36,9 @@
             @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
             <h3> <a href="@Url.Action("AddUser", "AppUser", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
         </div>
-        <div id="divResult">
+        <div id="divResult" class="table-responsive">
             <input id="IsActive" value="true" hidden />
-            <div style='text-align: center; width:20%; height:40px; display:flex; '>
+            <div style=' height:40px;' class="d-flex col-md-4 col-sm-12 col-xs-12 justify-content-between">
                 <button id="true"
                         style="width: 49%; border: none;" class="isActive"
                         onclick="openTab('true')">
@@ -50,7 +50,7 @@
                     INACTIVE USERS
                 </button>
             </div>
-            <table class="table table-bordered table-responsive" id="datatable-icons">
+            <table class="table table-bordered " id="datatable-icons">
                 <thead>
                     <tr>
                         <th class="sorting" data-sortby="UserSerialNo">USERID</th>

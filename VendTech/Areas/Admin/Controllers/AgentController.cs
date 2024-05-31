@@ -99,7 +99,7 @@ namespace VendTech.Areas.Admin.Controllers
                 model = _agencyManager.GetAgentDetail(id.Value);
                 model.ModuleList = _userManager.GetAllModules(model.Representative.Value);
                 model.WidgetList = _userManager.GetAllWidgets(model.Representative.Value);
-                return View(model);
+                return View("AddAgentV2", model);
             }
             model.ModuleList = _userManager.GetAllModules(0);
             model.WidgetList = _userManager.GetAllWidgets(0);
