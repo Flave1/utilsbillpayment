@@ -1,31 +1,22 @@
 ﻿<div class="modal-dialog modal-lg">
     <div class="modal-content modal-md">
         <div class="modal-body" id="requestRequestContent">
-            <div class="row">
-                <div class="row">
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-12" style="word-wrap:break-word;">
                     <div class="col-md-6">
                         <strong>REQUEST</strong>
+                        <div id="Request"></div>
                     </div>
 
                     <div class="col-md-6">
                         <strong>RESPONSE</strong>
+                        <div id="Response"></div>
                     </div>
-                    <hr />
                 </div>
-                <div class="col-md-6" id="Request" style="word-wrap:break-word; height:600px">
-
-                </div>
-
-                <div class="col-md-6" id="Response" style="word-wrap:break-word; height:600px">
-
-                </div>
-                <div class="col-md-11" style="text-align:right;"> 
-                    <div class="row" id="json_print_section"> 
-                        <button class="btn btn-primary" onclick="JsonPrint()">PRINT</button>
-                    </div>
-
-                </div>
-            </div> 
+            </div>
+            <div class="row" id="json_print_section d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="JsonPrint()">PRINT</button>
+            </div>
         </div>
     </div>
 </div> 

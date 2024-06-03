@@ -61,12 +61,12 @@ namespace VendTech.Areas.Admin.Controllers
                 ViewBag.SelectedTab = SelectedAdminTab.Deposits;
                 ViewBag.Balance = _depositManager.GetPendingDepositTotal();
                 var deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true, 0, status);
-                return View( deposits);
+                return View("ManageDepositReleaseV2", deposits);
             }
             catch (Exception)
             {
                 SignOut();
-                return View("ManageDepositRelease2", new PagingResult<DepositListingModel>());
+                return View("ManageDepositReleaseV2", new PagingResult<DepositListingModel>());
             }
         }
 

@@ -478,3 +478,15 @@ c:\Users\thispc\AppData\Local\Temp\Temporary ASP.NET Files\vs\3f6d396d\ce56c043\
 
 
 
+c:\Users\thispc\AppData\Local\Temp\Temporary ASP.NET Files\vs\3f6d396d\ce56c043\App_Web_managedepositsv2.cshtml.5aa6e43f.xyiw-l3e.0.cs(1370): error CS1513: } expected
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\Deposit\ManageDepositsV2.cshtml(57): error CS1501: No overload for method 'DropDownList' takes 5 arguments
+
+
+
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\ReverseDeposit\Partials\_depositReverseListing.cshtml(17): error CS1502: The best overloaded method match for 'VendTech.BLL.Common.Utilities.FormatAmount(decimal?)' has some invalid arguments
+
+
+

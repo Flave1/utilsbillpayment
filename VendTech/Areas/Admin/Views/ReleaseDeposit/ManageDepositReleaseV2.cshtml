@@ -6,11 +6,11 @@
 }
 
 
-<div class="" style=" margin-top: 70px;">
+<div class="s_content" >
     <div class="page-head">
         <h2>Deposit Release</h2>
     </div> 
-    <div class=" deopsitrelease m_content">
+    <div class="deopsitrelease m_content">
         <div class="d-flex justify-content-between">
             @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
             <div class="otpdiv" style="padding-top:20px">
@@ -19,8 +19,8 @@
             </div>
         </div>
    
-        <div id="divResult" class="table-responsive ">
-            <table class="table table-bordered" id="datatable-icons" style="margin-top: 30px;">
+        <div id="divResult" class="table-responsive">
+            <table class="table table-bordered" id="datatable-icons" >
                 <thead>
                     <tr>
                         <th>DATE/TIME</th>
@@ -53,8 +53,8 @@
         <!-- Modal content-->
         <div class="modal-content" style="height: 400px">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Deposit Release</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <br /><br /><br /> <br />

@@ -59,10 +59,10 @@
                     <li><a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })">Deposits Release</a></li>
                 }
                 @*DepositReversal*@
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "8").ToList().Count() > 0)
+                @*@if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "8").ToList().Count() > 0)
                 {
                     <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reversal</a></li>
-                }
+                }*@
                 @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
                     {
                         <li><a href="@Url.Action("DepositLogs", "Deposit", new { area = "Admin" })">Transaction History</a></li>

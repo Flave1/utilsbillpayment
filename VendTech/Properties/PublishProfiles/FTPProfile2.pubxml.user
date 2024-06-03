@@ -41,6 +41,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/AppUser/ViewUserV2.cshtml">
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Deposit/ManageDepositsV2.cshtml">
+      <publishTime>05/31/2024 17:11:52</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Home/Dashboard.cshtml">
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
@@ -80,8 +83,35 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositRelease2.cshtml">
       <publishTime>05/22/2024 08:52:09</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/ReleaseDeposit/ManageDepositReleaseV2.cshtml">
+      <publishTime>06/03/2024 18:17:47</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/BalanceSheetReports.cshtml">
+      <publishTime>03/27/2024 12:28:37</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/BalanceSheetReportsV2.cshtml">
+      <publishTime>06/02/2024 21:24:27</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageAgentsRevenueReportsV2.cshtml">
+      <publishTime>06/02/2024 21:24:01</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Report/ManageDepositAuditReport.cshtml">
       <publishTime>02/05/2024 08:02:36</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageDepositAuditReportV2.cshtml">
+      <publishTime>06/03/2024 18:16:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageGSTSalesReportsV2.cshtml">
+      <publishTime>06/02/2024 21:22:40</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageReportsV2.cshtml">
+      <publishTime>06/02/2024 21:21:52</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/ManageSalesReportsV2.cshtml">
+      <publishTime>06/02/2024 21:21:21</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Report/Partials/_miniSalesReport.cshtml">
+      <publishTime>06/01/2024 00:01:09</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut.cshtml">
       <publishTime>05/07/2024 07:41:33</publishTime>
@@ -102,7 +132,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2.cshtml">
-      <publishTime>05/30/2024 14:02:40</publishTime>
+      <publishTime>05/31/2024 17:15:09</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2Mobile.cshtml">
       <publishTime>05/31/2024 06:11:36</publishTime>
@@ -117,7 +147,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>05/30/2024 15:57:42</publishTime>
+      <publishTime>06/01/2024 20:09:14</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -135,13 +165,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>05/30/2024 14:29:27</publishTime>
+      <publishTime>06/01/2024 08:12:40</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>05/30/2024 12:59:30</publishTime>
+      <publishTime>05/31/2024 11:23:30</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>05/30/2024 14:02:48</publishTime>
+      <publishTime>05/31/2024 16:57:50</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>01/26/2024 16:25:01</publishTime>
@@ -235,6 +265,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/Shared/_ordinaryLayout.cshtml">
       <publishTime>05/13/2024 08:07:24</publishTime>
+    </File>
+    <File Include="Views/Shared/_RequestResponseJSON.cshtml">
+      <publishTime>05/31/2024 23:58:57</publishTime>
     </File>
     <File Include="Views/Shared/_SideBaar.cshtml">
       <publishTime>03/05/2024 15:42:39</publishTime>

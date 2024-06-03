@@ -29,7 +29,7 @@ namespace VendTech.BLL.Managers
                 model.RecordsPerPage = 10000000;
             }
             var result = new PagingResult<AgencyListingModel>();
-            var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder).Take(3);
+            var query = Context.Agencies.Where(p => p.Status == (int)AgencyStatusEnum.Active).OrderBy("User.Agency.AgencyName" + " " + model.SortOrder);
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
                 if (model.SearchField.Equals("AGENCY"))

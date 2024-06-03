@@ -140,7 +140,7 @@ namespace VendTech.Areas.Admin.Controllers
                     if (val == "17")
                     {
                         deposits = _depositManager.GetReportsPagedList(model, true);
-                        return View(deposits);
+                        return View("ManageReportsV2",deposits);
                     }
                     /// This Is Used For Fetching SALES REPORT
                     if (val == "16")
@@ -150,25 +150,25 @@ namespace VendTech.Areas.Admin.Controllers
                         ViewBag.Products = _platformManager.GetActivePlatformsSelectList();
 
                         var recharges = _meterManager.GetUserMeterRechargesReportAsync(model, true);  // ??new PagingResult<MeterRechargeApiListingModel>();
-                        return View("ManageSalesReports", recharges);
+                        return View("ManageSalesReportsV2", recharges);
                     }
                     if (val == "27")
                     {
 
                         var balanceSheet = new PagingResultWithDefaultAmount<BalanceSheetListingModel2>();
                         ViewBag.OpeningBalance = 0;
-                        return View("BalanceSheetReports", balanceSheet);
+                        return View("BalanceSheetReportsV2", balanceSheet);
                     }
                     if (val == "28")
                     {
                         var recharges = _meterManager.GetUserGSTRechargesReport(model, true);
-                        return View("ManageGSTSalesReports", recharges);
+                        return View("ManageGSTSalesReportsV2", recharges);
                     }
                     if (val == "29")
                     {
                         ViewBag.Agencies = _agencyManager.GetAgentsSelectList();
                         var recharges = _depositManager.GetAgentRevenueReportsPagedList(model, true);
-                        return View("ManageAgentsRevenueReports", recharges);
+                        return View("ManageAgentsRevenueReportsV2", recharges);
                     }
                     if (val == "34")
                     {
@@ -186,16 +186,16 @@ namespace VendTech.Areas.Admin.Controllers
 
                         depositAudit = _depositManager.GetDepositAuditReports(model, true);
 
-                        return View("ManageDepositAuditReport", depositAudit);
+                        return View("ManageDepositAuditReportV2", depositAudit);
                     }
                     if (val == "2011")
                     {
                         ViewBag.Balance = _depositManager.GetPendingDepositTotal();
                         var data = _depositManager.GetDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), true);
-                        return View("DepositReleaseReport", data);
+                        return View("DepositReleaseReportV2", data);
                     }
                 }
-                return View(deposits);
+                return View("ManageReportsV2", deposits);
             }
             catch (Exception)
             {

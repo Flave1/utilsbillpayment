@@ -1,0 +1,280 @@
+﻿@model PagingResult<AgentRevenueListingModel>
+@{
+    /**/
+
+    ViewBag.Title = "Manage Deposits Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<style>
+    input {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    select {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    label {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 15px;
+    }
+
+    option {
+        font-weight: bold;
+    }
+</style>
+<div class="s_content">
+    <div class="page-head">
+        <h4><b>Manage Agents Revenue</b></h4>
+    </div>
+
+    <div class="m_content">
+        <div id="divResult">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="col-md-3 d-none d-lg-block">
+                    <h4>Manage Agents Revenue</h4>
+                </div>
+                <div class="row col-md-5 justify-content-between">
+                    <label class="col-md-4"><span class="font-weight-light">From :</span> <span id="fromSpan">_</span></label>
+                    <label class="col-md-4"> <span class="font-weight-light">To :</span> <span id="toSpan">_</span> </label>
+                    <label class="col-md-4"><span class="font-weight-light">Printed on :</span> <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                </div>
+                <div class="col-md-5 justify-content-between">
+                    <div class="row">
+                        <label class="font-weight-light">
+                            Export:
+                        </label>
+
+                        <label>
+                            <select name="PrintType" id="PrintType" class="form-control">
+                                <option value="Excel">Excel</option>
+                                <option value="PDF">PDF</option>
+                            </select>
+                        </label>
+
+                        <div>
+                            <label>
+                                <button class="btn" type="button" id="btnExport"><strong>Export</strong></button>
+                            </label>
+                            <label>
+                                <button class="btn" type="button" id="btnprint"><strong>Print</strong></button>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-between">
+               
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    @using (Html.BeginForm("ExportAgentsRevenueReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
+                    {
+                        <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                        <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                        <input type="hidden" id="vendor" />
+                        <div class="form-group row">
+                            <label class="col-4" style=" width:31% !important;">Agency:</label>
+                            <div class="col-8">
+                                @Html.DropDownList("AgencyId", new SelectList(ViewBag.Agencies, "value", "text"), "Select Agency", new { @class = "form-control col-12", @id = "agency" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4" style=" width:31% !important;">POS:</label>
+                            <div class="col-8">
+                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @class = "form-control col-12", @id = "pos" })
+                            </div>
+                        </div>
+
+                        <hr style="background:#d0cbcb; height:1px;" />
+                        <div class="form-group row">
+                            <label class="col-12">TRANSACTION PERIOD</label>
+                            <div class="d-flex justify-content-between">
+                                <div class="col-6">
+                                    <label>From:</label>
+                                    <input type="text" name="FromDate" id="FromDate">
+                                    <input type="hidden" id="frmDt" />
+                                </div>
+
+                                <div class="col-6">
+                                    <label>To:</label>
+                                    <input type="text" name="ToDate" id="ToDate">
+                                    <input type="hidden" id="toDt" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="background:#d0cbcb; height:1px;" />
+
+                        <div>
+                            <label>Report</label>
+                            <div>
+                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control col-12" })
+                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                            </div>
+                        </div>
+                        <hr style="background:#d0cbcb; height:1px;" />
+                        <div class="d-flex justify-content-end">
+                            <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
+                        </div>
+
+                    }
+                </div>
+           
+                <div class="col-xs-12 col-sm-6 col-md-9">
+                    <div class="exportdata table-responsive" style="height:500px; overflow:scroll;   max-width: 100%;">
+                        <table class="table table-bordered" id="datatable-icons">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" data-sortby="CreatedAt">DATE/TIME</th>
+                                    <th class="sorting" data-sortby="POS">POS ID</th>
+                                    <th class="sorting" data-sortby="Vendor">VENDOR</th>
+                                    <th class="sorting" data-sortby="PaymentType">TYPE</th>
+                                    <th class="sorting" data-sortby="TransactionId">TRANS ID</th>
+                                    <th class="sorting" data-sortby="CheckNumberOrSlipId">REF #</th>
+                                    <th class="sorting" data-sortby="Amount">AMOUNT</th>
+                                    <th class="sorting" data-sortby="NewBalance">%</th>
+                                    <th class="sorting" data-sortby="PercentageAmount">BALANCE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @Html.Partial("Partials/_agentsRevenueReportListing", Model)
+                            </tbody>
+                        </table>
+                    </div>
+                    @*@Html.Partial("_Paging")*@
+                </div>
+                <div style="clear:both">
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="depositDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-body">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script src="~/Scripts/AdminScripts/agencyRevenueReport.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="~/Scripts/Receipt.js"></script>
+
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+
+
+
+
+
+
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+        $(document).ready(function () {
+            if (@Html.Raw(Json.Encode(Model.List)) == null) {
+                swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
+            }
+            else {
+                App.init();
+                $("#agency").on("change", function () {
+                    var agencyId = $("#agency").val();
+                    $("#pos").empty();
+                    if (agencyId) {
+                        $.ajax({
+                            url: '/Admin/Report/GetAgencyPosSelectList?userId=' + agencyId,
+                            success: function (res) {
+                                //$("#pos").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) {
+                                    if (res.posList.length > 1) {
+                                        $("#pos").append("<option value=''> -Select POS- </option>")
+                                    }
+                                    if (res.posList.length == 0) {
+                                        $("#pos").append("<option value=''> -NO POS - </option>")
+                                    }
+                                    for (var i = 0; i < res.posList.length; i++) {
+                                        $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        $("#pos").append("<option value=''> SELECT POS</option>")
+                    }
+                });
+
+
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/ /g, '-') + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace("AM", "").replace("PM", "");
+                // $("#printedDate").text(printDt.getDate() + "/" + getMonthName(printDt.getMonth()) + "/" + printDt.getFullYear()+" "+printDt.toLocaleTimeString());
+                
+                $("#printedDate").text(formattedDate);
+                $("#PrintedDateServer").val(formattedDate);
+
+                $('#PrintType').on("change", function () {
+                    $('#ExportType').val($(this).val());
+                });
+
+                $("#btnExport").click(function (e) {
+
+                    var frm = $("#FromDate").val();
+                    var to = $("#ToDate").val();
+                    if (frm) {
+                        var dtVal = frm.split("/");
+                        $("#frmDt").val(frm);
+                    }
+                    else {
+                        $("#frmDt").val('');
+
+                    }
+                    if (to) {
+                        var dtVal = to.split("/");
+                        $("#toDt").val(to);
+                    }
+                    else {
+                        $("#toDt").val('');
+                    }
+
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportAgentRevenueReportTo');
+                    $("#depositsForm").attr("method", "Post");
+                    $("#depositsForm").submit();
+                })
+
+                $('#btnprint').click(function (e) {
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintAgencyRevenueReport');
+                    $("#depositsForm").attr("method", "get");
+                    $("#depositsForm").submit();
+                });
+            }
+        });
+
+    </script>
+}
+

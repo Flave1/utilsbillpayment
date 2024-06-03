@@ -810,9 +810,9 @@ namespace VendTech.BLL.Managers
         {
             if(message == "The request timed out with the Ouc server.")
             {
-                DisablePlatform(PlatformTypeEnum.ELECTRICITY);
+                //DisablePlatform(PlatformTypeEnum.ELECTRICITY);
                 FlagTransaction(tx, RechargeMeterStatusEnum.Failed);
-                NotifyAdmin1();
+                //NotifyAdmin1();
                 throw new ArgumentException(message);
             }
             if (message == "Error: Vending is disabled")

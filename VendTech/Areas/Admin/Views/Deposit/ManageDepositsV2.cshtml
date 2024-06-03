@@ -1,0 +1,463 @@
+﻿@model PagingResult<DepositListingModel>
+@{
+    ViewBag.Title = "Deposit Uploader";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+
+
+ 
+
+<div class="s_content" >
+    <div class="page-head">
+        <h2>Deposit Uploader</h2>
+    </div>
+
+    <div class="m_content">
+        @*manage-desposit-top*@
+        <div class="d-flex justify-content-end">
+            <label style="font-size: 24px; color: #00a2e8 !important;"><span id="currebcycode">@country.CurrencyCode</span>: @Utilities.FormatAmount(ViewBag.Balance)  </label>
+        </div>
+        <div id="divResult" class=" d-flex justify-content-between" >
+            <div class="row col-12 ">
+                <form class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-xs-4 col-sm-4 col-md-4">Vendor Name:</label>
+                        @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "Select Vendor", new { @class = "form-control col-md-8", @id = "vendor" })
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-xs-4 col-sm-4 col-md-4">POS ID:</label>
+                        @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-Select POS-", new { @class = "form-control col-md-8", @id = "pos" })
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xs-4 col-sm-4 col-md-4">BANK ACCOUNT</label>
+                        @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @class = "form-control col-md-8" })
+                    </div>
+
+
+                    <div class="form-group row d-flex justify-content-between" style="margin-bottom:10px;">
+                        <div class="col-6">
+                            <label>CHX/CASH</label>
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-12  form-control", @onchange = "onPaymentTypeChange()", @id = "paymentType" })
+                        </div>
+                        <div class="col-6">
+                            <label>VALUE DATE</label>
+                            <input type="text" style="font-weight:bold;  text-align:right;" autocomplete="off" name="ValueDate" id="ValueDate" class="form-control chkBankDiv col-md-12">
+                        </div>
+                    </div>
+
+                    <div class="form-group row chkBankDiv" style="display:none">
+                        <label class="col-xs-4 col-sm-4 col-md-4">BANK</label>
+                        @Html.DropDownList("ChkBankName", null, "SELECT BANK", new { @class = "form-control col-md-8" })
+                    </div>
+                    <div class="form-group row chkBankDiv" style="display:none">
+                        <label class="col-xs-4 col-sm-4 col-md-4">NAME ON CHEQUE</label>
+                        <input type="text" id="NameOnCheque" name="NameOnCheque" class="form-control col-md-8">
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <label class="">CHX # OR SLIP ID</label>
+                        <input type="number" id="ChkOrSlipNo" value="0" name="ChkOrSlipNo" class="form-control col-md-8" style="color:red; text-align:right; font-weight:bold;">
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xs-4 col-sm-4 col-md-4">DEPOSIT AMOUNT</label>
+                        <input type="text"
+                               class="form-control col-md-8"
+                               style="font-size: 25px; text-align:right;
+             font-weight:bold; color: #00a2e8 !important;"
+                               id="amountDisplay" onkeypress="javascript:return isNumber(event)"
+                               onkeyup="getAmountWithPercentage()">
+                        <input type="hidden" id="amount" name="Amount">
+                    </div>
+                    <input type="hidden" name="UserId" value="@ViewBag.vendorId" />
+
+                    <div class="manage-desposit-row">
+                        <label><span id="commission" style="display:none;">PLUS  <span id="agentPercentage">@ViewBag.percentage</span>% COMMISSION</span></label>
+                        @*<span ></span>*@
+                        <input type="text" id="percentageAmount"
+                               style="font-size: 50px;
+             height:55px;
+             border : none;
+             text-align:right;
+             color: red !important;
+             font-weight:bold;"
+                               class="orm-control"
+                               readonly />
+                        <input type="hidden" name="TotalAmountWithPercentage" id="percentageAmountHdn" />
+                    </div>
+
+
+                    <div class="manage-desposit-row">
+                        <button class="savebttn addDepositBtn" type="button">ADD BALANCE</button>
+                    </div>
+                </form>
+
+                <div  class="col-md-8 table-responsive">
+                    <table class="table table-bordered" id="datatable-icons">
+                        <thead>
+                            <tr>
+                                <th>DATE</th>
+                                <th>VALUE DATE</th>
+                                <th>POS ID</th>
+                                <th>VENDOR</th>
+                                <th> TYPE</th>
+                                <th>REF #</th>
+                                <th>AMOUNT</th>
+                                <th>%</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hsListing">
+                            @Html.Partial("Partials/_depositListing", Model)
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            @*@Html.Partial("_Paging")*@
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/deposit.js"></script>
+
+    <script type="text/javascript">
+        function changeVendor() {
+            window.location.href = '/Admin/Deposit/ManageDeposits?posId=' + $("#vendorId").val() + "&vendorId=" + $("#vendor").val();
+        }
+        function onPaymentTypeChange() {
+            if ($("#paymentType").val() == "2")
+                $(".chkBankDiv").show();
+            else {
+                $(".chkBankDiv").hide();
+                $("#ChkBankName").val('');
+                $("#NameOnCheque").val('');
+            }
+        }
+
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+        function getAmountWithPercentage() { 
+            var displayVal = $("#amountDisplay").val();
+            var val = "";
+            if (displayVal) {
+                var cc = displayVal.replace(/\,/g, "");
+                $("#amount").val(cc);
+                val = $("#amount").val();
+                $("#amountDisplay").val(thousands_separators(val));
+            }
+            if (val && !isNaN(val)) {
+                val = parseInt(val);
+                var drpValue = $("#agentPercentage").text();
+                if (drpValue != "") {
+
+                    var percentageAmt = (drpValue / 100) * val;
+                    var percentValue = parseInt(val + percentageAmt);
+                    $("#percentageAmountHdn").val(percentValue);
+                    $("#percentageAmount").val(thousands_separators(percentValue));
+                }
+                else {
+                    $("#percentageAmountHdn").val(val);
+                    $("#percentageAmount").val(thousands_separators(val));
+                }
+            }
+            else {
+                $("#percentageAmountHdn").val('');
+                $("#percentageAmount").val('');
+                $("#amount").val('');
+            }
+        }
+        //$("#searchField").show();
+        //var searchFields = ["VENDOR NAME", "USER NAME", "CHEQUE # OR REG ID", "AMOUNT"];
+        //for (var i = 0; i < searchFields.length; i++) {
+        //    $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        //}
+        function initPosValue(vendorId) {
+
+            $("#vendorId").empty();
+            $.ajax({
+                url: '/Admin/Deposit/GetVendorPosSelectList?userId=' + vendorId,
+                success: function (res) {
+                    $("#vendorId").append("<option value=''> SELECT POS</option>")
+                    if (res.posList != null) {
+                        for (var i = 0; i < res.posList.length; i++) {
+                            $("#vendorId").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>")
+                        }
+                        $("#vendorId").val(@ViewBag.posId_);
+
+                    }
+                }
+            })
+        }
+        $(document).ready(function () {
+
+            Deposits.currencode = '@country.CurrencyCode'
+
+            var d = new Date();
+             $("#ValueDate").kendoDatePicker({
+                    culture: "en-GB",
+                   value: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                });
+
+             $("#ValueDate").kendoDatePicker({
+                    max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                    format: "dd/MM/yyyy",
+                    max: new Date(d.setDate(d.getDate() + 30)),
+                    maxDate: new Date, minDate: new Date(2007, 6, 12),
+             });
+
+            var datePicker1 = $("#ValueDate").data("kendoDatePicker");
+            $("#ValueDate").click(function () {
+                datePicker1.open();
+            })
+
+
+            var venderid=@ViewBag.vendorId;
+
+            if (venderid!=0) {
+                 $("#vendor").val(@ViewBag.vendorId);
+
+            if ($("#vendor").val() != 0)
+            {
+                initPosValue(@ViewBag.vendorId);
+            }
+            }
+
+            $("#pos").on("change", function () {
+                $("#percentageAmountHdn").val(0);
+                $("#agentPercentage").text('');
+                var posId = $("#pos").val();
+                if (posId) {
+                    fetchPosPercentage(posId);
+                }
+            });
+            $("#vendor").on("change", function () {
+                 
+                var vendorId = $("#vendor").val();
+                Last10Deposits(vendorId) 
+                $("#pos").empty();
+                if (vendorId) {
+                    $.ajax({
+                        url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                        success: function (res) { 
+
+                          
+                            if (res.posList != null) {
+                                if (res.posList.length > 1) {
+                                    $("#pos").append("<option value=''> -Select POS- </option>")
+                                }
+                                if (res.posList.length == 0) {
+                                    $("#pos").append("<option value=''> -NO POS - </option>")
+                                }
+                                for (var i = 0; i < res.posList.length; i++) {
+                                    $("#pos").append("<option value=" + res.posList[i].Value + ">" + res.posList[i].Text + "</option>");
+                                }
+                                var currentPosId = $("#pos").val();
+                                $("#percentageAmountHdn").val(0);
+                                $("#percentageAmount").val(thousands_separators(0));
+                                $("#agentPercentage").text('')
+                                if (currentPosId) {
+                                    fetchPosPercentage(currentPosId);
+                                }
+
+                            }
+                        }
+                    })
+                }
+                else {
+                    $("#pos").append("<option value=''> SELECT POS</option>")
+                }
+            });
+
+
+
+            App.init();
+            Deposits.ManageDeposits(totalCount);
+            onPaymentTypeChange();
+
+
+
+
+
+        });
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+            return true;
+        }
+
+        function fetchPosPercentage(posiId) {
+            
+            $.ajax({
+                url: '/Admin/Report/GetPosPercentage?pos=' + posiId,
+                success: function (res) { 
+                    if (res.percentage > 0) {
+                        $("#agentPercentage").text(res.percentage);
+                        $("#commission").show();
+                    } else {
+                        $("#commission").hide();
+                    }
+                }
+            });
+        }
+
+
+        function Last10Deposits(vendor) {
+             
+            $.ajax({
+                url: '/Admin/Deposit/GetVendorHistoryReports?vendor=' + vendor,
+                success: function (res) {
+                    $('#hsListing').html(res);
+                }
+            })
+
+        }
+    </script>
+}
+
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+
+    .manage-desposit {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .manage-desposit-top {
+        float: left;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+        .manage-desposit-top h3 {
+            float: left;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .manage-desposit-top label {
+            float: right;
+            color: #282828;
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+    .manage-desposit-content {
+        float: left;
+        width: 100%;
+    }
+
+    .manage-desposit-content-left {
+        float: left;
+        width: 30%;
+        box-sizing: border-box;
+        padding: 17px;
+        margin-top: 7px;
+        border-right: 1px solid#ddd;
+    }
+
+    .manage-desposit-row {
+        float: left;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+
+        .manage-desposit-row label {
+            float: left;
+            width: 33%;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            text-transform: none;
+            font-weight: bold;
+        }
+
+        .manage-desposit-row select {
+            float: left;
+            width: 64%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            line-height: 34px;
+            height: 35px;
+        }
+
+        .manage-desposit-row input {
+            float: left;
+            width: 64%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            line-height: 34px;
+            height: 35px;
+        }
+
+        .manage-desposit-row textarea {
+            float: left;
+            width: 64%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            line-height: 34px;
+            min-height: 100px;
+        }
+
+    .manage-desposit-content-right {
+        float: left;
+        width: 70%;
+        padding: 17px;
+        box-sizing: border-box;
+    }
+
+        .manage-desposit-content-right table {
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+            .manage-desposit-content-right table th {
+                text-align: left;
+                border-bottom: 1px solid #ccc;
+                padding: 8px 5px 6px;
+                line-height: 20px;
+                border-right: 1px solid #ddd;
+                text-transform: uppercase;
+                font-size: 13px;
+            }
+
+            .manage-desposit-content-right table td {
+                text-align: left;
+                padding: 8px 12px 6px;
+                line-height: 20px;
+            }
+
+    button.savebttn {
+        float: right;
+        padding: 7px 27px;
+        background: #e4c200;
+        border: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 20px;
+    }
+</style>
