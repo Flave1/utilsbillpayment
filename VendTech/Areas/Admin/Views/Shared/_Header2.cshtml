@@ -41,8 +41,13 @@
             <li class="nav-item dropdown" id="notification_menu" onclick="toggleNotification()">
 
                 <a class="nav-link dropdown-toggle text-light" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-bell fa-2x text-light"></i>
-                    <span class="badge badge-danger icon_not" style="font-size: 25px;">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
+                    @*<i class="fa fa-solid fa-bell fa-2x text-light"></i>*@
+                    <img class="profilepictureclass" src="~/Content/images/notification.png" width="38" />
+                    <span class="badge icon_not" style="font-size: 20px; position: relative; right: 20px; border-radius: 100%; 
+                        border:none;
+                        color: white;
+                        text-align: center;
+       background-color: red; bottom: 19px; ">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right text-light" aria-labelledby="notificationDropdown" style="background-color:white">
                     @if (assignerModules.Where(X => X.ControllerName == "24").ToList().Count() > 0)

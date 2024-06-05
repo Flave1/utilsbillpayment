@@ -164,14 +164,14 @@
                 }
             </ul>*@
         </li>
-
+         
     }
 
 
 
 
     <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Profile ? "open" : "")">
-        <a href="#"><i class="fa fa-user"></i>Manage Profile</a>
+        <a href="@Url.Action("EditProfile", "Home", new { area = "Admin" })"><i class="fa fa-user"></i>Manage Profile</a>
         <ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Profile ? "display:block;" : "display:none;")">
             @*@if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin)
                 {

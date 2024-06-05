@@ -132,7 +132,7 @@
         }
         .btn-action-sidebar {
             font-weight: bold;
-            color: white;
+            color: white !important;
             font-size: 14px;
             border: 1px solid grey;
             border-radius: 50px;
@@ -163,9 +163,9 @@
 
     <!-- Offcanvas for mobile -->
     <div class="offcanvas offcanvas-start d-lg-none " tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel" style="background: rgb(40 40 40) ">
-        <div class="offcanvas-header">
+        <div class="offcanvas-header" >
             <h5 class="offcanvas-title text-white" id="offcanvasSidebarLabel">Menu</h5>
-            <button type="button" class="close" data-dismiss="offcanvas" aria-label="Close">
+            <button type="button" style="background:none; border:none;" id="mob-menu2">
                 <span class="btn-action-sidebar">X</span>
             </button>
         </div>
@@ -272,6 +272,10 @@
             $('#mob-menu').on('click', function () { 
                 $('#offcanvasSidebar').toggleClass('show');
             });
+
+            $('#mob-menu2').on('click', function () {
+                $('#offcanvasSidebar').toggleClass('show');
+            });
         });
     </script>
 
@@ -285,6 +289,7 @@
         function showModal() {
             $("#logoutModal").modal('show');
         }
+
 
 
         function toggleOpenClass() {
@@ -382,15 +387,15 @@
         }
 
 
-        function toggleOpenClass() {
-            var element = document.getElementById('profile_menu');
-            element.classList.toggle('open');
-        }
+        //function toggleOpenClass() {
+        //    var element = document.getElementById('profile_menu');
+        //    element.classList.toggle('open');
+        //}
 
-        function toggleNotification() {
-            var element = document.getElementById('notification_menu');
-            element.classList.toggle('open');
-        }
+        //function toggleNotification() {
+        //    var element = document.getElementById('notification_menu');
+        //    element.classList.toggle('open');
+        //}
 
 
     </script>

@@ -6566,6 +6566,8 @@
     <Content Include="Areas\Admin\Views\Report\BalanceSheetReportsV2.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ManageGSTSalesReportsV2.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ManageAgentsRevenueReportsV2.cshtml" />
+    <Content Include="Areas\Admin\Views\Platform\ManagePlatformsV2.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\EditProfileV2.cshtml" />
     <None Include="Scripts\VendorScripts\_references.js" />
     <Content Include="Scripts\worker.js" />
     <Content Include="Views\Meter\Partials\_downTimeNotification.cshtml" />
