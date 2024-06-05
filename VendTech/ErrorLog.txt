@@ -490,3 +490,7 @@ c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Vie
 
 
 
+The following sections have been defined but have not been rendered for the layout page "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml": "scripts".
+
+
+

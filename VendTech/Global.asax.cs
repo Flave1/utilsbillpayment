@@ -1,6 +1,8 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using System;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -77,47 +79,64 @@ namespace VendTech
             System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
         }
 
+        private void HandleSignOut(HttpContext httpContext)
+        {
+            HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
+            if (auth_cookie != null)
+            {
+                auth_cookie.Expires = DateTime.Now.AddDays(-30);
+                Response.Cookies.Add(auth_cookie);
+            }
+            HttpCookie web_auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
+            if (web_auth_cookie != null)
+            {
+                web_auth_cookie.Expires = DateTime.Now.AddDays(-30);
+                Response.Cookies.Add(web_auth_cookie);
+            }
+            //httpContext.Response.Redirect("~/Home/Error?errorMessage="+ httpContext.AllErrors[0].Message+"");
+            httpContext.Response.Redirect("~/Home/Index");
+        }
+
         protected void Application_Error()
         {
 
             HttpContext httpContext = HttpContext.Current;
             if (httpContext != null)
             {
-                RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
-                /* When the request is ajax the system can automatically handle a mistake with a JSON response. 
+                try
+                {
+                    RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
+                    /* When the request is ajax the system can automatically handle a mistake with a JSON response. 
                    Then overwrites the default response */
-                if (requestContext.HttpContext.Request.IsAjaxRequest())
-                {
-                    httpContext.Response.Clear();
-                    string controllerName = requestContext.RouteData.GetRequiredString("controller");
-                    IControllerFactory factory = ControllerBuilder.Current.GetControllerFactory();
-                    IController controller = factory.CreateController(requestContext, controllerName);
-                    ControllerContext controllerContext = new ControllerContext(requestContext, (ControllerBase)controller);
+                    if (requestContext.HttpContext.Request.IsAjaxRequest())
+                    {
+                        httpContext.Response.Clear();
+                        string controllerName = requestContext.RouteData.GetRequiredString("controller");
+                        IControllerFactory factory = ControllerBuilder.Current.GetControllerFactory();
+                        IController controller = factory.CreateController(requestContext, controllerName);
+                        ControllerContext controllerContext = new ControllerContext(requestContext, (ControllerBase)controller);
 
-                    JsonResult jsonResult = new JsonResult
+                        JsonResult jsonResult = new JsonResult
+                        {
+                            Data = new { success = false, serverError = "500" },
+                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                        };
+                        jsonResult.ExecuteResult(controllerContext);
+                        httpContext.Response.End();
+                    }
+                    else
                     {
-                        Data = new { success = false, serverError = "500" },
-                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                    };
-                    jsonResult.ExecuteResult(controllerContext);
-                    httpContext.Response.End();
-                }   
-                else
+                        HandleSignOut(httpContext);
+                    }
+                }
+                catch (InvalidCastException)
                 {
-                    HttpCookie auth_cookie = Request.Cookies[Cookies.AdminAuthorizationCookie];
-                    if (auth_cookie != null)
-                    {
-                        auth_cookie.Expires = DateTime.Now.AddDays(-30);
-                        Response.Cookies.Add(auth_cookie);
-                    }
-                    HttpCookie web_auth_cookie = Request.Cookies[Cookies.AuthorizationCookie];
-                    if (web_auth_cookie != null)
-                    {
-                        web_auth_cookie.Expires = DateTime.Now.AddDays(-30);
-                        Response.Cookies.Add(web_auth_cookie);
-                    }
-                    //httpContext.Response.Redirect("~/Home/Error?errorMessage="+ httpContext.AllErrors[0].Message+"");
-                    httpContext.Response.Redirect("~/Home/Index");
+                    HandleSignOut(httpContext);
+                }
+
+                catch (CryptographicException)
+                {
+                    HandleSignOut(httpContext);
                 }
             }
         }
