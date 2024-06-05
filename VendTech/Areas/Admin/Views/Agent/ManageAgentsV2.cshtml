@@ -1,0 +1,101 @@
+﻿@model PagingResult<AgencyListingModel>
+@{
+    ViewBag.Title = "Manage Agents";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<style>
+    .s_content {
+         margin-top: 70px; 
+    }
+</style>
+<div class="s_content" >
+    <div class="page-head">
+        <h2>Manage Agents</h2>
+    </div>
+
+    <div class="m_content">
+        <div class="header noborder d-flex justify-content-between">
+            @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+            <h3> <a href="@Url.Action("AddAgent", "Agent", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add Agent"><i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super></a></h3>
+        </div>
+        <div>
+            <div id="divResult" class="table-responsive">
+                <table class="table table-bordered" id="datatable-icons">
+                    <thead>
+                        <tr>
+                            <th>AGENCY NAME</th>
+                            <th>ADMIN</th>
+                            <th>COMMISSION %</th>
+                            <th>POS ID</th>
+                            <th>BALANCE</th>
+                            <th>VENDORS</th>
+                            <th>ACTION</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("Partials/_agencyListing", Model)
+                    </tbody>
+                </table>
+            </div>
+
+            @*@Html.Partial("_Paging")*@
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Partials/_depositForm")
+
+
+@section scripts{
+
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+    </script>
+    <script src="~/Scripts/AdminScripts/agency.js"></script>
+    <script src="~/Scripts/AdminScripts/superAdminTransfer.js"></script>
+
+
+
+    <script type="text/javascript">
+        $("#searchField").show();
+        var searchFields = ["AGENCY NAME", "ADMIN", "COMMISSION", "POS", "BALANCE"];
+        for (var i = 0; i < searchFields.length; i++) {
+            $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+        }
+        $(document).ready(function () {
+            $('.filter-select option[value="100"]').attr("selected", true);
+            var d = new Date();
+            $("#valueDate").kendoDatePicker({
+                culture: "en-GB",
+                value: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+            });
+
+            $("#valueDate").kendoDatePicker({
+                max: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+                format: "dd/MM/yyyy  hh:mm",
+                max: new Date(d.setDate(d.getDate() + 30)),
+                maxDate: new Date, minDate: new Date(2007, 6, 12),
+            });
+
+            var datePicker1 = $("#valueDate").data("kendoDatePicker");
+            $("#valueDate").click(function () {
+                datePicker1.open();
+            })
+
+            $('.filter-select option[value="100"]').attr("selected", true);
+            //initialize the javascript
+            App.init();
+            Users.ManageUsers(totalCount);
+
+        });
+    </script>
+}
+

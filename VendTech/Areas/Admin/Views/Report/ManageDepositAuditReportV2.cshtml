@@ -1,0 +1,765 @@
+﻿@model PagingResult<DepositAuditModel>
+@{
+    /**/
+
+    ViewBag.Title = "Manage Deposit Audit Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+<link href="~/Content/css/Kendo/css/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Content/css/Kendo/css/kendo.default.mobile.min.css" rel="stylesheet" />
+<style>
+    .input {
+        text-transform: uppercase;
+    }
+    /* The container */
+    .container_ {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .container_ input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #e3c200;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container_:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container_ input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container_ .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .margin {
+        margin-top: 2px;
+    }
+
+    .btn-clear, .btn-clear:focus {
+        background-color: #3cdc3c;
+        border-color: #3cdc3c;
+    }
+
+        .btn-clear:hover, .btn-clear:active, .btn-clear.active, .open .dropdown-toggle.btn-clear {
+            background-color: #3cdc3c;
+            border-color: #3cdc3c;
+        }
+
+    .btn-clear {
+        color: #fff;
+    }
+
+    .block-flat .btn {
+        padding: 3px 6px;
+    }
+
+    input {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    select {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    label {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size:15px;
+    }
+
+    option {
+        font-weight: bold;
+    }
+
+    .Updated {
+        background: #ff6a00;
+    }
+</style>
+<div class="s_content">
+    <div class="page-head">
+        <h4><b>Manage Deposit Audit Report</b></h4>
+    </div>
+    <div class="m_content ">
+        <div id="divResult">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="col-md-3 d-none d-lg-block">
+                    <h4>DEPOSIT AUDIT REPORTS</h4>
+                </div>
+                <div class="row col-md-5 justify-content-between">
+                    <label class="col-md-4"><span class="font-weight-light">From :</span> <span id="fromSpan">_</span></label>
+                    <label class="col-md-4"> <span class="font-weight-light">To :</span> <span id="toSpan">_</span> </label>
+                    <label class="col-md-4"><span class="font-weight-light">Printed on :</span> <span id="printedDate">@ViewBag.Pritdatetime</span></label>
+                </div>
+                <div class="col-md-5 justify-content-between">
+                    <div class="row">
+                        @*<label class="font-weight-light">
+                            Export:
+                        </label>*@
+
+                        <label>
+                            <select name="PrintType" id="PrintType" class="form-control">
+                                <option value="Excel">Excel</option>
+                                <option value="PDF">PDF</option>
+                            </select>
+                        </label>
+
+                        <div>
+                            <label>
+                                <button class="btn" type="button" id="btnExport"><strong>Export</strong></button>
+                            </label>
+                            <label>
+                                <button class="btn" type="button" id="btnprint"><strong>Print</strong></button>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-between">
+              
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    @using (Html.BeginForm("ExportDepositAuditReportTo", "Report", FormMethod.Post, new { @id = "depositsForm" }))
+                    {
+                        <input type="hidden" name="ExportType" id="ExportType" value="Excel" />
+                        <input type="hidden" name="PrintedDateServer" id="PrintedDateServer" />
+                        <input type="hidden" name="Status" id="hdnStatus" />
+                        <div class="form-group row">
+                            <label class="col-4">Vendor:</label>
+                            <div class="col-8">
+                                @Html.DropDownList("VendorId", new SelectList(ViewBag.Vendors, "value", "text"), "SELECT VENDOR", new { @class = "form-control col-12", @id = "vendor" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4" style=" width:31% !important;">POS:</label>
+                            <div class="col-8">
+                                @Html.DropDownList("PosId", new SelectList(ViewBag.PosId, "value", "text"), "-SELECT POS-", new { @class = "form-control col-12", @id = "pos" })
+                            </div>
+                        </div>
+                        <hr style="background:#d0cbcb; height:1px;" />
+
+                        <div class="form-group row">
+                            <label class="col-12">TRANSACTION PERIOD</label>
+                            <div class="d-flex justify-content-between">
+                                <div class="col-6">
+                                    <label>From:</label>
+                                    <input type="text" name="FromDate" id="FromDate">
+                                    <input type="hidden" id="frmDt" />
+                                </div>
+
+                                <div class="col-6">
+                                    <label>To:</label>
+                                    <input type="text" name="ToDate" id="ToDate">
+                                    <input type="hidden" id="toDt" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="background:#d0cbcb; height:1px;" />
+
+
+                        <div>
+                            <label>Report</label>
+                            <div>
+                                @Html.DropDownList("Rept", new SelectList(ViewBag.AssignedReports, "value", "text"), null, new { @id = "reportType", @class = "form-control col-12" })
+                                <input type="hidden" name="SortBy" value="CreatedAt" id="SortBy" />
+                                <input type="hidden" value="Desc" name="SortOrder" id="SortOrder" />
+                            </div>
+                        </div>
+                        <hr style="background:#d0cbcb; height:1px;" />
+                        <div class="form-group row">
+                            <label style="width:30%;">BANK:</label>
+                            @Html.DropDownList("Bank", new SelectList(ViewBag.Banks, "value", "text"), "Select BANK", new { @class = "form-control", @style = "width:65%; float:right;", @id = "bank" })
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;">DEPOSIT TYPE:</label>
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @class = "form-control", @style = "width:65%; float:right;", @id = "depositType" })
+
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;">PAYER</label>
+                            <input name="Payer" type="text" id="Payer" class="form-control" style="width:65%; float:right;">
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;"> DEPOSIT REF#</label>
+                            <input name="RefNumber" type="text" id="refNumber" class="form-control" style="width:65%; float:right;">
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;">PAYER BANK</label>
+                            @Html.DropDownList("IssuingBank", null, "SELECT BANK", new { @class = "form-control", @style = "width:65%; float:right;" })
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;">AMOUNT</label>
+                            <input name="Amount" type="text" id="amount" class="form-control" style="width:65%; float:right;">
+                        </div>
+                        <div class="form-group row">
+                            <label style="width:30%;">STATUS</label>
+                            <input type="hidden" name="IsAudit" id="IsAudit" />
+                            <select class="form-control" id="status" name="IsAudit" style="width:65%; float:right;">
+                                <option value="">SELECT STATUS</option>
+                                <option value="1">OPEN</option>
+                                <option value="2">CLEARED</option>
+                            </select>
+                        </div>
+                        <hr style="background:#d0cbcb; height:1px;" />
+                        <div class="d-flex justify-content-end">
+                            <input type="button" class="btn btn-primary" value="SEARCH" id="btnFilterSearch" />
+                        </div>
+                    }
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-9">
+                    <div class="exportdata table-responsive" style="height:700px; overflow:scroll;   max-width: 100%;">
+                        <table class="table table-bordered" id="datatable-icons">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" data-sortby="CREATEDAT">DATE/TIME</th>
+                                    <th class="sorting" data-sortby="CREATEDAT">VALUE DATE</th>
+                                    <th class="sorting" data-sortby="transactionId">TRANS ID</th>
+                                    <th class="sorting" data-sortby="POS">POS ID</th>
+                                    <th class="sorting" data-sortby="DEPOSITBY">VENDOR</th>
+                                    <th class="sorting" data-sortby="DEPOSITTYPE">TYPE</th>
+                                    <th class="sorting" data-sortby="PAYER">PAYER</th>
+                                    <th class="sorting" data-sortby="ISSUINGBANK">PAYER BANK</th>
+                                    <th class="sorting" data-sortby="DEPOSITREF">REF#</th>
+                                    <th class="sorting" data-sortby="GTBANK">BANKED #</th>
+                                    <th class="sorting" data-sortby="AMOUNT">AMOUNT</th>
+                                    <th style="width:auto">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @Html.Partial("Partials/_depositAuditListing", Model)
+                            </tbody>
+                        </table>
+                    </div>
+                    @*@Html.Partial("_Paging")*@
+                </div>
+                <div style="clear:both">
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div id="depositModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="depositModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hdnDepositId" class="form-control" />
+                <input type="hidden" id="hdnUserId" class="form-control" />
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">DATE/TIME<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="datetime" readonly name="CreatedAt" id="modal_created" class="form-control margin" />
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="value_date" class="col-md-4 control-label margin">VALUE DATE<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="date" style="text-align:left;" name="ValueDate" id="value_date" class="form-control margin" />
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">VENDOR<em>*</em></label>
+                        <div class="col-md-8">
+                            @*<input type="text" name="depositby" id="depositby" class="form-control margin" />*@
+                            @Html.DropDownList("Vendor", null, "SELECT VENDOR", new { @id = "depositby", @class = "form-control margin" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">POS ID<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("PosId", null, "SELECT POSID", new { @id = "PosId", @class = "form-control margin", @required="true", @onchange = "getVendor(this)" })
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">PAYER<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" name="payer" id="payer" class="form-control margin" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">PAYER BANK<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("IssuingBank", null, "SELECT BANK", new { @id = "issuingbank", @class = "form-control margin" })
+                            @*<input type="text" name="issuingbank" id="issuingbank" class="form-control margin" />*@
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">TYPE<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), "Select Type", new { @id = "deposittype", @class = "form-control margin", @style = "width: 100% !important" })
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">REF#<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" name="depositref" id="depositref" class="form-control margin" />
+                        </div>
+                    </div>
+                    @*<div class=" col-md-12">
+                            <label for="short_name" class="col-md-4 control-label margin"> #<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="gtbank" id="gtbank" class="form-control margin" />
+                            </div>
+                        </div>*@
+                    <div class=" col-md-12">
+                        <label for="short_name" class="col-md-4 control-label margin">BANKED #<em>*</em></label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("gtbank", new SelectList(ViewBag.banked, "value", "text"), "Select Type", new { @id = "gtbank", @class = "form-control margin" })
+                        </div>
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">AMOUNT<em>*</em></label>
+                        <div class="col-md-8">
+                            <input type="text" name="amount" id="modal_amount" class="form-control margin text-right" style="font-weight: 1000;font-size: large;" />
+                        </div>
+                    </div>
+
+                    <div class=" col-md-12">
+                        <label for="title" class="col-md-4 control-label margin">COMMENT<em></em></label>
+                        <div class="col-md-8">
+                            <textarea name="comment" id="modal_comment" class="form-control margin" 
+                                      style="min-height: 200px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-secondary" id="update_btn" value="UPDATE" onclick="Update(this)">
+                <input type="button" class="btn btn-primary" id="modal_btn" onclick="Save(this)">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+    <script src="~/Scripts/AdminScripts/report.js"></script>
+    <script src="~/Scripts/AdminScripts/reportFilter.js"></script>
+    <script src="~/Content/css/Kendo/js/kendo.all.min.js"></script>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="~/Scripts/html2canvas.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/cultures/kendo.culture.en-GB.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+<script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+     
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+         $(document).ready(function () {
+
+
+            if (@Html.Raw(Json.Encode(Model.List)) == null) {
+                swal("Error!", "Either Your Record Is Empty Or you Don't Have Permission to access this page, Please contact to administrator!", "error");
+            }
+            else {
+                $("#status").find("option[value='1']").attr("selected", "selected");
+
+                App.init();
+
+                $("#depositby").on("change", function () {
+                    var vendorId = $("#depositby").val();
+                    $("#PosId").empty();
+                    if (vendorId) {
+                        $.ajax({
+                            url: '/Admin/Report/GetVendorPosSelectList?userId=' + vendorId,
+                            success: function (res) {
+                                $("#PosId").append("<option value=''> Select POS </option>")
+                                if (res.posList != null) {
+                                    for (var i = 0; i < res.posList.length; i++) {
+                                        $("#PosId").append("<option value=" + res.posList[i].Value + " selected>" + res.posList[i].Text + "</option>")
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        $("#PosId").append("<option value=''> SELECT POS</option>")
+                    }
+                });
+
+                $('#PrintType').on("change", function () {
+                    $('#ExportType').val($(this).val());
+                });
+
+                $("#btnExport").click(function (e) {
+
+
+                    var frm = $("#FromDate").val();
+                    var to = $("#ToDate").val();
+                    if (frm) {
+                        var dtVal = frm.split("/");
+                        $("#frmDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#frmDt").val('');
+
+                    }
+
+                    if (to) {
+                        var dtVal = to.split("/");
+                        $("#toDt").val(dtVal[1] + "/" + dtVal[0] + "/" + dtVal[2]);
+                    }
+                    else {
+                        $("#toDt").val('');
+                    }
+                    if ($("#status").val() === "1")
+                        $('#IsAudit').val(false);
+                    else if ($("#status").val() === "2")
+                        $('#IsAudit').val(true);
+                    else {
+                        $('#hdnStatus').val("Status");
+                        $('#IsAudit').val(false);
+                    }
+
+                    $('#depositsForm').attr('action', '/Admin/Report/ExportDepositAuditReportTo');
+                    $("#depositsForm").attr("method", "Post");
+                    $("#depositsForm").submit();
+                })
+
+                $('#btnprint').click(function (e) {
+                    $('#depositsForm').attr('action', '/Admin/Report/PrintDepositAuditReport');
+                    $("#depositsForm").attr("method", "get");
+                    $("#depositsForm").submit();
+                });
+                    }
+         });
+
+        function editDeposit(id = 0, posid = "", depositby = 0, payer = "", issuingbank = "", depositref = "", gtbank = "",
+            amount = 0, isAudit = true, userId = 0, date = "", valueDate = "", Type = 0, comment = "") {
+
+            
+
+            posid = posid?.replace('AGT-', '');
+            //const typeList = ["null", "Cash", "Cheque", "PurchaseOrder", "Transfer", "Cash/Cheque"];
+            comment = escape(comment);
+            const decoded = atob(unescape(comment));
+
+            $("#depositModalTitle").text("Edit Deposit Audit");
+            $("#hdnDepositId").val(id);
+            $("#hdnUserId").val(userId);
+            $("#PosId").find("option:contains(" + posid + ")").attr("selected", "selected");
+            $("#depositby").find("option:contains(" + depositby + ")").attr("selected", "selected");
+            if (payer.length < 1) {
+                $("#payer").val($("#depositby option:selected").text());
+            } else {
+                $("#payer").val(payer);
+            }
+            $("#issuingbank").find("option[value='" + issuingbank.substr(0, issuingbank.lastIndexOf("-")) + "']").attr("selected", "selected");
+
+
+            if ($("#issuingbank").val().length < 1) {
+                $("#issuingbank").val("GTB - (GUARANTEE TRUST BANK)");
+            }
+            $("#depositref").val(depositref);
+            $("#gtbank").val(gtbank);
+            $("#deposittype").val(Type);
+            $("#value_date").val(valueDate);
+            $("#modal_amount").val(amount);
+            $("#modal_comment").val(decoded);
+
+            if (isAudit == "")
+                $("#modal_btn").val("Clear");
+            else if (isAudit == 'Updated')
+                $("#modal_btn").val("Clear");
+            else
+                $("#modal_btn").val("Open");
+            //var date = date.replaceAll("-", "/");
+            $("#modal_created").val(date)
+            $("#depositModal").modal('show');
+        }
+
+        function getVendor(th) {
+            $.ajax({
+                url: '/Admin/User/GetVendorName',
+                type: 'POST',
+                data: { posId: $(th).val() },
+                success: function (data) {
+                    $("#PosId").find("option:selected").removeAttr('selected');
+                    if (data != null) {
+                        $("#depositby").find("option:contains(" + data.VendorName + ")").attr("selected", "selected");
+                        $("#PosId").find("option[value='" + data.POSId + "']").attr("selected", "selected");
+                    }
+                    else
+                        $("#depositby").find("option:contains(SELECT)").attr("selected", "selected");
+                }
+            });
+        }
+
+        function Update(th) {
+
+            var inputParam = new Object();
+            inputParam.ValueDateModel = $("#value_date").val();
+
+            
+
+            //if (inputParam.ValueDateModel) {
+            //    var val = inputParam.ValueDateModel.split("/");
+            //    inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            //}
+
+            inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
+            inputParam.PosId = $("#PosId").val();
+            inputParam.IssuingBank = $("#issuingbank").val();
+            inputParam.Payer = $("#payer").val();
+            inputParam.GTBank = $("#gtbank").val();
+            inputParam.DepositRef = $("#depositref").val();
+            inputParam.DepositId = $("#hdnDepositId").val();
+            inputParam.DepositBy = $("#depositby").val();
+            inputParam.UserId = $("#hdnUserId").val();
+            inputParam.Type = $("#deposittype").val();
+            var commnt = $("#modal_comment").val();
+            inputParam.Comment = btoa(commnt);
+
+
+            if ($(th).val() == "Open") {
+                inputParam.isAudit = false;
+            }
+            else {
+                inputParam.isAudit = true;
+            }
+            //inputParam.FromDate = $("#FromDate").val();
+            //inputParam.ToDate = $("#ToDate").val();
+            //inputParam.Status = $("#status").val();
+            $.ajax({
+                url: '/Admin/Report/UpdatDepositAudit',
+                type: 'POST',
+                data: $.postifyData(inputParam),
+                success: function (data) {
+
+                    if (data != null) {
+                        $("#depositModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), "Data Updated Successfully", MessageType.Success);
+                        $('tr').each(function (index, value) {
+                            if ($(this).find("#hdnId").val() == data.DepositId) {
+                                $(this).find("#_date").text(data.DateTime);
+                                $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_gt").text(data.GTBank);
+                                $(this).find("#_usr").text(data.DepositBy);
+                                $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_transId").text(data.TransactionId);
+                                $(this).find("#_pay").text(data.Payer);
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
+                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
+                                    $(this).find("#_bnk").text(data.IssuingBank);
+                                }
+                                else {
+                                    $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
+                                }
+                                $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("td").find("#_gt").text(data.GTBank);
+                                $(this).find("#_amt").text(data.Price);
+                                //if (data.Price == "0") {
+                                //    $(this).find("#_amt").text(data.Price);
+                                //}
+                                //else {
+                                //    data.Price = data.Price.replace(/\D/g, "")
+                                //        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                //    $(this).find("#_amt")
+                                //        .text(data.Price.replace(/\D/g, "")
+                                //            .replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                //}
+                                $(this).find("#_sts").addClass("Updated");
+                                $(this).find("#_sts").text("Updated");
+                                $(this).find("#_sts").prop("onclick", null);
+                                $(this).find("#_sts").click(function () {
+
+                                    editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                        data.Payer, data.IssuingBank, data.DepositRef,
+                                        data.GTBank, data.Price, 'Updated', data.UserId, data.DateTime, data.ValueDateModel, data.PaymentType, data.Comment);
+                                });
+                            }
+                        });
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            });
+        }
+
+        function Save(th) {
+
+        
+
+            var inputParam = new Object();
+            inputParam.ValueDateModel = $("#value_date").val();
+            //if (inputParam.ValueDateModel) {
+            //    var val = inputParam.ValueDateModel.split("/");
+            //    inputParam.ValueDateModel = val[1] + "/" + val[0] + "/" + val[2];
+            //}
+            inputParam.Amount = $("#modal_amount").val().replace(/\,/g, '');
+            inputParam.PosId = $("#PosId").val();
+            inputParam.IssuingBank = $("#issuingbank").val();
+            inputParam.Payer = $("#payer").val();
+            inputParam.GTBank = $("#gtbank").val();
+            inputParam.DepositRef = $("#depositref").val();
+            inputParam.DepositId = $("#hdnDepositId").val();
+            inputParam.DepositBy = $("#depositby").val();
+            inputParam.UserId = $("#hdnUserId").val();
+            inputParam.Type = $("#deposittype").val();
+            var commnt = $("#modal_comment").val();
+            inputParam.Comment = btoa(commnt);
+
+
+
+            if ($(th).val() == "Open") {
+                inputParam.isAudit = false;
+            }
+            else {
+                inputParam.isAudit = true;
+            }
+            //inputParam.FromDate = $("#FromDate").val();
+            //inputParam.ToDate = $("#ToDate").val();
+            //inputParam.Status = $("#status").val();
+            $.ajax({
+                url: '/Admin/Report/SaveDepositAudit',
+                type: 'POST',
+                data: $.postifyData(inputParam),
+                success: function (data) {
+                    if (data != null) {
+                        $("#depositModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), "DEPOSIT CLEARED SUCCESSFULLY", MessageType.Success);
+
+                        setTimeout(function () {
+                            $(".confirm").click();
+                        }, 2000);
+
+                        $('tr').each(function (index, value) {
+                            if ($(this).find("#hdnId").val() == data.DepositId) {
+                                $(this).find("#_date").text(data.DateTime);
+                                $(this).find("#_pos").text(data.PosId);
+                                $(this).find("#_transId").text(data.TransactionId);
+                                $(this).find("#_usr").text(data.DepositBy);
+                                $(this).find("#_typ").text(data.Type);
+                                $(this).find("#_gt").text(data.GTBank);
+                                $(this).find("#_pay").text(data.Payer);
+                                $(this).find("#_valuedate").text(data.ValueDateModel);
+                                if (data.IssuingBank != null && data.IssuingBank.indexOf('-') == -1) {
+                                    $(this).find("#_bnk").text(data.IssuingBank);
+                                }
+                                else {
+                                    $(this).find("#_bnk").text(data.IssuingBank.substring(0, data.IssuingBank.indexOf("-")));
+                                }
+                                $(this).find("#_ref").text(data.DepositRef);
+                                $(this).find("td").find("#_gt").text(data.GTBank);
+                                $(this).find("#_amt").text(data.Price);
+                                if (data.isAudit) {
+                                    $(this).find("#_sts").removeClass("btn-success");
+                                    $(this).find("#_sts").addClass("btn-clear");
+                                    $(this).find("#_sts").text("Cleared");
+                                    $(this).find("#_sts").prop("onclick", null);
+                                    $(this).find("#_sts").click(function () {
+                                        editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                            data.Payer, data.IssuingBank, data.DepositRef,
+                                            data.GTBank, data.Price, '2', data.UserId, data.DateTime, data.ValueDateModel, data.PaymentType, data.Comment);
+                                    });
+                                }
+                                else {
+                                    $(this).find("#_sts").addClass("btn-success");
+                                    $(this).find("#_sts").removeClass("btn-clear");
+                                    $(this).find("#_sts").text("Open");
+                                    $(this).find("#_sts").prop("onclick", null);
+                                    $(this).find("#_sts").click(function () {
+                                        editDeposit(data.DepositId, data.PosId, data.DepositBy,
+                                            data.Payer, data.IssuingBank, data.DepositRef,
+                                            data.GTBank, data.Price, '', data.UserId, data.DateTime, data.ValueDateModel, data.PaymentType, data.Comment);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            });
+        }
+
+        $('#amount').keyup(function (event) {
+
+            // skip for arrow keys
+            if (event.which >= 37 && event.which <= 40) return;
+
+            // format number
+            $(this).val(function (index, value) {
+                return value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    ;
+            });
+        });
+
+
+</script>
+}
+

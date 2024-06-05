@@ -77,7 +77,7 @@ namespace VendTech.Areas.Admin.Controllers
             //{
             deposits = _depositManager.GetAllPendingDepositPagedList(PagingModel.DefaultModel("CreatedAt", "Desc"), vendorId: posId.HasValue ? posId.Value : 0);
             //}
-            return View(deposits);
+            return View("ManageDepositsV2", deposits);
         }
 
         [AjaxOnly, HttpPost]

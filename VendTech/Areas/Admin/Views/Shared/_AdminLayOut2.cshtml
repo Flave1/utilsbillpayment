@@ -1,0 +1,421 @@
+﻿@{
+    var user = new UserDetails();
+    if (ViewBag.LOGGEDIN_USER != null)
+    {
+        user = (UserDetails)ViewBag.LOGGEDIN_USER;
+    }
+}﻿
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<META HTTP-EQUIV=”refresh” CONTENT=”5; URL=https://vendtechsl.com/Home/Index”>*@
+    <link rel="shortcut icon" href="~/Content/images/vt_logo.PNG">
+    <title>Administrative Panel</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> 
+
+    @Styles.Render("~/Content/adminLayoutCSS")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <style>
+        html {
+            /*font-size: 62.5%;*/
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-text-size-adjust: 100%;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+            .sidebar a {
+                padding: 15px;
+                text-decoration: none;
+                font-size: 18px;
+                color: white;
+                display: block;
+            }
+
+                .sidebar a:hover {
+                    background-color: #575d63;
+                }
+
+        /* Offcanvas overlay for mobile */
+        .offcanvas {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1045;
+            width: 250px;
+            display: none;
+            overflow-y: auto;
+            background-color: #343a40;
+        }
+
+        .offcanvas-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        .offcanvas-body {
+            padding: 1rem;
+        }
+
+        .offcanvas a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+            .offcanvas a:hover {
+                background-color: #575d63;
+            }
+
+        @@media (min-width: 992px) {
+            .offcanvas {
+                display: none !important;
+            }
+        }
+
+        /* Main content area */
+        .content {
+            margin-left: 250px; /* Same as the sidebar width */
+            padding: 20px;
+        }
+
+        @@media (max-width: 991.98px) {
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        /* Widget styling */
+        .widget {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .widget-header {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .text-white{
+            color: white;
+            font-weight: bold
+        }
+        .btn-action-sidebar {
+            font-weight: bold;
+            color: white !important;
+            font-size: 14px;
+            border: 1px solid grey;
+            border-radius: 50px;
+            padding: 10px;
+        }
+        .m_content {
+            background: none repeat scroll 0 0 #FFF;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .s_content {
+            margin-top: 70px;
+        }
+        .table-bordered {
+            border: 1px solid #dee2e6 !important;
+        }
+        .navbar-nav > .open > a:focus {
+            background-color: #343a40;
+            /*color: #FFF;*/
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar for desktop -->
+    <div class="sidebar d-none d-lg-block" style="background: rgb(40 40 40) ">
+        @Html.Partial("_SideBaar2")
+    </div>
+
+    <!-- Offcanvas for mobile -->
+    <div class="offcanvas offcanvas-start d-lg-none " tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel" style="background: rgb(40 40 40) ">
+        <div class="offcanvas-header" >
+            <h5 class="offcanvas-title text-white" id="offcanvasSidebarLabel">Menu</h5>
+            <button type="button" style="background:none; border:none;" id="mob-menu2">
+                <span class="btn-action-sidebar">X</span>
+            </button>
+        </div>
+        <div class="offcanvas-body">
+            @Html.Partial("_SideBaar2Mobile")
+        </div>
+    </div>
+    @Html.Partial("_Header2")
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="border-bottom: 2px solid gray;">
+                            <h2 class="modal-title" style="font-weight:bold" id="exampleModalLabel">Timeout Warning</h2>
+                            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                        </div>
+                        <div class="modal-body123">
+                            <p>Your session has been idle for <span id="idleTime">2</span> minutes. If you do not respond, the system will disconnect you in 30 seconds.</p>
+                            @*<p id="timeout">Warning session timeout in <span id="countdown">30 </span> seconds</p>*@
+                        </div>
+                        <div class="modal-footer">
+                            <a href="@Url.Action("SignOut", "Home")" class="btn btn-secondary text-danger">Logout</a>
+                            <button type="button" class="btn " style="background:orange;" onclick="maintainSession()" data-dismiss="modal">Keep Active</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @if (user.UserType != UserRoles.AppUser)
+            {
+                @RenderBody()
+                @*<button onclick="showModal()">
+                    show modal
+
+                </button>*@
+            }
+            else
+            {
+                <div><H1>Access denied! You do not have permission to access this corner</H1></div>
+            }
+        </div>
+    </div>
+
+    <div id="timeSetModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Auto Logout Time</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="timeTxt" class="col-md-4 control-label">Time (In Seconds)<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" id="timeTxt" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveLogoutTime()">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/extendedjs")
+    @Scripts.Render("~/bundles/themeSpecific")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom")
+    @RenderSection("scripts", required: false)
+
+    @*<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>*@
+    @*<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>*@
+    @*<script src="~/Scripts/popper.js"></script>*@
+    @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
+
+
+    <script>
+        $(document).on("ready", function () { 
+            // Toggle offcanvas sidebar
+            $('[data-toggle="offcanvas"]').on('click', function () {
+                $('#offcanvasSidebar').toggleClass('show');
+            });
+            // Close button
+            $('.close').on('click', function () {
+                $('#offcanvasSidebar').removeClass('show');
+            });
+
+            $('#mob-menu').on('click', function () { 
+                $('#offcanvasSidebar').toggleClass('show');
+            });
+
+            $('#mob-menu2').on('click', function () {
+                $('#offcanvasSidebar').toggleClass('show');
+            });
+        });
+    </script>
+
+    <script>
+
+
+        var homehandler = {
+            idleTime: 0
+        }
+
+        function showModal() {
+            $("#logoutModal").modal('show');
+        }
+
+
+
+        function toggleOpenClass() {
+            var element = document.getElementById('profile_menu');
+            element.classList.toggle('open');
+        }
+
+        function toggleNotification() {
+            var element = document.getElementById('notification_menu');
+            element.classList.toggle('open');
+        }
+
+
+
+        $(function () {
+            setInterval(function () {
+
+                $.ajax({
+                    url: '/Home/AutoLogout',
+                    success: function (data) {
+                        console.log("data", data);
+                        homehandler.idleTime = parseInt(parseInt(data.ID) / 60);
+                        if (data.Message == "aboutTo") {
+                            //$("#logoutModal").modal('show');
+                            //updateCountdown();
+                        }
+                        //if (data.Message == "expired") {
+                        //    window.location.href = '/Admin/Home/Index'
+                        //}
+                    }
+                })
+            }, 50000);
+        })
+
+        function maintainSession() {
+            $.ajax({
+                url: '/Home/MaintainSession',
+                success: function (data) {
+                }
+            })
+        }
+
+
+        setInterval(function () {
+            $.ajax({
+                url: '/Admin/Home/CheckForUnClearedDeposits',
+                success: function (data) {
+                    //$("#dealerBal").text(data.result.LastDealerBalance);
+                    //$("#transDate").text(data.result.RequestDate);
+                }
+            })
+        }, 120000);
+
+        setTimeout(function () {
+            $.ajax({
+                url: '/Admin/Home/ReturnUserImageLogo',
+                success: function (data) {
+                    $("#image").attr({ "src": data.result });
+                    //console.log('logo', data.result)
+                }
+            })
+        }, 1000);
+
+
+
+        $(".navbar-default .navbar-brand").live("click", function () {
+                window.location.href='/Admin/Home/Dashboard';
+            });
+            function showTimeSetModal() {
+            var value = '@ViewBag.Minutes';
+            $("#timeTxt").val(value);
+            $("#timeSetModal").modal('show');
+        }
+        function saveLogoutTime() {
+            if (!$("#timeTxt").val()) {
+                $.ShowMessage($('div.messageAlert'), "Time is required", MessageType.Error);
+                return
+            }
+            $.ajax({
+                url: '/Admin/Home/SaveLogoutTime',
+                type:'POST',
+                data: { Time: $("#timeTxt").val() },
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $("#timeSetModal").modal('hide');
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Success);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else
+                        $.ShowMessage($('div.messageAlert'), data.Message, MessageType.Error);
+                }
+            })
+        }
+
+
+        //function toggleOpenClass() {
+        //    var element = document.getElementById('profile_menu');
+        //    element.classList.toggle('open');
+        //}
+
+        //function toggleNotification() {
+        //    var element = document.getElementById('notification_menu');
+        //    element.classList.toggle('open');
+        //}
+
+
+    </script>
+
+
+    <script>
+        let countdownTime = 30;
+        function updateCountdown() {
+            const timeoutElement = document.getElementById('timeout');
+            const countdownElement = document.getElementById('countdown');
+            const idleTimeElement = document.getElementById('idleTime');
+            idleTimeElement.textContent = "" + homehandler.idleTime;
+            countdownElement.textContent = '' + countdownTime;
+            if (countdownTime === 0) {
+                timeoutElement.textContent = 'Loging out.....';
+            } else {
+                countdownTime--;
+                setTimeout(updateCountdown, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

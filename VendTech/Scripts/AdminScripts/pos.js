@@ -252,7 +252,7 @@ var AdminPOS = {
                 }
 
                 $('.modal-meter-body').html(data);
-                $("#userMeterListingModal").modal("show");
+                $('#userMeterListingModal').modal("show")
                 $('#userMeterListingModal').modal({
                     backdrop: 'static',
                     keyboard: false
@@ -264,7 +264,7 @@ var AdminPOS = {
 };
 
 function onSavedMeterClicked(userId, vendor, posid, reOpening = false, active = "active") {
-    
+
     if (!reOpening) {
         purchaseUnitsByAdmin.userId = userId;
         purchaseUnitsByAdmin.posId = posid;

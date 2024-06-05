@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -49,9 +50,16 @@ namespace VendTech.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ManagePOS()
         {
-            ViewBag.SelectedTab = SelectedAdminTab.POS;
-            var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("SerialNumber", "Desc"));
-            return View(users);
+            try
+            {
+                ViewBag.SelectedTab = SelectedAdminTab.POS;
+                var users = _posManager.GetPOSPagedList(PagingModel.DefaultModel("SerialNumber", "Desc"));
+                return View("ManagePOSV2", users);
+            }
+            catch (Exception)
+            {
+                return View("ManagePOSV2",new PagingResult<POSListingModel>());
+            }
         }
 
        
@@ -178,7 +186,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             else
                 model.PlatformList = _posManager.GetAllPlatforms(0);
-            return View(model);
+            return View("AddEditPosV2", model);
         }
 
         [AjaxOnly, HttpPost]

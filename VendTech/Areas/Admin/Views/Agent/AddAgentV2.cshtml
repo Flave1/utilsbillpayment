@@ -1,0 +1,179 @@
+﻿@model VendTech.BLL.Models.SaveAgentModel
+@{
+    ViewBag.Title = Model.AgencyId > 0 ? "Edit Agent Details" : "Add Agent Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+    var country = Utilities.GetCountry();
+}
+
+
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="m_content">
+        @Html.Partial("_FunctionCallMessage")
+
+        <div class="people-form-cs">
+            <form class="" role="form" id="UserForm">
+                <div class="row form-horizontal">
+                    @Html.HiddenFor(x => x.AgencyId)
+                    @Html.HiddenFor(x => x.POSId)
+                    <div class="col-md-4">
+
+                        <div class="row">
+                            <div class=" col-md-12">
+                                <label for="inputEmail3" class="col-md-12 control-label" style=" text-align:left">AGENCY NAME<em>*</em></label>
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(x => x.AgencyName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.AgencyName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-md-12">SELECT ADMINISTRATOR</label>
+                                <div class="col-md-12">
+                                    <select class="form-control " name="Representative" id="Admin">
+                                        <option value="">SELECT ADMIN</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-md-12">AGENCY COMMISION</label>
+                                <div class="col-md-12">
+                                    <select class="form-control " name="Percentage" id="Percentage">
+                                        <option value="0">COMMISSION</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-md-12">POS ID<em>*</em></label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="SerialNumber" value="@Model.SerialNumber" />
+                                    @Html.ValidationMessageFor(x => x.SerialNumber)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="inputEmail3" class="col-md-5 control-label"></label>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">PERMISSIONS<em>*</em></label>
+
+                            <div class=" col-md-12">
+                                @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID == 26 || r.SubMenuOf == 26 || r.ID == 31 || r.SubMenuOf == 31)
+                                                   .ToList();
+                                    if (listing == null || !listing.Any())
+                                    {
+                                        listing = new List<Checkbox>();
+                                    }
+                                }
+                                @Html.Partial("Partials/_modulesListing", listing)
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">DASHBOARD WIDGETS</label>
+                            @Html.Partial("Partials/_widgetsListing", Model.WidgetList.Where(d => d.Id != 9).ToList())
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right">
+                    <div class="pull-right ">
+                        <a href="@Url.Action("ManageAgents", "Agent", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                        <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/agency.js"></script>
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+
+            var toggleSelectAgent = document.querySelector('.selectAgent');
+
+            if ('@Model.AgencyId' == 0) {
+                $('#10').hide();
+            }
+
+            setTimeout(function () {
+                toggleSelectAgent.addEventListener('change', function (e) {
+                    if (this.checked) {
+                        $('#10').show();
+                        $('#10').attr('checked', true);
+                    } else {
+                        $('#10').hide();
+                        $('#10').attr('checked', false);
+                    }
+                });
+
+            }, 500);
+
+
+
+            loadAllUser()
+            loadAllCommissions()
+            App.init();
+
+
+
+        });
+
+
+        function loadAllUser() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Users));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#Admin").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
+                }
+                var val = $("#Admin").val('@Model.Representative');
+            }
+        }
+
+
+
+        function loadAllCommissions() {
+            var array = @Html.Raw(Json.Encode(ViewBag.Commisions));
+            if (array.length > 0)
+            {
+                for (var i = 0; i < array.length; i++) {
+                    $("#Percentage").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>");
+                }
+                var val = $("#Percentage").val('@Model.Percentage');
+                  if ('@Model.Percentage' == 0) {
+                    $('#Percentage option[value="2"]').attr("selected", true);
+                }
+            }
+        }
+
+    </script>
+}

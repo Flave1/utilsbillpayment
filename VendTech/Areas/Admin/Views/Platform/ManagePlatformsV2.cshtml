@@ -1,0 +1,245 @@
+﻿@model List<PlatformModel>
+@{
+    ViewBag.Title = "Manage Platforms";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>Manage Products</h2>
+    </div>
+    <div class="m_content">
+        <div class="header noborder">
+            <h3>
+                <a href="javascript:void(0)" onclick="addPlatform()" class="btn btn-primary pull-right" title="Add Platform"><i class="fa fa-plus"></i></a>
+            </h3>
+        </div>
+
+        <div class="table-responsive">
+            @*@Html.Partial("_SearchFilter", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })*@
+
+            <div id="divResult">
+                <table class="table table-bordered" id="datatable-icons">
+                    <thead>
+                        <tr>
+                            @*<th>Service Status</th>*@
+                            <th>CODE</th>
+                            <th>TITLE</th>
+                            <th>TYPE</th>
+                            <th>MIN AMOUNT</th>
+                            <th>API CONN.</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>@item.ShortName</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.PlatformTypeName</td>
+                                    <td style="text-align:right;">@Utilities.FormatAmount(item.MinimumAmount)</td>
+                                    <td>@item.PlatformApiConnName</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-xs"
+                                           onclick="editPlatform('@item.PlatformType', '@item.PlatformApiConnId', '@item.Title', '@item.PlatformId', '@item.ShortName', '@item.Logo', '@item.MinimumAmount', '@item.DisablePlatform.ToString().ToLower()', '@item.DiabledPlaformMessage')"
+                                           data-title="@item.Title"
+                                           data-short_name="@item.ShortName"
+                                           data-original-short_name="Edit"
+                                           data-original-title="Edit"
+                                           data-toggle="tooltip">Edit</a>
+
+                                        <a data-id="@item.PlatformId" class="btn btn-danger btn-xs deletePlatform" href="javascript:void(0);" data-original-title="Remove" data-toggle="tooltip">Delete</a>
+
+                                        @if (!item.DisablePlatform)
+                                        {
+                                            <a data-id="@item.PlatformId" class="btn btn-danger btn-xs disablePlatform" href="javascript:void(0);" data-original-title="Disable" data-toggle="tooltip">Disable</a>
+                                        }
+                                        else
+                                        {
+                                            <a data-id="@item.PlatformId" class="btn btn-primary btn-xs enablePlatform" href="javascript:void(0);" data-original-title="Enable" data-toggle="tooltip">Enable</a>
+
+                                        }
+                                        <a class="btn btn-primary btn-xs" href="/Admin/PlatformApi/PlatformApiConnections/@item.PlatformId">PAC</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr class="odd gradeX">
+                                <td colspan="4">No Record Found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="platformModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h4 class="modal-title" id="platformModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="platformSettingsForm" enctype="multipart/form-data">
+                    <input type="hidden" name="Id" id="hdnPlatformId" class="form-control" />
+
+                    <div class="row">
+                        <div class=" col-md-12">
+                            <label for="short_name" class="col-md-4 control-label">SHORTNAME<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="ShortName" id="short_name" class="form-control" />
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">TITLE<em>*</em></label>
+                            <div class="col-md-8">
+                                <input type="text" name="title" id="title" class="form-control" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">TYPE<em>*</em></label>
+                            <div class="col-md-8">
+                                <select id="platformType" name="PlatformType" class="form-control">
+                                    @{
+                                        foreach (var type in PlatformModel.GetPlatformTypes())
+                                        {
+                                            <option value="@type.Value">@type.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <br /><br />  <br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">API CONNECTION<em>*</em></label>
+                            <div class="col-md-8">
+                                <select id="platformApiConnId" name="PlatformApiConnId" class="form-control">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <br /><br />  <br />
+                        <div class=" col-md-12">
+                            <label for="title" class="col-md-4 control-label">MINIMUM AMOUNT<em>*</em></label>
+                            <div class="col-md-4">
+                                <input type="text" name="MinimumAmount" id="minAmount" class="form-control" />
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        <div class="col-md-12">
+                            <label for="title" class="col-md-4 control-label">LOGO</label>
+                            <div class="col-md-8">
+                                <img id="previewImg" style="height:50px; border:2px solid #d2c6c6;  width:40%;" class="dummyimg" src="" />
+                                <input class="pull-right" style="width:52%; " type="file" onchange="previewFile(this);" name="ImagefromWeb" id="ImagefromWeb">
+                            </div>
+
+                        </div>
+                        <br /><br /> <br />
+                        <br />
+                        <div class="col-md-12">
+                            <label for="title" class="col-md-4 control-label" id="statusLabel"></label>
+                            <div class="col-md-8">
+                                <input type="checkbox" checked="" disabled id="stopSale" name="DisablePlatform" style="height:30px; width:30px" />
+                                <textarea class="pull-right form-control" style="width:80%; max-width:80%; max-height: 70px; height: 70px;" type="text" id="diabledPlaformMessage" name="DiabledPlaformMessage"> </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </form> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="enableBtn" onclick="enableThisPlatform(this)">ENABLE</button>
+                <button type="button" class="btn btn-primary" onclick="savePlatform(this)">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript"></script>
+    <script src="~/Scripts/AdminScripts/platform.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+              $("input[type=button]#saveProfileBtn").live("click", function () {
+                return UpdateProfile($(this));
+            }); 
+            //initialize the javascript
+            App.init();
+        });
+
+    </script>
+}
+

@@ -249,7 +249,7 @@ namespace VendTech.Areas.Admin.Controllers
             }
             ViewBag.countries = countryDrpData;
             ViewBag.Cities = _authenticateManager.GetCities();
-            return View(userDetails);
+            return View("EditProfileV2", userDetails);
         }
 
         [AjaxOnly, HttpPost]

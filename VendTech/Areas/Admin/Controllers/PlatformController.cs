@@ -30,7 +30,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Platforms;
             ViewBag.PlatformTypes = PlatformModel.GetPlatformTypes();
-            return View(_platformManager.GetPlatforms());
+            return View("ManagePlatformsV2", _platformManager.GetPlatforms());
         }
 
         [AjaxOnly, HttpGet]

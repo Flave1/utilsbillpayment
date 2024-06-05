@@ -1,0 +1,163 @@
+﻿﻿@model PagingResult<POSListingModel>
+@{
+    ViewBag.Title = "Manage POS";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+}
+<style>
+    .isActive {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+
+    .notActive {
+        color: black;
+        background: grey
+    }
+
+    .isActive:hover {
+        color: black;
+        background: grey
+    }
+
+    .notActive:hover {
+        background: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>Manage POS</h2>
+    </div>
+    <div class="m_content">
+        <div class="header noborder d-flex justify-content-between">
+            @Html.Partial("_SearchFilter2", new PagingModel { SortBy = "CreatedAt", SortOrder = "Desc" })
+            <h3>
+                <a href="@Url.Action("AddEditPOS", "POS", new { area = "Admin" })" class="btn btn-primary pull-right" title="Add POS">
+                    <i class="fa fa-user "></i><super><i class="fa fa-plus"></i></super>
+                </a>
+            </h3>
+        </div>
+        <div class="m_content">
+            <input id="IsActive" value="true" hidden />
+            <div style=' height:40px;' class="d-flex col-md-4 col-sm-12 col-xs-12 justify-content-between">
+                <button id="true"
+                        style="width: 50%; border: none;" class="isActive"
+                        onclick="openTab('true')">
+                    ACTIVE POS
+                </button>
+                <button id="false"
+                        style="width: 49.6%; border:none;" class="notActive"
+                        onclick="openTab('false')">
+                    INACTIVE POS
+                </button>
+            </div>
+            <div id="divResult" class="table-responsive">
+
+
+                <table class="table table-bordered " id="datatable-icons">
+                    <thead>
+                        <tr>
+                            <th class="sorting" data-sortby="POSId">POS ID</th>
+                            <th class="sorting" data-sortby="VendorId">VENDOR NAME</th>
+                            <th class="sorting" data-sortby="Product">PRODUCT</th>
+                            <th class="sorting" data-sortby="Agency">AGENCY</th>
+                            <th class="sorting" data-sortby="COMMISSION">COMMISSION %</th>
+                            <th class="sorting" data-sortby="Number">POS SIM #</th>
+                            <th class="sorting" data-sortby="MeterCount">SAVED METERS</th>
+                            <th class="sorting" data-sortby="VendorType">POS TYPE</th>
+                            <th class="sorting" data-sortby="appVersion">APP VERSION</th>
+                            <th class="sorting" data-sortby="Balance">BALANCE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("Partials/_posListing", Model)
+                    </tbody>
+                </table>
+            </div>
+            @*@Html.Partial("_Paging")*@
+        </div>
+    </div>
+</div>
+
+
+    <div class="modal fade" id="userMeterListingModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-xl" style="width: 55%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row d-flex justify-content-between col-12">
+                        <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
+                        <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <br />
+                </div>
+
+                <div class="row  col-12">
+                    <button class="btn btn-primary pull-right"
+                            onclick="AdminPOS.openMeterForm()" style="font-size: 12px; color: white;">
+                        <i class="fa fa-plus-circle"></i> ADD METER
+                    </button>
+                </div>
+                <br />
+                <div class="modal-meter-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="meterForm" class="modal fade" role="dialog">
+        <div class="modal-dialog pull-right" style=" width: 600px;">
+            <div class="modal-content">
+                <div class="modal-body " style="margin-bottom: 30px; height: 600px; ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @Html.Partial("Partials/_purchaseUnitsForm")
+
+
+    @section scripts{
+        <script src="~/Scripts/UserDefinedScripts/paging.js"></script>
+        <script type="text/javascript">
+        var totalCount = "@Model.TotalCount";
+        </script>
+        <script src="~/Scripts/AdminScripts/pos.js"></script>
+
+        <script src="~/Scripts/AdminScripts/purchaseUnitsByAdmin.js"></script>
+
+        <script src="~/Scripts/UserScripts/sms.js"></script>
+
+        <script src="~/Scripts/Receipt.js"></script>
+
+        <script type="text/javascript">
+
+
+            $("#searchField").show();
+            var searchFields = ["POS ID", "VENDOR NAME", "PRODUCT", "AGENCY", "POS_SIM #", "COMMISSION", "POS_TYPE"];
+            for (var i = 0; i < searchFields.length; i++) {
+                $("#searchField").append("<option value=" + searchFields[i] + ">" + searchFields[i] + "  </option>")
+            }
+
+            $(document).ready(function () {
+                //initialize the javascript
+                $('#searchField option[value="VENDOR"]').attr("selected", true);
+                $('.filter-select option[value="10000000"]').attr("selected", true);
+                App.init();
+                //Users.ManageUsers(totalCount);
+            });
+
+            function closeModal() {
+                $("#modalCart2").modal("hide");
+            }
+
+        </script>
+    }
+

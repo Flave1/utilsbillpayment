@@ -626,7 +626,7 @@ namespace VendTech.BLL.Managers
             us.CountryId = user.CountryId != null ? user.CountryId.Value : 0;
             us.City = user.CityId != null ? user.CityId.Value : 0;
             us.ProfilePicUrl = string.IsNullOrEmpty(user?.ProfilePic) ? "" : Utilities.DomainUrl + user?.ProfilePic;
-            us.AutoApprove = (bool)user.AutoApprove;
+            us.AutoApprove = user.AutoApprove == null ? false : (bool)user.AutoApprove;
             us.AccountStatus = ((UserStatusEnum)(user.Status)).ToString();
             return us;
         }
@@ -664,7 +664,7 @@ namespace VendTech.BLL.Managers
                 user.Password = Utilities.EncryptPassword(userDetails.Password);
                 user.AutoApprove = userDetails.AutoApprove;
                 user.Status = (int)UserStatusEnum.Active;
-                user.Vendor = $"{userDetails.FirstName} {userDetails.LastName}";
+                user.Vendor = string.IsNullOrEmpty(user.Vendor) ? $"{userDetails.FirstName} {userDetails.LastName}": user.Vendor;
                 user.CompanyName = user.Vendor;
                 if (userDetails.VendorId.HasValue && userDetails.VendorId > 0)
                     user.FKVendorId = userDetails.VendorId;

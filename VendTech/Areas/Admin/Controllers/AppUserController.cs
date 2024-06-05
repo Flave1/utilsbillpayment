@@ -47,7 +47,7 @@ namespace VendTech.Areas.Admin.Controllers
         {
             ViewBag.SelectedTab = SelectedAdminTab.Users;
             var users = _userManager.GetUserPagedList(PagingModel.DefaultModel("Name", "Asc"), true,status);
-            return View(users);
+            return View("ManageAppUsersV2", users);
         }
 
         [AjaxOnly, HttpPost]
@@ -84,7 +84,7 @@ namespace VendTech.Areas.Admin.Controllers
             model.ResetUserPassword = true;
             model.ModuleList = _userManager.GetAllModules(0);
             model.WidgetList = _userManager.GetAllWidgets(0);
-            return View(model);
+            return View("AddUserV2", model);
         }
 
         [AjaxOnly, HttpPost]
@@ -192,7 +192,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel.PlatformList = _userManager.GetAllPlatforms(userId);
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
             userModel.IsAgencyAdmin = _agentManager.IsAdmin(userId);
-            return View(userModel);
+            return View("EditUserV2", userModel);
         }
 
         public ActionResult ViewUser(long userId)
@@ -230,7 +230,7 @@ namespace VendTech.Areas.Admin.Controllers
             userModel.WidgetList = _userManager.GetAllWidgets(userId);
             userModel.IsAgencyAdmin = _agentManager.IsAdmin(userId);
 
-            return View(userModel);
+            return View("ViewUserV2",userModel);
         }
 
 
