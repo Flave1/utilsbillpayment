@@ -129,7 +129,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2024 13:55:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header2.cshtml">
-      <publishTime>06/04/2024 16:22:37</publishTime>
+      <publishTime>06/07/2024 14:24:04</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SearchFilter2.cshtml">
       <publishTime>05/31/2024 07:13:36</publishTime>
@@ -138,7 +138,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/05/2024 15:37:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2.cshtml">
-      <publishTime>05/31/2024 17:15:09</publishTime>
+      <publishTime>06/07/2024 14:33:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2Mobile.cshtml">
       <publishTime>06/05/2024 09:49:12</publishTime>
@@ -153,10 +153,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>06/04/2024 13:02:09</publishTime>
+      <publishTime>06/06/2024 03:18:32</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
-      <publishTime>01/26/2024 16:25:01</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.pdb">
       <publishTime>04/05/2024 05:41:11</publishTime>
@@ -171,16 +171,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/04/2024 18:15:04</publishTime>
+      <publishTime>06/08/2024 00:02:56</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>06/04/2024 13:00:16</publishTime>
+      <publishTime>06/07/2024 08:23:47</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>06/04/2024 13:02:09</publishTime>
+      <publishTime>06/06/2024 03:18:32</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
-      <publishTime>01/26/2024 16:25:01</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.pdb">
       <publishTime>03/11/2024 16:11:12</publishTime>
@@ -216,7 +216,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/02/2024 14:11:51</publishTime>
     </File>
     <File Include="Scripts/signalr/controller.js">
-      <publishTime>05/09/2024 17:50:22</publishTime>
+      <publishTime>06/07/2024 11:00:51</publishTime>
     </File>
     <File Include="Scripts/signalr/signalr.js">
       <publishTime>05/09/2024 17:49:21</publishTime>
@@ -237,7 +237,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/06/2024 15:04:55</publishTime>
     </File>
     <File Include="Views/Home/Dashboard.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/07/2024 15:01:59</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>06/04/2024 13:02:04</publishTime>

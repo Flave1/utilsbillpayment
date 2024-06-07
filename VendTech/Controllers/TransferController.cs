@@ -116,7 +116,7 @@ namespace VendTech.Controllers
                         PercentageAmount = request.Amount,
                         CheckNumberOrSlipId = reference,
                         ValueDate = DateTime.UtcNow.ToString(),
-                        ValueDateStamp = DateTime.UtcNow
+                        ValueDateStamp = DateTime.UtcNow.AddSeconds(2)
                     };
                     var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, frompos, request.otp);
 

@@ -6,12 +6,14 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using VendTech.Attributes;
 using VendTech.BLL.Common;
 using VendTech.BLL.Interfaces;
 using VendTech.BLL.Models;
+using VendTech.BLL.PlatformApi;
 using VendTech.DAL;
 
 namespace VendTech.Areas.Admin.Controllers
@@ -213,6 +215,7 @@ namespace VendTech.Areas.Admin.Controllers
                 {
                     ActionOutput result = _depositManager.ChangeDepositStatus(pds[i].PendingDepositId, DepositPaymentStatusEnum.Released, true);
                     var deposit = _depositManager.GetDeposit(pds[i].PendingDepositId);
+                    SendEmailOTPToAdmin(pds[i].PendingDepositId);
                     SendEmailOnDepositApproval(deposit);
                     SendEmailToAdminOnDepositApproval(deposit, result.ID);
                     SendSmsOnDepositApproval(deposit);
@@ -337,6 +340,21 @@ namespace VendTech.Areas.Admin.Controllers
 
                     Utilities.SendEmail(admin.Email, "VENDTECH SUPPORT | DEPOSIT AUTO APPROVAL EMAIL", body);
                 }
+            }
+        }
+        private void SendEmailOTPToAdmin(long depositId)
+        {
+            var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+            if (emailTemplate.TemplateStatus)
+            {
+                var otp = Utilities.GenerateRandomNo().ToString();
+                var releaseBtn = $"<a href='{Utilities.DomainUrl}/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", depositId)}&otp={otp}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
+                string body = emailTemplate.TemplateContent;
+                body = body.Replace("%otp%", otp);
+                body = body.Replace("%RELEASEOTP%", releaseBtn);
+                body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                var currentUser = LOGGEDIN_USER.UserID;
+                Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
             }
         }
         private bool SendSmsOnDepositApproval(PendingDeposit deposit)

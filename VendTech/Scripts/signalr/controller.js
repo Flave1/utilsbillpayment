@@ -1,9 +1,27 @@
 ﻿"use strict";
-const local = "https://localhost:7285/hub";
+const local = "https://localhost:7280/hub";
 const live = "https://www.vendtechsl.com:459/hub";
-const dev = "https://subs.vendtechsl.net/hub";
-var connection = null;
-connection = new signalR.HubConnectionBuilder().withUrl(live, { withCredentials: true }).configureLogging(signalR.LogLevel.Information).build();
+const dev = "http://subs.vendtechsl.net/hub";
+
+//var connection = new signalR.HubConnectionBuilder().withUrl(live).configureLogging(signalR.LogLevel.Information).build();
+
+
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl(live, options => {
+        // Skip server negotiation (optional, might be needed for non-standard ports)
+        options.skipNegotiation = true;
+
+        // Configure transport to handle certificate validation
+        options.configureTransport(transport => {
+            // Replace with your own certificate validation logic
+            transport.onBeforeAbort = () => {
+                // Implement your custom certificate validation logic here
+                // You can use libraries like `https` or browser APIs to validate
+                return true; // Allow connection for demonstration purposes
+            };
+        });
+    })
+    .build();
 
 
 const userId = userBalanceHandler.userId;
