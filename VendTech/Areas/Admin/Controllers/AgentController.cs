@@ -107,37 +107,63 @@ namespace VendTech.Areas.Admin.Controllers
         }
 
         [AjaxOnly, HttpPost]
-        public async Task<JsonResult> SendOTP()
+        public async Task<JsonResult> SendOTP(DepositToAdmin request)
         {
             ViewBag.SelectedTab = SelectedAdminTab.Deposits;
             var result = _depositManager.SendOTP();
             if (result.Status == ActionStatus.Successfull)
             {
-                var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
-                if (emailTemplate.TemplateStatus)
+                if (request.ValueDate == null)
+                    request.ValueDate = DateTime.UtcNow.ToString();
+                else
+                    request.ValueDate = request.ValueDate;
+
+                try
                 {
-                    //var releaseBtn = $"<a href='{Utilities.DomainUrl}/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", model.ReleaseDepositIds)}&otp={result.Object}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
-                    string body = emailTemplate.TemplateContent;
-                    body = body.Replace("%RELEASEOTP%", "Auto release not applicable");
-                    body = body.Replace("%otp%", result.Object);
-                    body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
-                    var currentUser = LOGGEDIN_USER.UserID;
-                    Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
-                    Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
+                    var pendingDep = _depositManager.SaveDepositRequest(new DepositModel
+                    {
+                        Amount = request.Amount,
+                        PosId = request.PosId,
+                        BankAccountId = request.BankAccountId,
+                        ChkOrSlipNo = Utilities.TrimLeadingZeros(request.ChkOrSlipNo),
+                        ChkBankName = request.Bank,
+                        ValueDate = request.ValueDate,
+                        NameOnCheque = request.NameOnCheque,
+                        DepositType = (DepositPaymentTypeEnum)request.PaymentType,
+                    });
+              
+
+                    var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
+                    if (emailTemplate.TemplateStatus)
+                    {
+                        var releaseBtn = $"<a href='{Utilities.DomainUrl}/Admin/ReleaseDeposit/ManageDepositRelease?depositids={string.Join(",", pendingDep.Object.PendingDepositId)}&otp={result.Object}&taskId={LOGGEDIN_USER.UserID}'>Release deposit</a>";
+                        string body = emailTemplate.TemplateContent;
+                        body = body.Replace("%RELEASEOTP%", releaseBtn);
+                        body = body.Replace("%otp%", result.Object);
+                        body = body.Replace("%USER%", LOGGEDIN_USER.FirstName);
+                        var currentUser = LOGGEDIN_USER.UserID;
+                        Utilities.SendEmail(User.Identity.Name, emailTemplate.EmailSubject, body);
+                        //Utilities.SendEmail("vblell@gmail.com", emailTemplate.EmailSubject, body);
+                    }
+
+                    var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
+                    if (user != null)
+                    {
+                        var msg = new SendSMSRequest
+                        {
+                            Recipient = "232" + user.Phone,
+                            Payload = $"Greetings {user.Name} \n" +
+                              $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
+                              "VENDTECH"
+                        };
+                        await _smsManager.SendSmsAsync(msg);
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    return JsonResult(new ActionOutput { Message = ex.Message, Status = ActionStatus.Error });
                 }
 
-                var user = _userManager.GetAppUserProfile(LOGGEDIN_USER.UserID);
-                if (user != null)
-                {
-                    var msg = new SendSMSRequest
-                    {
-                        Recipient = "232" + user.Phone,
-                        Payload = $"Greetings {user.Name} \n" +
-                          $"To Approve deposits, please use the following OTP (One Time Passcode). {result.Object}\n" +
-                          "VENDTECH"
-                    };
-                    await _smsManager.SendSmsAsync(msg);
-                }
             }
             return JsonResult(new ActionOutput { Message = result.Message, Status = result.Status });
         }
@@ -150,14 +176,13 @@ namespace VendTech.Areas.Admin.Controllers
                 return JsonResult(new ActionOutput { Message = "POS Required", Status = ActionStatus.Error });
             }
 
-            if (request.ValueDate == null)
-                request.ValueDate = DateTime.UtcNow.ToString();
-            else
-                request.ValueDate = request.ValueDate;
-
             try
             {
-                
+                if (request.ValueDate == null)
+                    request.ValueDate = DateTime.UtcNow.ToString();
+                else
+                    request.ValueDate = request.ValueDate;
+
                 var depositCr = new Deposit
                 {
                     Amount = request.Amount,
@@ -177,6 +202,15 @@ namespace VendTech.Areas.Admin.Controllers
 
                if(result.Status == ActionStatus.Successfull)
                 {
+
+                    var pdIndDeposit = _depositManager.GetPendingDepositByPOS(depositCr.POSId, depositCr.Amount);
+
+                    if(pdIndDeposit != null)
+                    {
+                        _depositManager.DeletePendingDeposits(pdIndDeposit);
+                    }
+
+
                     var pos = _posManager.GetSinglePos(request.PosId);
                     if (pos != null && pos.EmailNotificationDeposit == true)
                     {

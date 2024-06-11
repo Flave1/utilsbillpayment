@@ -15,6 +15,7 @@ var superAdminTransferHandler = {
     isChequePayment: false,
     selectedAdminPosId: '',
     sentOtp: false,
+    globalFormData: null,
 
     submit: function (sender) {
         formData = null
@@ -26,6 +27,7 @@ var superAdminTransferHandler = {
         if (formData == 'error') {
             return;
         }
+        this.globalFormData = formData;
         if (!superAdminTransferHandler.sentOtp) {
             superAdminTransferHandler.sendOtp(sender);
             return;
@@ -173,6 +175,7 @@ var superAdminTransferHandler = {
             showThrobber: true,
             button: $(sender),
             throbberPosition: { my: "left center", at: "right center", of: $(sender) },
+            data: this.globalFormData,
             success: function (results, message) {
                 superAdminTransferHandler.sentOtp = true;
                 $.ShowMessage($('div.messageAlert'), message, MessageType.Success);
@@ -180,7 +183,7 @@ var superAdminTransferHandler = {
                     swal.close();
                 }, 1500);
                 disableSubmit(false);
-                $('.otpSent').css('display', 'block');
+                $('.otpSent').css('display', 'flex');
             },
             error: function (err) {
                 disableSubmit(false);

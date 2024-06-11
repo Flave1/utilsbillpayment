@@ -48,23 +48,23 @@
         }
 </style>
 
-<ul class="cl-vnavigation" > 
-     <li><a href="@Url.Action("Dashboard", "Home", new { area = "Admin" })"><i class="fa fa-home"></i>Dashboard</a></li>
+<ul class="cl-vnavigation">
+    <li><a href="@Url.Action("Dashboard", "Home", new { area = "Admin" })"><i class="fa fa-home"></i>Dashboard</a></li>
     @if (assignerModules.Where(X => X.ControllerName == "11" || X.ControllerName == "10").ToList().Count() > 0 && assignerModules.Where(X => X.ControllerName == "11").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
     {
 
         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "open" : "") ">
             <a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })"><i class="fa fa-users"></i>Manage Users</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Users ? "display:block;" : "display:none;")">
-            @if (assignerModules.Where(X => X.ControllerName == "10").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
-            {
-                <li><a href="@Url.Action("ManageUsers", "user", new { area = "Admin" })">CMS Users</a></li>
-            }
-            @if (assignerModules.Where(X => X.ControllerName == "11").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
-            {
-                <li><a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })">App Users</a></li>
-            }
-        </ul>*@
+                    @if (assignerModules.Where(X => X.ControllerName == "10").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
+                    {
+                        <li><a href="@Url.Action("ManageUsers", "user", new { area = "Admin" })">CMS Users</a></li>
+                    }
+                    @if (assignerModules.Where(X => X.ControllerName == "11").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
+                    {
+                        <li><a href="@Url.Action("ManageAppUsers", "AppUser", new { area = "Admin" })">App Users</a></li>
+                    }
+                </ul>*@
         </li>
     }
     @if (assignerModules.Where(X => X.ControllerName == "2").ToList().Count() > 0 && user.UserType != UserRoles.AppUser)
@@ -82,29 +82,35 @@
     @if (user.UserType != UserRoles.AppUser && (assignerModules.Where(X => X.ControllerName == "5").ToList().Count() > 0))
     {
         <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "open" : "open")">
-            <a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })"><i class="fa fa-file-text-o"></i>Deposits</a>
+            <a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })"><i class="fa fa-file-text-o"></i>Deposit Release</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "display:block;" : "display:none;")">
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "6").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageDeposits", "Deposit", new { area = "Admin" })">Deposits Uploader</a></li>
-                }
-                DepositRelease
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "7").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })">Deposits Release</a></li>
-                }
-                DepositReversal
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "8").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reversal</a></li>
-                }
-                @if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("DepositLogs", "Deposit", new { area = "Admin" })">Transaction History</a></li>
-                }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "6").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageDeposits", "Deposit", new { area = "Admin" })">Deposits Uploader</a></li>
+                    }
+                    DepositRelease
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "7").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageDepositRelease", "ReleaseDeposit", new { area = "Admin" })">Deposits Release</a></li>
+                    }
+                    DepositReversal
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "8").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageDepositReverse", "ReverseDeposit", new { area = "Admin" })">Deposits Reversal</a></li>
+                    }
+                    @if (user.UserType != UserRoles.AppUser || user.UserType == UserRoles.Admin && assignerModules.Where(X => X.ControllerName == "Deposit").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("DepositLogs", "Deposit", new { area = "Admin" })">Transaction History</a></li>
+                    }
 
-            </ul>*@
+                </ul>*@
         </li>
+
+        <li class="@(ViewBag.SelectedTab == SelectedAdminTab.Deposits ? "open" : "open")">
+            <a href="@Url.Action("ManageDeposits", "Deposit", new { area = "Admin" })"><i class="fa fa-file-text-o"></i>Deposits Uploader</a>
+        </li>
+
+
     }
 
 
@@ -125,46 +131,46 @@
             <a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><i class="fa fa-cog"></i>Platform Settings</a>
             @*<ul class="sub-menu" style="@(ViewBag.SelectedTab == SelectedAdminTab.Platforms ? "display:block;" : "display:none;")">
 
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><span>Manage Products</span></a></li>
-                }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "22").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManagePlatforms", "Platform", new { area = "Admin" })"><span>Manage Products</span></a></li>
+                    }
 
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "13").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageCommissions", "Commission", new { area = "Admin" })"><span>Manage Commission</span></a></li>
-                }
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageBankAccounts", "BankAccount", new { area = "Admin" })"><span>Manage Bank Accounts</span></a></li>
-                }
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageChequeBanks", "ChequeBanks", new { area = "Admin" })"><span>Manage Payee Banks</span></a></li>
-                }
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("Index", "PaymentType", new { area = "Admin" })"><span>Manage Payment Types</span></a></li>
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "13").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageCommissions", "Commission", new { area = "Admin" })"><span>Manage Commission</span></a></li>
+                    }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageBankAccounts", "BankAccount", new { area = "Admin" })"><span>Manage Bank Accounts</span></a></li>
+                    }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageChequeBanks", "ChequeBanks", new { area = "Admin" })"><span>Manage Payee Banks</span></a></li>
+                    }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "14").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("Index", "PaymentType", new { area = "Admin" })"><span>Manage Payment Types</span></a></li>
 
-                }
-                @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
-                {
-                    <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
-                }
+                    }
+                    @if (user.UserType != UserRoles.AppUser && assignerModules.Where(X => X.ControllerName == "15").ToList().Count() > 0)
+                    {
+                        <li><a href="@Url.Action("ManageRoles", "Role", new { area = "Admin" })"><span>Manage CMS User Roles</span></a></li>
+                    }
 
-                @if (user.UserType != UserRoles.AppUser)
-                {
-                    <li><a href="javascript:void(0)" onclick="showTimeSetModal()">Timeout Settings</a></li>
+                    @if (user.UserType != UserRoles.AppUser)
+                    {
+                        <li><a href="javascript:void(0)" onclick="showTimeSetModal()">Timeout Settings</a></li>
 
-                    <li><a href="@Url.Action("CMSManager", "cms", new { area = "Admin" })">CMS Manager</a></li>
+                        <li><a href="@Url.Action("CMSManager", "cms", new { area = "Admin" })">CMS Manager</a></li>
 
-                    <li><a href="@Url.Action("ManageTemplates", "emailtemplate", new { area = "Admin" })">Manage Email Templates</a></li>
-                    <li><a href="@Url.Action("Index", "Country", new { area = "Admin" })"><span>Manage Countries/Currency</span></a></li>
+                        <li><a href="@Url.Action("ManageTemplates", "emailtemplate", new { area = "Admin" })">Manage Email Templates</a></li>
+                        <li><a href="@Url.Action("Index", "Country", new { area = "Admin" })"><span>Manage Countries/Currency</span></a></li>
 
-                }
-            </ul>*@
+                    }
+                </ul>*@
         </li>
-         
+
     }
 
 

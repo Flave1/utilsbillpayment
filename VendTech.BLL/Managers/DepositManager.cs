@@ -2832,7 +2832,7 @@ namespace VendTech.BLL.Managers
                 dbDeposit.AgencyCommission = new decimal();
                 dbDeposit.BalanceBefore = toPos.Balance ?? new decimal();
                 dbDeposit.ValueDate = DateTime.UtcNow.ToString();
-                dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
+                dbDeposit.PaymentType = dbDeposit.PaymentType;
                 dbDeposit.POS.Balance = dbDeposit.POS.Balance == null ? dbDeposit.Amount : dbDeposit.POS.Balance + dbDeposit.Amount;
               
                 //Adds to  Reciever Balance
@@ -2878,6 +2878,10 @@ namespace VendTech.BLL.Managers
             }
         }
 
+        PendingDeposit IDepositManager.GetPendingDepositByPOS(long posId, decimal amount)
+        {
+            return Context.PendingDeposits.FirstOrDefault(d => d.POSId == posId && d.Amount == amount);
+        }
         void IDepositManager.CreateCommissionCreditEntry(POS toPos, decimal amount, string reference, long currentUserId)
         {
             try

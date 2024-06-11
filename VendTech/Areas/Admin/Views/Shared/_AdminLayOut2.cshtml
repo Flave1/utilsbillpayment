@@ -135,7 +135,7 @@
             color: white !important;
             font-size: 14px;
             border: 1px solid grey;
-            border-radius: 50px;
+            border-radius: 5px;
             padding: 10px;
         }
         .m_content {
@@ -204,10 +204,6 @@
             @if (user.UserType != UserRoles.AppUser)
             {
                 @RenderBody()
-                @*<button onclick="showModal()">
-                    show modal
-
-                </button>*@
             }
             else
             {

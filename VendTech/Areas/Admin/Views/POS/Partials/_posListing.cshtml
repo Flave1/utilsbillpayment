@@ -15,7 +15,7 @@
                 @(!string.IsNullOrEmpty(item.Phone) ? "+232" + item.Phone : "")
             </td>
             <td style="text-align:right;">
-                <button style="border:none; border-radius:50%" onclick="onSavedMeterClicked('@item.UserId', '@item.VendorName', '@item.SerialNumber')">@item.POSCount
+                <button style="border:none; border-radius:50%; font-weight: bold; color: dodgerblue" onclick="onSavedMeterClicked('@item.UserId', '@item.VendorName', '@item.SerialNumber')">@item.POSCount
                 </button>
             </td>
             <td>@item.VendorType</td>

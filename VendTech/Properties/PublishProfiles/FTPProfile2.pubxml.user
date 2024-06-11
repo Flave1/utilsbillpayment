@@ -15,10 +15,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/30/2024 14:31:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/ManageAgentsV2.cshtml">
-      <publishTime>05/31/2024 06:52:05</publishTime>
+      <publishTime>06/11/2024 11:58:25</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/Partials/_depositForm.cshtml">
-      <publishTime>05/30/2024 14:02:40</publishTime>
+      <publishTime>06/11/2024 11:59:49</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/AddUser.cshtml">
       <publishTime>04/17/2024 10:41:50</publishTime>
@@ -75,10 +75,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/Partials/_posListing.cshtml">
-      <publishTime>05/30/2024 14:02:40</publishTime>
+      <publishTime>06/11/2024 08:27:43</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/Partials/_purchaseUnitsForm.cshtml">
-      <publishTime>05/30/2024 14:02:40</publishTime>
+      <publishTime>06/10/2024 17:32:56</publishTime>
     </File>
     <File Include="Areas/Admin/Views/ReleaseDeposit/Autoreleased.cshtml">
       <publishTime>05/13/2024 08:07:44</publishTime>
@@ -123,13 +123,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/07/2024 07:41:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut2.cshtml">
-      <publishTime>06/04/2024 17:03:36</publishTime>
+      <publishTime>06/11/2024 08:19:16</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header.cshtml">
       <publishTime>02/05/2024 13:55:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header2.cshtml">
-      <publishTime>06/07/2024 14:24:04</publishTime>
+      <publishTime>06/11/2024 09:23:20</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SearchFilter2.cshtml">
       <publishTime>05/31/2024 07:13:36</publishTime>
@@ -141,19 +141,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/07/2024 14:33:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2Mobile.cshtml">
-      <publishTime>06/05/2024 09:49:12</publishTime>
+      <publishTime>06/10/2024 21:04:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/AddEditVendorV2.cshtml">
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/ManageVendorsV2.cshtml">
-      <publishTime>05/31/2024 07:30:03</publishTime>
+      <publishTime>06/11/2024 10:18:06</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/PosV2.cshtml">
       <publishTime>05/30/2024 14:02:40</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>06/06/2024 03:18:32</publishTime>
+      <publishTime>06/11/2024 08:30:58</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>06/05/2024 12:54:27</publishTime>
@@ -171,13 +171,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/08/2024 00:02:56</publishTime>
+      <publishTime>06/11/2024 08:31:02</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>06/07/2024 08:23:47</publishTime>
+      <publishTime>06/10/2024 17:58:00</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>06/06/2024 03:18:32</publishTime>
+      <publishTime>06/11/2024 08:30:59</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>06/05/2024 12:54:27</publishTime>
@@ -210,7 +210,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/09/2024 15:25:38</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/superAdminTransfer.js">
-      <publishTime>05/09/2024 10:09:11</publishTime>
+      <publishTime>06/10/2024 19:52:33</publishTime>
+    </File>
+    <File Include="Scripts/AdminScripts/vendor.js">
+      <publishTime>06/11/2024 10:19:51</publishTime>
     </File>
     <File Include="Scripts/Receipt.js">
       <publishTime>04/02/2024 14:11:51</publishTime>

@@ -159,10 +159,7 @@ function Paging(sender) {
     obj.SortOrder = $('#SortOrder').val();
     obj.SearchField = $('#searchField').val();
 
-    console.log("Code is executed");
     const searchParams = new URLSearchParams(window.location.search);
-    console.log(searchParams); // Log the searchParams object to the console.
-    debugger;
 
     if (searchParams.has("vendor")) {
         obj.Search = searchParams.get("vendor");
@@ -177,8 +174,8 @@ function Paging(sender) {
         showThrobber: false,
         throbberPosition: { my: "left center", at: "right center", of: sender, offset: "5 0" },
         url: baseUrl + '/Admin/Vendor/GetVendorsPagingList',
-        success: function (results, message) {
-            $('#divResult table:first tbody').html(results[0]);
+        success: function (results, message) { 
+            $('#vdBodyList').html(results[0]); 
             PageNumbering(results[1]);
           
         }

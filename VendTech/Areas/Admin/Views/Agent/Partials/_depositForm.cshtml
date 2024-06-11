@@ -54,37 +54,37 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">BANK ACCOUNT</label>
-                    @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new { @style = " width:50% !important;", @class = "form-control col-md-6", @id = "bankAccountId" })
+                    <label class="col-4">BANK ACCOUNT</label>
+                    @Html.DropDownList("BankAccountId", new SelectList(ViewBag.bankAccounts, "value", "text"), null, new {@class = "form-control col-6", @id = "bankAccountId" })
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">CHX/CASH</label>
-                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "col-md-8  form-control", style = "width: 50%;", @onchange = "superAdminTransferHandler.onPaymentTypeChange()", @id = "paymentType" })
+                    <label class="col-4">CHX/CASH</label>
+                    @Html.DropDownList("DepositType", new SelectList(ViewBag.DepositTypes, "value", "text"), null, new { @class = "form-control col-6", @onchange = "superAdminTransferHandler.onPaymentTypeChange()", @id = "paymentType" })
                 </div>
                 <div class="form-group row chkBankDiv" style="display:none;">
-                    <label class="col-sm-2 col-md-2" style="width:31% !important;">VALUE DATE</label>
-                    <input type="text" style="width:50%; font-weight: bold;" class="col-sm-6 col-md-6 form-control" autocomplete="off" name="ValueDate" id="valueDate">
+                    <label class="col-4">VALUE DATE</label>
+                    <input type="text" style="font-weight: bold;" class="form-control col-6" autocomplete="off" name="ValueDate" id="valueDate">
                 </div>
                 <div class="form-group row chkBankDiv" style="display: none">
-                    <label class="col-sm-2 col-md-2" style="width:31% !important;">BANK</label>
-                    @Html.DropDownList("ChkBankName", null, "SELECT BANK", new { @class = "col-sm-6 col-md-6  form-control", @style = "width: 50%;", @id = "bank" })
+                    <label class="col-4">BANK</label>
+                    @Html.DropDownList("ChkBankName", null, "SELECT BANK", new { @class = "form-control col-6", @id = "bank" })
                 </div>
                 <div class="form-group row chkBankDiv" style="display: none">
-                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">NAME ON CHEQUE</label>
-                    <input type="text" id="nameOnCheque" name="NameOnCheque" style="width: 50%;" class="col-sm-6 col-md-6  form-control">
+                    <label class="col-4">NAME ON CHEQUE</label>
+                    <input type="text" id="nameOnCheque" name="NameOnCheque" style="width: 50%;" class="form-control col-6">
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-md-2" style="width:31% !important;">CHX # OR SLIP ID</label>
-                    <input type="text" id="chkOrSlipNo" value="0" name="ChkOrSlipNo" style="color: red; text-align: right; width:50%; font-weight: bold;" class="col-md-10 form-control">
+                    <label class="col-4">CHX # OR SLIP ID</label>
+                    <input type="text" id="chkOrSlipNo" value="0" name="ChkOrSlipNo" style="color: red; text-align: right; font-weight: bold;" class="form-control col-6">
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-md-2" style=" width:31% !important;">DEPOSIT AMOUNT</label>
+                    <label class="col-4" >DEPOSIT AMOUNT</label>
                     <input type="text"
                            id="amountDisplay"
                            onkeypress="javascript:return superAdminTransferHandler.isNumber(event)"
                            onkeyup="superAdminTransferHandler.getAmountWithPercentage()"
-                           class="col-md-10  form-control">
+                           class="form-control col-6">
                     <input type="hidden" id="amount" name="Amount">
                 </div>
                 <br />
@@ -93,10 +93,10 @@
                     <input type="text" id="amountDisplay2">
                 </div>
 
-                <div class="form-group row otpSent">
-                    <div class="row" style="width:80%; text-align:right"><a href="#" onclick="superAdminTransferHandler.resendOtp(this)">RESEND OTP</a></div>
-                    <label class="col-sm-2 col-md-2 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
-                    <input type="text" style="width: 50%; height: 50px; font-weight: bolder; font-size: 40px;" class="form-control" placeholder="ENTER OTP" id="otp">
+                <div class="row otpSent">
+                    <div class="col-3"><a href="javascript:void(0);" onclick="superAdminTransferHandler.resendOtp(this)">RESEND OTP</a></div>
+                    <label class="col-3 alert-warning" style=" width:31% !important; ">INPUT OTP HERE <i class="fa fa-arrow-right"></i></label>
+                    <input type="text" style="height: 50px; font-weight: bolder; font-size: 40px;" class="form-control col-6" placeholder="ENTER OTP" id="otp">
                 </div>
                 <div class="row col-md-11">
                     <button type="button" class="btn btn-primary pull-right" id="submitBtn" onclick="superAdminTransferHandler.submit(this)">Submit</button>
