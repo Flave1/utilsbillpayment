@@ -114,7 +114,7 @@ namespace VendTech.Areas.Admin.Controllers
             if (result.Status == ActionStatus.Successfull)
             {
                 if (request.ValueDate == null)
-                    request.ValueDate = DateTime.UtcNow.ToString();
+                    request.ValueDate = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm");
                 else
                     request.ValueDate = request.ValueDate;
 
@@ -130,7 +130,7 @@ namespace VendTech.Areas.Admin.Controllers
                         ValueDate = request.ValueDate,
                         NameOnCheque = request.NameOnCheque,
                         DepositType = (DepositPaymentTypeEnum)request.PaymentType,
-                    });
+                    }, true);
               
 
                     var emailTemplate = _templateManager.GetEmailTemplateByTemplateType(TemplateTypes.DepositOTP);
@@ -179,7 +179,7 @@ namespace VendTech.Areas.Admin.Controllers
             try
             {
                 if (request.ValueDate == null)
-                    request.ValueDate = DateTime.UtcNow.ToString();
+                    request.ValueDate = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm");
                 else
                     request.ValueDate = request.ValueDate;
 

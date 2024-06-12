@@ -1912,10 +1912,10 @@ namespace VendTech.BLL.Managers
             dbDeposit.IsDeleted = true;
             dbDeposit.POS = Context.POS.FirstOrDefault(d => d.POSId == dbDeposit.POSId);
             dbDeposit.BalanceBefore = dbDeposit.POS.Balance ?? new decimal();
-            dbDeposit.PaymentType = (int)DepositPaymentTypeEnum.Cash;
+            dbDeposit.PaymentType = dbDeposit.PaymentType;
 
-            if (dbDeposit.POS.User.AgentId != Utilities.VENDTECH)
-                dbDeposit.CheckNumberOrSlipId = dbDeposit.CheckNumberOrSlipId == "0" ? Utilities.GenerateByAnyLength(7).ToUpper() : dbDeposit.CheckNumberOrSlipId;
+            //if (dbDeposit.POS.User.AgentId != Utilities.VENDTECH)
+            //    dbDeposit.CheckNumberOrSlipId = dbDeposit.CheckNumberOrSlipId == "0" ? Utilities.GenerateByAnyLength(7).ToUpper() : dbDeposit.CheckNumberOrSlipId;
 
             if (dbDeposit.POS != null && status == DepositPaymentStatusEnum.Released)
             {
@@ -2282,7 +2282,7 @@ namespace VendTech.BLL.Managers
             return agentsCommission;
         }
 
-        ActionOutput<PendingDeposit> IDepositManager.SaveDepositRequest(DepositModel model)
+        ActionOutput<PendingDeposit> IDepositManager.SaveDepositRequest(DepositModel model, bool forAgents)
         {
             var userAssignedPos = new POS();
           
@@ -2311,7 +2311,7 @@ namespace VendTech.BLL.Managers
             dbDeposit.TransactionId = "0";
             dbDeposit.CreatedAt = DateTime.UtcNow;
             dbDeposit.Status = (int)DepositPaymentStatusEnum.Pending;
-            dbDeposit.ValueDate = model.ValueDate+ " 12:00";//.ToString("dd/MM/yyyy hh:mm");
+            dbDeposit.ValueDate = forAgents ? model.ValueDate: model.ValueDate+ " 12:00";//.ToString("dd/MM/yyyy hh:mm");
             //dbDeposit.ValueDateStamp = Convert.ToDateTime(model.ValueDate);
             dbDeposit.NextReminderDate = DateTime.UtcNow.AddDays(15);
             Context.PendingDeposits.Add(dbDeposit);
