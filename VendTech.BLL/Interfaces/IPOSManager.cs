@@ -48,6 +48,7 @@ namespace VendTech.BLL.Interfaces
         void RemoveFromSchedule(long userId);
         bool IsWalletFunded(long userId);
         POS GetVendorPos2(long vendorId);
+        void UpdatePasscode(long VendorId);
     }
 
 }
