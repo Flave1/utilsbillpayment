@@ -2,19 +2,37 @@
 @{
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
 }
+
+<style>
+    .mob_menu_parent {
+        width: 100%;
+        text-align: center;
+    }
+
+    .mob_menu_child {
+        display: inline;
+        float: left;
+        width: 33%;
+    }
+
+        .mob_menu_child img {
+            max-width: 100%; /* Ensures the image is responsive */
+            height: 30px;
+        }
+</style>
 <!-- Fixed navbar -->
 <div id="head-nav" class="navbar navbar-default navbar-fixed-top">
-    <div id="mobile-nav">
-        <div style="width: 30%; float: left; padding-top: 13px" onclick="openCloseMobileSideBar()">
+    <div id="mobile-nav" class="mob_menu_parent">
+        <div  class="mob_menu_child" onclick="openCloseMobileSideBar()">
             @*<i class="fa fa-bars" style="font-size:30px;">MENU</i>*@
-            <i class="fa fa-bars" style="font-size:30px; color:#FFC300;">&nbsp&nbsp MENU</i>
+            <i class="fa fa-bars" style="font-size:30px;">&nbsp&nbspMENU</i>
         </div>
-        <div style="width: 30%; float: left; padding-top: 13px; text-align:center">
-            <a href="/home/dashboard" class="pull-right"><img src="@Url.Content("~/Content/images/logo1.jpg")" width="100" alt="LOGO" /></a>
+        <div class="mob_menu_child">
+            <a href="/home/dashboard"><img src="@Url.Content("~/Content/images/logo1.jpg")" width="100" alt="LOGO" /></a>
 
         </div>
-        <div style="width:40%; float:right; padding-top:10px">
-            <a class="btn my-2 my-sm-0 pull-right bg-darkgray mt-2" href="@Url.Action("SignOut", "Home")">SIGN OUT</a>
+        <div class="mob_menu_child">
+            <a class="btn my-2 my-sm-0 bg-darkgray" href="@Url.Action("SignOut", "Home")">SIGN OUT</a>
         </div>
     </div>
     <div class="container-fluid" id="main-container-menu">

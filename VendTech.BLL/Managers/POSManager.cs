@@ -579,10 +579,19 @@ namespace VendTech.BLL.Managers
             }
             //dbPos.CountryCode = !string.IsNullOrEmpty(savePassCodeModel.CountryCode) ? savePassCodeModel.CountryCode : dbPos.CountryCode;
             dbPos.PassCode = savePassCodeModel.PassCode;
+            dbPos.IsNewPasscode = true;
             if (savePassCodeModel.POSId == 0)
                 Context.POS.Add(dbPos);
             Context.SaveChanges();
             return ReturnSuccess("PASSCODE SENT SUCCESSFULLY.");
+        }
+
+        void IPOSManager.UpdatePasscode(long VendorId)
+        {
+            var pos = Context.POS.FirstOrDefault(d => d.VendorId ==  VendorId);
+            if(pos == null) return;
+            pos.IsNewPasscode = false;
+            Context.SaveChanges();
         }
 
         ActionOutput IPOSManager.SavePasscodePosApi(SavePassCodeModel savePassCodeModel)

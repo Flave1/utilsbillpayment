@@ -124,6 +124,7 @@ namespace VendTech.BLL.Models
 
         public bool IsRe_Approval { get; set; } = false;
         public string MobileAppVersion { get; set; }
+        public bool IsPasscodeNew { get; set; }
         public UserModel() { }
         public UserModel(User userObj)
         {
@@ -142,6 +143,7 @@ namespace VendTech.BLL.Models
             CountryCode = country?.CountryCode;
             CurrencyCode = country?.CurrencySymbol;
             MobileAppVersion = userObj.MobileAppVersion;
+            IsPasscodeNew = userObj.POS.FirstOrDefault()?.IsNewPasscode ?? false;
             IsCompany = userObj.IsCompany != null ? (bool)userObj.IsCompany : false;
             ProfilePicUrl = string.IsNullOrEmpty(userObj.ProfilePic) ? "" : Utilities.DomainUrl + userObj.ProfilePic;
             this.AccountStatus = ((UserStatusEnum)(userObj.Status)).ToString();
