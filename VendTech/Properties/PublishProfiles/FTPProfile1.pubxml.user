@@ -13,13 +13,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/12/2023 19:20:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/AddAgentV2.cshtml">
-      <publishTime>05/30/2024 14:02:40</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/ManageAgents.cshtml">
       <publishTime>06/01/2024 05:52:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/ManageAgentsV2.cshtml">
-      <publishTime>06/05/2024 12:54:27</publishTime>
+      <publishTime>06/12/2024 15:22:10</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Agent/Partials/_agencyListing.cshtml">
       <publishTime>06/01/2024 05:52:45</publishTime>
@@ -37,19 +37,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2024 10:41:50</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/AddUserV2.cshtml">
-      <publishTime>05/24/2024 12:22:53</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/EditUser.cshtml">
       <publishTime>04/17/2024 10:47:22</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/EditUserV2.cshtml">
-      <publishTime>05/24/2024 12:22:47</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/ManageAppUsers.cshtml">
       <publishTime>01/12/2023 16:14:18</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/ManageAppUsersV2.cshtml">
-      <publishTime>05/24/2024 13:05:17</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/Partials/_appUserListing.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -67,7 +67,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2024 10:41:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AppUser/ViewUserV2.cshtml">
-      <publishTime>05/24/2024 12:22:11</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="Areas/Admin/Views/BankAccount/AddBankAccount.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -198,6 +198,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/Platform/ManagePlatforms.cshtml">
       <publishTime>06/01/2024 05:52:45</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Platform/ManagePlatformsV2.cshtml">
+      <publishTime>06/05/2024 12:54:28</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/PlatformApi/ConfigureApi.cshtml">
       <publishTime>02/11/2023 07:06:03</publishTime>
     </File>
@@ -229,13 +232,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/12/2023 07:35:31</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/AddEditPosV2.cshtml">
-      <publishTime>05/24/2024 15:17:38</publishTime>
+      <publishTime>06/05/2024 12:54:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOS.cshtml">
       <publishTime>04/12/2023 11:53:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOSV2.cshtml">
-      <publishTime>05/24/2024 15:29:01</publishTime>
+      <publishTime>06/18/2024 11:43:41</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/Partials/_meterForm.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -388,7 +391,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_AdminLayOut2.cshtml">
-      <publishTime>06/10/2024 20:56:59</publishTime>
+      <publishTime>06/11/2024 08:19:16</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_beforeLoginAdminLayout.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -400,7 +403,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Header2.cshtml">
-      <publishTime>05/23/2024 18:44:23</publishTime>
+      <publishTime>06/13/2024 13:37:31</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Paging.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -409,16 +412,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/08/2023 22:30:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SearchFilter2.cshtml">
-      <publishTime>05/22/2024 08:32:04</publishTime>
+      <publishTime>06/05/2024 12:54:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2.cshtml">
-      <publishTime>05/23/2024 18:49:37</publishTime>
+      <publishTime>06/07/2024 14:33:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_SideBaar2Mobile.cshtml">
-      <publishTime>06/10/2024 20:58:40</publishTime>
+      <publishTime>06/10/2024 21:04:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/AddUser.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -445,7 +448,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/30/2022 07:21:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/AddEditVendorV2.cshtml">
-      <publishTime>05/24/2024 13:28:09</publishTime>
+      <publishTime>06/05/2024 12:54:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/Detail.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -454,7 +457,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/11/2023 07:06:03</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/ManageVendorsV2.cshtml">
-      <publishTime>05/24/2024 13:03:25</publishTime>
+      <publishTime>06/11/2024 10:18:06</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/Partials/_posListing.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -466,7 +469,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/PosV2.cshtml">
-      <publishTime>05/24/2024 13:34:57</publishTime>
+      <publishTime>06/05/2024 12:54:28</publishTime>
     </File>
     <File Include="bin/HtmlAgilityPack.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -478,7 +481,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll">
-      <publishTime>06/12/2024 15:24:09</publishTime>
+      <publishTime>06/18/2024 12:57:58</publishTime>
     </File>
     <File Include="bin/VendTech.BLL.dll.config">
       <publishTime>06/05/2024 12:54:27</publishTime>
@@ -487,22 +490,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2024 13:17:55</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll">
-      <publishTime>04/19/2024 13:17:51</publishTime>
+      <publishTime>06/12/2024 16:56:58</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.dll.config">
-      <publishTime>04/17/2024 09:02:01</publishTime>
+      <publishTime>06/05/2024 12:54:27</publishTime>
     </File>
     <File Include="bin/VendTech.DAL.pdb">
       <publishTime>04/19/2024 13:17:51</publishTime>
     </File>
     <File Include="bin/VendTech.dll">
-      <publishTime>06/10/2024 18:09:05</publishTime>
+      <publishTime>06/18/2024 12:57:59</publishTime>
     </File>
     <File Include="bin/VendTech.dll.config">
-      <publishTime>06/10/2024 17:58:00</publishTime>
+      <publishTime>06/18/2024 12:59:25</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll">
-      <publishTime>06/12/2024 15:24:09</publishTime>
+      <publishTime>06/18/2024 12:57:58</publishTime>
     </File>
     <File Include="bin/VendTech.Framework.dll.config">
       <publishTime>06/05/2024 12:54:27</publishTime>
@@ -583,10 +586,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/01/2024 05:52:45</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/pos.js">
-      <publishTime>05/24/2024 14:46:07</publishTime>
+      <publishTime>06/05/2024 12:54:32</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/purchaseUnitsByAdmin.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/05/2024 12:54:32</publishTime>
     </File>
     <File Include="Scripts/AdminScripts/report.js">
       <publishTime>01/01/0001 00:00:00</publishTime>

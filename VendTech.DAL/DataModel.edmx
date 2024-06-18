@@ -432,6 +432,7 @@
           <Property Name="WebBarcode" Type="bit" />
           <Property Name="PosBarcode" Type="bit" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="IsNewPasscode" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="POSAssignedPlatforms">
           <Key>
@@ -2068,6 +2069,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
+          <Property Name="IsNewPasscode" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -3687,6 +3689,7 @@
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.POS">
               <MappingFragment StoreEntitySet="POS">
+                <ScalarProperty Name="IsNewPasscode" ColumnName="IsNewPasscode" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />

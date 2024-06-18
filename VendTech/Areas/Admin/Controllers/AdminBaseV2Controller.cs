@@ -104,6 +104,12 @@ namespace VendTech.Areas.Admin.Controllers
             }
             #endregion
 
+
+            else if (filter_context.HttpContext.Response.StatusCode == 403)
+            {
+                filter_context.Result = RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+
             #region if authorization cookie is not present and the action method being called is not marked with the [Public] attribute
             else if (!filter_context.ActionDescriptor.GetCustomAttributes(typeof(Public), false).Any())
             {
