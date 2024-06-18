@@ -112,11 +112,11 @@ namespace VendTech.Controllers
                         Amount = request.Amount,
                         POSId = request.ToPosId,
                         BankAccountId = 0,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt = DateTime.UtcNow.AddSeconds(2),
                         PercentageAmount = request.Amount,
                         CheckNumberOrSlipId = reference,
                         ValueDate = DateTime.UtcNow.ToString(),
-                        ValueDateStamp = DateTime.UtcNow.AddSeconds(2)
+                        ValueDateStamp = DateTime.UtcNow
                     };
                     var result2 = _depositManager.CreateDepositCreditTransfer(depositCr, LOGGEDIN_USER.UserID, frompos, request.otp);
 
