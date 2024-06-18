@@ -128,7 +128,7 @@ namespace VendTech.BLL.Common
                         $"Email: support@vendtechsl.com" +
                         $"</br>" +
                         $"Website: www.vendtechsl.com" +
-                        $"{Environment.NewLine}" +
+                        $"</br>" +
                         $"Address: 186 Wilkinson Rd, Freetown - Sierra Leone";
             }
         }
