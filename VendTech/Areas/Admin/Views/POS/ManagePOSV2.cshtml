@@ -85,24 +85,23 @@
 
 
     <div class="modal fade" id="userMeterListingModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" data-backdrop="static">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="row d-flex justify-content-between col-12">
-                        <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
-                        <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+                <div class="modal-header d-block row">
+                    <div class="d-flex justify-content-between col-12">
+                        <div class="row">
+                            <h4 class="modal-title"> <strong> Vendor: </strong><span id="vendorName"></span></h4>
+                            <h4 class="modal-title"><strong>POS ID: </strong><span id="posId"></span></h4>
+                        </div>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div> 
+                    <div class=" col-12">
+                        <button class="btn btn-primary pull-right"
+                                onclick="AdminPOS.openMeterForm()" style="font-size: 12px; color: white;">
+                            <i class="fa fa-plus-circle"></i> ADD METER
+                        </button>
                     </div>
-                    <br />
-                </div>
-
-                <div class="row  col-12">
-                    <button class="btn btn-primary pull-right"
-                            onclick="AdminPOS.openMeterForm()" style="font-size: 12px; color: white;">
-                        <i class="fa fa-plus-circle"></i> ADD METER
-                    </button>
-                </div>
-                <br />
+                </div> 
                 <div class="modal-meter-body">
                 </div>
             </div>
@@ -110,7 +109,7 @@
     </div>
 
     <div id="meterForm" class="modal fade" role="dialog">
-        <div class="modal-dialog pull-right" style=" width: 600px;">
+        <div class="modal-dialog pull-right">
             <div class="modal-content">
                 <div class="modal-body " style="margin-bottom: 30px; height: 600px; ">
 
