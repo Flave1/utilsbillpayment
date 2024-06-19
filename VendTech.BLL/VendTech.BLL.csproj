@@ -146,6 +146,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AesEncryption.cs" />
     <Compile Include="Common\Commons.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />

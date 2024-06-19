@@ -63,8 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Integration\BsbUsersEndpointsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Units\SecurityUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

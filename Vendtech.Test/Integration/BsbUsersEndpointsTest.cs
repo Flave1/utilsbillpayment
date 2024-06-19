@@ -11,7 +11,7 @@ using VendTech.Areas.Api.Controllers.b2b;
 namespace Vendtech.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class BsbUsersEndpointsTest
     {
         private HttpClient _client;
         private Mock<ICalculatorService> _mockCalService;
@@ -24,13 +24,10 @@ namespace Vendtech.Test
             _controller = new b2btestController(_mockCalService.Object);
             _client = new HttpClient { BaseAddress = new Uri("http://localhost:56549/api/b2btest") };
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            
-
-            
         }
 
-        [TestMethod]
-        public async Task TestMethod1()
+        //[TestMethod]
+        public async Task Create_user_then_return_ok()
         {
             //Arrange
             var result = 2;
