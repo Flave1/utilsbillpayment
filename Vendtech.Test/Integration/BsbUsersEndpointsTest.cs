@@ -26,8 +26,8 @@ namespace Vendtech.Test
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        //[TestMethod]
-        public async Task Create_user_then_return_ok()
+        [TestMethod]
+        public async Task Create_user_credential()
         {
             //Arrange
             var result = 2;
