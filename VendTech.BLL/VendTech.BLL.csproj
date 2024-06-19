@@ -244,6 +244,7 @@
     <Compile Include="PlatformApi\PlatformApi_Edsa.cs" />
     <Compile Include="PlatformApi\PlatformApi_Sochitel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempTest\CalculatorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
