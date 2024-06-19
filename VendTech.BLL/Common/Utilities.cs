@@ -356,14 +356,14 @@ namespace VendTech.BLL.Common
 
         }
 
-        public static string LogExceptionToDatabase(Exception exc)
+        public static string LogExceptionToDatabase(Exception exc, string source = "")
         {
             var context = new VendtechEntities();
             ErrorLog errorObj = new ErrorLog();
             errorObj.Message = exc.Message;
             errorObj.StackTrace = exc.StackTrace;
             errorObj.InnerException = exc.InnerException == null ? "" : exc.InnerException.Message;
-            errorObj.LoggedInDetails = "";
+            errorObj.LoggedInDetails = source;
             errorObj.LoggedAt = DateTime.UtcNow;
             errorObj.UserId = 0;
             context.ErrorLogs.Add(errorObj);
