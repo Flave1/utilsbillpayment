@@ -254,6 +254,7 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Api\Controllers\b2btestController.cs" />
     <Compile Include="Areas\Api\Controllers\JobsController.cs" />
     <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
@@ -6735,6 +6736,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Platform\Partials\" />
     <Folder Include="Areas\Admin\Views\Testing\" />
+    <Folder Include="Areas\Api\NewFolder1\" />
     <Folder Include="Areas\Api\Views\Dashboard\" />
     <Folder Include="Areas\Audit\Controllers\" />
     <Folder Include="Areas\Audit\Data\" />
