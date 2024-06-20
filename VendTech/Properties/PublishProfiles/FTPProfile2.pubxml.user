@@ -66,10 +66,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/09/2024 09:57:03</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/ManagePOSV2.cshtml">
-      <publishTime>06/19/2024 17:26:46</publishTime>
+      <publishTime>06/20/2024 07:51:25</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/Partials/_meterForm.cshtml">
-      <publishTime>06/19/2024 17:11:07</publishTime>
+      <publishTime>06/20/2024 07:57:05</publishTime>
     </File>
     <File Include="Areas/Admin/Views/POS/Partials/_platformsListing.cshtml">
       <publishTime>11/30/2022 07:21:35</publishTime>

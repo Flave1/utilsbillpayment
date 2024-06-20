@@ -15,6 +15,7 @@ using VendTech.BLL.Managers;
 using System.IO;
 using VendTech.Controllers;
 using iTextSharp.text;
+using System.Security.Cryptography;
 #endregion
 
 namespace VendTech.Areas.Admin.Controllers
@@ -156,9 +157,13 @@ namespace VendTech.Areas.Admin.Controllers
             }
             catch(ArgumentException ex)
             {
-
                 BLL.Common.Utilities.LogExceptionToDatabase(ex, $"Caught exception: {ex.GetType().FullName}");
                 throw new ArgumentException(ex.Message);
+            }
+            catch(CryptographicException)
+            {
+                SignOut();
+                filter_context.Result = RedirectToAction("Index", "Home", new { area = "Admin" });
             }
             catch (Exception ex)
             {
