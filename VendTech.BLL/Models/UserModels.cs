@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using VendTech.BLL.Common;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Policy;
 
 namespace VendTech.BLL.Models
 {
@@ -65,6 +66,55 @@ namespace VendTech.BLL.Models
             //this.Platforms = string.Join(" , ", userObj.UserAssignedPlatforms.Select(x => x.Platform.Title));
             //this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).Select(x => x.Module.ModuleName));
 
+            this.Vendor = userObj.FKVendorId > 0 ? userObj.Vendor : "";
+            this.LastLoggedIn = userObj.AppLastUsed?.ToString("dd/MM/yyyy hh:mm");
+            this.PosBalance = firstPos?.Balance != null ? Convert.ToInt64(firstPos.Balance.Value) : new long();
+            this.POSSerialNumber = firstPos != null ? firstPos.SerialNumber : string.Empty;
+            this.POSID = firstPos != null ? firstPos.POSId : new long();
+        }
+
+    }
+
+    public class B2bUserListingModel
+    {
+        public long UserId { get; set; }
+        public long UserSerialNo { get; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public UserStatusEnum Status { get; set; }
+        public string UserType { get; set; }
+        public string Permissions { get; set; }
+        public string Platforms { get; set; }
+        public string Vendor { get; set; }
+        public string LastLoggedIn { get; set; }
+        public long PosBalance { get; set; }
+        public string POSSerialNumber { get; set; }
+        public long POSID { get; set; }
+        public string ClientKey { get; set; }
+        public string APIKey { get; set; }
+        public B2bUserListingModel()
+        {
+
+        }
+
+        public B2bUserListingModel(User userObj)
+        {
+            var firstPos = userObj.POS.FirstOrDefault(d => d.IsDeleted == false);
+            this.FirstName = userObj.Name;
+            this.LastName = userObj.SurName;
+            this.Email = userObj.Email;
+            this.UserId = userObj.UserId;
+            this.UserSerialNo = userObj?.UserSerialNo ?? 0;
+            this.UserType = userObj.UserRole.Role;
+            this.CreatedOn = userObj.CreatedAt;
+            this.Status = (UserStatusEnum)userObj.Status;
+            this.Platforms = string.Join(" , ", userObj.UserAssignedPlatforms.ToList().Select(x => x.Platform.Title).ToList());
+            this.Permissions = string.Join(" , ", userObj.UserAssignedModules.Where(p => p.Module.Modules1.Count() == 0).ToList().Select(x => x.Module.ModuleName).ToList());
+
+            //ClientKey = userObj.B2bUserAccess.FirstOrDefault().Clientkey;
+            //APIKey = userObj.B2bUserAccess.FirstOrDefault().APIKey;
             this.Vendor = userObj.FKVendorId > 0 ? userObj.Vendor : "";
             this.LastLoggedIn = userObj.AppLastUsed?.ToString("dd/MM/yyyy hh:mm");
             this.PosBalance = firstPos?.Balance != null ? Convert.ToInt64(firstPos.Balance.Value) : new long();
@@ -264,13 +314,15 @@ namespace VendTech.BLL.Models
         public int CountryId { get; set; }
         public int City { get; set; }
         public bool AutoApprove { get; set; }
-
+        public string ClientKey { get; set; } = "";
+        public string APIKey { get; set; } = "";
         public AddUserModel()
         {
 
         }
 
     }
+
     public class SignUpModel
     {
         public long UserId { get; set; }

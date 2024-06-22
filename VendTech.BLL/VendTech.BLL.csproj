@@ -248,12 +248,6 @@
     <Compile Include="TempTest\CalculatorService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
-      <Project>{630910cd-1125-4e90-86df-9b42b0e82de2}</Project>
-      <Name>VendTech.DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -276,6 +270,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pdf.Net.SDK.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
+      <Project>{630910CD-1125-4E90-86DF-9B42B0E82DE2}</Project>
+      <Name>VendTech.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

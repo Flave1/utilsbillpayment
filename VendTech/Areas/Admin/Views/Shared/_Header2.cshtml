@@ -3,6 +3,25 @@
     var user = (UserDetails)ViewBag.LOGGEDIN_USER;
     var data = ViewBag.Data;
     var assignerModules = (List<ModulesModel>)ViewBag.USER_PERMISSONS;
+    if (data.RemainingAppUser != null)
+    {
+        data.RemainingAppUser = Convert.ToInt16(data.RemainingAppUser);
+    }
+    else
+    {
+        data.RemainingAppUser = 0;
+    }
+
+    if (data.RemainingDepositRelease != null)
+    {
+        data.RemainingDepositRelease = Convert.ToInt16(data.RemainingDepositRelease);
+    }
+    else
+    {
+        data.RemainingDepositRelease = 0;
+    }
+
+    var notificationCount = (data.RemainingAppUser + data.RemainingDepositRelease);
 }
 
 <style>
@@ -58,7 +77,7 @@
                 <a class="nav-link dropdown-toggle text-light" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @*<i class="fa fa-solid fa-bell fa-2x text-light"></i>*@
                     <img class="profilepictureclass" src="~/Content/images/notification.png" width="45" />
-                    <span class="badge icon_not" style=" font-size: 20px; position: relative; right: 20px; border-radius: 100%; border: none; color: white; text-align: center; background-color: red; bottom: 19px; padding-top:5px; width: 30px; ">@(data.RemainingAppUser + data.RemainingDepositRelease)</span>
+                    <span class="badge icon_not" style=" font-size: 20px; position: relative; right: 20px; border-radius: 100%; border: none; color: white; text-align: center; background-color: red; bottom: 19px; padding-top:5px; width: 30px; ">@notificationCount</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right text-light" aria-labelledby="notificationDropdown" style="background-color: #282828">
                     @if (assignerModules.Where(X => X.ControllerName == "24").ToList().Count() > 0)

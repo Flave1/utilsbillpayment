@@ -129,6 +129,8 @@ namespace VendTech.BLL.Models
         Individual = 10,
         [Description("Company")]
         Company = 20,
+        [Description("B2B")]
+        B2B = 30,
     }
 
     public enum NumberTypeEnum

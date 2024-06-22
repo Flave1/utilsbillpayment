@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8b2fbbaf620748ad9ae15a56eeafce62" Name="Diagram1">
+      <Diagram DiagramId="b754709267c74b20b04be9ce0ae0825f" Name="Diagram1">
         <EntityTypeShape EntityType="VENDTECH_MAINModel.AccountVerificationOTP" Width="1.5" PointX="10.5" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.Agency" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.AppSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -37,17 +37,19 @@
         <EntityTypeShape EntityType="VENDTECH_MAINModel.PlatformTransaction" Width="1.5" PointX="13.5" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.POS" Width="1.5" PointX="13.5" PointY="47.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.POSAssignedPlatform" Width="1.5" PointX="15.75" PointY="52.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.ReferralCode" Width="1.5" PointX="10.5" PointY="81.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.ReferralCode" Width="1.5" PointX="10.5" PointY="81.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.SMS_LOG" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.StanTable" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.TokensManager" Width="1.5" PointX="10.5" PointY="84" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.sysdiagram" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.TempCountry" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.TokensManager" Width="1.5" PointX="10.5" PointY="84.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.TransactionDetail" Width="1.5" PointX="18.75" PointY="41.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.UserAssignedModule" Width="1.5" PointX="16.5" PointY="36.625" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.UserAssignedPlatform" Width="1.5" PointX="16.5" PointY="46.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.UserAssignedWidget" Width="1.5" PointX="16.5" PointY="49.625" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.UserRole" Width="1.5" PointX="6" PointY="45.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.User" Width="1.5" PointX="8.25" PointY="36.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.UserSchedule" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.User" Width="1.5" PointX="8.25" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.UserSchedule" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.Vendor" Width="1.5" PointX="5.25" PointY="41.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.Widget" Width="1.5" PointX="14.25" PointY="55.75" IsExpanded="true" />
         <AssociationConnector Association="VENDTECH_MAINModel.FK_AccountVerificationOTP_Users" ManuallyRouted="false" />
@@ -103,8 +105,6 @@
         <AssociationConnector Association="VENDTECH_MAINModel.FK_UserAssignedWidgets_Widget" ManuallyRouted="false" />
         <AssociationConnector Association="VENDTECH_MAINModel.FK_Users_UserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="VENDTECH_MAINModel.FK_Users_Users1" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.sysdiagram" Width="1.5" PointX="9.375" PointY="3.75" />
-        <EntityTypeShape EntityType="VENDTECH_MAINModel.TempCountry" Width="1.5" PointX="3.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

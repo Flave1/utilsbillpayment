@@ -1,11 +1,11 @@
 ﻿@model MeterModel
 
 <style>
-    .form-control{
-        border-radius:10px;
-        background:#ebebeb;
-        font-weight:bold;
-        color:black;
+    .textbox {
+        border-radius: 10px;
+        background: #ebebeb;
+        font-weight: bold;
+        color: black;
     }
 </style>
 
@@ -31,23 +31,23 @@
             <label>Meter # 
 				<sup style="color:red !important;">*</sup><span style="font-size:11px !important">(EG:11 DIGITS METER NUMBER)</span>
 			</label>
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Number, new { @class = "form-control textbox" })
             @Html.ValidationMessageFor(x => x.Number)
  <BR>
             <label>Name on Meter <sup style="color:red !important;">*</sup></label>
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control textbox" })
             @Html.ValidationMessageFor(x => x.Name)
 <BR>
             <label>ALIAS <sup style="color:red;">*</sup><span style="font-size:11px !important">(EG:HOME/OFFICE/SHOP METER)</span></label>
-            @Html.TextBoxFor(m => m.Alias, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Alias, new { @class = "form-control textbox" })
             @Html.ValidationMessageFor(x => x.Alias)
 <BR>
             <label>Address</label>
-            @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+            @Html.TextAreaFor(m => m.Address, new { @class = "form-control textbox" })
             @Html.ValidationMessageFor(x => x.Address)
 <BR>
             <label>Meter Make <span style="font-size:11px !important"> (NOT REQUIRED IF YOU DO NOT KNOW)</span></label>
-            @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.MeterMake, new SelectList(ViewBag.meterMakes, "value", "text"), null, new { @class = "form-control textbox" })
             @Html.ValidationMessageFor(x => x.MeterMake)
 <BR>        
             <label style="width: 40%">ACTIVE</label>

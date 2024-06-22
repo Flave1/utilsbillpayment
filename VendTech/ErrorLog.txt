@@ -524,3 +524,7 @@ Parameter name: source
 
 
 
+c:\Users\thispc\Desktop\FLAVETECH\Vendtech\vendtech-web\VendTech\Areas\Admin\Views\B2busers\account.cshtml(85): error CS1973: 'System.Web.Mvc.HtmlHelper<VendTech.BLL.Models.AddUserModel>' has no applicable method named 'DropDownListFor' but appears to have an extension method by that name. Extension methods cannot be dynamically dispatched. Consider casting the dynamic arguments or calling the extension method without the extension method syntax.
+
+
+

@@ -49,6 +49,8 @@ namespace VendTech.BLL.Managers
                 return null;
             }
         }
+
+       
         bool IUserManager.UpdateUserLastAppUsedTime(long userId)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
@@ -348,8 +350,6 @@ namespace VendTech.BLL.Managers
 
             if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
             {
-                //query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()) || z.SurName.ToLower().Contains(model.Search.ToLower()) || ((UserStatusEnum)z.Status).ToString().ToLower().Contains(model.Search.ToLower()) || z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
-
                 if (model.SearchField.Equals("FIRST"))
                     query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
 
@@ -370,7 +370,7 @@ namespace VendTech.BLL.Managers
            
             
             var list = query
-               .Skip(model.PageNo - 1)//.Take(10)
+               .Skip(model.PageNo - 1)
                .ToList().Select(x => new UserListingModel(x)).ToList();
 
 
@@ -380,6 +380,112 @@ namespace VendTech.BLL.Managers
             result.TotalCount = query.Count();
             return result;
         }
+
+        PagingResult<B2bUserListingModel> IUserManager.GetB2BUserPagedList(PagingModel model, string status)
+        {
+            if (model.SortBy == null)
+            {
+                model.SortBy = "Vendor";
+            }
+            model.RecordsPerPage = 10000000;
+            var result = new PagingResult<B2bUserListingModel>();
+            IQueryable<User> query = null;
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                query = Context.Users.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(status.ToLower()));
+            }
+            else
+            {
+                if (model.IsActive)
+                    query = Context.Users.Where(p => p.Status == (int)UserStatusEnum.Active);
+                else
+                    query = Context.Users.Where(p => p.Status != (int)UserStatusEnum.Active);
+            }
+
+            query = query.Where(p => p.UserRole.Role == UserRoles.B2BUsers);
+
+            if (model.SortBy == "POS")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = query.OrderBy(s => s.POS.FirstOrDefault().SerialNumber);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = query.OrderByDescending(s => s.POS.FirstOrDefault().SerialNumber);
+                }
+            }
+            else if (model.SortBy == "Balance")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = query.OrderBy(s => s.POS.FirstOrDefault().Balance);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = query.OrderByDescending(s => s.POS.FirstOrDefault().Balance);
+                }
+            }
+            else if (model.SortBy == "Vendor")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = query.OrderBy(s => s.Vendor);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = query.OrderByDescending(s => s.Vendor);
+                }
+            }
+            else if (model.SortBy == "SurName")
+            {
+                if (model.SortOrder == "Asc")
+                {
+                    query = query.OrderBy(s => s.SurName);
+                }
+                else if (model.SortOrder == "Desc")
+                {
+                    query = query.OrderByDescending(s => s.SurName);
+                }
+            }
+            else
+                query = query.OrderBy(model.SortBy + " " + model.SortOrder);
+           
+
+            if (!string.IsNullOrEmpty(model.Search) && !string.IsNullOrEmpty(model.SearchField))
+            {
+                if (model.SearchField.Equals("FIRST"))
+                    query = query.Where(z => z.Name.ToLower().Contains(model.Search.ToLower()));
+
+                else if (model.SearchField.Equals("POSID"))
+                    query = query.Where(z => z.POS.FirstOrDefault().SerialNumber.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("LAST"))
+                    query = query.Where(z => z.SurName.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("STATUS"))
+                    query = query.Where(z => ((UserStatusEnum)z.Status).ToString().ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("VENDOR"))
+                    query = query.Where(z => z.Vendor.ToLower().Contains(model.Search.ToLower()));
+                else if (model.SearchField.Equals("ROLE"))
+                    query = query.Where(z => z.UserRole.Role.ToLower().Contains(model.Search.ToLower()));
+            }
+
+
+
+
+
+            var list = query
+               .Skip(model.PageNo - 1)
+               .ToList().Select(x => new B2bUserListingModel(x)).ToList();
+
+
+            result.List = list;
+            result.Status = ActionStatus.Successfull;
+            result.Message = "User List";
+            result.TotalCount = query.Count();
+            return result;
+        }
+
         ActionOutput<string> IUserManager.SaveReferralCode(long userId)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
@@ -623,6 +729,34 @@ namespace VendTech.BLL.Managers
             us.VendorId = user.FKVendorId;
             us.Address = user?.Address;
             us.AgentId = user.AgentId;
+            us.CountryId = user.CountryId != null ? user.CountryId.Value : 0;
+            us.City = user.CityId != null ? user.CityId.Value : 0;
+            us.ProfilePicUrl = string.IsNullOrEmpty(user?.ProfilePic) ? "" : Utilities.DomainUrl + user?.ProfilePic;
+            us.AutoApprove = user.AutoApprove == null ? false : (bool)user.AutoApprove;
+            us.AccountStatus = ((UserStatusEnum)(user.Status)).ToString();
+            return us;
+        }
+
+        AddUserModel IUserManager.GetB2bUserDetailsByUserId(long userId)
+        {
+            var user = Context.Users.Where(z => z.UserId == userId).FirstOrDefault();
+            if (user == null)
+                return null;
+            var us = new AddUserModel();
+            us.Password = Utilities.DecryptPassword(user.Password);
+            us.ConfirmPassword = Utilities.DecryptPassword(user.Password);
+            us.UserId = user.UserId;
+            us.FirstName = user?.Name;
+            us.LastName = user?.SurName;
+            us.Email = user.Email;
+            us.UserType = user.UserType;
+            us.Phone = user?.Phone;
+            us.CompanyName = user?.CompanyName;
+            us.VendorId = user.FKVendorId;
+            us.Address = user?.Address;
+            us.AgentId = user.AgentId;
+            //us.ClientKey = user.B2bUserAccess.FirstOrDefault().Clientkey;
+            //us.APIKey = user.B2bUserAccess.FirstOrDefault().APIKey;
             us.CountryId = user.CountryId != null ? user.CountryId.Value : 0;
             us.City = user.CityId != null ? user.CityId.Value : 0;
             us.ProfilePicUrl = string.IsNullOrEmpty(user?.ProfilePic) ? "" : Utilities.DomainUrl + user?.ProfilePic;
@@ -930,7 +1064,12 @@ namespace VendTech.BLL.Managers
                 dbUser.Email = userDetails.Email.Trim().ToLower();
                 dbUser.Password = Utilities.EncryptPassword(userDetails.Password);
                 dbUser.CreatedAt = DateTime.Now;
-                if (userDetails.IsAgencyAdmin)
+
+                if (userDetails.UserType == (int)AppUserTypeEnum.B2B)
+                {
+                    dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.B2BUsers);
+                }
+                else if (userDetails.IsAgencyAdmin)
                 {
                     dbUser.UserType = Utilities.GetUserRoleIntValue(UserRoles.AppUser);
                 }

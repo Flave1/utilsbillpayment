@@ -96,6 +96,8 @@ namespace VendTech.BLL.Interfaces
         long GetVendtechAgencyId();
         void SaveChanges();
         PendingDeposit GetUserPendingDeposit(long userId);
+        PagingResult<B2bUserListingModel> GetB2BUserPagedList(PagingModel model, string status);
+        AddUserModel GetB2bUserDetailsByUserId(long userId);
     }
 
 }
