@@ -1,0 +1,301 @@
+﻿@model AddUserModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayOut2.cshtml";
+
+    var country = VendTech.BLL.Common.Utilities.GetCountry();
+
+    var htmlAttributes = new Dictionary<string, object>
+    {
+        { "disabled", "disabled" }
+    };
+}
+
+<div class="s_content">
+    <div class="page-head">
+        <h2>@ViewBag.Title</h2>
+    </div>
+
+    <div class="m_content">
+        @Html.Partial("_FunctionCallMessage")
+        <div class="people-form-cs">
+            <form class="form-horizontal" role="form" id="UserForm" enctype="multipart/form-data">
+                <div class="row">
+
+                    @Html.HiddenFor(x => x.UserId)
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">FIRST NAME<em>*</em></label>
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.FirstName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">LAST NAME<em>*</em></label>
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.LastName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CELLPHONE<em>*</em></label>
+                            <div class="d-flex col-md-12">
+                                <select name="CountryCode" class="form-control" style="width:20%;">
+                                    <option value="@country.CountryCode">@country.CountryCode</option>
+                                </select>
+                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-12">@Html.ValidationMessageFor(x => x.Phone)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">EMAIL<em>*</em></label>
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PASSWORD</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password*", @id = "password" })
+                                    <span style="cursor:pointer; background:white" id="togglePassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
+                                </div>
+                                <div id="password-error">@Html.ValidationMessageFor(m => m.Password)</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">CONFIRM PASSWORD</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Password*", @id = "confirmPassword" })
+                                    <span style="cursor: pointer; background: white" id="toggleConfirmPassword" class="input-group-addon"><i class="fa fa-eye"></i></span>
+                                </div>
+                                <div id="password-error">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country" style="text-align:left;" class="col-md-12 control-label">SELECT COUNTRY</label>
+                            <div class="col-sm-12">
+                                <select class="form-control" name="CountryId" id="Country">
+                                    <option value="">Select Country</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" style="text-align:left;" class="col-md-12 control-label">SELECT CITY</label>
+                            <div class="col-sm-12">
+                                <select id="City" name="City" class="form-control">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" style="text-align:left;" class="col-md-12 control-label">ADDRESS </label>
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Address)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" style="text-align:left;" class="col-md-12 control-label">CLIENT KEY</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.ClientKey, new { @class = "form-control", @id = "clientKey", @readonly = "readonly" })
+                                    @*@Html.TextBoxFor(m => m.ClientKey, new { @class = "form-control", @id = "clientKey", @readonly = "disabled" })*@
+                                    <span style="cursor: pointer; background: white" class="input-group-addon"><i class="fa fa-copy" onclick="B2BUsers.CopyToClipboard('@Model.ClientKey')"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" style="text-align:left;" class="col-md-12 control-label">API KEY</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.APIKey, new { @class = "form-control", @id = "apiKey", @readonly = "readonly" })
+                                    <span style="cursor: pointer; background: white" class="input-group-addon"><i class="fa fa-copy" onclick="B2BUsers.CopyToClipboard('@Model.APIKey')"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">PERMISSIONS<em>*</em></label></p>
+
+                            <div class=" col-md-12">
+                                @{ var listing = Model.ModuleList.Where(r => r.IsAdmin == false && r.ID != 26 && r.ID != 31)
+                                                  .OrderByDescending(r => r.ModuleName == "Manage Reports")
+                                                  .OrderByDescending(r => r.ModuleName == "Manage Wallet")
+                                                  .OrderByDescending(r => r.ModuleName == "Saved Numbers")
+                                                  .OrderByDescending(r => r.ModuleName == "Bill Payment")
+                                                  .ToList();
+                                    if (listing == null || !listing.Any())
+                                    {
+                                        listing = new List<Checkbox>();
+                                    }
+                                }
+                                @Html.Partial("Partials/_modulesListing", listing)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <p><label for="inputEmail3" style="text-align:left;" class="col-md-12 control-label">DASHBOARD WIDGETS</label></p>
+
+                            <div class="col-md-12">
+                                @Html.Partial("Partials/_widgetsListing", Model.WidgetList.Where(d => d.Id != 9).ToList() ?? new List<WidgetCheckbox>())
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" style="text-align:left" class="col-md-12 control-label">AUTO APPROVAL</label>
+
+                            <div class=" col-md-12">
+                                <div id="">
+                                    <table class="table table-bordered" id="datatable-icons">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td><label> Approve Deposit Automatically </label></td>
+                                                <td>
+                                                    @Html.CheckBoxFor(p => p.AutoApprove)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="text-align:right;">
+                    <div class=" col-sm-12">
+                        <a href="@Url.Action("Index", "B2busers", new { area = "Admin" })" class="btn btn-default">Cancel</a>
+                        <input type="button" class="btn btn-primary" id="addUserBtn" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/AdminScripts/b2bUsers.js"></script>
+    <script type="text/javascript">
+
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const confirmPassword = document.querySelector('#confirmPassword');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye / eye slash icon
+            this.classList.toggle('bi-eye');
+        });
+
+        toggleConfirmPassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            // toggle the eye / eye slash icon
+            this.classList.toggle('bi-eye');
+        });
+
+        var toggleSelectAgent = document.querySelector('.selectAgent');
+        $('#10').hide()
+        setTimeout(function () {
+            toggleSelectAgent.addEventListener('change', function (e) {
+                if (this.checked) {
+                    $('#10').show()
+                } else {
+                    $('#10').hide()
+                }
+            })
+        }, 500)
+
+
+
+
+        $(document).ready(function () {
+            App.init();
+
+            $("#Country").change(onCountryChange);
+            if ('@Model.UserId' != '0') {
+                $("#password").val('@Model.Password');
+                $("#confirmPassword").val('@Model.Password'); 
+            }
+
+            $("#Country").change(onCountryChange);
+            loadAllCountries();
+            loadAllCities();
+        });
+
+
+    </script>
+
+    <script>
+        function loadAllCountries() {
+            var array = @Html.Raw(Json.Encode(ViewBag.countries));
+            if (array.length > 0) {
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i].Selected) {
+                        $("#Country").append("<option selected=" + array[i].Selected + " value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                    } else {
+                        $("#Country").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                    }
+                }
+            }
+        }
+         function loadAllCities() {
+             var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+             if (array.length > 0) {
+                 for (var i = 0; i < array.length; i++) {
+                     if (array[i].Selected) {
+                         $("#City").append("<option selected=" + array[i].Selected + " value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                     } else {
+                         $("#City").append("<option value=" + array[i].Value + ">" + array[i].Text + " </option>")
+                     }
+                     
+                 }
+             }
+         }
+
+        function onCountryChange() {
+            $("#City").empty();
+            $("#City").append("<option value=''> Select City </option>")
+                var val = $("#Country").val();
+                var array = @Html.Raw(Json.Encode(ViewBag.Cities));
+                if (val) {
+                    var records=   array.filter(p=>p.CountryId==val);
+                    if(records.length>0){
+
+                        for (var i = 0; i < records.length; i++) {
+                            $("#City").append("<option value="+records[i].CityId+">"+records[i].Name+" </option>")
+
+                        }
+                        $("#City").val('@Model.City');
+                    }
+                }
+        }
+
+       
+    </script>
+}

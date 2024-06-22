@@ -34,6 +34,18 @@
           <Property Name="Name" Type="nvarchar" MaxLength="200" />
           <Property Name="Value" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="B2bUserAccess">
+          <Key>
+            <PropertyRef Name="B2bUserAccessId" />
+          </Key>
+          <Property Name="B2bUserAccessId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="ClientToken" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="APIToken" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Clientkey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="APIKey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="BankAccounts">
           <Key>
             <PropertyRef Name="BankAccountId" />
@@ -712,6 +724,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_B2bUserAccess_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="B2bUserAccess" Type="Self.B2bUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="B2bUserAccess">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_City_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -1316,6 +1340,7 @@
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B2bUserAccess" EntityType="Self.B2bUserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankAccounts" EntityType="Self.BankAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
@@ -1371,6 +1396,10 @@
           <AssociationSet Name="FK_Agency_Users" Association="Self.FK_Agency_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Agency" EntitySet="Agency" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B2bUserAccess_Users" Association="Self.FK_B2bUserAccess_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="B2bUserAccess" EntitySet="B2bUserAccess" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
@@ -2291,6 +2320,7 @@
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
           <Property Name="AutoApprove" Type="Boolean" />
+          <NavigationProperty Name="B2bUserAccess" Relationship="VENDTECH_MAINModel.FK_B2bUserAccess_Users" FromRole="User" ToRole="B2bUserAccess" />
         </EntityType>
         <EntityType Name="UserSchedule">
           <Key>
@@ -3227,6 +3257,11 @@
           </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="VENDTECH_MAINModel.sysdiagram" />
           <EntitySet Name="TempCountries" EntityType="VENDTECH_MAINModel.TempCountry" />
+          <EntitySet Name="B2bUserAccess" EntityType="VENDTECH_MAINModel.B2bUserAccess" />
+          <AssociationSet Name="FK_B2bUserAccess_Users" Association="VENDTECH_MAINModel.FK_B2bUserAccess_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="B2bUserAccess" EntitySet="B2bUserAccess" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
@@ -3251,6 +3286,31 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="DomainUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="B2bUserAccess">
+          <Key>
+            <PropertyRef Name="B2bUserAccessId" />
+          </Key>
+          <Property Name="B2bUserAccessId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="ClientToken" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="APIToken" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Clientkey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="APIKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="VENDTECH_MAINModel.FK_B2bUserAccess_Users" FromRole="B2bUserAccess" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_B2bUserAccess_Users">
+          <End Type="VENDTECH_MAINModel.User" Role="User" Multiplicity="1" />
+          <End Type="VENDTECH_MAINModel.B2bUserAccess" Role="B2bUserAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="B2bUserAccess">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3972,6 +4032,19 @@
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B2bUserAccess">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.B2bUserAccess">
+              <MappingFragment StoreEntitySet="B2bUserAccess">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="APIKey" ColumnName="APIKey" />
+                <ScalarProperty Name="Clientkey" ColumnName="Clientkey" />
+                <ScalarProperty Name="APIToken" ColumnName="APIToken" />
+                <ScalarProperty Name="ClientToken" ColumnName="ClientToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="B2bUserAccessId" ColumnName="B2bUserAccessId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

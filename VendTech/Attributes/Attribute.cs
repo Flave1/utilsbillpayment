@@ -79,6 +79,7 @@ namespace VendTech.Attributes
     public class CheckAuthorizationFilter : Attribute { }
 
 
+
     public class CheckAuthorizationAttribute : System.Web.Http.AuthorizeAttribute
     {
         [Inject]
@@ -238,9 +239,117 @@ namespace VendTech.Attributes
             }
 
         }
-    } /// <summary>
-      /// This will be used to set No Cache For Controller Actions
-      /// </summary>
+    }
+
+
+    public class CheckB2bAuthorizationAttribute : System.Web.Http.AuthorizeAttribute
+    {
+        [Inject]
+        public IUserManager _userManager { get; set; }
+
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            var baseController = (BaseB2bAPIController)actionContext.ControllerContext.Controller;
+            var skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<SkipAuthorization>().Any();
+            string clientKey = "";
+            string apiKey = "";
+            if (!skipAuthorization)
+            {
+                try
+                {
+                    clientKey = actionContext.Request.Headers.GetValues("clientKey").FirstOrDefault();
+                    apiKey = actionContext.Request.Headers.GetValues("apiKey").FirstOrDefault();
+                }
+                catch (Exception)
+                {
+
+                    actionContext.Response = new JsonContent("Token Or Passcode not present!", Status.Failed).ConvertToHttpResponseOK();
+                    return;
+                }
+
+                 
+                if (!_userManager.isAccountValid(clientKey, apiKey))
+                    actionContext.Response = new JsonContent("Request could not be authorized. Invalid credentials!", Status.Failed).ConvertToHttpResponseOK();
+                else
+                {
+                    baseController.LOGGEDIN_USER = new B2bUserAccessDTO
+                    {
+                        Clientkey = clientKey,
+                        APIKey = apiKey,
+                    };
+                }
+            }
+        }
+        /// <summary>
+        /// methods marked with this will not be checked for authorization
+        /// </summary>
+        public class SkipAuthorization : Attribute { }
+
+
+        /// <summary>
+        /// methods marked with this will not be checked for authentication
+        /// </summary>
+        public class SkipAuthentication : Attribute { }
+
+       
+
+        public class NoCacheAttribute : System.Web.Mvc.ActionFilterAttribute
+        {
+            public override void OnResultExecuting(ResultExecutingContext filterContext)
+            {
+                filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
+                filterContext.HttpContext.Response.Cache.SetValidUntilExpires(false);
+                filterContext.HttpContext.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+                filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                filterContext.HttpContext.Response.Cache.SetNoStore();
+                base.OnResultExecuting(filterContext);
+            }
+
+
+        }
+
+        /// <summary>
+        /// validates the incomming model
+        /// </summary>
+
+        /// <summary>
+        /// This will be used to skip model validations
+        /// </summary>
+        public class IgnoreModelErrorsAttribute : System.Web.Mvc.ActionFilterAttribute
+        {
+            private string keysString;
+
+            public IgnoreModelErrorsAttribute(string keys)
+                : base()
+            {
+                this.keysString = keys;
+            }
+
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                ModelStateDictionary modelState = filterContext.Controller.ViewData.ModelState;
+                string[] keyPatterns = keysString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < keyPatterns.Length; i++)
+                {
+                    string keyPattern = keyPatterns[i]
+                        .Trim()
+                        .Replace(@".", @"\.")
+                        .Replace(@"[", @"\[")
+                        .Replace(@"]", @"\]")
+                        .Replace(@"\[\]", @"\[[0-9]+\]")
+                        .Replace(@"*", @"[A-Za-z0-9]+");
+                    IEnumerable<string> matchingKeys = modelState.Keys.Where(x => Regex.IsMatch(x, keyPattern));
+                    foreach (string matchingKey in matchingKeys)
+                        modelState[matchingKey].Errors.Clear();
+                }
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// This will be used to set No Cache For Controller Actions
+    /// </summary>
 
     public class NoCacheAttribute : System.Web.Mvc.ActionFilterAttribute
     {

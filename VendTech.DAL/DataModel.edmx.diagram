@@ -105,6 +105,8 @@
         <AssociationConnector Association="VENDTECH_MAINModel.FK_Users_Users1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.sysdiagram" Width="1.5" PointX="9.375" PointY="3.75" />
         <EntityTypeShape EntityType="VENDTECH_MAINModel.TempCountry" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="VENDTECH_MAINModel.B2bUserAccess" Width="1.5" PointX="10.5" PointY="64.625" />
+        <AssociationConnector Association="VENDTECH_MAINModel.FK_B2bUserAccess_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

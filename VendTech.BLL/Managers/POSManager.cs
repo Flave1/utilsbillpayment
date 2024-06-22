@@ -27,7 +27,7 @@ namespace VendTech.BLL.Managers
         {
             //model.RecordsPerPage = 1000000;
             var result = new PagingResult<POSListingModel>();
-            IQueryable<POS> query = Context.POS.Where(p => !p.IsDeleted);
+            IQueryable<POS> query = Context.POS.Where(p => !p.IsDeleted).Take(3);
 
             if (model.SortBy == null)
             {

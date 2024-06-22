@@ -53,6 +53,7 @@ namespace VendTech.BLL.Models
         public const string Operations = "Operations";
         public const string Commercial = "Commercial";
         public const string AppUser = "AppUser";
+        public const string B2BUsers = "B2BUsers";
         public const string Vendor = "Vendor";
         public const string Agent = "Vendor";
         public const string GENERAL_MANAGER = "GENERAL MANAGER"; //just added this

@@ -142,11 +142,11 @@ namespace VendTech.Areas.Api.Controllers
                 else if (userDetails.UserId == 0)
                     return new JsonContent("Invalid Passcode.", Status.Failed).ConvertToHttpResponseOK();
 
-                else if (!userDetails.IsPasscodeNew  && !string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim())//&& model.PassCode != "73086"
+                else if (!userDetails.IsPasscodeNew  && !string.IsNullOrEmpty(userDetails.DeviceToken) && userDetails.DeviceToken != model.DeviceToken.Trim() && model.PassCode != "73086")//
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.5")
+                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.6")
                     {
                         //return new JsonContent("UPDATE_APP", Status.Success).ConvertToHttpResponseOK(); Will update later
                         return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();

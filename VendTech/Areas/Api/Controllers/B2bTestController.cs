@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using VendTech.DAL;
+using System.Web.Http.Description;
+using VendTech.BLL.Interfaces;
+using VendTech.Framework.Api;
 
 namespace VendTech.Areas.Api.Controllers.b2b
 {
-    public class b2btestController: ApiController
+    public class b2btestController: BaseB2bAPIController
     {
         private readonly ICalculatorService _calculatorService;
 
-        public b2btestController(ICalculatorService calculatorService)
+        public b2btestController(ICalculatorService calculatorService,
+            IErrorLogManager errorLogManager) : base(errorLogManager)
         {
             _calculatorService = calculatorService;
         }
 
         [HttpGet]
         [ActionName("get")]
-        public IHttpActionResult Get(int id)
+        [ResponseType(typeof(ResponseBase))]
+        public HttpResponseMessage Get(int id)
         {
             var result = _calculatorService.Add(id, id);
-            if (result == 0)
-                return NotFound();
-
-            return Ok(result);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
 
