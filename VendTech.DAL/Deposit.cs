@@ -23,26 +23,26 @@ namespace VendTech.DAL
         public long DepositId { get; set; }
         public long UserId { get; set; }
         public long POSId { get; set; }
+        public System.DateTime CreatedAt { get; set; }
         public string TransactionId { get; set; }
         public int PaymentType { get; set; }
-        public string CheckNumberOrSlipId { get; set; }
+        public Nullable<decimal> BalanceBefore { get; set; }
         public decimal Amount { get; set; }
         public Nullable<decimal> PercentageAmount { get; set; }
+        public Nullable<decimal> NewBalance { get; set; }
+        public Nullable<decimal> AgencyCommission { get; set; }
+        public string CheckNumberOrSlipId { get; set; }
         public string Comments { get; set; }
         public int Status { get; set; }
         public string ChequeBankName { get; set; }
         public string NameOnCheque { get; set; }
-        public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public int BankAccountId { get; set; }
-        public Nullable<decimal> NewBalance { get; set; }
         public bool isAudit { get; set; }
         public string ValueDate { get; set; }
         public Nullable<System.DateTime> NextReminderDate { get; set; }
         public bool IsDeleted { get; set; }
-        public Nullable<decimal> AgencyCommission { get; set; }
         public Nullable<System.DateTime> ValueDateStamp { get; set; }
-        public Nullable<decimal> BalanceBefore { get; set; }
     
         public virtual BankAccount BankAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

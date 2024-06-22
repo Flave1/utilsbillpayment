@@ -12,6 +12,8 @@ namespace VendTech.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class VendtechEntities : DbContext
     {
@@ -60,6 +62,8 @@ namespace VendTech.DAL
         public virtual DbSet<ReferralCode> ReferralCodes { get; set; }
         public virtual DbSet<SMS_LOG> SMS_LOG { get; set; }
         public virtual DbSet<StanTable> StanTables { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<TempCountry> TempCountries { get; set; }
         public virtual DbSet<TokensManager> TokensManagers { get; set; }
         public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
         public virtual DbSet<UserAssignedModule> UserAssignedModules { get; set; }
@@ -70,7 +74,20 @@ namespace VendTech.DAL
         public virtual DbSet<UserSchedule> UserSchedules { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Widget> Widgets { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<TempCountry> TempCountries { get; set; }
+    
+        public virtual ObjectResult<CalculateRunningBalance_Result> CalculateRunningBalance()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CalculateRunningBalance_Result>("CalculateRunningBalance");
+        }
+    
+        public virtual ObjectResult<CalculateRunningBalance1_Result> CalculateRunningBalance1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CalculateRunningBalance1_Result>("CalculateRunningBalance1");
+        }
+    
+        public virtual ObjectResult<CalculateRunningBalance11_Result> CalculateRunningBalance11()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CalculateRunningBalance11_Result>("CalculateRunningBalance11");
+        }
     }
 }

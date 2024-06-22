@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VENDTECH_MAINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VENDTECH_MAINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountVerificationOTP">
           <Key>
             <PropertyRef Name="AccountVerificationOTPId" />
@@ -1312,6 +1312,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CalculateRunningBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="CalculateRunningBalance1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="vendtech_main" StoreFunctionName="CalculateRunningBalance" />
+        <Function Name="CalculateRunningBalance11" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="vendtech_main" StoreFunctionName="CalculateRunningBalance1" />
         <EntityContainer Name="VENDTECH_MAINModelStoreContainer">
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
@@ -1573,7 +1577,8 @@
             <End Role="Vendors" EntitySet="Vendors" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VENDTECH_MAINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1743,26 +1748,26 @@
           <Property Name="DepositId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="POSId" Type="Int64" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PaymentType" Type="Int32" Nullable="false" />
-          <Property Name="CheckNumberOrSlipId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PercentageAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NewBalance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CheckNumberOrSlipId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ChequeBankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NameOnCheque" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="BankAccountId" Type="Int32" Nullable="false" />
-          <Property Name="NewBalance" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="isAudit" Type="Boolean" Nullable="false" />
           <Property Name="ValueDate" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NextReminderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="AgencyCommission" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ValueDateStamp" Type="DateTime" Precision="3" />
-          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="BankAccount" Relationship="Self.FK_Deposits_BankAccounts" FromRole="Deposits" ToRole="BankAccounts" />
           <NavigationProperty Name="DepositLogs" Relationship="Self.FK_DepositLogs_Deposits" FromRole="Deposits" ToRole="DepositLogs" />
           <NavigationProperty Name="PaymentType1" Relationship="Self.FK_Deposits_PaymentType" FromRole="Deposits" ToRole="PaymentType" />
@@ -2062,6 +2067,7 @@
           <Property Name="WebBarcode" Type="Boolean" />
           <Property Name="PosBarcode" Type="Boolean" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="IsNewPasscode" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Commission" Relationship="Self.FK_POS_Commissions" FromRole="POS" ToRole="Commissions" />
           <NavigationProperty Name="Deposits" Relationship="Self.FK_Deposits_POS" FromRole="POS" ToRole="Deposits" />
           <NavigationProperty Name="PendingDeposits" Relationship="Self.FK_PendingDeposits_POS" FromRole="POS" ToRole="PendingDeposits" />
@@ -2069,7 +2075,6 @@
           <NavigationProperty Name="User" Relationship="Self.FK_POS_Vendors" FromRole="POS" ToRole="Users" />
           <NavigationProperty Name="POSAssignedPlatforms" Relationship="Self.FK_POSAssignedPlatforms_POS" FromRole="POS" ToRole="POSAssignedPlatforms" />
           <NavigationProperty Name="TransactionDetails" Relationship="Self.FK_TransactionDetails_POS" FromRole="POS" ToRole="TransactionDetails" />
-          <Property Name="IsNewPasscode" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="POSAssignedPlatform">
           <Key>
@@ -2113,6 +2118,29 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Stan" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TempCountry">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyName" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="DomainUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="TokensManager">
           <Key>
             <PropertyRef Name="Id" />
@@ -2134,33 +2162,35 @@
           <Property Name="TransactionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="TransactionId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MeterId" Type="Int64" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CurrentVendorBalance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MeterId" Type="Int64" />
           <Property Name="MeterNumber1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="POSId" Type="Int64" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PlatFormId" Type="Int32" />
           <Property Name="MeterToken1" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
           <Property Name="MeterToken2" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
           <Property Name="MeterToken3" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
-          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CurrentDealerBalance" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="RTSUniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReceiptNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TenderedAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ServiceCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tariff" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TaxCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TenderedAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TransactionAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CostOfUnits" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Units" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DebitRecovery" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DebitRecovery" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CostOfUnits" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="VProvider" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Finalised" Type="Boolean" />
           <Property Name="StatusRequestCount" Type="Int32" />
@@ -2174,8 +2204,6 @@
           <Property Name="DateAndTimeSold" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAndTimeFinalised" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAndTimeLinked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CurrentVendorBalance" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BalanceBefore" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="QueryStatusCount" Type="Int32" />
           <NavigationProperty Name="Platform" Relationship="Self.FK_TransactionDetails_Platform" FromRole="TransactionDetails" ToRole="Platform" />
           <NavigationProperty Name="POS" Relationship="Self.FK_TransactionDetails_POS" FromRole="TransactionDetails" ToRole="POS" />
@@ -2265,6 +2293,7 @@
           <Property Name="UserSerialNo" Type="Int64" />
           <Property Name="MobileAppVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IsRedominated" Type="Int32" />
+          <Property Name="AutoApprove" Type="Boolean" />
           <NavigationProperty Name="AccountVerificationOTPs" Relationship="Self.FK_AccountVerificationOTP_Users" FromRole="Users" ToRole="AccountVerificationOTP" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agency_Users" FromRole="Users" ToRole="Agency" />
           <NavigationProperty Name="Agency" Relationship="Self.FK_Users_Agency" FromRole="Users" ToRole="Agency" />
@@ -2290,8 +2319,6 @@
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
-          <Property Name="AutoApprove" Type="Boolean" />
-          <NavigationProperty Name="B2bUserAccess" Relationship="VENDTECH_MAINModel.FK_B2bUserAccess_Users" FromRole="User" ToRole="B2bUserAccess" />
         </EntityType>
         <EntityType Name="UserSchedule">
           <Key>
@@ -3004,6 +3031,8 @@
           <EntitySet Name="ReferralCodes" EntityType="Self.ReferralCode" />
           <EntitySet Name="SMS_LOG" EntityType="Self.SMS_LOG" />
           <EntitySet Name="StanTables" EntityType="Self.StanTable" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TempCountries" EntityType="Self.TempCountry" />
           <EntitySet Name="TokensManagers" EntityType="Self.TokensManager" />
           <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetail" />
           <EntitySet Name="UserAssignedModules" EntityType="Self.UserAssignedModule" />
@@ -3226,62 +3255,40 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="sysdiagrams" EntityType="VENDTECH_MAINModel.sysdiagram" />
-          <EntitySet Name="TempCountries" EntityType="VENDTECH_MAINModel.TempCountry" />
-          <EntitySet Name="B2bUserAccess" EntityType="VENDTECH_MAINModel.B2bUserAccess" />
-          <AssociationSet Name="FK_B2bUserAccess_Users" Association="VENDTECH_MAINModel.FK_B2bUserAccess_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="B2bUserAccess" EntitySet="B2bUserAccess" />
-          </AssociationSet>
+          <FunctionImport Name="CalculateRunningBalance" ReturnType="Collection(VENDTECH_MAINModel.CalculateRunningBalance_Result)" />
+          <FunctionImport Name="CalculateRunningBalance1" ReturnType="Collection(VENDTECH_MAINModel.CalculateRunningBalance1_Result)" />
+          <FunctionImport Name="CalculateRunningBalance11" ReturnType="Collection(VENDTECH_MAINModel.CalculateRunningBalance11_Result)" />
         </EntityContainer>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TempCountry">
-          <Key>
-            <PropertyRef Name="CountryId" />
-          </Key>
-          <Property Name="CountryId" Type="Int32" Nullable="false" />
-          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CurrencyName" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="DomainUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="B2bUserAccess">
-          <Key>
-            <PropertyRef Name="B2bUserAccessId" />
-          </Key>
-          <Property Name="B2bUserAccessId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="ClientToken" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="APIToken" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="Clientkey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="APIKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="User" Relationship="VENDTECH_MAINModel.FK_B2bUserAccess_Users" FromRole="B2bUserAccess" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_B2bUserAccess_Users">
-          <End Type="VENDTECH_MAINModel.User" Role="User" Multiplicity="1" />
-          <End Type="VENDTECH_MAINModel.B2bUserAccess" Role="B2bUserAccess" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="B2bUserAccess">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <ComplexType Name="CalculateRunningBalance_Result">
+          <Property Type="Int64" Name="userid" Nullable="false" />
+          <Property Type="String" Name="vendor" Nullable="true" />
+          <Property Type="Decimal" Name="PercentageAmount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="totalsales" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="runningbalance" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="POSBalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="overage" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="AgencyCommission" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="CalculateRunningBalance1_Result">
+          <Property Type="Int64" Name="userid" Nullable="false" />
+          <Property Type="String" Name="vendor" Nullable="true" />
+          <Property Type="Decimal" Name="PercentageAmount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="totalsales" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="runningbalance" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="POSBalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="overage" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="AgencyCommission" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="CalculateRunningBalance11_Result">
+          <Property Type="Int64" Name="userid" Nullable="false" />
+          <Property Type="String" Name="vendor" Nullable="true" />
+          <Property Type="Decimal" Name="PercentageAmount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="totalsales" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="runningbalance" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="POSBalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="overage" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="AgencyCommission" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3448,26 +3455,26 @@
                 <ScalarProperty Name="DepositId" ColumnName="DepositId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
                 <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
-                <ScalarProperty Name="CheckNumberOrSlipId" ColumnName="CheckNumberOrSlipId" />
+                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="NewBalance" ColumnName="NewBalance" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+                <ScalarProperty Name="CheckNumberOrSlipId" ColumnName="CheckNumberOrSlipId" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ChequeBankName" ColumnName="ChequeBankName" />
                 <ScalarProperty Name="NameOnCheque" ColumnName="NameOnCheque" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
-                <ScalarProperty Name="NewBalance" ColumnName="NewBalance" />
                 <ScalarProperty Name="isAudit" ColumnName="isAudit" />
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="NextReminderDate" ColumnName="NextReminderDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
                 <ScalarProperty Name="ValueDateStamp" ColumnName="ValueDateStamp" />
-                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3502,7 +3509,6 @@
           <EntitySetMapping Name="ErrorLogs">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.ErrorLog">
               <MappingFragment StoreEntitySet="ErrorLog">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
@@ -3512,6 +3518,7 @@
                 <ScalarProperty Name="FormData" ColumnName="FormData" />
                 <ScalarProperty Name="RouteData" ColumnName="RouteData" />
                 <ScalarProperty Name="LoggedAt" ColumnName="LoggedAt" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3720,7 +3727,6 @@
           <EntitySetMapping Name="POS">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.POS">
               <MappingFragment StoreEntitySet="POS">
-                <ScalarProperty Name="IsNewPasscode" ColumnName="IsNewPasscode" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
@@ -3745,6 +3751,7 @@
                 <ScalarProperty Name="WebBarcode" ColumnName="WebBarcode" />
                 <ScalarProperty Name="PosBarcode" ColumnName="PosBarcode" />
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="IsNewPasscode" ColumnName="IsNewPasscode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3791,6 +3798,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempCountries">
+            <EntityTypeMapping TypeName="VENDTECH_MAINModel.TempCountry">
+              <MappingFragment StoreEntitySet="TempCountry">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="DomainUrl" ColumnName="DomainUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TokensManagers">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.TokensManager">
               <MappingFragment StoreEntitySet="TokensManager">
@@ -3811,33 +3843,35 @@
                 <ScalarProperty Name="TransactionDetailsId" ColumnName="TransactionDetailsId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CurrentVendorBalance" ColumnName="CurrentVendorBalance" />
+                <ScalarProperty Name="MeterId" ColumnName="MeterId" />
                 <ScalarProperty Name="MeterNumber1" ColumnName="MeterNumber1" />
                 <ScalarProperty Name="POSId" ColumnName="POSId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="PlatFormId" ColumnName="PlatFormId" />
                 <ScalarProperty Name="MeterToken1" ColumnName="MeterToken1" />
                 <ScalarProperty Name="MeterToken2" ColumnName="MeterToken2" />
                 <ScalarProperty Name="MeterToken3" ColumnName="MeterToken3" />
-                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
                 <ScalarProperty Name="CurrentDealerBalance" ColumnName="CurrentDealerBalance" />
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="RTSUniqueID" ColumnName="RTSUniqueID" />
                 <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
+                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
+                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
                 <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
                 <ScalarProperty Name="Tariff" ColumnName="Tariff" />
                 <ScalarProperty Name="TaxCharge" ColumnName="TaxCharge" />
-                <ScalarProperty Name="TenderedAmount" ColumnName="TenderedAmount" />
-                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
+                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
                 <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
                 <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="DebitRecovery" ColumnName="DebitRecovery" />
-                <ScalarProperty Name="CostOfUnits" ColumnName="CostOfUnits" />
                 <ScalarProperty Name="VProvider" ColumnName="VProvider" />
                 <ScalarProperty Name="Finalised" ColumnName="Finalised" />
                 <ScalarProperty Name="StatusRequestCount" ColumnName="StatusRequestCount" />
@@ -3851,8 +3885,6 @@
                 <ScalarProperty Name="DateAndTimeSold" ColumnName="DateAndTimeSold" />
                 <ScalarProperty Name="DateAndTimeFinalised" ColumnName="DateAndTimeFinalised" />
                 <ScalarProperty Name="DateAndTimeLinked" ColumnName="DateAndTimeLinked" />
-                <ScalarProperty Name="CurrentVendorBalance" ColumnName="CurrentVendorBalance" />
-                <ScalarProperty Name="BalanceBefore" ColumnName="BalanceBefore" />
                 <ScalarProperty Name="QueryStatusCount" ColumnName="QueryStatusCount" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3901,7 +3933,6 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VENDTECH_MAINModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="AutoApprove" ColumnName="AutoApprove" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
@@ -3938,6 +3969,7 @@
                 <ScalarProperty Name="UserSerialNo" ColumnName="UserSerialNo" />
                 <ScalarProperty Name="MobileAppVersion" ColumnName="MobileAppVersion" />
                 <ScalarProperty Name="IsRedominated" ColumnName="IsRedominated" />
+                <ScalarProperty Name="AutoApprove" ColumnName="AutoApprove" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3981,31 +4013,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="VENDTECH_MAINModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TempCountries">
-            <EntityTypeMapping TypeName="VENDTECH_MAINModel.TempCountry">
-              <MappingFragment StoreEntitySet="TempCountry">
-                <ScalarProperty Name="DomainUrl" ColumnName="DomainUrl" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
-                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
-                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CalculateRunningBalance" FunctionName="VENDTECH_MAINModel.Store.CalculateRunningBalance">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VENDTECH_MAINModel.CalculateRunningBalance_Result">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="vendor" ColumnName="vendor" />
+                <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="totalsales" ColumnName="totalsales" />
+                <ScalarProperty Name="runningbalance" ColumnName="runningbalance" />
+                <ScalarProperty Name="POSBalance" ColumnName="POSBalance" />
+                <ScalarProperty Name="overage" ColumnName="overage" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CalculateRunningBalance1" FunctionName="VENDTECH_MAINModel.Store.CalculateRunningBalance1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VENDTECH_MAINModel.CalculateRunningBalance1_Result">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="vendor" ColumnName="vendor" />
+                <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="totalsales" ColumnName="totalsales" />
+                <ScalarProperty Name="runningbalance" ColumnName="runningbalance" />
+                <ScalarProperty Name="POSBalance" ColumnName="POSBalance" />
+                <ScalarProperty Name="overage" ColumnName="overage" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CalculateRunningBalance11" FunctionName="VENDTECH_MAINModel.Store.CalculateRunningBalance11">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VENDTECH_MAINModel.CalculateRunningBalance11_Result">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="vendor" ColumnName="vendor" />
+                <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+                <ScalarProperty Name="totalsales" ColumnName="totalsales" />
+                <ScalarProperty Name="runningbalance" ColumnName="runningbalance" />
+                <ScalarProperty Name="POSBalance" ColumnName="POSBalance" />
+                <ScalarProperty Name="overage" ColumnName="overage" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

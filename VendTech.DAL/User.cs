@@ -35,7 +35,7 @@ namespace VendTech.DAL
             this.UserAssignedModules = new HashSet<UserAssignedModule>();
             this.UserAssignedPlatforms = new HashSet<UserAssignedPlatform>();
             this.UserAssignedWidgets = new HashSet<UserAssignedWidget>();
-            this.Users1 = new HashSet<User>();;
+            this.Users1 = new HashSet<User>();
         }
     
         public long UserId { get; set; }
