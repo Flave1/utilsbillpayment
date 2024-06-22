@@ -57,6 +57,20 @@ namespace VendTech.BLL.Managers
             return new B2bUserAccessDTO(dbObject);
         }
 
+        bool IB2bUsersManager.IsAccountValid(string clientKey, string apiKey)
+        {
+
+            var session = Context.B2bUserAccess.Where(o => o.APIKey.Equals(apiKey) && clientKey.Equals(clientKey)).FirstOrDefault();
+            if (session != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private string returnIv(string token)
         { 
             return token.Substring(16);

@@ -246,6 +246,7 @@ namespace VendTech.Attributes
     {
         [Inject]
         public IUserManager _userManager { get; set; }
+        public IB2bUsersManager _b2BUsersManager { get; set; }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -268,7 +269,7 @@ namespace VendTech.Attributes
                 }
 
                  
-                if (!_userManager.isAccountValid(clientKey, apiKey))
+                if (!_b2BUsersManager.IsAccountValid(clientKey, apiKey))
                     actionContext.Response = new JsonContent("Request could not be authorized. Invalid credentials!", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {

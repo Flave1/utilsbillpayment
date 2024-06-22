@@ -50,19 +50,7 @@ namespace VendTech.BLL.Managers
             }
         }
 
-        bool IUserManager.isAccountValid(string clientKey, string apiKey)
-        {
-
-            var session = Context.B2bUserAccess.Where(o => o.APIKey.Equals(apiKey) && clientKey.Equals(clientKey)).FirstOrDefault();
-            if (session != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+       
         bool IUserManager.UpdateUserLastAppUsedTime(long userId)
         {
             var user = Context.Users.FirstOrDefault(p => p.UserId == userId);
