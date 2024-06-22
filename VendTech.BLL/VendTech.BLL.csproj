@@ -251,12 +251,6 @@
     <Compile Include="TempTest\CalculatorService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VendTech.DAL\VendTech.DAL.csproj">
-      <Project>{630910cd-1125-4e90-86df-9b42b0e82de2}</Project>
-      <Name>VendTech.DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
