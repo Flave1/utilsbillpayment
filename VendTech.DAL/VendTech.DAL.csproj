@@ -60,9 +60,6 @@
     <Compile Include="AppSetting.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="B2bUserAccess.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="BankAccount.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

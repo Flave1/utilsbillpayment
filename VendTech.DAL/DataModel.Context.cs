@@ -72,6 +72,5 @@ namespace VendTech.DAL
         public virtual DbSet<Widget> Widgets { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TempCountry> TempCountries { get; set; }
-        public virtual DbSet<B2bUserAccess> B2bUserAccess { get; set; }
     }
 }

@@ -156,7 +156,6 @@
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="HttpRequest.cs" />
-    <Compile Include="Interfaces\IB2bUsersManager.cs" />
     <Compile Include="Interfaces\ICurrencyManager.cs" />
     <Compile Include="Interfaces\IPlatformApiManager.cs" />
     <Compile Include="Interfaces\IPlatformTransactionManager.cs" />
@@ -183,7 +182,6 @@
     <Compile Include="Jobs\JobSchedular.cs" />
     <Compile Include="Jobs\BalanceLowSheduleJob.cs" />
     <Compile Include="Jobs\PendingTransactionCheckJob.cs" />
-    <Compile Include="Managers\B2bUsersManager.cs" />
     <Compile Include="Managers\CurrencyManager.cs" />
     <Compile Include="Managers\PlatformApiManager.cs" />
     <Compile Include="Managers\PlatformTransactionManager.cs" />
@@ -209,7 +207,6 @@
     <Compile Include="Managers\AgencyManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Models\AgentModels.cs" />
-    <Compile Include="Models\B2bUsersModels.cs" />
     <Compile Include="Models\BankAccountModel.cs" />
     <Compile Include="Models\CMSPageModels.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />

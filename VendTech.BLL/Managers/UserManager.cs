@@ -755,8 +755,8 @@ namespace VendTech.BLL.Managers
             us.VendorId = user.FKVendorId;
             us.Address = user?.Address;
             us.AgentId = user.AgentId;
-            us.ClientKey = user.B2bUserAccess.FirstOrDefault().Clientkey;
-            us.APIKey = user.B2bUserAccess.FirstOrDefault().APIKey;
+            //us.ClientKey = user.B2bUserAccess.FirstOrDefault().Clientkey;
+            //us.APIKey = user.B2bUserAccess.FirstOrDefault().APIKey;
             us.CountryId = user.CountryId != null ? user.CountryId.Value : 0;
             us.City = user.CityId != null ? user.CityId.Value : 0;
             us.ProfilePicUrl = string.IsNullOrEmpty(user?.ProfilePic) ? "" : Utilities.DomainUrl + user?.ProfilePic;

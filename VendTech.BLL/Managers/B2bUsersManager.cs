@@ -12,7 +12,7 @@ namespace VendTech.BLL.Managers
     {
         B2bUserAccessDTO IB2bUsersManager.CreateB2bUserAccesskeys(long userId)
         {
-            var dbObject = Context.B2bUserAccess.FirstOrDefault(d => d.UserId == userId);
+            var dbObject = null ;Context.B2bUserAccess.FirstOrDefault(d => d.UserId == userId);
             if(dbObject != null)
             {
                 throw new ArgumentException("User Keys already exist");

@@ -232,7 +232,6 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseV2Controller.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
-    <Compile Include="Areas\Admin\Controllers\B2busersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChequeBanksController.cs" />
     <Compile Include="Areas\Admin\Controllers\BankAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentTypeController.cs" />
@@ -261,8 +260,6 @@
     <Compile Include="Areas\Agent\Controllers\POSController.cs" />
     <Compile Include="Areas\Agent\Controllers\VendorController.cs" />
     <Compile Include="Areas\Agent\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Api\Controllers\b2btestController.cs" />
-    <Compile Include="Areas\Api\Controllers\BaseB2bAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\JobsController.cs" />
     <Compile Include="Areas\Api\Controllers\AirtimeController.cs" />
     <Compile Include="Areas\Api\Controllers\DashboardController.cs" />
