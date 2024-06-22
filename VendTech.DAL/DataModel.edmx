@@ -34,18 +34,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="200" />
           <Property Name="Value" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="B2bUserAccess">
-          <Key>
-            <PropertyRef Name="B2bUserAccessId" />
-          </Key>
-          <Property Name="B2bUserAccessId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="ClientToken" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="APIToken" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Clientkey" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="APIKey" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="BankAccounts">
           <Key>
             <PropertyRef Name="BankAccountId" />
@@ -724,18 +712,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_B2bUserAccess_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="B2bUserAccess" Type="Self.B2bUserAccess" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="B2bUserAccess">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_City_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -1340,7 +1316,6 @@
           <EntitySet Name="AccountVerificationOTP" EntityType="Self.AccountVerificationOTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="B2bUserAccess" EntityType="Self.B2bUserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankAccounts" EntityType="Self.BankAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
@@ -1396,10 +1371,6 @@
           <AssociationSet Name="FK_Agency_Users" Association="Self.FK_Agency_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Agency" EntitySet="Agency" />
-          </AssociationSet>
-          <AssociationSet Name="FK_B2bUserAccess_Users" Association="Self.FK_B2bUserAccess_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="B2bUserAccess" EntitySet="B2bUserAccess" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
@@ -4032,19 +4003,6 @@
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="B2bUserAccess">
-            <EntityTypeMapping TypeName="VENDTECH_MAINModel.B2bUserAccess">
-              <MappingFragment StoreEntitySet="B2bUserAccess">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="APIKey" ColumnName="APIKey" />
-                <ScalarProperty Name="Clientkey" ColumnName="Clientkey" />
-                <ScalarProperty Name="APIToken" ColumnName="APIToken" />
-                <ScalarProperty Name="ClientToken" ColumnName="ClientToken" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="B2bUserAccessId" ColumnName="B2bUserAccessId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
