@@ -83,7 +83,7 @@ namespace VendTech.Areas.Api.Controllers
                     return new JsonContent("INVALID CREDENTIALS \n\n PLEASE RESET YOUR PASSCODE OR \n CONTACT VENDTECH MANAGEMENT", Status.Failed).ConvertToHttpResponseOK();
                 else
                 {
-                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.5")
+                    if (model.AppVersion != CurrentAppVersion && model.AppVersion != "2.4.6")
                     {
                         //return new JsonContent("UPDATE_APP", Status.Success).ConvertToHttpResponseOK(); Will update later
                         return new JsonContent("APP VERSION IS OUT OF DATE, PLEASE UPDATE APP FROM PLAYSTORE", Status.Success).ConvertToHttpResponseOK();
